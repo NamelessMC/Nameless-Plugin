@@ -1,0 +1,6 @@
+# Nameless Plugin configuration
+
+# API URL
+# This needs to be the full API URL, including API key
+# For example http://yoursite.com/api/v1/API_KEY
+api-url: ""

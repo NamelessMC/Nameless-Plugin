@@ -1,0 +1,7 @@
+name: NamelessMC
+main: com.namelessmc.namelessplugin.NamelessPlugin
+version: 0.1
+commands:
+  register:
+    description: Register for an account on the website
+    usage: /register email
