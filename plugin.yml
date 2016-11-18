@@ -1,5 +1,6 @@
 name: NamelessMC
 main: com.namelessmc.namelessplugin.NamelessPlugin
+author: Samerton
 version: 0.1
 commands:
   register:
