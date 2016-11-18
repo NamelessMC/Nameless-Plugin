@@ -5,3 +5,4 @@ commands:
   register:
     description: Register for an account on the website
     usage: /register email
+softdepend: [Vault]

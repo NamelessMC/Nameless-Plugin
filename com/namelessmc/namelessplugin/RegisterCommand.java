@@ -82,6 +82,9 @@ public class RegisterCommand implements CommandExecutor {
 						if(response.has("error")){
 							// Error with request
 							sender.sendMessage(ChatColor.RED + "Error: " + response.get("message").getAsString());
+						} else {
+							// Display success message to user
+							sender.sendMessage(ChatColor.GREEN + response.get("message").getAsString());
 						}
 						
 						
