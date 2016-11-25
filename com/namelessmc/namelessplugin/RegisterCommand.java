@@ -23,6 +23,15 @@ import com.google.gson.JsonParser;
  *  Register command
  */
 public class RegisterCommand implements CommandExecutor {
+	NamelessPlugin plugin;
+	
+	/*
+	 *  Constructer
+	 */
+     public RegisterCommand(NamelessPlugin pluginInstance) {
+		this.plugin = pluginInstance;
+	}
+	
 	/*
 	 *  Handle inputted command
 	 */
@@ -31,7 +40,7 @@ public class RegisterCommand implements CommandExecutor {
 		// Ensure user who inputted command is player and not console
 		if(sender instanceof Player){
 			// Try to register user
-			Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.pluginInstance,  new Runnable(){
+			Bukkit.getScheduler().runTaskAsynchronously(plugin,  new Runnable(){
 				@Override
 				public void run(){
 					// Ensure email is set
@@ -48,7 +57,7 @@ public class RegisterCommand implements CommandExecutor {
 												"&email=" + URLEncoder.encode(arg3[0], "UTF-8") + 
 												"&uuid=" + URLEncoder.encode(((Player) sender).getUniqueId().toString(), "UTF-8");
 						
-						URL apiConnection = new URL(NamelessPlugin.pluginInstance.getAPIUrl() + "/register");
+						URL apiConnection = new URL(plugin.getAPIUrl() + "/register");
 						
 						HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
 						connection.setRequestMethod("POST");
@@ -86,6 +95,7 @@ public class RegisterCommand implements CommandExecutor {
 							// Display success message to user
 							sender.sendMessage(ChatColor.GREEN + response.get("message").getAsString());
 						}
+						
 						
 						
 						// Close output/input stream
