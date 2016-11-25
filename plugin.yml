@@ -1,5 +1,6 @@
 name: NamelessMC
 main: com.namelessmc.namelessplugin.NamelessPlugin
+website: https://namelessmc.com/
 version: 0.1
 commands:
   register:
