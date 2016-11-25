@@ -5,7 +5,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+
 public class PlayerEventListener implements Listener {
+	NamelessPlugin plugin;
+	
+	/*
+	 *  Constructer
+	 */
+	public PlayerEventListener(NamelessPlugin pluginInstance) {
+		this.plugin = pluginInstance;
+	}
+	
 	/*
 	 *  Update site username and group on player join
 	 */
@@ -13,6 +23,6 @@ public class PlayerEventListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent e){
 		Player player = e.getPlayer();
 		
-		NamelessPlugin.pluginInstance.loginCheck(player);
+		plugin.loginCheck(player);
 	}
 }
