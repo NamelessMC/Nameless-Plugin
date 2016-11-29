@@ -2,6 +2,7 @@ package com.namelessmc.namelessplugin;
 
 import java.io.File;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,6 +10,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.milkbowl.vault.permission.Permission;
 
 public class NamelessPlugin extends JavaPlugin {
+	/*
+	 *  Colors you can use to the console :)
+	 */
+	public static final String COLOR_BLACK = "\u001B[30m";
+	public static final String COLOR_RED = "\u001B[31m";
+	public static final String COLOR_GREEN = "\u001B[32m";
+	public static final String COLOR_CYAN = "\u001B[36m";
+	public static final String COLOR_YELLOW = "\u001B[33m";
+	public static final String COLOR_BLUE = "\u001B[34m";
+	public static final String COLOR_PURPLE = "\u001B[35m";
+	public static final String COLOR_WHITE = "\u001B[37m";
+	// Must use this after writing a line. 
+	public static final String COLOR_RESET = "\u001B[0m";
+	
 	/*
 	 *  API URL
 	 */
@@ -25,11 +40,6 @@ public class NamelessPlugin extends JavaPlugin {
 	private static Permission permissions = null;
 	
 	/*
-	 *  Instance of plugin
-	 */
-	static NamelessPlugin pluginInstance;
-	
-	/*
 	 *  OnEnable method
 	 */
 	@Override
@@ -43,17 +53,15 @@ public class NamelessPlugin extends JavaPlugin {
 			useVault = true;
 			initPermissions();
 		} else {
-			getLogger().info("Couldn't detect Vault, disabling NamelessMC group synchronisation.");
+			getLogger().info(COLOR_RED + "Couldn't detect Vault, disabling NamelessMC group synchronisation." + COLOR_RESET);
 		}
 		
-		// Set instance
-		pluginInstance = this;
 		
 		// Register commands
-		this.getCommand("register").setExecutor(new RegisterCommand());
+		this.getCommand("register").setExecutor(new RegisterCommand(this));
 		
 		// Register events
-		getServer().getPluginManager().registerEvents(new PlayerEventListener(), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
 	}
 	
 	/*
@@ -79,22 +87,28 @@ public class NamelessPlugin extends JavaPlugin {
 			
 			if(!file.exists()){
 				// Config doesn't exist, create one now...
-				getLogger().info("Creating NamelessMC configuration file...");
+				getLogger().info(COLOR_BLUE + "Creating NamelessMC configuration file..." + COLOR_RESET);
 				this.saveDefaultConfig();
 				
-				getLogger().info("NamelessMC needs configuring, disabling...");
+				getLogger().info(COLOR_RED + "NamelessMC needs configuring, disabling..." + COLOR_RESET);
 				
 				// Disable plugin
 				getServer().getPluginManager().disablePlugin(this);
 				
 			} else {
-				// Exists already, load it
-				getLogger().info("Loading NamelessMC configuration file...");
+				// Better way of loading config file, no need to reload.
+		    	File configFile = new File(getDataFolder() + File.separator + "/config.yml");
+				YamlConfiguration yamlConfigFile;
+				yamlConfigFile = YamlConfiguration.loadConfiguration(configFile);
 				
-				apiURL = this.getConfig().getString("api-url");
+				
+				// Exists already, load it
+				getLogger().info(COLOR_GREEN + "Loading NamelessMC configuration file..." + COLOR_RESET);
+				
+				apiURL = yamlConfigFile.getString("api-url");
 				if(apiURL.isEmpty()){
 					// API URL not set
-					getLogger().info("No API URL set in the NamelessMC configuration, disabling...");
+					getLogger().info(COLOR_RED + "No API URL set in the NamelessMC configuration, disabling..." + COLOR_RESET);
 					getServer().getPluginManager().disablePlugin(this);
 				}
 			}
@@ -131,8 +145,6 @@ public class NamelessPlugin extends JavaPlugin {
 	public boolean loginCheck(Player player){
 		// Check when user last logged in, only update username and group if over x hours ago
 		// TODO
-		
 		return true;
 	}
-	
 }
