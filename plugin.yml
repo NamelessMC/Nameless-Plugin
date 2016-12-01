@@ -8,5 +8,5 @@ commands:
     usage: /register email
   getuser:
     description: get a user from the web
-    usage: /getuser username
+    usage: /getuser username/uuid
 softdepend: [Vault]
