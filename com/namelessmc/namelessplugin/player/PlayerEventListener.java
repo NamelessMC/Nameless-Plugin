@@ -1,9 +1,11 @@
-package com.namelessmc.namelessplugin;
+package com.namelessmc.namelessplugin.player;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+
+import com.namelessmc.namelessplugin.NamelessPlugin;
 
 
 public class PlayerEventListener implements Listener {

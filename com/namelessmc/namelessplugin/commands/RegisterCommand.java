@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin;
+package com.namelessmc.namelessplugin.commands;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.namelessmc.namelessplugin.NamelessPlugin;
 
 /*
  *  Nameless Plugin
@@ -24,28 +25,35 @@ import com.google.gson.JsonParser;
  */
 public class RegisterCommand implements CommandExecutor {
 	NamelessPlugin plugin;
+	String permission;
 	
 	/*
 	 *  Constructer
 	 */
      public RegisterCommand(NamelessPlugin pluginInstance) {
 		this.plugin = pluginInstance;
+		this.permission = plugin.permission;
 	}
 	
 	/*
 	 *  Handle inputted command
 	 */
 	@Override
-	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] arg3){
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+		// check if player has permission Permission
+		if(sender.hasPermission(permission + ".register")){
+			
 		// Ensure user who inputted command is player and not console
 		if(sender instanceof Player){
+			Player player = (Player) sender;
+			
 			// Try to register user
 			Bukkit.getScheduler().runTaskAsynchronously(plugin,  new Runnable(){
 				@Override
 				public void run(){
 					// Ensure email is set
-					if(arg3.length < 1){
-						sender.sendMessage(ChatColor.RED + "Incorrect usage: /register email");
+					if(args.length < 1 || args.length > 1){
+						player.sendMessage(ChatColor.RED + "Incorrect usage: /register email");
 						return;
 					}
 					
@@ -53,9 +61,9 @@ public class RegisterCommand implements CommandExecutor {
 					try {
 						
 						// Create string containing POST contents
-						String toPostString = 	"username=" + URLEncoder.encode(sender.getName(), "UTF-8") +
-												"&email=" + URLEncoder.encode(arg3[0], "UTF-8") + 
-												"&uuid=" + URLEncoder.encode(((Player) sender).getUniqueId().toString(), "UTF-8");
+						String toPostString = 	"username=" + URLEncoder.encode(player.getName(), "UTF-8") +
+												"&email=" + URLEncoder.encode(args[0], "UTF-8") + 
+												"&uuid=" + URLEncoder.encode(player.getUniqueId().toString(), "UTF-8");
 						
 						URL apiConnection = new URL(plugin.getAPIUrl() + "/register");
 						
@@ -90,10 +98,10 @@ public class RegisterCommand implements CommandExecutor {
 						
 						if(response.has("error")){
 							// Error with request
-							sender.sendMessage(ChatColor.RED + "Error: " + response.get("message").getAsString());
+							player.sendMessage(ChatColor.RED + "Error: " + response.get("message").getAsString());
 						} else {
 							// Display success message to user
-							sender.sendMessage(ChatColor.GREEN + response.get("message").getAsString());
+							player.sendMessage(ChatColor.GREEN + response.get("message").getAsString());
 						}
 						
 						
@@ -118,6 +126,10 @@ public class RegisterCommand implements CommandExecutor {
 			sender.sendMessage("You must be ingame to use this command.");
 		}
 		
+	  }
+		else{
+			sender.sendMessage(ChatColor.RED + "You don't have permission to this command!");
+	  }
 		return true;
 	}
 }

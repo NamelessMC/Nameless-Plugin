@@ -6,4 +6,7 @@ commands:
   register:
     description: Register for an account on the website
     usage: /register email
+  getuser:
+    description: get a user from the web
+    usage: /getuser username/uuid
 softdepend: [Vault]
