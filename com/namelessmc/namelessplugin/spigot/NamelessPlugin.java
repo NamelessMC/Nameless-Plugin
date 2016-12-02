@@ -36,7 +36,6 @@ public class NamelessPlugin extends JavaPlugin {
 	 */
 	Metrics metrics;
 	
-	
 	/*
 	 *  API URL
 	 */
@@ -46,6 +45,11 @@ public class NamelessPlugin extends JavaPlugin {
 	 *  Is Vault integration enabled?
 	 */
 	private boolean useVault = false;
+	
+	/*
+	 * 
+	 */
+	private boolean useGroup = false;
 	
 	/*
 	 *  Vault permissions
@@ -105,11 +109,19 @@ public class NamelessPlugin extends JavaPlugin {
 	 */
 	public void detectVault(){
 				if(getServer().getPluginManager().getPlugin("Vault") != null){
-					// Installed
+					// Set use vault to true. and setup Permissions.
 					useVault = true;
 					initPermissions();
+					
+					// Check if the permission plugin has groups.
+					if(permissions.hasGroupSupport()){
+						useGroup = true;
+					} else{
+						getLogger().info(COLOR_RED + "Permission plugin does NOT support groups! Disabling NamelessMC group synchronisation." + COLOR_RESET);
+						useGroup = false;
+					}
 				} else {
-					getLogger().info(COLOR_RED + "Couldn't detect Vault, disabling NamelessMC group synchronisation." + COLOR_RESET);
+					getLogger().info(COLOR_RED + "Couldn't detect Vault, disabling NamelessMC Vault integration." + COLOR_RESET);
 				}
 	}
 	
@@ -186,6 +198,8 @@ public class NamelessPlugin extends JavaPlugin {
 	public boolean loginCheck(Player player){
 		// Check when user last logged in, only update username and group if over x hours ago
 		// TODO
+		permissions.hasGroupSupport();
+		
 		return true;
 	}
 }
