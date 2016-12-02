@@ -1,5 +1,6 @@
 name: NamelessMC
-main: com.namelessmc.namelessplugin.NamelessPlugin
+main: com.namelessmc.namelessplugin.spigot.NamelessPlugin
+authors: [Samerton, IsS127]
 website: https://namelessmc.com/
 version: 0.1
 commands:
@@ -8,5 +9,5 @@ commands:
     usage: /register email
   getuser:
     description: get a user from the web
-    usage: /getuser username/uuid
+    usage: /getuser username
 softdepend: [Vault]
