@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.commands;
+package com.namelessmc.namelessplugin.spigot.commands;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -16,23 +16,22 @@ import org.bukkit.command.CommandSender;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import com.namelessmc.namelessplugin.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 
 /*
- *  Nameless Plugin
  *  Get User command
  *  By IsS127
  */
 public class GetUserCommand implements CommandExecutor {
 	NamelessPlugin plugin;
-	String permission;
+	String permissionAdmin;
 	
 	/*
 	 *  Constructer
 	 */
      public GetUserCommand(NamelessPlugin pluginInstance) {
 		this.plugin = pluginInstance;
-		this.permission =  plugin.permission;
+		this.permissionAdmin =  plugin.permissionAdmin;
 	}
 	
 	/*
@@ -40,7 +39,7 @@ public class GetUserCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
-		if(sender.hasPermission(permission + ".admin.getuser")){
+		if(sender.hasPermission(permissionAdmin + ".getuser")){
 			// Try to get the user
 			Bukkit.getScheduler().runTaskAsynchronously(plugin,  new Runnable(){
 				@Override
