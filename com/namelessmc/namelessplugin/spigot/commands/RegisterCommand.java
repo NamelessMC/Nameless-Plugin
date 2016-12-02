@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.commands;
+package com.namelessmc.namelessplugin.spigot.commands;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.namelessmc.namelessplugin.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 
 /*
  *  Nameless Plugin
