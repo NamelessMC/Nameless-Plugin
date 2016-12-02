@@ -1,15 +1,18 @@
- package com.namelessmc.namelessplugin;
+package com.namelessmc.namelessplugin.spigot;
+
 
 import java.io.File;
+import java.io.IOException;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.namelessmc.namelessplugin.commands.GetUserCommand;
-import com.namelessmc.namelessplugin.commands.RegisterCommand;
-import com.namelessmc.namelessplugin.player.PlayerEventListener;
+import com.namelessmc.namelessplugin.spigot.commands.GetUserCommand;
+import com.namelessmc.namelessplugin.spigot.commands.RegisterCommand;
+import com.namelessmc.namelessplugin.spigot.mcstats.Metrics;
+import com.namelessmc.namelessplugin.spigot.player.PlayerEventListener;
 
 import net.milkbowl.vault.permission.Permission;
 
@@ -27,6 +30,12 @@ public class NamelessPlugin extends JavaPlugin {
 	public final String COLOR_WHITE = "\u001B[37m";
 	// Must use this after writing a line. 
 	public final String COLOR_RESET = "\u001B[0m";
+	
+	/*
+	 * Metrics
+	 */
+	Metrics metrics;
+	
 	
 	/*
 	 *  API URL
@@ -48,6 +57,7 @@ public class NamelessPlugin extends JavaPlugin {
 	 */
 	
 	public final String permission = "namelessmc";
+	public final String permissionAdmin = "namelessmc.admin";
 	
 	/*
 	 *  OnEnable method
@@ -56,16 +66,31 @@ public class NamelessPlugin extends JavaPlugin {
 	public void onEnable(){
 		// Initialise config
 		initConfig();
-		
 		// Check Vault
-		if(getServer().getPluginManager().getPlugin("Vault") != null){
-			// Installed
-			useVault = true;
-			initPermissions();
-		} else {
-			getLogger().info(COLOR_RED + "Couldn't detect Vault, disabling NamelessMC group synchronisation." + COLOR_RESET);
-		}
+		detectVault();
 		
+		registerListeners();
+	}
+	
+	/*
+	 *  OnDisable method
+	 */
+	@Override
+	public void onDisable(){
+	}
+	
+	/*
+	 * Register Commands/Events
+	 */
+	public void registerListeners(){
+		// Register McStats
+		try {
+            metrics = new Metrics(this);
+            metrics.start();
+            getLogger().info(COLOR_CYAN + "Metrics Started!" + COLOR_RESET);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
 		
 		// Register commands
 		this.getCommand("register").setExecutor(new RegisterCommand(this));
@@ -76,11 +101,16 @@ public class NamelessPlugin extends JavaPlugin {
 	}
 	
 	/*
-	 *  OnDisable method
+	 * Check if Vault is Activated
 	 */
-	@Override
-	public void onDisable(){
-		
+	public void detectVault(){
+				if(getServer().getPluginManager().getPlugin("Vault") != null){
+					// Installed
+					useVault = true;
+					initPermissions();
+				} else {
+					getLogger().info(COLOR_RED + "Couldn't detect Vault, disabling NamelessMC group synchronisation." + COLOR_RESET);
+				}
 	}
 	
 	/*
