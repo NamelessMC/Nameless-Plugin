@@ -7,6 +7,7 @@ import java.nio.file.Files;
 
 import com.namelessmc.namelessplugin.bungeecord.commands.GetUserCommand;
 import com.namelessmc.namelessplugin.bungeecord.commands.RegisterCommand;
+import com.namelessmc.namelessplugin.bungeecord.commands.ReportCommand;
 import com.namelessmc.namelessplugin.bungeecord.mcstats.Metrics;
 import com.namelessmc.namelessplugin.bungeecord.player.PlayerEventListener;
 
@@ -87,6 +88,7 @@ public class NamelessPlugin extends Plugin {
 		// Register commands
 		getProxy().getPluginManager().registerCommand((Plugin)this, new RegisterCommand(this, "register"));
 		getProxy().getPluginManager().registerCommand(this, new GetUserCommand(this, "getuser"));
+		getProxy().getPluginManager().registerCommand((Plugin)this, new ReportCommand(this, "report"));
 		
 		// Register events
 		getProxy().getPluginManager().registerListener(this, new PlayerEventListener(this));
