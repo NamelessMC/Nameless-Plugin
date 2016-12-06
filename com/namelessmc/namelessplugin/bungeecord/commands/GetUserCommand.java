@@ -118,13 +118,16 @@ public class GetUserCommand extends Command {
 							sender.sendMessage(new TextComponent(ChatColor.RED + "Error: " + response.get("message").toString()));
 						} else {
 							
+							// Convert UNIX timestamp to date
+							java.util.Date registered = new java.util.Date(Long.parseLong(message.get("registered").toString()) * 1000);
+							
 							// Display get user.
-							sender.sendMessage(new TextComponent("ยง3ยงm--------------------------------"));
+							sender.sendMessage(new TextComponent("ง3งm--------------------------------"));
 							sender.sendMessage(new TextComponent(ChatColor.GREEN + "Username: " + ChatColor.AQUA + message.get("username").getAsString()));
 							sender.sendMessage(new TextComponent(ChatColor.GREEN + "DisplayName: " + ChatColor.AQUA + message.get("displayname").getAsString()));
 							sender.sendMessage(new TextComponent(ChatColor.GREEN + "UUID: " + ChatColor.AQUA + message.get("uuid").getAsString()));
 							sender.sendMessage(new TextComponent(ChatColor.GREEN + "Group ID: " + ChatColor.AQUA + message.get("group_id").getAsString()));
-							//sender.sendMessage(new TextComponent(ChatColor.GREEN + "Registered: " + ChatColor.AQUA + message.get("registered").getAsString());
+							sender.sendMessage(new TextComponent(ChatColor.GREEN + "Registered: " + ChatColor.AQUA + registered));
 							sender.sendMessage(new TextComponent(ChatColor.GREEN + "Reputation: " + ChatColor.AQUA + message.get("reputation").getAsString()));
 							
 							// check if validated
@@ -139,7 +142,7 @@ public class GetUserCommand extends Command {
 			                } else{
 			                	sender.sendMessage(new TextComponent(ChatColor.RED + "Banned: " + ChatColor.GREEN + "No!"));
 			                }
-							sender.sendMessage(new TextComponent("ยง3ยงm--------------------------------"));
+							sender.sendMessage(new TextComponent("ง3งm--------------------------------"));
 						}
 						
 						// Close output/input stream
