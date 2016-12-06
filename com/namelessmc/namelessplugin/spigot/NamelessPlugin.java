@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.namelessplugin.spigot.commands.GetUserCommand;
 import com.namelessmc.namelessplugin.spigot.commands.RegisterCommand;
+import com.namelessmc.namelessplugin.spigot.commands.ReportCommand;
 import com.namelessmc.namelessplugin.spigot.mcstats.Metrics;
 import com.namelessmc.namelessplugin.spigot.player.PlayerEventListener;
 
@@ -53,6 +54,16 @@ public class NamelessPlugin extends JavaPlugin {
 	private Permission permissions = null;
 	
 	/*
+	 *  Enable reports?
+	 */
+	private boolean useReports = false;
+	
+	/*
+	 *  Is the plugin disabled?
+	 */
+	private boolean isDisabled = false;
+	
+	/*
 	 *  NameLessMC permission string.
 	 */
 	
@@ -66,10 +77,13 @@ public class NamelessPlugin extends JavaPlugin {
 	public void onEnable(){
 		// Initialise config
 		initConfig();
-		// Check Vault
-		detectVault();
 		
-		registerListeners();
+		if(!isDisabled){
+			// Check Vault
+			detectVault();
+			
+			registerListeners();
+		}
 	}
 	
 	/*
@@ -95,6 +109,10 @@ public class NamelessPlugin extends JavaPlugin {
 		// Register commands
 		this.getCommand("register").setExecutor(new RegisterCommand(this));
 		this.getCommand("getuser").setExecutor(new GetUserCommand(this));
+		
+		if(useReports){
+			this.getCommand("report").setExecutor(new ReportCommand(this));
+		}
 		
 		// Register events
 		this.getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
@@ -136,6 +154,8 @@ public class NamelessPlugin extends JavaPlugin {
 				// Disable plugin
 				getServer().getPluginManager().disablePlugin(this);
 				
+				isDisabled = true;
+				
 			} else {
 				// Better way of loading config file, no need to reload.
 		    	File configFile = new File(getDataFolder() + File.separator + "/config.yml");
@@ -152,6 +172,11 @@ public class NamelessPlugin extends JavaPlugin {
 					getLogger().info(COLOR_RED + "No API URL set in the NamelessMC configuration, disabling..." + COLOR_RESET);
 					getServer().getPluginManager().disablePlugin(this);
 				}
+				
+				// Use the report system?
+				if(yamlConfigFile.getString("enable-reports").equals("true"))
+					useReports = true;
+					
 			}
 			
 		} catch(Exception e){

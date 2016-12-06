@@ -8,6 +8,9 @@ commands:
     description: Register for an account on the website
     usage: /register email
   getuser:
-    description: get a user from the web
+    description: Get information about a specified user
     usage: /getuser username
+  report:
+    description: Report a user
+    usage: /report username reason
 softdepend: [Vault]
