@@ -76,7 +76,7 @@ public class ReportCommand implements CommandExecutor {
 								}
 							} else {
 								toPostReported =  "reported_username=" + URLEncoder.encode(args[0], "UTF-8")
-												+ "&reported_uuid" + URLEncoder.encode(reported.getUniqueId().toString(), "UTF-8");
+												+ "&reported_uuid=" + URLEncoder.encode(reported.getUniqueId().toString(), "UTF-8");
 							}
 							
 							// Get report content
