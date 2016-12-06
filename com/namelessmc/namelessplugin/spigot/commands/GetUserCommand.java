@@ -108,16 +108,13 @@ public class GetUserCommand implements CommandExecutor {
 							sender.sendMessage(ChatColor.RED + "Error: " + response.get("message").toString());
 						} else {
 							
-							// Convert UNIX timestamp to date
-							java.util.Date registered = new java.util.Date(Long.parseLong(message.get("registered").toString()) * 1000);
-							
 							// Display get user.
-							sender.sendMessage("ง3งm--------------------------------");
+							sender.sendMessage("ยง3ยงm--------------------------------");
 							sender.sendMessage(ChatColor.GREEN + "Username: " + ChatColor.AQUA + message.get("username").toString());
 							sender.sendMessage(ChatColor.GREEN + "DisplayName: " + ChatColor.AQUA + message.get("displayname").toString());
 							sender.sendMessage(ChatColor.GREEN + "UUID: " + ChatColor.AQUA + message.get("uuid").toString());
 							sender.sendMessage(ChatColor.GREEN + "Group ID: " + ChatColor.AQUA + message.get("group_id").toString());
-							sender.sendMessage(ChatColor.GREEN + "Registered: " + ChatColor.AQUA + registered);
+							//sender.sendMessage(ChatColor.GREEN + "Registered: " + ChatColor.AQUA + message.get("registered").toString());
 							sender.sendMessage(ChatColor.GREEN + "Reputation: " + ChatColor.AQUA + message.get("reputation").toString());
 							
 							// check if validated
@@ -132,7 +129,7 @@ public class GetUserCommand implements CommandExecutor {
 			                } else{
 			                	sender.sendMessage(ChatColor.RED + "Banned: " + ChatColor.GREEN + "No!");
 			                }
-							sender.sendMessage("ง3งm--------------------------------");
+							sender.sendMessage("ยง3ยงm--------------------------------");
 						}
 						
 						// Close output/input stream
