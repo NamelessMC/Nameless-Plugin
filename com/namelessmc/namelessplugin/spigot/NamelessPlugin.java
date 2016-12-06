@@ -174,7 +174,7 @@ public class NamelessPlugin extends JavaPlugin {
 				}
 				
 				// Use the report system?
-				if(yamlConfigFile.getString("enable-reports").equals("true"))
+				if(yamlConfigFile.getBoolean("enable-reports"))
 					useReports = true;
 					
 			}
