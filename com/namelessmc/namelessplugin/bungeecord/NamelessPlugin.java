@@ -101,6 +101,7 @@ public class NamelessPlugin extends Plugin {
 		// UnRegister commands
 		getProxy().getPluginManager().unregisterCommand(new RegisterCommand(this, "register"));
 		getProxy().getPluginManager().unregisterCommand(new GetUserCommand(this, "getuser"));
+		getProxy().getPluginManager().unregisterCommand(new ReportCommand(this, "report"));
 		
 		// UnRegister Listeners/Events
 		getProxy().getPluginManager().unregisterListener(new PlayerEventListener(this));

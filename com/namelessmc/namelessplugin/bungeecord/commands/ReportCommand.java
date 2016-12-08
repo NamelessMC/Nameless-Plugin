@@ -39,7 +39,7 @@ public class ReportCommand extends Command {
 			if(sender.hasPermission(permission + ".report")){
 				// check if hasSetUrl
 				if(plugin.hasSetUrl == false){
-					sender.sendMessage(new TextComponent(ChatColor.RED + "Please set an API Url in the configuration!"));
+					sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Please set an API Url in the configuration!"));
 					return;
 				}
 					
@@ -53,7 +53,7 @@ public class ReportCommand extends Command {
 						public void run(){
 							// Ensure email is set
 							if(args.length < 2){
-								player.sendMessage(new TextComponent(ChatColor.RED + "Incorrect usage: /report username reason"));
+								player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Incorrect usage: /report username reason"));
 								return;
 							}		
 							
@@ -84,8 +84,8 @@ public class ReportCommand extends Command {
 									while((lookupResponseString = streamReader.readLine()) != null)
 										lookupResponseBuilder.append(lookupResponseString);
 									
-									if(lookupResponseBuilder.toString() == null){
-										player.sendMessage(new TextComponent("Unable to submit report, please try again later."));
+									if(lookupResponseBuilder.toString() == null || parser.parse(lookupResponseBuilder.toString()) == null){
+										player.sendMessage(TextComponent.fromLegacyText("Unable to submit report, please try again later."));
 										return; // Unable to find user from username
 									}
 									
@@ -94,7 +94,7 @@ public class ReportCommand extends Command {
 									uuid = response.get("id").getAsString();
 									
 									if(uuid == null){
-										player.sendMessage(new TextComponent("Unable to submit report, please try again later."));
+										player.sendMessage(TextComponent.fromLegacyText("Unable to submit report, please try again later."));
 										return; // Unable to find user from username
 									}
 									
@@ -150,10 +150,10 @@ public class ReportCommand extends Command {
 								
 								if(response.has("error")){
 									// Error with request
-									player.sendMessage(new TextComponent(ChatColor.RED + "Error: " + response.get("message").getAsString()));
+									player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Error: " + response.get("message").getAsString()));
 								} else {
 									// Display success message to user
-									player.sendMessage(new TextComponent(ChatColor.GREEN + response.get("message").getAsString()));
+									player.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + response.get("message").getAsString()));
 								}
 								
 								// Close output/input stream
@@ -166,7 +166,7 @@ public class ReportCommand extends Command {
 								
 							} catch(Exception e){
 								// Exception
-								sender.sendMessage(new TextComponent(ChatColor.RED + "There was an unknown error whilst executing the command."));
+								sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "There was an unknown error whilst executing the command."));
 								e.printStackTrace();
 							}
 						}
@@ -174,12 +174,12 @@ public class ReportCommand extends Command {
 					
 				} else {
 					// User must be ingame to use register command
-					sender.sendMessage(new TextComponent("You must be ingame to use this command."));
+					sender.sendMessage(TextComponent.fromLegacyText("You must be ingame to use this command."));
 				}
 				
 			  }
 				else
-					sender.sendMessage(new TextComponent(ChatColor.RED + "You don't have permission to this command!"));
+					sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You don't have permission to this command!"));
 
 				return;
 			}

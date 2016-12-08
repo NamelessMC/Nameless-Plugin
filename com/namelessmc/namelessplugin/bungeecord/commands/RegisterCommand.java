@@ -40,7 +40,7 @@ public class RegisterCommand extends Command {
 			if(sender.hasPermission(permission + ".register")){
 				// check if hasSetUrl
 					if(plugin.hasSetUrl == false){
-						sender.sendMessage(new TextComponent(ChatColor.RED + "Please set a API Url in the configuration!"));
+						sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Please set a API Url in the configuration!"));
 						return;
 					}
 					
@@ -54,7 +54,7 @@ public class RegisterCommand extends Command {
 						public void run(){
 							// Ensure email is set
 							if(args.length < 1 || args.length > 1){
-								player.sendMessage(new TextComponent(ChatColor.RED + "Incorrect usage: /register email"));
+								player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Incorrect usage: /register email"));
 								return;
 							}
 							
@@ -99,10 +99,10 @@ public class RegisterCommand extends Command {
 								
 								if(response.has("error")){
 									// Error with request
-									player.sendMessage(new TextComponent(ChatColor.RED + "Error: " + response.get("message").getAsString()));
+									player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Error: " + response.get("message").getAsString()));
 								} else {
 									// Display success message to user
-									player.sendMessage(new TextComponent(ChatColor.GREEN + response.get("message").getAsString()));
+									player.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + response.get("message").getAsString()));
 								}
 								
 								
@@ -124,12 +124,12 @@ public class RegisterCommand extends Command {
 					
 				} else {
 					// User must be ingame to use register command
-					sender.sendMessage(new TextComponent("You must be ingame to use this command."));
+					sender.sendMessage(TextComponent.fromLegacyText("You must be ingame to use this command."));
 				}
 				
 			  }
 				else{
-					sender.sendMessage(new TextComponent(ChatColor.RED + "You don't have permission to this command!"));
+					sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You don't have permission to this command!"));
 			  }
 				return;
 			}
