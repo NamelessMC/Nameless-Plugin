@@ -24,6 +24,13 @@
         <module>nameless</module>
     </modules>
 
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://opensource.org/licenses/MIT</url>
+        </license>
+    </licenses>
+
     <repositories>
         <repository>
             <id>spigot-repo</id>
