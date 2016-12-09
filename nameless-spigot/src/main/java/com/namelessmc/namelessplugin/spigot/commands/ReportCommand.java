@@ -25,6 +25,7 @@ import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
  *  Report command
  */
 public class ReportCommand implements CommandExecutor {
+	
 	NamelessPlugin plugin;
 	String permission;
 	
@@ -67,6 +68,7 @@ public class ReportCommand implements CommandExecutor {
 							Player reported = Bukkit.getPlayerExact(args[0]);
 							if(reported == null){
 								// Get information about offline player
+								@SuppressWarnings("deprecation")
 								OfflinePlayer offline = Bukkit.getServer().getOfflinePlayer(args[0]);
 								if(offline == null)
 									return; // Invalid username

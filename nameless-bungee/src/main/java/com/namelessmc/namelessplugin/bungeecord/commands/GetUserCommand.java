@@ -8,7 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
