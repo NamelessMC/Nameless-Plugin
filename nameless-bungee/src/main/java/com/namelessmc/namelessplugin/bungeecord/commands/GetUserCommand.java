@@ -8,7 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
@@ -123,7 +122,7 @@ public class GetUserCommand extends Command {
 							java.util.Date registered = new java.util.Date(Long.parseLong(message.get("registered").toString().replaceAll("^\"|\"$", "")) * 1000);
 							
 							// Display get user.
-							sender.sendMessage(TextComponent.fromLegacyText("§3§m--------------------------------"));
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&3&m--------------------------------")));
 							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "Username: " + ChatColor.AQUA + message.get("username").getAsString()));
 							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "DisplayName: " + ChatColor.AQUA + message.get("displayname").getAsString()));
 							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "UUID: " + ChatColor.AQUA + message.get("uuid").getAsString()));
@@ -143,7 +142,7 @@ public class GetUserCommand extends Command {
 			                } else{
 			                	sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Banned: " + ChatColor.GREEN + "No!"));
 			                }
-							sender.sendMessage(TextComponent.fromLegacyText("§3§m--------------------------------"));
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&3&m--------------------------------")));
 						}
 						
 						// Close output/input stream

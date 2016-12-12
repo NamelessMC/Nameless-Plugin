@@ -112,7 +112,7 @@ public class GetUserCommand implements CommandExecutor {
 							java.util.Date registered = new java.util.Date(Long.parseLong(message.get("registered").toString()) * 1000);
 							
 							// Display get user.
-							sender.sendMessage("§3§m--------------------------------");
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&m--------------------------------"));
 							sender.sendMessage(ChatColor.GREEN + "Username: " + ChatColor.AQUA + message.get("username").toString());
 							sender.sendMessage(ChatColor.GREEN + "DisplayName: " + ChatColor.AQUA + message.get("displayname").toString());
 							sender.sendMessage(ChatColor.GREEN + "UUID: " + ChatColor.AQUA + message.get("uuid").toString());
@@ -132,7 +132,7 @@ public class GetUserCommand implements CommandExecutor {
 			                } else{
 			                	sender.sendMessage(ChatColor.RED + "Banned: " + ChatColor.GREEN + "No!");
 			                }
-							sender.sendMessage("§3§m--------------------------------");
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&m--------------------------------"));
 						}
 						
 						// Close output/input stream
