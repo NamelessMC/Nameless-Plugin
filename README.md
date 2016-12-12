@@ -7,3 +7,9 @@ This software is deployed using Maven. You require Maven if you want to get the 
 maven clean install
 ```
 It will generate a folder called target inside the folder nameless contained in this repository. You will find a jar called Nameless.jar inside that folder. This jar is compatible with both Bungeecord & Spigot.
+
+# With thanks to
+## Contributors
+@IsS127
+@Lmmb74
+@Samerton
