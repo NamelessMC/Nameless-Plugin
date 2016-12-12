@@ -10,6 +10,6 @@ It will generate a folder called target inside the folder nameless contained in 
 
 # With thanks to
 ## Contributors
-@IsS127
-@Lmmb74
-@Samerton
+- @IsS127
+- @Lmmb74
+- @Samerton
