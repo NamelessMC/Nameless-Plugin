@@ -18,6 +18,10 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
+	<build>
+		<defaultGoal>clean install</defaultGoal>
+	</build>
+
 	<modules>
 		<module>nameless-bungee</module>
 		<module>nameless-spigot</module>
