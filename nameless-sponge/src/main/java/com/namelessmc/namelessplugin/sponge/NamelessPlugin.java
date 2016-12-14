@@ -8,6 +8,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -26,6 +27,12 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 
 @Plugin(id = "namelessplugin", name = "Nameless Plugin", version = "1.0-SNAPSHOT")
 public class NamelessPlugin {
+
+	private static NamelessPlugin instance;
+	
+	public static NamelessPlugin getInstance(){
+		return instance;
+	}
 
 	CommandManager cmdManager = Sponge.getCommandManager();
 
@@ -48,22 +55,25 @@ public class NamelessPlugin {
 	 */
 	Metrics metrics;
 
-    @Inject
-    @DefaultConfig(sharedRoot = true)
-    private File configFile;
-   
-    @Inject
-    @DefaultConfig(sharedRoot = true)
-    ConfigurationLoader<CommentedConfigurationNode> configManager;
-    
-    @Inject
-	CommentedConfigurationNode config;
+	private CommentedConfigurationNode config;
+
+	@Inject
+	@ConfigDir(sharedRoot = false)
+	private File configDir;
+
+	@Inject
+	@DefaultConfig(sharedRoot = false)
+	private File configFile;
+
+	@Inject
+	@DefaultConfig(sharedRoot = false)
+	private ConfigurationLoader<CommentedConfigurationNode> configLoader;
 
 	@Inject
 	private Logger logger;
 
 	public Logger getLogger() {
-	    return logger;
+		return logger;
 	}
 
 	public String getName() {
@@ -85,35 +95,21 @@ public class NamelessPlugin {
 		registerListeners();
 	}
 
-	/*
-	 *  Initialise configuration
-	 */
-	private void initConfig() throws Exception {
-		if (!configFile.exists()) {
-			configFile.createNewFile();
-			configManager.load();
-			config.setComment("Nameless Plugin configuration");
-			config.setComment("");
-			config.getNode("api-url")
-			  .setComment("API URL")
-			  .setComment("This needs to be the full API URL, including API key")
-			  .setComment("For example http://yoursite.com/api/v1/API_KEY")
-			  .setValue(apiURL);
-			config.setComment("");
-			config.getNode("enable-reports")
-			  .setComment("Use reports?")
-			  .setComment("If true, a /report command will be added to report users ingame")
-			  .setComment("which will be added to the website's report system")
-			  .setComment("Valid values = 'true', 'false'")
-			  .setValue("true");
-			configManager.save(config);
+	public void initConfig() throws Exception {
+		if (!configDir.exists()) {
+			configDir.mkdir();
 		} else {
-			configManager.load();
+			config = configLoader.load();
 		}
-		if(apiURL.equals(config.getString("api-url"))){
-			hasSetUrl = false;
+		if (!configFile.exists()){
+			configFile.createNewFile();
+			config = configLoader.load();
+
+			config.getNode("api-url").setComment("This needs to be the full API URL, including API key").setValue("");
+			config.getNode("enable-report").setComment("Enable report command?").setValue(true);
+			configLoader.save(config);
 		} else {
-			hasSetUrl = true;
+			config = configLoader.load();
 		}
 	}
 
@@ -121,34 +117,39 @@ public class NamelessPlugin {
 	 * Register Commands/Events
 	 */
 	public void registerListeners(){
+		// Register Metrics
 		try {
-            metrics = new Metrics(this);
-            metrics.start();
-            getLogger().info(Text.builder("Metrics Started!").color(TextColors.AQUA).build().toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } 
+			metrics = new Metrics(this);
+			metrics.start();
+			getLogger().info(Text.builder("Metrics Started!").color(TextColors.AQUA).build().toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
 		
 		// Register commands
 		CommandSpec getuserCMD = CommandSpec.builder()
-			    .description(Text.of("GetUser Command"))
-			    .arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))))
-			    .executor(new GetUserCommand())
-			    .build();
+				.description(Text.of("GetUser Command"))
+				.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))))
+				.executor(new GetUserCommand())
+				.build();
 		CommandSpec registerCMD = CommandSpec.builder()
-			    .description(Text.of("Register Command"))
-			    .arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("e-mail"))))
-			    .executor(new RegisterCommand())
-			    .build();
-		CommandSpec reportCMD = CommandSpec.builder()
-			    .description(Text.of("Report Command"))
-			    .arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))))
-			    .arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("reason"))))
-			    .executor(new ReportCommand())
-			    .build();
+				.description(Text.of("Register Command"))
+				.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("e-mail"))))
+				.executor(new RegisterCommand())
+				.build();
 		cmdManager.register(this, getuserCMD, "getuser");
 		cmdManager.register(this, registerCMD, "register");
-		cmdManager.register(this, reportCMD, "report");
+		if (config.getNode("enable-reports").getBoolean()){
+			CommandSpec reportCMD = CommandSpec.builder()
+					.description(Text.of("Report Command"))
+					.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))))
+					.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("reason"))))
+					.executor(new ReportCommand())
+					.build();
+			cmdManager.register(this, reportCMD, "report");
+		} else {
+			return;
+		}
 	}
 
 }
