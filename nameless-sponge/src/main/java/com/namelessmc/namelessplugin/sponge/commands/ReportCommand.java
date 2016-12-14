@@ -40,7 +40,7 @@ public class ReportCommand implements CommandExecutor {
 		if(sender.hasPermission(permission + ".report")){
 			// check if hasSetUrl
 			if(plugin.hasSetUrl == false){
-				sender.sendMessage(Text.builder("Please set an API Url in the configuration!").color(TextColors.RED).build());
+				sender.sendMessage(Text.of(TextColors.RED, "Please set an API Url in the configuration!"));
 				return CommandResult.success();
 			}
 
@@ -54,7 +54,7 @@ public class ReportCommand implements CommandExecutor {
 					public void run(){
 						// Ensure email is set
 						if(args.getOne("player").get().toString().length() < 2){
-							player.sendMessage(Text.builder("Incorrect usage: /report username reason").color(TextColors.RED).build());
+							player.sendMessage(Text.of(TextColors.RED, "Incorrect usage: /report username reason"));
 							return;
 						}
 
@@ -144,10 +144,10 @@ public class ReportCommand implements CommandExecutor {
 
 							if(response.has("error")){
 								// Error with request
-								player.sendMessage(Text.builder("Error: " + response.get("message").getAsString()).color(TextColors.RED).build());
+								player.sendMessage(Text.of(TextColors.RED, "Error: " + response.get("message").getAsString()));
 							} else {
 								// Display success message to user
-								player.sendMessage(Text.builder(response.get("message").getAsString()).color(TextColors.GREEN).build());
+								player.sendMessage(Text.of(TextColors.GREEN, response.get("message").getAsString()));
 							}
 
 							// Close output/input stream
@@ -160,7 +160,7 @@ public class ReportCommand implements CommandExecutor {
 
 						} catch(Exception e){
 							// Exception
-							sender.sendMessage(Text.builder("There was an unknown error whilst executing the command.").color(TextColors.RED).build());
+							sender.sendMessage(Text.of(TextColors.RED, "There was an unknown error whilst executing the command."));
 							e.printStackTrace();
 						}
 					}
@@ -172,7 +172,7 @@ public class ReportCommand implements CommandExecutor {
 			}
 
 		} else {
-			sender.sendMessage(Text.builder("You don't have permission to this command!").color(TextColors.RED).build());
+			sender.sendMessage(Text.of(TextColors.RED, "You don't have permission to this command!"));
 		}
 
 		return CommandResult.success();

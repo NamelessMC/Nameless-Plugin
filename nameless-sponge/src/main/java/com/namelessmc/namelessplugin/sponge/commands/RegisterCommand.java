@@ -40,7 +40,7 @@ public class RegisterCommand implements CommandExecutor {
 		if(sender.hasPermission(permission + ".register")){
 			// check if hasSetUrl
 			if(plugin.hasSetUrl == false){
-				sender.sendMessage(Text.builder("Please set a API Url in the configuration!").color(TextColors.RED).build());
+				sender.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
 				return CommandResult.success();
 			}
 
@@ -54,7 +54,7 @@ public class RegisterCommand implements CommandExecutor {
 					public void run(){
 						// Ensure email is set
 						if(args.toString().length() < 1 || args.toString().length() > 1){
-							player.sendMessage(Text.builder("Incorrect usage: /register email").color(TextColors.RED).build());
+							player.sendMessage(Text.of(TextColors.RED, "Incorrect usage: /register email"));
 							return;
 						}
 
@@ -99,10 +99,10 @@ public class RegisterCommand implements CommandExecutor {
 
 							if(response.has("error")){
 								// Error with request
-								player.sendMessage(Text.builder("Error: " + response.get("message").getAsString()).color(TextColors.RED).build());
+								player.sendMessage(Text.of(TextColors.RED, "Error: " + response.get("message")));
 							} else {
 								// Display success message to user
-								player.sendMessage(Text.builder(response.get("message").getAsString()).color(TextColors.GREEN).build());
+								player.sendMessage(Text.of(TextColors.GREEN, response.get("message")));
 							}
 
 							// Close output/input stream
@@ -126,7 +126,7 @@ public class RegisterCommand implements CommandExecutor {
 			}
 				
 		} else {
-			sender.sendMessage(Text.builder("You don't have permission to this command!").color(TextColors.RED).build());
+			sender.sendMessage(Text.of(TextColors.RED, "You don't have permission to this command!"));
 		}
 
 		return CommandResult.success();

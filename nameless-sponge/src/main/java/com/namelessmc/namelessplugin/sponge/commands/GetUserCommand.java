@@ -15,7 +15,6 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.TextTemplate;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 
@@ -44,7 +43,7 @@ public class GetUserCommand implements CommandExecutor {
 		if(sender.hasPermission(permissionAdmin + ".getuser")){
 			// check if has set url.
 			if(plugin.hasSetUrl == false){
-				sender.sendMessage(Text.builder("Please set a API Url in the configuration!").color(TextColors.RED).build());
+				sender.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
 				return CommandResult.success();
 			}
 
@@ -54,7 +53,7 @@ public class GetUserCommand implements CommandExecutor {
 				public void run(){
 					// Ensure username or uuid set.
 					if(args.toString().length() < 1 || args.toString().length() > 1){
-						sender.sendMessage(Text.builder("Incorrect usage: /getuser username/uuid").color(TextColors.RED).build());
+						sender.sendMessage(Text.of(TextColors.RED, "Incorrect usage: /getuser username/uuid"));
 						return;
 					}
 
@@ -121,27 +120,27 @@ public class GetUserCommand implements CommandExecutor {
 							java.util.Date registered = new java.util.Date(Long.parseLong(message.get("registered").toString().replaceAll("^\"|\"$", "")) * 1000);
 
 							// Display get user.
-							sender.sendMessage(Text.builder("--------------------------------").color(TextColors.DARK_AQUA).style(TextStyles.STRIKETHROUGH).build());
-							sender.sendMessage(TextTemplate.of(Text.builder("Username: ").color(TextColors.GREEN).build(), Text.builder(message.get("username").getAsString()).color(TextColors.AQUA).build()));
-							sender.sendMessage(TextTemplate.of(Text.builder("DisplayName: ").color(TextColors.GREEN).build(), Text.builder(message.get("displayname").getAsString()).color(TextColors.AQUA).build()));
-							sender.sendMessage(TextTemplate.of(Text.builder("UUID: ").color(TextColors.GREEN).build(), Text.builder(message.get("uuid").getAsString()).color(TextColors.AQUA).build()));
-							sender.sendMessage(TextTemplate.of(Text.builder("Group ID: ").color(TextColors.GREEN).build(), Text.builder(message.get("group_id").getAsString()).color(TextColors.AQUA).build()));
-							sender.sendMessage(TextTemplate.of(Text.builder("Registered: ").color(TextColors.GREEN).build(), Text.builder(registered.toString()).color(TextColors.AQUA).build()));
-							sender.sendMessage(TextTemplate.of(Text.builder("Reputation: ").color(TextColors.GREEN).build(), Text.builder(message.get("reputation").getAsString()).color(TextColors.AQUA).build()));
+							sender.sendMessage(Text.of(TextStyles.STRIKETHROUGH, TextColors.DARK_AQUA, "--------------------------------"));
+							sender.sendMessage(Text.of(TextColors.GREEN, "Username: ", TextColors.AQUA, message.get("username").getAsString()));
+							sender.sendMessage(Text.of(TextColors.GREEN, "DisplayName: ",TextColors.AQUA, message.get("displayname").getAsString()));
+							sender.sendMessage(Text.of(TextColors.GREEN, "UUID: ",TextColors.AQUA, message.get("uuid").getAsString()));
+							sender.sendMessage(Text.of(TextColors.GREEN, "Group ID: ",TextColors.AQUA, message.get("group_id").getAsString()));
+							sender.sendMessage(Text.of(TextColors.GREEN, "Registered: ",TextColors.AQUA, registered.toString()));
+							sender.sendMessage(Text.of(TextColors.GREEN, "Reputation: ",TextColors.AQUA, message.get("reputation").getAsString()));
 
 							// check if validated
 							if(message.get("validated").getAsString().equals("1")){
-			                	sender.sendMessage(TextTemplate.of(Text.builder("Validated: ").color(TextColors.DARK_GREEN).build(), Text.builder("Yes!").color(TextColors.GREEN).build()));
+			                	sender.sendMessage(Text.of(Text.builder("Validated: ").color(TextColors.DARK_GREEN).build(), Text.builder("Yes!").color(TextColors.GREEN).build()));
 			                } else{
-			                	sender.sendMessage(TextTemplate.of(Text.builder("Validated: ").color(TextColors.DARK_GREEN).build(), Text.builder("No!").color(TextColors.RED).build()));
+			                	sender.sendMessage(Text.of(Text.builder("Validated: ").color(TextColors.DARK_GREEN).build(), Text.builder("No!").color(TextColors.RED).build()));
 			                }
 							// check if banned
 							if( message.get("banned").getAsString().equals("1")){
-			                	sender.sendMessage(TextTemplate.of(Text.builder("Banned: ").color(TextColors.RED).build(), Text.builder("Yes!").color(TextColors.RED).build()));
+			                	sender.sendMessage(Text.of(TextColors.RED, "Banned: ", TextColors.RED, "Yes!"));
 			                } else{
-			                	sender.sendMessage(TextTemplate.of(Text.builder("Banned: ").color(TextColors.RED).build(), Text.builder("No!").color(TextColors.GREEN).build()));
+			                	sender.sendMessage(Text.of(TextColors.RED, "Banned: ", TextColors.GREEN, "No!"));
 			                }
-							sender.sendMessage(Text.builder("--------------------------------").color(TextColors.DARK_AQUA).style(TextStyles.STRIKETHROUGH).build());
+							sender.sendMessage(Text.of(TextStyles.STRIKETHROUGH, TextColors.DARK_AQUA, "--------------------------------"));
 						}
 
 						// Close output/input stream
