@@ -23,15 +23,14 @@ import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
-    /*
-     * GetUser command made by IsS127
-     */
+/*
+ *  GetUser CMD by IsS127 (Sponge'd by Lmmb74)
+ */
 
 public class GetUserCommand implements CommandExecutor {
 
 	@Inject
 	Game game;
-	NamelessPlugin plugin;
 	String permissionAdmin;
 
 	/*
@@ -42,7 +41,7 @@ public class GetUserCommand implements CommandExecutor {
 		// check if player has permissionAdmin Permission
 		if(sender.hasPermission(permissionAdmin + ".getuser")){
 			// check if has set url.
-			if(plugin.hasSetUrl == false){
+			if(NamelessPlugin.getInstance().hasSetUrl == false){
 				sender.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
 				return CommandResult.success();
 			}
@@ -64,7 +63,7 @@ public class GetUserCommand implements CommandExecutor {
 						String toPostStringUName = 	"username=" + URLEncoder.encode(args.getOne("player").get().toString(), "UTF-8");
 						String toPostStringUUID = 	"uuid=" + URLEncoder.encode(args.getOne("player").get().toString(), "UTF-8");
 
-						URL apiConnection = new URL(plugin.getAPIUrl() + "/get");
+						URL apiConnection = new URL(NamelessPlugin.getInstance().getAPIUrl() + "/get");
 
 						HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
 						connection.setRequestMethod("POST");

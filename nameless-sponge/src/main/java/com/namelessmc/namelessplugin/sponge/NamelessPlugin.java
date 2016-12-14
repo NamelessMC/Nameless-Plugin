@@ -25,6 +25,10 @@ import com.namelessmc.namelessplugin.sponge.mcstats.Metrics;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
+/*
+ *  Sponge Version by Lmmb74
+ */
+
 @Plugin(id = "namelessplugin", name = "Nameless Plugin", version = "1.0-SNAPSHOT")
 public class NamelessPlugin {
 
@@ -40,7 +44,7 @@ public class NamelessPlugin {
 	 *  API URL
 	 */
 	private String apiURL = "";
-	public boolean hasSetUrl = true;
+	public boolean hasSetUrl = false;
 	
 	
 	/*
@@ -92,6 +96,11 @@ public class NamelessPlugin {
 	@Listener
 	public void onInitialize(GameInitializationEvent event) throws Exception {
 		initConfig();
+		if (config.getNode("api-url").getValue().toString().isEmpty()) {
+			hasSetUrl = false;
+		} else {
+			hasSetUrl = true;
+		}
 		registerListeners();
 	}
 

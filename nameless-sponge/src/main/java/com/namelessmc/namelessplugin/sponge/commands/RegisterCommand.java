@@ -23,15 +23,14 @@ import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
-     /*
-      * Bungeecord version made by IsS127
-      */
+/*
+ *  Register CMD by IsS127 (Sponge'd by Lmmb74)
+ */
     
 public class RegisterCommand implements CommandExecutor {
 
 	@Inject
 	Game game;
-	NamelessPlugin plugin;
 	String permission;
 
 	@Override
@@ -39,7 +38,7 @@ public class RegisterCommand implements CommandExecutor {
 		// check if player has permission Permission
 		if(sender.hasPermission(permission + ".register")){
 			// check if hasSetUrl
-			if(plugin.hasSetUrl == false){
+			if(NamelessPlugin.getInstance().hasSetUrl == false){
 				sender.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
 				return CommandResult.success();
 			}
@@ -66,7 +65,7 @@ public class RegisterCommand implements CommandExecutor {
 													"&email=" + URLEncoder.encode(args.getOne("e-mail").get().toString(), "UTF-8") + 
 													"&uuid=" + URLEncoder.encode(player.getUniqueId().toString(), "UTF-8");
 
-							URL apiConnection = new URL(plugin.getAPIUrl() + "/register");
+							URL apiConnection = new URL(NamelessPlugin.getInstance().getAPIUrl() + "/register");
 
 							HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
 							connection.setRequestMethod("POST");
