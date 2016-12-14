@@ -13,7 +13,7 @@
 	<packaging>jar</packaging>
 
 	<build>
-		<defaultGoal>clean package</defaultGoal>
+		<defaultGoal>package</defaultGoal>
 		<finalName>Nameless-${project.artifactId}-${project.version}</finalName>
 		<sourceDirectory>${basedir}/src/main/java</sourceDirectory>
 		<resources>

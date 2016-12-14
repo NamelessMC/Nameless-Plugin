@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.bungeecord.commands;
+package com.namelessmc.namelessplugin.sponge.commands;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -8,53 +8,53 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import org.spongepowered.api.Game;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
-
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
+import com.google.inject.Inject;
+import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
      /*
       * Bungeecord version made by IsS127
       */
     
-public class RegisterCommand extends Command {
+public class RegisterCommand implements CommandExecutor {
 
+	@Inject
+	Game game;
 	NamelessPlugin plugin;
 	String permission;
 
-	public RegisterCommand(NamelessPlugin pluginInstance, String name) {
-		super(name);
-		this.plugin = pluginInstance;
-		this.permission =  pluginInstance.permission;
-	}
-
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
 		// check if player has permission Permission
 		if(sender.hasPermission(permission + ".register")){
 			// check if hasSetUrl
 			if(plugin.hasSetUrl == false){
-				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Please set a API Url in the configuration!"));
-				return;
+				sender.sendMessage(Text.builder("Please set a API Url in the configuration!").color(TextColors.RED).build());
+				return CommandResult.success();
 			}
 
 			// Ensure user who inputted command is player and not console
-			if(sender instanceof ProxiedPlayer){
-				ProxiedPlayer player = (ProxiedPlayer) sender;
+			if(sender instanceof Player){
+				Player player = (Player) sender;
 
 				// Try to register user
-				ProxyServer.getInstance().getScheduler().runAsync(plugin,  new Runnable(){
+				game.getScheduler().createAsyncExecutor(new Runnable(){
 					@Override
 					public void run(){
 						// Ensure email is set
-						if(args.length < 1 || args.length > 1){
-							player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Incorrect usage: /register email"));
+						if(args.toString().length() < 1 || args.toString().length() > 1){
+							player.sendMessage(Text.builder("Incorrect usage: /register email").color(TextColors.RED).build());
 							return;
 						}
 
@@ -63,7 +63,7 @@ public class RegisterCommand extends Command {
 
 							// Create string containing POST contents
 							String toPostString = 	"username=" + URLEncoder.encode(player.getName(), "UTF-8") +
-													"&email=" + URLEncoder.encode(args[0], "UTF-8") + 
+													"&email=" + URLEncoder.encode(args.getOne("e-mail").get().toString(), "UTF-8") + 
 													"&uuid=" + URLEncoder.encode(player.getUniqueId().toString(), "UTF-8");
 
 							URL apiConnection = new URL(plugin.getAPIUrl() + "/register");
@@ -99,10 +99,10 @@ public class RegisterCommand extends Command {
 
 							if(response.has("error")){
 								// Error with request
-								player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Error: " + response.get("message").getAsString()));
+								player.sendMessage(Text.builder("Error: " + response.get("message").getAsString()).color(TextColors.RED).build());
 							} else {
 								// Display success message to user
-								player.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + response.get("message").getAsString()));
+								player.sendMessage(Text.builder(response.get("message").getAsString()).color(TextColors.GREEN).build());
 							}
 
 							// Close output/input stream
@@ -122,13 +122,14 @@ public class RegisterCommand extends Command {
 
 			} else {
 				// User must be ingame to use register command
-				sender.sendMessage(TextComponent.fromLegacyText("You must be ingame to use this command."));
+				sender.sendMessage(Text.of("You must be ingame to use this command."));
 			}
 				
 		} else {
-			sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You don't have permission to this command!"));
+			sender.sendMessage(Text.builder("You don't have permission to this command!").color(TextColors.RED).build());
 		}
 
-		return;
+		return CommandResult.success();
 	}
+
 }

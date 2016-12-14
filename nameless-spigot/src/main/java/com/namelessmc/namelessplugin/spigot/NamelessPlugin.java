@@ -1,6 +1,5 @@
 package com.namelessmc.namelessplugin.spigot;
 
-
 import java.io.File;
 import java.io.IOException;
 

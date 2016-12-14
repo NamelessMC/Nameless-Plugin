@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.bungeecord.commands;
+package com.namelessmc.namelessplugin.sponge.commands;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -8,55 +8,55 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import org.spongepowered.api.Game;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
-
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
+import com.google.inject.Inject;
+import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 /*
  *  Report command for BungeeCord
  */
     
-public class ReportCommand extends Command {
+public class ReportCommand implements CommandExecutor {
 
+	@Inject
+	Game game;
 	NamelessPlugin plugin;
 	String permission;
 
-	public ReportCommand(NamelessPlugin pluginInstance, String name) {
-		super(name);
-		this.plugin = pluginInstance;
-		this.permission =  pluginInstance.permission;
-	}
-
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
 		// check if player has permission Permission
 		if(sender.hasPermission(permission + ".report")){
 			// check if hasSetUrl
 			if(plugin.hasSetUrl == false){
-				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Please set an API Url in the configuration!"));
-				return;
+				sender.sendMessage(Text.builder("Please set an API Url in the configuration!").color(TextColors.RED).build());
+				return CommandResult.success();
 			}
 
 			// Ensure user who inputted command is player and not console
-			if(sender instanceof ProxiedPlayer){
-				ProxiedPlayer player = (ProxiedPlayer) sender;
+			if(sender instanceof Player){
+				Player player = (Player) sender;
 
 				// Try to register user
-				ProxyServer.getInstance().getScheduler().runAsync(plugin,  new Runnable(){
+				game.getScheduler().createAsyncExecutor(new Runnable(){
 					@Override
 					public void run(){
 						// Ensure email is set
-						if(args.length < 2){
-							player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Incorrect usage: /report username reason"));
+						if(args.getOne("player").get().toString().length() < 2){
+							player.sendMessage(Text.builder("Incorrect usage: /report username reason").color(TextColors.RED).build());
 							return;
-						}		
+						}
 
 						// Send POST request to API
 						try {
@@ -72,10 +72,10 @@ public class ReportCommand extends Command {
 							String uuid = "";
 
 							// Try to get the user being reported
-							ProxiedPlayer reported = ProxyServer.getInstance().getPlayer(args[0]);
-							if(reported == null){
+							Player reported = game.getServer().getPlayer(args.getOne("player").get().toString()).get();
+							if(!reported.isOnline()){
 								// User is offline, get UUID from username
-								HttpURLConnection lookupConnection = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + args[0]).openConnection();
+								HttpURLConnection lookupConnection = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + reported.getName()).openConnection();
 
 								// Handle response
 								BufferedReader streamReader = new BufferedReader(new InputStreamReader(lookupConnection.getInputStream(), "UTF-8"));
@@ -86,7 +86,7 @@ public class ReportCommand extends Command {
 									lookupResponseBuilder.append(lookupResponseString);
 
 								if(lookupResponseBuilder.toString() == null || parser.parse(lookupResponseBuilder.toString()) == null){
-									player.sendMessage(TextComponent.fromLegacyText("Unable to submit report, please try again later."));
+									player.sendMessage(Text.of("Unable to submit report, please try again later."));
 									return; // Unable to find user from username
 								}
 
@@ -95,22 +95,18 @@ public class ReportCommand extends Command {
 								uuid = response.get("id").getAsString();
 
 								if(uuid == null){
-									player.sendMessage(TextComponent.fromLegacyText("Unable to submit report, please try again later."));
+									player.sendMessage(Text.of("Unable to submit report, please try again later."));
 									return; // Unable to find user from username
 								}
 
-								toPostReported =  "reported_username=" + URLEncoder.encode(args[0], "UTF-8") + "&reported_uuid=" + URLEncoder.encode(uuid, "UTF-8");
+								toPostReported =  "reported_username=" + URLEncoder.encode(reported.getName(), "UTF-8") + "&reported_uuid=" + URLEncoder.encode(uuid, "UTF-8");
 
 							} else {
-								toPostReported =  "reported_username=" + URLEncoder.encode(args[0], "UTF-8") + "&reported_uuid=" + URLEncoder.encode(reported.getUniqueId().toString(), "UTF-8");
+								toPostReported =  "reported_username=" + URLEncoder.encode(reported.getName(), "UTF-8") + "&reported_uuid=" + URLEncoder.encode(reported.getUniqueId().toString(), "UTF-8");
 							}
 
 							// Get report content
-							String content = "";
-							for (int i = 1; i < args.length; i++) {
-								content += " " + args[i];
-							}
-
+							String content = args.getOne("reason").get().toString();
 							// Add reporter info + report content to post content
 							toPostReporter =  "&reporter_uuid=" + URLEncoder.encode(player.getUniqueId().toString(), "UTF-8")
 											  + "&content=" + URLEncoder.encode(content, "UTF-8");
@@ -148,10 +144,10 @@ public class ReportCommand extends Command {
 
 							if(response.has("error")){
 								// Error with request
-								player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Error: " + response.get("message").getAsString()));
+								player.sendMessage(Text.builder("Error: " + response.get("message").getAsString()).color(TextColors.RED).build());
 							} else {
 								// Display success message to user
-								player.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + response.get("message").getAsString()));
+								player.sendMessage(Text.builder(response.get("message").getAsString()).color(TextColors.GREEN).build());
 							}
 
 							// Close output/input stream
@@ -164,7 +160,7 @@ public class ReportCommand extends Command {
 
 						} catch(Exception e){
 							// Exception
-							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "There was an unknown error whilst executing the command."));
+							sender.sendMessage(Text.builder("There was an unknown error whilst executing the command.").color(TextColors.RED).build());
 							e.printStackTrace();
 						}
 					}
@@ -172,13 +168,13 @@ public class ReportCommand extends Command {
 
 			} else {
 				// User must be ingame to use register command
-				sender.sendMessage(TextComponent.fromLegacyText("You must be ingame to use this command."));
+				sender.sendMessage(Text.of("You must be ingame to use this command."));
 			}
 
 		} else {
-			sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You don't have permission to this command!"));
+			sender.sendMessage(Text.builder("You don't have permission to this command!").color(TextColors.RED).build());
 		}
 
-		return;
+		return CommandResult.success();
 	}
 }

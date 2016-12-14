@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.bungeecord.mcstats;
+package com.namelessmc.namelessplugin.sponge.mcstats;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -20,12 +20,12 @@ import java.util.LinkedHashSet;
 import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
 
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.api.plugin.PluginDescription;
+import org.spongepowered.api.Game;
+import org.spongepowered.api.MinecraftVersion;
+
+import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 @SuppressWarnings("unused")
 public class Metrics {
@@ -34,7 +34,7 @@ public class Metrics {
 	private static final String BASE_URL = "http://report.mcstats.org";
 	private static final String REPORT_URL = "/plugin/%s";
 	private static final int PING_INTERVAL = 10;
-	private final Plugin plugin;
+	private final NamelessPlugin plugin;
 	private final Set<Graph> graphs = Collections.synchronizedSet(new HashSet<Graph>());
 	private final Properties properties = new Properties();
 	private final File configurationFile;
@@ -42,9 +42,11 @@ public class Metrics {
 	private final boolean debug;
 	private final Object optOutLock = new Object();
 	private Thread thread = null;
+	private Game game;
+	private MinecraftVersion mcver;
 	private static ByteArrayOutputStream baos;
 	
-	public Metrics(Plugin plugin) throws IOException {
+	public Metrics(NamelessPlugin plugin) throws IOException {
 		if (plugin == null) {
 			throw new IllegalArgumentException("Plugin cannot be null");
 		}
@@ -145,7 +147,7 @@ public class Metrics {
 				this.properties.load(new FileInputStream(this.configurationFile));
 			} catch (IOException ex) {
 				if (this.debug) {
-					ProxyServer.getInstance().getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
+					((NamelessPlugin) plugin).getLogger().info("[Metrics] " + ex.getMessage());
 				}
 				return true;
 			}
@@ -184,12 +186,11 @@ public class Metrics {
 	}
 	
 	private void postPlugin(boolean isPing) throws IOException {
-		PluginDescription description = this.plugin.getDescription();
-		String pluginName = description.getName();
-		boolean onlineMode = ProxyServer.getInstance().getConfigurationAdapter().getBoolean("online_mode", true);
-		String pluginVersion = description.getVersion();
-		String serverVersion = ProxyServer.getInstance().getVersion();
-		int playersOnline = ProxyServer.getInstance().getOnlineCount();
+		String pluginName = plugin.getName();
+		boolean onlineMode = game.getServer().getOnlineMode();
+		String pluginVersion = plugin.getVersion();
+		String serverVersion = mcver.getName();
+		int playersOnline = game.getServer().getOnlinePlayers().size();
 		
 		StringBuilder json = new StringBuilder(1024);
 		json.append('{');
