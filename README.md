@@ -13,6 +13,8 @@ It will generate a folder called target inside the folder nameless contained in 
 ![alt tag](http://i.mcstats.org/NamelessMC/Version+Demographics.png)
 ![alt tag](http://i.mcstats.org/NamelessMC/Global+Statistics.png)
 
+Full stats, http://mcstats.org/plugin/NamelessMC/
+
 # With thanks to
 ## Contributors
 - @IsS127
