@@ -2,14 +2,15 @@ package com.namelessmc.namelessplugin.sponge;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import org.slf4j.Logger;
+import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
-import org.spongepowered.api.config.ConfigDir;
-import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
@@ -23,6 +24,7 @@ import com.namelessmc.namelessplugin.sponge.commands.ReportCommand;
 import com.namelessmc.namelessplugin.sponge.mcstats.Metrics;
 
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
 /*
@@ -30,7 +32,7 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
  */
 
 @Plugin(id = "namelessplugin", name = "Nameless Plugin", version = "1.0-SNAPSHOT")
-public class NamelessPlugin {
+public class NamelessPlugin{
 
 	private static NamelessPlugin instance;
 	
@@ -38,40 +40,35 @@ public class NamelessPlugin {
 		return instance;
 	}
 
+	@Inject
+	Game game;
+
 	CommandManager cmdManager = Sponge.getCommandManager();
 
 	/*
 	 *  API URL
 	 */
 	private String apiURL = "";
-	public boolean hasSetUrl = false;
 	
 	
 	/*
-	 *  NameLessMC permission string.
+	 *  NamelessMC permissions strings.
 	 */
 	
 	public final String permission = "namelessmc";
 	public final String permissionAdmin = "namelessmc.admin";
 	
 	/*
-	 * Metrics
+	 *  Metrics
 	 */
 	Metrics metrics;
 
-	private CommentedConfigurationNode config;
-
-	@Inject
-	@ConfigDir(sharedRoot = false)
-	private File configDir;
-
-	@Inject
-	@DefaultConfig(sharedRoot = false)
-	private File configFile;
-
-	@Inject
-	@DefaultConfig(sharedRoot = false)
-	private ConfigurationLoader<CommentedConfigurationNode> configLoader;
+	/*
+	 *  Configuration
+	 */
+	private String directory;
+	private ConfigurationLoader<CommentedConfigurationNode> configManager;
+	private CommentedConfigurationNode configNode;
 
 	@Inject
 	private Logger logger;
@@ -80,46 +77,54 @@ public class NamelessPlugin {
 		return logger;
 	}
 
-	public String getName() {
-		return ((Plugin) this).name();
-	}
-
-	public String getVersion() {
-		return ((Plugin) this).version();
-	}
-
 	public String getAPIUrl() {
 		return apiURL;
 	}
 
+	public String getName() {
+		return "Nameless Plugin";
+	}
+
+	public String getVersion() {
+		return "1.0-SNAPSHOT";
+	}
+
+	public Game getGame(){
+		return game;
+	}
+
+	public CommentedConfigurationNode getConfig(){
+		return configNode;
+	}
 
 	@Listener
 	public void onInitialize(GameInitializationEvent event) throws Exception {
+		directory = Sponge.getGame().getConfigManager().getPluginConfig(this).getDirectory().toString();
 		initConfig();
-		if (config.getNode("api-url").getValue().toString().isEmpty()) {
-			hasSetUrl = false;
-		} else {
-			hasSetUrl = true;
-		}
+		apiURL = getConfig().getNode("api-url").getString();
 		registerListeners();
 	}
 
-	public void initConfig() throws Exception {
-		if (!configDir.exists()) {
-			configDir.mkdir();
-		} else {
-			config = configLoader.load();
+	/*
+	 *  Configuration Initialization
+	 */
+	public void initConfig() throws IOException {
+		
+		File dir = new File(directory);
+		if (!dir.exists()){
+			dir.mkdirs();
 		}
-		if (!configFile.exists()){
-			configFile.createNewFile();
-			config = configLoader.load();
+		
+		File config = new File(directory + File.separator + "config.conf");
+		if (!config.exists()){
+			config.createNewFile();
+			Files.copy(this.getClass().getResource("config.conf").openStream(),
+					config.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
+		}
 
-			config.getNode("api-url").setComment("This needs to be the full API URL, including API key").setValue("");
-			config.getNode("enable-report").setComment("Enable report command?").setValue(true);
-			configLoader.save(config);
-		} else {
-			config = configLoader.load();
-		}
+		configManager = HoconConfigurationLoader.builder().setPath(config.toPath()).build();
+		configNode = configManager.load();
+		
 	}
 
 	/*
@@ -130,7 +135,7 @@ public class NamelessPlugin {
 		try {
 			metrics = new Metrics(this);
 			metrics.start();
-			getLogger().info(Text.builder("Metrics Started!").color(TextColors.AQUA).build().toString());
+			getLogger().info(Text.of(TextColors.AQUA, "Metrics Started!").toPlain());
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
@@ -148,7 +153,7 @@ public class NamelessPlugin {
 				.build();
 		cmdManager.register(this, getuserCMD, "getuser");
 		cmdManager.register(this, registerCMD, "register");
-		if (config.getNode("enable-reports").getBoolean()){
+		if (getConfig().getNode("enable-reports").getBoolean()){
 			CommandSpec reportCMD = CommandSpec.builder()
 					.description(Text.of("Report Command"))
 					.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))))

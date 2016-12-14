@@ -38,7 +38,7 @@ public class ReportCommand implements CommandExecutor {
 		// check if player has permission Permission
 		if(sender.hasPermission(permission + ".report")){
 			// check if hasSetUrl
-			if(NamelessPlugin.getInstance().hasSetUrl == false){
+			if(NamelessPlugin.getInstance().getAPIUrl().isEmpty()){
 				sender.sendMessage(Text.of(TextColors.RED, "Please set an API Url in the configuration!"));
 				return CommandResult.success();
 			}
@@ -72,9 +72,9 @@ public class ReportCommand implements CommandExecutor {
 
 							// Try to get the user being reported
 							Player reported = game.getServer().getPlayer(args.getOne("player").get().toString()).get();
-							if(!reported.isOnline()){
+							if(reported == null){
 								// User is offline, get UUID from username
-								HttpURLConnection lookupConnection = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + reported.getName()).openConnection();
+								HttpURLConnection lookupConnection = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + args.getOne("player").get().toString()).openConnection();
 
 								// Handle response
 								BufferedReader streamReader = new BufferedReader(new InputStreamReader(lookupConnection.getInputStream(), "UTF-8"));
@@ -98,7 +98,7 @@ public class ReportCommand implements CommandExecutor {
 									return; // Unable to find user from username
 								}
 
-								toPostReported =  "reported_username=" + URLEncoder.encode(reported.getName(), "UTF-8") + "&reported_uuid=" + URLEncoder.encode(uuid, "UTF-8");
+								toPostReported =  "reported_username=" + URLEncoder.encode(args.getOne("player").get().toString(), "UTF-8") + "&reported_uuid=" + URLEncoder.encode(uuid, "UTF-8");
 
 							} else {
 								toPostReported =  "reported_username=" + URLEncoder.encode(reported.getName(), "UTF-8") + "&reported_uuid=" + URLEncoder.encode(reported.getUniqueId().toString(), "UTF-8");

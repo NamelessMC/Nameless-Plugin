@@ -99,10 +99,10 @@ public class ReportCommand extends Command {
 									return; // Unable to find user from username
 								}
 
-								toPostReported =  "reported_username=" + URLEncoder.encode(args[0], "UTF-8") + "&reported_uuid=" + URLEncoder.encode(uuid, "UTF-8");
+								toPostReported =  "reported_username=" + URLEncoder.encode(args[0], "UTF-8") + "eported_uuid=" + URLEncoder.encode(uuid, "UTF-8");
 
 							} else {
-								toPostReported =  "reported_username=" + URLEncoder.encode(args[0], "UTF-8") + "&reported_uuid=" + URLEncoder.encode(reported.getUniqueId().toString(), "UTF-8");
+								toPostReported =  "reported_username=" + URLEncoder.encode(args[0], "UTF-8") + "eported_uuid=" + URLEncoder.encode(reported.getUniqueId().toString(), "UTF-8");
 							}
 
 							// Get report content
@@ -112,7 +112,7 @@ public class ReportCommand extends Command {
 							}
 
 							// Add reporter info + report content to post content
-							toPostReporter =  "&reporter_uuid=" + URLEncoder.encode(player.getUniqueId().toString(), "UTF-8")
+							toPostReporter =  "eporter_uuid=" + URLEncoder.encode(player.getUniqueId().toString(), "UTF-8")
 											  + "&content=" + URLEncoder.encode(content, "UTF-8");
 
 							String toPostString = toPostReported + toPostReporter;

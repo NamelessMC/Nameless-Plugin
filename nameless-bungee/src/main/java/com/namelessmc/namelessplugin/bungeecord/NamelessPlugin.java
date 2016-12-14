@@ -68,7 +68,7 @@ public class NamelessPlugin extends Plugin {
 		try {
             metrics = new Metrics(this);
             metrics.start();
-            getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!&r"));
+            getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!"));
         } catch (IOException e) {
             e.printStackTrace();
         } 
@@ -111,11 +111,11 @@ public class NamelessPlugin extends Plugin {
 			if(!file.exists()){
 				try (InputStream in = getResourceAsStream("config.yml")) {
 					// Config doesn't exist, create one now...
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file...&r"));
+					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file..."));
                     Files.copy(in, file.toPath());
 					
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling features...&r"));
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Please Configure NamelessMC config.yml!&r"));
+					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling features..."));
+					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Please Configure NamelessMC config.yml!"));
 					hasSetUrl = false;
 					
                 } catch (IOException e) {
@@ -127,13 +127,13 @@ public class NamelessPlugin extends Plugin {
 				
 				
 				// Exists already, load it
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file...&r"));
+				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file..."));
 				
 				apiURL = config.getString("api-url");
 				
 				if(apiURL.isEmpty()){
 					// API URL not set
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling features.&r"));
+					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling features."));
 					hasSetUrl = false;
 				}
 			}

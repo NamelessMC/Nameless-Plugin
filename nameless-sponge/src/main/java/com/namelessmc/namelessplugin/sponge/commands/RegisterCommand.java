@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 /*
- *  Register CMD by IsS127 (Sponge'd by Lmmb74)
+ *  Register CMD (Sponge'd by Lmmb74)
  */
     
 public class RegisterCommand implements CommandExecutor {
@@ -38,7 +38,7 @@ public class RegisterCommand implements CommandExecutor {
 		// check if player has permission Permission
 		if(sender.hasPermission(permission + ".register")){
 			// check if hasSetUrl
-			if(NamelessPlugin.getInstance().hasSetUrl == false){
+			if(NamelessPlugin.getInstance().getAPIUrl().isEmpty()){
 				sender.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
 				return CommandResult.success();
 			}

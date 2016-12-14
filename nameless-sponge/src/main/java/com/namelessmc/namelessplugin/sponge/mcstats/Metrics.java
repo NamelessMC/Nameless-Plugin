@@ -22,19 +22,19 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.zip.GZIPOutputStream;
 
-import org.spongepowered.api.Game;
 import org.spongepowered.api.MinecraftVersion;
+import org.spongepowered.api.Sponge;
 
 import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 @SuppressWarnings("unused")
 public class Metrics {
-	
+
+	private NamelessPlugin plugin;
 	private static final int REVISION = 7;
 	private static final String BASE_URL = "http://report.mcstats.org";
 	private static final String REPORT_URL = "/plugin/%s";
 	private static final int PING_INTERVAL = 10;
-	private final NamelessPlugin plugin;
 	private final Set<Graph> graphs = Collections.synchronizedSet(new HashSet<Graph>());
 	private final Properties properties = new Properties();
 	private final File configurationFile;
@@ -42,7 +42,6 @@ public class Metrics {
 	private final boolean debug;
 	private final Object optOutLock = new Object();
 	private Thread thread = null;
-	private Game game;
 	private MinecraftVersion mcver;
 	private static ByteArrayOutputStream baos;
 	
@@ -182,15 +181,15 @@ public class Metrics {
 	}
 	
 	public File getConfigFile() {
-		return new File(new File("plugins", "PluginMetrics"), "config.properties");
+		return new File(new File("config", "PluginMetrics"), "config.properties");
 	}
 	
 	private void postPlugin(boolean isPing) throws IOException {
 		String pluginName = plugin.getName();
-		boolean onlineMode = game.getServer().getOnlineMode();
+		boolean onlineMode = Sponge.getServer().getOnlineMode();
 		String pluginVersion = plugin.getVersion();
 		String serverVersion = mcver.getName();
-		int playersOnline = game.getServer().getOnlinePlayers().size();
+		int playersOnline = plugin.getGame().getServer().getOnlinePlayers().size();
 		
 		StringBuilder json = new StringBuilder(1024);
 		json.append('{');
