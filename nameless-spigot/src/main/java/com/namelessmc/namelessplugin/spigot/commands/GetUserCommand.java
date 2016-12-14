@@ -19,9 +19,9 @@ import org.json.simple.parser.JSONParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 
 /*
- *  Get User command
- *  By IsS127
+ * GetUser CMD by IsS127
  */
+
 public class GetUserCommand implements CommandExecutor {
 	NamelessPlugin plugin;
 	String permissionAdmin;

@@ -20,7 +20,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
 /*
- *  Report command for BungeeCord
+ *  Report CMD for BungeeCord
  */
     
 public class ReportCommand extends Command {

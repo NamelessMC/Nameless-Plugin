@@ -18,9 +18,9 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 
-    /*
-     * GetUser command made by IsS127
-     */
+/*
+ *  GetUser CMD by IsS127
+ */
 
 public class GetUserCommand extends Command {
 

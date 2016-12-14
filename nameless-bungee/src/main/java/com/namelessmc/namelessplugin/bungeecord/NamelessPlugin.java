@@ -18,9 +18,9 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
-    /*
-     *  Bungeecord Version by IsS127
-     */
+/*
+ *  Bungeecord Version by IsS127
+ */
 
 public class NamelessPlugin extends Plugin {
 	

@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 /*
- *  Report CMD by IsS127 (Sponge'd by Lmmb74)
+ *  Report CMD (Sponge'd by Lmmb74)
  */
     
 public class ReportCommand implements CommandExecutor {

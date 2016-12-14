@@ -19,9 +19,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
-     /*
-      * Bungeecord version made by IsS127
-      */
+/*
+ * Register CMD for BungeeCord by IsS127
+ */
     
 public class RegisterCommand extends Command {
 

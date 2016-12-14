@@ -20,9 +20,9 @@ import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 
 /*
- *  Nameless Plugin
- *  Register command
+ *  Register CMD
  */
+
 public class RegisterCommand implements CommandExecutor {
 	NamelessPlugin plugin;
 	String permission;
