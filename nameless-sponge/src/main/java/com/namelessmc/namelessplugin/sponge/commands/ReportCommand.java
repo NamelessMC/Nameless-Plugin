@@ -71,7 +71,7 @@ public class ReportCommand implements CommandExecutor {
 							String uuid = "";
 
 							// Try to get the user being reported
-							Player reported = game.getServer().getPlayer(args.getOne("player").get().toString()).get();
+							Player reported = game.getServer().getPlayer(args.<String>getOne("player").get()).get();
 							if(reported == null){
 								// User is offline, get UUID from username
 								HttpURLConnection lookupConnection = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + args.getOne("player").get().toString()).openConnection();
@@ -105,7 +105,7 @@ public class ReportCommand implements CommandExecutor {
 							}
 
 							// Get report content
-							String content = args.getOne("reason").get().toString();
+							String content = args.<String>getOne("reason").get();
 							// Add reporter info + report content to post content
 							toPostReporter =  "&reporter_uuid=" + URLEncoder.encode(player.getUniqueId().toString(), "UTF-8")
 											  + "&content=" + URLEncoder.encode(content, "UTF-8");

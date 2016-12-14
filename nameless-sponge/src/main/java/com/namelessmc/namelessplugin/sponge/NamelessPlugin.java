@@ -156,8 +156,7 @@ public class NamelessPlugin{
 		if (getConfig().getNode("enable-reports").getBoolean()){
 			CommandSpec reportCMD = CommandSpec.builder()
 					.description(Text.of("Report Command"))
-					.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))))
-					.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("reason"))))
+					.arguments(GenericArguments.string(Text.of("player")), GenericArguments.remainingJoinedStrings(Text.of("reason")))
 					.executor(new ReportCommand())
 					.build();
 			cmdManager.register(this, reportCMD, "report");
