@@ -33,13 +33,8 @@ public class GetUserCommand implements CommandExecutor {
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permissionAdmin Permission
 		if(src instanceof ConsoleSource || (src instanceof Player && src.hasPermission(NamelessPlugin.getInstance().permissionAdmin + ".getuser"))){
-			// check if api url is set
-			if(NamelessPlugin.getInstance().getAPIUrl().isEmpty()){
-				src.sendMessage(Text.of(TextColors.RED, "Please set an API Url in the configuration!"));
-			}
-
 			// Try to get the user
-			NamelessPlugin.getInstance().runTaskAsynchronously(new Runnable(){
+			NamelessPlugin.getInstance().runTask(new Runnable(){
 				@Override
 				public void run(){
 					// Ensure username or uuid set.

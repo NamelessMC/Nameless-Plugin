@@ -90,8 +90,8 @@ public class NamelessPlugin {
 		return this.configNode;
 	}
 
-	public void runTaskAsynchronously(Runnable task) {
-		Sponge.getScheduler().createTaskBuilder().execute(task).async().submit(this);
+	public void runTask(Runnable task) {
+		Sponge.getScheduler().createTaskBuilder().execute(task).submit(this);
 	}
 
 	public Server getServer(){
@@ -102,7 +102,7 @@ public class NamelessPlugin {
 	public void onInitialize(GameInitializationEvent event) throws Exception {
 		directory = Sponge.getGame().getConfigManager().getPluginConfig(this).getDirectory().toString();
 		initConfig();
-		apiURL = getConfig().getNode("api-url").getString();
+		apiURL = configNode.getNode("api-url").getString();
 		registerListeners();
 	}
 
@@ -146,27 +146,34 @@ public class NamelessPlugin {
 			e.printStackTrace();
 		} 
 		
-		// Register commands
-		CommandSpec getuserCMD = CommandSpec.builder()
-				.description(Text.of("GetUser Command"))
-				.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))))
-				.executor(new GetUserCommand())
-				.build();
-		CommandSpec registerCMD = CommandSpec.builder()
-				.description(Text.of("Register Command"))
-				.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("e-mail"))))
-				.executor(new RegisterCommand())
-				.build();
-		cmdManager.register(this, getuserCMD, "getuser");
-		cmdManager.register(this, registerCMD, "register");
-		if (getConfig().getNode("enable-reports").getBoolean()){
-			CommandSpec reportCMD = CommandSpec.builder()
-					.description(Text.of("Report Command"))
-					.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))), GenericArguments.remainingJoinedStrings(Text.of("reason"))))
-					.executor(new ReportCommand())
+		// Register commands if api url is set
+		if (!apiURL.isEmpty()){
+			CommandSpec getuserCMD = CommandSpec.builder()
+					.description(Text.of("GetUser Command"))
+					.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))))
+					.executor(new GetUserCommand())
 					.build();
-			cmdManager.register(this, reportCMD, "report");
+			CommandSpec registerCMD = CommandSpec.builder()
+					.description(Text.of("Register Command"))
+					.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("e-mail"))))
+					.executor(new RegisterCommand())
+					.build();
+			cmdManager.register(this, getuserCMD, "getuser");
+			cmdManager.register(this, registerCMD, "register");
+			if (getConfig().getNode("enable-reports").getBoolean()){
+				CommandSpec reportCMD = CommandSpec.builder()
+						.description(Text.of("Report Command"))
+						.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))), GenericArguments.remainingJoinedStrings(Text.of("reason"))))
+						.executor(new ReportCommand())
+						.build();
+				cmdManager.register(this, reportCMD, "report");
+			} else {
+				logger.warn("API URL MUST BE SET IN ORDER TO USE THE PLUGIN!");
+				logger.info("Disabling " + PluginInfo.ID);
+			}
 		} else {
+			logger.warn("API URL MUST BE SET IN ORDER TO USE THE PLUGIN!");
+			logger.info("Disabling " + PluginInfo.ID);
 			return;
 		}
 	}

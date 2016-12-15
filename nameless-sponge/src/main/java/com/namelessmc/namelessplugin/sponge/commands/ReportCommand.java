@@ -15,7 +15,6 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.source.ConsoleSource;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
@@ -31,140 +30,129 @@ public class ReportCommand implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
-		// check if player has permission Permission
-		if(src instanceof ConsoleSource || (src instanceof Player && src.hasPermission(NamelessPlugin.getInstance().permission + ".report"))){
-			// check if api url is set
-			if(NamelessPlugin.getInstance().getAPIUrl().isEmpty()){
-				src.sendMessage(Text.of(TextColors.RED, "Please set an API Url in the configuration!"));
-			}
+		// check if player has permission Permission & ensure who inputted command is a Player
+		if(src instanceof Player && src.hasPermission(NamelessPlugin.getInstance().permission + ".report")){
+			Player player = (Player) src;
+			// Try to register user
+			NamelessPlugin.getInstance().runTask(new Runnable(){
+				@Override
+				public void run(){
+					// Ensure email is set
+					if(ctx.<String>getOne("player").get().length() < 2){
+						player.sendMessage(Text.of(TextColors.RED, "Incorrect usage: /report username reason"));
+						return;
+					}
 
-			// Ensure user who inputted command is player and not console
-			if(src instanceof Player){
-				Player player = (Player) src;
+					// Send POST request to API
+					try {
 
-				// Try to register user
-				NamelessPlugin.getInstance().runTaskAsynchronously(new Runnable(){
-					@Override
-					public void run(){
-						// Ensure email is set
-						if(ctx.<String>getOne("player").get().length() < 2){
-							player.sendMessage(Text.of(TextColors.RED, "Incorrect usage: /report username reason"));
-							return;
-						}
+						// Initialise strings
+						String toPostReported;
+						String toPostReporter;
 
-						// Send POST request to API
-						try {
+						// Initialise JSON response + parser
+						JsonObject response = new JsonObject();
+						JsonParser parser = new JsonParser();
 
-							// Initialise strings
-							String toPostReported;
-							String toPostReporter;
+						String uuid = "";
 
-							// Initialise JSON response + parser
-							JsonObject response = new JsonObject();
-							JsonParser parser = new JsonParser();
-
-							String uuid = "";
-
-							// Try to get the user being reported
-							User reported = ctx.<User>getOne("player").get();
-							if(reported == null){
-								// User is offline, get UUID from username
-								HttpURLConnection lookupConnection = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + ctx.<String>getOne("player").get().toString()).openConnection();
-
-								// Handle response
-								BufferedReader streamReader = new BufferedReader(new InputStreamReader(lookupConnection.getInputStream(), "UTF-8"));
-								StringBuilder lookupResponseBuilder = new StringBuilder();
-
-								String lookupResponseString;
-								while((lookupResponseString = streamReader.readLine()) != null)
-									lookupResponseBuilder.append(lookupResponseString);
-
-								if(lookupResponseBuilder.toString() == null || parser.parse(lookupResponseBuilder.toString()) == null){
-									player.sendMessage(Text.of("Unable to submit report, please try again later."));
-									return; // Unable to find user from username
-								}
-
-								response = parser.parse(lookupResponseBuilder.toString()).getAsJsonObject();
-
-								uuid = response.get("id").getAsString();
-
-								if(uuid == null){
-									player.sendMessage(Text.of("Unable to submit report, please try again later."));
-									return; // Unable to find user from username
-								}
-
-								toPostReported =  "reported_username=" + URLEncoder.encode(ctx.getOne("player").get().toString(), "UTF-8") + "&reported_uuid=" + URLEncoder.encode(uuid, "UTF-8");
-
-							} else {
-								toPostReported =  "reported_username=" + URLEncoder.encode(reported.getName(), "UTF-8") + "&reported_uuid=" + URLEncoder.encode(reported.getUniqueId().toString(), "UTF-8");
-							}
-
-							// Get report content
-							String content = ctx.<String>getOne("reason").get();
-							// Add reporter info + report content to post content
-							toPostReporter =  "&reporter_uuid=" + URLEncoder.encode(player.getUniqueId().toString(), "UTF-8")
-											  + "&content=" + URLEncoder.encode(content, "UTF-8");
-
-							String toPostString = toPostReported + toPostReporter;
-
-							// Initialise API connection
-							URL apiConnection = new URL(NamelessPlugin.getInstance().getAPIUrl() + "/createReport");
-
-							HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
-							connection.setRequestMethod("POST");
-							connection.setRequestProperty("Content-Length", Integer.toString(toPostString.length()));
-							connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-							connection.setDoOutput(true);
-							connection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
-
-							// Initialise output stream
-							DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
-
-							// Write request
-							outputStream.writeBytes(toPostString);
-
-							// Initialise input stream
-							InputStream inputStream = connection.getInputStream();
+						// Try to get the user being reported
+						Player reported = ctx.<Player>getOne("player").get();
+						if(reported == null){
+							// User is offline, get UUID from username
+							HttpURLConnection lookupConnection = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + ctx.<String>getOne("player").get().toString()).openConnection();
 
 							// Handle response
-							BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-							StringBuilder responseBuilder = new StringBuilder();
+							BufferedReader streamReader = new BufferedReader(new InputStreamReader(lookupConnection.getInputStream(), "UTF-8"));
+							StringBuilder lookupResponseBuilder = new StringBuilder();
 
-							String responseString;
-							while((responseString = streamReader.readLine()) != null)
-								responseBuilder.append(responseString);
+							String lookupResponseString;
+							while((lookupResponseString = streamReader.readLine()) != null)
+								lookupResponseBuilder.append(lookupResponseString);
 
-							response = parser.parse(responseBuilder.toString()).getAsJsonObject();
-
-							if(response.has("error")){
-								// Error with request
-								player.sendMessage(Text.of(TextColors.RED, "Error: " + response.get("message").getAsString()));
-							} else {
-								// Display success message to user
-								player.sendMessage(Text.of(TextColors.GREEN, response.get("message").getAsString()));
+							if(lookupResponseBuilder.toString() == null || parser.parse(lookupResponseBuilder.toString()) == null){
+								player.sendMessage(Text.of("Unable to submit report, please try again later."));
+								return; // Unable to find user from username
 							}
 
-							// Close output/input stream
-							outputStream.flush();
-							outputStream.close();
-							inputStream.close();
+							response = parser.parse(lookupResponseBuilder.toString()).getAsJsonObject();
 
-							// Disconnect
-							connection.disconnect();
+							uuid = response.get("id").getAsString();
 
-						} catch(Exception e){
-							// Exception
-							src.sendMessage(Text.of(TextColors.RED, "There was an unknown error whilst executing the command."));
-							e.printStackTrace();
+							if(uuid == null){
+								player.sendMessage(Text.of("Unable to submit report, please try again later."));
+								return; // Unable to find user from username
+							}
+
+							toPostReported =  "reported_username=" + URLEncoder.encode(ctx.getOne("player").get().toString(), "UTF-8") + "&reported_uuid=" + URLEncoder.encode(uuid, "UTF-8");
+
+						} else {
+							toPostReported =  "reported_username=" + URLEncoder.encode(reported.getName(), "UTF-8") + "&reported_uuid=" + URLEncoder.encode(reported.getUniqueId().toString(), "UTF-8");
 						}
+
+						// Get report content
+						String content = ctx.<String>getOne("reason").get();
+						// Add reporter info + report content to post content
+						toPostReporter =  "&reporter_uuid=" + URLEncoder.encode(player.getUniqueId().toString(), "UTF-8")
+										  + "&content=" + URLEncoder.encode(content, "UTF-8");
+
+						String toPostString = toPostReported + toPostReporter;
+
+						// Initialise API connection
+						URL apiConnection = new URL(NamelessPlugin.getInstance().getAPIUrl() + "/createReport");
+
+						HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
+						connection.setRequestMethod("POST");
+						connection.setRequestProperty("Content-Length", Integer.toString(toPostString.length()));
+						connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+						connection.setDoOutput(true);
+						connection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+
+						// Initialise output stream
+						DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+
+						// Write request
+						outputStream.writeBytes(toPostString);
+
+						// Initialise input stream
+						InputStream inputStream = connection.getInputStream();
+
+						// Handle response
+						BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+						StringBuilder responseBuilder = new StringBuilder();
+
+						String responseString;
+						while((responseString = streamReader.readLine()) != null)
+							responseBuilder.append(responseString);
+
+						response = parser.parse(responseBuilder.toString()).getAsJsonObject();
+
+						if(response.has("error")){
+							// Error with request
+							player.sendMessage(Text.of(TextColors.RED, "Error: " + response.get("message").getAsString()));
+						} else {
+							// Display success message to user
+							player.sendMessage(Text.of(TextColors.GREEN, response.get("message").getAsString()));
+						}
+
+						// Close output/input stream
+						outputStream.flush();
+						outputStream.close();
+						inputStream.close();
+
+						// Disconnect
+						connection.disconnect();
+
+					} catch(Exception e){
+						// Exception
+						src.sendMessage(Text.of(TextColors.RED, "There was an unknown error whilst executing the command."));
+						e.printStackTrace();
 					}
-				});
+				}
+			});
 
-			} else {
-				// User must be ingame to use register command
-				src.sendMessage(Text.of("You must be ingame to use this command."));
-			}
-
+		} else if (src instanceof ConsoleSource){
+			src.sendMessage(Text.of(TextColors.RED, "You must be ingame to use this command!"));
 		} else {
 			src.sendMessage(Text.of(TextColors.RED, "You don't have permission to this command!"));
 		}
