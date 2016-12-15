@@ -12,7 +12,9 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.source.ConsoleSource;
 import org.spongepowered.api.command.spec.CommandExecutor;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
@@ -33,7 +35,7 @@ public class GetUserCommand implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permissionAdmin Permission
-		if(src.hasPermission(NamelessPlugin.getInstance().permissionAdmin + ".getuser")){
+		if(src instanceof ConsoleSource || (src instanceof Player && src.hasPermission(NamelessPlugin.getInstance().permissionAdmin + ".getuser"))){
 			// check if has set url.
 			if(NamelessPlugin.getInstance().getAPIUrl().isEmpty()){
 				src.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
