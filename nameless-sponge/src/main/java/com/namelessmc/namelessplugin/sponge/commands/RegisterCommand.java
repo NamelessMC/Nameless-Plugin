@@ -30,16 +30,12 @@ public class RegisterCommand implements CommandExecutor {
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
-		// check if player has permission Permission
-		if(src instanceof ConsoleSource || (src instanceof Player && src.hasPermission(NamelessPlugin.getInstance().permission + ".register"))){
-			// check if hasSetUrl
+		// check if player has permission Permission & ensure who inputted command is a Player
+		if(src instanceof Player && src.hasPermission(NamelessPlugin.getInstance().permission + ".register")){
+			// check if api url is set
 			if(NamelessPlugin.getInstance().getAPIUrl().isEmpty()){
-				src.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
-				return CommandResult.success();
-			}
-
-			// Ensure user who inputted command is player and not console
-			if(src instanceof Player){
+				src.sendMessage(Text.of(TextColors.RED, "Please set an API Url in the configuration!"));
+			} else {
 				Player player = (Player) src;
 
 				// Try to register user
@@ -113,12 +109,10 @@ public class RegisterCommand implements CommandExecutor {
 						}
 					}
 				});
-
-			} else {
-				// User must be ingame to use register command
-				src.sendMessage(Text.of("You must be ingame to use this command."));
 			}
-				
+
+		} else if (src instanceof ConsoleSource){
+			src.sendMessage(Text.of(TextColors.RED, "You must be ingame to use this command!"));
 		} else {
 			src.sendMessage(Text.of(TextColors.RED, "You don't have permission to this command!"));
 		}

@@ -54,7 +54,7 @@ public class NamelessPlugin {
 	/*
 	 *  API URL
 	 */
-	private String apiURL = "";
+	private String apiURL;
 
 	/*
 	 *  NamelessMC permissions strings.

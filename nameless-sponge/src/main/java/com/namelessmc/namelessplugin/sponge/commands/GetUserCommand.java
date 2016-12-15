@@ -29,17 +29,13 @@ import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 public class GetUserCommand implements CommandExecutor {
 
-	/*
-	 *  Handle inputted command
-	 */
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permissionAdmin Permission
 		if(src instanceof ConsoleSource || (src instanceof Player && src.hasPermission(NamelessPlugin.getInstance().permissionAdmin + ".getuser"))){
-			// check if has set url.
+			// check if api url is set
 			if(NamelessPlugin.getInstance().getAPIUrl().isEmpty()){
-				src.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
-				return CommandResult.success();
+				src.sendMessage(Text.of(TextColors.RED, "Please set an API Url in the configuration!"));
 			}
 
 			// Try to get the user

@@ -33,10 +33,9 @@ public class ReportCommand implements CommandExecutor {
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permission Permission
 		if(src instanceof ConsoleSource || (src instanceof Player && src.hasPermission(NamelessPlugin.getInstance().permission + ".report"))){
-			// check if hasSetUrl
+			// check if api url is set
 			if(NamelessPlugin.getInstance().getAPIUrl().isEmpty()){
 				src.sendMessage(Text.of(TextColors.RED, "Please set an API Url in the configuration!"));
-				return CommandResult.success();
 			}
 
 			// Ensure user who inputted command is player and not console
