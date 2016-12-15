@@ -14,6 +14,7 @@ import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -23,6 +24,7 @@ import com.namelessmc.namelessplugin.sponge.commands.GetUserCommand;
 import com.namelessmc.namelessplugin.sponge.commands.RegisterCommand;
 import com.namelessmc.namelessplugin.sponge.commands.ReportCommand;
 import com.namelessmc.namelessplugin.sponge.mcstats.Metrics;
+import com.namelessmc.namelessplugin.sponge.utils.PluginInfo;
 
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
@@ -32,7 +34,7 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
  *  Sponge Version by Lmmb74
  */
 
-@Plugin(id = "namelessplugin", name = "Nameless Plugin", version = "1.0-SNAPSHOT")
+@Plugin(id = PluginInfo.ID, name = PluginInfo.NAME, version = PluginInfo.VERSION)
 public class NamelessPlugin {
 
 	private static NamelessPlugin instance;
@@ -82,14 +84,6 @@ public class NamelessPlugin {
 		return this.apiURL;
 	}
 
-	public String getName() {
-		return "Nameless Plugin";
-	}
-
-	public String getVersion() {
-		return "1.0-SNAPSHOT";
-	}
-
 	public Game getGame(){
 		return this.game;
 	}
@@ -112,6 +106,11 @@ public class NamelessPlugin {
 		initConfig();
 		apiURL = getConfig().getNode("api-url").getString();
 		registerListeners();
+	}
+
+	@Listener
+	public void onStop(GameStoppingEvent event) throws Exception {
+		getGame().getEventManager().unregisterPluginListeners(this);
 	}
 
 	/*
@@ -165,7 +164,7 @@ public class NamelessPlugin {
 		if (getConfig().getNode("enable-reports").getBoolean()){
 			CommandSpec reportCMD = CommandSpec.builder()
 					.description(Text.of("Report Command"))
-					.arguments(GenericArguments.string(Text.of("player")), GenericArguments.remainingJoinedStrings(Text.of("reason")))
+					.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))), GenericArguments.remainingJoinedStrings(Text.of("reason"))))
 					.executor(new ReportCommand())
 					.build();
 			cmdManager.register(this, reportCMD, "report");

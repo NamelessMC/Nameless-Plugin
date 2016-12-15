@@ -27,28 +27,26 @@ import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
     
 public class RegisterCommand implements CommandExecutor {
 
-	String permission;
-
 	@Override
-	public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permission Permission
-		if(sender.hasPermission(permission + ".register")){
+		if(src.hasPermission(NamelessPlugin.getInstance().permission + ".register")){
 			// check if hasSetUrl
 			if(NamelessPlugin.getInstance().getAPIUrl().isEmpty()){
-				sender.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
-				return CommandResult.empty();
+				src.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
+				return CommandResult.success();
 			}
 
 			// Ensure user who inputted command is player and not console
-			if(sender instanceof Player){
-				Player player = (Player) sender;
+			if(src instanceof Player){
+				Player player = (Player) src;
 
 				// Try to register user
 				NamelessPlugin.getInstance().runTaskAsynchronously(new Runnable(){
 					@Override
 					public void run(){
 						// Ensure email is set
-						if(args.toString().length() < 1 || args.toString().length() > 1){
+						if(ctx.toString().length() < 1 || ctx.toString().length() > 1){
 							player.sendMessage(Text.of(TextColors.RED, "Incorrect usage: /register email"));
 							return;
 						}
@@ -58,7 +56,7 @@ public class RegisterCommand implements CommandExecutor {
 
 							// Create string containing POST contents
 							String toPostString = 	"username=" + URLEncoder.encode(player.getName(), "UTF-8") +
-													"&email=" + URLEncoder.encode(args.getOne("e-mail").get().toString(), "UTF-8") + 
+													"&email=" + URLEncoder.encode(ctx.<String>getOne(Text.of("e-mail")).get(), "UTF-8") + 
 													"&uuid=" + URLEncoder.encode(player.getUniqueId().toString(), "UTF-8");
 
 							URL apiConnection = new URL(NamelessPlugin.getInstance().getAPIUrl() + "/register");
@@ -117,14 +115,14 @@ public class RegisterCommand implements CommandExecutor {
 
 			} else {
 				// User must be ingame to use register command
-				sender.sendMessage(Text.of("You must be ingame to use this command."));
+				src.sendMessage(Text.of("You must be ingame to use this command."));
 			}
 				
 		} else {
-			sender.sendMessage(Text.of(TextColors.RED, "You don't have permission to this command!"));
+			src.sendMessage(Text.of(TextColors.RED, "You don't have permission to this command!"));
 		}
 
-		return CommandResult.empty();
+		return CommandResult.success();
 	}
 
 }

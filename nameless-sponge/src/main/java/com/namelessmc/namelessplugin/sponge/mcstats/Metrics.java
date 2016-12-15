@@ -25,6 +25,7 @@ import java.util.zip.GZIPOutputStream;
 import org.spongepowered.api.Sponge;
 
 import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
+import com.namelessmc.namelessplugin.sponge.utils.PluginInfo;
 
 public class Metrics {
 
@@ -182,9 +183,9 @@ public class Metrics {
 	}
 	
 	private void postPlugin(boolean isPing) throws IOException {
-		String pluginName = plugin.getName();
+		String pluginName = PluginInfo.NAME;
 		boolean onlineMode = Sponge.getServer().getOnlineMode();
-		String pluginVersion = plugin.getVersion();
+		String pluginVersion = PluginInfo.VERSION;
 		String serverVersion = Sponge.getPlatform().getMinecraftVersion().toString();
 		int playersOnline = plugin.getGame().getServer().getOnlinePlayers().size();
 		

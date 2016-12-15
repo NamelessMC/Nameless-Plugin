@@ -27,19 +27,17 @@ import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 public class GetUserCommand implements CommandExecutor {
 
-	String permissionAdmin;
-
 	/*
 	 *  Handle inputted command
 	 */
 	@Override
-	public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
+	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permissionAdmin Permission
-		if(sender.hasPermission(permissionAdmin + ".getuser")){
+		if(src.hasPermission(NamelessPlugin.getInstance().permissionAdmin + ".getuser")){
 			// check if has set url.
 			if(NamelessPlugin.getInstance().getAPIUrl().isEmpty()){
-				sender.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
-				return CommandResult.empty();
+				src.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
+				return CommandResult.success();
 			}
 
 			// Try to get the user
@@ -47,8 +45,8 @@ public class GetUserCommand implements CommandExecutor {
 				@Override
 				public void run(){
 					// Ensure username or uuid set.
-					if(args.toString().length() < 1 || args.toString().length() > 1){
-						sender.sendMessage(Text.of(TextColors.RED, "Incorrect usage: /getuser username/uuid"));
+					if(ctx.toString().length() < 1 || ctx.toString().length() > 1){
+						src.sendMessage(Text.of(TextColors.RED, "Incorrect usage: /getuser username/uuid"));
 						return;
 					}
 
@@ -56,8 +54,8 @@ public class GetUserCommand implements CommandExecutor {
 					try {
 
 						// Create string containing POST contents
-						String toPostStringUName = 	"username=" + URLEncoder.encode(args.getOne("player").get().toString(), "UTF-8");
-						String toPostStringUUID = 	"uuid=" + URLEncoder.encode(args.getOne("player").get().toString(), "UTF-8");
+						String toPostStringUName = 	"username=" + URLEncoder.encode(ctx.<String>getOne("player").get(), "UTF-8");
+						String toPostStringUUID = 	"uuid=" + URLEncoder.encode(ctx.<String>getOne("player").get(), "UTF-8");
 
 						URL apiConnection = new URL(NamelessPlugin.getInstance().getAPIUrl() + "/get");
 
@@ -65,9 +63,9 @@ public class GetUserCommand implements CommandExecutor {
 						connection.setRequestMethod("POST");
 
 						// check if player typed uuid or username
-						if(args.getOne("player").get().toString().length() >= 17){
+						if(ctx.<String>getOne("player").get().length() >= 17){
 							connection.setRequestProperty("Content-Length", Integer.toString(toPostStringUUID.length()));
-						} else if(args.getOne("player").get().toString().length() <= 16){
+						} else if(ctx.<String>getOne("player").get().length() <= 16){
 							connection.setRequestProperty("Content-Length", Integer.toString(toPostStringUName.length()));
 						}
 
@@ -79,9 +77,9 @@ public class GetUserCommand implements CommandExecutor {
 
 						// Write request
 						// check if player typed uuid or username
-						if(args.getOne("player").get().toString().length() >= 17){
+						if(ctx.<String>getOne("player").get().length() >= 17){
 							outputStream.writeBytes(toPostStringUUID);
-						} else if(args.getOne("player").get().toString().length() <= 16){
+						} else if(ctx.<String>getOne("player").get().length() <= 16){
 							outputStream.writeBytes(toPostStringUName);
 						}
 
@@ -108,34 +106,34 @@ public class GetUserCommand implements CommandExecutor {
 
 						if(response.has("error")){
 							// Error with request
-							sender.sendMessage(Text.builder("Error: " + response.get("message").toString()).color(TextColors.RED).build());
+							src.sendMessage(Text.builder("Error: " + response.get("message").toString()).color(TextColors.RED).build());
 						} else {
 
 							// Convert UNIX timestamp to date
 							java.util.Date registered = new java.util.Date(Long.parseLong(message.get("registered").toString().replaceAll("^\"|\"$", "")) * 1000);
 
 							// Display get user.
-							sender.sendMessage(Text.of(TextStyles.STRIKETHROUGH, TextColors.DARK_AQUA, "--------------------------------"));
-							sender.sendMessage(Text.of(TextColors.GREEN, "Username: ", TextColors.AQUA, message.get("username").getAsString()));
-							sender.sendMessage(Text.of(TextColors.GREEN, "DisplayName: ",TextColors.AQUA, message.get("displayname").getAsString()));
-							sender.sendMessage(Text.of(TextColors.GREEN, "UUID: ",TextColors.AQUA, message.get("uuid").getAsString()));
-							sender.sendMessage(Text.of(TextColors.GREEN, "Group ID: ",TextColors.AQUA, message.get("group_id").getAsString()));
-							sender.sendMessage(Text.of(TextColors.GREEN, "Registered: ",TextColors.AQUA, registered.toString()));
-							sender.sendMessage(Text.of(TextColors.GREEN, "Reputation: ",TextColors.AQUA, message.get("reputation").getAsString()));
+							src.sendMessage(Text.of(TextStyles.STRIKETHROUGH, TextColors.DARK_AQUA, "--------------------------------"));
+							src.sendMessage(Text.of(TextColors.GREEN, "Username: ", TextColors.AQUA, message.get("username").getAsString()));
+							src.sendMessage(Text.of(TextColors.GREEN, "DisplayName: ",TextColors.AQUA, message.get("displayname").getAsString()));
+							src.sendMessage(Text.of(TextColors.GREEN, "UUID: ",TextColors.AQUA, message.get("uuid").getAsString()));
+							src.sendMessage(Text.of(TextColors.GREEN, "Group ID: ",TextColors.AQUA, message.get("group_id").getAsString()));
+							src.sendMessage(Text.of(TextColors.GREEN, "Registered: ",TextColors.AQUA, registered.toString()));
+							src.sendMessage(Text.of(TextColors.GREEN, "Reputation: ",TextColors.AQUA, message.get("reputation").getAsString()));
 
 							// check if validated
 							if(message.get("validated").getAsString().equals("1")){
-			                	sender.sendMessage(Text.of(Text.builder("Validated: ").color(TextColors.DARK_GREEN).build(), Text.builder("Yes!").color(TextColors.GREEN).build()));
+			                	src.sendMessage(Text.of(Text.builder("Validated: ").color(TextColors.DARK_GREEN).build(), Text.builder("Yes!").color(TextColors.GREEN).build()));
 			                } else{
-			                	sender.sendMessage(Text.of(Text.builder("Validated: ").color(TextColors.DARK_GREEN).build(), Text.builder("No!").color(TextColors.RED).build()));
+			                	src.sendMessage(Text.of(Text.builder("Validated: ").color(TextColors.DARK_GREEN).build(), Text.builder("No!").color(TextColors.RED).build()));
 			                }
 							// check if banned
 							if( message.get("banned").getAsString().equals("1")){
-			                	sender.sendMessage(Text.of(TextColors.RED, "Banned: ", TextColors.RED, "Yes!"));
+			                	src.sendMessage(Text.of(TextColors.RED, "Banned: ", TextColors.RED, "Yes!"));
 			                } else{
-			                	sender.sendMessage(Text.of(TextColors.RED, "Banned: ", TextColors.GREEN, "No!"));
+			                	src.sendMessage(Text.of(TextColors.RED, "Banned: ", TextColors.GREEN, "No!"));
 			                }
-							sender.sendMessage(Text.of(TextStyles.STRIKETHROUGH, TextColors.DARK_AQUA, "--------------------------------"));
+							src.sendMessage(Text.of(TextStyles.STRIKETHROUGH, TextColors.DARK_AQUA, "--------------------------------"));
 						}
 
 						// Close output/input stream
@@ -154,10 +152,10 @@ public class GetUserCommand implements CommandExecutor {
 			});
 
 		} else {
-			sender.sendMessage(Text.builder("You don't have permission to this command!").color(TextColors.RED).build());
+			src.sendMessage(Text.of(TextColors.RED, "You don't have permission to this command!"));
 		}
 
-		return CommandResult.empty();
+		return CommandResult.success();
 	}
 
 }
