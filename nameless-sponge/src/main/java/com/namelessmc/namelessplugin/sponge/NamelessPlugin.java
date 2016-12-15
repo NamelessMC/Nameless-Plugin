@@ -38,33 +38,30 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 public class NamelessPlugin {
 
 	private static NamelessPlugin instance;
-	
-	public static NamelessPlugin getInstance(){
-		return instance;
-	}
+	CommandManager cmdManager = Sponge.getCommandManager();
+
+	@Inject
+	private Logger logger;
 
 	@Inject
 	Game game;
 
-	CommandManager cmdManager = Sponge.getCommandManager();
+	/*
+	 *  Metrics
+	 */
+	Metrics metrics;
 
 	/*
 	 *  API URL
 	 */
 	private String apiURL = "";
-	
-	
+
 	/*
 	 *  NamelessMC permissions strings.
 	 */
 	
 	public final String permission = "namelessmc";
 	public final String permissionAdmin = "namelessmc.admin";
-	
-	/*
-	 *  Metrics
-	 */
-	Metrics metrics;
 
 	/*
 	 *  Configuration
@@ -73,8 +70,9 @@ public class NamelessPlugin {
 	private ConfigurationLoader<CommentedConfigurationNode> configManager;
 	private CommentedConfigurationNode configNode;
 
-	@Inject
-	private Logger logger;
+	public static NamelessPlugin getInstance(){
+		return instance;
+	}
 
 	public Logger getLogger() {
 		return this.logger;
