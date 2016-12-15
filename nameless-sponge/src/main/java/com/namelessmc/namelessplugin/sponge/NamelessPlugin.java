@@ -26,9 +26,9 @@ import com.namelessmc.namelessplugin.sponge.commands.ReportCommand;
 import com.namelessmc.namelessplugin.sponge.mcstats.Metrics;
 import com.namelessmc.namelessplugin.sponge.utils.PluginInfo;
 
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
+import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
+import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 
 /*
  *  Sponge Version by Lmmb74
@@ -67,8 +67,8 @@ public class NamelessPlugin {
 	 *  Configuration
 	 */
 	private String directory;
-	private ConfigurationLoader<CommentedConfigurationNode> configManager;
-	private CommentedConfigurationNode configNode;
+	private ConfigurationLoader<ConfigurationNode> configManager;
+	private ConfigurationNode configNode;
 
 	public static NamelessPlugin getInstance(){
 		return instance;
@@ -86,7 +86,7 @@ public class NamelessPlugin {
 		return this.game;
 	}
 
-	public CommentedConfigurationNode getConfig(){
+	public ConfigurationNode getConfig(){
 		return this.configNode;
 	}
 
@@ -121,16 +121,16 @@ public class NamelessPlugin {
 			dir.mkdirs();
 		}
 		
-		File config = new File(directory + File.separator + "config.conf");
+		File config = new File(directory + File.separator + "config.yml");
 		if (!config.exists()){
 			config.createNewFile();
-			Files.copy(this.getClass().getResource("config.conf").openStream(),
+			Files.copy(this.getClass().getResource("config.yml").openStream(),
 					config.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
 
-		configManager = HoconConfigurationLoader.builder().setPath(config.toPath()).build();
+		configManager = YAMLConfigurationLoader.builder().setPath(config.toPath()).build();
 		configNode = configManager.load();
-		
+
 	}
 
 	/*
