@@ -7,6 +7,7 @@ import java.nio.file.StandardCopyOption;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.command.args.GenericArguments;
@@ -32,7 +33,7 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
  */
 
 @Plugin(id = "namelessplugin", name = "Nameless Plugin", version = "1.0-SNAPSHOT")
-public class NamelessPlugin{
+public class NamelessPlugin {
 
 	private static NamelessPlugin instance;
 	
@@ -74,11 +75,11 @@ public class NamelessPlugin{
 	private Logger logger;
 
 	public Logger getLogger() {
-		return logger;
+		return this.logger;
 	}
 
 	public String getAPIUrl() {
-		return apiURL;
+		return this.apiURL;
 	}
 
 	public String getName() {
@@ -90,11 +91,19 @@ public class NamelessPlugin{
 	}
 
 	public Game getGame(){
-		return game;
+		return this.game;
 	}
 
 	public CommentedConfigurationNode getConfig(){
-		return configNode;
+		return this.configNode;
+	}
+
+	public void runTaskAsynchronously(Runnable task) {
+		Sponge.getScheduler().createTaskBuilder().execute(task).async().submit(this);
+	}
+
+	public Server getServer(){
+		return this.game.getServer();
 	}
 
 	@Listener
@@ -133,8 +142,8 @@ public class NamelessPlugin{
 	public void registerListeners(){
 		// Register Metrics
 		try {
-			metrics = new Metrics(this);
-			metrics.start();
+			this.metrics = new Metrics(this);
+			this.metrics.start();
 			getLogger().info(Text.of(TextColors.AQUA, "Metrics Started!").toPlain());
 		} catch (IOException e) {
 			e.printStackTrace();

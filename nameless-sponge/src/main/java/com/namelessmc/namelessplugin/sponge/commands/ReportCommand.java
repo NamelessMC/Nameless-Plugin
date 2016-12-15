@@ -8,7 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import org.spongepowered.api.Game;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -20,7 +19,6 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.inject.Inject;
 import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 /*
@@ -29,8 +27,6 @@ import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
     
 public class ReportCommand implements CommandExecutor {
 
-	@Inject
-	Game game;
 	String permission;
 
 	@Override
@@ -40,7 +36,7 @@ public class ReportCommand implements CommandExecutor {
 			// check if hasSetUrl
 			if(NamelessPlugin.getInstance().getAPIUrl().isEmpty()){
 				sender.sendMessage(Text.of(TextColors.RED, "Please set an API Url in the configuration!"));
-				return CommandResult.success();
+				return CommandResult.empty();
 			}
 
 			// Ensure user who inputted command is player and not console
@@ -48,7 +44,7 @@ public class ReportCommand implements CommandExecutor {
 				Player player = (Player) sender;
 
 				// Try to register user
-				game.getScheduler().createAsyncExecutor(new Runnable(){
+				NamelessPlugin.getInstance().runTaskAsynchronously(new Runnable(){
 					@Override
 					public void run(){
 						// Ensure email is set
@@ -71,7 +67,7 @@ public class ReportCommand implements CommandExecutor {
 							String uuid = "";
 
 							// Try to get the user being reported
-							Player reported = game.getServer().getPlayer(args.<String>getOne("player").get()).get();
+							Player reported = NamelessPlugin.getInstance().getServer().getPlayer(args.<String>getOne("player").get()).get();
 							if(reported == null){
 								// User is offline, get UUID from username
 								HttpURLConnection lookupConnection = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + args.getOne("player").get().toString()).openConnection();
@@ -174,6 +170,6 @@ public class ReportCommand implements CommandExecutor {
 			sender.sendMessage(Text.of(TextColors.RED, "You don't have permission to this command!"));
 		}
 
-		return CommandResult.success();
+		return CommandResult.empty();
 	}
 }

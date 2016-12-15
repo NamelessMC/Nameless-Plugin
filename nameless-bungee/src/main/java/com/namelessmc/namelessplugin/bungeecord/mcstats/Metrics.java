@@ -27,7 +27,6 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginDescription;
 
-@SuppressWarnings("unused")
 public class Metrics {
 	
 	private static final int REVISION = 7;
@@ -103,7 +102,7 @@ public class Metrics {
 				
 				public void run(){
 					while (Metrics.this.thread != null) {
-						if ((this.nextPost == 0L) || (System.currentTimeMillis() > this.nextPost)) {
+						if ((this.nextPost == 0L) || (PING_INTERVAL > this.nextPost)) {
 							try {
 								synchronized (Metrics.this.optOutLock) {
 									if ((Metrics.this.isOptOut()) && (Metrics.this.thread != null)) {
@@ -253,7 +252,7 @@ public class Metrics {
 		}
 		json.append('}');
 		
-		URL url = new URL("http://report.mcstats.org" + String.format("/plugin/%s", new Object[] { urlEncode(pluginName) }));
+		URL url = new URL(BASE_URL + String.format(REPORT_URL, urlEncode(pluginName)));
 		URLConnection connection;
 		if (isMineshafterPresent()) {
 			connection = url.openConnection(Proxy.NO_PROXY);
@@ -263,7 +262,7 @@ public class Metrics {
 		byte[] uncompressed = json.toString().getBytes();
 		byte[] compressed = gzip(json.toString());
 		
-		connection.addRequestProperty("User-Agent", "MCStats/7");
+		connection.addRequestProperty("User-Agent", "MCStats/" + REVISION);
 		connection.addRequestProperty("Content-Type", "application/json");
 		connection.addRequestProperty("Content-Encoding", "gzip");
 		connection.addRequestProperty("Content-Length", Integer.toString(compressed.length));

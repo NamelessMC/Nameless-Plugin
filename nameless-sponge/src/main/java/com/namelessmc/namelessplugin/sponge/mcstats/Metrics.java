@@ -22,15 +22,14 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.zip.GZIPOutputStream;
 
-import org.spongepowered.api.MinecraftVersion;
 import org.spongepowered.api.Sponge;
 
 import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
-@SuppressWarnings("unused")
 public class Metrics {
 
 	private NamelessPlugin plugin;
+
 	private static final int REVISION = 7;
 	private static final String BASE_URL = "http://report.mcstats.org";
 	private static final String REPORT_URL = "/plugin/%s";
@@ -42,7 +41,6 @@ public class Metrics {
 	private final boolean debug;
 	private final Object optOutLock = new Object();
 	private Thread thread = null;
-	private MinecraftVersion mcver;
 	private static ByteArrayOutputStream baos;
 	
 	public Metrics(NamelessPlugin plugin) throws IOException {
@@ -104,7 +102,7 @@ public class Metrics {
 				
 				public void run(){
 					while (Metrics.this.thread != null) {
-						if ((this.nextPost == 0L) || (System.currentTimeMillis() > this.nextPost)) {
+						if ((this.nextPost == 0L) || (PING_INTERVAL > this.nextPost)) {
 							try {
 								synchronized (Metrics.this.optOutLock) {
 									if ((Metrics.this.isOptOut()) && (Metrics.this.thread != null)) {
@@ -188,7 +186,7 @@ public class Metrics {
 		String pluginName = plugin.getName();
 		boolean onlineMode = Sponge.getServer().getOnlineMode();
 		String pluginVersion = plugin.getVersion();
-		String serverVersion = mcver.getName();
+		String serverVersion = Sponge.getPlatform().getMinecraftVersion().toString();
 		int playersOnline = plugin.getGame().getServer().getOnlinePlayers().size();
 		
 		StringBuilder json = new StringBuilder(1024);
@@ -253,7 +251,7 @@ public class Metrics {
 		}
 		json.append('}');
 		
-		URL url = new URL("http://report.mcstats.org" + String.format("/plugin/%s", new Object[] { urlEncode(pluginName) }));
+		URL url = new URL(BASE_URL + String.format(REPORT_URL, urlEncode(pluginName)));
 		URLConnection connection;
 		if (isMineshafterPresent()) {
 			connection = url.openConnection(Proxy.NO_PROXY);
@@ -263,7 +261,7 @@ public class Metrics {
 		byte[] uncompressed = json.toString().getBytes();
 		byte[] compressed = gzip(json.toString());
 		
-		connection.addRequestProperty("User-Agent", "MCStats/7");
+		connection.addRequestProperty("User-Agent", "MCStats/" + REVISION);
 		connection.addRequestProperty("Content-Type", "application/json");
 		connection.addRequestProperty("Content-Encoding", "gzip");
 		connection.addRequestProperty("Content-Length", Integer.toString(compressed.length));

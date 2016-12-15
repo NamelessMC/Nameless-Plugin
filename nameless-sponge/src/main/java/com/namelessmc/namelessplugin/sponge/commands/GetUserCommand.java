@@ -8,7 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import org.spongepowered.api.Game;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -20,7 +19,6 @@ import org.spongepowered.api.text.format.TextStyles;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.inject.Inject;
 import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 /*
@@ -29,8 +27,6 @@ import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 public class GetUserCommand implements CommandExecutor {
 
-	@Inject
-	Game game;
 	String permissionAdmin;
 
 	/*
@@ -43,11 +39,11 @@ public class GetUserCommand implements CommandExecutor {
 			// check if has set url.
 			if(NamelessPlugin.getInstance().getAPIUrl().isEmpty()){
 				sender.sendMessage(Text.of(TextColors.RED, "Please set a API Url in the configuration!"));
-				return CommandResult.success();
+				return CommandResult.empty();
 			}
 
 			// Try to get the user
-			game.getScheduler().createAsyncExecutor(new Runnable(){
+			NamelessPlugin.getInstance().runTaskAsynchronously(new Runnable(){
 				@Override
 				public void run(){
 					// Ensure username or uuid set.
@@ -161,7 +157,7 @@ public class GetUserCommand implements CommandExecutor {
 			sender.sendMessage(Text.builder("You don't have permission to this command!").color(TextColors.RED).build());
 		}
 
-		return CommandResult.success();
+		return CommandResult.empty();
 	}
 
 }
