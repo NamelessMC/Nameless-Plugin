@@ -4,6 +4,7 @@ package com.namelessmc.namelessplugin.spigot;
 import java.io.File;
 import java.io.IOException;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -11,30 +12,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.namelessplugin.spigot.commands.GetUserCommand;
 import com.namelessmc.namelessplugin.spigot.commands.RegisterCommand;
+import com.namelessmc.namelessplugin.spigot.commands.ReportCommand;
 import com.namelessmc.namelessplugin.spigot.mcstats.Metrics;
 import com.namelessmc.namelessplugin.spigot.player.PlayerEventListener;
 
 import net.milkbowl.vault.permission.Permission;
 
 public class NamelessPlugin extends JavaPlugin {
-	/*
-	 *  Colors you can use to the console :)
-	 */
-	public final String COLOR_BLACK = "\u001B[30m";
-	public final String COLOR_RED = "\u001B[31m";
-	public final String COLOR_GREEN = "\u001B[32m";
-	public final String COLOR_CYAN = "\u001B[36m";
-	public final String COLOR_YELLOW = "\u001B[33m";
-	public final String COLOR_BLUE = "\u001B[34m";
-	public final String COLOR_PURPLE = "\u001B[35m";
-	public final String COLOR_WHITE = "\u001B[37m";
-	// Must use this after writing a line. 
-	public final String COLOR_RESET = "\u001B[0m";
 	
 	/*
 	 * Metrics
 	 */
 	Metrics metrics;
+	
 	
 	/*
 	 *  API URL
@@ -42,22 +32,33 @@ public class NamelessPlugin extends JavaPlugin {
 	private String apiURL = "";
 	
 	/*
-	 *  Is Vault integration enabled?
+	 *  Vault Integration
 	 */
 	private boolean useVault = false;
 	
 	/*
-	 * 
-	 */
-	private boolean useGroup = false;
-	
-	/*
-	 *  Vault permissions
+	 *  Vault Permissions
 	 */
 	private Permission permissions = null;
 	
 	/*
-	 *  NameLessMC permission string.
+	 *  Groups Support 
+	 */
+	@SuppressWarnings("unused")
+	private boolean useGroups = false;
+	
+	/*
+	 *  Enable reports?
+	 */
+	private boolean useReports = false;
+	
+	/*
+	 *  Is the plugin disabled?
+	 */
+	private boolean isDisabled = false;
+	
+	/*
+	 *  NamelessMC permissions strings.
 	 */
 	
 	public final String permission = "namelessmc";
@@ -70,10 +71,13 @@ public class NamelessPlugin extends JavaPlugin {
 	public void onEnable(){
 		// Initialise config
 		initConfig();
-		// Check Vault
-		detectVault();
 		
-		registerListeners();
+		if(!isDisabled){
+			// Check Vault
+			detectVault();
+			
+			registerListeners();
+		}
 	}
 	
 	/*
@@ -91,7 +95,7 @@ public class NamelessPlugin extends JavaPlugin {
 		try {
             metrics = new Metrics(this);
             metrics.start();
-            getLogger().info(COLOR_CYAN + "Metrics Started!" + COLOR_RESET);
+            getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!&r"));
         } catch (IOException e) {
             e.printStackTrace();
         } 
@@ -99,6 +103,10 @@ public class NamelessPlugin extends JavaPlugin {
 		// Register commands
 		this.getCommand("register").setExecutor(new RegisterCommand(this));
 		this.getCommand("getuser").setExecutor(new GetUserCommand(this));
+		
+		if(useReports){
+			this.getCommand("report").setExecutor(new ReportCommand(this));
+		}
 		
 		// Register events
 		this.getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
@@ -109,19 +117,18 @@ public class NamelessPlugin extends JavaPlugin {
 	 */
 	public void detectVault(){
 				if(getServer().getPluginManager().getPlugin("Vault") != null){
-					// Set use vault to true. and setup Permissions.
+					// Enable Vault integration and setup Permissions.
 					useVault = true;
 					initPermissions();
-					
-					// Check if the permission plugin has groups.
+					// Check if the permissions plugin has groups.
 					if(permissions.hasGroupSupport()){
-						useGroup = true;
-					} else{
-						getLogger().info(COLOR_RED + "Permission plugin does NOT support groups! Disabling NamelessMC group synchronisation." + COLOR_RESET);
-						useGroup = false;
+						useGroups = true;
+					} else {
+						getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Permissions plugin does NOT support groups! Disabling NamelessMC group synchronisation.&r"));
+						useGroups = false;
 					}
 				} else {
-					getLogger().info(COLOR_RED + "Couldn't detect Vault, disabling NamelessMC Vault integration." + COLOR_RESET);
+					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Couldn't detect Vault, disabling NamelessMC Vault integration.&r"));
 				}
 	}
 	
@@ -140,13 +147,15 @@ public class NamelessPlugin extends JavaPlugin {
 			
 			if(!file.exists()){
 				// Config doesn't exist, create one now...
-				getLogger().info(COLOR_BLUE + "Creating NamelessMC configuration file..." + COLOR_RESET);
+				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file...&r"));
 				this.saveDefaultConfig();
 				
-				getLogger().info(COLOR_RED + "NamelessMC needs configuring, disabling..." + COLOR_RESET);
+				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling...&r"));
 				
 				// Disable plugin
 				getServer().getPluginManager().disablePlugin(this);
+				
+				isDisabled = true;
 				
 			} else {
 				// Better way of loading config file, no need to reload.
@@ -156,14 +165,19 @@ public class NamelessPlugin extends JavaPlugin {
 				
 				
 				// Exists already, load it
-				getLogger().info(COLOR_GREEN + "Loading NamelessMC configuration file..." + COLOR_RESET);
+				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file...&r"));
 				
 				apiURL = yamlConfigFile.getString("api-url");
 				if(apiURL.isEmpty()){
 					// API URL not set
-					getLogger().info(COLOR_RED + "No API URL set in the NamelessMC configuration, disabling..." + COLOR_RESET);
+					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling...&r"));
 					getServer().getPluginManager().disablePlugin(this);
 				}
+				
+				// Use the report system?
+				if(yamlConfigFile.getString("enable-reports").equals("true"))
+					useReports = true;
+					
 			}
 			
 		} catch(Exception e){
@@ -199,7 +213,6 @@ public class NamelessPlugin extends JavaPlugin {
 		// Check when user last logged in, only update username and group if over x hours ago
 		// TODO
 		permissions.hasGroupSupport();
-		
 		return true;
 	}
 }
