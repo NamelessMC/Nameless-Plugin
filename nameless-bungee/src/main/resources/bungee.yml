@@ -2,4 +2,4 @@ name: NamelessMC
 author: Samerton, IsS127
 main: com.namelessmc.namelessplugin.bungeecord.NamelessPlugin
 website: https://namelessmc.com/
-version: 0.1
+version: ${project.version}

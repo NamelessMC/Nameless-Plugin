@@ -8,7 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
@@ -45,7 +44,7 @@ public class GetUserCommand extends Command {
 		if(sender.hasPermission(permissionAdmin + ".getuser")){
 			// check if has set url.
 			if(plugin.hasSetUrl == false){
-				sender.sendMessage(new TextComponent(ChatColor.RED + "Please set a API Url in the configuration!"));
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Please set a API Url in the configuration!"));
 				return;
 			}
 			
@@ -56,7 +55,8 @@ public class GetUserCommand extends Command {
 				public void run(){
 					// Ensure username or uuid set.
 					if(args.length < 1 || args.length > 1){
-						sender.sendMessage(new TextComponent(ChatColor.RED + "Incorrect usage: /getuser username/uuid"));
+						new TextComponent();
+						sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Incorrect usage: /getuser username/uuid"));
 						return;
 					}
 					
@@ -115,31 +115,34 @@ public class GetUserCommand extends Command {
 						
 						if(response.has("error")){
 							// Error with request
-							sender.sendMessage(new TextComponent(ChatColor.RED + "Error: " + response.get("message").toString()));
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Error: " + response.get("message").toString()));
 						} else {
 							
+							// Convert UNIX timestamp to date
+							java.util.Date registered = new java.util.Date(Long.parseLong(message.get("registered").toString().replaceAll("^\"|\"$", "")) * 1000);
+							
 							// Display get user.
-							sender.sendMessage(new TextComponent("§3§m--------------------------------"));
-							sender.sendMessage(new TextComponent(ChatColor.GREEN + "Username: " + ChatColor.AQUA + message.get("username").getAsString()));
-							sender.sendMessage(new TextComponent(ChatColor.GREEN + "DisplayName: " + ChatColor.AQUA + message.get("displayname").getAsString()));
-							sender.sendMessage(new TextComponent(ChatColor.GREEN + "UUID: " + ChatColor.AQUA + message.get("uuid").getAsString()));
-							sender.sendMessage(new TextComponent(ChatColor.GREEN + "Group ID: " + ChatColor.AQUA + message.get("group_id").getAsString()));
-							//sender.sendMessage(new TextComponent(ChatColor.GREEN + "Registered: " + ChatColor.AQUA + message.get("registered").getAsString());
-							sender.sendMessage(new TextComponent(ChatColor.GREEN + "Reputation: " + ChatColor.AQUA + message.get("reputation").getAsString()));
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&3&m--------------------------------")));
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "Username: " + ChatColor.AQUA + message.get("username").getAsString()));
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "DisplayName: " + ChatColor.AQUA + message.get("displayname").getAsString()));
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "UUID: " + ChatColor.AQUA + message.get("uuid").getAsString()));
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "Group ID: " + ChatColor.AQUA + message.get("group_id").getAsString()));
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "Registered: " + ChatColor.AQUA + registered));
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "Reputation: " + ChatColor.AQUA + message.get("reputation").getAsString()));
 							
 							// check if validated
-							if( message.get("validated").equals("1")){
-			                	sender.sendMessage(new TextComponent(ChatColor.DARK_GREEN + "Validated: " + ChatColor.GREEN + "Yes!"));
+							if(message.get("validated").getAsString().equals("1")){
+			                	sender.sendMessage(TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Validated: " + ChatColor.GREEN + "Yes!"));
 			                } else{
-			                	sender.sendMessage(new TextComponent(ChatColor.DARK_GREEN + "Validated: " + ChatColor.RED + "No!"));
+			                	sender.sendMessage(TextComponent.fromLegacyText(ChatColor.DARK_GREEN + "Validated: " + ChatColor.RED + "No!"));
 			                }
 							// check if banned
-							if( message.get("banned").equals("1")){
-			                	sender.sendMessage(new TextComponent(ChatColor.RED + "Banned: " + ChatColor.RED + "Yes!"));
+							if( message.get("banned").getAsString().equals("1")){
+			                	sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Banned: " + ChatColor.RED + "Yes!"));
 			                } else{
-			                	sender.sendMessage(new TextComponent(ChatColor.RED + "Banned: " + ChatColor.GREEN + "No!"));
+			                	sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Banned: " + ChatColor.GREEN + "No!"));
 			                }
-							sender.sendMessage(new TextComponent("§3§m--------------------------------"));
+							sender.sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&3&m--------------------------------")));
 						}
 						
 						// Close output/input stream
@@ -159,7 +162,7 @@ public class GetUserCommand extends Command {
 			
 	}
 		else{
-		sender.sendMessage(new TextComponent(ChatColor.RED + "You don't have permission to this command!"));
+		sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You don't have permission to this command!"));
 	}
 		return;
   }	

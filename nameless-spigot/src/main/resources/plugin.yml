@@ -2,12 +2,15 @@ name: NamelessMC
 main: com.namelessmc.namelessplugin.spigot.NamelessPlugin
 authors: [Samerton, IsS127]
 website: https://namelessmc.com/
-version: 0.1
+version: ${project.version}
 commands:
   register:
     description: Register for an account on the website
-    usage: /register email
+    usage: /register {email}
   getuser:
-    description: get a user from the web
-    usage: /getuser username
+    description: Get information about a specified user
+    usage: /getuser {username}
+  report:
+    description: Report a user
+    usage: /report {username} {reason}
 softdepend: [Vault]
