@@ -66,7 +66,6 @@ public class NamelessPlugin {
 	/*
 	 *  Configuration
 	 */
-	private String directory;
 	private ConfigurationLoader<ConfigurationNode> configManager;
 	private ConfigurationNode configNode;
 
@@ -100,7 +99,6 @@ public class NamelessPlugin {
 
 	@Listener
 	public void onInitialize(GameInitializationEvent event) throws Exception {
-		directory = Sponge.getGame().getConfigManager().getPluginConfig(this).getDirectory().toString();
 		initConfig();
 		apiURL = configNode.getNode("api-url").getString();
 		registerListeners();
@@ -116,12 +114,13 @@ public class NamelessPlugin {
 	 */
 	public void initConfig() throws IOException {
 		
-		File dir = new File(directory);
+		File config = new File(new File("config", "NamelessPlugin"), "config.yml");
+		File dir = new File(config.getParent());
+
 		if (!dir.exists()){
 			dir.mkdirs();
 		}
-		
-		File config = new File(directory + File.separator + "config.yml");
+
 		if (!config.exists()){
 			config.createNewFile();
 			Files.copy(this.getClass().getResource("config.yml").openStream(),
