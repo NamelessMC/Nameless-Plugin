@@ -1,6 +1,5 @@
 package com.namelessmc.namelessplugin.spigot;
 
-
 import java.io.File;
 import java.io.IOException;
 
@@ -93,12 +92,12 @@ public class NamelessPlugin extends JavaPlugin {
 	public void registerListeners(){
 		// Register McStats
 		try {
-            metrics = new Metrics(this);
-            metrics.start();
-            getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!&r"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } 
+			metrics = new Metrics(this);
+			metrics.start();
+			getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
 		
 		// Register commands
 		this.getCommand("register").setExecutor(new RegisterCommand(this));
@@ -124,11 +123,11 @@ public class NamelessPlugin extends JavaPlugin {
 					if(permissions.hasGroupSupport()){
 						useGroups = true;
 					} else {
-						getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Permissions plugin does NOT support groups! Disabling NamelessMC group synchronisation.&r"));
+						getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Permissions plugin does NOT support groups! Disabling NamelessMC group synchronisation."));
 						useGroups = false;
 					}
 				} else {
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Couldn't detect Vault, disabling NamelessMC Vault integration.&r"));
+					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Couldn't detect Vault, disabling NamelessMC Vault integration."));
 				}
 	}
 	
@@ -147,10 +146,10 @@ public class NamelessPlugin extends JavaPlugin {
 			
 			if(!file.exists()){
 				// Config doesn't exist, create one now...
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file...&r"));
+				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file..."));
 				this.saveDefaultConfig();
 				
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling...&r"));
+				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling..."));
 				
 				// Disable plugin
 				getServer().getPluginManager().disablePlugin(this);
@@ -159,18 +158,18 @@ public class NamelessPlugin extends JavaPlugin {
 				
 			} else {
 				// Better way of loading config file, no need to reload.
-		    	File configFile = new File(getDataFolder() + File.separator + "/config.yml");
+				File configFile = new File(getDataFolder() + File.separator + "/config.yml");
 				YamlConfiguration yamlConfigFile;
 				yamlConfigFile = YamlConfiguration.loadConfiguration(configFile);
 				
 				
 				// Exists already, load it
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file...&r"));
+				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file..."));
 				
 				apiURL = yamlConfigFile.getString("api-url");
 				if(apiURL.isEmpty()){
 					// API URL not set
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling...&r"));
+					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling..."));
 					getServer().getPluginManager().disablePlugin(this);
 				}
 				
@@ -197,14 +196,14 @@ public class NamelessPlugin extends JavaPlugin {
 	 *  Initialise Vault permissions integration for group sync
 	 */
 	private boolean initPermissions(){
+
 		if(useVault){
-	        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-	        permissions = rsp.getProvider();
+			RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+			permissions = rsp.getProvider();
 		}
-		
+
 		return permissions != null;
-	}
-	
+	}	
 	
 	/*
 	 *  Update username/group on login
@@ -215,4 +214,5 @@ public class NamelessPlugin extends JavaPlugin {
 		permissions.hasGroupSupport();
 		return true;
 	}
+
 }

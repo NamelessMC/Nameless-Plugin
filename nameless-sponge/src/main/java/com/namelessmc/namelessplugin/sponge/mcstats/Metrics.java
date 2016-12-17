@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.bungeecord.mcstats;
+package com.namelessmc.namelessplugin.sponge.mcstats;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -20,20 +20,20 @@ import java.util.LinkedHashSet;
 import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
 
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.api.plugin.PluginDescription;
+import org.spongepowered.api.Sponge;
+
+import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
+import com.namelessmc.namelessplugin.sponge.utils.PluginInfo;
 
 public class Metrics {
-	
+
+	private NamelessPlugin plugin;
 	private static final int REVISION = 7;
 	private static final String BASE_URL = "http://report.mcstats.org";
 	private static final String REPORT_URL = "/plugin/%s";
 	private static final int PING_INTERVAL = 10;
-	private final Plugin plugin;
 	private final Set<Graph> graphs = Collections.synchronizedSet(new HashSet<Graph>());
 	private final Properties properties = new Properties();
 	private final File configurationFile;
@@ -43,7 +43,7 @@ public class Metrics {
 	private Thread thread = null;
 	private static ByteArrayOutputStream baos;
 	
-	public Metrics(Plugin plugin) throws IOException {
+	public Metrics(NamelessPlugin plugin) throws IOException {
 		if (plugin == null) {
 			throw new IllegalArgumentException("Plugin cannot be null");
 		}
@@ -144,7 +144,7 @@ public class Metrics {
 				this.properties.load(new FileInputStream(this.configurationFile));
 			} catch (IOException ex) {
 				if (this.debug) {
-					ProxyServer.getInstance().getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
+					((NamelessPlugin) plugin).getLogger().info("[Metrics] " + ex.getMessage());
 				}
 				return true;
 			}
@@ -179,16 +179,15 @@ public class Metrics {
 	}
 	
 	public File getConfigFile() {
-		return new File(new File("plugins", "PluginMetrics"), "config.properties");
+		return new File(new File("config", "PluginMetrics"), "config.properties");
 	}
 	
 	private void postPlugin(boolean isPing) throws IOException {
-		PluginDescription description = this.plugin.getDescription();
-		String pluginName = description.getName();
-		boolean onlineMode = ProxyServer.getInstance().getConfigurationAdapter().getBoolean("online_mode", true);
-		String pluginVersion = description.getVersion();
-		String serverVersion = ProxyServer.getInstance().getVersion();
-		int playersOnline = ProxyServer.getInstance().getOnlineCount();
+		String pluginName = PluginInfo.NAME;
+		boolean onlineMode = Sponge.getServer().getOnlineMode();
+		String pluginVersion = PluginInfo.VERSION;
+		String serverVersion = Sponge.getPlatform().getMinecraftVersion().toString();
+		int playersOnline = plugin.getGame().getServer().getOnlinePlayers().size();
 		
 		StringBuilder json = new StringBuilder(1024);
 		json.append('{');

@@ -21,9 +21,9 @@ import org.json.simple.parser.JSONParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 
 /*
- *  Nameless Plugin
- *  Report command
+ *  Report CMD
  */
+
 public class ReportCommand implements CommandExecutor {
 	
 	NamelessPlugin plugin;
