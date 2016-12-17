@@ -92,12 +92,12 @@ public class NamelessPlugin extends JavaPlugin {
 	public void registerListeners(){
 		// Register McStats
 		try {
-            metrics = new Metrics(this);
-            metrics.start();
-            getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } 
+			metrics = new Metrics(this);
+			metrics.start();
+			getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
 		
 		// Register commands
 		this.getCommand("register").setExecutor(new RegisterCommand(this));
@@ -158,7 +158,7 @@ public class NamelessPlugin extends JavaPlugin {
 				
 			} else {
 				// Better way of loading config file, no need to reload.
-		    	File configFile = new File(getDataFolder() + File.separator + "/config.yml");
+				File configFile = new File(getDataFolder() + File.separator + "/config.yml");
 				YamlConfiguration yamlConfigFile;
 				yamlConfigFile = YamlConfiguration.loadConfiguration(configFile);
 				
@@ -197,13 +197,12 @@ public class NamelessPlugin extends JavaPlugin {
 	 */
 	private boolean initPermissions(){
 		if(useVault){
-	        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-	        permissions = rsp.getProvider();
+			RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+			permissions = rsp.getProvider();
 		}
-		
+
 		return permissions != null;
-	}
-	
+	}	
 	
 	/*
 	 *  Update username/group on login
@@ -214,4 +213,5 @@ public class NamelessPlugin extends JavaPlugin {
 		permissions.hasGroupSupport();
 		return true;
 	}
+
 }
