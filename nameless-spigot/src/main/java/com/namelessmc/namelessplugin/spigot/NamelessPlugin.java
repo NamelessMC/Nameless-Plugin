@@ -94,7 +94,7 @@ public class NamelessPlugin extends JavaPlugin {
 		try {
             metrics = new Metrics(this);
             metrics.start();
-            getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!&r"));
+            getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!"));
         } catch (IOException e) {
             e.printStackTrace();
         } 
@@ -123,11 +123,11 @@ public class NamelessPlugin extends JavaPlugin {
 					if(permissions.hasGroupSupport()){
 						useGroups = true;
 					} else {
-						getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Permissions plugin does NOT support groups! Disabling NamelessMC group synchronisation.&r"));
+						getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Permissions plugin does NOT support groups! Disabling NamelessMC group synchronisation."));
 						useGroups = false;
 					}
 				} else {
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Couldn't detect Vault, disabling NamelessMC Vault integration.&r"));
+					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Couldn't detect Vault, disabling NamelessMC Vault integration."));
 				}
 	}
 	
@@ -146,10 +146,10 @@ public class NamelessPlugin extends JavaPlugin {
 			
 			if(!file.exists()){
 				// Config doesn't exist, create one now...
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file...&r"));
+				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file..."));
 				this.saveDefaultConfig();
 				
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling...&r"));
+				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling..."));
 				
 				// Disable plugin
 				getServer().getPluginManager().disablePlugin(this);
@@ -164,12 +164,12 @@ public class NamelessPlugin extends JavaPlugin {
 				
 				
 				// Exists already, load it
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file...&r"));
+				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file..."));
 				
 				apiURL = yamlConfigFile.getString("api-url");
 				if(apiURL.isEmpty()){
 					// API URL not set
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling...&r"));
+					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling..."));
 					getServer().getPluginManager().disablePlugin(this);
 				}
 				
