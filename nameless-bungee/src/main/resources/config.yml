@@ -8,5 +8,5 @@ api-url: ""
 # Use reports?
 # If true, a /report command will be added to report users ingame
 # which will be added to the website's report system
-# Valid values = 'true', 'false'
+# Valid values = "true", "false"
 enable-reports: "true"
