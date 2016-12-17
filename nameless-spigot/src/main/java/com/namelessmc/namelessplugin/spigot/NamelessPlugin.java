@@ -196,6 +196,7 @@ public class NamelessPlugin extends JavaPlugin {
 	 *  Initialise Vault permissions integration for group sync
 	 */
 	private boolean initPermissions(){
+
 		if(useVault){
 			RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
 			permissions = rsp.getProvider();
