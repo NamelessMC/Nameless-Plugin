@@ -15,6 +15,7 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.source.ConsoleSource;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
@@ -32,9 +33,9 @@ public class GetUserCommand implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permissionAdmin Permission
-		if(src instanceof ConsoleSource || (src instanceof Player && src.hasPermission(NamelessPlugin.getInstance().permissionAdmin + ".getuser"))){
-			// Try to get the user
-			NamelessPlugin.getInstance().runTask(new Runnable(){
+		if(src instanceof ConsoleSource || (src instanceof Player && src.hasPermission(NamelessPlugin.instance.permissionAdmin + ".getuser"))){
+
+			Task.builder().execute(new Runnable(){
 				@Override
 				public void run(){
 					// Ensure username or uuid set.
@@ -50,7 +51,7 @@ public class GetUserCommand implements CommandExecutor {
 						String toPostStringUName = 	"username=" + URLEncoder.encode(ctx.<String>getOne("player").get(), "UTF-8");
 						String toPostStringUUID = 	"uuid=" + URLEncoder.encode(ctx.<String>getOne("player").get(), "UTF-8");
 
-						URL apiConnection = new URL(NamelessPlugin.getInstance().getAPIUrl() + "/get");
+						URL apiConnection = new URL(NamelessPlugin.instance.getAPIUrl() + "/get");
 
 						HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
 						connection.setRequestMethod("POST");
@@ -142,7 +143,7 @@ public class GetUserCommand implements CommandExecutor {
 						e.printStackTrace();
 					}
 				}
-			});
+			}).submit(NamelessPlugin.instance);
 
 		} else {
 			src.sendMessage(Text.of(TextColors.RED, "You don't have permission to this command!"));

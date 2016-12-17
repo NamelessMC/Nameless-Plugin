@@ -15,6 +15,7 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.source.ConsoleSource;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
@@ -31,11 +32,10 @@ public class RegisterCommand implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permission Permission & ensure who inputted command is a Player
-		if(src instanceof Player && src.hasPermission(NamelessPlugin.getInstance().permission + ".register")){
+		if(src instanceof Player && src.hasPermission(NamelessPlugin.instance.permission + ".register")){
 			Player player = (Player) src;
 
-			// Try to register user
-			NamelessPlugin.getInstance().runTask(new Runnable(){
+			Task.builder().execute(new Runnable(){
 				@Override
 				public void run(){
 					// Ensure email is set
@@ -52,7 +52,7 @@ public class RegisterCommand implements CommandExecutor {
 												"&email=" + URLEncoder.encode(ctx.<String>getOne(Text.of("e-mail")).get(), "UTF-8") + 
 												"&uuid=" + URLEncoder.encode(player.getUniqueId().toString(), "UTF-8");
 
-						URL apiConnection = new URL(NamelessPlugin.getInstance().getAPIUrl() + "/register");
+						URL apiConnection = new URL(NamelessPlugin.instance.getAPIUrl() + "/register");
 
 						HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
 						connection.setRequestMethod("POST");
@@ -101,10 +101,11 @@ public class RegisterCommand implements CommandExecutor {
 
 					} catch(Exception e){
 						// Exception
+						src.sendMessage(Text.of(TextColors.RED, "There was an unknown error whilst executing the command."));
 						e.printStackTrace();
 					}
 				}
-			});
+			}).submit(NamelessPlugin.instance);
 
 		} else if (src instanceof ConsoleSource){
 			src.sendMessage(Text.of(TextColors.RED, "You must be ingame to use this command!"));

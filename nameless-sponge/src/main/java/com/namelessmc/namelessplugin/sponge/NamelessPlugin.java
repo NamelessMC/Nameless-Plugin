@@ -7,13 +7,12 @@ import java.nio.file.StandardCopyOption;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
@@ -37,7 +36,7 @@ import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 @Plugin(id = PluginInfo.ID, name = PluginInfo.NAME, version = PluginInfo.VERSION)
 public class NamelessPlugin {
 
-	private static NamelessPlugin instance;
+	public static NamelessPlugin instance;
 	CommandManager cmdManager = Sponge.getCommandManager();
 
 	@Inject
@@ -69,36 +68,25 @@ public class NamelessPlugin {
 	private ConfigurationLoader<ConfigurationNode> configManager;
 	private ConfigurationNode configNode;
 
-	public static NamelessPlugin getInstance(){
-		return instance;
-	}
-
 	public Logger getLogger() {
-		return this.logger;
+		return logger;
 	}
 
 	public String getAPIUrl() {
-		return this.apiURL;
+		return apiURL;
 	}
 
 	public Game getGame(){
-		return this.game;
+		return game;
 	}
 
 	public ConfigurationNode getConfig(){
-		return this.configNode;
-	}
-
-	public void runTask(Runnable task) {
-		Sponge.getScheduler().createTaskBuilder().execute(task).submit(this);
-	}
-
-	public Server getServer(){
-		return this.game.getServer();
+		return configNode;
 	}
 
 	@Listener
-	public void onInitialize(GameInitializationEvent event) throws Exception {
+	public void onInitialize(GamePreInitializationEvent event) throws Exception {
+		getLogger().info("Initializing " + PluginInfo.NAME);
 		initConfig();
 		apiURL = configNode.getNode("api-url").getString();
 		registerListeners();
@@ -167,12 +155,11 @@ public class NamelessPlugin {
 						.build();
 				cmdManager.register(this, reportCMD, "report");
 			} else {
-				logger.warn("API URL MUST BE SET IN ORDER TO USE THE PLUGIN!");
-				logger.info("Disabling " + PluginInfo.ID);
+				getLogger().info("Reports not enabled in config. Disabling...");
 			}
 		} else {
-			logger.warn("API URL MUST BE SET IN ORDER TO USE THE PLUGIN!");
-			logger.info("Disabling " + PluginInfo.ID);
+			getLogger().warn("API URL MUST BE SET IN ORDER TO USE THE PLUGIN!");
+			getLogger().info("Disabling " + PluginInfo.NAME);
 			return;
 		}
 	}

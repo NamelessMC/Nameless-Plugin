@@ -15,6 +15,7 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.source.ConsoleSource;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
@@ -31,10 +32,10 @@ public class ReportCommand implements CommandExecutor {
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permission Permission & ensure who inputted command is a Player
-		if(src instanceof Player && src.hasPermission(NamelessPlugin.getInstance().permission + ".report")){
+		if(src instanceof Player && src.hasPermission(NamelessPlugin.instance.permission + ".report")){
 			Player player = (Player) src;
-			// Try to register user
-			NamelessPlugin.getInstance().runTask(new Runnable(){
+
+			Task.builder().execute(new Runnable(){
 				@Override
 				public void run(){
 					// Ensure email is set
@@ -60,7 +61,7 @@ public class ReportCommand implements CommandExecutor {
 						Player reported = ctx.<Player>getOne("player").get();
 						if(reported == null){
 							// User is offline, get UUID from username
-							HttpURLConnection lookupConnection = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + ctx.<String>getOne("player").get().toString()).openConnection();
+							HttpURLConnection lookupConnection = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + ctx.<String>getOne("player").get()).openConnection();
 
 							// Handle response
 							BufferedReader streamReader = new BufferedReader(new InputStreamReader(lookupConnection.getInputStream(), "UTF-8"));
@@ -99,7 +100,7 @@ public class ReportCommand implements CommandExecutor {
 						String toPostString = toPostReported + toPostReporter;
 
 						// Initialise API connection
-						URL apiConnection = new URL(NamelessPlugin.getInstance().getAPIUrl() + "/createReport");
+						URL apiConnection = new URL(NamelessPlugin.instance.getAPIUrl() + "/createReport");
 
 						HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
 						connection.setRequestMethod("POST");
@@ -149,7 +150,7 @@ public class ReportCommand implements CommandExecutor {
 						e.printStackTrace();
 					}
 				}
-			});
+			}).submit(NamelessPlugin.instance);
 
 		} else if (src instanceof ConsoleSource){
 			src.sendMessage(Text.of(TextColors.RED, "You must be ingame to use this command!"));
