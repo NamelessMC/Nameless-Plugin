@@ -112,7 +112,8 @@ public class NamelessPlugin extends JavaPlugin {
 	}
 	
 	/*
-	 * Check if Vault is Activated	 */
+	 * Check if Vault is Activated
+	 */
 	public void detectVault(){
 				if(getServer().getPluginManager().getPlugin("Vault") != null){
 					// Enable Vault integration and setup Permissions.
@@ -122,7 +123,8 @@ public class NamelessPlugin extends JavaPlugin {
 					if(permissions.hasGroupSupport()){
 						useGroups = true;
 					} else {
-						getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Permissions plugin does NOT support groups! Disabling NamelessMC group synchronisation."));						useGroups = false;
+						getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Permissions plugin does NOT support groups! Disabling NamelessMC group synchronisation."));
+						useGroups = false;
 					}
 				} else {
 					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Couldn't detect Vault, disabling NamelessMC Vault integration."));
