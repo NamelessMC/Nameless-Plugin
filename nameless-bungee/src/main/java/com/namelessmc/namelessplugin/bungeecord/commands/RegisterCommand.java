@@ -39,7 +39,7 @@ public class RegisterCommand extends Command {
 		// check if player has permission Permission & ensure who inputted command is a Player
 		if(sender instanceof ProxiedPlayer && sender.hasPermission(permission + ".register")){
 			// check if hasSetUrl
-			if(plugin.hasSetUrl == false){
+			if(!plugin.hasSetUrl){
 				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Please set a API Url in the configuration!"));
 				return;
 			}

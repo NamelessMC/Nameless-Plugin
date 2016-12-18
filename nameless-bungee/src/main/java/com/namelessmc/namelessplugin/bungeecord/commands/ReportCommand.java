@@ -39,7 +39,7 @@ public class ReportCommand extends Command {
 		// check if player has permission Permission & ensure who inputted command is a Player
 		if(sender instanceof ProxiedPlayer && sender.hasPermission(permission + ".report")){
 			// check if hasSetUrl
-			if(plugin.hasSetUrl == false){
+			if(!plugin.hasSetUrl){
 				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Please set an API Url in the configuration!"));
 				return;
 			}

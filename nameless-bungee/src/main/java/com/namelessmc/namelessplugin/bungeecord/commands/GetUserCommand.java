@@ -44,7 +44,7 @@ public class GetUserCommand extends Command {
 		// check if player has permissionAdmin Permission
 		if(sender.hasPermission(permissionAdmin + ".getuser")){
 			// check if has set url.
-			if(plugin.hasSetUrl == false){
+			if(!plugin.hasSetUrl){
 				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Please set a API Url in the configuration!"));
 				return;
 			}
