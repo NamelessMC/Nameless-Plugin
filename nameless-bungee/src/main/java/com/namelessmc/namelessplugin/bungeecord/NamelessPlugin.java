@@ -80,7 +80,7 @@ public class NamelessPlugin extends Plugin {
 		// Register commands
 		getProxy().getPluginManager().registerCommand(this, new RegisterCommand(this, "register"));
 		getProxy().getPluginManager().registerCommand(this, new GetUserCommand(this, "getuser"));
-		if (config.getBoolean("enable-report")) {
+		if (config.getBoolean("enable-reports")) {
 			getProxy().getPluginManager().registerCommand(this, new ReportCommand(this, "report"));
 		}
 
@@ -95,7 +95,7 @@ public class NamelessPlugin extends Plugin {
 		// UnRegister commands
 		getProxy().getPluginManager().unregisterCommand(new RegisterCommand(this, "register"));
 		getProxy().getPluginManager().unregisterCommand(new GetUserCommand(this, "getuser"));
-		if (config.getBoolean("enable-report")) {
+		if (config.getBoolean("enable-reports")) {
 			getProxy().getPluginManager().unregisterCommand(new ReportCommand(this, "report"));
 		}
 
