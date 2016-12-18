@@ -31,6 +31,10 @@ public class RegisterCommand implements CommandExecutor {
 
 	NamelessPlugin plugin;
 
+	public RegisterCommand(NamelessPlugin plugin) {
+	    this.plugin = plugin;
+	}
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permission Permission & ensure who inputted command is a Player
@@ -41,7 +45,7 @@ public class RegisterCommand implements CommandExecutor {
 				@Override
 				public void run(){
 					// Ensure email is set
-					if(ctx.toString().length() < 1 || ctx.toString().length() > 1){
+					if(!ctx.getOne(Text.of("e-mail")).isPresent()){
 						player.sendMessage(Text.of(TextColors.RED, "Incorrect usage: /register email"));
 						return;
 					}

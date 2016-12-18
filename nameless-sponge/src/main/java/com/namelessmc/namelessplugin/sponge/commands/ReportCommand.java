@@ -31,6 +31,10 @@ public class ReportCommand implements CommandExecutor {
 
 	NamelessPlugin plugin;
 
+	public ReportCommand(NamelessPlugin plugin) {
+	    this.plugin = plugin;
+	}
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permission Permission & ensure who inputted command is a Player
@@ -41,7 +45,7 @@ public class ReportCommand implements CommandExecutor {
 				@Override
 				public void run(){
 					// Ensure email is set
-					if(ctx.<String>getOne("player").get().length() < 2){
+					if(!ctx.getOne(Text.of("player")).isPresent() && !ctx.getAll("reason").isEmpty()){
 						player.sendMessage(Text.of(TextColors.RED, "Incorrect usage: /report username reason"));
 						return;
 					}

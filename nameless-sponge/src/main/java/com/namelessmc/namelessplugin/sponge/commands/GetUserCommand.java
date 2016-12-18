@@ -30,7 +30,11 @@ import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 public class GetUserCommand implements CommandExecutor {
 
-	NamelessPlugin plugin = NamelessPlugin.getInstance();
+	NamelessPlugin plugin;
+
+	public GetUserCommand(NamelessPlugin plugin) {
+	    this.plugin = plugin;
+	}
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
@@ -41,7 +45,7 @@ public class GetUserCommand implements CommandExecutor {
 				@Override
 				public void run(){
 					// Ensure username or uuid set.
-					if(ctx.toString().length() < 1 || ctx.toString().length() > 1){
+					if(!ctx.getOne(Text.of("player")).isPresent()){
 						src.sendMessage(Text.of(TextColors.RED, "Incorrect usage: /getuser username/uuid"));
 						return;
 					}

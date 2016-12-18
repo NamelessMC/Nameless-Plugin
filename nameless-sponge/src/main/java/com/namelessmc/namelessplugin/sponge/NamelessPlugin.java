@@ -37,8 +37,6 @@ import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 public class NamelessPlugin {
 
 	CommandManager cmdManager = Sponge.getCommandManager();
-	
-	private static NamelessPlugin instance;
 
 	@Inject
 	private Logger logger;
@@ -85,14 +83,9 @@ public class NamelessPlugin {
 	public ConfigurationNode getConfig(){
 		return configNode;
 	}
-	
-	public static NamelessPlugin getInstance(){
-		return instance;
-	}
 
 	@Listener
 	public void onInitialize(GamePreInitializationEvent event) throws Exception {
-		instance = this;
 		getLogger().info("Initializing " + PluginInfo.NAME);
 		initConfig();
 		registerListeners();
@@ -149,12 +142,12 @@ public class NamelessPlugin {
 			CommandSpec getuserCMD = CommandSpec.builder()
 					.description(Text.of("GetUser Command"))
 					.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))))
-					.executor(new GetUserCommand())
+					.executor(new GetUserCommand(this))
 					.build();
 			CommandSpec registerCMD = CommandSpec.builder()
 					.description(Text.of("Register Command"))
 					.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("e-mail"))))
-					.executor(new RegisterCommand())
+					.executor(new RegisterCommand(this))
 					.build();
 			cmdManager.register(this, getuserCMD, "getuser");
 			cmdManager.register(this, registerCMD, "register");
@@ -162,7 +155,7 @@ public class NamelessPlugin {
 				CommandSpec reportCMD = CommandSpec.builder()
 						.description(Text.of("Report Command"))
 						.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))), GenericArguments.remainingJoinedStrings(Text.of("reason"))))
-						.executor(new ReportCommand())
+						.executor(new ReportCommand(this))
 						.build();
 				cmdManager.register(this, reportCMD, "report");
 			} else {
