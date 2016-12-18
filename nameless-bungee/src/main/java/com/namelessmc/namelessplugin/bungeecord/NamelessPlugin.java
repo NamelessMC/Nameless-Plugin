@@ -46,6 +46,7 @@ public class NamelessPlugin extends Plugin {
 	 *  Configuration
 	 */
 	Configuration config;
+	Configuration playerInfoFile;
 
 	/*
 	 *  OnEnable method
@@ -54,6 +55,7 @@ public class NamelessPlugin extends Plugin {
 	public void onEnable(){
 		// Initialise config
 		initConfig();
+		initPlayerInfoFile();
 		registerListeners();
 	}
 
@@ -158,13 +160,61 @@ public class NamelessPlugin extends Plugin {
 		return apiURL;
 	}
 
+	
 	/*
-	 *  Update username/group on login
+	 * Initialise The Player Info File
 	 */
-	public boolean loginCheck(ProxiedPlayer player){
-		// Check when user last logged in, only update username and group if over x hours ago
-		// TODO
-		return true;
+	
+	private void initPlayerInfoFile() {
+	    File iFile = new File(this.getDataFolder() + File.separator + "playersInformation.yml");
+		if(!iFile.exists()){
+			try {
+				iFile.createNewFile();
+				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Created Players Information File."));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	/*
+	 *  Update Username on Login
+	 */
+	public void userCheck(ProxiedPlayer player){
+		// Check if user does NOT contain information in the Players Information file. 
+		// If so, add him.
+    	try {
+			playerInfoFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "playersInformation.yml"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+		if(!playerInfoFile.contains(player.getUniqueId().toString())){
+			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&a" + player.getName() + " &cDoes not contain in the Player Information File.."));
+			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Adding&a" + player.getName() + " &2to the Player Information File."));
+			playerInfoFile.set(player.getUniqueId().toString() + ".Username", player.getName());
+				getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Added&a" + player.getName() + " &2to the Player Information File."));
+		}
+		// Check if user has changed Username
+		// If so, change the username in the Players Information File. (NOT COMPLETED)
+		// And change the username on the website.
+		else if(playerInfoFile.getString(player.getUniqueId() + ".Username") !=  player.getName()){
+			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cDetected that&a" + player.getName() + " &2Has changed his/her username!"));
+			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changing&a" + player.getName() + "s &2Username."));
+			
+			String previousUsername = playerInfoFile.get(player.getUniqueId() + ".Username").toString();
+			String newUsername = player.getName();
+			playerInfoFile.set(player.getUniqueId() + ".PreviousUsername", previousUsername);
+			playerInfoFile.set(player.getUniqueId() + ".Username", newUsername);
+				getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changed&a" + player.getName() + "s &2Username in the Player Information File."));
+			
+			// Changing username on Website here.
+			// Comming in a bit.
+		}
+			
 	}
 
 }
