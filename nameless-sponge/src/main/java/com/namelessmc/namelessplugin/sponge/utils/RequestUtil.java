@@ -63,13 +63,13 @@ public class RequestUtil {
 			player.sendMessage(Text.of("Error: ", response.get("message").getAsString()));
 		} else if(response.has("error") && response.getAsString().equalsIgnoreCase("Can't find user with that UUID!")){
 			player.sendMessage(Text.of(TextColors.RED, "You must register to get notifications."));
-		} else if(message.get("alerts").toString() == "0" && message.get("messages").toString() == "0"){
+		} else if(message.get("alerts").toString().equals("0") && message.get("messages").toString().equals("0")){
 			player.sendMessage(Text.of(TextColors.GOLD, "Alerts: ", TextColors.RED, "None"));
 			player.sendMessage(Text.of(TextColors.GOLD, "PMs: ", TextColors.RED, "None"));
-		} else if(message.get("alerts").toString() == "0"){
+		} else if(message.get("alerts").toString().equals("0")){
 			player.sendMessage(Text.of(TextColors.GOLD, "Alerts: ", TextColors.RED, "None"));
 			player.sendMessage(Text.of(TextColors.GOLD, "PMs: ", TextColors.GREEN, message.get("messages").toString()));
-		} else if(message.get("messages").toString() == "0"){
+		} else if(message.get("messages").toString().equals("0")){
 			player.sendMessage(Text.of(TextColors.GOLD, "Alerts: ", TextColors.GREEN, message.get("alerts").toString()));
 			player.sendMessage(Text.of(TextColors.GOLD, "PMs: ", TextColors.RED, "None"));
 		} else {
