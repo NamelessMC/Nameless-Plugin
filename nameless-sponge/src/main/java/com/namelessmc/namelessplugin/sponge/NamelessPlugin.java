@@ -37,6 +37,8 @@ import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 public class NamelessPlugin {
 
 	CommandManager cmdManager = Sponge.getCommandManager();
+	
+	private static NamelessPlugin instance;
 
 	@Inject
 	private Logger logger;
@@ -83,9 +85,14 @@ public class NamelessPlugin {
 	public ConfigurationNode getConfig(){
 		return configNode;
 	}
+	
+	public static NamelessPlugin getInstance(){
+		return instance;
+	}
 
 	@Listener
 	public void onInitialize(GamePreInitializationEvent event) throws Exception {
+		instance = this;
 		getLogger().info("Initializing " + PluginInfo.NAME);
 		initConfig();
 		registerListeners();

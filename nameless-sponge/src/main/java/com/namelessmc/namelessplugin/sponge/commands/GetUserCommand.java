@@ -30,7 +30,7 @@ import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 public class GetUserCommand implements CommandExecutor {
 
-	NamelessPlugin plugin;
+	NamelessPlugin plugin = NamelessPlugin.getInstance();
 
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
