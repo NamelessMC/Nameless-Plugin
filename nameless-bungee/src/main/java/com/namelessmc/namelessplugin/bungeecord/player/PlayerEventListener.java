@@ -28,7 +28,8 @@ public class PlayerEventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PostLoginEvent e){
 		ProxiedPlayer player = e.getPlayer();
-		
-		plugin.loginCheck(player);
+		if(plugin.hasSetUrl){
+		  plugin.userCheck(player);
+		}
 	}
 }
