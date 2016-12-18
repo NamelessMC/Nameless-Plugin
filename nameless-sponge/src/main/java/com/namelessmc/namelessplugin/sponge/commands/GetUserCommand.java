@@ -30,10 +30,12 @@ import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
 public class GetUserCommand implements CommandExecutor {
 
+	NamelessPlugin plugin;
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permissionAdmin Permission
-		if(src instanceof ConsoleSource || (src instanceof Player && src.hasPermission(NamelessPlugin.instance.permissionAdmin + ".getuser"))){
+		if(src instanceof ConsoleSource || (src instanceof Player && src.hasPermission(plugin.permissionAdmin + ".getuser"))){
 
 			Task.builder().execute(new Runnable(){
 				@Override
@@ -51,7 +53,7 @@ public class GetUserCommand implements CommandExecutor {
 						String toPostStringUName = 	"username=" + URLEncoder.encode(ctx.<String>getOne("player").get(), "UTF-8");
 						String toPostStringUUID = 	"uuid=" + URLEncoder.encode(ctx.<String>getOne("player").get(), "UTF-8");
 
-						URL apiConnection = new URL(NamelessPlugin.instance.getAPIUrl() + "/get");
+						URL apiConnection = new URL(plugin.getAPIUrl() + "/get");
 
 						HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
 						connection.setRequestMethod("POST");
@@ -143,7 +145,7 @@ public class GetUserCommand implements CommandExecutor {
 						e.printStackTrace();
 					}
 				}
-			}).submit(NamelessPlugin.instance);
+			}).submit(plugin);
 
 		} else {
 			src.sendMessage(Text.of(TextColors.RED, "You don't have permission to this command!"));

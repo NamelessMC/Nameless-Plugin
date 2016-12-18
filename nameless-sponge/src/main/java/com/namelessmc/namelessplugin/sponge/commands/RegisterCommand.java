@@ -29,10 +29,12 @@ import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
     
 public class RegisterCommand implements CommandExecutor {
 
+	NamelessPlugin plugin;
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permission Permission & ensure who inputted command is a Player
-		if(src instanceof Player && src.hasPermission(NamelessPlugin.instance.permission + ".register")){
+		if(src instanceof Player && src.hasPermission(plugin.permission + ".register")){
 			Player player = (Player) src;
 
 			Task.builder().execute(new Runnable(){
@@ -52,7 +54,7 @@ public class RegisterCommand implements CommandExecutor {
 												"&email=" + URLEncoder.encode(ctx.<String>getOne(Text.of("e-mail")).get(), "UTF-8") + 
 												"&uuid=" + URLEncoder.encode(player.getUniqueId().toString(), "UTF-8");
 
-						URL apiConnection = new URL(NamelessPlugin.instance.getAPIUrl() + "/register");
+						URL apiConnection = new URL(plugin.getAPIUrl() + "/register");
 
 						HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
 						connection.setRequestMethod("POST");
@@ -105,7 +107,7 @@ public class RegisterCommand implements CommandExecutor {
 						e.printStackTrace();
 					}
 				}
-			}).submit(NamelessPlugin.instance);
+			}).submit(plugin);
 
 		} else if (src instanceof ConsoleSource){
 			src.sendMessage(Text.of(TextColors.RED, "You must be ingame to use this command!"));

@@ -36,7 +36,6 @@ import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 @Plugin(id = PluginInfo.ID, name = PluginInfo.NAME, version = PluginInfo.VERSION)
 public class NamelessPlugin {
 
-	public static NamelessPlugin instance;
 	CommandManager cmdManager = Sponge.getCommandManager();
 
 	@Inject
@@ -53,7 +52,8 @@ public class NamelessPlugin {
 	/*
 	 *  API URL
 	 */
-	private String apiURL;
+	private String apiURL = "";
+	public boolean hasSetUrl = true;
 
 	/*
 	 *  NamelessMC permissions strings.
@@ -88,7 +88,6 @@ public class NamelessPlugin {
 	public void onInitialize(GamePreInitializationEvent event) throws Exception {
 		getLogger().info("Initializing " + PluginInfo.NAME);
 		initConfig();
-		apiURL = configNode.getNode("api-url").getString();
 		registerListeners();
 	}
 
@@ -118,6 +117,11 @@ public class NamelessPlugin {
 		configManager = YAMLConfigurationLoader.builder().setPath(config.toPath()).build();
 		configNode = configManager.load();
 
+		apiURL = configNode.getNode("api-url").getString();
+		if (apiURL.isEmpty()) {
+			hasSetUrl = false;
+		}
+
 	}
 
 	/*
@@ -134,7 +138,7 @@ public class NamelessPlugin {
 		} 
 		
 		// Register commands if api url is set
-		if (!apiURL.isEmpty()){
+		if (!hasSetUrl){
 			CommandSpec getuserCMD = CommandSpec.builder()
 					.description(Text.of("GetUser Command"))
 					.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))))

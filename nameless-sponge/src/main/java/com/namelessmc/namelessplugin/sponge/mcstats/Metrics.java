@@ -29,7 +29,7 @@ import com.namelessmc.namelessplugin.sponge.utils.PluginInfo;
 
 public class Metrics {
 
-	private NamelessPlugin plugin;
+	NamelessPlugin plugin;
 	private static final int REVISION = 7;
 	private static final String BASE_URL = "http://report.mcstats.org";
 	private static final String REPORT_URL = "/plugin/%s";

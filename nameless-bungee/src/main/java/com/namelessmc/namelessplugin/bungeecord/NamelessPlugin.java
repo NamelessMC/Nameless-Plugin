@@ -23,26 +23,30 @@ import net.md_5.bungee.config.YamlConfiguration;
  */
 
 public class NamelessPlugin extends Plugin {
-	
+
 	/*
 	 *  API URL
 	 */
 	private String apiURL = "";
 	public boolean hasSetUrl = true;
-	
-	
+
 	/*
-	 *  NameLessMC permission string.
+	 *  NamelessMC permission string.
 	 */
-	
+
 	public final String permission = "namelessmc";
 	public final String permissionAdmin = "namelessmc.admin";
-	
+
 	/*
-	 * Metrics
+	 *  Metrics
 	 */
 	Metrics metrics;
-	
+
+	/*
+	 *  Configuration
+	 */
+	Configuration config;
+
 	/*
 	 *  OnEnable method
 	 */
@@ -52,7 +56,7 @@ public class NamelessPlugin extends Plugin {
 		initConfig();
 		registerListeners();
 	}
-	
+
 	/*
 	 *  OnDisable method
 	 */
@@ -60,7 +64,7 @@ public class NamelessPlugin extends Plugin {
 	public void onDisable(){
 		unRegisterListeners();
 	}
-	
+
 	/*
 	 * Register Commands/Events
 	 */
@@ -72,16 +76,18 @@ public class NamelessPlugin extends Plugin {
         } catch (IOException e) {
             e.printStackTrace();
         } 
-		
+
 		// Register commands
-		getProxy().getPluginManager().registerCommand((Plugin)this, new RegisterCommand(this, "register"));
+		getProxy().getPluginManager().registerCommand(this, new RegisterCommand(this, "register"));
 		getProxy().getPluginManager().registerCommand(this, new GetUserCommand(this, "getuser"));
-		getProxy().getPluginManager().registerCommand((Plugin)this, new ReportCommand(this, "report"));
-		
+		if (config.getBoolean("enable-report")) {
+			getProxy().getPluginManager().registerCommand(this, new ReportCommand(this, "report"));
+		}
+
 		// Register events
 		getProxy().getPluginManager().registerListener(this, new PlayerEventListener(this));
 	}
-	
+
 	/*
 	 * UnRegister Commands/Events
 	 */
@@ -89,12 +95,14 @@ public class NamelessPlugin extends Plugin {
 		// UnRegister commands
 		getProxy().getPluginManager().unregisterCommand(new RegisterCommand(this, "register"));
 		getProxy().getPluginManager().unregisterCommand(new GetUserCommand(this, "getuser"));
-		getProxy().getPluginManager().unregisterCommand(new ReportCommand(this, "report"));
-		
+		if (config.getBoolean("enable-report")) {
+			getProxy().getPluginManager().unregisterCommand(new ReportCommand(this, "report"));
+		}
+
 		// UnRegister Listeners/Events
 		getProxy().getPluginManager().unregisterListener(new PlayerEventListener(this));
 	}
-	
+
 	/*
 	 *  Initialise configuration
 	 */
@@ -105,53 +113,51 @@ public class NamelessPlugin extends Plugin {
 				// Folder within plugins doesn't exist, create one now...
 				getDataFolder().mkdirs();
 			}
-			
+
 			File file = new File(getDataFolder(), "config.yml");
-			
+
 			if(!file.exists()){
 				try (InputStream in = getResourceAsStream("config.yml")) {
 					// Config doesn't exist, create one now...
 					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file..."));
                     Files.copy(in, file.toPath());
-					
+
 					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling features..."));
 					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Please Configure NamelessMC config.yml!"));
 					hasSetUrl = false;
-					
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-				
+
 			} else {
-				Configuration config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
-				
-				
+				config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
+
 				// Exists already, load it
 				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file..."));
-				
+
 				apiURL = config.getString("api-url");
-				
+
 				if(apiURL.isEmpty()){
 					// API URL not set
 					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling features."));
 					hasSetUrl = false;
 				}
 			}
-			
+
 		} catch(Exception e){
 			// Exception generated
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*
 	 *  Gets API URL
 	 */
 	public String getAPIUrl(){
 		return apiURL;
 	}
-	
-	
+
 	/*
 	 *  Update username/group on login
 	 */
@@ -160,4 +166,5 @@ public class NamelessPlugin extends Plugin {
 		// TODO
 		return true;
 	}
+
 }

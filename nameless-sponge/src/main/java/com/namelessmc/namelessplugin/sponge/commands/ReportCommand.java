@@ -29,10 +29,12 @@ import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
     
 public class ReportCommand implements CommandExecutor {
 
+	NamelessPlugin plugin;
+
 	@Override
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permission Permission & ensure who inputted command is a Player
-		if(src instanceof Player && src.hasPermission(NamelessPlugin.instance.permission + ".report")){
+		if(src instanceof Player && src.hasPermission(plugin.permission + ".report")){
 			Player player = (Player) src;
 
 			Task.builder().execute(new Runnable(){
@@ -100,7 +102,7 @@ public class ReportCommand implements CommandExecutor {
 						String toPostString = toPostReported + toPostReporter;
 
 						// Initialise API connection
-						URL apiConnection = new URL(NamelessPlugin.instance.getAPIUrl() + "/createReport");
+						URL apiConnection = new URL(plugin.getAPIUrl() + "/createReport");
 
 						HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
 						connection.setRequestMethod("POST");
@@ -150,7 +152,7 @@ public class ReportCommand implements CommandExecutor {
 						e.printStackTrace();
 					}
 				}
-			}).submit(NamelessPlugin.instance);
+			}).submit(plugin);
 
 		} else if (src instanceof ConsoleSource){
 			src.sendMessage(Text.of(TextColors.RED, "You must be ingame to use this command!"));
