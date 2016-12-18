@@ -25,6 +25,6 @@ public class PlayerEventListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent e){
 		Player player = e.getPlayer();
 
-		plugin.loginCheck(player);
+		plugin.userCheck(player);
 	}
 }
