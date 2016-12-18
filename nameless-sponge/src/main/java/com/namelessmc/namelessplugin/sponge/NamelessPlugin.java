@@ -138,7 +138,7 @@ public class NamelessPlugin {
 		} 
 		
 		// Register commands if api url is set
-		if (!hasSetUrl){
+		if (hasSetUrl){
 			CommandSpec getuserCMD = CommandSpec.builder()
 					.description(Text.of("GetUser Command"))
 					.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))))
