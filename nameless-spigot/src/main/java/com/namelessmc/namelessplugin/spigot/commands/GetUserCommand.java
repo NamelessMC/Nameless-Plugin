@@ -70,8 +70,7 @@ public class GetUserCommand implements CommandExecutor {
 						
 						connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 						connection.setDoOutput(true);
-						connection.addRequestProperty("User-Agent", 
-								"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+						connection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
 						
 						DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
 						
@@ -113,7 +112,7 @@ public class GetUserCommand implements CommandExecutor {
 							
 							// Display get user.
 							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&m--------------------------------"));
-							sender.sendMessage(ChatColor.GREEN + "Username: " + ChatColor.AQUA + message.get("username").toString());
+							sender.sendMessage(ChatColor.GREEN + "Username: " + ChatColor.AQUA + message.get("notifications").toString());
 							sender.sendMessage(ChatColor.GREEN + "DisplayName: " + ChatColor.AQUA + message.get("displayname").toString());
 							sender.sendMessage(ChatColor.GREEN + "UUID: " + ChatColor.AQUA + message.get("uuid").toString());
 							sender.sendMessage(ChatColor.GREEN + "Group ID: " + ChatColor.AQUA + message.get("group_id").toString());
@@ -150,8 +149,7 @@ public class GetUserCommand implements CommandExecutor {
 				}
 			});
 			
-	}
-		else{
+	} else {
 		sender.sendMessage(ChatColor.RED + "You don't have permission to this command!");
 	}
 		return true;

@@ -31,8 +31,8 @@ public class ReportCommand implements CommandExecutor {
 
 	NamelessPlugin plugin;
 
-	public ReportCommand(NamelessPlugin plugin) {
-	    this.plugin = plugin;
+	public ReportCommand(NamelessPlugin pluginInstance) {
+	    this.plugin = pluginInstance;
 	}
 
 	@Override

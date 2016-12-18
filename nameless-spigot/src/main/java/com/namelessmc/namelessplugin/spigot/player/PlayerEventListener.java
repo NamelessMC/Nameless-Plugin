@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.utils.RequestUtil;
 
 public class PlayerEventListener implements Listener {
 
@@ -22,9 +23,21 @@ public class PlayerEventListener implements Listener {
 	 *  Update site username and group on player join
 	 */
 	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent e){
-		Player player = e.getPlayer();
+	public void onPlayerJoin(PlayerJoinEvent event){
+		Player player = event.getPlayer();
 
-		plugin.userCheck(player);
+		if(plugin.getConfig().getBoolean("join-notifications")){
+			RequestUtil request = new RequestUtil(plugin);
+			try {
+				request.getNotifications(player);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		if(!plugin.getAPIUrl().isEmpty()){
+			plugin.userCheck(player);
+		}
 	}
+
 }

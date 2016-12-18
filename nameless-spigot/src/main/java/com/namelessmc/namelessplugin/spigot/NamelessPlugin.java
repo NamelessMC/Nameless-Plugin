@@ -24,69 +24,59 @@ public class NamelessPlugin extends JavaPlugin {
 	 */
 	Metrics metrics;
 	
-	
 	/*
 	 *  API URL
 	 */
 	private String apiURL = "";
-	
+
 	/*
 	 *  Vault Integration
 	 */
 	private boolean useVault = false;
-	
+
 	/*
 	 *  Vault Permissions
 	 */
 	private Permission permissions = null;
-	
+
 	/*
 	 *  Groups Support 
 	 */
 	@SuppressWarnings("unused")
 	private boolean useGroups = false;
-	
+
 	/*
 	 *  Enable reports?
 	 */
 	private boolean useReports = false;
-	
+
 	/*
 	 *  Is the plugin disabled?
 	 */
 	private boolean isDisabled = false;
-	
+
 	/*
 	 *  NamelessMC permissions strings.
 	 */
-	
 	public final String permission = "namelessmc";
 	public final String permissionAdmin = "namelessmc.admin";
-	
+
 	/*
 	 *  OnEnable method
 	 */
 	@Override
 	public void onEnable(){
-		// Initialise Files.
+		// Initialise  Files
 		initConfig();
 		initPlayerInfoFile();
-		
+
 		if(!isDisabled){
 			// Check Vault
 			detectVault();
-			
 			registerListeners();
 		}
 	}
-	
-	/*
-	 *  OnDisable method
-	 */
-	@Override
-	public void onDisable(){
-	}
-	
+
 	/*
 	 * Register Commands/Events
 	 */
@@ -99,19 +89,19 @@ public class NamelessPlugin extends JavaPlugin {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-		
+
 		// Register commands
-		this.getCommand("register").setExecutor(new RegisterCommand(this));
-		this.getCommand("getuser").setExecutor(new GetUserCommand(this));
-		
+		getCommand("register").setExecutor(new RegisterCommand(this));
+		getCommand("getuser").setExecutor(new GetUserCommand(this));
+
 		if(useReports){
-			this.getCommand("report").setExecutor(new ReportCommand(this));
+			getCommand("report").setExecutor(new ReportCommand(this));
 		}
-		
+
 		// Register events
-		this.getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
+		getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
 	}
-	
+
 	/*
 	 * Check if Vault is Activated
 	 */
@@ -131,7 +121,7 @@ public class NamelessPlugin extends JavaPlugin {
 					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Couldn't detect Vault, disabling NamelessMC Vault integration."));
 				}
 	}
-	
+
 	/*
 	 *  Initialise configuration
 	 */
@@ -142,57 +132,56 @@ public class NamelessPlugin extends JavaPlugin {
 				// Folder within plugins doesn't exist, create one now...
 				getDataFolder().mkdirs();
 			}
-			
+
 			File file = new File(getDataFolder(), "config.yml");
-			
+
 			if(!file.exists()){
 				// Config doesn't exist, create one now...
 				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file..."));
 				this.saveDefaultConfig();
-				
+
 				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling..."));
-				
+
 				// Disable plugin
 				getServer().getPluginManager().disablePlugin(this);
-				
+
 				isDisabled = true;
-				
+
 			} else {
 				// Better way of loading config file, no need to reload.
 				File configFile = new File(getDataFolder() + File.separator + "/config.yml");
 				YamlConfiguration yamlConfigFile;
 				yamlConfigFile = YamlConfiguration.loadConfiguration(configFile);
-				
-				
+
 				// Exists already, load it
 				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file..."));
-				
+
 				apiURL = yamlConfigFile.getString("api-url");
 				if(apiURL.isEmpty()){
 					// API URL not set
 					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling..."));
 					getServer().getPluginManager().disablePlugin(this);
 				}
-				
+
 				// Use the report system?
 				if(yamlConfigFile.getString("enable-reports").equals("true"))
 					useReports = true;
-					
+
 			}
-			
+
 		} catch(Exception e){
 			// Exception generated
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*
 	 *  Gets API URL
 	 */
 	public String getAPIUrl(){
 		return apiURL;
 	}
-	
+
 	/*
 	 *  Initialise Vault permissions integration for group sync
 	 */
@@ -205,11 +194,10 @@ public class NamelessPlugin extends JavaPlugin {
 
 		return permissions != null;
 	}	
-	
+
 	/*
 	 * Initialise The Player Info File
 	 */
-	
 	private void initPlayerInfoFile() {
 	    File iFile = new File(this.getDataFolder() + File.separator + "playersInformation.yml");
 		if(!iFile.exists()){
@@ -217,15 +205,11 @@ public class NamelessPlugin extends JavaPlugin {
 				iFile.createNewFile();
 				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Created Players Information File."));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	
-	
-	
+
 	/*
 	 *  Update Username on Login
 	 */
@@ -254,7 +238,7 @@ public class NamelessPlugin extends JavaPlugin {
 		else if(yFile.getString(player.getUniqueId() + ".Username") !=  player.getName()){
 			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cDetected that&a" + player.getName() + " &2Has changed his/her username!"));
 			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changing&a" + player.getName() + "s &2Username."));
-			
+
 			String previousUsername = yFile.get(player.getUniqueId() + ".Username").toString();
 			String newUsername = player.getName();
 			yFile.addDefault(player.getUniqueId() + ".PreviousUsername", previousUsername);
@@ -262,17 +246,14 @@ public class NamelessPlugin extends JavaPlugin {
 			yFile.options().copyDefaults(true);
 			try {
 				yFile.save(iFile);
-				getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changed&a" + player.getName() + "s &2Username in the Player Information File."));
+				getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changed &a" + player.getName() + "s &2Username in the Player Information File."));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				getLogger().info(ChatColor.translateAlternateColorCodes('&',"&c Could not change &a" + player.getName() + "s &2Username in the Player Information File."));
 				e.printStackTrace();
 			}
-			
+
 			// Changing username on Website here.
 			// Comming in a bit.
 		}
-			
 	}
-
 }

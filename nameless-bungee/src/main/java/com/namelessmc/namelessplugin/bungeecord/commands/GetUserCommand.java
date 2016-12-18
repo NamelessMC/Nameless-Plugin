@@ -50,7 +50,7 @@ public class GetUserCommand extends Command {
 			}
 
 			// Try to get the user
-			ProxyServer.getInstance().getScheduler().runAsync(plugin,  new Runnable(){
+			ProxyServer.getInstance().getScheduler().runAsync(plugin, new Runnable(){
 				@Override
 				public void run(){
 					// Ensure username or uuid set.

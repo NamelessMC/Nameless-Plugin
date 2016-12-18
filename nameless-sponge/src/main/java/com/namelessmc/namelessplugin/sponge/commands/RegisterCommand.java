@@ -31,8 +31,8 @@ public class RegisterCommand implements CommandExecutor {
 
 	NamelessPlugin plugin;
 
-	public RegisterCommand(NamelessPlugin plugin) {
-	    this.plugin = plugin;
+	public RegisterCommand(NamelessPlugin pluginInstance) {
+	    this.plugin = pluginInstance;
 	}
 
 	@Override

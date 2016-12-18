@@ -47,7 +47,7 @@ public class RegisterCommand extends Command {
 			ProxiedPlayer player = (ProxiedPlayer) sender;
 
 			// Try to register user
-			ProxyServer.getInstance().getScheduler().runAsync(plugin,  new Runnable(){
+			ProxyServer.getInstance().getScheduler().runAsync(plugin, new Runnable(){
 				@Override
 				public void run(){
 					// Ensure email is set

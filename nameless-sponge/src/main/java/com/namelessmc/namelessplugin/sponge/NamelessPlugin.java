@@ -11,6 +11,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -23,6 +24,7 @@ import com.namelessmc.namelessplugin.sponge.commands.GetUserCommand;
 import com.namelessmc.namelessplugin.sponge.commands.RegisterCommand;
 import com.namelessmc.namelessplugin.sponge.commands.ReportCommand;
 import com.namelessmc.namelessplugin.sponge.mcstats.Metrics;
+import com.namelessmc.namelessplugin.sponge.player.PlayerEventListener;
 import com.namelessmc.namelessplugin.sponge.utils.PluginInfo;
 
 import ninja.leaping.configurate.ConfigurationNode;
@@ -166,6 +168,16 @@ public class NamelessPlugin {
 			getLogger().info("Disabling " + PluginInfo.NAME);
 			return;
 		}
+		Sponge.getEventManager().registerListeners(this, new PlayerEventListener(this));
+	}
+
+	/*
+	 *  Update username/group on login
+	 */
+	public boolean loginCheck(Player player){
+		// Check when user last logged in, only update username and group if over x hours ago
+		// TODO
+		return true;
 	}
 
 }

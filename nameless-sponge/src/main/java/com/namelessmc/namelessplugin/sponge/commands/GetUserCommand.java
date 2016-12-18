@@ -32,8 +32,8 @@ public class GetUserCommand implements CommandExecutor {
 
 	NamelessPlugin plugin;
 
-	public GetUserCommand(NamelessPlugin plugin) {
-	    this.plugin = plugin;
+	public GetUserCommand(NamelessPlugin pluginInstance) {
+	    this.plugin = pluginInstance;
 	}
 
 	@Override
