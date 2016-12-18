@@ -10,3 +10,10 @@ api-url: ""
 # which will be added to the website's report system
 # Valid values = true, false
 enable-reports: true
+
+# Enable join notifications?
+# If true, players will be sent a notification message
+# on join, containing the amount of alerts and private
+# messages received
+# Valid values = true, false
+join-notifications: true
