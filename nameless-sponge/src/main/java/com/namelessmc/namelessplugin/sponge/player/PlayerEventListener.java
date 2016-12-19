@@ -45,6 +45,7 @@ public class PlayerEventListener {
 
 		if(plugin.getConfig().getNode("group-synchronization").getBoolean()){
 			try {
+				phandler.initConfig();
 				for(ConfigurationNode cfgGroupId : phandler.getConfig().getNode("permissions").getChildrenList()){
 					phandler.getConfig().getNode("permissions" ,cfgGroupId);
 					if(request.getGroup(player.getName()).equals(cfgGroupId)){
