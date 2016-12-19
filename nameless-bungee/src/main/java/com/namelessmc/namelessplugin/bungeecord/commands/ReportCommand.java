@@ -173,7 +173,5 @@ public class ReportCommand extends Command {
 		} else {
 			sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You must be ingame to use this command!"));
 		}
-
-		return;
 	}
 }

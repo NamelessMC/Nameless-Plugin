@@ -123,7 +123,5 @@ public class RegisterCommand extends Command {
 		} else {
 			sender.sendMessage(TextComponent.fromLegacyText("You must be ingame to use this command."));			
 		}
-
-		return;
 	}
 }

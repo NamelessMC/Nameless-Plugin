@@ -164,7 +164,5 @@ public class GetUserCommand extends Command {
 		} else {
 			sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You don't have permission to this command!"));
 		}
-
-		return;
 	}	
 }

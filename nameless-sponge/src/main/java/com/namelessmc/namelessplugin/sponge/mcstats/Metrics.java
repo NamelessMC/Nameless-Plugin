@@ -127,7 +127,7 @@ public class Metrics {
 						}
 						try {
 							Thread.sleep(100L);
-						} catch (InterruptedException e) {}
+						} catch (InterruptedException ignored) {}
 					}
 				}
 			}, "MCStats / Plugin Metrics");
@@ -327,7 +327,7 @@ public class Metrics {
 			Class.forName("mineshafter.MineServer");
 			return true;
 		}
-		catch (Exception e) {}
+		catch (Exception ignored) {}
 		return false;
 	}
 	

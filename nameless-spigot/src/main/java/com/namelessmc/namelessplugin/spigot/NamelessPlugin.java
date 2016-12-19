@@ -239,7 +239,7 @@ public class NamelessPlugin extends JavaPlugin {
 		// Check if user has changed Username
 		// If so, change the username in the Players Information File. (NOT COMPLETED)
 		// And change the username on the website.
-		else if(yFile.getString(player.getUniqueId() + ".Username") !=  player.getName()){
+		else if(!yFile.getString(player.getUniqueId() + ".Username").equals(player.getName())){
 			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cDetected that&a" + player.getName() + " &2Has changed his/her username!"));
 			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changing &a" + player.getName() + "s &2Username."));
 

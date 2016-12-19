@@ -160,13 +160,13 @@ public class RequestUtil {
 			Bukkit.getPlayer(uuid).sendMessage(ChatColor.RED + "Error: " + response.get("message").getAsString());
 		} else if(response.has("error") && response.getAsString().equalsIgnoreCase("Can't find user with that UUID!")){
 			Bukkit.getPlayer(uuid).sendMessage(ChatColor.RED + "You must register to get notifications.");
-		} else if(message.get("alerts").toString() == "0" && message.get("messages").toString() == "0"){
+		} else if(message.get("alerts").toString().equals("0") && message.get("messages").toString().equals("0")){
 			Bukkit.getPlayer(uuid).sendMessage(ChatColor.GOLD + "Alerts: " + ChatColor.RED + "None");
 			Bukkit.getPlayer(uuid).sendMessage(ChatColor.GOLD + "PMs: " + ChatColor.RED + "None");
-		} else if(message.get("alerts").toString() == "0"){
+		} else if(message.get("alerts").toString().equals("0")){
 			Bukkit.getPlayer(uuid).sendMessage(ChatColor.GOLD + "Alerts: " + ChatColor.RED + "None");
 			Bukkit.getPlayer(uuid).sendMessage(ChatColor.GOLD + "PMs: " + ChatColor.GREEN + message.get("messages").toString());
-		} else if(message.get("messages").toString() == "0"){
+		} else if(message.get("messages").toString().equals("0")){
 			Bukkit.getPlayer(uuid).sendMessage(ChatColor.GOLD + "Alerts: " + ChatColor.GREEN + message.get("alerts").toString());
 			Bukkit.getPlayer(uuid).sendMessage(ChatColor.GOLD + "PMs: " + ChatColor.RED + "None");
 		} else {
