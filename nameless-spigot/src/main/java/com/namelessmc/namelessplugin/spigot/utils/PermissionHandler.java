@@ -39,8 +39,6 @@ public class PermissionHandler {
 		if(!config.exists()){
 			config.createNewFile();
 			Files.copy(defaultConfig, config.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
-		} else {
-
 		}
 	}
 
