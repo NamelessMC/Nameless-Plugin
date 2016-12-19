@@ -39,7 +39,7 @@ public class PermissionHandler {
 	public void initConfig() throws Exception {
 		config = new File(new File("config", "NamelessPlugin"), "permissions.yml");
 		loader = YAMLConfigurationLoader.builder().setPath(config.toPath()).build();
-		InputStream defaultConfig = plugin.getClass().getClassLoader().getResourceAsStream("permission.yml");
+		InputStream defaultConfig = plugin.getClass().getClassLoader().getResourceAsStream("permissions.yml");
 
 		plugin.getLogger().info(Text.of(TextColors.BLUE, "Loading Group Synchronization...").toPlain());
 

@@ -36,7 +36,7 @@ public class PermissionHandler {
 	public void initConfig() throws Exception {
 		config = new File(plugin.getDataFolder(), "permissions.yml");
 		loader = YamlConfiguration.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "permissions.yml"));
-		InputStream defaultConfig = plugin.getClass().getClassLoader().getResourceAsStream("permission.yml");
+		InputStream defaultConfig = plugin.getClass().getClassLoader().getResourceAsStream("permissions.yml");
 
 		plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Loading Group Synchronization..."));
 
