@@ -49,6 +49,7 @@ public class ReportCommand implements CommandExecutor {
 
 			// Try to get the user
 			Bukkit.getScheduler().runTaskAsynchronously(plugin,  new Runnable(){
+				@SuppressWarnings("deprecation")
 				@Override
 				public void run(){
 					// Ensure username or uuid set.
@@ -65,10 +66,9 @@ public class ReportCommand implements CommandExecutor {
 						String toPostReporter;
 
 						// Get UUID of reported player
-						Player reported = Bukkit.getPlayerExact(args[0]);
+						Player reported = Bukkit.getPlayer(args[0]);
 						if(reported == null){
 							// Get information about offline player
-							@SuppressWarnings("deprecation")
 							OfflinePlayer offline = Bukkit.getServer().getOfflinePlayer(args[0]);
 							if(offline == null){
 								return; // Invalid username

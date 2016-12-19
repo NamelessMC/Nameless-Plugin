@@ -17,3 +17,10 @@ enable-reports: true
 # messages received
 # Valid values = true, false
 join-notifications: true
+
+# Enable group synchronization?
+# If true, you must set the permissions required for
+# the players to be given ranks in the NamelessMC web
+# setup. A permissions.yml will be generated in order
+# to set the permissions.
+group-synchronization: false

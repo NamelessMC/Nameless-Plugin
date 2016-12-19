@@ -2,6 +2,7 @@ package com.namelessmc.namelessplugin.sponge;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
@@ -20,9 +21,11 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.google.inject.Inject;
+import com.namelessmc.namelessplugin.sponge.commands.GetNotificationsCommand;
 import com.namelessmc.namelessplugin.sponge.commands.GetUserCommand;
 import com.namelessmc.namelessplugin.sponge.commands.RegisterCommand;
 import com.namelessmc.namelessplugin.sponge.commands.ReportCommand;
+import com.namelessmc.namelessplugin.sponge.commands.SetGroupCommand;
 import com.namelessmc.namelessplugin.sponge.mcstats.Metrics;
 import com.namelessmc.namelessplugin.sponge.player.PlayerEventListener;
 import com.namelessmc.namelessplugin.sponge.utils.PluginInfo;
@@ -112,8 +115,8 @@ public class NamelessPlugin {
 
 		if (!config.exists()){
 			config.createNewFile();
-			Files.copy(this.getClass().getResource("config.yml").openStream(),
-					config.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
+			InputStream defaultConfig = getClass().getClassLoader().getResourceAsStream("config.yml");
+			Files.copy(defaultConfig, config.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
 
 		configManager = YAMLConfigurationLoader.builder().setPath(config.toPath()).build();
@@ -151,8 +154,19 @@ public class NamelessPlugin {
 					.arguments(GenericArguments.onlyOne(GenericArguments.string(Text.of("e-mail"))))
 					.executor(new RegisterCommand(this))
 					.build();
+			CommandSpec getnotificationsCMD = CommandSpec.builder()
+					.description(Text.of("GetNotifications Command"))
+					.executor(new GetNotificationsCommand(this))
+					.build();
+			CommandSpec setgroupCMD = CommandSpec.builder()
+					.description(Text.of("SetGroup Command"))
+					.arguments(GenericArguments.seq(GenericArguments.onlyOne(GenericArguments.string(Text.of("player"))), GenericArguments.onlyOne(GenericArguments.string(Text.of("groupId")))))
+					.executor(new SetGroupCommand(this))
+					.build();
 			cmdManager.register(this, getuserCMD, "getuser");
 			cmdManager.register(this, registerCMD, "register");
+			cmdManager.register(this, getnotificationsCMD, "getnotifications");
+			cmdManager.register(this, setgroupCMD, "setgroup");
 			if (getConfig().getNode("enable-reports").getBoolean()){
 				CommandSpec reportCMD = CommandSpec.builder()
 						.description(Text.of("Report Command"))

@@ -1,11 +1,13 @@
 package com.namelessmc.namelessplugin.spigot.player;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.utils.PermissionHandler;
 import com.namelessmc.namelessplugin.spigot.utils.RequestUtil;
 
 public class PlayerEventListener implements Listener {
@@ -25,11 +27,27 @@ public class PlayerEventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
+		RequestUtil request = new RequestUtil(plugin);
+		PermissionHandler phandler = new PermissionHandler(plugin);
 
 		if(plugin.getConfig().getBoolean("join-notifications")){
-			RequestUtil request = new RequestUtil(plugin);
 			try {
-				request.getNotifications(player);
+				request.getNotifications(player.getUniqueId());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		if(plugin.getConfig().getBoolean("group-synchronization")){
+			ConfigurationSection permissions = phandler.getConfig().getConfigurationSection("permissions");
+			try {
+				for(String groupId : permissions.getKeys(false)){
+					if(request.getGroup(player.getName()).equals(groupId)){
+						return;
+					} else if(player.hasPermission(permissions.getString(groupId))){
+						request.setGroup(player.getName(), groupId);
+					}
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

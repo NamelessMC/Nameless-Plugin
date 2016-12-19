@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
+import com.namelessmc.namelessplugin.bungeecord.commands.GetNotificationsCommand;
 import com.namelessmc.namelessplugin.bungeecord.commands.GetUserCommand;
 import com.namelessmc.namelessplugin.bungeecord.commands.RegisterCommand;
 import com.namelessmc.namelessplugin.bungeecord.commands.ReportCommand;
+import com.namelessmc.namelessplugin.bungeecord.commands.SetGroupCommand;
 import com.namelessmc.namelessplugin.bungeecord.mcstats.Metrics;
 import com.namelessmc.namelessplugin.bungeecord.player.PlayerEventListener;
 
@@ -87,6 +89,9 @@ public class NamelessPlugin extends Plugin {
 		// Register commands
 		getProxy().getPluginManager().registerCommand(this, new RegisterCommand(this, "register"));
 		getProxy().getPluginManager().registerCommand(this, new GetUserCommand(this, "getuser"));
+		getProxy().getPluginManager().registerCommand(this, new GetNotificationsCommand(this, "getnotifications"));
+		getProxy().getPluginManager().registerCommand(this, new SetGroupCommand(this, "setgroup"));
+
 		if (config.getBoolean("enable-reports")) {
 			getProxy().getPluginManager().registerCommand(this, new ReportCommand(this, "report"));
 		}

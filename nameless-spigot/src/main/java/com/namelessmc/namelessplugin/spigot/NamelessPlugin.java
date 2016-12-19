@@ -9,9 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.namelessmc.namelessplugin.spigot.commands.GetNotificationsCommand;
 import com.namelessmc.namelessplugin.spigot.commands.GetUserCommand;
 import com.namelessmc.namelessplugin.spigot.commands.RegisterCommand;
 import com.namelessmc.namelessplugin.spigot.commands.ReportCommand;
+import com.namelessmc.namelessplugin.spigot.commands.SetGroupCommand;
 import com.namelessmc.namelessplugin.spigot.mcstats.Metrics;
 import com.namelessmc.namelessplugin.spigot.player.PlayerEventListener;
 
@@ -23,7 +25,7 @@ public class NamelessPlugin extends JavaPlugin {
 	 * Metrics
 	 */
 	Metrics metrics;
-	
+
 	/*
 	 *  API URL
 	 */
@@ -93,6 +95,8 @@ public class NamelessPlugin extends JavaPlugin {
 		// Register commands
 		getCommand("register").setExecutor(new RegisterCommand(this));
 		getCommand("getuser").setExecutor(new GetUserCommand(this));
+		getCommand("getnotifications").setExecutor(new GetNotificationsCommand(this));
+		getCommand("setgroup").setExecutor(new SetGroupCommand(this));
 
 		if(useReports){
 			getCommand("report").setExecutor(new ReportCommand(this));
@@ -203,7 +207,7 @@ public class NamelessPlugin extends JavaPlugin {
 		if(!iFile.exists()){
 			try {
 				iFile.createNewFile();
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Created Players Information File."));
+				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Created players information File."));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -221,14 +225,14 @@ public class NamelessPlugin extends JavaPlugin {
 		yFile = YamlConfiguration.loadConfiguration(iFile);
 		if(!yFile.contains(player.getUniqueId().toString())){
 			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&a" + player.getName() + " &cDoes not contain in the Player Information File.."));
-			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Adding&a" + player.getName() + " &2to the Player Information File."));
+			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Adding &a" + player.getName() + " &2to the Player Information File."));
 			yFile.addDefault(player.getUniqueId().toString() + ".Username", player.getName());
 			yFile.options().copyDefaults(true);
 			try {
 				yFile.save(iFile);
-				getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Added&a" + player.getName() + " &2to the Player Information File."));
+				getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Added &a" + player.getName() + " &2to the Player Information File."));
 			} catch (IOException e) {
-				getLogger().info(ChatColor.translateAlternateColorCodes('&',"&c Could not add &a" + player.getName() + " &2to the Player Information File!"));
+				getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cCould not add &a" + player.getName() + " &2to the Player Information File!"));
 				e.printStackTrace();
 			}
 		}
@@ -237,7 +241,7 @@ public class NamelessPlugin extends JavaPlugin {
 		// And change the username on the website.
 		else if(yFile.getString(player.getUniqueId() + ".Username") !=  player.getName()){
 			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cDetected that&a" + player.getName() + " &2Has changed his/her username!"));
-			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changing&a" + player.getName() + "s &2Username."));
+			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changing &a" + player.getName() + "s &2Username."));
 
 			String previousUsername = yFile.get(player.getUniqueId() + ".Username").toString();
 			String newUsername = player.getName();

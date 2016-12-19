@@ -14,17 +14,17 @@ import com.namelessmc.namelessplugin.spigot.utils.RequestUtil;
  *  Register CMD
  */
 
-public class GetNotificationsCommand implements CommandExecutor {
+public class SetGroupCommand implements CommandExecutor {
 
 	NamelessPlugin plugin;
-	String permission;
+	String permissionAdmin;
 
 	/*
 	 *  Constructer
 	 */
-	public GetNotificationsCommand(NamelessPlugin pluginInstance) {
+	public SetGroupCommand(NamelessPlugin pluginInstance) {
 		this.plugin = pluginInstance;
-		this.permission = plugin.permission;
+		this.permissionAdmin = plugin.permissionAdmin;
 	}
 
 	/*
@@ -33,7 +33,7 @@ public class GetNotificationsCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		// check if player has permission Permission & ensure who inputted command is a Player
-		if(sender instanceof Player && sender.hasPermission(permission + ".notifications")){
+		if(sender.hasPermission(permissionAdmin + ".setgroup")){
 
 			Player player = (Player) sender;
 
@@ -42,26 +42,24 @@ public class GetNotificationsCommand implements CommandExecutor {
 				@Override
 				public void run(){
 					// Ensure email is set
-					if(args.length < 0 || args.length > 0){
-						player.sendMessage(ChatColor.RED + "Incorrect usage: /getnotifications");
+					if(args.length < 2 || args.length > 2){
+						player.sendMessage(ChatColor.RED + "Incorrect usage: /setgroup player groupId");
 						return;
 					}
 
 					RequestUtil request = new RequestUtil(plugin);
 					try {
-						request.getNotifications(player.getUniqueId());
+						request.setGroup(args[0], args[1]);;
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			});
 
-		} else if (!sender.hasPermission(permission + ".notifications")) {
+		} else if (!sender.hasPermission(permissionAdmin + ".setgroup")) {
 			sender.sendMessage(ChatColor.RED + "You don't have permission to this command!");
-		} else {
-			// User must be ingame to use register command
-			sender.sendMessage("You must be ingame to use this command.");
 		}
+
 		return true;
 	}
 }

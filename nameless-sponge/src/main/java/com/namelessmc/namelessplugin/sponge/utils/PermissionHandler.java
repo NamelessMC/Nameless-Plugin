@@ -1,0 +1,50 @@
+package com.namelessmc.namelessplugin.sponge.utils;
+
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
+import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
+
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
+
+public class PermissionHandler {
+
+	NamelessPlugin plugin;
+
+	File config;
+
+	private YAMLConfigurationLoader loader;
+	private ConfigurationNode configNode;
+
+	public ConfigurationNode getConfig(){
+		return configNode;
+	}
+
+	/*
+	 * Constructor
+	 */
+	public PermissionHandler(NamelessPlugin plugin) {
+		this.plugin = plugin;
+	}
+
+	/*
+	 * Initialize the Permissions Config.
+	 */
+	public void initConfig() throws Exception {
+		config = new File(new File("config", "NamelessPlugin"), "permissions.yml");
+		loader = YAMLConfigurationLoader.builder().setPath(config.toPath()).build();
+		InputStream defaultConfig = getClass().getClassLoader().getResourceAsStream("permission.yml");
+
+		if(!config.exists()){
+			config.createNewFile();
+			Files.copy(defaultConfig, config.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
+			configNode = loader.load();
+		} else {
+			configNode = loader.load();
+		}
+	}
+
+}
