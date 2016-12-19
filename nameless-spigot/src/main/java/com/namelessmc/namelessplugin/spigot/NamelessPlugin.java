@@ -17,6 +17,7 @@ import com.namelessmc.namelessplugin.spigot.commands.SetGroupCommand;
 import com.namelessmc.namelessplugin.spigot.mcstats.Metrics;
 import com.namelessmc.namelessplugin.spigot.player.PlayerEventListener;
 import com.namelessmc.namelessplugin.spigot.utils.PermissionHandler;
+
 import net.milkbowl.vault.permission.Permission;
 
 public class NamelessPlugin extends JavaPlugin {
