@@ -45,7 +45,6 @@ public class PlayerEventListener implements Listener {
 		if(plugin.getConfig().getBoolean("group-synchronization")){
 			Configuration section = phandler.getConfig().getSection("permissions");
 			try {
-				phandler.initConfig();
 				for(String groupId : section.getKeys()){
 					if(request.getGroup(player.getName()).equals(groupId)){
 						return;

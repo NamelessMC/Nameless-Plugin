@@ -28,6 +28,7 @@ import com.namelessmc.namelessplugin.sponge.commands.ReportCommand;
 import com.namelessmc.namelessplugin.sponge.commands.SetGroupCommand;
 import com.namelessmc.namelessplugin.sponge.mcstats.Metrics;
 import com.namelessmc.namelessplugin.sponge.player.PlayerEventListener;
+import com.namelessmc.namelessplugin.sponge.utils.PermissionHandler;
 import com.namelessmc.namelessplugin.sponge.utils.PluginInfo;
 
 import ninja.leaping.configurate.ConfigurationNode;
@@ -125,6 +126,15 @@ public class NamelessPlugin {
 		apiURL = configNode.getNode("api-url").getString();
 		if (apiURL.isEmpty()) {
 			hasSetUrl = false;
+		}
+
+		if(getConfig().getNode("group-synchronization").getBoolean()){
+			PermissionHandler phandler = new PermissionHandler(this);
+			try {
+				phandler.initConfig();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

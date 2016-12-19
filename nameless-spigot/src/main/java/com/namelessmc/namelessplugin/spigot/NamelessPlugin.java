@@ -16,7 +16,7 @@ import com.namelessmc.namelessplugin.spigot.commands.ReportCommand;
 import com.namelessmc.namelessplugin.spigot.commands.SetGroupCommand;
 import com.namelessmc.namelessplugin.spigot.mcstats.Metrics;
 import com.namelessmc.namelessplugin.spigot.player.PlayerEventListener;
-
+import com.namelessmc.namelessplugin.spigot.utils.PermissionHandler;
 import net.milkbowl.vault.permission.Permission;
 
 public class NamelessPlugin extends JavaPlugin {
@@ -171,6 +171,11 @@ public class NamelessPlugin extends JavaPlugin {
 				if(yamlConfigFile.getString("enable-reports").equals("true"))
 					useReports = true;
 
+				//Use group synchronization
+				if(getConfig().getBoolean("group-synchronization")){
+					PermissionHandler phandler = new PermissionHandler(this);
+					phandler.initConfig();
+				}
 			}
 
 		} catch(Exception e){

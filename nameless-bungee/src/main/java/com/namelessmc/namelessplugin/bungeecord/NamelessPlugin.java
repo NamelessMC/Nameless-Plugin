@@ -12,6 +12,7 @@ import com.namelessmc.namelessplugin.bungeecord.commands.ReportCommand;
 import com.namelessmc.namelessplugin.bungeecord.commands.SetGroupCommand;
 import com.namelessmc.namelessplugin.bungeecord.mcstats.Metrics;
 import com.namelessmc.namelessplugin.bungeecord.player.PlayerEventListener;
+import com.namelessmc.namelessplugin.bungeecord.utils.PermissionHandler;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -154,6 +155,12 @@ public class NamelessPlugin extends Plugin {
 					// API URL not set
 					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling features."));
 					hasSetUrl = false;
+				}
+				
+				//Use group synchronization
+				if(getConfig().getBoolean("group-synchronization")){
+					PermissionHandler phandler = new PermissionHandler(this);
+					phandler.initConfig();
 				}
 			}
 
