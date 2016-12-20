@@ -12,6 +12,7 @@ import com.namelessmc.namelessplugin.bungeecord.commands.ReportCommand;
 import com.namelessmc.namelessplugin.bungeecord.commands.SetGroupCommand;
 import com.namelessmc.namelessplugin.bungeecord.mcstats.Metrics;
 import com.namelessmc.namelessplugin.bungeecord.player.PlayerEventListener;
+import com.namelessmc.namelessplugin.bungeecord.utils.MessagesUtil;
 import com.namelessmc.namelessplugin.bungeecord.utils.PermissionHandler;
 
 import net.md_5.bungee.api.ChatColor;
@@ -164,6 +165,9 @@ public class NamelessPlugin extends Plugin {
 				}
 			}
 
+			MessagesUtil messagesConfig = new MessagesUtil(this);
+			messagesConfig.initMessages();
+
 		} catch(Exception e){
 			// Exception generated
 			e.printStackTrace();
@@ -206,7 +210,7 @@ public class NamelessPlugin extends Plugin {
 		}
 
 		if(!playerInfoFile.contains(player.getUniqueId().toString())){
-			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&a" + player.getName() + " &cDoes not contain in the Player Information File.."));
+			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&a" + player.getName() + " &cis not contained in the Player Information File.."));
 			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Adding&a" + player.getName() + " &2to the Player Information File."));
 			playerInfoFile.set(player.getUniqueId().toString() + ".Username", player.getName());
 			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Added&a" + player.getName() + " &2to the Player Information File."));
@@ -216,7 +220,7 @@ public class NamelessPlugin extends Plugin {
 		// If so, change the username in the Players Information File. (NOT COMPLETED)
 		// And change the username on the website.
 		else if(!playerInfoFile.getString(player.getUniqueId() + ".Username").equals( player.getName())){
-			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cDetected that &a" + player.getName() + " &2has changed his/her username!"));
+			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cDetected that &a" + player.getName() + " &chas changed his/her username!"));
 			getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changing &a" + player.getName() + "s &2username."));
 
 			String previousUsername = playerInfoFile.get(player.getUniqueId() + ".Username").toString();

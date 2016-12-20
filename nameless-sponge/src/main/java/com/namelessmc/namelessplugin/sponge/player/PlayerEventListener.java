@@ -1,5 +1,7 @@
 package com.namelessmc.namelessplugin.sponge.player;
 
+import java.io.IOException;
+
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
@@ -60,7 +62,11 @@ public class PlayerEventListener {
 		}
 
 
-		plugin.loginCheck(player);
+		try {
+			plugin.userCheck(player);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

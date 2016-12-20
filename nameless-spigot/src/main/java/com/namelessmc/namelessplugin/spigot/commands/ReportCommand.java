@@ -19,6 +19,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.utils.MessagesUtil;
 
 /*
  *  Report CMD
@@ -42,6 +43,7 @@ public class ReportCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+		MessagesUtil messages = new MessagesUtil(plugin);
 		// check if player has permission Permission & ensure who inputted command is a Player
 		if(sender.hasPermission(permission + ".report")){
 
@@ -148,7 +150,7 @@ public class ReportCommand implements CommandExecutor {
 				}
 			});
 		} else if (!sender.hasPermission(permission + ".report")) {
-			sender.sendMessage(ChatColor.RED + "You don't have permission to this command!");
+			sender.sendMessage(messages.getMessage("NO_PERMISSION"));
 		} else {
 			// User must be ingame to use register command
 			sender.sendMessage("You must be ingame to use this command.");

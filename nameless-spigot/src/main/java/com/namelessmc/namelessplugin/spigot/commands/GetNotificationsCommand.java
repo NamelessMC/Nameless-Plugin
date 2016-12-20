@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.utils.MessagesUtil;
 import com.namelessmc.namelessplugin.spigot.utils.RequestUtil;
 
 /*
@@ -32,6 +33,7 @@ public class GetNotificationsCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+		MessagesUtil messages = new MessagesUtil(plugin);
 		// check if player has permission Permission & ensure who inputted command is a Player
 		if(sender instanceof Player && sender.hasPermission(permission + ".notifications")){
 
@@ -57,7 +59,7 @@ public class GetNotificationsCommand implements CommandExecutor {
 			});
 
 		} else if (!sender.hasPermission(permission + ".notifications")) {
-			sender.sendMessage(ChatColor.RED + "You don't have permission to this command!");
+			sender.sendMessage(messages.getMessage("NO_PERMISSION"));
 		} else {
 			// User must be ingame to use register command
 			sender.sendMessage("You must be ingame to use this command.");

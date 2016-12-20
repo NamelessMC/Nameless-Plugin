@@ -11,38 +11,36 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.YamlConfiguration;
 
-public class PermissionHandler {
+public class MessagesUtil {
 
 	NamelessPlugin plugin;
-
+	
 	private File config;
 	private Configuration loader;
 
-	public Configuration getConfig(){
-		return loader;
+	public MessagesUtil(NamelessPlugin plugin) {
+		this.plugin = plugin;
 	}
 
-	/*
-	 * Constructor
-	 */
-	public PermissionHandler(NamelessPlugin plugin) {
-		this.plugin = plugin;
+	public String getMessage(String path){
+		return ChatColor.translateAlternateColorCodes('&', loader.getString(path));
 	}
 
 	/*
 	 * Initialize the Permissions Config.
 	 */
-	public void initConfig() throws Exception {
-		config = new File(plugin.getDataFolder(), "permissions.yml");
+	public void initMessages() throws Exception {
+		config = new File(plugin.getDataFolder(), "messages.yml");
 		loader = YamlConfiguration.getProvider(YamlConfiguration.class).load(config);
-		InputStream defaultConfig = plugin.getClass().getClassLoader().getResourceAsStream("permissions.yml");
+		InputStream defaultConfig = plugin.getClass().getClassLoader().getResourceAsStream("messages.yml");
 
-		plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Loading Group Synchronization..."));
+		plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Loading Messages configuration..."));
 
 		if(!config.exists()){
-			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating Permissions file..."));
+			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating Messages file..."));
 			config.createNewFile();
 			Files.copy(defaultConfig, config.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
+
 }

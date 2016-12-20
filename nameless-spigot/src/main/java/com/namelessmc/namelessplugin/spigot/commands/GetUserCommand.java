@@ -13,16 +13,18 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.utils.MessagesUtil;
 
 /*
  * GetUser CMD by IsS127
  */
 
 public class GetUserCommand implements CommandExecutor {
+
 	NamelessPlugin plugin;
 	String permissionAdmin;
 	
@@ -39,6 +41,8 @@ public class GetUserCommand implements CommandExecutor {
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+		MessagesUtil messages = new MessagesUtil(plugin);
+		// check if player has permission Permission
 		if(sender.hasPermission(permissionAdmin + ".getuser")){
 			// Try to get the user
 			Bukkit.getScheduler().runTaskAsynchronously(plugin,  new Runnable(){
@@ -91,18 +95,18 @@ public class GetUserCommand implements CommandExecutor {
 						String responseString;
 						while((responseString = streamReader.readLine()) != null)
 							responseBuilder.append(responseString);
-						JSONParser parser = new JSONParser();
-						JSONObject response = new JSONObject();
-						JSONObject message = new JSONObject();
+						JsonParser parser = new JsonParser();
+						JsonObject response = new JsonObject();
+						JsonObject message = new JsonObject();
 						
-						response = (JSONObject) parser.parse(responseBuilder.toString());
+						response = (JsonObject) parser.parse(responseBuilder.toString());
 						
 						// check if there isnt any error, if so parse the messages.
-						if(!response.containsKey("error")){
-						    message = (JSONObject) parser.parse(response.get("message").toString());
+						if(!response.has("error")){
+						    message = (JsonObject) parser.parse(response.get("message").toString());
 						}
 						
-						if(response.containsKey("error")){
+						if(response.has("error")){
 							// Error with request
 							sender.sendMessage(ChatColor.RED + "Error: " + response.get("message").toString());
 						} else {
@@ -150,7 +154,7 @@ public class GetUserCommand implements CommandExecutor {
 			});
 			
 	} else {
-		sender.sendMessage(ChatColor.RED + "You don't have permission to this command!");
+		sender.sendMessage(messages.getMessage("NO_PERMISSION"));
 	}
 		return true;
   }	

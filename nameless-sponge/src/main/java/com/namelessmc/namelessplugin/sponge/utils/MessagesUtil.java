@@ -13,37 +13,34 @@ import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 
-public class PermissionHandler {
+public class MessagesUtil {
 
 	NamelessPlugin plugin;
-
+	
 	private File config;
 	private YAMLConfigurationLoader loader;
 	private ConfigurationNode configNode;
 
-	public ConfigurationNode getConfig(){
-		return configNode;
+	public MessagesUtil(NamelessPlugin plugin) {
+		this.plugin = plugin;
 	}
 
-	/*
-	 * Constructor
-	 */
-	public PermissionHandler(NamelessPlugin plugin) {
-		this.plugin = plugin;
+	public String getMessage(String path){
+		return configNode.getNode(path).getString();
 	}
 
 	/*
 	 * Initialize the Permissions Config.
 	 */
-	public void initConfig() throws Exception {
-		config = new File(new File("config", "NamelessPlugin"), "permissions.yml");
+	public void initMessages() throws Exception {
+		config = new File(new File("config", "NamelessPlugin"), "messages.yml");
 		loader = YAMLConfigurationLoader.builder().setPath(config.toPath()).build();
-		InputStream defaultConfig = plugin.getClass().getClassLoader().getResourceAsStream("permissions.yml");
+		InputStream defaultConfig = plugin.getClass().getClassLoader().getResourceAsStream("messages.yml");
 
-		plugin.getLogger().info(Text.of(TextColors.BLUE, "Loading Group Synchronization...").toPlain());
+		plugin.getLogger().info(Text.of(TextColors.BLUE, "Loading Messages configuration...").toPlain());
 
 		if(!config.exists()){
-			plugin.getLogger().info(Text.of(TextColors.BLUE, "Creating Permissions file...").toPlain());
+			plugin.getLogger().info(Text.of(TextColors.BLUE, "Creating Messages file...").toPlain());
 			config.createNewFile();
 			Files.copy(defaultConfig, config.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
 			configNode = loader.load();
