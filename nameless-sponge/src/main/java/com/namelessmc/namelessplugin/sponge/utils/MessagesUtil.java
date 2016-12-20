@@ -7,6 +7,7 @@ import java.nio.file.StandardCopyOption;
 
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import com.namelessmc.namelessplugin.sponge.NamelessPlugin;
 
@@ -26,7 +27,7 @@ public class MessagesUtil {
 	}
 
 	public String getMessage(String path){
-		return configNode.getNode(path).getString();
+		return TextSerializers.FORMATTING_CODE.replaceCodes(configNode.getNode(path).getString(), '&');
 	}
 
 	/*
