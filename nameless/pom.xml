@@ -39,6 +39,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.namelessmc</groupId>
+			<artifactId>Bukkit</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.namelessmc</groupId>
 			<artifactId>Spigot</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
