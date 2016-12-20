@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.action.ClickAction;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
@@ -26,8 +27,13 @@ public class MessagesUtil {
 		this.plugin = plugin;
 	}
 
-	public String getMessage(String path){
-		return TextSerializers.FORMATTING_CODE.replaceCodes(configNode.getNode(path).getString(), '&');
+	public Text getMessage(String path){
+		return Text.of(TextSerializers.FORMATTING_CODE.replaceCodes(configNode.getNode(path).getString(), '&'));
+	}
+
+	public Text sendClickableMessage(String path, ClickAction<?> action){
+		return Text.builder(TextSerializers.FORMATTING_CODE.replaceCodes(configNode.getNode(path).getString(), '&'))
+				.onClick(action).build();
 	}
 
 	/*
@@ -35,7 +41,6 @@ public class MessagesUtil {
 	 */
 	public void initMessages() throws Exception {
 		config = new File(new File("config", "NamelessPlugin"), "messages.yml");
-		loader = YAMLConfigurationLoader.builder().setPath(config.toPath()).build();
 		InputStream defaultConfig = plugin.getClass().getClassLoader().getResourceAsStream("messages.yml");
 
 		plugin.getLogger().info(Text.of(TextColors.BLUE, "Loading Messages configuration...").toPlain());
@@ -44,8 +49,10 @@ public class MessagesUtil {
 			plugin.getLogger().info(Text.of(TextColors.BLUE, "Creating Messages file...").toPlain());
 			config.createNewFile();
 			Files.copy(defaultConfig, config.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
+			loader = YAMLConfigurationLoader.builder().setPath(config.toPath()).build();
 			configNode = loader.load();
 		} else {
+			loader = YAMLConfigurationLoader.builder().setPath(config.toPath()).build();
 			configNode = loader.load();
 		}
 	}

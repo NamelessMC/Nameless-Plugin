@@ -8,6 +8,9 @@ import java.nio.file.StandardCopyOption;
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ClickEvent.Action;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.YamlConfiguration;
 
@@ -24,6 +27,12 @@ public class MessagesUtil {
 
 	public String getMessage(String path){
 		return ChatColor.translateAlternateColorCodes('&', loader.getString(path));
+	}
+
+	public TextComponent sendClickableMessage(String path, Action click, String actionText){
+		TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', loader.getString(path)));
+		message.setClickEvent(new ClickEvent(click, actionText));
+		return message;
 	}
 
 	/*

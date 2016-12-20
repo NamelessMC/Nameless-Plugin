@@ -35,7 +35,6 @@ public class PermissionHandler {
 	 */
 	public void initConfig() throws Exception {
 		config = new File(plugin.getDataFolder(), "permissions.yml");
-		loader = YamlConfiguration.loadConfiguration(config);
 		InputStream defaultConfig = plugin.getClass().getClassLoader().getResourceAsStream("permissions.yml");
 
 		plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Loading Group Synchronization..."));
@@ -45,6 +44,8 @@ public class PermissionHandler {
 			config.createNewFile();
 			Files.copy(defaultConfig, config.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
+
+		loader = YamlConfiguration.loadConfiguration(config);
 	}
 
 }
