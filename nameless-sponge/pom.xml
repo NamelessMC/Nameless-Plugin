@@ -4,7 +4,7 @@
 
 	<parent>
 		<groupId>com.namelessmc</groupId>
-		<artifactId>NamelessMC Plugin</artifactId>
+		<artifactId>namelessplugin</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 

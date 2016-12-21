@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -29,7 +30,7 @@ public class MessagesUtil {
 		return ChatColor.translateAlternateColorCodes('&', loader.getString(path));
 	}
 
-	public TextComponent sendClickableMessage(String path, Action click, String actionText){
+	public BaseComponent sendClickableMessage(String path, Action click, String actionText){
 		TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', loader.getString(path)));
 		message.setClickEvent(new ClickEvent(click, actionText));
 		return message;

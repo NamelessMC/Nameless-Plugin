@@ -24,7 +24,6 @@
 
 	<modules>
 		<module>nameless-bungee</module>
-		<module>nameless-bukkit</module>
 		<module>nameless-spigot</module>
 		<module>nameless-sponge</module>
 		<module>nameless</module>
