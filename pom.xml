@@ -6,7 +6,7 @@
 	<artifactId>namelessplugin</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
-	<name>Nameless Plugin</name>
+	<name>NamelessMC Plugin</name>
 	<url>https://namelessmc.com/</url>
 
 	<packaging>pom</packaging>
