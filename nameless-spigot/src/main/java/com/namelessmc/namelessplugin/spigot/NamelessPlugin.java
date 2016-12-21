@@ -3,7 +3,6 @@ package com.namelessmc.namelessplugin.spigot;
 import java.io.File;
 import java.io.IOException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -16,7 +15,6 @@ import com.namelessmc.namelessplugin.spigot.commands.RegisterCommand;
 import com.namelessmc.namelessplugin.spigot.commands.ReportCommand;
 import com.namelessmc.namelessplugin.spigot.commands.SetGroupCommand;
 import com.namelessmc.namelessplugin.spigot.mcstats.Metrics;
-import com.namelessmc.namelessplugin.spigot.nms.NMSManager;
 import com.namelessmc.namelessplugin.spigot.player.PlayerEventListener;
 import com.namelessmc.namelessplugin.spigot.utils.MessagesUtil;
 import com.namelessmc.namelessplugin.spigot.utils.PermissionHandler;
@@ -26,7 +24,6 @@ import net.milkbowl.vault.permission.Permission;
 
 public class NamelessPlugin extends JavaPlugin {
 
-	private NMSManager nmsManager;
 	private ReflectionUtil reflection;
 
 	/*
@@ -71,10 +68,6 @@ public class NamelessPlugin extends JavaPlugin {
 	public final String permission = "namelessmc";
 	public final String permissionAdmin = "namelessmc.admin";
 
-	public NMSManager getNMS(){
-		return nmsManager;
-	}
-
 	public ReflectionUtil getReflection(){
 		return reflection;
 	}
@@ -94,28 +87,6 @@ public class NamelessPlugin extends JavaPlugin {
 		// Initialise  Files
 		initConfig();
 		initPlayerInfoFile();
-
-		boolean success = true;
-
-		try {
-			Class.forName("org.spigotmc.Metrics");
-		} catch (Exception e) {
-			success = false;
-			e.printStackTrace();
-		}
-
-		if(success){
-			try {
-				String version = Bukkit.getServer().getClass().getPackage().getName().split(".")[3];
-				final Class<?> clazz = Class.forName("com.namelessmc.namelessplugin.spigot.nms." + version);
-				if (NMSManager.class.isAssignableFrom(clazz)) {
-					nmsManager = (NMSManager) clazz.getConstructor().newInstance();
-				}
-			} catch (final Exception e) {
-				e.printStackTrace();
-				Bukkit.getLogger().info(ChatColor.RED + "No compatible CraftBukkit version found.");
-			}
-		}
 
 		if(!isDisabled){
 			// Check Vault
@@ -223,8 +194,19 @@ public class NamelessPlugin extends JavaPlugin {
 				}
 			}
 
-			MessagesUtil messagesConfig = new MessagesUtil(this);
-			messagesConfig.initMessages();
+			boolean spigot = true;
+
+			try {
+				Class.forName("org.spigotmc.Metrics");
+			} catch (Exception e) {
+				spigot = false;
+				e.printStackTrace();
+			}
+
+			if(spigot){
+				MessagesUtil messagesConfig = new MessagesUtil(this);
+				messagesConfig.initMessages();
+			}
 
 		} catch(Exception e){
 			// Exception generated
