@@ -32,7 +32,7 @@ public class PlayerEventListener {
 	}
 
 	@Listener
-	public void onPlayerJoin1(ClientConnectionEvent.Join event){
+	public void onPlayerJoin(ClientConnectionEvent.Join event){
 		Player player = event.getTargetEntity();
 
 	    if(!plugin.getAPIUrl().isEmpty()){
