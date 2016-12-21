@@ -12,7 +12,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
@@ -212,52 +211,6 @@ public class NamelessPlugin {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-	}
-
-	/*
-	 *  Update username on Login
-	 */
-	public void userCheck(Player player) throws IOException{
-		// Check if user does NOT contain information in the Players Information file. 
-		// If so, add him.
-		File iFile = new File(new File("config", "NamelessPlugin"), "playersInformation.yml");
-		YAMLConfigurationLoader fileLoader = YAMLConfigurationLoader.builder().setPath(iFile.toPath()).build();
-		ConfigurationNode yFile;
-		yFile = fileLoader.load();
-		if(yFile.getNode(player.getUniqueId().toString()).isVirtual()){
-			getLogger().info(Text.of(TextColors.GREEN, player.getName(), TextColors.RED, " does not contain in the Player Information File..").toPlain());
-			getLogger().info(Text.of(TextColors.DARK_GREEN, "Adding ", TextColors.GREEN, player.getName(), TextColors.DARK_GREEN, " to the Player Information File.").toPlain());
-			yFile.getNode(player.getUniqueId().toString() + ".Username").setValue(player.getName());
-			try {
-				fileLoader.save(yFile);
-				getLogger().info(Text.of(TextColors.DARK_GREEN, "Added ", TextColors.GREEN, player.getName(), TextColors.DARK_GREEN," to the Player Information File.").toPlain());
-			} catch (IOException e) {
-				getLogger().info(Text.of(TextColors.RED, "Could not add ", TextColors.GREEN, player.getName(), TextColors.RED, " to the Player Information File!").toPlain());
-				e.printStackTrace();
-			}
-		}
-		// Check if user has changed Username
-		// If so, change the username in the Players Information File. (NOT COMPLETED)
-		// And change the username on the website.
-		else if(!yFile.getString(player.getUniqueId() + ".Username").equals(player.getName())){
-			getLogger().info(Text.of(TextColors.RED, "Detected that ",  TextColors.GREEN, player.getName(), TextColors.RED, " has changed his/her username!").toPlain());
-			getLogger().info(Text.of(TextColors.DARK_GREEN, "Changing ", TextColors.GREEN, player.getName(), "s", TextColors.DARK_GREEN, "username.").toPlain());
-
-			String previousUsername = yFile.getNode(player.getUniqueId() + ".Username").getString();
-			String newUsername = player.getName();
-			yFile.getNode(player.getUniqueId() + ".PreviousUsername").setValue(previousUsername);
-			yFile.getNode(player.getUniqueId() + ".Username").setValue(newUsername);
-			try {
-				fileLoader.save(yFile);
-				getLogger().info(Text.of(TextColors.DARK_GREEN, "Changed ", TextColors.GREEN, player.getName(), "s", TextColors.DARK_GREEN, "username in the Player Information File.").toPlain());
-			} catch (IOException e) {
-				getLogger().info(Text.of(TextColors.RED, "Could not change ", TextColors.GREEN, player.getName(), "s", TextColors.RED, "username in the Player Information File.").toPlain());
-				e.printStackTrace();
-			}
-
-			// Changing username on Website here.
-			// Comming in a bit.
 		}
 	}
 
