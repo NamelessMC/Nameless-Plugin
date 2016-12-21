@@ -1,13 +1,19 @@
 package com.namelessmc.namelessplugin.bungeecord.player;
 
+import java.io.File;
+import java.io.IOException;
+
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
 import com.namelessmc.namelessplugin.bungeecord.utils.PermissionHandler;
 import com.namelessmc.namelessplugin.bungeecord.utils.RequestUtil;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 import net.md_5.bungee.event.EventHandler;
 
 /*
@@ -19,6 +25,12 @@ public class PlayerEventListener implements Listener {
 	NamelessPlugin plugin;
 
 	/*
+	 * Config Files
+	 */
+	Configuration config;
+	Configuration playerInfoFile;
+	
+	/*
 	 *  Constructer
 	 */
 	public PlayerEventListener(NamelessPlugin pluginInstance) {
@@ -26,14 +38,26 @@ public class PlayerEventListener implements Listener {
 	}
 
 	/*
-	 *  Update site username and group on player join
+	 *  User File check, Name Check, Get notification, Group sync.
 	 */
 	@EventHandler
 	public void onPlayerJoin(PostLoginEvent event){
 		ProxiedPlayer player = event.getPlayer();
-		RequestUtil request = new RequestUtil(plugin);
-		PermissionHandler phandler = new PermissionHandler(plugin);
 		
+	    if(!plugin.getAPIUrl().isEmpty()){
+		    userFileCheck(player);
+		    userNameCheck(player);
+		    userGetNotification(player);
+		    userGroupSync(player);
+		
+	   }
+	}
+
+	/*
+	 * User Notifications.
+	 */
+	public void userGetNotification(ProxiedPlayer player){
+		RequestUtil request = new RequestUtil(plugin);
 		if(plugin.getConfig().getBoolean("join-notifications")){
 			try {
 				request.getNotifications(player);
@@ -41,7 +65,14 @@ public class PlayerEventListener implements Listener {
 				e.printStackTrace();
 			}
 		}
-
+	}
+	
+	/*
+	 * User Group Synchronization.
+	 */
+	public void userGroupSync(ProxiedPlayer player){
+		RequestUtil request = new RequestUtil(plugin);
+		PermissionHandler phandler = new PermissionHandler(plugin);
 		if(plugin.getConfig().getBoolean("group-synchronization")){
 			Configuration section = phandler.getConfig().getSection("permissions");
 			try {
@@ -56,10 +87,58 @@ public class PlayerEventListener implements Listener {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	
+	/*
+	 * Check if the user exists in the Players Information File.
+	 */
+	
+	public void userFileCheck(ProxiedPlayer player){
+		try {
+			playerInfoFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "playersInformation.yml"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		if(plugin.hasSetUrl){
-		  plugin.userCheck(player);
+		if(!playerInfoFile.contains(player.getUniqueId().toString())){
+			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&a" + player.getName() + " &cis not contained in the Player Information File.."));
+			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Adding&a" + player.getName() + " &2to the Player Information File."));
+			playerInfoFile.set(player.getUniqueId().toString() + ".Username", player.getName());
+			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Added&a" + player.getName() + " &2to the Player Information File."));
 		}
 	}
+	
+	
+	/*
+	 *  Update Username on Login.
+	 */
+	public void userNameCheck(ProxiedPlayer player){  
+	     try {
+				playerInfoFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "playersInformation.yml"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			// Check if user has changed Username
+			// If so, change the username in the Players Information File. (NOT COMPLETED)
+			// And change the username on the website.
+			 if(!playerInfoFile.getString(player.getUniqueId() + ".Username").equals( player.getName()) && playerInfoFile.contains(player.getUniqueId().toString())){
+				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cDetected that &a" + player.getName() + " &chas changed his/her username!"));
+				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changing &a" + player.getName() + "s &2username."));
+
+				String previousUsername = playerInfoFile.get(player.getUniqueId() + ".Username").toString();
+				String newUsername = player.getName();
+				playerInfoFile.set(player.getUniqueId() + ".PreviousUsername", previousUsername);
+				playerInfoFile.set(player.getUniqueId() + ".Username", newUsername);
+				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changed &a" + player.getName() + "s &2username in the Player Information File."));
+
+				// Changing username on Website here.
+				// Comming in a bit.
+			}
+	}
+	
 
 }
