@@ -44,6 +44,7 @@ public class GetUserCommand implements CommandExecutor {
 		MessagesUtil messages = new MessagesUtil(plugin);
 		// check if player has permission Permission
 		if(sender.hasPermission(permissionAdmin + ".getuser")){
+
 			// Try to get the user
 			Bukkit.getScheduler().runTaskAsynchronously(plugin,  new Runnable(){
 				@Override
@@ -99,11 +100,11 @@ public class GetUserCommand implements CommandExecutor {
 						JsonObject response = new JsonObject();
 						JsonObject message = new JsonObject();
 						
-						response = (JsonObject) parser.parse(responseBuilder.toString());
+						response = parser.parse(responseBuilder.toString()).getAsJsonObject();
 						
 						// check if there isnt any error, if so parse the messages.
 						if(!response.has("error")){
-						    message = (JsonObject) parser.parse(response.get("message").toString());
+						    message = parser.parse(response.get("message").toString()).getAsJsonObject();
 						}
 						
 						if(response.has("error")){

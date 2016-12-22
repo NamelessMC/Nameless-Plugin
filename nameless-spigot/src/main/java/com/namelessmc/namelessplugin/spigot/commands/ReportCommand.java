@@ -153,7 +153,7 @@ public class ReportCommand implements CommandExecutor {
 			sender.sendMessage(messages.getMessage("NO_PERMISSION"));
 		} else {
 			// User must be ingame to use register command
-			sender.sendMessage("You must be ingame to use this command.");
+			sender.sendMessage(ChatColor.RED + "You must be ingame to use this command.");
 		}
 
 		return true;

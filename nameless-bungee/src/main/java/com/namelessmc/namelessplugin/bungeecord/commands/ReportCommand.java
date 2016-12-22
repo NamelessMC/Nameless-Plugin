@@ -38,6 +38,7 @@ public class ReportCommand extends Command {
 	public void execute(CommandSender sender, String[] args) {
 		// check if player has permission Permission & ensure who inputted command is a Player
 		if(sender instanceof ProxiedPlayer && sender.hasPermission(permission + ".report")){
+
 			// check if hasSetUrl
 			if(!plugin.hasSetUrl){
 				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Please set an API Url in the configuration!"));
@@ -88,7 +89,7 @@ public class ReportCommand extends Command {
 								return; // Unable to find user from username
 							}
 
-							response = parser.parse(lookupResponseBuilder.toString()).getAsJsonObject();
+							response = (JsonObject) parser.parse(lookupResponseBuilder.toString()).getAsJsonObject();
 
 							uuid = response.get("id").getAsString();
 

@@ -62,6 +62,8 @@ public class RequestUtil {
 		if(response.has("error")){
 			// Error with request
 			plugin.getLogger().info(Text.of(TextColors.RED, "Error: ", response.get("message").getAsString()).toPlain());
+		} else {
+			plugin.getLogger().info(Text.of(TextColors.GREEN, "Succesfully changed ", playerName, "'s group to ", groupId).toPlain());
 		}
 
 		// Close output/input stream

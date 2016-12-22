@@ -3,6 +3,7 @@ main: com.namelessmc.namelessplugin.spigot.NamelessPlugin
 authors: [Samerton, IsS127]
 website: https://namelessmc.com/
 version: ${project.version}
+softdepend: [Vault]
 commands:
   register:
     description: Register for an account on the website
@@ -13,4 +14,9 @@ commands:
   report:
     description: Report a user
     usage: /report {username} {reason}
-softdepend: [Vault]
+  getnotifications:
+    description: Get your notifications
+    usage: /getnotifications
+  setgroup:
+    description: Set an user group in your web
+    usage: /report {username} {groupId}

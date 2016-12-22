@@ -43,11 +43,6 @@ public class GetUserCommand extends Command {
 	public void execute(CommandSender sender, String[] args) {
 		// check if player has permissionAdmin Permission
 		if(sender.hasPermission(permissionAdmin + ".getuser")){
-			// check if has set url.
-			if(!plugin.hasSetUrl){
-				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Please set a API Url in the configuration!"));
-				return;
-			}
 
 			// Try to get the user
 			ProxyServer.getInstance().getScheduler().runAsync(plugin, new Runnable(){

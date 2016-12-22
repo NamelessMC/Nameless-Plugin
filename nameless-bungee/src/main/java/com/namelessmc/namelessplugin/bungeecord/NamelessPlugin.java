@@ -16,7 +16,6 @@ import com.namelessmc.namelessplugin.bungeecord.utils.MessagesUtil;
 import com.namelessmc.namelessplugin.bungeecord.utils.PermissionHandler;
 
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -88,14 +87,16 @@ public class NamelessPlugin extends Plugin {
             e.printStackTrace();
         } 
 
-		// Register commands
-		getProxy().getPluginManager().registerCommand(this, new RegisterCommand(this, "register"));
-		getProxy().getPluginManager().registerCommand(this, new GetUserCommand(this, "getuser"));
-		getProxy().getPluginManager().registerCommand(this, new GetNotificationsCommand(this, "getnotifications"));
-		getProxy().getPluginManager().registerCommand(this, new SetGroupCommand(this, "setgroup"));
+		// Register commands if url has been set
+		if(hasSetUrl){
+			getProxy().getPluginManager().registerCommand(this, new RegisterCommand(this, "register"));
+			getProxy().getPluginManager().registerCommand(this, new GetUserCommand(this, "getuser"));
+			getProxy().getPluginManager().registerCommand(this, new GetNotificationsCommand(this, "getnotifications"));
+			getProxy().getPluginManager().registerCommand(this, new SetGroupCommand(this, "setgroup"));
 
-		if (config.getBoolean("enable-reports")) {
-			getProxy().getPluginManager().registerCommand(this, new ReportCommand(this, "report"));
+			if (config.getBoolean("enable-reports")) {
+				getProxy().getPluginManager().registerCommand(this, new ReportCommand(this, "report"));
+			}
 		}
 
 		// Register events

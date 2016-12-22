@@ -39,6 +39,7 @@ public class ReportCommand implements CommandExecutor {
 	public CommandResult execute(CommandSource src, CommandContext ctx) throws CommandException {
 		// check if player has permission Permission & ensure who inputted command is a Player
 		if(src instanceof Player && src.hasPermission(plugin.permission + ".report")){
+
 			Player player = (Player) src;
 
 			Task.builder().execute(new Runnable(){

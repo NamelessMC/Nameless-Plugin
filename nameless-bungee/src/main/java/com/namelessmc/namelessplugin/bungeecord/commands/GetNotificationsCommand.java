@@ -61,7 +61,7 @@ public class GetNotificationsCommand extends Command {
 			sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You don't have permission to this command!"));
 		} else {
 			// User must be ingame to use register command
-			sender.sendMessage(TextComponent.fromLegacyText("You must be ingame to use this command."));
+			sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You must be ingame to use this command."));
 		}
 	}
 }

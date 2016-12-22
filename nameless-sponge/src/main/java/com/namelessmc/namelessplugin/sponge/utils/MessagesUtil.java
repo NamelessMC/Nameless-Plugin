@@ -49,12 +49,10 @@ public class MessagesUtil {
 			plugin.getLogger().info(Text.of(TextColors.BLUE, "Creating Messages file...").toPlain());
 			config.createNewFile();
 			Files.copy(defaultConfig, config.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
-			loader = YAMLConfigurationLoader.builder().setPath(config.toPath()).build();
-			configNode = loader.load();
-		} else {
-			loader = YAMLConfigurationLoader.builder().setPath(config.toPath()).build();
-			configNode = loader.load();
 		}
+
+		loader = YAMLConfigurationLoader.builder().setPath(config.toPath()).build();
+		configNode = loader.load();
 	}
 
 }

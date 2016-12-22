@@ -41,7 +41,6 @@ public class MessagesUtil {
 	 */
 	public void initMessages() throws Exception {
 		config = new File(plugin.getDataFolder(), "messages.yml");
-		loader = YamlConfiguration.loadConfiguration(config);
 		InputStream defaultConfig = plugin.getClass().getClassLoader().getResourceAsStream("messages.yml");
 
 		plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Loading Messages configuration..."));
@@ -51,6 +50,8 @@ public class MessagesUtil {
 			config.createNewFile();
 			Files.copy(defaultConfig, config.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
+
+		loader = YamlConfiguration.loadConfiguration(config);
 	}
 
 }

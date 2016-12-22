@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -184,10 +183,9 @@ public class NamelessPlugin extends JavaPlugin {
 				}
 
 				// Use the report system?
-				if(yamlConfigFile.getString("enable-reports").equals("true"))
-					useReports = true;
+				useReports = yamlConfigFile.getBoolean("enable-reports");
 
-				//Use group synchronization
+				//Use group synchronization?
 				if(getConfig().getBoolean("group-synchronization")){
 					PermissionHandler phandler = new PermissionHandler(this);
 					phandler.initConfig();

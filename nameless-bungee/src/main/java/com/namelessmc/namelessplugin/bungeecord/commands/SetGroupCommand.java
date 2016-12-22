@@ -7,7 +7,6 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
 /*
@@ -36,15 +35,13 @@ public class SetGroupCommand extends Command {
 		// check if player has permission Permission & ensure who inputted command is a Player
 		if(sender.hasPermission(permissionAdmin + ".setgroup")){
 
-			ProxiedPlayer player = (ProxiedPlayer) sender;
-
 			// Try to register user
 			ProxyServer.getInstance().getScheduler().runAsync(plugin,  new Runnable(){
 				@Override
 				public void run(){
 					// Ensure email is set
 					if(args.length < 2 || args.length > 2){
-						player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Incorrect usage: /setgroup player groupId"));
+						sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Incorrect usage: /setgroup player groupId"));
 						return;
 					}
 

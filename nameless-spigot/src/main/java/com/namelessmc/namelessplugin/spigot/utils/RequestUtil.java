@@ -61,6 +61,8 @@ public class RequestUtil {
 		if(response.has("error")){
 			// Error with request
 			plugin.getLogger().info(ChatColor.RED + "Error: " + response.get("message").getAsString());
+		} else {
+			plugin.getLogger().info(ChatColor.GREEN + "Succesfully changed " + playerName + "'s group to " + groupId);
 		}
 
 		// Close output/input stream
