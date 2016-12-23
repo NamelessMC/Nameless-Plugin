@@ -11,9 +11,9 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 
 public class RequestUtil {
@@ -53,16 +53,16 @@ public class RequestUtil {
 		String responseString;
 		while((responseString = streamReader.readLine()) != null)
 			responseBuilder.append(responseString);
-		JsonObject response = new JsonObject();
-		JsonParser parser = new JsonParser();
+		JSONObject response = new JSONObject();
+		JSONParser parser = new JSONParser();
 
-		response = parser.parse(responseBuilder.toString()).getAsJsonObject();
+		response = (JSONObject) parser.parse(responseBuilder.toString());
 
-		if(response.has("error")){
+		if(response.containsKey("error")){
 			// Error with request
-			plugin.getLogger().info(ChatColor.RED + "Error: " + response.get("message").getAsString());
+			Bukkit.getLogger().info(ChatColor.RED + "Error: " + response.get("message").toString());
 		} else {
-			plugin.getLogger().info(ChatColor.GREEN + "Succesfully changed " + playerName + "'s group to " + groupId);
+			Bukkit.getLogger().info(ChatColor.GREEN + "Succesfully changed " + playerName + "'s group to " + groupId);
 		}
 
 		// Close output/input stream
@@ -101,17 +101,12 @@ public class RequestUtil {
 		String responseString;
 		while((responseString = streamReader.readLine()) != null)
 			responseBuilder.append(responseString);
-		JsonParser parser = new JsonParser();
-		JsonObject response = new JsonObject();
-		JsonObject message = new JsonObject();
+		JSONParser parser = new JSONParser();
+		JSONObject response = new JSONObject();
 		
-		response = (JsonObject) parser.parse(responseBuilder.toString());
-
-		if(response.has("error")){
-			// Error with request
-			plugin.getLogger().info(ChatColor.RED + "Error: " + response.get("message").toString());
-		}
-
+		response = (JSONObject) parser.parse(responseBuilder.toString());
+		JSONObject message = (JSONObject) parser.parse(response.get("message").toString());
+		
 		// Close output/input stream
 		outputStream.flush();
 		outputStream.close();
@@ -120,7 +115,11 @@ public class RequestUtil {
 		// Disconnect
 		connection.disconnect();
 
-		return message.get("group_id").toString();
+		if(response.containsKey("error")){
+			return null;
+		} else {
+			return message.get("group_id").toString();
+		}
 	}
 
 	public void getNotifications(UUID uuid) throws Exception{
@@ -153,20 +152,20 @@ public class RequestUtil {
 		String responseString;
 		while((responseString = streamReader.readLine()) != null)
 			responseBuilder.append(responseString);
-		JsonObject response = new JsonObject();
-		JsonParser parser = new JsonParser();
-		JsonObject message = new JsonObject();
-
-		response = parser.parse(responseBuilder.toString()).getAsJsonObject();
-
-		if(response.has("error")){
+		JSONObject response = new JSONObject();
+		JSONParser parser = new JSONParser();
+		
+		response = (JSONObject) parser.parse(responseBuilder.toString());
+		JSONObject message = (JSONObject) parser.parse(response.get("message").toString());
+		
+		if(response.containsKey("error")){
 			// Error with request
-			Bukkit.getPlayer(uuid).sendMessage(ChatColor.RED + "Error: " + response.get("message").getAsString());
-		} else if(response.has("error") && response.getAsString().equalsIgnoreCase("Can't find user with that UUID!")){
+			Bukkit.getPlayer(uuid).sendMessage(ChatColor.RED + "Error: " + response.get("message"));
+		} else if(response.containsKey("error") && response.get("message").equals("Can't find user with that UUID!")){
 			Bukkit.getPlayer(uuid).sendMessage(ChatColor.RED + "You must register to get notifications.");
 		} else {
-			Bukkit.getPlayer(uuid).sendMessage(messages.getMessage("ALERTS_NOTIFICATIONS_MESSAGE").replace("%alerts%", message.get("alerts").getAsString()));
-			Bukkit.getPlayer(uuid).sendMessage(messages.getMessage("PM_NOTIFICATIONS_MESSAGE").replace("%pms%", message.get("messages").getAsString()));
+			Bukkit.getPlayer(uuid).sendMessage(messages.getMessage("ALERTS_NOTIFICATIONS_MESSAGE").replace("%alerts%", message.get("alerts").toString()));
+			Bukkit.getPlayer(uuid).sendMessage(messages.getMessage("PM_NOTIFICATIONS_MESSAGE").replace("%pms%", message.get("messages").toString()));
 		}
 
 		// Close output/input stream

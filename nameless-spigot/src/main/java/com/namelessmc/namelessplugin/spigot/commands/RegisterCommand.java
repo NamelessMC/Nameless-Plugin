@@ -14,9 +14,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 import com.namelessmc.namelessplugin.spigot.utils.MessagesUtil;
 
@@ -91,17 +91,17 @@ public class RegisterCommand implements CommandExecutor {
 						String responseString;
 						while((responseString = streamReader.readLine()) != null)
 							responseBuilder.append(responseString);
-						JsonObject response = new JsonObject();
-						JsonParser parser = new JsonParser();
+						JSONObject response = new JSONObject();
+						JSONParser parser = new JSONParser();
 
-						response = parser.parse(responseBuilder.toString()).getAsJsonObject();
+						response = (JSONObject) parser.parse(responseBuilder.toString());
 
-						if(response.has("error")){
+						if(response.containsKey("error")){
 							// Error with request
-							player.sendMessage(ChatColor.RED + "Error: " + response.get("message").getAsString());
+							player.sendMessage(ChatColor.RED + "Error: " + response.get("message").toString());
 						} else {
 							// Display success message to user
-							player.sendMessage(ChatColor.GREEN + response.get("message").getAsString());
+							player.sendMessage(ChatColor.GREEN + response.get("message").toString());
 						}
 
 						// Close output/input stream

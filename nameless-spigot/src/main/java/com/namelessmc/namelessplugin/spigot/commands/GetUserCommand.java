@@ -13,9 +13,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 import com.namelessmc.namelessplugin.spigot.utils.MessagesUtil;
 
@@ -66,6 +66,7 @@ public class GetUserCommand implements CommandExecutor {
 						
 						HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
 						connection.setRequestMethod("POST");
+						
 						// check if player typed uuid or username
 						if(args[0].length() >= 17){
 							connection.setRequestProperty("Content-Length", Integer.toString(toPostStringUUID.length()));
@@ -87,7 +88,7 @@ public class GetUserCommand implements CommandExecutor {
 							outputStream.writeBytes(toPostStringUName);
 						}
 						
-                        InputStream inputStream = connection.getInputStream();
+						InputStream inputStream = connection.getInputStream();
 						
 						// Handle response
 						BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
@@ -96,44 +97,42 @@ public class GetUserCommand implements CommandExecutor {
 						String responseString;
 						while((responseString = streamReader.readLine()) != null)
 							responseBuilder.append(responseString);
-						JsonParser parser = new JsonParser();
-						JsonObject response = new JsonObject();
-						JsonObject message = new JsonObject();
 						
-						response = parser.parse(responseBuilder.toString()).getAsJsonObject();
+						
+						JSONParser parser = new JSONParser();
+						JSONObject response = new JSONObject();
+
+						response = (JSONObject) parser.parse(responseBuilder.toString());
 						
 						// check if there isnt any error, if so parse the messages.
-						if(!response.has("error")){
-						    message = parser.parse(response.get("message").toString()).getAsJsonObject();
-						}
-						
-						if(response.has("error")){
+						if(response.containsKey("error")){
 							// Error with request
 							sender.sendMessage(ChatColor.RED + "Error: " + response.get("message").toString());
-						} else {
+						} else if(!response.containsKey("error")){
+							JSONObject message = (JSONObject) parser.parse(response.get("message").toString());
 							
 							// Convert UNIX timestamp to date
 							java.util.Date registered = new java.util.Date(Long.parseLong(message.get("registered").toString()) * 1000);
 							
 							// Display get user.
 							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&m--------------------------------"));
-							sender.sendMessage(ChatColor.GREEN + "Username: " + ChatColor.AQUA + message.get("notifications").toString());
-							sender.sendMessage(ChatColor.GREEN + "DisplayName: " + ChatColor.AQUA + message.get("displayname").toString());
-							sender.sendMessage(ChatColor.GREEN + "UUID: " + ChatColor.AQUA + message.get("uuid").toString());
-							sender.sendMessage(ChatColor.GREEN + "Group ID: " + ChatColor.AQUA + message.get("group_id").toString());
+							sender.sendMessage(ChatColor.GREEN + "Username: " + ChatColor.AQUA + message.get("username"));
+							sender.sendMessage(ChatColor.GREEN + "DisplayName: " + ChatColor.AQUA + message.get("displayname"));
+							sender.sendMessage(ChatColor.GREEN + "UUID: " + ChatColor.AQUA + message.get("uuid"));
+							sender.sendMessage(ChatColor.GREEN + "Group ID: " + ChatColor.AQUA + message.get("group_id"));
 							sender.sendMessage(ChatColor.GREEN + "Registered: " + ChatColor.AQUA + registered);
-							sender.sendMessage(ChatColor.GREEN + "Reputation: " + ChatColor.AQUA + message.get("reputation").toString());
+							sender.sendMessage(ChatColor.GREEN + "Reputation: " + ChatColor.AQUA + message.get("reputation"));
 							
 							// check if validated
 							if( message.get("validated").equals("1")){
 			                	sender.sendMessage(ChatColor.DARK_GREEN + "Validated: " + ChatColor.GREEN + "Yes!");
-			                } else{
+			                } else {
 			                	sender.sendMessage(ChatColor.DARK_GREEN + "Validated: " + ChatColor.RED + "No!");
 			                }
 							// check if banned
 							if( message.get("banned").equals("1")){
 			                	sender.sendMessage(ChatColor.RED + "Banned: " + ChatColor.RED + "Yes!");
-			                } else{
+			                } else {
 			                	sender.sendMessage(ChatColor.RED + "Banned: " + ChatColor.GREEN + "No!");
 			                }
 							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3&m--------------------------------"));

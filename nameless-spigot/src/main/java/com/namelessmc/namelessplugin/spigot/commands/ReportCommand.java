@@ -120,8 +120,8 @@ public class ReportCommand implements CommandExecutor {
 						String responseString;
 						while((responseString = streamReader.readLine()) != null)
 							responseBuilder.append(responseString);
-						JSONParser parser = new JSONParser();
 						JSONObject response = new JSONObject();
+						JSONParser parser = new JSONParser();
 
 						response = (JSONObject) parser.parse(responseBuilder.toString());
 
