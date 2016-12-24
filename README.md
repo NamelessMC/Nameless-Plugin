@@ -1,6 +1,8 @@
 # WARNING
 This plugin is only compatible with NamelessMC 1.0.15 & up.
+
 Expect Bugs!
+
 If you have found any bugs please report them at https://github.com/NamelessMC/Nameless-Plugin/issues
 
 # Nameless-Plugin
