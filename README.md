@@ -1,12 +1,12 @@
+# Nameless-Plugin
+This is the OFFICIAL plugin for NamelessMC Web Software
+
 # WARNING
 This plugin is only compatible with NamelessMC 1.0.15 & up.
 
 Expect Bugs!
 
 If you have found any bugs please report them at https://github.com/NamelessMC/Nameless-Plugin/issues
-
-# Nameless-Plugin
-This is the OFFICIAL plugin for NamelessMC Web Software
 
 # Installation
 This software is deployed using Maven. Maven is required if you want to get the development verions. If you want to use the development versions instead of the released ones, you can clone this repository and execute the following command in the folder:
