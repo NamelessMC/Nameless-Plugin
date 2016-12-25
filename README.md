@@ -25,6 +25,9 @@ http://ci.namelessmc.com/jenkins/job/Nameless-Plugin/
 
 Full stats, http://mcstats.org/plugin/NamelessMC/
 
+## Discord
+[<img src="https://discordapp.com/api/guilds/246705793066467328/widget.png?style=shield">](https://discord.gg/J6QsVaP)
+
 # With thanks to
 ## Contributors
 - @IsS127
