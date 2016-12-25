@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
+import com.namelessmc.namelessplugin.bungeecord.utils.ConfigUtil;
 import com.namelessmc.namelessplugin.bungeecord.utils.PermissionHandler;
 import com.namelessmc.namelessplugin.bungeecord.utils.RequestUtil;
 
@@ -101,8 +102,9 @@ public class PlayerEventListener implements Listener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		ConfigUtil conf = new ConfigUtil();
 
-		if(!playerInfoFile.contains(player.getUniqueId().toString())){
+		if(!conf.contains(playerInfoFile,player.getUniqueId().toString())){
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&a" + player.getName() + " &cis not contained in the Player Information File.."));
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Adding&a" + player.getName() + " &2to the Player Information File."));
 			playerInfoFile.set(player.getUniqueId().toString() + ".Username", player.getName());
@@ -122,10 +124,11 @@ public class PlayerEventListener implements Listener {
 				e.printStackTrace();
 			}
 
+	        ConfigUtil conf = new ConfigUtil();
 			// Check if user has changed Username
 			// If so, change the username in the Players Information File. (NOT COMPLETED)
 			// And change the username on the website.
-			 if(!playerInfoFile.getString(player.getUniqueId() + ".Username").equals( player.getName()) && playerInfoFile.contains(player.getUniqueId().toString())){
+			 if(!playerInfoFile.getString(player.getUniqueId() + ".Username").equals( player.getName()) && conf.contains(playerInfoFile,player.getUniqueId().toString())){
 				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cDetected that &a" + player.getName() + " &chas changed his/her username!"));
 				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changing &a" + player.getName() + "s &2username."));
 
