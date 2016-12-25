@@ -108,7 +108,14 @@ public class PlayerEventListener implements Listener {
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&a" + player.getName() + " &cis not contained in the Player Information File.."));
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Adding &a" + player.getName() + " &2to the Player Information File."));
 			playerInfoFile.set(player.getUniqueId().toString() + ".Username", player.getName());
-			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Added &a" + player.getName() + " &2to the Player Information File."));
+
+		try {
+				ConfigurationProvider.getProvider(YamlConfiguration.class).save(playerInfoFile, new File(plugin.getDataFolder(), "playersInformation.yml"));
+				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Added &a" + player.getName() + " &2to the Player Information File."));	
+		} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -138,6 +145,12 @@ public class PlayerEventListener implements Listener {
 				playerInfoFile.set(player.getUniqueId() + ".Username", newUsername);
 				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changed &a" + player.getName() + "s &2username in the Player Information File."));
 
+				try {
+					ConfigurationProvider.getProvider(YamlConfiguration.class).save(playerInfoFile, new File(plugin.getDataFolder(), "playersInformation.yml"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				// Changing username on Website here.
 				// Comming in a bit.
 			}
