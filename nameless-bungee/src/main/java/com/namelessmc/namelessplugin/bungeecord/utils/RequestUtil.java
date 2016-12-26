@@ -107,11 +107,6 @@ public class RequestUtil {
 		
 		response = (JsonObject) parser.parse(responseBuilder.toString());
 
-		if(response.has("error")){
-			// Error with request
-			plugin.getLogger().info(ChatColor.RED + "Error: " + response.get("message").toString());
-		}
-
 		// Close output/input stream
 		outputStream.flush();
 		outputStream.close();
@@ -120,7 +115,13 @@ public class RequestUtil {
 		// Disconnect
 		connection.disconnect();
 
-		return message.get("group_id").toString();
+		if(response.has("error")){
+			// Error with request
+			plugin.getLogger().info(ChatColor.RED + "Error: " + response.get("message").toString());
+			return null;
+		}else{
+		    return message.get("group_id").toString();
+		}
 	}
 	
 	public String getUserName(String uuid) throws Exception{
@@ -156,12 +157,6 @@ public class RequestUtil {
 		
 		response = (JsonObject) parser.parse(responseBuilder.toString());
 
-		if(response.has("error")){
-			// Error with request
-			plugin.getLogger().info(ChatColor.RED + "Error: " + response.get("message").toString());
-			return "error";
-		}
-
 		// Close output/input stream
 		outputStream.flush();
 		outputStream.close();
@@ -169,7 +164,14 @@ public class RequestUtil {
 
 		// Disconnect
 		connection.disconnect();
-		return message.get("username").getAsString();
+		
+		if(response.has("error")){
+			// Error with request
+			plugin.getLogger().info(ChatColor.RED + "Error: " + response.get("message").toString());
+			return null;
+		}else{
+		    return message.get("username").getAsString();
+		}
 	}
 	
 	public void updateUserName(String uuid, String newUsername) throws Exception{
