@@ -135,7 +135,15 @@ public class PlayerEventListener implements Listener {
 			}
 
 			// Changing username on Website here.
-			// Comming in a bit.
+			RequestUtil request = new RequestUtil(plugin);
+			try {
+				if(!player.getName().equals(request.getUserName(player.getUniqueId().toString()))){
+					request.updateUserName(player.getUniqueId().toString(), newUsername);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
