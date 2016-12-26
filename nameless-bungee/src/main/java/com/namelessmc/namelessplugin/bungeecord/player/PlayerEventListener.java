@@ -2,6 +2,7 @@ package com.namelessmc.namelessplugin.bungeecord.player;
 
 import java.io.File;
 import java.io.IOException;
+
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
 import com.namelessmc.namelessplugin.bungeecord.utils.ConfigUtil;
 import com.namelessmc.namelessplugin.bungeecord.utils.PermissionHandler;
@@ -44,11 +45,11 @@ public class PlayerEventListener implements Listener {
 	public void onPlayerJoin(PostLoginEvent event){
 		ProxiedPlayer player = event.getPlayer();
 		
-	    if(!plugin.getAPIUrl().isEmpty()){
-		    userFileCheck(player);
-		    userNameCheck(player);
-		    userGetNotification(player);
-		    userGroupSync(player);
+		if(!plugin.getAPIUrl().isEmpty()){
+			userFileCheck(player);
+			userNameCheck(player);
+			userGetNotification(player);
+			userGroupSync(player);
 		
 	   }
 	}
@@ -98,9 +99,9 @@ public class PlayerEventListener implements Listener {
 		try {
 			playerInfoFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "playersInformation.yml"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		ConfigUtil conf = new ConfigUtil();
 
 		if(!conf.contains(playerInfoFile,player.getUniqueId().toString())){
@@ -108,11 +109,10 @@ public class PlayerEventListener implements Listener {
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Adding &a" + player.getName() + " &2to the Player Information File."));
 			playerInfoFile.set(player.getUniqueId().toString() + ".Username", player.getName());
 
-		try {
+			try {
 				ConfigurationProvider.getProvider(YamlConfiguration.class).save(playerInfoFile, new File(plugin.getDataFolder(), "playersInformation.yml"));
 				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Added &a" + player.getName() + " &2to the Player Information File."));	
-		} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -123,19 +123,19 @@ public class PlayerEventListener implements Listener {
 	 *  Update Username on Login.
 	 */
 	public void userNameCheck(ProxiedPlayer player){  
-	     try {
-				playerInfoFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "playersInformation.yml"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			playerInfoFile = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "playersInformation.yml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-	        ConfigUtil conf = new ConfigUtil();
-			// Check if user has changed Username
-			// If so, change the username in the Players Information File. (NOT COMPLETED)
-			// And change the username on the website.
-	        if(plugin.getConfig().getBoolean("update-username")){
-			 if(!playerInfoFile.getString(player.getUniqueId() + ".Username").equals( player.getName()) && conf.contains(playerInfoFile,player.getUniqueId().toString())){
+		ConfigUtil conf = new ConfigUtil();
+
+		// Check if user has changed Username
+		// If so, change the username in the Players Information File. (NOT COMPLETED)
+		// And change the username on the website.
+		if(plugin.getConfig().getBoolean("update-username")){
+			if(!playerInfoFile.getString(player.getUniqueId() + ".Username").equals( player.getName()) && conf.contains(playerInfoFile,player.getUniqueId().toString())){
 				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cDetected that &a" + player.getName() + " &chas changed his/her username!"));
 				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changing &a" + player.getName() + "s &2username."));
 
@@ -148,10 +148,9 @@ public class PlayerEventListener implements Listener {
 				try {
 					ConfigurationProvider.getProvider(YamlConfiguration.class).save(playerInfoFile, new File(plugin.getDataFolder(), "playersInformation.yml"));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 				// Changing username on Website here.
 				RequestUtil request = new RequestUtil(plugin);
 				try {
@@ -159,12 +158,10 @@ public class PlayerEventListener implements Listener {
 						request.updateUserName(player.getUniqueId().toString(), newUsername);
 					}
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-	        }
+		}
 	}
-	
 
 }

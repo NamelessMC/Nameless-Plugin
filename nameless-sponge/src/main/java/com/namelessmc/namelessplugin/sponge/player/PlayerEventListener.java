@@ -40,7 +40,6 @@ public class PlayerEventListener {
 				userFileCheck(player);
 				userNameCheck(player);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		    userGetNotification(player);
@@ -92,7 +91,7 @@ public class PlayerEventListener {
 	 * Check if the user exists in the Players Information File.
 	 */
 	
-	public void userFileCheck(Player player) throws IOException{
+	public void userFileCheck(Player player) throws IOException {
 		// Check if user does NOT contain information in the Players Information file. 
 		// If so, add him.
 		File iFile = new File(new File("config", "NamelessPlugin"), "playersInformation.yml");
@@ -116,43 +115,42 @@ public class PlayerEventListener {
 	/*
 	 *  Update username on Login
 	 */
-	public void userNameCheck(Player player) throws IOException{
+	public void userNameCheck(Player player) throws IOException {
 		File iFile = new File(new File("config", "NamelessPlugin"), "playersInformation.yml");
 		YAMLConfigurationLoader fileLoader = YAMLConfigurationLoader.builder().setPath(iFile.toPath()).build();
 		ConfigurationNode yFile;
 		yFile = fileLoader.load();
-		
+
 		// Check if user has changed Username
 		// If so, change the username in the Players Information File. (NOT COMPLETED)
 		// And change the username on the website.
 		if(plugin.getConfig().getNode("update-username").getBoolean()){
-		if(!yFile.getString(player.getUniqueId() + ".Username").equals(player.getName())){
-			plugin.getLogger().info(Text.of(TextColors.RED, "Detected that ",  TextColors.GREEN, player.getName(), TextColors.RED, " has changed his/her username!").toPlain());
-			plugin.getLogger().info(Text.of(TextColors.DARK_GREEN, "Changing ", TextColors.GREEN, player.getName(), "s", TextColors.DARK_GREEN, "username.").toPlain());
+			if(!yFile.getString(player.getUniqueId() + ".Username").equals(player.getName())){
+				plugin.getLogger().info(Text.of(TextColors.RED, "Detected that ",  TextColors.GREEN, player.getName(), TextColors.RED, " has changed his/her username!").toPlain());
+				plugin.getLogger().info(Text.of(TextColors.DARK_GREEN, "Changing ", TextColors.GREEN, player.getName(), "s", TextColors.DARK_GREEN, "username.").toPlain());
 
-			String previousUsername = yFile.getNode(player.getUniqueId() + ".Username").getString();
-			String newUsername = player.getName();
-			yFile.getNode(player.getUniqueId() + ".PreviousUsername").setValue(previousUsername);
-			yFile.getNode(player.getUniqueId() + ".Username").setValue(newUsername);
-			try {
-				fileLoader.save(yFile);
-				plugin.getLogger().info(Text.of(TextColors.DARK_GREEN, "Changed ", TextColors.GREEN, player.getName(), "s", TextColors.DARK_GREEN, "username in the Player Information File.").toPlain());
-			} catch (IOException e) {
-				plugin.getLogger().info(Text.of(TextColors.RED, "Could not change ", TextColors.GREEN, player.getName(), "s", TextColors.RED, "username in the Player Information File.").toPlain());
-				e.printStackTrace();
-			}
-
-			// Changing username on Website here.
-			RequestUtil request = new RequestUtil(plugin);
-			try {
-				if(!player.getName().equals(request.getUserName(player.getUniqueId().toString()))){
-					request.updateUserName(player.getUniqueId().toString(), newUsername);
+				String previousUsername = yFile.getNode(player.getUniqueId() + ".Username").getString();
+				String newUsername = player.getName();
+				yFile.getNode(player.getUniqueId() + ".PreviousUsername").setValue(previousUsername);
+				yFile.getNode(player.getUniqueId() + ".Username").setValue(newUsername);
+				try {
+					fileLoader.save(yFile);
+					plugin.getLogger().info(Text.of(TextColors.DARK_GREEN, "Changed ", TextColors.GREEN, player.getName(), "s", TextColors.DARK_GREEN, "username in the Player Information File.").toPlain());
+				} catch (IOException e) {
+					plugin.getLogger().info(Text.of(TextColors.RED, "Could not change ", TextColors.GREEN, player.getName(), "s", TextColors.RED, "username in the Player Information File.").toPlain());
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+				// Changing username on Website here.
+				RequestUtil request = new RequestUtil(plugin);
+				try {
+					if(!player.getName().equals(request.getUserName(player.getUniqueId().toString()))){
+						request.updateUserName(player.getUniqueId().toString(), newUsername);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-		}
 		}
 	}
 

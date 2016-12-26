@@ -33,11 +33,11 @@ public class PlayerEventListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
 
-	    if(!plugin.getAPIUrl().isEmpty()){
-		    userFileCheck(player);
-		    userNameCheck(player);
-		    userGetNotification(player);
-		    userGroupSync(player);
+		if(!plugin.getAPIUrl().isEmpty()){
+			userFileCheck(player);
+			userNameCheck(player);
+			userGetNotification(player);
+			userGroupSync(player);
 		
 	   }
 	}
@@ -86,8 +86,8 @@ public class PlayerEventListener implements Listener {
 	public void userFileCheck(Player player){
 		// Check if user does NOT contain information in the Players Information file. 
 		// If so, add him.
-	    File iFile = new File(plugin.getDataFolder() + File.separator + "playersInformation.yml");
-    	YamlConfiguration yFile;
+		File iFile = new File(plugin.getDataFolder() + File.separator + "playersInformation.yml");
+		YamlConfiguration yFile;
 		yFile = YamlConfiguration.loadConfiguration(iFile);
 		if(!yFile.contains(player.getUniqueId().toString())){
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&a" + player.getName() + " &cis not contained in the Player Information File.."));
@@ -109,43 +109,42 @@ public class PlayerEventListener implements Listener {
 	 *  Update Username on Login.
 	 */
 	public void userNameCheck(Player player){
-	    File iFile = new File(plugin.getDataFolder() + File.separator + "playersInformation.yml");
-    	YamlConfiguration yFile;
+		File iFile = new File(plugin.getDataFolder() + File.separator + "playersInformation.yml");
+		YamlConfiguration yFile;
 		yFile = YamlConfiguration.loadConfiguration(iFile);
-		
 		
 		// Check if user has changed Username
 		// If so, change the username in the Players Information File. (NOT COMPLETED)
 		// And change the username on the website.
 		if(plugin.getConfig().getBoolean("update-username")){
-	     if(!yFile.getString(player.getUniqueId() + ".Username").equals(player.getName()) && yFile.contains(player.getUniqueId().toString())){
-			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cDetected that&a" + player.getName() + " &chas changed his/her username!"));
-			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changing &a" + player.getName() + "s &2username."));
+			if(!yFile.getString(player.getUniqueId() + ".Username").equals(player.getName()) && yFile.contains(player.getUniqueId().toString())){
+				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cDetected that&a" + player.getName() + " &chas changed his/her username!"));
+				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changing &a" + player.getName() + "s &2username."));
 
-			String previousUsername = yFile.get(player.getUniqueId() + ".Username").toString();
-			String newUsername = player.getName();
-			yFile.addDefault(player.getUniqueId() + ".PreviousUsername", previousUsername);
-			yFile.set(player.getUniqueId() + ".Username", newUsername);
-			yFile.options().copyDefaults(true);
-			try {
-				yFile.save(iFile);
-				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changed &a" + player.getName() + "s &2username in the Player Information File."));
-			} catch (IOException e) {
-				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&c Could not change &a" + player.getName() + "s &2Username in the Player Information File."));
-				e.printStackTrace();
-			}
-
-			// Changing username on Website here.
-			RequestUtil request = new RequestUtil(plugin);
-			try {
-				if(!player.getName().equals(request.getUserName(player.getUniqueId().toString()))){
-					request.updateUserName(player.getUniqueId().toString(), newUsername);
+				String previousUsername = yFile.get(player.getUniqueId() + ".Username").toString();
+				String newUsername = player.getName();
+				yFile.addDefault(player.getUniqueId() + ".PreviousUsername", previousUsername);
+				yFile.set(player.getUniqueId() + ".Username", newUsername);
+				yFile.options().copyDefaults(true);
+				try {
+					yFile.save(iFile);
+					plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changed &a" + player.getName() + "s &2username in the Player Information File."));
+				} catch (IOException e) {
+					plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&c Could not change &a" + player.getName() + "s &2Username in the Player Information File."));
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+				// Changing username on Website here.
+				RequestUtil request = new RequestUtil(plugin);
+				try {
+					if(!player.getName().equals(request.getUserName(player.getUniqueId().toString()))){
+						request.updateUserName(player.getUniqueId().toString(), newUsername);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-		}
 		}
 	}
+
 }

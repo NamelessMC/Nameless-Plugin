@@ -124,7 +124,7 @@ public class RequestUtil {
 		}
 	}
 	
-	public String getUserName(String uuid) throws Exception{
+	public String getUserName(String uuid) throws Exception {
 		String toPostString = "uuid=" + URLEncoder.encode(uuid, "UTF-8");
 
 		URL apiConnection = new URL(plugin.getAPIUrl() + "/get");
@@ -168,12 +168,12 @@ public class RequestUtil {
 			// Error with request
 			plugin.getLogger().info(Text.of(TextColors.RED, "Error: ", response.get("message").getAsString()).toPlain());
 			return null;
-		}else{
+		} else {
 		    return message.get("username").toString();
 		}
 	}
-	
-	public void updateUserName(String uuid, String newUsername) throws Exception{
+
+	public void updateUserName(String uuid, String newUsername) throws Exception {
 		String toPostString = "id=" + URLEncoder.encode(uuid, "UTF-8") 
 			+ "&new_username=" + URLEncoder.encode(newUsername, "UTF-8");
 
