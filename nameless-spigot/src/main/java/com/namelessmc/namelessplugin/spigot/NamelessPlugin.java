@@ -16,7 +16,9 @@ import com.namelessmc.namelessplugin.spigot.commands.ReportCommand;
 import com.namelessmc.namelessplugin.spigot.commands.SetGroupCommand;
 import com.namelessmc.namelessplugin.spigot.mcstats.Metrics;
 import com.namelessmc.namelessplugin.spigot.player.PlayerEventListener;
+import com.namelessmc.namelessplugin.spigot.utils.MVdWPlaceholderUtil;
 import com.namelessmc.namelessplugin.spigot.utils.MessagesUtil;
+import com.namelessmc.namelessplugin.spigot.utils.PAPIPlaceholderUtil;
 import com.namelessmc.namelessplugin.spigot.utils.PermissionHandler;
 import com.namelessmc.namelessplugin.spigot.utils.ReflectionUtil;
 
@@ -87,6 +89,7 @@ public class NamelessPlugin extends JavaPlugin {
 		// Initialise  Files
 		initConfig();
 		initPlayerInfoFile();
+		initHooks();
 
 		if(!isDisabled){
 			// Check Vault
@@ -214,6 +217,19 @@ public class NamelessPlugin extends JavaPlugin {
 		}
 	}
 
+	/*
+	 *  Initialize hooks
+	 */
+	private void initHooks(){
+		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")){
+			MVdWPlaceholderUtil placeholders = new MVdWPlaceholderUtil(this);
+			placeholders.hook();
+		}
+		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
+			PAPIPlaceholderUtil placeholders = new PAPIPlaceholderUtil(this);
+			placeholders.hook();
+		}
+	}
 	/*
 	 *  Initialise Vault permissions integration for group sync
 	 */
