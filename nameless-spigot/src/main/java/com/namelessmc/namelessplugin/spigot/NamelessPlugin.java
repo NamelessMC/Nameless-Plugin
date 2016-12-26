@@ -230,6 +230,7 @@ public class NamelessPlugin extends JavaPlugin {
 			placeholders.hook();
 		}
 	}
+
 	/*
 	 *  Initialise Vault permissions integration for group sync
 	 */
