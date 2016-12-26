@@ -3,6 +3,7 @@ package com.namelessmc.namelessplugin.spigot;
 import java.io.File;
 import java.io.IOException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -102,7 +103,7 @@ public class NamelessPlugin extends JavaPlugin {
 		try {
 			metrics = new Metrics(this);
 			metrics.start();
-			getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!"));
+			Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
@@ -133,11 +134,11 @@ public class NamelessPlugin extends JavaPlugin {
 					if(permissions.hasGroupSupport()){
 						useGroups = true;
 					} else {
-						getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Permissions plugin does NOT support groups! Disabling NamelessMC group synchronisation."));
+						Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Permissions plugin does NOT support groups! Disabling NamelessMC group synchronisation."));
 						useGroups = false;
 					}
 				} else {
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Couldn't detect Vault, disabling NamelessMC Vault integration."));
+					Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Couldn't detect Vault, disabling NamelessMC Vault integration."));
 				}
 	}
 
@@ -156,10 +157,10 @@ public class NamelessPlugin extends JavaPlugin {
 
 			if(!file.exists()){
 				// Config doesn't exist, create one now...
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file..."));
+				Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file..."));
 				this.saveDefaultConfig();
 
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling..."));
+				Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling..."));
 
 				// Disable plugin
 				getServer().getPluginManager().disablePlugin(this);
@@ -173,12 +174,12 @@ public class NamelessPlugin extends JavaPlugin {
 				yamlConfigFile = YamlConfiguration.loadConfiguration(configFile);
 
 				// Exists already, load it
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file..."));
+				Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file..."));
 
 				apiURL = yamlConfigFile.getString("api-url");
 				if(apiURL.isEmpty()){
 					// API URL not set
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling..."));
+					Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling..."));
 					getServer().getPluginManager().disablePlugin(this);
 				}
 
@@ -202,6 +203,7 @@ public class NamelessPlugin extends JavaPlugin {
 			}
 
 			if(spigot){
+				Bukkit.getLogger().info("Spigot detected.");
 				MessagesUtil messagesConfig = new MessagesUtil(this);
 				messagesConfig.initMessages();
 			}
@@ -233,10 +235,11 @@ public class NamelessPlugin extends JavaPlugin {
 		if(!iFile.exists()){
 			try {
 				iFile.createNewFile();
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Created players information File."));
+				Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Created players information File."));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+
 }

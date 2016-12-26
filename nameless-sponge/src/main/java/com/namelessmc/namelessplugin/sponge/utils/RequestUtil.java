@@ -256,11 +256,12 @@ public class RequestUtil {
 		JsonObject message = new JsonObject();
 
 		response = parser.parse(responseBuilder.toString()).getAsJsonObject();
+		message = parser.parse(response.get("message").getAsString()).getAsJsonObject();
 
 		if(response.has("error")){
 			// Error with request
 			Sponge.getServer().getPlayer(uuid).get().sendMessage(Text.of("Error: ", response.get("message").getAsString()));
-		} else if(response.has("error") && response.getAsString().equalsIgnoreCase("Can't find user with that UUID!")){
+		} else if(response.has("error") && response.get("message").getAsString().equalsIgnoreCase("Can't find user with that username or UUID!")){
 			Sponge.getServer().getPlayer(uuid).get().sendMessage(Text.of(TextColors.RED, "You must register to get notifications."));
 		} else if(message.get("alerts").toString().equals("0") && message.get("messages").toString().equals("0")){
 			Sponge.getServer().getPlayer(uuid).get().sendMessage(Text.of(TextColors.GOLD, "Alerts: ", TextColors.RED, "None"));

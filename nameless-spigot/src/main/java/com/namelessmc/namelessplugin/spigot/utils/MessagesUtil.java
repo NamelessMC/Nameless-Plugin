@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
@@ -19,8 +20,8 @@ public class MessagesUtil {
 
 	NamelessPlugin plugin;
 	
-	private File config;
-	private YamlConfiguration loader;
+	File config;
+	YamlConfiguration loader;
 
 	public MessagesUtil(NamelessPlugin plugin) {
 		this.plugin = plugin;
@@ -40,10 +41,10 @@ public class MessagesUtil {
 	 * Initialize the Permissions Config.
 	 */
 	public void initMessages() throws Exception {
-		config = new File(plugin.getDataFolder(), "messages.yml");
+		config = new File(plugin.getDataFolder() + File.separator +  "messages.yml");
 		InputStream defaultConfig = plugin.getClass().getClassLoader().getResourceAsStream("messages.yml");
 
-		plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Loading Messages configuration..."));
+		Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Loading Messages configuration..."));
 
 		if(!config.exists()){
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating Messages file..."));

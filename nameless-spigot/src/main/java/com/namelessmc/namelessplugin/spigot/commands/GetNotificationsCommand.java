@@ -51,7 +51,7 @@ public class GetNotificationsCommand implements CommandExecutor {
 
 					RequestUtil request = new RequestUtil(plugin);
 					try {
-						request.getNotifications(player.getUniqueId());
+						request.getNotifications(player);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

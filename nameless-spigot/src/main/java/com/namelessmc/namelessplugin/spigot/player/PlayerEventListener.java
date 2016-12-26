@@ -49,7 +49,7 @@ public class PlayerEventListener implements Listener {
 		RequestUtil request = new RequestUtil(plugin);
 		if(plugin.getConfig().getBoolean("join-notifications")){
 			try {
-				request.getNotifications(player.getUniqueId());
+				request.getNotifications(player);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

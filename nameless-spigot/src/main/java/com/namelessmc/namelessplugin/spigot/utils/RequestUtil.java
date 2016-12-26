@@ -7,10 +7,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -221,10 +221,8 @@ public class RequestUtil {
 		connection.disconnect();
 	}
 
-	public void getNotifications(UUID uuid) throws Exception{
-		MessagesUtil messages = new MessagesUtil(plugin);
-
-		String toPostString = "uuid=" + URLEncoder.encode(uuid.toString().replace("-", ""), "UTF-8");
+	public void getNotifications(Player player) throws Exception{
+		String toPostString = "uuid=" + URLEncoder.encode(player.getName(), "UTF-8");
 
 		URL apiConnection = new URL(plugin.getAPIUrl() + "/getNotifications");
 
@@ -259,12 +257,18 @@ public class RequestUtil {
 		
 		if(response.containsKey("error")){
 			// Error with request
-			Bukkit.getPlayer(uuid).sendMessage(ChatColor.RED + "Error: " + response.get("message"));
-		} else if(response.containsKey("error") && response.get("message").equals("Can't find user with that UUID!")){
-			Bukkit.getPlayer(uuid).sendMessage(ChatColor.RED + "You must register to get notifications.");
+			player.sendMessage(ChatColor.RED + "Error: " + response.get("message"));
+		} else if(response.containsKey("error") && response.get("message").toString().equalsIgnoreCase("Can't find user with that username or UUID!")){
+			player.sendMessage(ChatColor.RED + "You must register to get notifications.");
+		} else if(message.get("alerts").equals("0") && message.get("messages").toString().equals("0")){
+			player.sendMessage(ChatColor.RED + "You have no notifications.");
+		} else if(message.get("alerts").toString().equals("0")){
+			player.sendMessage(ChatColor.GOLD + "PMs: " + ChatColor.GREEN + message.get("messages").toString());
+		} else if(message.get("messages").toString().equals("0")){
+			player.sendMessage(ChatColor.GOLD + "Alerts: " + ChatColor.GREEN + message.get("alerts").toString());
 		} else {
-			Bukkit.getPlayer(uuid).sendMessage(messages.getMessage("ALERTS_NOTIFICATIONS_MESSAGE").replace("%alerts%", message.get("alerts").toString()));
-			Bukkit.getPlayer(uuid).sendMessage(messages.getMessage("PM_NOTIFICATIONS_MESSAGE").replace("%pms%", message.get("messages").toString()));
+			player.sendMessage(ChatColor.GOLD + "Alerts: " + ChatColor.GREEN + message.get("alerts").toString());
+			player.sendMessage(ChatColor.GOLD + "PMs: " + ChatColor.GREEN + message.get("messages").toString());
 		}
 
 		// Close output/input stream

@@ -45,7 +45,7 @@ public class PlayerEventListener implements Listener {
 	public void onPlayerJoin(PostLoginEvent event){
 		ProxiedPlayer player = event.getPlayer();
 		
-		if(!plugin.getAPIUrl().isEmpty()){
+		if(plugin.hasSetUrl){
 			userFileCheck(player);
 			userNameCheck(player);
 			userGetNotification(player);

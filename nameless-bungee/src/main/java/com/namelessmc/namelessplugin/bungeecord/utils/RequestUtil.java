@@ -225,7 +225,7 @@ public class RequestUtil {
 	}
 
 	public void getNotifications(ProxiedPlayer player) throws Exception{
-		String toPostString = "uuid=" + URLEncoder.encode(player.getUniqueId().toString().replace("-", ""), "UTF-8");
+		String toPostString = "uuid=" + URLEncoder.encode(player.getName(), "UTF-8");
 
 		URL apiConnection = new URL(plugin.getAPIUrl() + "/getNotifications");
 
@@ -257,24 +257,25 @@ public class RequestUtil {
 		JsonObject message = new JsonObject();
 
 		response = parser.parse(responseBuilder.toString()).getAsJsonObject();
+		message = parser.parse(response.get("message").getAsString()).getAsJsonObject();
 
 		if(response.has("error")){
 			// Error with request
 			player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Error: " + response.get("message").getAsString()));
-		} else if(response.has("error") && response.getAsString().equalsIgnoreCase("Can't find user with that UUID!")){
+		} else if(response.has("error") && response.get("message").getAsString().equalsIgnoreCase("Can't find user with that username or UUID!")){
 			player.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You must register to get notifications."));
-		} else if(message.get("alerts").toString().equals("0") && message.get("messages").toString().equals("0")){
+		} else if(message.get("alerts").getAsString().equals("0") && message.get("messages").getAsString().equals("0")){
 			player.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "Alerts: " + ChatColor.RED + "None"));
 			player.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "PMs: " + ChatColor.RED + "None"));
-		} else if(message.get("alerts").toString().equals("0")){
+		} else if(message.get("alerts").getAsString().equals("0")){
 			player.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "Alerts: " + ChatColor.RED + "None"));
-			player.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "PMs: " + ChatColor.GREEN + message.get("messages").toString()));
-		} else if(message.get("messages").toString().equals("0")){
-			player.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "Alerts: " + ChatColor.GREEN + message.get("alerts").toString()));
+			player.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "PMs: " + ChatColor.GREEN + message.get("messages").getAsString()));
+		} else if(message.get("messages").getAsString().equals("0")){
+			player.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "Alerts: " + ChatColor.GREEN + message.get("alerts").getAsString()));
 			player.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "PMs: " + ChatColor.RED + "None"));
 		} else {
-			player.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "Alerts: " + ChatColor.GREEN + message.get("alerts").toString()));
-			player.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "PMs: " + ChatColor.GREEN + message.get("messages").toString()));
+			player.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "Alerts: " + ChatColor.GREEN + message.get("alerts").getAsString()));
+			player.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "PMs: " + ChatColor.GREEN + message.get("messages").getAsString()));
 		}
 
 		// Close output/input stream
