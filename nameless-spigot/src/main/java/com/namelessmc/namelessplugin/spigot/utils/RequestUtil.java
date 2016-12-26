@@ -122,8 +122,8 @@ public class RequestUtil {
 		}
 	}
 	
-	public String getUserName(String playerName) throws Exception{
-		String toPostString = "username=" + URLEncoder.encode(playerName, "UTF-8");
+	public String getUserName(String uuid) throws Exception{
+		String toPostString = "uuid=" + URLEncoder.encode(uuid, "UTF-8");
 
 		URL apiConnection = new URL(plugin.getAPIUrl() + "/get");
 
@@ -175,7 +175,7 @@ public class RequestUtil {
 		String toPostString = "id=" + URLEncoder.encode(uuid, "UTF-8") 
 			+ "&new_username=" + URLEncoder.encode(newUsername, "UTF-8");
 
-		URL apiConnection = new URL(plugin.getAPIUrl() + "/setGroup");
+		URL apiConnection = new URL(plugin.getAPIUrl() + "/updateUsername");
 
 		HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
 		connection.setRequestMethod("POST");
