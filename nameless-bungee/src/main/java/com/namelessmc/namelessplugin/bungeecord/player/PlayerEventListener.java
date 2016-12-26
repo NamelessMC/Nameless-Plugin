@@ -150,9 +150,8 @@ public class PlayerEventListener implements Listener {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 				// Changing username on Website here.
-				// Comming in a bit.
-				// Send POST request to API
 				RequestUtil request = new RequestUtil(plugin);
 				try {
 					if(!player.getName().equals(request.getUserName(player.getUniqueId().toString()))){
