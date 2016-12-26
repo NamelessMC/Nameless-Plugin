@@ -260,7 +260,7 @@ public class RequestUtil {
 			player.sendMessage(ChatColor.RED + "Error: " + response.get("message"));
 		} else if(response.containsKey("error") && response.get("message").toString().equalsIgnoreCase("Can't find user with that username or UUID!")){
 			player.sendMessage(ChatColor.RED + "You must register to get notifications.");
-		} else if(message.get("alerts").equals("0") && message.get("messages").toString().equals("0")){
+		} else if(message.get("alerts").toString().equals("0") && message.get("messages").toString().equals("0")){
 			player.sendMessage(ChatColor.RED + "You have no notifications.");
 		} else if(message.get("alerts").toString().equals("0")){
 			player.sendMessage(ChatColor.GOLD + "PMs: " + ChatColor.GREEN + message.get("messages").toString());
