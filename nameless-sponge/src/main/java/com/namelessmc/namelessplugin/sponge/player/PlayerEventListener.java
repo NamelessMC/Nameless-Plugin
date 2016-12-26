@@ -125,6 +125,7 @@ public class PlayerEventListener {
 		// Check if user has changed Username
 		// If so, change the username in the Players Information File. (NOT COMPLETED)
 		// And change the username on the website.
+		if(plugin.getConfig().getNode("update-username").getBoolean()){
 		if(!yFile.getString(player.getUniqueId() + ".Username").equals(player.getName())){
 			plugin.getLogger().info(Text.of(TextColors.RED, "Detected that ",  TextColors.GREEN, player.getName(), TextColors.RED, " has changed his/her username!").toPlain());
 			plugin.getLogger().info(Text.of(TextColors.DARK_GREEN, "Changing ", TextColors.GREEN, player.getName(), "s", TextColors.DARK_GREEN, "username.").toPlain());
@@ -142,7 +143,16 @@ public class PlayerEventListener {
 			}
 
 			// Changing username on Website here.
-			// Comming in a bit.
+			RequestUtil request = new RequestUtil(plugin);
+			try {
+				if(!player.getName().equals(request.getUserName(player.getUniqueId().toString()))){
+					request.updateUserName(player.getUniqueId().toString(), newUsername);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		}
 	}
 
