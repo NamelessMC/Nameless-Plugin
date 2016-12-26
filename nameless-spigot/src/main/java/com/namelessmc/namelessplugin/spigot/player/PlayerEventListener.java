@@ -117,6 +117,7 @@ public class PlayerEventListener implements Listener {
 		// Check if user has changed Username
 		// If so, change the username in the Players Information File. (NOT COMPLETED)
 		// And change the username on the website.
+		if(plugin.getConfig().getBoolean("update-username")){
 	     if(!yFile.getString(player.getUniqueId() + ".Username").equals(player.getName()) && yFile.contains(player.getUniqueId().toString())){
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&cDetected that&a" + player.getName() + " &chas changed his/her username!"));
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',"&2Changing &a" + player.getName() + "s &2username."));
@@ -144,6 +145,7 @@ public class PlayerEventListener implements Listener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
 		}
 	}
 }
