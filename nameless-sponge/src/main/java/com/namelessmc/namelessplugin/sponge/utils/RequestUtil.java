@@ -108,9 +108,110 @@ public class RequestUtil {
 		
 		response = (JsonObject) parser.parse(responseBuilder.toString());
 
+		// Close output/input stream
+		outputStream.flush();
+		outputStream.close();
+		inputStream.close();
+
+		// Disconnect
+		connection.disconnect();
 		if(response.has("error")){
 			// Error with request
 			plugin.getLogger().info(Text.of(TextColors.RED, "Error: ", response.get("message").getAsString()).toPlain());
+			return null;
+		}else{
+		    return message.get("group_id").toString();
+		}
+	}
+	
+	public String getUserName(String uuid) throws Exception{
+		String toPostString = "uuid=" + URLEncoder.encode(uuid, "UTF-8");
+
+		URL apiConnection = new URL(plugin.getAPIUrl() + "/get");
+
+		HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
+		connection.setRequestMethod("POST");
+		connection.setRequestProperty("Content-Length", Integer.toString(toPostString.length()));
+		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		connection.setDoOutput(true);
+		connection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+
+		// Initialise output stream
+		DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+
+		// Write request
+		outputStream.writeBytes(toPostString);
+
+        InputStream inputStream = connection.getInputStream();
+		
+		// Handle response
+		BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+		StringBuilder responseBuilder = new StringBuilder();
+		
+		String responseString;
+		while((responseString = streamReader.readLine()) != null)
+			responseBuilder.append(responseString);
+		JsonParser parser = new JsonParser();
+		JsonObject response = new JsonObject();
+		JsonObject message = new JsonObject();
+		
+		response = (JsonObject) parser.parse(responseBuilder.toString());
+
+		// Close output/input stream
+		outputStream.flush();
+		outputStream.close();
+		inputStream.close();
+
+		// Disconnect
+		connection.disconnect();
+		if(response.has("error")){
+			// Error with request
+			plugin.getLogger().info(Text.of(TextColors.RED, "Error: ", response.get("message").getAsString()).toPlain());
+			return null;
+		}else{
+		    return message.get("username").toString();
+		}
+	}
+	
+	public void updateUserName(String uuid, String newUsername) throws Exception{
+		String toPostString = "id=" + URLEncoder.encode(uuid, "UTF-8") 
+			+ "&new_username=" + URLEncoder.encode(newUsername, "UTF-8");
+
+		URL apiConnection = new URL(plugin.getAPIUrl() + "/updateUsername");
+
+		HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
+		connection.setRequestMethod("POST");
+		connection.setRequestProperty("Content-Length", Integer.toString(toPostString.length()));
+		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		connection.setDoOutput(true);
+		connection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+
+		// Initialise output stream
+		DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+
+		// Write request
+		outputStream.writeBytes(toPostString);
+
+		// Initialise input stream
+		InputStream inputStream = connection.getInputStream();
+
+		// Handle response
+		BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+		StringBuilder responseBuilder = new StringBuilder();
+
+		String responseString;
+		while((responseString = streamReader.readLine()) != null)
+			responseBuilder.append(responseString);
+		JsonObject response = new JsonObject();
+		JsonParser parser = new JsonParser();
+
+		response = parser.parse(responseBuilder.toString()).getAsJsonObject();
+
+		if(response.has("error")){
+			// Error with request
+			plugin.getLogger().info(Text.of(TextColors.RED, "Error: ", response.get("message").getAsString()).toPlain());
+		} else {
+			plugin.getLogger().info(Text.of(TextColors.GREEN, "Succesfully changed ", uuid, "'s username to ", newUsername).toPlain());
 		}
 
 		// Close output/input stream
@@ -120,8 +221,6 @@ public class RequestUtil {
 
 		// Disconnect
 		connection.disconnect();
-
-		return message.get("group_id").toString();
 	}
 
 	public void getNotifications(UUID uuid) throws Exception{
