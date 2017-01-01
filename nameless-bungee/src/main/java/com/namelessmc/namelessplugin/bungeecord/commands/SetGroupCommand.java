@@ -1,12 +1,14 @@
 package com.namelessmc.namelessplugin.bungeecord.commands;
 
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
-import com.namelessmc.namelessplugin.bungeecord.utils.RequestUtil;
+import com.namelessmc.namelessplugin.bungeecord.API.NamelessAPI;
+import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessPlayer;
+import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessPlayerSetGroup;
+import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessChat;
+import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessMessages;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 
 /*
@@ -39,23 +41,34 @@ public class SetGroupCommand extends Command {
 			ProxyServer.getInstance().getScheduler().runAsync(plugin,  new Runnable(){
 				@Override
 				public void run(){
+					
+					NamelessAPI api = plugin.getAPI();
+					NamelessPlayer namelessPlayer = api.getPlayer(args[0]);
+					NamelessChat chat = api.getChat();
+					
 					// Ensure email is set
 					if(args.length < 2 || args.length > 2){
-						sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Incorrect usage: /setgroup player groupId"));
-						return;
-					}
-
-					RequestUtil request = new RequestUtil(plugin);
-					try {
-						request.setGroup(args[0], args[1]);;
-					} catch (Exception e) {
-						e.printStackTrace();
+						sender.sendMessage(chat.convertColors(chat.getMessage(NamelessMessages.INCORRECT_USAGE_SETGROUP)));
+					}else{
+						NamelessPlayerSetGroup group = namelessPlayer.setGroupID(args[1]);
+						String success = chat.getMessage(NamelessMessages.SETGROUP_SUCCESS);
+						success.replaceAll("%player%", group.getID());
+						success.replaceAll("%previousgroup%", group.getPreviousGroup().toString());
+						success.replaceAll("%newgroup%", group.getNewGroup().toString());
+						
+						if(group.hasError()){
+							sender.sendMessage(chat.convertColors("&cError: " + group.getErrorMessage()));
+						}else{
+							sender.sendMessage(chat.convertColors(chat.getMessage(NamelessMessages.SETGROUP_SUCCESS).replaceAll("%player%", group.getID())));
+						}
 					}
 				}
 			});
 
 		} else if (!sender.hasPermission(permissionAdmin + ".setgroup")) {
-			sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You don't have permission to this command!"));
+			NamelessAPI api = plugin.getAPI();
+			NamelessChat chat = api.getChat();
+			sender.sendMessage(chat.convertColors(chat.getMessage(NamelessMessages.NO_PERMISSION)));
 		}
 
 	}

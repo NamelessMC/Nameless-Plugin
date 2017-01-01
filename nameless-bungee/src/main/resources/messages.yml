@@ -1,6 +1,47 @@
-NO_PERMISSION: '&3You don''t have permission to this command!'
-PM_NOTIFICATIONS_MESSAGE: '&6Alerts: &2%alerts%'
-ALERTS_NOTIFICATIONS_MESSAGE: '&6PMs: &2%pms%'
-GET_USER_MESSAGE: ''
-REGISTER_MESSAGE: ''
-REPORT_MESSAGE: ''
+# Custom Messages Configuration
+
+# Global Messages
+NO_PERMISSION: '&cYou dont have permission to this command!'
+MUST_BE_INGAME: '&cYou must be ingame!'
+PLAYER_NOT_VALID: '&cYou have not validated your profile in our website!'
+MUST_REGISTER: '&cYou must register on our website!'
+
+# Incorrect Usage Messages
+INCORRECT_USAGE_REGISTER: '&cIncorrect usage: /register email'
+INCORRECT_USAGE_GETUSER: '&cIncorrect usage: /getuser username/uuid'
+INCORRECT_USAGE_GETNOTIFICATIONS: '&cIncorrect usage: /getnotifications'
+INCORRECT_USAGE_REPORT: '&cIncorrect usage: /report username reason'
+INCORRECT_USAGE_SETGROUP: '&cIncorrect usage: /setgroup player groupId'
+
+# Register
+REGISTER_SUCCESS_MESSAGE: '&aYou have successfully registered!'
+REGISTER_USERNAME_EXISTS: '&cUsername already exists!'
+REGISTER_UUID_EXISTS: '&cUUID already exists!'
+REGISTER_EMAIL_EXISTS: '&cEmail already exists!'
+
+# Notification Messages
+NO_NOTIFICATIONS: '&cYou have no Notifications.'
+ALERTS_NOTIFICATIONS_MESSAGE: '&6Alerts: &2%alerts%'
+PM_NOTIFICATIONS_MESSAGE: '&6PMs: &2%pms%'
+
+# Report 
+REPORT_SUCCESS: '&aYou have successfully reported &b%player%&a!'
+  
+# SetGroup
+SETGROUP_SUCCESS: '&aYou have successfully changed &b%player%s groupID, from %previousgroup% to %newgroup%'
+
+# Get User
+GETUSER_USERNAME: '&bUsername: &a%username%'
+GETUSER_DISPLAYNAME: '&aDisplayName: &b%displayname%'
+GETUSER_UUID: '&3UUID: &6%uuid%'
+GETUSER_GROUP_ID: '&6Group Id: &3%groupid%'
+GETUSER_REGISTERED: '&5Registered: &d%registereddate%' 
+GETUSER_REPUTATION: '&dReputation: &5%reputation%'
+
+GETUSER_VALIDATED: '&2Validated'
+GETUSER_VALIDATED_YES: '&aYes!'
+GETUSER_VALIDATED_NO: '&cNo!'
+
+GETUSER_BANNED: '&4Banned'
+GETUSER_BANNED_YES: '&cYes!'
+GETUSER_BANNED_NO: '&aNo!'

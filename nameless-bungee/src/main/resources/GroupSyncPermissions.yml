@@ -5,6 +5,7 @@
 # and here you have to set the permissions like the example
 # down here. If the player has a permission which has been set
 # down here, then the group in which the permission is set will
-# be applied to the player if it's registered in the web.
+# be applied to the player if it's registered in the web. 
+
 permissions:
   groupId: "custom.permission"

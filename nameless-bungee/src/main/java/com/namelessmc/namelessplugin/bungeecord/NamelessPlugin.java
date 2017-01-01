@@ -1,10 +1,7 @@
 package com.namelessmc.namelessplugin.bungeecord;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-
+import com.namelessmc.namelessplugin.bungeecord.API.NamelessAPI;
 import com.namelessmc.namelessplugin.bungeecord.commands.GetNotificationsCommand;
 import com.namelessmc.namelessplugin.bungeecord.commands.GetUserCommand;
 import com.namelessmc.namelessplugin.bungeecord.commands.RegisterCommand;
@@ -12,14 +9,9 @@ import com.namelessmc.namelessplugin.bungeecord.commands.ReportCommand;
 import com.namelessmc.namelessplugin.bungeecord.commands.SetGroupCommand;
 import com.namelessmc.namelessplugin.bungeecord.mcstats.Metrics;
 import com.namelessmc.namelessplugin.bungeecord.player.PlayerEventListener;
-import com.namelessmc.namelessplugin.bungeecord.utils.MessagesUtil;
-import com.namelessmc.namelessplugin.bungeecord.utils.PermissionHandler;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
 
 /*
  *  Bungeecord Version by IsS127
@@ -27,11 +19,16 @@ import net.md_5.bungee.config.YamlConfiguration;
 
 public class NamelessPlugin extends Plugin {
 
+    /*
+     * Plugin API
+     */
+	private NamelessAPI api; 
+	
 	/*
 	 *  API URL
 	 */
 	private String apiURL = "";
-	public boolean hasSetUrl = true;
+	private boolean hasSetUrl = false;
 
 	/*
 	 *  NamelessMC permission string.
@@ -46,25 +43,18 @@ public class NamelessPlugin extends Plugin {
 	Metrics metrics;
 
 	/*
-	 *  Configuration
-	 */
-	Configuration config;
-	Configuration playerInfoFile;
-
-	public Configuration getConfig(){
-		return config;
-	}
-
-	/*
 	 *  OnEnable method
 	 */
 	@Override
 	public void onEnable(){
-		// Initialise Files
-		initConfig();
-		initPlayerInfoFile();
-
+		// Register the API
+		api = new NamelessAPI(this);
+		
+		// Init config files.
+		api.getConfigs().initFile();
+	    
 		registerListeners();
+
 	}
 
 	/*
@@ -74,11 +64,12 @@ public class NamelessPlugin extends Plugin {
 	public void onDisable(){
 		unRegisterListeners();
 	}
-
+	
 	/*
 	 * Register Commands/Events
 	 */
 	public void registerListeners(){
+		
 		try {
             metrics = new Metrics(this);
             metrics.start();
@@ -87,20 +78,20 @@ public class NamelessPlugin extends Plugin {
             e.printStackTrace();
         } 
 
-		// Register commands if url has been set
+		// Register commands & listeners if url has been set
 		if(hasSetUrl){
 			getProxy().getPluginManager().registerCommand(this, new RegisterCommand(this, "register"));
 			getProxy().getPluginManager().registerCommand(this, new GetUserCommand(this, "getuser"));
 			getProxy().getPluginManager().registerCommand(this, new GetNotificationsCommand(this, "getnotifications"));
 			getProxy().getPluginManager().registerCommand(this, new SetGroupCommand(this, "setgroup"));
 
-			if (config.getBoolean("enable-reports")) {
+			if (getAPI().getConfigs().getConfig().getBoolean("enable-reports")) {
 				getProxy().getPluginManager().registerCommand(this, new ReportCommand(this, "report"));
 			}
+			
+			// Register events
+			getProxy().getPluginManager().registerListener(this, new PlayerEventListener(this));
 		}
-
-		// Register events
-		getProxy().getPluginManager().registerListener(this, new PlayerEventListener(this));
 	}
 
 	/*
@@ -110,91 +101,45 @@ public class NamelessPlugin extends Plugin {
 		// UnRegister commands
 		getProxy().getPluginManager().unregisterCommand(new RegisterCommand(this, "register"));
 		getProxy().getPluginManager().unregisterCommand(new GetUserCommand(this, "getuser"));
-		if (config.getBoolean("enable-reports")) {
+		if (getAPI().getConfigs().getConfig().getBoolean("enable-reports")) {
 			getProxy().getPluginManager().unregisterCommand(new ReportCommand(this, "report"));
 		}
 
 		// UnRegister Listeners/Events
 		getProxy().getPluginManager().unregisterListener(new PlayerEventListener(this));
 	}
-
+	
 	/*
-	 *  Initialise configuration
+	 *  Get / Has / Set
 	 */
-	private void initConfig(){
-		// Check config exists, if not create one
-		try {
-			if(!getDataFolder().exists()){
-				// Folder within plugins doesn't exist, create one now...
-				getDataFolder().mkdirs();
-			}
-
-			File file = new File(getDataFolder(), "config.yml");
-
-			if(!file.exists()){
-				try (InputStream in = getResourceAsStream("config.yml")) {
-					// Config doesn't exist, create one now...
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file..."));
-                    Files.copy(in, file.toPath());
-
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling features..."));
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Please Configure NamelessMC config.yml!"));
-					hasSetUrl = false;
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-			} else {
-				config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(getDataFolder(), "config.yml"));
-
-				// Exists already, load it
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file..."));
-
-				apiURL = config.getString("api-url");
-
-				if(apiURL.isEmpty()){
-					// API URL not set
-					getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling features."));
-					hasSetUrl = false;
-				}
-				
-				//Use group synchronization
-				if(getConfig().getBoolean("group-synchronization")){
-					PermissionHandler phandler = new PermissionHandler(this);
-					phandler.initConfig();
-				}
-			}
-
-			MessagesUtil messagesConfig = new MessagesUtil(this);
-			messagesConfig.initMessages();
-
-		} catch(Exception e){
-			// Exception generated
-			e.printStackTrace();
-		}
-	}
-
-	/*
-	 *  Gets API URL
-	 */
+	
+	// Gets the website api url.
 	public String getAPIUrl(){
 		return apiURL;
 	}
 
-	/*
-	 * Initialise the Player Info File
-	 */
-	private void initPlayerInfoFile() {
-	    File iFile = new File(this.getDataFolder() + File.separator + "playersInformation.yml");
-		if(!iFile.exists()){
-			try {
-				iFile.createNewFile();
-				getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Created Players Information File."));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+	// Gets the Plugin API
+	public NamelessAPI getAPI(){
+		return api;
 	}
+	
+	// Checks if hasSetUrl
+	public boolean hasSetUrl(){
+		return hasSetUrl;
+	}
+	
+	// Sets HasSetUrl
+	public void setHasSetUrl(boolean value){
+		hasSetUrl = value;
+	}
+	
+	// Sets api url
+	public void setAPIUrl(String value){
+		apiURL = value;
+	}
+	
+	/*
+	 * End! 
+	 */
 
 }
