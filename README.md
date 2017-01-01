@@ -18,6 +18,13 @@ It will generate a folder called target inside the folder nameless contained in 
 Or you can download from our jenkins page. [DEV BUILDS].
 http://ci.namelessmc.com/jenkins/job/Nameless-Plugin/
 
+# Permissions
+- namelessmc.register, /register email.
+- namelessmc.notifications, /getNotifications.
+- namelessmc.report, /report username.
+- namelessmc.setgroup, /setgroup username groupid.
+- namelessmc.admin.getuser, /getUser uuid/username.
+
 # Stats
 ![alt tag](http://i.mcstats.org/NamelessMC/Server+Software.png)
 ![alt tag](http://i.mcstats.org/NamelessMC/Version+Demographics.png)
