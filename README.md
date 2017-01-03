@@ -22,7 +22,7 @@ http://ci.namelessmc.com/jenkins/job/Nameless-Plugin/
 - namelessmc.register, /register email.
 - namelessmc.notifications, /getNotifications.
 - namelessmc.report, /report username.
-- namelessmc.setgroup, /setgroup username groupid.
+- namelessmc.admin.setgroup, /setgroup username groupid.
 - namelessmc.admin.getuser, /getUser uuid/username.
 
 # Stats
