@@ -1,5 +1,6 @@
 # Nameless-Plugin
 This is the OFFICIAL plugin for NamelessMC Web Software
+IN DEVELOPMENT!
 
 # WARNING
 This plugin is only compatible with NamelessMC 1.0.15 & up.
