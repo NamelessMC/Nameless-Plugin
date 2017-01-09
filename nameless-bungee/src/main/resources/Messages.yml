@@ -28,7 +28,7 @@ PM_NOTIFICATIONS_MESSAGE: '&6PMs: &2%pms%'
 REPORT_SUCCESS: '&aYou have successfully reported &b%player%&a!'
   
 # SetGroup
-SETGROUP_SUCCESS: '&aYou have successfully changed &b%player%s groupID, from %previousgroup% to %newgroup%'
+SETGROUP_SUCCESS: '&aYou have successfully changed &b%player%s &3groupID&a, from &3%previousgroup% &ato &3%newgroup%!'
 
 # Get User
 GETUSER_USERNAME: '&bUsername: &a%username%'
