@@ -43,23 +43,23 @@ public class SetGroupCommand extends Command {
 				public void run(){
 					
 					NamelessAPI api = plugin.getAPI();
-					NamelessPlayer namelessPlayer = api.getPlayer(args[0]);
 					NamelessChat chat = api.getChat();
 					
 					// Ensure email is set
 					if(args.length < 2 || args.length > 2){
 						sender.sendMessage(chat.convertColors(chat.getMessage(NamelessMessages.INCORRECT_USAGE_SETGROUP)));
 					}else{
+						NamelessPlayer namelessPlayer = api.getPlayer(args[0]);
 						NamelessPlayerSetGroup group = namelessPlayer.setGroupID(args[1]);
-						String success = chat.getMessage(NamelessMessages.SETGROUP_SUCCESS);
-						success.replaceAll("%player%", group.getID());
-						success.replaceAll("%previousgroup%", group.getPreviousGroup().toString());
-						success.replaceAll("%newgroup%", group.getNewGroup().toString());
 						
 						if(group.hasError()){
 							sender.sendMessage(chat.convertColors("&cError: " + group.getErrorMessage()));
 						}else{
-							sender.sendMessage(chat.convertColors(chat.getMessage(NamelessMessages.SETGROUP_SUCCESS).replaceAll("%player%", group.getID())));
+							String success = chat.getMessage(NamelessMessages.SETGROUP_SUCCESS)
+									.replaceAll("%player%", group.getID())
+									.replaceAll("%previousgroup%", group.getPreviousGroup().toString())
+									.replaceAll("%newgroup%", group.getNewGroup().toString());
+							sender.sendMessage(chat.convertColors(success));
 						}
 					}
 				}

@@ -90,7 +90,7 @@ public class NamelessPlayerSetGroup {
 			} else {
 				
 				
-				error = true;
+				error = false;
 				succeeded = true;
 			}
 
@@ -173,7 +173,7 @@ public class NamelessPlayerSetGroup {
 			} else {
 				this.newGroup = plugin.getAPI().getPlayer(id).getGroupID();
 				
-				error = true;
+				error = false;
 				succeeded = true;
 			}
 
