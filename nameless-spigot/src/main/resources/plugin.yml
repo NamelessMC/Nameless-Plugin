@@ -1,22 +1,6 @@
 name: NamelessMC
 main: com.namelessmc.namelessplugin.spigot.NamelessPlugin
-authors: [Samerton, IsS127]
+authors: [Samerton, IsS127, Lmmb74]
 website: https://namelessmc.com/
 version: ${project.version}
 softdepend: [Vault,PlaceholderAPI,MVdWPlaceholderAPI]
-commands:
-  register:
-    description: Register for an account on the website
-    usage: /register {email}
-  getuser:
-    description: Get information about a specified user
-    usage: /getuser {username}
-  report:
-    description: Report a user
-    usage: /report {username} {reason}
-  getnotifications:
-    description: Get your notifications
-    usage: /getnotifications
-  setgroup:
-    description: Set an user group in your web
-    usage: /report {username} {groupId}

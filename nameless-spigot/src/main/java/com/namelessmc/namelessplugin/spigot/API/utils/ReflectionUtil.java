@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.spigot.utils;
+package com.namelessmc.namelessplugin.spigot.API.utils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -10,10 +10,9 @@ import org.bukkit.entity.Player;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 
-@SuppressWarnings("unused")
 public class ReflectionUtil {
 	
-	private Class<?> getNMSClass(String nmsClassName) throws Exception {
+	public Class<?> getNMSClass(String nmsClassName) throws Exception {
 		String version = Bukkit.getServer().getClass().getPackage().getName().split(".")[3];
 		String name = "net.minecraft.server." + version + "." + nmsClassName;
 
@@ -21,7 +20,7 @@ public class ReflectionUtil {
 		return nmsClass;
 	}
 
-	private Object getConnection(Player p) throws Exception {
+	public Object getConnection(Player p) throws Exception {
 		Method getHandle = p.getClass().getMethod("getHandle");
 		Object nmsPlayer = getHandle.invoke(p);
 		Field conField = nmsPlayer.getClass().getField("playerConnection");
@@ -29,7 +28,7 @@ public class ReflectionUtil {
 		return con;
 	}
 
-	private Object sendMessage(Player p, BaseComponent component) throws Exception {
+	public Object sendMessage(Player p, BaseComponent component) throws Exception {
 		Class<?> packetClass = getNMSClass("PacketPlayOutChat");
 		Class<?> icbc = getNMSClass("IChatBaseComponent");
 		Class<?> serializer = getNMSClass("IChatBaseComponent$ChatSerializer");

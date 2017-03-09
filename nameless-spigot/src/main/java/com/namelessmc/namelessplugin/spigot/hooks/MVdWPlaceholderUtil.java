@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.spigot.utils;
+package com.namelessmc.namelessplugin.spigot.hooks;
 
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 
@@ -15,12 +15,11 @@ public class MVdWPlaceholderUtil {
 	}
 
 	public void hook(){
-		RequestUtil request = new RequestUtil(plugin);
 		PlaceholderAPI.registerPlaceholder(plugin, "nameless_alerts", new PlaceholderReplacer() {
 			@Override
 			public String onPlaceholderReplace(PlaceholderReplaceEvent event) {
 				try {
-					return request.getAlerts(event.getPlayer());
+					return plugin.getAPI().getPlayer(event.getPlayer().getName()).getNotifications().getAlerts().toString();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -31,7 +30,7 @@ public class MVdWPlaceholderUtil {
 			@Override
 			public String onPlaceholderReplace(PlaceholderReplaceEvent event) {
 				try {
-					return request.getPMs(event.getPlayer());
+					return plugin.getAPI().getPlayer(event.getPlayer().getName()).getNotifications().getPMs().toString();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

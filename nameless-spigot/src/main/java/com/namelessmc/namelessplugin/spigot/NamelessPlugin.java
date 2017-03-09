@@ -1,262 +1,257 @@
 package com.namelessmc.namelessplugin.spigot;
 
-import java.io.File;
 import java.io.IOException;
-
+import java.lang.reflect.Field;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.namelessmc.namelessplugin.spigot.commands.GetNotificationsCommand;
-import com.namelessmc.namelessplugin.spigot.commands.GetUserCommand;
-import com.namelessmc.namelessplugin.spigot.commands.RegisterCommand;
-import com.namelessmc.namelessplugin.spigot.commands.ReportCommand;
-import com.namelessmc.namelessplugin.spigot.commands.SetGroupCommand;
+import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
+import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.spigot.commands.CommandWithArgs;
+import com.namelessmc.namelessplugin.spigot.commands.alone.GetNotificationsCommand;
+import com.namelessmc.namelessplugin.spigot.commands.alone.GetUserCommand;
+import com.namelessmc.namelessplugin.spigot.commands.alone.RegisterCommand;
+import com.namelessmc.namelessplugin.spigot.commands.alone.ReportCommand;
+import com.namelessmc.namelessplugin.spigot.commands.alone.SetGroupCommand;
+import com.namelessmc.namelessplugin.spigot.hooks.MVdWPlaceholderUtil;
+import com.namelessmc.namelessplugin.spigot.hooks.PAPIPlaceholderUtil;
 import com.namelessmc.namelessplugin.spigot.mcstats.Metrics;
 import com.namelessmc.namelessplugin.spigot.player.PlayerEventListener;
-import com.namelessmc.namelessplugin.spigot.utils.MVdWPlaceholderUtil;
-import com.namelessmc.namelessplugin.spigot.utils.MessagesUtil;
-import com.namelessmc.namelessplugin.spigot.utils.PAPIPlaceholderUtil;
-import com.namelessmc.namelessplugin.spigot.utils.PermissionHandler;
-import com.namelessmc.namelessplugin.spigot.utils.ReflectionUtil;
 
 import net.milkbowl.vault.permission.Permission;
 
 public class NamelessPlugin extends JavaPlugin {
 
-	private ReflectionUtil reflection;
+	/*
+	 * Plugin API
+	 */
+	private NamelessAPI api;
+
+	/*
+	 * API URL
+	 */
+	private String apiURL = "";
+	private boolean hasSetUrl = false;
+
+	/*
+	 * NamelessMC permission string.
+	 */
+
+	public final String permission = "namelessmc";
+	public final String permissionAdmin = "namelessmc.admin";
 
 	/*
 	 * Metrics
 	 */
-	Metrics metrics;
+	private Metrics metrics;
 
 	/*
-	 *  API URL
+	 * Vault
 	 */
-	private String apiURL = "";
-
-	/*
-	 *  Vault Integration
-	 */
-	private boolean useVault = false;
-
-	/*
-	 *  Vault Permissions
-	 */
+	public boolean useVault = false;
 	private Permission permissions = null;
 
 	/*
-	 *  Groups Support 
+	 * Groups Support
 	 */
-	@SuppressWarnings("unused")
-	private boolean useGroups = false;
+	public boolean useGroups = false;
 
 	/*
-	 *  Enable reports?
+	 * Spigot or Bukkit?
 	 */
-	private boolean useReports = false;
+	private boolean spigot = true;
 
 	/*
-	 *  Is the plugin disabled?
+	 * Bukkit command maps
 	 */
-	private boolean isDisabled = false;
+	Field bukkitCommandMap;
+	CommandMap commandMap;
 
 	/*
-	 *  NamelessMC permissions strings.
-	 */
-	public final String permission = "namelessmc";
-	public final String permissionAdmin = "namelessmc.admin";
-
-	public ReflectionUtil getReflection(){
-		return reflection;
-	}
-
-	/*
-	 *  Gets API URL
-	 */
-	public String getAPIUrl(){
-		return apiURL;
-	}
-
-	/*
-	 *  OnEnable method
+	 * OnEnable method
 	 */
 	@Override
-	public void onEnable(){
-		// Initialise  Files
-		initConfig();
-		initPlayerInfoFile();
-		initHooks();
+	public void onEnable() {
+		// Check Sofware (Spigot or Bukkit)
+		checkSoftware();
 
-		if(!isDisabled){
-			// Check Vault
+		// Register the API
+		api = new NamelessAPI(this);
+
+		// Init config files.
+		api.getConfigs().initFile();
+
+		registerListeners();
+		if (hasSetUrl) {
 			detectVault();
-			registerListeners();
+			initHooks();
 		}
 	}
 
 	/*
 	 * Register Commands/Events
 	 */
-	public void registerListeners(){
-		// Register McStats
+	public void registerListeners() {
+
 		try {
 			metrics = new Metrics(this);
 			metrics.start();
-			Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!"));
+			getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO, "&aMetrics Started!");
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
-
-		// Register commands
-		getCommand("register").setExecutor(new RegisterCommand(this));
-		getCommand("getuser").setExecutor(new GetUserCommand(this));
-		getCommand("getnotifications").setExecutor(new GetNotificationsCommand(this));
-		getCommand("setgroup").setExecutor(new SetGroupCommand(this));
-
-		if(useReports){
-			getCommand("report").setExecutor(new ReportCommand(this));
 		}
 
-		// Register events
-		getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
+		// Register commands & listeners if url has been set
+		if (hasSetUrl) {
+
+			try {
+				bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+				bukkitCommandMap.setAccessible(true);
+				commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
+			} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+				e.printStackTrace();
+			}
+
+			
+			
+			String namelessMC = this.getName();
+			if (api.getConfigs().getCommandsConfig().getBoolean("Commands.Alone.Use")
+					&& api.getConfigs().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
+				getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
+						"&4ERROR REGISTERING COMMANDS! BOUTH IS SET TO TRUE!");
+			} else if (api.getConfigs().getCommandsConfig().getBoolean("Commands.Alone.Use")) {
+				String register = api.getConfigs().getCommandsConfig().getString("Commands.Alone.Register");
+				String getUser = api.getConfigs().getCommandsConfig().getString("Commands.Alone.GetUser");
+				String getNotifications = api.getConfigs().getCommandsConfig()
+						.getString("Commands.Alone.GetNotifications");
+				String setGroup = api.getConfigs().getCommandsConfig().getString("Commands.Alone.SetGroup");
+				String report = api.getConfigs().getCommandsConfig().getString("Commands.Alone.Report");
+
+				commandMap.register(namelessMC, new RegisterCommand(this, register));
+				commandMap.register(namelessMC, new GetUserCommand(this, getUser));
+				commandMap.register(namelessMC, new GetNotificationsCommand(this, getNotifications));
+				commandMap.register(namelessMC, new SetGroupCommand(this, setGroup));
+				if (api.getConfigs().getConfig().getBoolean("enable-reports")) {
+					commandMap.register(namelessMC, new ReportCommand(this, report));
+				}
+			} else if (api.getConfigs().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
+				String subCommand = api.getConfigs().getCommandsConfig().getString("Commands.SubCommand.Main");
+				commandMap.register(namelessMC, new CommandWithArgs(this, subCommand));
+			} else {
+				getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING, "&4ERROR REGISTERING COMMANDS!");
+			}
+
+			// Register events
+			getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
+		}
+
+	}
+
+	public void checkSoftware() {
+
+		try {
+			Class.forName("org.spigotmc.Metrics");
+		} catch (Exception e) {
+			spigot = false;
+			e.printStackTrace();
+		}
+
 	}
 
 	/*
 	 * Check if Vault is Activated
 	 */
-	public void detectVault(){
-				if(getServer().getPluginManager().getPlugin("Vault") != null){
-					// Enable Vault integration and setup Permissions.
-					useVault = true;
-					initPermissions();
-					// Check if the permissions plugin has groups.
-					if(permissions.hasGroupSupport()){
-						useGroups = true;
-					} else {
-						Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Permissions plugin does NOT support groups! Disabling NamelessMC group synchronisation."));
-						useGroups = false;
-					}
-				} else {
-					Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4Couldn't detect Vault, disabling NamelessMC Vault integration."));
-				}
-	}
-
-	/*
-	 *  Initialise configuration
-	 */
-	private void initConfig(){
-		// Check config exists, if not create one
-		try {
-			if(!getDataFolder().exists()){
-				// Folder within plugins doesn't exist, create one now...
-				getDataFolder().mkdirs();
-			}
-
-			File file = new File(getDataFolder(), "config.yml");
-
-			if(!file.exists()){
-				// Config doesn't exist, create one now...
-				Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&1Creating NamelessMC configuration file..."));
-				this.saveDefaultConfig();
-
-				Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4NamelessMC needs configuring, disabling..."));
-
-				// Disable plugin
-				getServer().getPluginManager().disablePlugin(this);
-
-				isDisabled = true;
-
+	public void detectVault() {
+		if (getServer().getPluginManager().getPlugin("Vault") != null) {
+			// Enable Vault integration and setup Permissions.
+			useVault = true;
+			initPermissions();
+			// Check if the permissions plugin has groups.
+			if (permissions.hasGroupSupport()) {
+				useGroups = true;
 			} else {
-				// Better way of loading config file, no need to reload.
-				File configFile = new File(getDataFolder() + File.separator + "/config.yml");
-				YamlConfiguration yamlConfigFile;
-				yamlConfigFile = YamlConfiguration.loadConfiguration(configFile);
-
-				// Exists already, load it
-				Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Loading NamelessMC configuration file..."));
-
-				apiURL = yamlConfigFile.getString("api-url");
-				if(apiURL.isEmpty()){
-					// API URL not set
-					Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&4No API URL set in the NamelessMC configuration, disabling..."));
-					getServer().getPluginManager().disablePlugin(this);
-				}
-
-				// Use the report system?
-				useReports = yamlConfigFile.getBoolean("enable-reports");
-
-				//Use group synchronization?
-				if(getConfig().getBoolean("group-synchronization")){
-					PermissionHandler phandler = new PermissionHandler(this);
-					phandler.initConfig();
-				}
+				getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
+						"&4Permissions plugin does NOT support groups! Disabling NamelessMC Vault integration.");
+				useGroups = false;
 			}
-
-			boolean spigot = true;
-
-			try {
-				Class.forName("org.spigotmc.Metrics");
-			} catch (Exception e) {
-				spigot = false;
-				e.printStackTrace();
-			}
-
-			if(spigot){
-				Bukkit.getLogger().info("Spigot detected.");
-				MessagesUtil messagesConfig = new MessagesUtil(this);
-				messagesConfig.initMessages();
-			}
-
-		} catch(Exception e){
-			// Exception generated
-			e.printStackTrace();
+		} else {
+			getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
+					"&4Couldn't detect Vault, disabling NamelessMC Vault integration.");
 		}
 	}
 
 	/*
-	 *  Initialize hooks
+	 * Initialize hooks
 	 */
-	private void initHooks(){
-		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")){
+	private void initHooks() {
+		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
 			MVdWPlaceholderUtil placeholders = new MVdWPlaceholderUtil(this);
 			placeholders.hook();
 		}
-		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
+		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			PAPIPlaceholderUtil placeholders = new PAPIPlaceholderUtil(this);
 			placeholders.hook();
 		}
 	}
 
 	/*
-	 *  Initialise Vault permissions integration for group sync
+	 * Initialise Vault permissions integration for group sync
 	 */
-	private boolean initPermissions(){
+	private boolean initPermissions() {
 
-		if(useVault){
-			RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+		if (useVault) {
+			RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager()
+					.getRegistration(Permission.class);
 			permissions = rsp.getProvider();
 		}
 
 		return permissions != null;
-	}	
+	}
 
 	/*
-	 * Initialise The Player Info File
+	 * Get / Has / Set
 	 */
-	private void initPlayerInfoFile() {
-	    File iFile = new File(this.getDataFolder() + File.separator + "playersInformation.yml");
-		if(!iFile.exists()){
-			try {
-				iFile.createNewFile();
-				Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', "&2Created players information File."));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+
+	// Gets the website api url.
+	public String getAPIUrl() {
+		return apiURL;
+	}
+
+	// Gets the Plugin API
+	public NamelessAPI getAPI() {
+		return api;
+	}
+
+	// Checks if hasSetUrl
+	public boolean hasSetUrl() {
+		return hasSetUrl;
+	}
+
+	// Sets HasSetUrl
+	public void setHasSetUrl(boolean value) {
+		hasSetUrl = value;
+	}
+
+	// Sets api url
+	public void setAPIUrl(String value) {
+		apiURL = value;
+	}
+
+	// Check if Spigot
+	public boolean isSpigot() {
+		return spigot;
+	}
+
+	// Check if Bukkit
+	public boolean isBukkit() {
+		return !spigot;
+	}
+
+	// Set Spigot (true or false)
+	public void setSpigot(boolean value) {
+		spigot = value;
 	}
 
 }

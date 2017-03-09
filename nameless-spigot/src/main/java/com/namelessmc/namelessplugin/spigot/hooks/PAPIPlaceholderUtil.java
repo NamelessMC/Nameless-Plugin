@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.spigot.utils;
+package com.namelessmc.namelessplugin.spigot.hooks;
 
 import org.bukkit.entity.Player;
 
@@ -17,16 +17,15 @@ public class PAPIPlaceholderUtil extends EZPlaceholderHook {
 
 	@Override
 	public String onPlaceholderRequest(Player player, String identifier) {
-		RequestUtil request = new RequestUtil(plugin);
 		if (identifier.equals("alerts")){
 			try {
-				return request.getAlerts(player);
+				return plugin.getAPI().getPlayer(player.getName()).getNotifications().getAlerts().toString();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else if (identifier.equals("messages")){
 			try {
-				return request.getPMs(player);
+				return plugin.getAPI().getPlayer(player.getName()).getNotifications().getPMs().toString();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
