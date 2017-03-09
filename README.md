@@ -17,8 +17,8 @@ maven clean install
 ```
 It will generate a folder called target inside the folder nameless contained in this repository. You will find a jar called Nameless.jar inside that folder. This jar is compatible with both Bungeecord & Spigot.
 
-Or you can download from our jenkins page. [DEV BUILDS].
-http://ci.namelessmc.com/jenkins/job/Nameless-Plugin/
+~~Or you can download from our jenkins page. [DEV BUILDS].
+http://ci.namelessmc.com/jenkins/job/Nameless-Plugin/~~
 
 # Permissions
 - namelessmc.register, /register email.
