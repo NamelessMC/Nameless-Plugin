@@ -27,13 +27,6 @@ http://ci.namelessmc.com/jenkins/job/Nameless-Plugin/~~
 - namelessmc.admin.setgroup, /setgroup username groupid.
 - namelessmc.admin.getuser, /getUser uuid/username.
 
-~~# Stats
-![alt tag](http://i.mcstats.org/NamelessMC/Server+Software.png)
-![alt tag](http://i.mcstats.org/NamelessMC/Version+Demographics.png)
-![alt tag](http://i.mcstats.org/NamelessMC/Global+Statistics.png)
-
-~~Full stats, http://mcstats.org/plugin/NamelessMC/
-
 ## Discord
 [<img src="https://discordapp.com/api/guilds/246705793066467328/widget.png?style=shield">](https://discord.gg/J6QsVaP)
 
