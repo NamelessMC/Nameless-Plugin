@@ -27,6 +27,11 @@ http://ci.namelessmc.com/jenkins/job/Nameless-Plugin/~~
 - namelessmc.admin.setgroup, /setgroup username groupid.
 - namelessmc.admin.getuser, /getUser uuid/username.
 
+# PlaceHolders
+## MVdW Placeholders & PlaceHolderAPI
+- PM: nameless_messages
+- Alerts: nameless_alerts
+
 ## Discord
 [<img src="https://discordapp.com/api/guilds/246705793066467328/widget.png?style=shield">](https://discord.gg/J6QsVaP)
 
