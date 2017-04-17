@@ -206,7 +206,7 @@ public class NamelessPlayer {
 	}
 
 	public NamelessPlayerUpdateUsername updateUsername(String newUserName) {
-		NamelessPlayerUpdateUsername updateUsername = new NamelessPlayerUpdateUsername(plugin, id, userName);
+		NamelessPlayerUpdateUsername updateUsername = new NamelessPlayerUpdateUsername(plugin, id, newUserName);
 		return updateUsername;
 	}
 	

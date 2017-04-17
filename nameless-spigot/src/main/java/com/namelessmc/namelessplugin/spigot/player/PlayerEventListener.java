@@ -207,7 +207,6 @@ public class PlayerEventListener implements Listener {
 				NamelessPlayer namelessPlayer = plugin.getAPI().getPlayer(player.getUniqueId().toString());
 				// Changing username on Website here.
 				if (!namelessPlayer.getUserName().equals(newUsername)) {
-					System.out.println(namelessPlayer.getUserName());
 					NamelessPlayerUpdateUsername updateUsername = namelessPlayer.updateUsername(newUsername);
 					if (updateUsername.hasError()) {
 						plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
@@ -215,11 +214,10 @@ public class PlayerEventListener implements Listener {
 								"Failed changing &c" + player.getName() + "'s &4username in the website");
 					} else {
 						plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO,
-								"&aChanged &b" + player.getName() + "'s &ausername in the Website");
+								"&aChanged &b" + player.getName() + "'s &ausername in the website");
 					}
 				}
 			}
 		}
 	}
-
 }
