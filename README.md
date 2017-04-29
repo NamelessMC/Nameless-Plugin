@@ -21,6 +21,7 @@ It will generate a folder called target inside the folder nameless contained in 
 http://ci.namelessmc.com/jenkins/job/Nameless-Plugin/~~
 
 # Permissions
+- namelessmc.main, /website
 - namelessmc.register, /register email.
 - namelessmc.notifications, /getNotifications.
 - namelessmc.report, /report username.
