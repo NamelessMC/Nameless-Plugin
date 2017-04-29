@@ -23,7 +23,7 @@ public class NamelessChat {
 	public TextComponent sendClickableMessage(String message, ClickEvent.Action click, String actionText,
 			HoverEvent.Action hover, String hoverText) {
 		if(plugin.isSpigot()){
-			messageConfig = plugin.getAPI().getConfigs().getMessageConfig();
+			messageConfig = plugin.getAPI().getConfigManager().getMessageConfig();
 			TextComponent msg = new TextComponent(ChatColor.translateAlternateColorCodes('&', message));
 			msg.setClickEvent(new ClickEvent(click, actionText));
 			msg.setHoverEvent(new HoverEvent(hover,
@@ -39,7 +39,7 @@ public class NamelessChat {
 	}
 
 	public String getMessage(NamelessMessages message) {
-		YamlConfiguration messageConfig = plugin.getAPI().getConfigs().getMessageConfig();
+		YamlConfiguration messageConfig = plugin.getAPI().getConfigManager().getMessageConfig();
 		return messageConfig.getString(message.toString());
 	}
 	

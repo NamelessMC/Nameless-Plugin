@@ -25,7 +25,7 @@
  * authors and contributors and should not be interpreted as representing official policies,
  * either expressed or implied, of anybody else.
  */
-package com.namelessmc.namelessplugin.spigot.mcstats;
+package com.namelessmc.namelessplugin.spigot.stats;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -58,7 +58,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.scheduler.BukkitTask;
 
-public class Metrics {
+public class MCStats {
 
     /**
      * The current revision number
@@ -120,7 +120,7 @@ public class Metrics {
      */
     private volatile BukkitTask task = null;
 
-    public Metrics(final Plugin plugin) throws IOException {
+    public MCStats(final Plugin plugin) throws IOException {
         if (plugin == null) {
             throw new IllegalArgumentException("Plugin cannot be null");
         }

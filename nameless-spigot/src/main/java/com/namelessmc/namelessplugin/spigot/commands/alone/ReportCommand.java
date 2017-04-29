@@ -1,9 +1,7 @@
 package com.namelessmc.namelessplugin.spigot.commands.alone;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -13,25 +11,29 @@ import com.namelessmc.namelessplugin.spigot.API.Player.NamelessReportPlayer;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
 
 /*
  *  Report CMD
  */
 
-public class ReportCommand extends Command implements PluginIdentifiableCommand{
+public class ReportCommand extends NamelessCommand{
 
 	NamelessPlugin plugin;
+	String commandName;
 
 	/*
 	 * Constructer
 	 */
 	public ReportCommand(NamelessPlugin pluginInstance, String name) {
 		super(name);
-		this.plugin = pluginInstance;
-		this.setPermission(plugin.permission + ".report");
-		this.setPermissionMessage(plugin.getAPI().getChat()
+		plugin = pluginInstance;
+		setPermission(plugin.permission + ".report");
+		setPermissionMessage(plugin.getAPI().getChat()
 				.convertColors(plugin.getAPI().getChat().getMessage(NamelessMessages.NO_PERMISSION)));
-		this.usageMessage = "/" + name + "<user> <report text>";
+		usageMessage = "/" + name + "<user> <report text>";
+		
+		commandName = name;
 	}
 
 	/*
@@ -54,7 +56,7 @@ public class ReportCommand extends Command implements PluginIdentifiableCommand{
 					// Ensure email is set
 					if (args.length < 2) {
 						player.sendMessage(
-								chat.convertColors(chat.getMessage(NamelessMessages.INCORRECT_USAGE_REPORT)));
+								chat.convertColors(chat.getMessage(NamelessMessages.INCORRECT_USAGE_REPORT).replaceAll("%command%", commandName)));
 						return;
 					} else {
 						NamelessPlayer namelessPlayer = api.getPlayer(player.getUniqueId().toString());

@@ -1,9 +1,7 @@
 package com.namelessmc.namelessplugin.spigot.commands.alone;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.plugin.Plugin;
 
 import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
@@ -11,25 +9,29 @@ import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayer;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
 
 /*
  *  GetUserCommand CMD
  */
 
-public class GetUserCommand extends Command implements PluginIdentifiableCommand {
+public class GetUserCommand extends NamelessCommand {
 
 	NamelessPlugin plugin;
+	String commandName;
 
 	/*
 	 * Constructer
 	 */
 	public GetUserCommand(NamelessPlugin pluginInstance, String name) {
 		super(name);
-		this.plugin = pluginInstance;
-		this.setPermission(plugin.permissionAdmin + ".getuser");
-		this.setPermissionMessage(plugin.getAPI().getChat()
+		plugin = pluginInstance;
+		setPermission(plugin.permissionAdmin + ".getuser");
+		setPermissionMessage(plugin.getAPI().getChat()
 				.convertColors(plugin.getAPI().getChat().getMessage(NamelessMessages.NO_PERMISSION)));
-		this.usageMessage = "/" + name + "<user>";
+		usageMessage = "/" + name + "<user>";
+		
+		commandName = name;
 	}
 
 	/*
@@ -44,7 +46,7 @@ public class GetUserCommand extends Command implements PluginIdentifiableCommand
 				// Ensure username or uuid set.
 				if (args.length < 1 || args.length > 1) {
 					NamelessChat chat = plugin.getAPI().getChat();
-					sender.sendMessage(chat.convertColors(chat.getMessage(NamelessMessages.INCORRECT_USAGE_GETUSER)));
+					sender.sendMessage(chat.convertColors(chat.getMessage(NamelessMessages.INCORRECT_USAGE_GETUSER).replaceAll("%command%", commandName)));
 					return;
 				} else {
 

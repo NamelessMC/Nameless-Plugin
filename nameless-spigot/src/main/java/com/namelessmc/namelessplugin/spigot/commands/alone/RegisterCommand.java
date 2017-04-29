@@ -1,9 +1,7 @@
 package com.namelessmc.namelessplugin.spigot.commands.alone;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -11,25 +9,29 @@ import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
 
 /*
  *  Register CMD
  */
 
-public class RegisterCommand extends Command implements PluginIdentifiableCommand {
+public class RegisterCommand extends NamelessCommand {
 
 	NamelessPlugin plugin;
+	String commandName;
 
 	/*
 	 * Constructer
 	 */
 	public RegisterCommand(NamelessPlugin pluginInstance, String name) {
 		super(name);
-		this.plugin = pluginInstance;
-		this.setPermission(plugin.permission + ".register");
-		this.setPermissionMessage(plugin.getAPI().getChat()
+		plugin = pluginInstance;
+		setPermission(plugin.permission + ".register");
+		setPermissionMessage(plugin.getAPI().getChat()
 				.convertColors(plugin.getAPI().getChat().getMessage(NamelessMessages.NO_PERMISSION)));
-		this.usageMessage = "/" + name + "<email>";
+		usageMessage = "/" + name + "<email>";
+		
+		commandName = name;
 	}
 
 	/*
@@ -52,7 +54,7 @@ public class RegisterCommand extends Command implements PluginIdentifiableComman
 					// Ensure email is set
 					if (args.length < 1 || args.length > 1) {
 						player.sendMessage(
-								chat.convertColors(chat.getMessage(NamelessMessages.INCORRECT_USAGE_REGISTER)));
+								chat.convertColors(chat.getMessage(NamelessMessages.INCORRECT_USAGE_REGISTER).replaceAll("%command%", commandName)));
 					} else {
 						api.registerPlayer(player, args[0]);
 					}

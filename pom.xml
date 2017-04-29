@@ -4,7 +4,7 @@
 
 	<groupId>com.namelessmc</groupId>
 	<artifactId>namelessplugin</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>Pre-1</version>
 
 	<name>NamelessMC Plugin</name>
 	<url>https://namelessmc.com/</url>

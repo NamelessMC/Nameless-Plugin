@@ -74,7 +74,7 @@ public class PlayerEventListener implements Listener {
 	 * User Notifications.
 	 */
 	public void userGetNotification(Player player) {
-		config = plugin.getAPI().getConfigs().getConfig();
+		config = plugin.getAPI().getConfigManager().getConfig();
 		if (config.getBoolean("join-notifications")) {
 			NamelessAPI api = plugin.getAPI();
 			NamelessChat chat = api.getChat();
@@ -111,9 +111,9 @@ public class PlayerEventListener implements Listener {
 	 * User Group Synchronization.
 	 */
 	public void userGroupSync(Player player) {
-		config = plugin.getAPI().getConfigs().getConfig();
+		config = plugin.getAPI().getConfigManager().getConfig();
 		if (config.getBoolean("group-synchronization")) {
-			permissionConfig = plugin.getAPI().getConfigs().getGroupSyncPermissionsConfig();
+			permissionConfig = plugin.getAPI().getConfigManager().getGroupSyncPermissionsConfig();
 			ConfigurationSection section = permissionConfig.getConfigurationSection("permissions");
 			try {
 				for (String groupID : section.getKeys(true)) {
@@ -149,15 +149,11 @@ public class PlayerEventListener implements Listener {
 	 */
 	public void userFileCheck(Player player) {
 
-		playerDataConfig = plugin.getAPI().getConfigs().getPlayerDataConfig();
+		playerDataConfig = plugin.getAPI().getConfigManager().getPlayerDataConfig();
 
 		if (!playerDataConfig.contains(player.getUniqueId().toString())) {
 			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
-
 					"&c" + player.getName() + " &4is not contained in the Players Data File..");
-			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO,
-
-					"&aAdding &b" + player.getName() + " &ato the Players Data File.");
 			playerDataConfig.set(player.getUniqueId().toString() + ".Username", player.getName());
 			playerDataConfig.options().copyDefaults(true);
 
@@ -177,8 +173,8 @@ public class PlayerEventListener implements Listener {
 	 */
 	public void userNameCheck(Player player) {
 
-		config = plugin.getAPI().getConfigs().getConfig();
-		playerDataConfig = plugin.getAPI().getConfigs().getPlayerDataConfig();
+		config = plugin.getAPI().getConfigManager().getConfig();
+		playerDataConfig = plugin.getAPI().getConfigManager().getPlayerDataConfig();
 
 		// Check if user has changed Username
 		// If so, change the username in the Players Information File.
@@ -220,4 +216,5 @@ public class PlayerEventListener implements Listener {
 			}
 		}
 	}
+
 }

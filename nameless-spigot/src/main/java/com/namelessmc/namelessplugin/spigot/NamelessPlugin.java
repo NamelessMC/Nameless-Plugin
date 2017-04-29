@@ -17,8 +17,8 @@ import com.namelessmc.namelessplugin.spigot.commands.alone.ReportCommand;
 import com.namelessmc.namelessplugin.spigot.commands.alone.SetGroupCommand;
 import com.namelessmc.namelessplugin.spigot.hooks.MVdWPlaceholderUtil;
 import com.namelessmc.namelessplugin.spigot.hooks.PAPIPlaceholderUtil;
-import com.namelessmc.namelessplugin.spigot.mcstats.Metrics;
 import com.namelessmc.namelessplugin.spigot.player.PlayerEventListener;
+import com.namelessmc.namelessplugin.spigot.stats.MCStats;
 
 import net.milkbowl.vault.permission.Permission;
 
@@ -43,9 +43,9 @@ public class NamelessPlugin extends JavaPlugin {
 	public final String permissionAdmin = "namelessmc.admin";
 
 	/*
-	 * Metrics
+	 * MCStats
 	 */
-	private Metrics metrics;
+	private MCStats mcStats;
 
 	/*
 	 * Vault
@@ -76,15 +76,24 @@ public class NamelessPlugin extends JavaPlugin {
 	public void onEnable() {
 		// Check Sofware (Spigot or Bukkit)
 		checkSoftware();
-
+		
 		// Register the API
 		api = new NamelessAPI(this);
+				
+		// MCStats (Temporary till new custom stats)
+		try {
+			mcStats = new MCStats(this);
+			mcStats.start();
+			getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO, "&aMetrics Started!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		// Init config files.
-		api.getConfigs().initFile();
+		api.getConfigManager().initializeFiles();
 
-		registerListeners();
 		if (hasSetUrl) {
+			registerListeners();
 			detectVault();
 			initHooks();
 		}
@@ -95,57 +104,45 @@ public class NamelessPlugin extends JavaPlugin {
 	 */
 	public void registerListeners() {
 
+		// Register commands & listeners if url has been set
+
 		try {
-			metrics = new Metrics(this);
-			metrics.start();
-			getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO, "&aMetrics Started!");
-		} catch (IOException e) {
+			bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+			bukkitCommandMap.setAccessible(true);
+			commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
+		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 		}
 
-		// Register commands & listeners if url has been set
-		if (hasSetUrl) {
+		String namelessMC = this.getName();
+		if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.Alone.Use")
+				&& api.getConfigManager().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
+			getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
+					"&4ERROR REGISTERING COMMANDS! BOUTH IS SET TO TRUE!");
+		} else if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.Alone.Use")) {
+			String register = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.Register");
+			String getUser = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.GetUser");
+			String getNotifications = api.getConfigManager().getCommandsConfig()
+					.getString("Commands.Alone.GetNotifications");
+			String setGroup = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.SetGroup");
+			String report = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.Report");
 
-			try {
-				bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-				bukkitCommandMap.setAccessible(true);
-				commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
-			} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-				e.printStackTrace();
+			commandMap.register(namelessMC, new RegisterCommand(this, register));
+			commandMap.register(namelessMC, new GetUserCommand(this, getUser));
+			commandMap.register(namelessMC, new GetNotificationsCommand(this, getNotifications));
+			commandMap.register(namelessMC, new SetGroupCommand(this, setGroup));
+			if (api.getConfigManager().getConfig().getBoolean("enable-reports")) {
+				commandMap.register(namelessMC, new ReportCommand(this, report));
 			}
-
-			
-			
-			String namelessMC = this.getName();
-			if (api.getConfigs().getCommandsConfig().getBoolean("Commands.Alone.Use")
-					&& api.getConfigs().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
-				getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
-						"&4ERROR REGISTERING COMMANDS! BOUTH IS SET TO TRUE!");
-			} else if (api.getConfigs().getCommandsConfig().getBoolean("Commands.Alone.Use")) {
-				String register = api.getConfigs().getCommandsConfig().getString("Commands.Alone.Register");
-				String getUser = api.getConfigs().getCommandsConfig().getString("Commands.Alone.GetUser");
-				String getNotifications = api.getConfigs().getCommandsConfig()
-						.getString("Commands.Alone.GetNotifications");
-				String setGroup = api.getConfigs().getCommandsConfig().getString("Commands.Alone.SetGroup");
-				String report = api.getConfigs().getCommandsConfig().getString("Commands.Alone.Report");
-
-				commandMap.register(namelessMC, new RegisterCommand(this, register));
-				commandMap.register(namelessMC, new GetUserCommand(this, getUser));
-				commandMap.register(namelessMC, new GetNotificationsCommand(this, getNotifications));
-				commandMap.register(namelessMC, new SetGroupCommand(this, setGroup));
-				if (api.getConfigs().getConfig().getBoolean("enable-reports")) {
-					commandMap.register(namelessMC, new ReportCommand(this, report));
-				}
-			} else if (api.getConfigs().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
-				String subCommand = api.getConfigs().getCommandsConfig().getString("Commands.SubCommand.Main");
-				commandMap.register(namelessMC, new CommandWithArgs(this, subCommand));
-			} else {
-				getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING, "&4ERROR REGISTERING COMMANDS!");
-			}
-
-			// Register events
-			getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
+		} else if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
+			String subCommand = api.getConfigManager().getCommandsConfig().getString("Commands.SubCommand.Main");
+			commandMap.register(namelessMC, new CommandWithArgs(this, subCommand));
+		} else {
+			getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING, "&4ERROR REGISTERING COMMANDS!");
 		}
+
+		// Register events
+		getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
 
 	}
 
