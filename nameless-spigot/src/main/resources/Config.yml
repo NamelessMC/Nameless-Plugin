@@ -30,3 +30,10 @@ group-synchronization: false
 # will be updated on the website.
 # Valid values = true, false
 update-username: false
+
+# Enable UpdateChecker
+# If true anyone with namelessmc.updatenotify permission,
+# will get notified when there is a new update,
+# They will get notified when they join.
+# Also there will be a msg displayed in console.
+update-checker: true

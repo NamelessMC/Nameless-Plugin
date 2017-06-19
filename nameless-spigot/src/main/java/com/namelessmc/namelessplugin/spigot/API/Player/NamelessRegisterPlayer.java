@@ -9,9 +9,11 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import org.bukkit.entity.Player;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
 
 public class NamelessRegisterPlayer {
@@ -83,7 +85,8 @@ public class NamelessRegisterPlayer {
 			error = true;
 			errorMessage = "There was an unknown error whilst registering user.";
 			succeeded = false;
-			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING, "There was an unknown error whilst registering user.");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
+					"There was an unknown error whilst registering user.");
 			// Exception
 			e.printStackTrace();
 		}
@@ -133,18 +136,18 @@ public class NamelessRegisterPlayer {
 				// Error with request
 				if (response.get("message").getAsString().equals("Username already exists")) {
 					errorMessage = response.get("message").getAsString();
-					player.sendMessage(plugin.getAPI().getChat().convertColors(
-							plugin.getAPI().getChat().getMessage(NamelessMessages.REGISTER_USERNAME_EXISTS)));
+					player.sendMessage(NamelessChat
+							.convertColors(NamelessChat.getMessage(NamelessMessages.REGISTER_USERNAME_EXISTS)));
 				}
 				if (response.get("message").getAsString().equals("UUID already exists")) {
 					errorMessage = response.get("message").getAsString();
-					player.sendMessage(plugin.getAPI().getChat().convertColors(
-							plugin.getAPI().getChat().getMessage(NamelessMessages.REGISTER_UUID_EXISTS)));
+					player.sendMessage(
+							NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.REGISTER_UUID_EXISTS)));
 				}
 				if (response.get("message").getAsString().equals("Email already exists")) {
 					errorMessage = response.get("message").getAsString();
-					player.sendMessage(plugin.getAPI().getChat().convertColors(
-							plugin.getAPI().getChat().getMessage(NamelessMessages.REGISTER_EMAIL_EXISTS)));
+					player.sendMessage(NamelessChat
+							.convertColors(NamelessChat.getMessage(NamelessMessages.REGISTER_EMAIL_EXISTS)));
 				}
 
 				error = true;
@@ -153,8 +156,8 @@ public class NamelessRegisterPlayer {
 				// Display success message to user
 				error = false;
 				succeeded = true;
-				player.sendMessage(plugin.getAPI().getChat().convertColors(
-						plugin.getAPI().getChat().getMessage(NamelessMessages.REGISTER_SUCCESS_MESSAGE)));
+				player.sendMessage(
+						NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.REGISTER_SUCCESS_MESSAGE)));
 			}
 
 			// Close output/input stream
@@ -166,8 +169,8 @@ public class NamelessRegisterPlayer {
 			connection.disconnect();
 
 		} catch (Exception e) {
-			// Exception
-			e.printStackTrace();
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
+					"There was an unknown error whilst registering user.");
 		}
 	}
 

@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
 
 public class NamelessPlayerNotifications {
@@ -87,7 +88,8 @@ public class NamelessPlayerNotifications {
 			error = true;
 			errorMessage = "There was an unknown error whilst executing the NamelessNotifications";
 			succeeded = false;
-			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING, "There was an unknown error whilst executing the NamelessNotifications");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
+					"There was an unknown error whilst executing the NamelessNotifications");
 			e.printStackTrace();
 		}
 	}

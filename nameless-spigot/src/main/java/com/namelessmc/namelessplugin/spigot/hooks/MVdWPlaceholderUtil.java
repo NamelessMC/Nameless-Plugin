@@ -14,12 +14,13 @@ public class MVdWPlaceholderUtil {
 		this.plugin = plugin;
 	}
 
-	public void hook(){
+	public void hook() {
 		PlaceholderAPI.registerPlaceholder(plugin, "nameless_alerts", new PlaceholderReplacer() {
 			@Override
 			public String onPlaceholderReplace(PlaceholderReplaceEvent event) {
 				try {
-					return plugin.getAPI().getPlayer(event.getPlayer().getName()).getNotifications().getAlerts().toString();
+					return plugin.getAPI().getPlayer(event.getPlayer().getName()).getNotifications().getAlerts()
+							.toString();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -30,7 +31,8 @@ public class MVdWPlaceholderUtil {
 			@Override
 			public String onPlaceholderReplace(PlaceholderReplaceEvent event) {
 				try {
-					return plugin.getAPI().getPlayer(event.getPlayer().getName()).getNotifications().getPMs().toString();
+					return plugin.getAPI().getPlayer(event.getPlayer().getName()).getNotifications().getPMs()
+							.toString();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

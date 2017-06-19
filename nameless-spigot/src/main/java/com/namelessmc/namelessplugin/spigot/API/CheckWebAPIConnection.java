@@ -10,6 +10,7 @@ import java.net.URL;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
 
 public class CheckWebAPIConnection {
@@ -75,7 +76,7 @@ public class CheckWebAPIConnection {
 
 		} catch (Exception e) {
 			errorMessage = "Invalid API key";
-			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING, "Invalid API key");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "Invalid API key");
 			// Exception
 			e.printStackTrace();
 		}

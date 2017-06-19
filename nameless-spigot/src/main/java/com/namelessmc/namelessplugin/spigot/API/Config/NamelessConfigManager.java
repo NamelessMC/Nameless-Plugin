@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
 
 public class NamelessConfigManager {
@@ -65,11 +66,10 @@ public class NamelessConfigManager {
 			if (!file.exists()) {
 				try (InputStream in = plugin.getResource("Config.yml")) {
 					// NamelessConfigs doesn't exist, create one now...
-					plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO,
-							"&aCreating NamelessMC configuration file...");
+					NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aCreating NamelessMC configuration file...");
 					Files.copy(in, file.toPath());
 
-					plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
+					NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
 							"&4NamelessMC Config needs configuring, disabling features...");
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -83,17 +83,16 @@ public class NamelessConfigManager {
 
 				if (plugin.getAPIUrl().isEmpty()) {
 					// API URL not set
-					plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
+					NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
 							"&4No API URL set in the NamelessMC configuration, disabling features.");
 					plugin.setHasSetUrl(false);
 				} else if (plugin.getAPI().checkConnection().hasError()) {
-					plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
+					NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
 							"&4Invalid API Url/Key, Please set the correct API url! &cdisabling features");
 					plugin.setHasSetUrl(false);
 				} else {
 					// Exists already, load it
-					plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO,
-							"&aLoaded NamelessMC configuration file...");
+					NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded NamelessMC configuration file...");
 					plugin.setHasSetUrl(true);
 				}
 			}
@@ -112,12 +111,12 @@ public class NamelessConfigManager {
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
-				plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO, "&aCreated Players Data File!");
+				NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aCreated Players Data File!");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
-			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded Players Data File!");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded Players Data File!");
 		}
 	}
 
@@ -131,14 +130,13 @@ public class NamelessConfigManager {
 		if (!file.exists()) {
 			try (InputStream pConfig = plugin.getClass().getClassLoader()
 					.getResourceAsStream("GroupSyncPermissions.yml")) {
-				plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO,
-						"&aCreated Group Sync Permissions file!");
+				NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aCreated Group Sync Permissions file!");
 				Files.copy(pConfig, file.getAbsoluteFile().toPath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
-			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded Group Sync Permissions file!");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded Group Sync Permissions file!");
 		}
 	}
 
@@ -151,13 +149,13 @@ public class NamelessConfigManager {
 		if (!file.exists()) {
 			try (InputStream mConfig = plugin.getClass().getClassLoader().getResourceAsStream("Messages.yml");) {
 
-				plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO, "&aCreated Messages file!");
+				NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aCreated Messages file!");
 				Files.copy(mConfig, file.getAbsoluteFile().toPath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
-			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded Messages file!");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded Messages file!");
 		}
 
 	}
@@ -171,13 +169,13 @@ public class NamelessConfigManager {
 		if (!file.exists()) {
 			try (InputStream cConfig = plugin.getClass().getClassLoader().getResourceAsStream("Commands.yml");) {
 
-				plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO, "&aCreated Commands file!");
+				NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aCreated Commands file!");
 				Files.copy(cConfig, file.getAbsoluteFile().toPath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
-			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded The Commands!");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded The Commands!");
 		}
 
 	}

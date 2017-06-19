@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
 
 public class NamelessPlayerUpdateUsername {
@@ -77,11 +78,8 @@ public class NamelessPlayerUpdateUsername {
 			// Disconnect
 			connection.disconnect();
 		} catch (Exception e) {
-			error = true;
-			errorMessage = "There was an unknown error whilst updating username.";
-			succeeded = false;
-			
-			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING, "There was an unknown error whilst updating username");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
+					"There was an unknown error whilst updating username");
 			e.printStackTrace();
 		}
 	}
@@ -89,12 +87,12 @@ public class NamelessPlayerUpdateUsername {
 	public boolean hasError() {
 		return error;
 	}
-	
-	public boolean hasSucceeded(){
+
+	public boolean hasSucceeded() {
 		return succeeded;
 	}
-	
-	public String getErrorMessage(){
+
+	public String getErrorMessage() {
 		return errorMessage;
 	}
 }

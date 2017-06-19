@@ -14,36 +14,34 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class NamelessChat {
 
 	NamelessPlugin plugin;
-	YamlConfiguration messageConfig;
 
 	public NamelessChat(NamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 
-	public TextComponent sendClickableMessage(String message, ClickEvent.Action click, String actionText,
+	public TextComponent sendClickableMessage(String message, ClickEvent.Action click, String value,
 			HoverEvent.Action hover, String hoverText) {
-		if(plugin.isSpigot()){
-			messageConfig = plugin.getAPI().getConfigManager().getMessageConfig();
-			TextComponent msg = new TextComponent(ChatColor.translateAlternateColorCodes('&', message));
-			msg.setClickEvent(new ClickEvent(click, actionText));
+		if (plugin.isSpigot()) {
+			TextComponent msg = new TextComponent(convertColors(message));
+			msg.setClickEvent(new ClickEvent(click, value));
 			msg.setHoverEvent(new HoverEvent(hover,
 					new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', hoverText)).create()));
 			return msg;
-		}else{
+		} else {
 			return null;
 		}
 	}
 
-	public String convertColors(String message) {
+	public static String convertColors(String message) {
 		return ChatColor.translateAlternateColorCodes('&', message);
 	}
 
-	public String getMessage(NamelessMessages message) {
-		YamlConfiguration messageConfig = plugin.getAPI().getConfigManager().getMessageConfig();
+	public static String getMessage(NamelessMessages message) {
+		YamlConfiguration messageConfig = NamelessPlugin.getInstance().getAPI().getConfigManager().getMessageConfig();
 		return messageConfig.getString(message.toString());
 	}
-	
-	public void sendToLog(NamelessMessages prefix, String message){
-		Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',prefix.toString()) + ChatColor.translateAlternateColorCodes('&', message));
+
+	public static void sendToLog(NamelessMessages prefix, String message) {
+		Bukkit.getConsoleSender().sendMessage(convertColors(prefix.toString()) + convertColors(message));
 	}
 }

@@ -17,13 +17,13 @@ public class PAPIPlaceholderUtil extends EZPlaceholderHook {
 
 	@Override
 	public String onPlaceholderRequest(Player player, String identifier) {
-		if (identifier.equals("alerts")){
+		if (identifier.equals("alerts")) {
 			try {
 				return plugin.getAPI().getPlayer(player.getName()).getNotifications().getAlerts().toString();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (identifier.equals("messages")){
+		} else if (identifier.equals("messages")) {
 			try {
 				return plugin.getAPI().getPlayer(player.getName()).getNotifications().getPMs().toString();
 			} catch (Exception e) {

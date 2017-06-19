@@ -9,7 +9,6 @@ import com.namelessmc.namelessplugin.spigot.API.Player.NamelessRegisterPlayer;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.ReflectionUtil;
 
-
 public class NamelessAPI {
 
 	private NamelessPlugin plugin;
@@ -24,13 +23,13 @@ public class NamelessAPI {
 		NamelessPlayer player = new NamelessPlayer(id, plugin);
 		return player;
 	}
-	
-	public NamelessRegisterPlayer registerPlayer(String userName, String uuid, String email){
+
+	public NamelessRegisterPlayer registerPlayer(String userName, String uuid, String email) {
 		NamelessRegisterPlayer register = new NamelessRegisterPlayer(plugin, userName, uuid, email);
 		return register;
 	}
-	
-	public NamelessRegisterPlayer registerPlayer(Player player, String email){
+
+	public NamelessRegisterPlayer registerPlayer(Player player, String email) {
 		NamelessRegisterPlayer register = new NamelessRegisterPlayer(plugin, player, email);
 		return register;
 	}
@@ -39,17 +38,17 @@ public class NamelessAPI {
 		namelessConfigManager = new NamelessConfigManager(plugin);
 		return namelessConfigManager;
 	}
-	
-	public NamelessChat getChat(){
+
+	public NamelessChat getChat() {
 		NamelessChat chat = new NamelessChat(plugin);
 		return chat;
 	}
-	
-	public ReflectionUtil getReflection(){
+
+	public ReflectionUtil getReflection() {
 		return reflection;
 	}
-	
-	public CheckWebAPIConnection checkConnection(){
+
+	public CheckWebAPIConnection checkConnection() {
 		CheckWebAPIConnection checkWebAPIConnection = new CheckWebAPIConnection(plugin);
 		return checkWebAPIConnection;
 	}

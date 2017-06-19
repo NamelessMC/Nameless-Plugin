@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
 
 public class NamelessReportPlayer {
@@ -145,7 +146,8 @@ public class NamelessReportPlayer {
 			error = true;
 			errorMessage = "There was an unknown error whilst reporting player.";
 			succeeded = false;
-			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING, "&4There was an unknown error whilst reporting player.");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
+					"&4There was an unknown error whilst reporting player.");
 			e.printStackTrace();
 		}
 	}

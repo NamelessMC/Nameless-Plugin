@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
 
 public class NamelessPlayerSetGroup {
@@ -21,17 +22,16 @@ public class NamelessPlayerSetGroup {
 	private boolean error;
 	private boolean succeeded;
 	private String errorMessage;
-	
+
 	private Integer newGroup;
-	
 
 	public NamelessPlayerSetGroup(NamelessPlugin plugin, String id, Integer newGroup) {
 		this.plugin = plugin;
 		this.id = id;
 		this.newGroup = newGroup;
-		
+
 		try {
-			
+
 			// Create string containing POST contents
 			String toPostStringUName = "username=" + URLEncoder.encode(id, "UTF-8") + "&group_id="
 					+ URLEncoder.encode(newGroup.toString(), "UTF-8");
@@ -85,8 +85,7 @@ public class NamelessPlayerSetGroup {
 				succeeded = false;
 				errorMessage = response.get("message").getAsString();
 			} else {
-				
-				
+
 				error = false;
 				succeeded = true;
 			}
@@ -100,20 +99,17 @@ public class NamelessPlayerSetGroup {
 			connection.disconnect();
 
 		} catch (Exception e) {
-			error = true;
-			errorMessage = "There was an unknown error whilst setting group";
-			succeeded = false;
-			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING, "There was an unknown error whilst setting group");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "There was an unknown error whilst setting group");
 			e.printStackTrace();
 		}
 	}
-	
+
 	public NamelessPlayerSetGroup(NamelessPlugin plugin, String id, String newGroup) {
 		this.plugin = plugin;
-		this.id =  id;
-		
+		this.id = id;
+
 		try {
-			
+
 			// Create string containing POST contents
 			String toPostStringUName = "username=" + URLEncoder.encode(id, "UTF-8") + "&group_id="
 					+ URLEncoder.encode(newGroup, "UTF-8");
@@ -168,7 +164,7 @@ public class NamelessPlayerSetGroup {
 				errorMessage = response.get("message").getAsString();
 			} else {
 				this.newGroup = plugin.getAPI().getPlayer(id).getGroupID();
-				
+
 				error = false;
 				succeeded = true;
 			}
@@ -182,6 +178,7 @@ public class NamelessPlayerSetGroup {
 			connection.disconnect();
 
 		} catch (Exception e) {
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "There was an unknown error whilst setting group");
 			e.printStackTrace();
 		}
 	}
@@ -189,20 +186,20 @@ public class NamelessPlayerSetGroup {
 	public boolean hasError() {
 		return error;
 	}
-	
-	public boolean hasSucceseded(){
+
+	public boolean hasSucceseded() {
 		return succeeded;
 	}
-	
-	public String getErrorMessage(){
+
+	public String getErrorMessage() {
 		return errorMessage;
 	}
-	
-	public String getID(){
+
+	public String getID() {
 		return id;
 	}
-	
-	public Integer getNewGroup(){
+
+	public Integer getNewGroup() {
 		return newGroup;
 	}
 }

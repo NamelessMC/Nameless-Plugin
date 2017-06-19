@@ -11,6 +11,7 @@ import java.util.Date;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
 
 public class NamelessPlayer {
@@ -135,11 +136,8 @@ public class NamelessPlayer {
 			connection.disconnect();
 
 		} catch (Exception e) {
-			// Exception
-			error = true;
-			errorMessage = "There was an unknown error whilst getting player.";
-			exists = false;
-			plugin.getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING, "There was an unknown error whilst getting player.");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
+					"There was an unknown error whilst getting player.");
 			e.printStackTrace();
 		}
 	}
@@ -183,9 +181,10 @@ public class NamelessPlayer {
 		return error;
 	}
 
-	public String getErrorMessage(){
+	public String getErrorMessage() {
 		return errorMessage;
 	}
+
 	public boolean isValidated() {
 		return validated;
 	}
@@ -208,8 +207,8 @@ public class NamelessPlayer {
 		NamelessPlayerUpdateUsername updateUsername = new NamelessPlayerUpdateUsername(plugin, id, newUserName);
 		return updateUsername;
 	}
-	
-	public NamelessReportPlayer reportPlayer(String[] args){
+
+	public NamelessReportPlayer reportPlayer(String[] args) {
 		NamelessReportPlayer report = new NamelessReportPlayer(plugin, uuid, args);
 		return report;
 	}

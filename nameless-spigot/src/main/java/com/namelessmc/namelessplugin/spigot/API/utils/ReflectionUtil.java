@@ -11,7 +11,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 
 public class ReflectionUtil {
-	
+
 	public Class<?> getNMSClass(String nmsClassName) throws Exception {
 		String version = Bukkit.getServer().getClass().getPackage().getName().split(".")[3];
 		String name = "net.minecraft.server." + version + "." + nmsClassName;
@@ -35,7 +35,8 @@ public class ReflectionUtil {
 
 		Constructor<?> packetConstructor = packetClass.getConstructor(icbc);
 
-		Object text = serializer.getMethod("a", String.class).invoke(serializer, ComponentSerializer.toString(component));
+		Object text = serializer.getMethod("a", String.class).invoke(serializer,
+				ComponentSerializer.toString(component));
 		Object packet = packetConstructor.newInstance(text);
 
 		Field a = packetClass.getDeclaredField("a");

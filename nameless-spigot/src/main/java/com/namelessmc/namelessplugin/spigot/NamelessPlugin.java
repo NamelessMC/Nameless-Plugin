@@ -1,13 +1,15 @@
 package com.namelessmc.namelessplugin.spigot;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
+import com.namelessmc.namelessplugin.spigot.API.UpdateChecker;
+import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
 import com.namelessmc.namelessplugin.spigot.commands.CommandWithArgs;
 import com.namelessmc.namelessplugin.spigot.commands.alone.GetNotificationsCommand;
@@ -18,11 +20,15 @@ import com.namelessmc.namelessplugin.spigot.commands.alone.SetGroupCommand;
 import com.namelessmc.namelessplugin.spigot.hooks.MVdWPlaceholderUtil;
 import com.namelessmc.namelessplugin.spigot.hooks.PAPIPlaceholderUtil;
 import com.namelessmc.namelessplugin.spigot.player.PlayerEventListener;
-import com.namelessmc.namelessplugin.spigot.stats.MCStats;
 
 import net.milkbowl.vault.permission.Permission;
 
 public class NamelessPlugin extends JavaPlugin {
+
+	/*
+	 * Instance
+	 */
+	private static NamelessPlugin instance;
 
 	/*
 	 * Plugin API
@@ -39,13 +45,13 @@ public class NamelessPlugin extends JavaPlugin {
 	 * NamelessMC permission string.
 	 */
 
-	public final String permission = "namelessmc";
-	public final String permissionAdmin = "namelessmc.admin";
+	public static final String permission = "namelessmc";
+	public static final String permissionAdmin = "namelessmc.admin";
 
 	/*
 	 * MCStats
 	 */
-	private MCStats mcStats;
+	// private MCStats mcStats;
 
 	/*
 	 * Vault
@@ -69,25 +75,30 @@ public class NamelessPlugin extends JavaPlugin {
 	Field bukkitCommandMap;
 	CommandMap commandMap;
 
+	@Override
+	public void onLoad() {
+		NamelessPlugin.instance = this;
+	}
+
 	/*
 	 * OnEnable method
 	 */
 	@Override
 	public void onEnable() {
+
 		// Check Sofware (Spigot or Bukkit)
 		checkSoftware();
-		
+
 		// Register the API
 		api = new NamelessAPI(this);
-				
-		// MCStats (Temporary till new custom stats)
-		try {
-			mcStats = new MCStats(this);
-			mcStats.start();
-			getAPI().getChat().sendToLog(NamelessMessages.PREFIX_INFO, "&aMetrics Started!");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+		// Disabled for now
+		/*
+		 * try { mcStats = new MCStats(this); mcStats.start();
+		 * NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
+		 * "&aMetrics Started!"); } catch (IOException e) { e.printStackTrace();
+		 * }
+		 */
 
 		// Init config files.
 		api.getConfigManager().initializeFiles();
@@ -96,6 +107,22 @@ public class NamelessPlugin extends JavaPlugin {
 			registerListeners();
 			detectVault();
 			initHooks();
+		}
+		if (getAPI().getConfigManager().getConfig().getBoolean("update-checker")) {
+			checkForUpdate();
+		} else {
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "&CIt is recommended to enable update checker.");
+		}
+	}
+
+	public void checkForUpdate() {
+		UpdateChecker updateChecker = new UpdateChecker(this);
+		if(updateChecker.updateNeeded()){
+			for(String msg : updateChecker.getConsoleUpdateMessage()){
+				NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, msg);
+			}
+		}else{
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aFound no new updates!");
 		}
 	}
 
@@ -117,7 +144,7 @@ public class NamelessPlugin extends JavaPlugin {
 		String namelessMC = this.getName();
 		if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.Alone.Use")
 				&& api.getConfigManager().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
-			getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
 					"&4ERROR REGISTERING COMMANDS! BOUTH IS SET TO TRUE!");
 		} else if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.Alone.Use")) {
 			String register = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.Register");
@@ -136,9 +163,9 @@ public class NamelessPlugin extends JavaPlugin {
 			}
 		} else if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
 			String subCommand = api.getConfigManager().getCommandsConfig().getString("Commands.SubCommand.Main");
-			commandMap.register(namelessMC, new CommandWithArgs(this, subCommand));
+			commandMap.register(namelessMC, new CommandWithArgs(subCommand));
 		} else {
-			getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING, "&4ERROR REGISTERING COMMANDS!");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "&4ERROR REGISTERING COMMANDS!");
 		}
 
 		// Register events
@@ -169,12 +196,12 @@ public class NamelessPlugin extends JavaPlugin {
 			if (permissions.hasGroupSupport()) {
 				useGroups = true;
 			} else {
-				getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
+				NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
 						"&4Permissions plugin does NOT support groups! Disabling NamelessMC Vault integration.");
 				useGroups = false;
 			}
 		} else {
-			getAPI().getChat().sendToLog(NamelessMessages.PREFIX_WARNING,
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
 					"&4Couldn't detect Vault, disabling NamelessMC Vault integration.");
 		}
 	}
@@ -210,6 +237,11 @@ public class NamelessPlugin extends JavaPlugin {
 	/*
 	 * Get / Has / Set
 	 */
+
+	// Gets the instance
+	public static NamelessPlugin getInstance() {
+		return instance;
+	}
 
 	// Gets the website api url.
 	public String getAPIUrl() {
