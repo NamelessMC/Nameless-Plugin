@@ -5,6 +5,12 @@
 # For example http://yoursite.com/api/v1/API_KEY
 api-url: ""
 
+# Use registration?
+# At the moment we bypass the option of registration in the
+# website, so you can disable or enable it here.
+# By default its enabled.
+enable-registration: true
+
 # Use reports?
 # If true, a /report command will be added to report users ingame
 # which will be added to the website's report system
@@ -32,7 +38,7 @@ group-synchronization: false
 update-username: false
 
 # Enable UpdateChecker
-# If true anyone with namelessmc.updatenotify permission,
+# If true anyone with namelessmc.admin.updatenotify permission,
 # will get notified when there is a new update,
 # They will get notified when they join.
 # Also there will be a msg displayed in console.

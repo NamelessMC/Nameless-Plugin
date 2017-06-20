@@ -27,7 +27,8 @@ public class GetUserCommand extends NamelessCommand {
 		plugin = pluginInstance;
 		setPermission(NamelessPlugin.permissionAdmin + ".getuser");
 		setPermissionMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
-		usageMessage = "/" + name + "<user>";
+		setUsage("/" + name + "<user>");
+		setDescription(NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_GETUSER));
 
 		commandName = name;
 	}

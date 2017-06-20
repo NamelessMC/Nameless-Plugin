@@ -28,8 +28,8 @@ public class GetNotificationsCommand extends NamelessCommand {
 		plugin = pluginInstance;
 		setPermission(NamelessPlugin.permission + ".notifications");
 		setPermissionMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
-		usageMessage = "/" + name;
-
+		setUsage("/" + name);
+		setDescription(NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_GETNOTIFICATIONS));
 		commandName = name;
 	}
 

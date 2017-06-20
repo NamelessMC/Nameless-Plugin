@@ -28,7 +28,8 @@ public class SetGroupCommand extends NamelessCommand {
 		plugin = pluginInstance;
 		setPermission(NamelessPlugin.permissionAdmin + ".setgroup");
 		setPermissionMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
-		usageMessage = "/" + name + "<user> <groupID>";
+		setUsage("/" + name + "<user> <groupID>");
+		this.setDescription(NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_SETGROUP));
 	}
 
 	/*

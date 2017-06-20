@@ -117,11 +117,11 @@ public class NamelessPlugin extends JavaPlugin {
 
 	public void checkForUpdate() {
 		UpdateChecker updateChecker = new UpdateChecker(this);
-		if(updateChecker.updateNeeded()){
-			for(String msg : updateChecker.getConsoleUpdateMessage()){
+		if (updateChecker.updateNeeded()) {
+			for (String msg : updateChecker.getConsoleUpdateMessage()) {
 				NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, msg);
 			}
-		}else{
+		} else {
 			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aFound no new updates!");
 		}
 	}
@@ -153,8 +153,9 @@ public class NamelessPlugin extends JavaPlugin {
 					.getString("Commands.Alone.GetNotifications");
 			String setGroup = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.SetGroup");
 			String report = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.Report");
-
-			commandMap.register(namelessMC, new RegisterCommand(this, register));
+			if (api.getConfigManager().getConfig().getBoolean("enable-registration")) {
+				commandMap.register(namelessMC, new RegisterCommand(this, register));
+			}
 			commandMap.register(namelessMC, new GetUserCommand(this, getUser));
 			commandMap.register(namelessMC, new GetNotificationsCommand(this, getNotifications));
 			commandMap.register(namelessMC, new SetGroupCommand(this, setGroup));

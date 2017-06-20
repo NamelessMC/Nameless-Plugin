@@ -70,12 +70,13 @@ public class NamelessConfigManager {
 					Files.copy(in, file.toPath());
 
 					NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
-							"&4NamelessMC Config needs configuring, disabling features...");
+							"&4NamelessMC Config needs configuring, disabling...");
+					plugin.getServer().getPluginManager().disablePlugin(plugin);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
-			} else {
+			} else if (file.exists()) {
 				file = new File(plugin.getDataFolder() + File.separator + "Config.yml");
 				yamlFile = YamlConfiguration.loadConfiguration(file);
 
@@ -115,7 +116,7 @@ public class NamelessConfigManager {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else {
+		} else if (file.exists()) {
 			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded Players Data File!");
 		}
 	}
@@ -135,7 +136,7 @@ public class NamelessConfigManager {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else {
+		} else if (file.exists()) {
 			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded Group Sync Permissions file!");
 		}
 	}
@@ -154,7 +155,7 @@ public class NamelessConfigManager {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else {
+		} else if (file.exists()) {
 			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded Messages file!");
 		}
 
@@ -174,8 +175,8 @@ public class NamelessConfigManager {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else {
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded The Commands!");
+		} else if (file.exists()) {
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded The Commands File!");
 		}
 
 	}

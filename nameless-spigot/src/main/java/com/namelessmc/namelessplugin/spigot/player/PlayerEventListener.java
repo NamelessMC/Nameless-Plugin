@@ -73,7 +73,7 @@ public class PlayerEventListener implements Listener {
 	}
 
 	public void updateChecker(Player player) {
-		if (player.hasPermission(NamelessPlugin.permission + ".updatenofiy")) {
+		if (player.hasPermission(NamelessPlugin.permissionAdmin + ".updatenofiy")) {
 			UpdateChecker updateChecker = new UpdateChecker(plugin);
 			if (updateChecker.updateNeeded()) {
 				updateChecker.sendUpdateMessage(player);

@@ -27,7 +27,8 @@ public class RegisterCommand extends NamelessCommand {
 		plugin = pluginInstance;
 		setPermission(NamelessPlugin.permission + ".register");
 		setPermissionMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
-		usageMessage = "/" + name + "<email>";
+		setUsage("/" + name + "<email>");
+		setDescription(NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_REGISTER));
 
 		commandName = name;
 	}

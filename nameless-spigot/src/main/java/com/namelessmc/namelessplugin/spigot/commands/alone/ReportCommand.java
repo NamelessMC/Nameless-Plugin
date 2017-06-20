@@ -29,7 +29,8 @@ public class ReportCommand extends NamelessCommand {
 		plugin = pluginInstance;
 		setPermission(NamelessPlugin.permission + ".report");
 		setPermissionMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
-		usageMessage = "/" + name + "<user> <report text>";
+		setUsage("/" + name + "<user> <report text>");
+		setDescription(NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_REPORT));
 
 		commandName = name;
 	}

@@ -1,5 +1,6 @@
 package com.namelessmc.namelessplugin.spigot.commands;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
@@ -23,10 +24,17 @@ import com.namelessmc.namelessplugin.spigot.commands.alone.SetGroupCommand;
 
 public class CommandWithArgs extends NamelessCommand {
 
-	NamelessPlugin plugin;
-	String permission;
-	String permissionAdmin;
-	String commandName;
+	private NamelessPlugin plugin;
+	private String permission;
+	private String permissionAdmin;
+	private String commandName;
+
+	ConfigurationSection commands;
+	String register;
+	String getNotifications;
+	String report;
+	String getUser;
+	String setGroup;
 
 	/*
 	 * Constructer
@@ -36,7 +44,8 @@ public class CommandWithArgs extends NamelessCommand {
 		this.plugin = getPlugin();
 		this.permission = NamelessPlugin.permission;
 		this.permission = NamelessPlugin.permissionAdmin;
-		this.usageMessage = "/" + name + "<args>";
+		this.setUsage("/" + name + "<args>");
+		this.setDescription(NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_MAIN));
 
 		commandName = name;
 	}
@@ -48,13 +57,12 @@ public class CommandWithArgs extends NamelessCommand {
 	public boolean execute(CommandSender sender, String label, String[] args) {
 		NamelessAPI api = plugin.getAPI();
 
-		ConfigurationSection commands = api.getConfigManager().getCommandsConfig()
-				.getConfigurationSection("Commands.SubCommand");
-		String register = commands.getString("Register");
-		String getNotifications = commands.getString("GetNotifications");
-		String report = commands.getString("Report");
-		String getUser = commands.getString("GetUser");
-		String setGroup = commands.getString("SetGroup");
+		commands = api.getConfigManager().getCommandsConfig().getConfigurationSection("Commands.SubCommand");
+		register = commands.getString("Register");
+		getNotifications = commands.getString("GetNotifications");
+		report = commands.getString("Report");
+		getUser = commands.getString("GetUser");
+		setGroup = commands.getString("SetGroup");
 		if (args.length == 0) {
 			Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 				@Override
@@ -62,30 +70,32 @@ public class CommandWithArgs extends NamelessCommand {
 					sender.sendMessage(NamelessChat.convertColors("&3&m--------------------------------"));
 					sender.sendMessage(NamelessChat.convertColors(" &b" + plugin.getAPIUrl().split("/api")[0]));
 					sender.sendMessage(NamelessChat.convertColors("&3&m--------------------------------"));
-					if (sender.hasPermission(NamelessPlugin.permission + "." + commandName.toLowerCase())) {
+					if (sender.hasPermission(permission + "." + commandName.toLowerCase())) {
 						sender.sendMessage(NamelessChat.convertColors("&a/" + commandName + "&3, "
 								+ NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_MAIN)));
 					}
-					if (sender.hasPermission(NamelessPlugin.permission + "." + register.toLowerCase())) {
-						sender.sendMessage(NamelessChat.convertColors("&a/" + commandName + " " + register + "&3, "
-								+ NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_REGISTER)));
+					if (api.getConfigManager().getConfig().getBoolean("enable-registration")) {
+						if (sender.hasPermission(permission + "." + register.toLowerCase())) {
+							sender.sendMessage(NamelessChat.convertColors("&a/" + commandName + " " + register + "&3, "
+									+ NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_REGISTER)));
+						}
 					}
-					if (sender.hasPermission(NamelessPlugin.permission + "." + getNotifications.toLowerCase())) {
+					if (sender.hasPermission(permission + "." + getNotifications.toLowerCase())) {
 						sender.sendMessage(
 								NamelessChat.convertColors("&a/" + commandName + " " + getNotifications + "&3, "
 										+ NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_GETNOTIFICATIONS)));
 					}
 					if (api.getConfigManager().getConfig().getBoolean("enable-reports")) {
-						if (sender.hasPermission(NamelessPlugin.permission + "." + report.toLowerCase())) {
+						if (sender.hasPermission(permission + "." + report.toLowerCase())) {
 							sender.sendMessage(NamelessChat.convertColors("&a/" + commandName + " " + report + "&3, "
 									+ NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_REPORT)));
 						}
 					}
-					if (sender.hasPermission(NamelessPlugin.permissionAdmin + "." + getUser.toLowerCase())) {
+					if (sender.hasPermission(permissionAdmin + "." + getUser.toLowerCase())) {
 						sender.sendMessage(NamelessChat.convertColors("&a/" + commandName + " " + getUser + "&3, "
 								+ NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_GETUSER)));
 					}
-					if (sender.hasPermission(NamelessPlugin.permissionAdmin + "." + setGroup.toLowerCase())) {
+					if (sender.hasPermission(permissionAdmin + "." + setGroup.toLowerCase())) {
 						sender.sendMessage(NamelessChat.convertColors("&a/" + commandName + " " + setGroup + "&3, "
 								+ NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_SETGROUP)));
 					}
@@ -93,49 +103,81 @@ public class CommandWithArgs extends NamelessCommand {
 				}
 			});
 		} else if (args.length >= 1) {
-			if (!commands.contains(args[0])) {
+			if (!commandContainsIgnoreCase(args[0])) {
 				sender.sendMessage(NamelessChat.convertColors(NamelessChat
 						.getMessage(NamelessMessages.INCORRECT_USAGE_MAIN).replaceAll("%command%", commandName)));
+				return true;
 			}
 
 			if (args[0].equalsIgnoreCase(getUser)) {
-				if (sender.hasPermission(NamelessPlugin.permissionAdmin + "." + getUser.toLowerCase())) {
+				if (sender.hasPermission(permissionAdmin + "." + getUser.toLowerCase())) {
 					GetUserCommand command = new GetUserCommand(plugin, commandName + " " + getUser);
-					command.execute(sender, label, Arrays.copyOfRange(args, 2, args.length));
+					if (args.length >= 2) {
+						command.execute(sender, commandName + " " + getUser, Arrays.copyOfRange(args, 1, args.length));
+					} else {
+						String[] newArgs = new String[0];
+						command.execute(sender, commandName + " " + getUser, newArgs);
+					}
+					return true;
 				} else {
 					NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION));
 				}
 			} else if (args[0].equalsIgnoreCase(setGroup)) {
-				if (sender.hasPermission(NamelessPlugin.permissionAdmin + "." + setGroup.toLowerCase())) {
+				if (sender.hasPermission(permissionAdmin + "." + setGroup.toLowerCase())) {
 					SetGroupCommand command = new SetGroupCommand(plugin, commandName + " " + setGroup);
-					command.execute(sender, label, Arrays.copyOfRange(args, 2, args.length));
+					if (args.length >= 2) {
+						command.execute(sender, commandName + " " + setGroup, Arrays.copyOfRange(args, 1, args.length));
+					} else {
+						String[] newArgs = new String[0];
+						command.execute(sender, commandName + " " + setGroup, newArgs);
+					}
+					return true;
 				} else {
 					NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION));
 				}
 			}
 
 			if (sender instanceof Player) {
-				if (args[0].equalsIgnoreCase(register)) {
-					if (sender.hasPermission(NamelessPlugin.permission + "." + register.toLowerCase())) {
+				if (api.getConfigManager().getConfig().getBoolean("enable-registration")
+						&& args[0].equalsIgnoreCase(register)) {
+					if (sender.hasPermission(permission + "." + register.toLowerCase())) {
 						RegisterCommand command = new RegisterCommand(plugin, commandName + " " + register);
-						command.execute(sender, label, Arrays.copyOfRange(args, 2, args.length));
+						if (args.length >= 2) {
+							command.execute(sender, commandName + " " + register,
+									Arrays.copyOfRange(args, 1, args.length));
+						} else {
+							String[] newArgs = new String[0];
+							command.execute(sender, commandName + " " + register, newArgs);
+						}
 					} else {
 						NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION));
 					}
 				} else if (args[0].equalsIgnoreCase(getNotifications)) {
-					if (sender.hasPermission(NamelessPlugin.permission + "." + getNotifications.toLowerCase())) {
+					if (sender.hasPermission(permission + "." + getNotifications.toLowerCase())) {
 						GetNotificationsCommand command = new GetNotificationsCommand(plugin,
 								commandName + " " + getNotifications);
-						command.execute(sender, label, Arrays.copyOfRange(args, 2, args.length));
+						if (args.length >= 2) {
+							command.execute(sender, commandName + " " + getNotifications,
+									Arrays.copyOfRange(args, 1, args.length));
+						} else {
+							String[] newArgs = new String[0];
+							command.execute(sender, commandName + " " + getNotifications, newArgs);
+						}
 					} else {
 						NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION));
 					}
 
 				} else if (api.getConfigManager().getConfig().getBoolean("enable-reports")
 						&& args[0].equalsIgnoreCase(report)) {
-					if (sender.hasPermission(NamelessPlugin.permission + "." + report.toLowerCase())) {
+					if (sender.hasPermission(permission + "." + report.toLowerCase())) {
 						ReportCommand command = new ReportCommand(plugin, commandName + " " + report);
-						command.execute(sender, label, Arrays.copyOfRange(args, 2, args.length));
+						if (args.length >= 2) {
+							command.execute(sender, commandName + " " + report,
+									Arrays.copyOfRange(args, 1, args.length));
+						} else {
+							String[] newArgs = new String[0];
+							command.execute(sender, commandName + " " + report, newArgs);
+						}
 					} else {
 						NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION));
 					}
@@ -148,5 +190,24 @@ public class CommandWithArgs extends NamelessCommand {
 		}
 
 		return true;
+	}
+
+	public boolean commandContainsIgnoreCase(String commandName) {
+		ArrayList<String> list = new ArrayList<String>();
+		if (plugin.getAPI().getConfigManager().getConfig().getBoolean("enable-registration")) {
+			list.add(register);
+		}
+		list.add(getNotifications);
+		if (plugin.getAPI().getConfigManager().getConfig().getBoolean("enable-reports")) {
+			list.add(report);
+		}
+		list.add(getUser);
+		list.add(setGroup);
+		for (String command : list) {
+			if (command.equalsIgnoreCase(commandName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -27,6 +27,7 @@ http://ci.namelessmc.com/jenkins/job/Nameless-Plugin/~~
 - namelessmc.report, /report username.
 - namelessmc.admin.setgroup, /setgroup username groupid.
 - namelessmc.admin.getuser, /getUser uuid/username.
+- namelessmc.admin.updatenotify, When player joins it notifies them about a update
 
 # PlaceHolders
 ## MVdW Placeholders & PlaceHolderAPI

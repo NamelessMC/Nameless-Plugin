@@ -38,7 +38,7 @@ public class NamelessChat {
 
 	public static String getMessage(NamelessMessages message) {
 		YamlConfiguration messageConfig = NamelessPlugin.getInstance().getAPI().getConfigManager().getMessageConfig();
-		return messageConfig.getString(message.toString());
+		return convertColors(messageConfig.getString(message.toString()));
 	}
 
 	public static void sendToLog(NamelessMessages prefix, String message) {
