@@ -11,8 +11,9 @@ import java.net.URLEncoder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
+import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessChat;
+import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessMessages;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -21,12 +22,10 @@ public class NamelessReportPlayer {
 	private boolean error;
 	private boolean succeeded;
 	private String errorMessage;
-	
 
 	public NamelessReportPlayer(NamelessPlugin plugin, String reporterUUID, String[] args) {
 		// Send POST request to API
 		try {
-			
 
 			// Initialise strings
 			String toPostReported;
@@ -89,8 +88,8 @@ public class NamelessReportPlayer {
 
 			// Add reporter info + report content to post
 			// content
-			toPostReporter = "&reporter_uuid=" + URLEncoder.encode(reporterUUID, "UTF-8")
-					+ "&content=" + URLEncoder.encode(content, "UTF-8");
+			toPostReporter = "&reporter_uuid=" + URLEncoder.encode(reporterUUID, "UTF-8") + "&content="
+					+ URLEncoder.encode(content, "UTF-8");
 
 			String toPostString = toPostReported + toPostReporter;
 
@@ -147,7 +146,8 @@ public class NamelessReportPlayer {
 			error = true;
 			errorMessage = "There was an unknown error whilst reporting player.";
 			succeeded = false;
-			plugin.getLogger().warning(ChatColor.RED + "There was an unknown error whilst reporting player.");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
+					"&4There was an unknown error whilst reporting player.");
 			e.printStackTrace();
 		}
 	}
@@ -159,9 +159,9 @@ public class NamelessReportPlayer {
 	public boolean hasSucceeded() {
 		return succeeded;
 	}
-	
-	public String getErrorMessage(){
-		return errorMessage;	
+
+	public String getErrorMessage() {
+		return errorMessage;
 	}
 
 }

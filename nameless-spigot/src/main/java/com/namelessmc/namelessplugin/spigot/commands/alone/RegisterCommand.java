@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayer;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
 import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
@@ -16,8 +17,8 @@ import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
 
 public class RegisterCommand extends NamelessCommand {
 
-	NamelessPlugin plugin;
-	String commandName;
+	private NamelessPlugin plugin;
+	private String commandName;
 
 	/*
 	 * Constructer
@@ -48,14 +49,20 @@ public class RegisterCommand extends NamelessCommand {
 				@Override
 				public void run() {
 					NamelessAPI api = plugin.getAPI();
+					NamelessPlayer swPlayer = api.getPlayer(player.getUniqueId().toString());
+					if (!swPlayer.exists()) {
 
-					// Ensure email is set
-					if (args.length < 1 || args.length > 1) {
-						player.sendMessage(NamelessChat
-								.convertColors(NamelessChat.getMessage(NamelessMessages.INCORRECT_USAGE_REGISTER)
-										.replaceAll("%command%", commandName)));
+						// Ensure email is set
+						if (args.length < 1 || args.length > 1) {
+							player.sendMessage(NamelessChat
+									.convertColors(NamelessChat.getMessage(NamelessMessages.INCORRECT_USAGE_REGISTER)
+											.replaceAll("%command%", commandName)));
+						} else {
+							api.registerPlayer(player, args[0]);
+						}
 					} else {
-						api.registerPlayer(player, args[0]);
+						sender.sendMessage(NamelessChat
+								.convertColors(NamelessChat.getMessage(NamelessMessages.REGISTER_USERNAME_EXISTS)));
 					}
 				}
 			});

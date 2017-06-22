@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.spigot.API;
+package com.namelessmc.namelessplugin.bungeecord.API;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,13 +9,16 @@ import java.util.ArrayList;
 import javax.net.ssl.HttpsURLConnection;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.bukkit.entity.Player;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
+import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
+import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessChat;
+
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class UpdateChecker {
 
@@ -107,27 +110,17 @@ public class UpdateChecker {
 		return this.link;
 	}
 
-	public void sendUpdateMessage(Player player) {
-		if (plugin.isSpigot()) {
-			player.sendMessage(NamelessChat.convertColors("&a&m------ &bNamelessMC&a&m ---------"));
-			player.sendMessage(NamelessChat.convertColors("&6Found a new update"));
-			player.sendMessage(NamelessChat.convertColors("&aNew version:&e " + getVersion()));
-			player.sendMessage(NamelessChat.convertColors("&bYour version:&c " + getCurrentVersion()));
-			player.spigot().sendMessage(NamelessChat.sendClickableMessage("&eGet it &chere", net.md_5.bungee.api.chat.ClickEvent.Action.OPEN_URL,
-					getLink(), net.md_5.bungee.api.chat.HoverEvent.Action.SHOW_TEXT, "&bClick to go to the download link"));
-			player.sendMessage(NamelessChat.convertColors("&d" + getTitle()));
-			player.sendMessage(NamelessChat.convertColors("&a&m--------------------------"));
-		} else if (plugin.isBukkit()) {
-			player.sendMessage(NamelessChat.convertColors("&a&m------ &bNamelessMC&a&m ---------"));
-			player.sendMessage(NamelessChat.convertColors("&6Found a new update"));
-			player.sendMessage(NamelessChat.convertColors("&aNew version:&e " + getVersion()));
-			player.sendMessage(NamelessChat.convertColors("&bYour version:&c " + getCurrentVersion()));
-			player.sendMessage(NamelessChat.convertColors("&2Get it at:&c " + getLink()));
-			player.sendMessage(NamelessChat.convertColors("&d" + getTitle()));
-			player.sendMessage(NamelessChat.convertColors("&a&m--------------------------"));
-		}
+	public void sendUpdateMessage(ProxiedPlayer player) {
+		player.sendMessage(NamelessChat.convertColors("&a&m------ &bNamelessMC&a&m ---------"));
+		player.sendMessage(NamelessChat.convertColors("&6Found a new update"));
+		player.sendMessage(NamelessChat.convertColors("&aNew version:&e " + getVersion()));
+		player.sendMessage(NamelessChat.convertColors("&bYour version:&c " + getCurrentVersion()));
+		player.sendMessage(NamelessChat.sendClickableMessage("&eGet it &chere", ClickEvent.Action.OPEN_URL, getLink(),
+				HoverEvent.Action.SHOW_TEXT, "&bClick to go to the download link"));
+		player.sendMessage(NamelessChat.convertColors("&d" + getTitle()));
+		player.sendMessage(NamelessChat.convertColors("&a&m--------------------------"));
 	}
-	
+
 	public ArrayList<String> getConsoleUpdateMessage() {
 		ArrayList<String> messages = new ArrayList<String>();
 		messages.add("&6Found a new update");
@@ -137,5 +130,5 @@ public class UpdateChecker {
 		messages.add("&d" + getTitle());
 		return messages;
 	}
-	
+
 }

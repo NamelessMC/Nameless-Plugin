@@ -6,26 +6,15 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-
 public class NamelessChat {
 
-	NamelessPlugin plugin;
-
-	public NamelessChat(NamelessPlugin plugin) {
-		this.plugin = plugin;
-	}
-
-	public TextComponent sendClickableMessage(String message, ClickEvent.Action click, String value,
-			HoverEvent.Action hover, String hoverText) {
-		if (plugin.isSpigot()) {
-			TextComponent msg = new TextComponent(convertColors(message));
-			msg.setClickEvent(new ClickEvent(click, value));
-			msg.setHoverEvent(new HoverEvent(hover,
-					new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', hoverText)).create()));
+	public static net.md_5.bungee.api.chat.TextComponent sendClickableMessage(String message, net.md_5.bungee.api.chat.ClickEvent.Action click, String value,
+			net.md_5.bungee.api.chat.HoverEvent.Action hover, String hoverText) {
+		if (NamelessPlugin.getInstance().isSpigot()) {
+			net.md_5.bungee.api.chat.TextComponent msg = new net.md_5.bungee.api.chat.TextComponent(convertColors(message));
+			msg.setClickEvent(new net.md_5.bungee.api.chat.ClickEvent(click, value));
+			msg.setHoverEvent(new net.md_5.bungee.api.chat.HoverEvent(hover,
+					new net.md_5.bungee.api.chat.ComponentBuilder(ChatColor.translateAlternateColorCodes('&', hoverText)).create()));
 			return msg;
 		} else {
 			return null;

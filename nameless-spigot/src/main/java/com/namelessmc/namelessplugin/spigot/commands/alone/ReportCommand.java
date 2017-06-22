@@ -18,8 +18,8 @@ import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
 
 public class ReportCommand extends NamelessCommand {
 
-	NamelessPlugin plugin;
-	String commandName;
+	private NamelessPlugin plugin;
+	private String commandName;
 
 	/*
 	 * Constructer
@@ -44,34 +44,44 @@ public class ReportCommand extends NamelessCommand {
 		if (sender instanceof Player) {
 
 			Player player = (Player) sender;
+			NamelessAPI api = plugin.getAPI();
+			NamelessPlayer namelessPlayer = api.getPlayer(player.getUniqueId().toString());
+			if (namelessPlayer.exists()) {
+				if (namelessPlayer.isValidated()) {
+					// Try to report
+					Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+						@Override
+						public void run() {
 
-			// Try to report
-			Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-				@Override
-				public void run() {
-					NamelessAPI api = plugin.getAPI();
+							// Ensure email is set
+							if (args.length < 2) {
+								player.sendMessage(NamelessChat
+										.convertColors(NamelessChat.getMessage(NamelessMessages.INCORRECT_USAGE_REPORT)
+												.replaceAll("%command%", commandName)));
+								return;
+							} else {
+								NamelessReportPlayer report = namelessPlayer.reportPlayer(args);
 
-					// Ensure email is set
-					if (args.length < 2) {
-						player.sendMessage(NamelessChat
-								.convertColors(NamelessChat.getMessage(NamelessMessages.INCORRECT_USAGE_REPORT)
-										.replaceAll("%command%", commandName)));
-						return;
-					} else {
-						NamelessPlayer namelessPlayer = api.getPlayer(player.getUniqueId().toString());
-						NamelessReportPlayer report = namelessPlayer.reportPlayer(args);
-
-						if (report.hasError()) {
-							// Error with request
-							player.sendMessage(NamelessChat.convertColors("&4Error: " + report.getErrorMessage()));
-						} else {
-							// Display success message to user
-							player.sendMessage(NamelessChat.convertColors(NamelessChat
-									.getMessage(NamelessMessages.REPORT_SUCCESS).replaceAll("%player%", args[0])));
+								if (report.hasError()) {
+									// Error with request
+									player.sendMessage(
+											NamelessChat.convertColors("&4Error: " + report.getErrorMessage()));
+								} else {
+									// Display success message to user
+									player.sendMessage(NamelessChat
+											.convertColors(NamelessChat.getMessage(NamelessMessages.REPORT_SUCCESS)
+													.replaceAll("%player%", args[0])));
+								}
+							}
 						}
-					}
+					});
+				} else {
+					sender.sendMessage(
+							NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.PLAYER_NOT_VALID)));
 				}
-			});
+			} else {
+				sender.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.MUST_REGISTER)));
+			}
 
 		} else {
 			sender.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.MUST_BE_INGAME)));

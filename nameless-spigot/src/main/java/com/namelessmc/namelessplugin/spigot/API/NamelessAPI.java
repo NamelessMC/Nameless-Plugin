@@ -6,7 +6,6 @@ import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 import com.namelessmc.namelessplugin.spigot.API.Config.NamelessConfigManager;
 import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayer;
 import com.namelessmc.namelessplugin.spigot.API.Player.NamelessRegisterPlayer;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.utils.ReflectionUtil;
 
 public class NamelessAPI {
@@ -37,11 +36,6 @@ public class NamelessAPI {
 	public NamelessConfigManager getConfigManager() {
 		namelessConfigManager = new NamelessConfigManager(plugin);
 		return namelessConfigManager;
-	}
-
-	public NamelessChat getChat() {
-		NamelessChat chat = new NamelessChat(plugin);
-		return chat;
 	}
 
 	public ReflectionUtil getReflection() {

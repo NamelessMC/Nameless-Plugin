@@ -1,145 +1,168 @@
 package com.namelessmc.namelessplugin.bungeecord;
 
-import java.io.IOException;
 import com.namelessmc.namelessplugin.bungeecord.API.NamelessAPI;
-import com.namelessmc.namelessplugin.bungeecord.commands.GetNotificationsCommand;
-import com.namelessmc.namelessplugin.bungeecord.commands.GetUserCommand;
-import com.namelessmc.namelessplugin.bungeecord.commands.RegisterCommand;
-import com.namelessmc.namelessplugin.bungeecord.commands.ReportCommand;
-import com.namelessmc.namelessplugin.bungeecord.commands.SetGroupCommand;
-import com.namelessmc.namelessplugin.bungeecord.mcstats.Metrics;
+import com.namelessmc.namelessplugin.bungeecord.API.UpdateChecker;
+import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessChat;
+import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.bungeecord.commands.CommandWithArgs;
+import com.namelessmc.namelessplugin.bungeecord.commands.alone.GetNotificationsCommand;
+import com.namelessmc.namelessplugin.bungeecord.commands.alone.GetUserCommand;
+import com.namelessmc.namelessplugin.bungeecord.commands.alone.RegisterCommand;
+import com.namelessmc.namelessplugin.bungeecord.commands.alone.ReportCommand;
+import com.namelessmc.namelessplugin.bungeecord.commands.alone.SetGroupCommand;
 import com.namelessmc.namelessplugin.bungeecord.player.PlayerEventListener;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.plugin.Plugin;
-
-/*
- *  Bungeecord Version by IsS127
- */
 
 public class NamelessPlugin extends Plugin {
 
-    /*
-     * Plugin API
-     */
-	private NamelessAPI api; 
-	
 	/*
-	 *  API URL
+	 * Instance
+	 */
+	private static NamelessPlugin instance;
+
+	/*
+	 * Plugin API
+	 */
+	private NamelessAPI api;
+
+	/*
+	 * API URL
 	 */
 	private String apiURL = "";
 	private boolean hasSetUrl = false;
 
 	/*
-	 *  NamelessMC permission string.
+	 * NamelessMC permission string.
 	 */
 
-	public final String permission = "namelessmc";
-	public final String permissionAdmin = "namelessmc.admin";
+	public static final String permission = "namelessmc";
+	public static final String permissionAdmin = "namelessmc.admin";
 
 	/*
-	 *  Metrics
+	 * MCStats
 	 */
-	Metrics metrics;
+	// private MCStats mcStats;
+
+	@Override
+	public void onLoad() {
+		NamelessPlugin.instance = this;
+	}
 
 	/*
-	 *  OnEnable method
+	 * OnEnable method
 	 */
 	@Override
-	public void onEnable(){
+	public void onEnable() {
+		instance = this;
+
 		// Register the API
 		api = new NamelessAPI(this);
-		
+
+		// MCStats (Temporary til new custom stats)
+		/*
+		 * try { mcStats = new MCStats(this); mcStats.start();
+		 * NamlessChat.sendToLog(NamelessMessages.PREFIX_INFO,
+		 * "&aMetrics Started!"); } catch (IOException e) { e.printStackTrace();
+		 * }
+		 */
+
 		// Init config files.
-		api.getConfigs().initFile();
-	    
-		registerListeners();
+		api.getConfigManager().initializeFiles();
+
+		if (hasSetUrl) {
+			registerListeners();
+		}
+		if (getAPI().getConfigManager().getConfig().getBoolean("update-checker")) {
+			checkForUpdate();
+		} else {
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "&CIt is recommended to enable update checker.");
+		}
 
 	}
 
-	/*
-	 *  OnDisable method
-	 */
-	@Override
-	public void onDisable(){
-		unRegisterListeners();
+	public void checkForUpdate() {
+		UpdateChecker updateChecker = new UpdateChecker(this);
+		if (updateChecker.updateNeeded()) {
+			for (String msg : updateChecker.getConsoleUpdateMessage()) {
+				NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, msg);
+			}
+		} else {
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aFound no new updates!");
+		}
 	}
-	
+
 	/*
 	 * Register Commands/Events
 	 */
-	public void registerListeners(){
-		
-		try {
-            metrics = new Metrics(this);
-            metrics.start();
-            getLogger().info(ChatColor.translateAlternateColorCodes('&', "&3Metrics Started!"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } 
-
-		// Register commands & listeners if url has been set
-		if(hasSetUrl){
-			getProxy().getPluginManager().registerCommand(this, new RegisterCommand(this, "register"));
-			getProxy().getPluginManager().registerCommand(this, new GetUserCommand(this, "getuser"));
-			getProxy().getPluginManager().registerCommand(this, new GetNotificationsCommand(this, "getnotifications"));
-			getProxy().getPluginManager().registerCommand(this, new SetGroupCommand(this, "setgroup"));
-
-			if (getAPI().getConfigs().getConfig().getBoolean("enable-reports")) {
-				getProxy().getPluginManager().registerCommand(this, new ReportCommand(this, "report"));
+	public void registerListeners() {
+		if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.Alone.Use")
+				&& api.getConfigManager().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
+					"&4ERROR REGISTERING COMMANDS! BOUTH IS SET TO TRUE!");
+		} else if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.Alone.Use")) {
+			String register = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.Register");
+			String getUser = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.GetUser");
+			String getNotifications = api.getConfigManager().getCommandsConfig()
+					.getString("Commands.Alone.GetNotifications");
+			String setGroup = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.SetGroup");
+			String report = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.Report");
+			if (api.getConfigManager().getConfig().getBoolean("enable-registration")) {
+				getProxy().getPluginManager().registerCommand(this, new RegisterCommand(this, register));
 			}
-			
-			// Register events
-			getProxy().getPluginManager().registerListener(this, new PlayerEventListener(this));
+			getProxy().getPluginManager().registerCommand(this, new GetUserCommand(this, getUser));
+			getProxy().getPluginManager().registerCommand(this, new GetNotificationsCommand(this, getNotifications));
+			getProxy().getPluginManager().registerCommand(this, new SetGroupCommand(this, setGroup));
+			if (api.getConfigManager().getConfig().getBoolean("enable-reports")) {
+				getProxy().getPluginManager().registerCommand(this, new ReportCommand(this, report));
+			}
+		} else if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
+			String subCommand = api.getConfigManager().getCommandsConfig().getString("Commands.SubCommand.Main");
+			getProxy().getPluginManager().registerCommand(this, new CommandWithArgs(this, subCommand));
+		} else {
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "&4ERROR REGISTERING COMMANDS!");
 		}
+
+		// Register events
+		getProxy().getPluginManager().registerListener(this, new PlayerEventListener(this));
 	}
 
 	/*
-	 * UnRegister Commands/Events
+	 * Get / Has / Set
 	 */
-	public void unRegisterListeners(){
-		// UnRegister commands
-		getProxy().getPluginManager().unregisterCommand(new RegisterCommand(this, "register"));
-		getProxy().getPluginManager().unregisterCommand(new GetUserCommand(this, "getuser"));
-		if (getAPI().getConfigs().getConfig().getBoolean("enable-reports")) {
-			getProxy().getPluginManager().unregisterCommand(new ReportCommand(this, "report"));
-		}
 
-		// UnRegister Listeners/Events
-		getProxy().getPluginManager().unregisterListener(new PlayerEventListener(this));
+	// Gets instance
+	public static NamelessPlugin getInstance() {
+		return instance;
 	}
-	
-	/*
-	 *  Get / Has / Set
-	 */
-	
+
 	// Gets the website api url.
-	public String getAPIUrl(){
+	public String getAPIUrl() {
 		return apiURL;
 	}
 
 	// Gets the Plugin API
-	public NamelessAPI getAPI(){
+	public NamelessAPI getAPI() {
 		return api;
 	}
-	
+
 	// Checks if hasSetUrl
-	public boolean hasSetUrl(){
+	public boolean hasSetUrl() {
 		return hasSetUrl;
 	}
-	
+
 	// Sets HasSetUrl
-	public void setHasSetUrl(boolean value){
+	public void setHasSetUrl(boolean value) {
 		hasSetUrl = value;
 	}
-	
+
 	// Sets api url
-	public void setAPIUrl(String value){
+	public void setAPIUrl(String value) {
 		apiURL = value;
 	}
-	
+
 	/*
-	 * End! 
+	 * End!
 	 */
 
 }

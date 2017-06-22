@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.bungeecord.mcstats;
+package com.namelessmc.namelessplugin.bungeecord.stats;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -27,7 +27,7 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginDescription;
 
-public class Metrics {
+public class MCStats {
 	
 	private static final int REVISION = 7;
 	private static final String BASE_URL = "http://report.mcstats.org";
@@ -43,7 +43,7 @@ public class Metrics {
 	private Thread thread = null;
 	private static ByteArrayOutputStream baos;
 	
-	public Metrics(Plugin plugin) throws IOException {
+	public MCStats(Plugin plugin) throws IOException {
 		if (plugin == null) {
 			throw new IllegalArgumentException("Plugin cannot be null");
 		}
@@ -101,27 +101,27 @@ public class Metrics {
 				private long nextPost = 0L;
 				
 				public void run(){
-					while (Metrics.this.thread != null) {
+					while (MCStats.this.thread != null) {
 						if ((this.nextPost == 0L) || (PING_INTERVAL > this.nextPost)) {
 							try {
-								synchronized (Metrics.this.optOutLock) {
-									if ((Metrics.this.isOptOut()) && (Metrics.this.thread != null)) {
-										Thread temp = Metrics.this.thread;
-										Metrics.this.thread = null;
-										for (Metrics.Graph graph : Metrics.this.graphs) {
+								synchronized (MCStats.this.optOutLock) {
+									if ((MCStats.this.isOptOut()) && (MCStats.this.thread != null)) {
+										Thread temp = MCStats.this.thread;
+										MCStats.this.thread = null;
+										for (MCStats.Graph graph : MCStats.this.graphs) {
 											graph.onOptOut();
 										}
 										temp.interrupt();
 										return;
 									}
 								}
-								Metrics.this.postPlugin(!this.firstPost);
+								MCStats.this.postPlugin(!this.firstPost);
 								
 								this.firstPost = false;
 								this.nextPost = (System.currentTimeMillis() + 900000L);
 							} catch (IOException e) {
-								if (Metrics.this.debug) {
-									System.out.println("[Metrics] " + e.getMessage());
+								if (MCStats.this.debug) {
+									System.out.println("[MCStats] " + e.getMessage());
 								}
 							}
 						}
@@ -130,7 +130,7 @@ public class Metrics {
 						} catch (InterruptedException ignored) {}
 					}
 				}
-			}, "MCStats / Plugin Metrics");
+			}, "MCStats / Plugin MCStats");
 			
 			this.thread.start();
 			
@@ -144,7 +144,7 @@ public class Metrics {
 				this.properties.load(new FileInputStream(this.configurationFile));
 			} catch (IOException ex) {
 				if (this.debug) {
-					ProxyServer.getInstance().getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
+					ProxyServer.getInstance().getLogger().log(Level.INFO, "[MCStats] " + ex.getMessage());
 				}
 				return true;
 			}
@@ -271,7 +271,7 @@ public class Metrics {
 		
 		connection.setDoOutput(true);
 		if (this.debug) {
-			System.out.println("[Metrics] Prepared request for " + pluginName + " uncompressed=" + uncompressed.length + " compressed=" + compressed.length);
+			System.out.println("[MCStats] Prepared request for " + pluginName + " uncompressed=" + uncompressed.length + " compressed=" + compressed.length);
 		}
 		OutputStream os = connection.getOutputStream();
 		os.write(compressed);
@@ -413,17 +413,17 @@ public class Metrics {
 			return this.name;
 		}
 		
-		public void addPlotter(Metrics.Plotter plotter)
+		public void addPlotter(MCStats.Plotter plotter)
 		{
 			this.plotters.add(plotter);
 		}
 		
-		public void removePlotter(Metrics.Plotter plotter)
+		public void removePlotter(MCStats.Plotter plotter)
 		{
 			this.plotters.remove(plotter);
 		}
 		
-		public Set<Metrics.Plotter> getPlotters()
+		public Set<MCStats.Plotter> getPlotters()
 		{
 			return Collections.unmodifiableSet(this.plotters);
 		}

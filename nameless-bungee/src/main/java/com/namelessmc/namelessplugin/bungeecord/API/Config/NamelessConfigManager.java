@@ -1,22 +1,24 @@
-package com.namelessmc.namelessplugin.spigot.API.Config;
+package com.namelessmc.namelessplugin.bungeecord.API.Config;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
+import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessChat;
+import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessMessages;
 
-import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
+import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 
 public class NamelessConfigManager {
 
 	NamelessPlugin plugin;
 
 	private File file;
-	private YamlConfiguration yamlFile;
+	private Configuration config;
 
 	public NamelessConfigManager(NamelessPlugin plugin) {
 		this.plugin = plugin;
@@ -29,14 +31,14 @@ public class NamelessConfigManager {
 			initCommands();
 			initMessages();
 
-			yamlFile = getConfig();
+			config = getConfig();
 
 			// Use group & username synchronization
-			if (yamlFile.getBoolean("update-username")) {
+			if (config.getBoolean("update-username")) {
 				initPlayersData();
 			}
 
-			if (yamlFile.getBoolean("group-synchronization")) {
+			if (config.getBoolean("group-synchronization")) {
 				initPermissionHandler();
 			}
 		}
@@ -63,37 +65,36 @@ public class NamelessConfigManager {
 			file = new File(plugin.getDataFolder() + File.separator + "Config.yml");
 
 			if (!file.exists()) {
-				try (InputStream in = plugin.getResource("Config.yml")) {
+				try (InputStream in = plugin.getResourceAsStream("Config.yml")) {
 					// NamelessConfigs doesn't exist, create one now...
-					NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aCreating NamelessMC configuration file...");
+					NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
+							"&aCreating NamelessMC configuration file...");
 					Files.copy(in, file.toPath());
 
 					NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
-							"&4NamelessMC Config needs configuring, disabling...");
-					plugin.getServer().getPluginManager().disablePlugin(plugin);
+							"&4NamelessMC Config needs configuring, disabling features...");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
-			} else if (file.exists()) {
-				yamlFile = getConfig();
+			} else if(file.exists()){
+				config = getConfig();
 
-				plugin.setAPIUrl(yamlFile.getString("api-url"));
+				plugin.setAPIUrl(config.getString("api-url"));
 
 				if (plugin.getAPIUrl().isEmpty()) {
 					// API URL not set
 					NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
 							"&4No API URL set in the NamelessMC configuration, disabling features.");
-					plugin.getServer().getPluginManager().disablePlugin(plugin); 
 					plugin.setHasSetUrl(false);
 				} else if (plugin.getAPI().checkConnection().hasError()) {
 					NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
 							"&4Invalid API Url/Key, Please set the correct API url! &cdisabling features");
-					plugin.getServer().getPluginManager().disablePlugin(plugin); 
 					plugin.setHasSetUrl(false);
 				} else {
 					// Exists already, load it
-					NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded NamelessMC configuration file...");
+					NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
+							"&aLoaded NamelessMC configuration file...");
 					plugin.setHasSetUrl(true);
 				}
 			}
@@ -116,7 +117,7 @@ public class NamelessConfigManager {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if (file.exists()) {
+		} else if(file.exists()){
 			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded Players Data File!");
 		}
 	}
@@ -131,12 +132,13 @@ public class NamelessConfigManager {
 		if (!file.exists()) {
 			try (InputStream pConfig = plugin.getClass().getClassLoader()
 					.getResourceAsStream("GroupSyncPermissions.yml")) {
-				NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aCreated Group Sync Permissions file!");
+				NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
+						"&aCreated Group Sync Permissions file!");
 				Files.copy(pConfig, file.getAbsoluteFile().toPath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (file.exists()) {
+		} else if(file.exists()){
 			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded Group Sync Permissions file!");
 		}
 	}
@@ -155,7 +157,7 @@ public class NamelessConfigManager {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (file.exists()) {
+		} else if(file.exists()){
 			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded Messages file!");
 		}
 
@@ -175,45 +177,69 @@ public class NamelessConfigManager {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (file.exists()) {
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded The Commands File!");
+		} else if(file.exists()){
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aLoaded The Commands file!");
 		}
 
 	}
 
-	public YamlConfiguration getConfig() {
+	public Configuration getConfig() {
 		file = new File(plugin.getDataFolder() + File.separator + "Config.yml");
-		yamlFile = YamlConfiguration.loadConfiguration(file);
+		try {
+			config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		return yamlFile;
+		return config;
 	}
 
-	public YamlConfiguration getPlayerDataConfig() {
+	public Configuration getPlayerDataConfig() {
 		file = new File(plugin.getDataFolder() + File.separator + "PlayersData.yml");
-		yamlFile = YamlConfiguration.loadConfiguration(file);
-
-		return yamlFile;
+		try {
+			config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return config;
 	}
 
-	public YamlConfiguration getGroupSyncPermissionsConfig() {
+	public Configuration getGroupSyncPermissionsConfig() {
 		file = new File(plugin.getDataFolder() + File.separator + "GroupSyncPermissions.yml");
-		yamlFile = YamlConfiguration.loadConfiguration(file);
+		try {
+			config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		return yamlFile;
+		return config;
 	}
 
-	public YamlConfiguration getMessageConfig() {
+	public Configuration getMessageConfig() {
 		file = new File(plugin.getDataFolder() + File.separator + "Messages.yml");
-		yamlFile = YamlConfiguration.loadConfiguration(file);
+		try {
+			config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		return yamlFile;
+		return config;
 	}
 
-	public YamlConfiguration getCommandsConfig() {
+	public Configuration getCommandsConfig() {
 		file = new File(plugin.getDataFolder() + File.separator + "Commands.yml");
-		yamlFile = YamlConfiguration.loadConfiguration(file);
+		try {
+			config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		return yamlFile;
+		return config;
+	}
+	
+	public boolean contains(Configuration file, String contain){
+		return file.get(contain, null) != null;
 	}
 
 }

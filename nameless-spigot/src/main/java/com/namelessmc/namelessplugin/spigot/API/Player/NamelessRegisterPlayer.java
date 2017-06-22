@@ -171,6 +171,7 @@ public class NamelessRegisterPlayer {
 		} catch (Exception e) {
 			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
 					"There was an unknown error whilst registering user.");
+			e.printStackTrace();
 		}
 	}
 

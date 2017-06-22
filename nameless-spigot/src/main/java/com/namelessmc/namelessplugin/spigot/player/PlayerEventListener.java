@@ -51,11 +51,10 @@ public class PlayerEventListener implements Listener {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
+				updateChecker(player);
 				if (plugin.hasSetUrl()) {
 					NamelessAPI api = plugin.getAPI();
 					NamelessPlayer namelessPlayer = api.getPlayer(player.getUniqueId().toString());
-					updateChecker(player);
 					userFileCheck(player);
 					if (namelessPlayer.exists()) {
 						if (namelessPlayer.isValidated()) {
@@ -73,7 +72,7 @@ public class PlayerEventListener implements Listener {
 	}
 
 	public void updateChecker(Player player) {
-		if (player.hasPermission(NamelessPlugin.permissionAdmin + ".updatenofiy")) {
+		if (player.hasPermission(NamelessPlugin.permissionAdmin + ".updatenotify")) {
 			UpdateChecker updateChecker = new UpdateChecker(plugin);
 			if (updateChecker.updateNeeded()) {
 				updateChecker.sendUpdateMessage(player);
@@ -203,8 +202,6 @@ public class PlayerEventListener implements Listener {
 
 				try {
 					playerDataConfig.save(new File(plugin.getDataFolder(), "PlayersData.yml"));
-					NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
-							"&aChanged &b" + player.getName() + "'s &ausername in the Players Data File.");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

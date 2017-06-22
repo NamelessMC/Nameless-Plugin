@@ -17,8 +17,8 @@ import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
 
 public class SetGroupCommand extends NamelessCommand {
 
-	NamelessPlugin plugin;
-	String commandName;
+	private NamelessPlugin plugin;
+	private String commandName;
 
 	/*
 	 * Constructer
@@ -30,6 +30,7 @@ public class SetGroupCommand extends NamelessCommand {
 		setPermissionMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
 		setUsage("/" + name + "<user> <groupID>");
 		this.setDescription(NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_SETGROUP));
+		commandName = name;
 	}
 
 	/*

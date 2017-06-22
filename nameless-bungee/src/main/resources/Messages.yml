@@ -6,12 +6,21 @@ MUST_BE_INGAME: '&cYou must be ingame!'
 PLAYER_NOT_VALID: '&cYou have not validated your profile in our website!'
 MUST_REGISTER: '&cYou must register on our website!'
 
-# Incorrect Usage Messages
-INCORRECT_USAGE_REGISTER: '&cIncorrect usage: /register email'
-INCORRECT_USAGE_GETUSER: '&cIncorrect usage: /getuser username/uuid'
-INCORRECT_USAGE_GETNOTIFICATIONS: '&cIncorrect usage: /getnotifications'
-INCORRECT_USAGE_REPORT: '&cIncorrect usage: /report username reason'
-INCORRECT_USAGE_SETGROUP: '&cIncorrect usage: /setgroup player groupId'
+# Incorrect Usage
+INCORRECT_USAGE_MAIN: '&cIncorrect usage: /%command% <command>'
+INCORRECT_USAGE_REGISTER: '&cIncorrect usage: /%command% email'
+INCORRECT_USAGE_GETUSER: '&cIncorrect usage: /%command% username/uuid'
+INCORRECT_USAGE_GETNOTIFICATIONS: '&cIncorrect usage: /%command%'
+INCORRECT_USAGE_REPORT: '&cIncorrect usage: /%command% username reason'
+INCORRECT_USAGE_SETGROUP: '&cIncorrect usage: /%command% player groupId'
+  
+# Help/Alone Help Messages
+HELP_DESCRIPTION_MAIN: '&bShows the commands of this command'
+HELP_DESCRIPTION_REGISTER: '&bRegisters on website'
+HELP_DESCRIPTION_GETUSER: '&bGets user details from website.'
+HELP_DESCRIPTION_GETNOTIFICATIONS: '&bGets notifications from website' 
+HELP_DESCRIPTION_REPORT: '&bReports a player to the website'
+HELP_DESCRIPTION_SETGROUP: '&bSets a players group in the website'
 
 # Register
 REGISTER_SUCCESS_MESSAGE: '&aYou have successfully registered!'

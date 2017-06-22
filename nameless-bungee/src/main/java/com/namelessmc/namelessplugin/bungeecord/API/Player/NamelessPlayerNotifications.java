@@ -83,11 +83,6 @@ public class NamelessPlayerNotifications {
 			// Disconnect
 			connection.disconnect();
 		} catch (Exception e) {
-			// Exception
-			// Exception
-			error = true;
-			errorMessage = "There was an unknown error whilst executing the NamelessNotifications";
-			succeeded = false;
 			plugin.getLogger().warning(ChatColor.RED + "There was an unknown error whilst executing the NamelessNotifications");
 			e.printStackTrace();
 		}

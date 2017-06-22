@@ -11,8 +11,8 @@ import java.net.URLEncoder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
-
-import net.md_5.bungee.api.ChatColor;
+import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessChat;
+import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessMessages;
 
 public class NamelessPlayerSetGroup {
 
@@ -103,10 +103,7 @@ public class NamelessPlayerSetGroup {
 			connection.disconnect();
 
 		} catch (Exception e) {
-			error = true;
-			errorMessage = "There was an unknown error whilst setting group";
-			succeeded = false;
-			plugin.getLogger().warning(ChatColor.RED + "There was an unknown error whilst setting group");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "There was an unknown error whilst setting group");
 			e.printStackTrace();
 		}
 	}
@@ -186,6 +183,7 @@ public class NamelessPlayerSetGroup {
 			connection.disconnect();
 
 		} catch (Exception e) {
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "There was an unknown error whilst setting group");
 			e.printStackTrace();
 		}
 	}

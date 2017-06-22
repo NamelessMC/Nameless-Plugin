@@ -56,13 +56,13 @@ public class NamelessPlugin extends JavaPlugin {
 	/*
 	 * Vault
 	 */
-	public boolean useVault = false;
+	boolean useVault = false;
 	private Permission permissions = null;
 
 	/*
 	 * Groups Support
 	 */
-	public boolean useGroups = false;
+	boolean useGroups = false;
 
 	/*
 	 * Spigot or Bukkit?
@@ -89,29 +89,32 @@ public class NamelessPlugin extends JavaPlugin {
 		// Check Sofware (Spigot or Bukkit)
 		checkSoftware();
 
-		// Register the API
-		api = new NamelessAPI(this);
+		if (isSpigot()) {
+			// Register the API
+			api = new NamelessAPI(this);
 
-		// Disabled for now
-		/*
-		 * try { mcStats = new MCStats(this); mcStats.start();
-		 * NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
-		 * "&aMetrics Started!"); } catch (IOException e) { e.printStackTrace();
-		 * }
-		 */
+			// Disabled for now
+			/*
+			 * try { mcStats = new MCStats(this); mcStats.start();
+			 * NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
+			 * "&aMetrics Started!"); } catch (IOException e) {
+			 * e.printStackTrace(); }
+			 */
 
-		// Init config files.
-		api.getConfigManager().initializeFiles();
+			// Init config files.
+			api.getConfigManager().initializeFiles();
 
-		if (hasSetUrl) {
-			registerListeners();
-			detectVault();
-			initHooks();
-		}
-		if (getAPI().getConfigManager().getConfig().getBoolean("update-checker")) {
-			checkForUpdate();
-		} else {
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "&CIt is recommended to enable update checker.");
+			if (hasSetUrl) {
+				registerListeners();
+				detectVault();
+				initHooks();
+			}
+			if (getAPI().getConfigManager().getConfig().getBoolean("update-checker")) {
+				checkForUpdate();
+			} else {
+				NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
+						"&CIt is recommended to enable update checker.");
+			}
 		}
 	}
 
@@ -176,11 +179,16 @@ public class NamelessPlugin extends JavaPlugin {
 
 	public void checkSoftware() {
 
+		// DISABLED BUKKIT FOR NOW.
+
 		try {
 			Class.forName("org.spigotmc.Metrics");
 		} catch (Exception e) {
 			spigot = false;
-			e.printStackTrace();
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
+					"&4The plugin only works with spigot not bukkit!!!");
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "&4To solve this issue get spigot, disabling.");
+			getServer().getPluginManager().disablePlugin(this);
 		}
 
 	}

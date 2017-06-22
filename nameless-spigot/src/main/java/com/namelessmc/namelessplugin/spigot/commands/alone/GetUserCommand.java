@@ -16,8 +16,8 @@ import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
 
 public class GetUserCommand extends NamelessCommand {
 
-	NamelessPlugin plugin;
-	String commandName;
+	private NamelessPlugin plugin;
+	private String commandName;
 
 	/*
 	 * Constructer
