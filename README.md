@@ -4,7 +4,7 @@ This is the OFFICIAL plugin for NamelessMC Web Software.
 The Plugin is in Development!
 
 # WARNING
-This plugin is only compatible with NamelessMC 1.0.15 & up.
+This plugin is only compatible with NamelessMC 1.0.16 & up.
 
 Expect Bugs!
 
