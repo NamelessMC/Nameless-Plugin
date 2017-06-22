@@ -11,14 +11,13 @@ Expect Bugs!
 If you have found any bugs please report them at https://github.com/NamelessMC/Nameless-Plugin/issues
 
 # Installation
+**You can download an automatically compiled version from https://jenkins.derkades.xyz/job/Nameless%20Plugin/, or alternatively compile the plugin manually using the instructions below.**
+
 This software is deployed using Maven. Maven is required if you want to get the development verions. If you want to use the development versions instead of the released ones, you can clone this repository and execute the following command in the folder:
 ```
 maven clean install
 ```
 It will generate a folder called target inside the folder nameless contained in this repository. You will find a jar called Nameless.jar inside that folder. This jar is compatible with both Bungeecord & Spigot.
-
-~~Or you can download from our jenkins page. [DEV BUILDS].
-http://ci.namelessmc.com/jenkins/job/Nameless-Plugin/~~
 
 # Permissions
 - namelessmc.main, /website
