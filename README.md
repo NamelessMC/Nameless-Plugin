@@ -12,8 +12,8 @@ If you have found any bugs please report them at https://github.com/NamelessMC/N
 
 # Installation
 
-## Spigot
-You can get the pre release jar without compiling it yourself at https://www.spigotmc.org/resources/official-namelessplugin.42698/
+## Pre Release (Spigot resource)
+You can get the pre release jars without compiling it yourself at https://www.spigotmc.org/resources/official-namelessplugin.42698/
 
 ## Maven
 This software is deployed using Maven. Maven is required if you want to get the development verions. If you want to use the development versions instead of the released ones, you can clone this repository and execute the following command in the folder:
