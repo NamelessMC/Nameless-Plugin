@@ -123,7 +123,7 @@ public class UpdateChecker {
 			player.sendMessage(NamelessChat.convertColors("&aNew version:&e " + getVersion()));
 			player.sendMessage(NamelessChat.convertColors("&bYour version:&c " + getCurrentVersion()));
 			player.sendMessage(NamelessChat.convertColors("&2Get it at:&c " + getLink()));
-			player.sendMessage(NamelessChat.convertColors("&d" + getTitle()));
+			player.sendMessage(NamelessChat.convertColors("&a" + getTitle()));
 			player.sendMessage(NamelessChat.convertColors("&a&m--------------------------"));
 		}
 	}

@@ -74,6 +74,11 @@ public class NamelessPlugin extends JavaPlugin {
 	 */
 	Field bukkitCommandMap;
 	CommandMap commandMap;
+	
+	/*
+	 * Https
+	 */
+	boolean https = false;
 
 	@Override
 	public void onLoad() {
@@ -105,6 +110,7 @@ public class NamelessPlugin extends JavaPlugin {
 			api.getConfigManager().initializeFiles();
 
 			if (hasSetUrl) {
+				checkHttps();
 				registerListeners();
 				detectVault();
 				initHooks();
@@ -126,6 +132,12 @@ public class NamelessPlugin extends JavaPlugin {
 			}
 		} else {
 			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aFound no new updates!");
+		}
+	}
+	
+	public void checkHttps(){
+		if(getAPI().getConfigManager().getConfig().getBoolean("https")){
+			https = true;
 		}
 	}
 
@@ -275,6 +287,10 @@ public class NamelessPlugin extends JavaPlugin {
 	// Sets api url
 	public void setAPIUrl(String value) {
 		apiURL = value;
+	}
+	
+	public boolean enabledHttps(){
+		return https;
 	}
 
 	// Check if Spigot

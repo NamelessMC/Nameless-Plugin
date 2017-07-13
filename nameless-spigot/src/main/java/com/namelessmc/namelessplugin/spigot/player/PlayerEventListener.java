@@ -138,7 +138,7 @@ public class PlayerEventListener implements Listener {
 							if (group.hasError()) {
 								NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "&4Error trying to change &c"
 										+ player.getName() + "'s group: &4" + group.getErrorMessage());
-							} else if (group.hasSucceseded()) {
+							} else if (group.hasSucceeded()) {
 								NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
 										"&aSuccessfully changed &b" + player.getName() + "'s &agroup from &b"
 												+ previousgroup + " &ato &b" + group.getNewGroup() + "&a!");

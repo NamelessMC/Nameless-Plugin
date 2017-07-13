@@ -24,12 +24,12 @@ public class NamelessAPI {
 	}
 
 	public NamelessRegisterPlayer registerPlayer(String userName, String uuid, String email) {
-		NamelessRegisterPlayer register = new NamelessRegisterPlayer(plugin, userName, uuid, email);
+		NamelessRegisterPlayer register = new NamelessRegisterPlayer(userName, uuid, email);
 		return register;
 	}
 
 	public NamelessRegisterPlayer registerPlayer(Player player, String email) {
-		NamelessRegisterPlayer register = new NamelessRegisterPlayer(plugin, player, email);
+		NamelessRegisterPlayer register = new NamelessRegisterPlayer(player, email);
 		return register;
 	}
 

@@ -60,7 +60,6 @@ public class CheckWebAPIConnection {
 				error = false;
 				succeeded = true;
 			} else if (response.has("error")) {
-				System.out.println(response);
 				error = true;
 				succeeded = false;
 				errorMessage = response.get("message").getAsString();
@@ -75,8 +74,8 @@ public class CheckWebAPIConnection {
 			connection.disconnect();
 
 		} catch (Exception e) {
-			errorMessage = "Invalid API key";
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "Invalid API key");
+			errorMessage = "ERROR 1, Invalid API key";
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "ERROR 1, Invalid API key");
 			// Exception
 			e.printStackTrace();
 		}
