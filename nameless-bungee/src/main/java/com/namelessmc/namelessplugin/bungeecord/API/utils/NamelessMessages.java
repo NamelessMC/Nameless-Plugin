@@ -1,6 +1,7 @@
-package com.namelessmc.namelessplugin.bungeecord.API.utils;
+package com.namelessmc.namelessplugin.bungeecord.API.Utils;
 
 public enum NamelessMessages {
+
 	//Plugin
 	PREFIX("&3[NamelessMC] "),
 	PREFIX_WARNING("&3[NamelessMC] &4[WARNING] "),
@@ -72,4 +73,5 @@ public enum NamelessMessages {
 	public String toString(){
 		return name;
 	}
+
 }

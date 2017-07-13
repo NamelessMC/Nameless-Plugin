@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.spigot.API.utils;
+package com.namelessmc.namelessplugin.spigot.API.Utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,4 +33,5 @@ public class NamelessChat {
 	public static void sendToLog(NamelessMessages prefix, String message) {
 		Bukkit.getConsoleSender().sendMessage(convertColors(prefix.toString()) + convertColors(message));
 	}
+
 }

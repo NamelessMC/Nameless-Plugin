@@ -20,4 +20,5 @@ public abstract class NamelessCommand extends Command implements PluginIdentifia
 	public NamelessPlugin getPlugin() {
 		return NamelessPlugin.getInstance();
 	}
+
 }

@@ -19,8 +19,8 @@ import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayer;
 import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayerNotifications;
 import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayerSetGroup;
 import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayerUpdateUsername;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
+import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
 
 public class PlayerEventListener implements Listener {
 

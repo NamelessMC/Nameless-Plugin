@@ -9,8 +9,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
 import com.namelessmc.namelessplugin.spigot.API.UpdateChecker;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
+import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
 import com.namelessmc.namelessplugin.spigot.commands.CommandWithArgs;
 import com.namelessmc.namelessplugin.spigot.commands.alone.GetNotificationsCommand;
 import com.namelessmc.namelessplugin.spigot.commands.alone.GetUserCommand;

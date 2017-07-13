@@ -5,8 +5,8 @@ import java.util.Arrays;
 
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
 import com.namelessmc.namelessplugin.bungeecord.API.NamelessAPI;
-import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessChat;
-import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessChat;
+import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessMessages;
 import com.namelessmc.namelessplugin.bungeecord.commands.alone.GetNotificationsCommand;
 import com.namelessmc.namelessplugin.bungeecord.commands.alone.GetUserCommand;
 import com.namelessmc.namelessplugin.bungeecord.commands.alone.RegisterCommand;
@@ -183,4 +183,5 @@ public class CommandWithArgs extends Command {
 		}
 		return false;
 	}
+
 }

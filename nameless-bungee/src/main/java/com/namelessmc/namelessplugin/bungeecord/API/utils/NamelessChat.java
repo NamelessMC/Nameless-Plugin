@@ -1,9 +1,9 @@
-package com.namelessmc.namelessplugin.bungeecord.API.utils;
+package com.namelessmc.namelessplugin.bungeecord.API.Utils;
 
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
 
-import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -35,7 +35,8 @@ public class NamelessChat {
 	}
 
 	public static void sendToLog(NamelessMessages prefix, String message) {
-		BungeeCord.getInstance().getConsole()
+		ProxyServer.getInstance().getConsole()
 				.sendMessage(convertColors(prefix.toString() + convertColorsString(message)));
 	}
+
 }

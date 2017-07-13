@@ -6,7 +6,7 @@ import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 import com.namelessmc.namelessplugin.spigot.API.Config.NamelessConfigManager;
 import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayer;
 import com.namelessmc.namelessplugin.spigot.API.Player.NamelessRegisterPlayer;
-import com.namelessmc.namelessplugin.spigot.API.utils.ReflectionUtil;
+import com.namelessmc.namelessplugin.spigot.API.Utils.ReflectionUtil;
 
 public class NamelessAPI {
 
@@ -46,4 +46,5 @@ public class NamelessAPI {
 		CheckWebAPIConnection checkWebAPIConnection = new CheckWebAPIConnection(plugin);
 		return checkWebAPIConnection;
 	}
+
 }

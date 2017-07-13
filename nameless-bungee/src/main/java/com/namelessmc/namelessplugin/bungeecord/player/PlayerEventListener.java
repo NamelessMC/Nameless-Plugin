@@ -7,8 +7,9 @@ import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
 import com.namelessmc.namelessplugin.bungeecord.API.NamelessAPI;
 import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessPlayer;
 import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessPlayerNotifications;
-import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessChat;
-import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessChat;
+import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessMessages;
+
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -24,9 +25,11 @@ import net.md_5.bungee.event.EventHandler;
  *  Bungeecord Version by IsS127
  */
 
+@SuppressWarnings("static-access")
 public class PlayerEventListener implements Listener {
 
 	NamelessPlugin plugin;
+	NamelessChat chat = plugin.getAPI().getChat();
 
 	/*
 	 * NamelessConfigs Files
@@ -48,15 +51,11 @@ public class PlayerEventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PostLoginEvent event) {
 		ProxiedPlayer player = event.getPlayer();
-
 		ProxyServer.getInstance().getScheduler().runAsync(plugin, new Runnable() {
-
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				if (plugin.hasSetUrl()) {
 					NamelessAPI api = plugin.getAPI();
-					NamelessChat chat = api.getChat();
 					NamelessPlayer namelessPlayer = api.getPlayer(player.getUniqueId().toString());
 					userFileCheck(player);
 					if (namelessPlayer.exists()) {
@@ -77,10 +76,9 @@ public class PlayerEventListener implements Listener {
 	 * User Notifications.
 	 */
 	public void userGetNotification(ProxiedPlayer player) {
-		config = plugin.getAPI().getConfigs().getConfig();
+		config = plugin.getAPI().getConfigManager().getConfig();
 		if (config.getBoolean("join-notifications")) {
 			NamelessAPI api = plugin.getAPI();
-			NamelessChat chat = api.getChat();
 			NamelessPlayer namelessPlayer = api.getPlayer(player.getUniqueId().toString());
 			NamelessPlayerNotifications notifications = namelessPlayer.getNotifications();
 			Integer pms = notifications.getPMs();
@@ -115,9 +113,9 @@ public class PlayerEventListener implements Listener {
 	 * User Group Synchronization.
 	 */
 	public void userGroupSync(ProxiedPlayer player) {
-		config = plugin.getAPI().getConfigs().getConfig();
+		config = plugin.getAPI().getConfigManager().getConfig();
 		if (config.getBoolean("group-synchronization")) {
-			permissionConfig = plugin.getAPI().getConfigs().getGroupSyncPermissionsConfig();
+			permissionConfig = plugin.getAPI().getConfigManager().getGroupSyncPermissionsConfig();
 			Configuration section = permissionConfig.getSection("permissions");
 			try {
 				for (String groupID : section.getKeys()) {
@@ -140,9 +138,9 @@ public class PlayerEventListener implements Listener {
 
 	public void userFileCheck(ProxiedPlayer player) {
 
-		playerDataConfig = plugin.getAPI().getConfigs().getPlayerDataConfig();
+		playerDataConfig = plugin.getAPI().getConfigManager().getPlayerDataConfig();
 
-		if (!plugin.getAPI().getConfigs().contains(playerDataConfig, player.getUniqueId().toString())) {
+		if (!plugin.getAPI().getConfigManager().contains(playerDataConfig, player.getUniqueId().toString())) {
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
 					"&a" + player.getName() + " &cis not contained in the Players Data File.."));
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
@@ -165,7 +163,7 @@ public class PlayerEventListener implements Listener {
 	 */
 	public void userNameCheck(ProxiedPlayer player) {
 
-		playerDataConfig = plugin.getAPI().getConfigs().getPlayerDataConfig();
+		playerDataConfig = plugin.getAPI().getConfigManager().getPlayerDataConfig();
 
 		// Check if user has changed Username
 		// If so, change the username in the Players Information File. (NOT
@@ -173,7 +171,7 @@ public class PlayerEventListener implements Listener {
 		// And change the username on the website.
 		if (playerDataConfig.getBoolean("update-username")) {
 			if (!playerDataConfig.getString(player.getUniqueId() + ".Username").equals(player.getName())
-					&& plugin.getAPI().getConfigs().contains(playerDataConfig, player.getUniqueId().toString())) {
+					&& plugin.getAPI().getConfigManager().contains(playerDataConfig, player.getUniqueId().toString())) {
 				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
 						"&cDetected that &a" + player.getName() + " &chas changed his/her username!"));
 				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',

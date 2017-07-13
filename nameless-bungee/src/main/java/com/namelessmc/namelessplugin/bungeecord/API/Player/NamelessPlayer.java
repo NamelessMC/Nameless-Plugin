@@ -12,8 +12,8 @@ import java.util.Date;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
-import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessChat;
-import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessChat;
+import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessMessages;
 
 public class NamelessPlayer {
 

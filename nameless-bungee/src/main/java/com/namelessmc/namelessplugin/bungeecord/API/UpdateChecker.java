@@ -14,7 +14,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
-import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessChat;
+import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessChat;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -42,10 +42,8 @@ public class UpdateChecker {
 			connection = (HttpsURLConnection) url.openConnection();
 			connection.addRequestProperty("User-Agent", "Mozilla/4.76");
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

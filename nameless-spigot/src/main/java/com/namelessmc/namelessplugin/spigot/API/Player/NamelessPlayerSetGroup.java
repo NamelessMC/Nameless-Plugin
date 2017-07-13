@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
-import com.namelessmc.namelessplugin.spigot.API.utils.RequestUtil;
+import com.namelessmc.namelessplugin.spigot.API.Utils.RequestUtil;
 
 public class NamelessPlayerSetGroup extends RequestUtil {
 
@@ -47,4 +47,5 @@ public class NamelessPlayerSetGroup extends RequestUtil {
 		}
 		return string;
 	}
+
 }

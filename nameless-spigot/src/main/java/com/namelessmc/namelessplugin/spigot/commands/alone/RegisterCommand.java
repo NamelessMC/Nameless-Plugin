@@ -4,11 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayer;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayer;
+import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
+import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
 import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
 
 /*
@@ -72,4 +72,5 @@ public class RegisterCommand extends NamelessCommand {
 		}
 		return true;
 	}
+
 }

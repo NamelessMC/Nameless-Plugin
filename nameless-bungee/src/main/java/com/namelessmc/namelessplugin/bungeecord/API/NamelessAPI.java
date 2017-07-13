@@ -4,6 +4,7 @@ import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
 import com.namelessmc.namelessplugin.bungeecord.API.Config.NamelessConfigManager;
 import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessPlayer;
 import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessRegisterPlayer;
+import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessChat;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -11,6 +12,7 @@ public class NamelessAPI {
 
 	private NamelessPlugin plugin;
 	private NamelessConfigManager namelessConfigManager;
+	private NamelessChat namelessChat;
 
 	public NamelessAPI(NamelessPlugin plugin) {
 		this.plugin = plugin;
@@ -40,4 +42,10 @@ public class NamelessAPI {
 		CheckWebAPIConnection checkWebAPIConnection = new CheckWebAPIConnection(plugin);
 		return checkWebAPIConnection;
 	}
+
+	public NamelessChat getChat(){
+		namelessChat = new NamelessChat();
+		return namelessChat;
+	}
+
 }

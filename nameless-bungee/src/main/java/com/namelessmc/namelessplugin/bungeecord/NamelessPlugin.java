@@ -2,8 +2,8 @@ package com.namelessmc.namelessplugin.bungeecord;
 
 import com.namelessmc.namelessplugin.bungeecord.API.NamelessAPI;
 import com.namelessmc.namelessplugin.bungeecord.API.UpdateChecker;
-import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessChat;
-import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessChat;
+import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessMessages;
 import com.namelessmc.namelessplugin.bungeecord.commands.CommandWithArgs;
 import com.namelessmc.namelessplugin.bungeecord.commands.alone.GetNotificationsCommand;
 import com.namelessmc.namelessplugin.bungeecord.commands.alone.GetUserCommand;
@@ -160,9 +160,5 @@ public class NamelessPlugin extends Plugin {
 	public void setAPIUrl(String value) {
 		apiURL = value;
 	}
-
-	/*
-	 * End!
-	 */
 
 }

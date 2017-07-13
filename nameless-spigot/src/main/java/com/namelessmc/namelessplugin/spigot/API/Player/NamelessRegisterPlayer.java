@@ -6,9 +6,9 @@ import java.net.URLEncoder;
 import org.bukkit.entity.Player;
 
 import com.google.gson.JsonObject;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
-import com.namelessmc.namelessplugin.spigot.API.utils.RequestUtil;
+import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
+import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
+import com.namelessmc.namelessplugin.spigot.API.Utils.RequestUtil;
 
 public class NamelessRegisterPlayer extends RequestUtil {
 
@@ -50,7 +50,6 @@ public class NamelessRegisterPlayer extends RequestUtil {
 			 string = "username=" + URLEncoder.encode(userName, "UTF-8") + "&email="
 					+ URLEncoder.encode(email, "UTF-8") + "&uuid=" + URLEncoder.encode(uuid, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return string;

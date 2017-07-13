@@ -107,4 +107,5 @@ public class NamelessPlayerNotifications {
 	public boolean hasSucceeded() {
 		return succeeded;
 	}
+
 }

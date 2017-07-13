@@ -10,8 +10,8 @@ import java.net.URL;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
+import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
 
 public class CheckWebAPIConnection {
 

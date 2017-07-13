@@ -6,8 +6,8 @@ import java.net.URLEncoder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.namelessmc.namelessplugin.spigot.API.utils.MojangPlayerRequest;
-import com.namelessmc.namelessplugin.spigot.API.utils.RequestUtil;
+import com.namelessmc.namelessplugin.spigot.API.Utils.MojangPlayerRequest;
+import com.namelessmc.namelessplugin.spigot.API.Utils.RequestUtil;
 
 public class NamelessReportPlayer extends RequestUtil {
 

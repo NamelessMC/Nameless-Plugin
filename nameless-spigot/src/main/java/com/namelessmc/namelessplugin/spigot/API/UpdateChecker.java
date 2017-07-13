@@ -15,7 +15,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
-import com.namelessmc.namelessplugin.spigot.API.utils.NamelessChat;
+import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
+
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
 
 public class UpdateChecker {
 
@@ -39,10 +42,8 @@ public class UpdateChecker {
 			connection = (HttpsURLConnection) url.openConnection();
 			connection.addRequestProperty("User-Agent", "Mozilla/4.76");
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -113,8 +114,8 @@ public class UpdateChecker {
 			player.sendMessage(NamelessChat.convertColors("&6Found a new update"));
 			player.sendMessage(NamelessChat.convertColors("&aNew version:&e " + getVersion()));
 			player.sendMessage(NamelessChat.convertColors("&bYour version:&c " + getCurrentVersion()));
-			player.spigot().sendMessage(NamelessChat.sendClickableMessage("&eGet it &chere", net.md_5.bungee.api.chat.ClickEvent.Action.OPEN_URL,
-					getLink(), net.md_5.bungee.api.chat.HoverEvent.Action.SHOW_TEXT, "&bClick to go to the download link"));
+			player.spigot().sendMessage(NamelessChat.sendClickableMessage("&eGet it &chere", ClickEvent.Action.OPEN_URL,
+					getLink(), HoverEvent.Action.SHOW_TEXT, "&bClick to go to the download link"));
 			player.sendMessage(NamelessChat.convertColors("&d" + getTitle()));
 			player.sendMessage(NamelessChat.convertColors("&a&m--------------------------"));
 		} else if (plugin.isBukkit()) {
@@ -137,5 +138,5 @@ public class UpdateChecker {
 		messages.add("&d" + getTitle());
 		return messages;
 	}
-	
+
 }

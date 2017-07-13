@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.spigot.API.utils;
+package com.namelessmc.namelessplugin.spigot.API.Utils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

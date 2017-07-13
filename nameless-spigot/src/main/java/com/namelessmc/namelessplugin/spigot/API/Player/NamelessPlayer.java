@@ -1,10 +1,11 @@
 package com.namelessmc.namelessplugin.spigot.API.Player;
 
 import java.util.Date;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
-import com.namelessmc.namelessplugin.spigot.API.utils.RequestUtil;
+import com.namelessmc.namelessplugin.spigot.API.Utils.RequestUtil;
 
 public class NamelessPlayer extends RequestUtil {
 

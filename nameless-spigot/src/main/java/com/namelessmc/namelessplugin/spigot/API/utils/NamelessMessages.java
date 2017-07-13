@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.spigot.API.utils;
+package com.namelessmc.namelessplugin.spigot.API.Utils;
 
 public enum NamelessMessages {
 	//Plugin
@@ -72,4 +72,5 @@ public enum NamelessMessages {
 	public String toString(){
 		return name;
 	}
+
 }

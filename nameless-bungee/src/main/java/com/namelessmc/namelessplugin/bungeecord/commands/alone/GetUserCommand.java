@@ -3,8 +3,8 @@ package com.namelessmc.namelessplugin.bungeecord.commands.alone;
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
 import com.namelessmc.namelessplugin.bungeecord.API.NamelessAPI;
 import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessPlayer;
-import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessChat;
-import com.namelessmc.namelessplugin.bungeecord.API.utils.NamelessMessages;
+import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessChat;
+import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessMessages;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -107,4 +107,5 @@ public class GetUserCommand extends Command {
 			sender.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
 		}
 	}
+
 }
