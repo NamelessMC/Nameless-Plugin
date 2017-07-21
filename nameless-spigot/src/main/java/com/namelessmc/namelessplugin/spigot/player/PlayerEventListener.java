@@ -47,10 +47,7 @@ public class PlayerEventListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-
-			@Override
-			public void run() {
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 				updateChecker(player);
 				if (plugin.hasSetUrl()) {
 					NamelessAPI api = plugin.getAPI();
@@ -67,7 +64,6 @@ public class PlayerEventListener implements Listener {
 						}
 					}
 				}
-			}
 		});
 	}
 
