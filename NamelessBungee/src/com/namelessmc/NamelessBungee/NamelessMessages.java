@@ -1,5 +1,7 @@
 package com.namelessmc.NamelessBungee;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.config.Configuration;
 
 public enum NamelessMessages {
@@ -71,6 +73,10 @@ public enum NamelessMessages {
 		//Configuration messageConfig = NamelessPlugin.getInstance().getAPI().getConfigManager().getMessageConfig();
 		Configuration messageConfig = Config.MESSAGES.getConfig();
 		return NamelessChat.convertColorsString(messageConfig.getString(name));
+	}
+	
+	public BaseComponent[] getComponents() {
+		return TextComponent.fromLegacyText(this.getMessage());
 	}
 
 }
