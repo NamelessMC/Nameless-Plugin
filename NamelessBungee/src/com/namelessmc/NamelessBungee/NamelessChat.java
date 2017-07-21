@@ -35,15 +35,9 @@ public class NamelessChat {
 		Configuration messageConfig = NamelessPlugin.getInstance().getAPI().getConfigManager().getMessageConfig();
 		return convertColorsString(messageConfig.getString(message.toString()));
 	}
-
-	@Deprecated
-	public static void sendToLog(NamelessMessages prefix, String message) {
-		ProxyServer.getInstance().getConsole()
-				.sendMessage(convertColors(prefix.toString() + convertColorsString(message)));
-	}
 	
-	public static void log(Level level, NamelessMessages prefix, String message) {
-		NamelessPlugin.getInstance().getLogger().log(level, prefix.toString() + convertColorsString(message));
+	public static void log(Level level, String message) {
+		NamelessPlugin.getInstance().getLogger().log(level, convertColorsString(message));
 	}
 
 }

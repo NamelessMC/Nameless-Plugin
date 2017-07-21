@@ -2,11 +2,6 @@ package com.namelessmc.NamelessBungee;
 
 public enum NamelessMessages {
 
-	//Plugin
-	PREFIX("&3[NamelessMC] "),
-	PREFIX_WARNING("&3[NamelessMC] &4[WARNING] "),
-	PREFIX_INFO("&3[NamelessMC] &b[Info] "),
-	
     // Global
     NO_PERMISSION("NO_PERMISSION"),
 	MUST_BE_INGAME("MUST_BE_INGAME"),
