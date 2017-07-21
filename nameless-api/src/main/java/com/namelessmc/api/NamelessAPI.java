@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.spigot.API;
+package com.namelessmc.api;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -14,12 +14,10 @@ import com.google.gson.JsonParser;
 import com.namelessmc.api.config.NamelessConfigManager;
 import com.namelessmc.api.player.NamelessPlayer;
 import com.namelessmc.api.player.NamelessRegisterPlayer;
-import com.namelessmc.api.utils.ReflectionUtil;
 
 public class NamelessAPI {
 
 	private NamelessConfigManager namelessConfigManager;
-	private ReflectionUtil reflection;
 
 	public NamelessPlayer getPlayer(String id) {
 		NamelessPlayer player = new NamelessPlayer(id, plugin);
@@ -35,19 +33,6 @@ public class NamelessAPI {
 		NamelessRegisterPlayer register = new NamelessRegisterPlayer(player, email);
 		return register;
 	}
-
-	public NamelessConfigManager getConfigManager() {
-		namelessConfigManager = new NamelessConfigManager(plugin);
-		return namelessConfigManager;
-	}
-
-	public ReflectionUtil getReflection() {
-		return reflection;
-	}
-	
-	private boolean succeeded = false;
-	private boolean error = true;
-	private String errorMessage;
 
 	/**
 	 * Checks if a web API connection can be established
@@ -115,24 +100,6 @@ public class NamelessAPI {
 		}
 	}
 	
-	public static class NamelessConnectException extends Exception {
 
-		private static final long serialVersionUID = 6127505087276545949L;
-		
-		private String message;
-		
-		public NamelessConnectException(String message) {
-			this.message = message;
-		}
-		
-		public NamelessConnectException(Exception exception) {
-			this.message = exception.getMessage();
-		}
-		
-		public String getMessage() {
-			return message;
-		}
-		
-	}
 
 }
