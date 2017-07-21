@@ -6,8 +6,8 @@ public enum NamelessMessages {
 	PREFIX_WARNING("&3[NamelessMC] &4[WARNING] "),
 	PREFIX_INFO("&3[NamelessMC] &b[Info] "),
 	
-    // Global
-    NO_PERMISSION("NO_PERMISSION"),
+       // Global
+        NO_PERMISSION("NO_PERMISSION"),
 	MUST_BE_INGAME("MUST_BE_INGAME"),
 	PLAYER_NOT_VALID("PLAYER_NOT_VALID"),
 	MUST_REGISTER("MUST_REGISTER"),
