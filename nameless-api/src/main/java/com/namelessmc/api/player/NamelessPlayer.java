@@ -155,6 +155,7 @@ public class NamelessPlayer {
 	
 	public void setGroup(String groupName) throws NamelessException {
 		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "setGroup", "uuid=" + PostString.urlEncodeString(uuid.toString()) + "?group_id=", https);
+		
 		if (!request.hasSucceeded()) {
 			throw new NamelessException(request.getException());
 		}
@@ -164,7 +165,9 @@ public class NamelessPlayer {
 		String encodedId = PostString.urlEncodeString(uuid.toString());
 		String encodedName = PostString.urlEncodeString(newUserName);
 		String postString = "id=" + encodedId + "?new_username=" + encodedName;
+		
 		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "updateUsername", postString, https);
+		
 		if (!request.hasSucceeded()) {
 			throw new NamelessException(request.getException());
 		}
@@ -174,6 +177,7 @@ public class NamelessPlayer {
 		String encodedUuid = PostString.urlEncodeString(uuid.toString());
 		String encodedName = PostString.urlEncodeString(minecraftName);
 		String encodedEmail = PostString.urlEncodeString(email);
+		
 		String postString = String.format("username=%s&uuid=%s&email=%s", encodedUuid, encodedName, encodedEmail);
 
 		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "register", postString, https);
@@ -188,9 +192,21 @@ public class NamelessPlayer {
 		}
 	}
 
-	public NamelessReportPlayer reportPlayer(String[] args) {
-		NamelessReportPlayer report = new NamelessReportPlayer(uuid, args);// TODO Fix this
-		return report;
+	public void reportPlayer(UUID reportedUuid, String reportedUsername, String reason) throws NamelessException {
+		String encodedReporterUuid = PostString.urlEncodeString(uuid.toString());
+		String encodedReportedUuid = PostString.urlEncodeString(reportedUuid.toString());
+		String encodedName = PostString.urlEncodeString(reportedUsername);
+		String encodedReason = PostString.urlEncodeString(reason);
+		
+		String postString = String.format("reporter_uuid=%s?reported_uuid=%s?reported_username=%s?content=%s", 
+				encodedReporterUuid, encodedReportedUuid, encodedName, encodedReason);
+		
+		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "createReport", postString, https);
+		
+		if (!request.hasSucceeded()) {
+			throw new NamelessException(request.getException());
+		}
+	
 	}
 
 }
