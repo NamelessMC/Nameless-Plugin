@@ -9,7 +9,6 @@ import com.google.gson.JsonParser;
 import com.namelessmc.NamelessAPI.utils.PostString;
 import com.namelessmc.NamelessAPI.utils.RequestUtil;
 import com.namelessmc.NamelessAPI.utils.RequestUtil.Request;
-import com.namelessmc.NamelessAPI.utils.RequestUtil.RequestType;
 
 public class NamelessPlayer {
 
@@ -32,7 +31,7 @@ public class NamelessPlayer {
 		this.baseUrl = baseUrl;
 		this.https = https;
 		
-		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "get", "uuid=" + PostString.urlEncodeString(uuid.toString()), https);
+		Request request = RequestUtil.sendPostRequest(baseUrl, "get", "uuid=" + PostString.urlEncodeString(uuid.toString()), https);
 		
 		parser = new JsonParser();
 		JsonObject response = request.getResponse();
@@ -128,7 +127,7 @@ public class NamelessPlayer {
 	
 	public int getAlertCount() throws NamelessException {
 		String postString = "uuid=" + PostString.urlEncodeString(uuid.toString());
-		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "getNotifications", postString, https);
+		Request request = RequestUtil.sendPostRequest(baseUrl, "getNotifications", postString, https);
 		
 		if (!request.hasSucceeded()) {
 			throw new NamelessException(request.getException());
@@ -141,7 +140,7 @@ public class NamelessPlayer {
 	
 	public int getMessageCount() throws NamelessException {
 		String postString = "uuid=" + PostString.urlEncodeString(uuid.toString());
-		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "getNotifications", postString, https);
+		Request request = RequestUtil.sendPostRequest(baseUrl, "getNotifications", postString, https);
 		
 		if (!request.hasSucceeded()) {
 			throw new NamelessException(request.getException());
@@ -153,7 +152,7 @@ public class NamelessPlayer {
 	}
 	
 	public void setGroup(String groupName) throws NamelessException {
-		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "setGroup", "uuid=" + PostString.urlEncodeString(uuid.toString()) + "?group_id=", https);
+		Request request = RequestUtil.sendPostRequest(baseUrl, "setGroup", "uuid=" + PostString.urlEncodeString(uuid.toString()) + "?group_id=", https);
 		
 		if (!request.hasSucceeded()) {
 			throw new NamelessException(request.getException());
@@ -165,7 +164,7 @@ public class NamelessPlayer {
 		String encodedName = PostString.urlEncodeString(newUserName);
 		String postString = "id=" + encodedUuid + "?new_username=" + encodedName;
 		
-		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "updateUsername", postString, https);
+		Request request = RequestUtil.sendPostRequest(baseUrl, "updateUsername", postString, https);
 		
 		if (!request.hasSucceeded()) {
 			throw new NamelessException(request.getException());
@@ -179,7 +178,7 @@ public class NamelessPlayer {
 		
 		String postString = String.format("username=%s&uuid=%s&email=%s", encodedUuid, encodedName, encodedEmail);
 
-		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "register", postString, https);
+		Request request = RequestUtil.sendPostRequest(baseUrl, "register", postString, https);
 
 		if (!request.hasSucceeded()) {
 			String errorMessage = request.getException().getMessage();
@@ -200,7 +199,7 @@ public class NamelessPlayer {
 		String postString = String.format("reporter_uuid=%s?reported_uuid=%s?reported_username=%s?content=%s", 
 				encodedReporterUuid, encodedReportedUuid, encodedName, encodedReason);
 		
-		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "createReport", postString, https);
+		Request request = RequestUtil.sendPostRequest(baseUrl, "createReport", postString, https);
 		
 		if (!request.hasSucceeded()) {
 			throw new NamelessException(request.getException());

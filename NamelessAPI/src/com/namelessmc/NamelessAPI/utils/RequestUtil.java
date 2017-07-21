@@ -18,18 +18,13 @@ import com.namelessmc.NamelessAPI.NamelessException;
 public class RequestUtil {
 
 	/**
-	 * @param type
 	 * @param url Full URL with / at the end
 	 * @param postString
 	 * @param https
 	 * @return
 	 */
-	public static Request sendRequest(RequestType type, URL url, String action, String postString, boolean https) {
-		
-		if (type == null) {
-			throw new IllegalArgumentException("Request type must not be null");
-		}
-		
+	public static Request sendPostRequest(URL url, String action, String postString, boolean https) {
+
 		if (url == null) {
 			throw new IllegalArgumentException("URL must not be null");
 		}
@@ -44,84 +39,80 @@ public class RequestUtil {
 			throw new IllegalArgumentException("URL or action is malformed (" + e1.getMessage() + ")");
 		}
 			
-		if (type.equals(RequestType.POST)) {
-			Exception exception;
-			JsonObject response;
-			try {
-				URLConnection connection;
+		Exception exception;
+		JsonObject response;
+		try {
+			URLConnection connection;
 				
-				if (https) {
-					HttpsURLConnection httpsConnection = (HttpsURLConnection) url.openConnection();
+			if (https) {
+				HttpsURLConnection httpsConnection = (HttpsURLConnection) url.openConnection();
 					
-					httpsConnection.setRequestMethod("POST");
-					httpsConnection.setRequestProperty("Content-Length", Integer.toString(postString.length()));
-					httpsConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-					httpsConnection.setDoOutput(true);
-					httpsConnection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+				httpsConnection.setRequestMethod("POST");
+				httpsConnection.setRequestProperty("Content-Length", Integer.toString(postString.length()));
+				httpsConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				httpsConnection.setDoOutput(true);
+				httpsConnection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
 					
-					connection = httpsConnection;
-				} else {
-					HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+				connection = httpsConnection;
+			} else {
+				HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
 					
-					httpConnection.setRequestMethod("POST");
-					httpConnection.setRequestProperty("Content-Length", Integer.toString(postString.length()));
-					httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-					httpConnection.setDoOutput(true);
-					httpConnection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+				httpConnection.setRequestMethod("POST");
+				httpConnection.setRequestProperty("Content-Length", Integer.toString(postString.length()));
+				httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				httpConnection.setDoOutput(true);
+				httpConnection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
 					
-					connection = httpConnection;
-				}
-					
-
-				// Initialise output stream
-				DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
-
-				// Write request
-				outputStream.writeBytes(postString);
-
-				// Initialise input stream
-				InputStream inputStream = connection.getInputStream();
-
-				// Handle response
-				BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-				StringBuilder responseBuilder = new StringBuilder();
-
-				String responseString;
-				while ((responseString = streamReader.readLine()) != null)
-					responseBuilder.append(responseString);
-
-				JsonParser parser = new JsonParser();
-
-				response = parser.parse(responseBuilder.toString()).getAsJsonObject();
-
-				if (response.has("error")) {
-					// Error with request
-					String errorMessage = response.get("message").getAsString();
-					exception = new NamelessException(errorMessage);
-				}
-
-				// Close output/input stream
-				outputStream.flush();
-				outputStream.close();
-				inputStream.close();
-
-				// Disconnect
-				if (https) {
-					((HttpsURLConnection) connection).disconnect();
-				} else {
-					((HttpURLConnection) connection).disconnect();
-				}
-
-				exception = null;
-			} catch (Exception e) {
-				exception = e;
-				response = null;
+				connection = httpConnection;
 			}
-			
-			return new Request(exception, response);
-		} else {
-			throw new IllegalArgumentException("This request type is not yet supported.");
+					
+
+			// Initialise output stream
+			DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+
+			// Write request
+			outputStream.writeBytes(postString);
+
+			// Initialise input stream
+			InputStream inputStream = connection.getInputStream();
+
+			// Handle response
+			BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+			StringBuilder responseBuilder = new StringBuilder();
+
+			String responseString;
+			while ((responseString = streamReader.readLine()) != null)
+				responseBuilder.append(responseString);
+
+			JsonParser parser = new JsonParser();
+
+			response = parser.parse(responseBuilder.toString()).getAsJsonObject();
+
+			if (response.has("error")) {
+				// Error with request
+				String errorMessage = response.get("message").getAsString();
+				exception = new NamelessException(errorMessage);
+			}
+
+			// Close output/input stream
+			outputStream.flush();
+			outputStream.close();
+			inputStream.close();
+
+			// Disconnect
+			if (https) {
+				((HttpsURLConnection) connection).disconnect();
+			} else {
+				((HttpURLConnection) connection).disconnect();
+			}
+
+			exception = null;
+		} catch (Exception e) {
+			exception = e;
+			response = null;
 		}
+			
+		return new Request(exception, response);
 	}
 	
 	public static class Request {
@@ -145,10 +136,6 @@ public class RequestUtil {
 			return response;
 		}
 		
-	}
-	
-	public enum RequestType {
-		POST;
 	}
 
 }
