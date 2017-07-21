@@ -26,6 +26,8 @@ public class NamelessPlayer {
 	
 	private boolean https;
 	private URL baseUrl;
+	
+	private JsonParser parser;
 
 	public NamelessPlayer(UUID uuid, URL baseUrl, boolean https) {	
 		this.baseUrl = baseUrl;
@@ -33,7 +35,7 @@ public class NamelessPlayer {
 		
 		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "get", "uuid=" + PostString.urlEncodeString(uuid.toString()), https);
 		
-		JsonParser parser = new JsonParser();
+		parser = new JsonParser();
 		JsonObject response = request.getResponse();
 		
 		if (!request.hasSucceeded()) {
@@ -133,7 +135,6 @@ public class NamelessPlayer {
 			throw new NamelessException(request.getException());
 		}
 		
-		JsonParser parser = new JsonParser();
 		JsonObject response = request.getResponse();
 		JsonObject message = parser.parse(response.get("message").getAsString()).getAsJsonObject();
 		return message.get("alerts").getAsInt();
@@ -147,7 +148,6 @@ public class NamelessPlayer {
 			throw new NamelessException(request.getException());
 		}
 		
-		JsonParser parser = new JsonParser();
 		JsonObject response = request.getResponse();
 		JsonObject message = parser.parse(response.get("message").getAsString()).getAsJsonObject();
 		return message.get("messages").getAsInt();
@@ -167,6 +167,24 @@ public class NamelessPlayer {
 		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "updateUsername", postString, https);
 		if (!request.hasSucceeded()) {
 			throw new NamelessException(request.getException());
+		}
+	}
+	
+	public void register(String minecraftName, String email) throws NamelessException {
+		String encodedUuid = PostString.urlEncodeString(uuid.toString());
+		String encodedName = PostString.urlEncodeString(minecraftName);
+		String encodedEmail = PostString.urlEncodeString(email);
+		String postString = String.format("username=%s&uuid=%s&email=%s", encodedUuid, encodedName, encodedEmail);
+
+		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "register", postString, https);
+
+		if (!request.hasSucceeded()) {
+			String errorMessage = request.getException().getMessage();
+			if (errorMessage.contains("Username") || errorMessage.contains("UUID") || errorMessage.contains("Email")) {
+				throw new IllegalArgumentException(errorMessage);
+			} else {
+				throw new NamelessException(request.getException());
+			}
 		}
 	}
 
