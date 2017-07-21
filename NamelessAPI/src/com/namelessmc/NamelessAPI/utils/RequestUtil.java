@@ -1,4 +1,4 @@
-package com.namelessmc.api.utils;
+package com.namelessmc.NamelessAPI.utils;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -13,7 +13,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.namelessmc.api.NamelessException;
+import com.namelessmc.NamelessAPI.NamelessException;
 
 public class RequestUtil {
 

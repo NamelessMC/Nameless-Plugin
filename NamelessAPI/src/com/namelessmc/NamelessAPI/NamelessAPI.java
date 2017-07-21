@@ -1,4 +1,4 @@
-package com.namelessmc.api;
+package com.namelessmc.NamelessAPI;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

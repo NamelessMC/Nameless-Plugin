@@ -1,4 +1,4 @@
-package com.namelessmc.api.utils;
+package com.namelessmc.NamelessAPI.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

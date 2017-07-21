@@ -1,4 +1,4 @@
-package com.namelessmc.api;
+package com.namelessmc.NamelessAPI;
 
 public class NamelessException extends Exception {
 

@@ -1,4 +1,4 @@
-package com.namelessmc.api;
+package com.namelessmc.NamelessAPI;
 
 import java.net.URL;
 import java.util.Date;
@@ -6,10 +6,10 @@ import java.util.UUID;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.namelessmc.api.utils.PostString;
-import com.namelessmc.api.utils.RequestUtil;
-import com.namelessmc.api.utils.RequestUtil.Request;
-import com.namelessmc.api.utils.RequestUtil.RequestType;
+import com.namelessmc.NamelessAPI.utils.PostString;
+import com.namelessmc.NamelessAPI.utils.RequestUtil;
+import com.namelessmc.NamelessAPI.utils.RequestUtil.Request;
+import com.namelessmc.NamelessAPI.utils.RequestUtil.RequestType;
 
 public class NamelessPlayer {
 
