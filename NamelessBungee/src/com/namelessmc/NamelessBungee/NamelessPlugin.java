@@ -16,25 +16,10 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 public class NamelessPlugin extends Plugin {
 
-	/*
-	 * Instance
-	 */
 	private static NamelessPlugin instance;
 
-	/*
-	 * Plugin API
-	 */
-	private NamelessAPI api;
-
-	/*
-	 * API URL
-	 */
 	private String apiURL = "";
 	private boolean hasSetUrl = false;
-
-	/*
-	 * NamelessMC permission string.
-	 */
 
 	public static final String permission = "namelessmc";
 	public static final String permissionAdmin = "namelessmc.admin";
@@ -44,9 +29,6 @@ public class NamelessPlugin extends Plugin {
 		NamelessPlugin.instance = this;
 	}
 
-	/*
-	 * OnEnable method
-	 */
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -79,9 +61,6 @@ public class NamelessPlugin extends Plugin {
 		}
 	}
 
-	/*
-	 * Register Commands/Events
-	 */
 	public void registerListeners() {
 		if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.Alone.Use")
 				&& api.getConfigManager().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
@@ -113,11 +92,7 @@ public class NamelessPlugin extends Plugin {
 		// Register events
 		getProxy().getPluginManager().registerListener(this, new PlayerEventListener(this));
 	}
-
-	/*
-	 * Get / Has / Set
-	 */
-
+	
 	// Gets instance
 	public static NamelessPlugin getInstance() {
 		return instance;
