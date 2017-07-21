@@ -7,32 +7,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.bukkit.entity.Player;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.namelessmc.api.config.NamelessConfigManager;
-import com.namelessmc.api.player.NamelessPlayer;
-import com.namelessmc.api.player.NamelessRegisterPlayer;
 
 public class NamelessAPI {
-
-	private NamelessConfigManager namelessConfigManager;
-
-	public NamelessPlayer getPlayer(String id) {
-		NamelessPlayer player = new NamelessPlayer(id, plugin);
-		return player;
-	}
-
-	public NamelessRegisterPlayer registerPlayer(String userName, String uuid, String email) {
-		NamelessRegisterPlayer register = new NamelessRegisterPlayer(userName, uuid, email);
-		return register;
-	}
-
-	public NamelessRegisterPlayer registerPlayer(Player player, String email) {
-		NamelessRegisterPlayer register = new NamelessRegisterPlayer(player, email);
-		return register;
-	}
 
 	/**
 	 * Checks if a web API connection can be established
@@ -77,6 +55,8 @@ public class NamelessAPI {
 				errorMessage = null;
 			} else if (response.has("error")) {
 				errorMessage = response.get("message").getAsString();
+			} else {
+				errorMessage = "Unknown error";
 			}
 
 			// Close output/input stream
@@ -99,7 +79,5 @@ public class NamelessAPI {
 			return new NamelessConnectException(e);
 		}
 	}
-	
-
 
 }
