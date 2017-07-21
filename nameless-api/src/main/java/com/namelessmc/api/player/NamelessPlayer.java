@@ -139,8 +139,18 @@ public class NamelessPlayer {
 		return message.get("alerts").getAsInt();
 	}
 	
-	public int getPmCount() {
+	public int getMessageCount() throws NamelessException {
+		String postString = "uuid=" + PostString.urlEncodeString(uuid.toString());
+		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "getNotifications", postString, https);
 		
+		if (!request.hasSucceeded()) {
+			throw new NamelessException(request.getException());
+		}
+		
+		JsonParser parser = new JsonParser();
+		JsonObject response = request.getResponse();
+		JsonObject message = parser.parse(response.get("message").getAsString()).getAsJsonObject();
+		return message.get("messages").getAsInt();
 	}
 	
 	public void setGroup(String groupName) throws NamelessException {
