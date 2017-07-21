@@ -45,17 +45,6 @@ public class NamelessPlugin extends Plugin {
 
 	}
 
-	public void checkForUpdate() {
-		UpdateChecker updateChecker = new UpdateChecker(this);
-		if (updateChecker.updateNeeded()) {
-			for (String msg : updateChecker.getConsoleUpdateMessage()) {
-				NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, msg);
-			}
-		} else {
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aFound no new updates!");
-		}
-	}
-
 	public void registerListeners() {
 		if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.Alone.Use")
 				&& api.getConfigManager().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
@@ -88,34 +77,8 @@ public class NamelessPlugin extends Plugin {
 		getProxy().getPluginManager().registerListener(this, new PlayerEventListener(this));
 	}
 	
-	// Gets instance
 	public static NamelessPlugin getInstance() {
 		return instance;
-	}
-
-	// Gets the website api url.
-	public String getAPIUrl() {
-		return apiURL;
-	}
-
-	// Gets the Plugin API
-	public NamelessAPI getAPI() {
-		return api;
-	}
-
-	// Checks if hasSetUrl
-	public boolean hasSetUrl() {
-		return hasSetUrl;
-	}
-
-	// Sets HasSetUrl
-	public void setHasSetUrl(boolean value) {
-		hasSetUrl = value;
-	}
-
-	// Sets api url
-	public void setAPIUrl(String value) {
-		apiURL = value;
 	}
 
 }
