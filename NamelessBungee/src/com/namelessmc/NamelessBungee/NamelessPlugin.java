@@ -25,11 +25,6 @@ public class NamelessPlugin extends Plugin {
 	public static final String permissionAdmin = "namelessmc.admin";
 
 	@Override
-	public void onLoad() {
-		NamelessPlugin.instance = this;
-	}
-
-	@Override
 	public void onEnable() {
 		instance = this;
 
