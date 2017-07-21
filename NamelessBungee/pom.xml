@@ -4,7 +4,7 @@
 
 	<groupId>com.namelessmc</groupId>
 	<artifactId>NamelessBungee</artifactId>
-	<version>1.0.0-pre2</version>
+	<version>Pre-2</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

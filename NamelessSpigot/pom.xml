@@ -4,7 +4,7 @@
 
 	<groupId>com.namelessmc</groupId>
 	<artifactId>NamelessSpigot</artifactId>
-	<version>1.0.0-pre2</version>
+	<version>Pre-2</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -118,10 +118,10 @@
 			<url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
 		</repository>
 
-		        <repository>
-	        <id>vault-repo</id>
-	        <url>http://nexus.hc.to/content/repositories/pub_releases</url>
-        </repository>
+		<repository>
+			<id>vault-repo</id>
+			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
+		</repository>
 
 	</repositories>
 
