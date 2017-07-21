@@ -1,5 +1,7 @@
 package com.namelessmc.NamelessBungee;
 
+import java.util.logging.Level;
+
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
 
 import net.md_5.bungee.api.ChatColor;
@@ -34,9 +36,14 @@ public class NamelessChat {
 		return convertColorsString(messageConfig.getString(message.toString()));
 	}
 
+	@Deprecated
 	public static void sendToLog(NamelessMessages prefix, String message) {
 		ProxyServer.getInstance().getConsole()
 				.sendMessage(convertColors(prefix.toString() + convertColorsString(message)));
+	}
+	
+	public static void log(Level level, NamelessMessages prefix, String message) {
+		NamelessPlugin.getInstance().getLogger().log(level, prefix.toString() + convertColorsString(message));
 	}
 
 }
