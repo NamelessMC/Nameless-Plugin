@@ -23,7 +23,7 @@ public class RequestUtil {
 	 * @param https
 	 * @return
 	 */
-	public static Request sendPostRequest(URL url, String action, String postString, boolean https) {
+	public static Request sendPostRequest(URL url, String action, String postString) {
 
 		if (url == null) {
 			throw new IllegalArgumentException("URL must not be null");
@@ -43,6 +43,8 @@ public class RequestUtil {
 		JsonObject response;
 		try {
 			URLConnection connection;
+			
+			boolean https = url.toString().startsWith("https");
 				
 			if (https) {
 				HttpsURLConnection httpsConnection = (HttpsURLConnection) url.openConnection();
