@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.bungeecord.API.Utils;
+package com.namelessmc;
 
 public enum NamelessMessages {
 

@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.bungeecord.API.Utils;
+package com.namelessmc;
 
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
 

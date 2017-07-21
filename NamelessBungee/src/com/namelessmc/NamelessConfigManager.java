@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.bungeecord.API.Config;
+package com.namelessmc;
 
 import java.io.File;
 import java.io.IOException;
