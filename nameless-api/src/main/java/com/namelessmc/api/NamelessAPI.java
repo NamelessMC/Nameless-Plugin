@@ -16,7 +16,7 @@ public class NamelessAPI {
 	 * Checks if a web API connection can be established
 	 * @return An exception if the connection was unsuccessful, null if the connection was successful.
 	 */
-	public static NamelessConnectException checkWebAPIConnection(URL url) {
+	public static NamelessException checkWebAPIConnection(URL url) {
 		try {
 			URL apiConnection = new URL(url + "/checkConnection");
 
@@ -72,11 +72,11 @@ public class NamelessAPI {
 				return null;
 			} else {
 				//Connection unsuccessful
-				return new NamelessConnectException(errorMessage);
+				return new NamelessException(errorMessage);
 			}
 
 		} catch (Exception e) {
-			return new NamelessConnectException(e);
+			return new NamelessException(e);
 		}
 	}
 
