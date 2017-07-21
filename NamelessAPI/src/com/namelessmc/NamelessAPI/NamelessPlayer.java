@@ -149,7 +149,7 @@ public class NamelessPlayer {
 		return message.get("messages").getAsInt();
 	}
 	
-	public void setGroup(String groupName) throws NamelessException {
+	public void setGroup(int groupId) throws NamelessException {
 		Request request = RequestUtil.sendPostRequest(baseUrl, "setGroup", "uuid=" + PostString.urlEncodeString(uuid.toString()) + "?group_id=");
 		
 		if (!request.hasSucceeded()) {
