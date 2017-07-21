@@ -119,27 +119,27 @@ public class NamelessPlayer {
 	}
 	
 	public NamelessPlayerNotifications getNotifications() {
-		NamelessPlayerNotifications notificaitons = new NamelessPlayerNotifications(id);
+		NamelessPlayerNotifications notificaitons = new NamelessPlayerNotifications(id); // TODO Fix this
 		return notificaitons;
 	}
 
 	public NamelessPlayerSetGroup setGroupID(int newGroup) {
-		NamelessPlayerSetGroup setGroup = new NamelessPlayerSetGroup(plugin, id, newGroup);
+		NamelessPlayerSetGroup setGroup = new NamelessPlayerSetGroup(plugin, id, newGroup);// TODO Fix this
 		return setGroup;
 	}
 
 	public NamelessPlayerSetGroup setGroupID(String newGroup) {
-		NamelessPlayerSetGroup setGroup = new NamelessPlayerSetGroup(plugin, id, newGroup);
+		NamelessPlayerSetGroup setGroup = new NamelessPlayerSetGroup(plugin, id, newGroup);// TODO Fix this
 		return setGroup;
 	}
 
 	public NamelessPlayerUpdateUsername updateUsername(String newUserName) {
-		NamelessPlayerUpdateUsername updateUsername = new NamelessPlayerUpdateUsername(id, newUserName);
+		NamelessPlayerUpdateUsername updateUsername = new NamelessPlayerUpdateUsername(id, newUserName);// TODO Fix this
 		return updateUsername;
 	}
 
 	public NamelessReportPlayer reportPlayer(String[] args) {
-		NamelessReportPlayer report = new NamelessReportPlayer(uuid, args);
+		NamelessReportPlayer report = new NamelessReportPlayer(uuid, args);// TODO Fix this
 		return report;
 	}
 
