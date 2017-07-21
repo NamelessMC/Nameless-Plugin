@@ -39,11 +39,6 @@ public class NamelessPlugin extends Plugin {
 	public static final String permission = "namelessmc";
 	public static final String permissionAdmin = "namelessmc.admin";
 
-	/*
-	 * MCStats
-	 */
-	// private MCStats mcStats;
-
 	@Override
 	public void onLoad() {
 		NamelessPlugin.instance = this;
@@ -58,14 +53,6 @@ public class NamelessPlugin extends Plugin {
 
 		// Register the API
 		api = new NamelessAPI(this);
-
-		// MCStats (Temporary til new custom stats)
-		/*
-		 * try { mcStats = new MCStats(this); mcStats.start();
-		 * NamlessChat.sendToLog(NamelessMessages.PREFIX_INFO,
-		 * "&aMetrics Started!"); } catch (IOException e) { e.printStackTrace();
-		 * }
-		 */
 
 		// Init config files.
 		api.getConfigManager().initializeFiles();
