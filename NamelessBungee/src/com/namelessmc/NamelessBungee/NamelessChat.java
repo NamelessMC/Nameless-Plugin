@@ -30,11 +30,6 @@ public class NamelessChat {
 	public static BaseComponent[] convertColors(String message) {
 		return TextComponent.fromLegacyText(convertColorsString(message));
 	}
-
-	public static String getMessage(NamelessMessages message) {
-		Configuration messageConfig = NamelessPlugin.getInstance().getAPI().getConfigManager().getMessageConfig();
-		return convertColorsString(messageConfig.getString(message.toString()));
-	}
 	
 	public static void log(Level level, String message) {
 		NamelessPlugin.getInstance().getLogger().log(level, convertColorsString(message));

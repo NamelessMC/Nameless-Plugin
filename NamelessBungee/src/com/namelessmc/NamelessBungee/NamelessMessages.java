@@ -1,5 +1,7 @@
 package com.namelessmc.NamelessBungee;
 
+import net.md_5.bungee.config.Configuration;
+
 public enum NamelessMessages {
 
     // Global
@@ -65,8 +67,10 @@ public enum NamelessMessages {
 		this.name = name;
 	}
 
-	public String toString(){
-		return name;
+	public String getMessage() {
+		//Configuration messageConfig = NamelessPlugin.getInstance().getAPI().getConfigManager().getMessageConfig();
+		Configuration messageConfig = Config.MESSAGES.getConfig();
+		return NamelessChat.convertColorsString(messageConfig.getString(name));
 	}
 
 }
