@@ -23,7 +23,7 @@ public class RequestUtil {
 	 * @param https
 	 * @return
 	 */
-	public static Request createRequest(RequestType type, URL url, String postString, boolean https) {
+	public static Request sendRequest(RequestType type, URL url, String postString, boolean https) {
 		
 		if (type == null) {
 			throw new IllegalArgumentException("Request type must not be null");
