@@ -1,8 +1,6 @@
 package com.namelessmc.api.player;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.UUID;
 
@@ -25,8 +23,14 @@ public class NamelessPlayer {
 	private boolean exists;
 	private boolean validated;
 	private boolean banned;
+	
+	private boolean https;
+	private URL baseUrl;
 
 	public NamelessPlayer(UUID uuid, URL baseUrl, boolean https) {	
+		this.baseUrl = baseUrl;
+		this.https = https;
+		
 		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "get", "uuid=" + PostString.urlEncodeString(uuid.toString()), https);
 		
 		JsonParser parser = new JsonParser();
@@ -121,19 +125,32 @@ public class NamelessPlayer {
 		return banned;
 	}
 	
-	public NamelessPlayerNotifications getNotifications() {
-		NamelessPlayerNotifications notificaitons = new NamelessPlayerNotifications(id); // TODO Fix this
-		return notificaitons;
+	public int getAlertCount() throws NamelessException {
+		String postString = "uuid=" + PostString.urlEncodeString(uuid.toString());
+		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "getNotifications", postString, https);
+		
+		if (!request.hasSucceeded()) {
+			throw new NamelessException(request.getException());
+		}
+		
+		JsonParser parser = new JsonParser();
+		JsonObject response = request.getResponse();
+		JsonObject message = parser.parse(response.get("message").getAsString()).getAsJsonObject();
+		return message.get("alerts").getAsInt();
 	}
 	
-	public void setGroup(URL baseUrl, boolean https, String groupName) throws NamelessException {
+	public int getPmCount() {
+		
+	}
+	
+	public void setGroup(String groupName) throws NamelessException {
 		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "setGroup", "uuid=" + PostString.urlEncodeString(uuid.toString()) + "?group_id=", https);
 		if (!request.hasSucceeded()) {
 			throw new NamelessException(request.getException());
 		}
 	}
 
-	public void updateUsername(URL baseURL, boolean https, String newUserName) throws NamelessException {
+	public void updateUsername(String newUserName) throws NamelessException {
 		String encodedId = PostString.urlEncodeString(uuid.toString());
 		String encodedName = PostString.urlEncodeString(newUserName);
 		String postString = "id=" + encodedId + "?new_username=" + encodedName;
