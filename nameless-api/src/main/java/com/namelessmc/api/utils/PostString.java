@@ -9,8 +9,7 @@ public class PostString {
 		try {
 			return URLEncoder.encode(string, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return null;
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 	
