@@ -3,7 +3,6 @@ package com.namelessmc.NamelessBungee;
 import java.util.logging.Level;
 
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -21,10 +20,6 @@ public class NamelessChat {
 
 	public static String convertColorsString(String message) {
 		return ChatColor.translateAlternateColorCodes('&', message);
-	}
-
-	public static BaseComponent[] convertColors(String message) {
-		return TextComponent.fromLegacyText(convertColorsString(message));
 	}
 	
 	public static void log(Level level, String message) {
