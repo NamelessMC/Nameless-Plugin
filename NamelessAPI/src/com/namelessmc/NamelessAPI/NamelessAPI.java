@@ -6,6 +6,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -18,14 +21,27 @@ public class NamelessAPI {
 	 */
 	public static NamelessException checkWebAPIConnection(URL url) {
 		try {
+			boolean https = url.toString().startsWith("https");
+			
 			URL apiConnection = new URL(url + "/checkConnection");
-
-			HttpURLConnection connection = (HttpURLConnection) apiConnection.openConnection();
-			connection.setRequestMethod("POST");
+			
+			URLConnection connection;
+			
+			if (https) {
+				HttpsURLConnection httpsConnection = (HttpsURLConnection) apiConnection.openConnection();
+				httpsConnection.setRequestMethod("POST");
+				connection = httpsConnection;
+			} else {
+				HttpURLConnection httpConnection = (HttpURLConnection) apiConnection.openConnection();
+				httpConnection.setRequestMethod("POST");
+				connection = httpConnection;
+			}
+			
 			connection.setRequestProperty("Content-Length", Integer.toString(0));
 			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			connection.setDoOutput(true);
 			connection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+
 
 			// Initialise output stream
 			DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
@@ -65,7 +81,11 @@ public class NamelessAPI {
 			inputStream.close();
 
 			// Disconnect
-			connection.disconnect();
+			if (https) {
+				((HttpsURLConnection) connection).disconnect();
+			} else {
+				((HttpURLConnection) connection).disconnect();
+			}
 			
 			if (errorMessage == null) {
 				//Error message == null - connection successful
