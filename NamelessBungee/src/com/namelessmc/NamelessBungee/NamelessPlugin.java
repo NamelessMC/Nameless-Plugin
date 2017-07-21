@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.bungeecord;
+package com.namelessmc.NamelessBungee;
 
 import com.namelessmc.namelessplugin.bungeecord.API.NamelessAPI;
 import com.namelessmc.namelessplugin.bungeecord.API.UpdateChecker;

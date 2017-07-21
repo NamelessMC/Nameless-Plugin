@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.bungeecord.player;
+package com.namelessmc.NamelessBungee.player;
 
 import java.io.File;
 import java.io.IOException;

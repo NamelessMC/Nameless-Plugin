@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.bungeecord.commands;
+package com.namelessmc.NamelessBungee.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;

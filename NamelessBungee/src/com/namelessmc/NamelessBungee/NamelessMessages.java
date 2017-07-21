@@ -1,4 +1,4 @@
-package com.namelessmc;
+package com.namelessmc.NamelessBungee;
 
 public enum NamelessMessages {
 

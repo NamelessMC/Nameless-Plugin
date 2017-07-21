@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.bungeecord.commands.alone;
+package com.namelessmc.NamelessBungee.commands;
 
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
 import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessPlayer;

@@ -1,4 +1,4 @@
-package com.namelessmc;
+package com.namelessmc.NamelessBungee;
 
 import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
 
