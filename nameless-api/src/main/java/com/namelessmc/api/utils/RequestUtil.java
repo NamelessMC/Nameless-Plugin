@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.UUID;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -41,6 +42,7 @@ public class RequestUtil {
 			
 		if (type.equals(RequestType.POST)) {
 			Exception exception;
+			JsonObject response;
 			try {
 				URLConnection connection;
 				
@@ -86,7 +88,7 @@ public class RequestUtil {
 
 				JsonParser parser = new JsonParser();
 
-				JsonObject response = parser.parse(responseBuilder.toString()).getAsJsonObject();
+				response = parser.parse(responseBuilder.toString()).getAsJsonObject();
 
 				if (response.has("error")) {
 					// Error with request
@@ -109,15 +111,16 @@ public class RequestUtil {
 				exception = null;
 			} catch (Exception e) {
 				exception = e;
+				response = null;
 			}
 			
-			return new Request(exception);
+			return new Request(exception, response);
 		} else {
 			throw new IllegalArgumentException("This request type is not yet supported.");
 		}
 	}
 	
-	public static String getPostString(String id) {
+	/*public static String getPostString(String id) {
 		String postString = null;
 		try {
 			if (id.length() >= 17) {
@@ -129,13 +132,23 @@ public class RequestUtil {
 			e.printStackTrace();
 		}
 		return postString;
+	}*/
+	
+	public static String getPostString(UUID uuid) {
+		try {
+			return "uuid=" + URLEncoder.encode(uuid.toString(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public static class Request {
 		
 		private Exception exception;
+		private JsonObject response;
 		
-		public Request(Exception exception) {
+		public Request(Exception exception, JsonObject response) {
 			this.exception = exception;
 		}
 		
@@ -145,6 +158,10 @@ public class RequestUtil {
 		
 		public boolean hasSucceeded() {
 			return exception == null;
+		}
+		
+		public JsonObject getResponse() {
+			return response;
 		}
 		
 	}
