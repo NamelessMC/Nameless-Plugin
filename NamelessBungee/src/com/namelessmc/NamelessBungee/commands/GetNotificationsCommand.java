@@ -17,15 +17,10 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class GetNotificationsCommand extends Command {
 
-	private NamelessPlugin plugin;
 	private String commandName;
 
-	/*
-	 * Constructer
-	 */
-	public GetNotificationsCommand(NamelessPlugin pluginInstance, String name) {
+	public GetNotificationsCommand(String name) {
 		super(name);
-		plugin = pluginInstance;
 		commandName = name;
 	}
 

@@ -18,15 +18,14 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class ReportCommand extends Command {
 
-	private NamelessPlugin plugin;
 	private String commandName;
 
 	/*
 	 * Constructer
 	 */
-	public ReportCommand(NamelessPlugin pluginInstance, String name) {
+	public ReportCommand(String name) {
 		super(name);
-		plugin = pluginInstance;
+
 		commandName = name;
 	}
 

@@ -16,15 +16,10 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class GetUserCommand extends Command {
 
-	private NamelessPlugin plugin;
 	private String commandName;
 
-	/*
-	 * Constructer
-	 */
-	public GetUserCommand(NamelessPlugin pluginInstance, String name) {
+	public GetUserCommand(String name) {
 		super(name);
-		plugin = pluginInstance;
 		commandName = name;
 	}
 

@@ -17,15 +17,10 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class RegisterCommand extends Command {
 
-	private NamelessPlugin plugin;
 	private String commandName;
 
-	/*
-	 * Constructer
-	 */
-	public RegisterCommand(NamelessPlugin pluginInstance, String name) {
+	public RegisterCommand(String name) {
 		super(name);
-		plugin = pluginInstance;
 
 		commandName = name;
 	}

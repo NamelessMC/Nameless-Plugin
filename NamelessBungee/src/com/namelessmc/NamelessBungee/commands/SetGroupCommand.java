@@ -17,15 +17,13 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class SetGroupCommand extends Command {
 
-	private NamelessPlugin plugin;
 	private String commandName;
 
 	/*
 	 * Constructer
 	 */
-	public SetGroupCommand(NamelessPlugin pluginInstance, String name) {
+	public SetGroupCommand(String name) {
 		super(name);
-		plugin = pluginInstance;
 		commandName = name;
 	}
 

@@ -24,14 +24,13 @@ import net.md_5.bungee.config.Configuration;
 
 public class CommandWithArgs extends Command {
 
-	private NamelessPlugin plugin;
 	private String permission;
 	private String permissionAdmin;
 	private String commandName;
 
 	private Configuration commands;
 	private String register;
-	private String getNotifications;
+	private String getNotifcations;
 	private String report;
 	private String getUser;
 	private String setGroup;
@@ -39,9 +38,9 @@ public class CommandWithArgs extends Command {
 	/*
 	 * Constructer
 	 */
-	public CommandWithArgs(NamelessPlugin pluginInstance, String name) {
+	public CommandWithArgs(String name) {
 		super(name);
-		this.plugin = pluginInstance;
+		
 		this.permission = NamelessPlugin.permission;
 		this.permissionAdmin = NamelessPlugin.permissionAdmin;
 
