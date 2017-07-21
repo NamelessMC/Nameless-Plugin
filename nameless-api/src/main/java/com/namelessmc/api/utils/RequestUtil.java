@@ -4,12 +4,9 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.UUID;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -117,29 +114,6 @@ public class RequestUtil {
 			return new Request(exception, response);
 		} else {
 			throw new IllegalArgumentException("This request type is not yet supported.");
-		}
-	}
-	
-	/*public static String getPostString(String id) {
-		String postString = null;
-		try {
-			if (id.length() >= 17) {
-				postString = "uuid=" + URLEncoder.encode(id, "UTF-8");
-			} else if (id.length() <= 16) {
-				postString = "username=" + URLEncoder.encode(id, "UTF-8");
-			}
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return postString;
-	}*/
-	
-	public static String getPostString(UUID uuid) {
-		try {
-			return "uuid=" + URLEncoder.encode(uuid.toString(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return null;
 		}
 	}
 	
