@@ -1,12 +1,15 @@
 package com.namelessmc.api.player;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.UUID;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.namelessmc.api.NamelessException;
+import com.namelessmc.api.utils.PostString;
 import com.namelessmc.api.utils.RequestUtil;
 import com.namelessmc.api.utils.RequestUtil.Request;
 import com.namelessmc.api.utils.RequestUtil.RequestType;
@@ -23,8 +26,8 @@ public class NamelessPlayer {
 	private boolean validated;
 	private boolean banned;
 
-	public NamelessPlayer(UUID uuid, URL baseUrl, boolean https) {
-		Request request = RequestUtil.createRequest(RequestType.POST, baseUrl, RequestUtil.getPostString(uuid), https);
+	public NamelessPlayer(UUID uuid, URL baseUrl, boolean https) {	
+		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "get", "uuid=" + PostString.urlEncodeString(uuid.toString()), https);
 		
 		JsonParser parser = new JsonParser();
 		JsonObject response = request.getResponse();
@@ -122,20 +125,22 @@ public class NamelessPlayer {
 		NamelessPlayerNotifications notificaitons = new NamelessPlayerNotifications(id); // TODO Fix this
 		return notificaitons;
 	}
-
-	public NamelessPlayerSetGroup setGroupID(int newGroup) {
-		NamelessPlayerSetGroup setGroup = new NamelessPlayerSetGroup(plugin, id, newGroup);// TODO Fix this
-		return setGroup;
+	
+	public void setGroup(URL baseUrl, boolean https, String groupName) throws NamelessException {
+		Request request = RequestUtil.sendRequest(RequestType.POST, baseUrl, "setGroup", "uuid=" + PostString.urlEncodeString(uuid.toString()) + "?group_id=", https);
+		if (!request.hasSucceeded()) {
+			throw new NamelessException(request.getException());
+		}
 	}
 
-	public NamelessPlayerSetGroup setGroupID(String newGroup) {
-		NamelessPlayerSetGroup setGroup = new NamelessPlayerSetGroup(plugin, id, newGroup);// TODO Fix this
-		return setGroup;
-	}
-
-	public NamelessPlayerUpdateUsername updateUsername(String newUserName) {
-		NamelessPlayerUpdateUsername updateUsername = new NamelessPlayerUpdateUsername(id, newUserName);// TODO Fix this
-		return updateUsername;
+	public void updateUsername(URL baseURL, boolean https, String newUserName) throws NamelessException {
+		String encodedId = PostString.urlEncodeString(uuid.toString());
+		String encodedName = PostString.urlEncodeString(newUserName);
+		String postString = "id=" + encodedId + "?new_username=" + encodedName;
+		Request request = RequestUtil.sendRequest(RequestType.POST, baseURL, "updateUsername", postString, https);
+		if (!request.hasSucceeded()) {
+			throw new NamelessException(request.getException());
+		}
 	}
 
 	public NamelessReportPlayer reportPlayer(String[] args) {
