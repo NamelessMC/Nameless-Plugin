@@ -70,5 +70,11 @@ public enum Config {
 	public void reloadConfig() throws IOException {
 		this.configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(NamelessPlugin.getInstance().getDataFolder(), this.fileName));
 	}
+	
+	public void saveConfig() throws IOException {
+		if (this.configuration != null) {
+			ConfigurationProvider.getProvider(YamlConfiguration.class).save(this.configuration, new File(NamelessPlugin.getInstance().getDataFolder(), this.fileName));
+		}
+	}
 
 }

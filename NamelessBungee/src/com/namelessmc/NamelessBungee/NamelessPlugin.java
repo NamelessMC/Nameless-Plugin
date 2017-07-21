@@ -3,6 +3,7 @@ package com.namelessmc.NamelessBungee;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import com.namelessmc.NamelessAPI.NamelessAPI;
@@ -67,6 +68,19 @@ public class NamelessPlugin extends Plugin {
 		registerCommands();
 		
 		getProxy().getPluginManager().registerListener(this, new PlayerEventListener());
+		
+		//Start saving data files every 15 minutes
+		getProxy().getScheduler().schedule(this, () -> {
+			getProxy().getScheduler().runAsync(this, () -> {
+				try {
+					for (Config config2 : Config.values()) {
+						config2.saveConfig();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+		}, 15L, 15L, TimeUnit.MINUTES);
 	}
 	
 	private void registerCommands() {
@@ -92,6 +106,18 @@ public class NamelessPlugin extends Plugin {
 				
 		} else {
 			getProxy().getPluginManager().registerCommand(this, new CommandWithArgs(commandsConfig.getString("Commands.SubCommand.Main")));
+		}
+	}
+	
+	@Override
+	public void onDisable() {
+		//Save all configuration files
+		try {
+			for (Config config : Config.values()) {
+				config.saveConfig();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
