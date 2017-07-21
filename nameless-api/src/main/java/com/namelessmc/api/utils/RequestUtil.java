@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -12,18 +13,18 @@ import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.namelessmc.api.NamelessConnectException;
+import com.namelessmc.api.NamelessException;
 
 public class RequestUtil {
 
 	/**
 	 * @param type
-	 * @param url Full URL
+	 * @param url Full URL with / at the end
 	 * @param postString
 	 * @param https
 	 * @return
 	 */
-	public static Request sendRequest(RequestType type, URL url, String postString, boolean https) {
+	public static Request sendRequest(RequestType type, URL url, String action, String postString, boolean https) {
 		
 		if (type == null) {
 			throw new IllegalArgumentException("Request type must not be null");
@@ -35,6 +36,12 @@ public class RequestUtil {
 			
 		if (postString == null) {
 			throw new IllegalArgumentException("Post string must not be null");
+		}
+		
+		try {
+			url = new URL(url.toString() + action);
+		} catch (MalformedURLException e1) {
+			throw new IllegalArgumentException("URL or action is malformed (" + e1.getMessage() + ")");
 		}
 			
 		if (type.equals(RequestType.POST)) {
@@ -90,7 +97,7 @@ public class RequestUtil {
 				if (response.has("error")) {
 					// Error with request
 					String errorMessage = response.get("message").getAsString();
-					exception = new NamelessConnectException(errorMessage);
+					exception = new NamelessException(errorMessage);
 				}
 
 				// Close output/input stream
