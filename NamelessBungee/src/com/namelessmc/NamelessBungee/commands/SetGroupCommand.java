@@ -1,71 +1,79 @@
 package com.namelessmc.NamelessBungee.commands;
 
-import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
-import com.namelessmc.namelessplugin.bungeecord.API.NamelessAPI;
-import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessPlayer;
-import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessPlayerSetGroup;
-import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessChat;
-import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessMessages;
+import java.util.UUID;
 
+import com.namelessmc.NamelessAPI.NamelessException;
+import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.NamelessBungee.NamelessMessages;
+import com.namelessmc.NamelessBungee.NamelessPlugin;
+import com.namelessmc.NamelessBungee.util.UUIDFetcher;
+
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
-
-/*
- *  Register CMD
- */
 
 public class SetGroupCommand extends Command {
 
 	private String commandName;
-
-	/*
-	 * Constructer
-	 */
-	public SetGroupCommand(String name) {
-		super(name);
-		commandName = name;
+	
+	public SetGroupCommand(String commandName) {
+		super(commandName);
+		this.commandName = commandName;
 	}
 
-	/*
-	 * Handle inputted command
-	 */
 	@Override
-	public void execute(CommandSender sender, String[] args) {
-		if (sender.hasPermission(NamelessPlugin.permissionAdmin + ".setgroup")) {
-
-			// Try to setgroup
-			ProxyServer.getInstance().getScheduler().runAsync(plugin, new Runnable() {
-				@Override
-				public void run() {
-
-					NamelessAPI api = plugin.getAPI();
-
-					if (args.length < 2 || args.length > 2) {
-						sender.sendMessage(NamelessChat
-								.convertColors(NamelessChat.getMessage(NamelessMessages.INCORRECT_USAGE_SETGROUP)
-										.replaceAll("%command%", commandName)));
-					} else {
-						NamelessPlayer namelessPlayer = api.getPlayer(args[0]);
-						Integer previousgroup = namelessPlayer.getGroupID();
-						NamelessPlayerSetGroup group = namelessPlayer.setGroupID(args[1]);
-
-						if (group.hasError()) {
-							sender.sendMessage(NamelessChat.convertColors("&cError: " + group.getErrorMessage()));
-						} else {
-							String success = NamelessChat.getMessage(NamelessMessages.SETGROUP_SUCCESS)
-									.replaceAll("%player%", group.getID())
-									.replaceAll("%previousgroup%", previousgroup.toString())
-									.replaceAll("%newgroup%", group.getNewGroup().toString());
-							sender.sendMessage(NamelessChat.convertColors(success));
-						}
-					}
-				}
-			});
-		} else {
-			sender.sendMessage(NamelessChat
-					.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
+	public void execute(final CommandSender sender, final String[] args) {
+		if (!sender.hasPermission(NamelessPlugin.permissionAdmin + ".setgroup")) {
+			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
+			return;
 		}
+		
+		if (args.length != 2) {
+			sender.sendMessage(TextComponent.fromLegacyText(
+					NamelessMessages.INCORRECT_USAGE_SETGROUP.getMessage().replace("%command%", commandName)));
+			return;
+		}
+		
+		final int groupId;
+		
+		try {
+			groupId = Integer.parseInt(args[1]);
+		} catch (NumberFormatException e) {
+			// The sender has provided a non numeric string
+			sender.sendMessage(TextComponent.fromLegacyText(NamelessMessages.INCORRECT_USAGE_SETGROUP.getMessage().replaceAll("%command%", commandName)));
+			return;
+		}
+		
+		
+		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
+			final String targetName = args[0];
+			final UUID targetUuuid;
+			
+			try {
+				targetUuuid = UUIDFetcher.getUUID(targetName);
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage(new ComponentBuilder("This player could not be found").color(ChatColor.RED).create()); // TODO Use messages.yml
+				return;
+			}
+			
+			try {
+				final NamelessPlayer target = new NamelessPlayer(targetUuuid, NamelessPlugin.baseApiURL);
+				final int previousGroupId = target.getGroupID();
+				target.setGroup(groupId);
+			
+				String success = NamelessMessages.SETGROUP_SUCCESS.getMessage()
+						.replace("%player%", args[1])
+						.replace("%previousgroup%", String.valueOf(previousGroupId))
+						.replace("%newgroup%", String.valueOf(groupId));
+				sender.sendMessage(TextComponent.fromLegacyText(success));
+			} catch (NamelessException e) {
+				sender.sendMessage(new ComponentBuilder("An error occured. See the console log for more details. - " + e.getMessage()).color(ChatColor.RED).create());
+				e.printStackTrace();
+			}
+		}); 
 	}
 
 }
