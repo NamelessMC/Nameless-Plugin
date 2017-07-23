@@ -33,7 +33,7 @@ public class GetUserCommand extends Command {
 		
 		if (args.length != 1) {
 			sender.sendMessage(TextComponent.fromLegacyText(
-					NamelessMessages.INCORRECT_USAGE_REPORT.getMessage().replace("%command%", commandName)));
+					NamelessMessages.INCORRECT_USAGE_GETUSER.getMessage().replace("%command%", commandName)));
 			return;
 		}
 		
