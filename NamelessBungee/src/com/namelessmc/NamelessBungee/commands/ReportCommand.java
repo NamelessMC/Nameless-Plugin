@@ -54,7 +54,7 @@ public class ReportCommand extends Command {
 						
 			if (args.length < 2) {
 				player.sendMessage(TextComponent.fromLegacyText(
-						NamelessMessages.INCORRECT_USAGE_REPORT.getMessage().replaceAll("%command%", commandName)));
+						NamelessMessages.INCORRECT_USAGE_REPORT.getMessage().replace("%command%", commandName)));
 				return;
 			}
 			
@@ -80,7 +80,7 @@ public class ReportCommand extends Command {
 				
 				//Report successful
 				sender.sendMessage(TextComponent.fromLegacyText(
-						NamelessMessages.REPORT_SUCCESS.getMessage().replaceAll("%player%", args[0])));
+						NamelessMessages.REPORT_SUCCESS.getMessage().replace("%player%", args[0])));
 			} catch (NamelessException e) {
 				sender.sendMessage(new ComponentBuilder("An error occured: " + e.getMessage()).color(ChatColor.RED).create());
 			}
