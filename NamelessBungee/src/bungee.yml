@@ -1,5 +1,5 @@
 name: NamelessMC
 author: Samerton, IsS127
-main: com.namelessmc.namelessplugin.bungeecord.NamelessPlugin
-website: https://namelessmc.com/
+main: com.namelessmc.NamelessBungee.NamelessPlugin
+website: https://plugin.namelessmc.com/
 version: ${project.version}
