@@ -6,8 +6,8 @@ import net.md_5.bungee.config.Configuration;
 
 public enum NamelessMessages {
 
-    // Global
-    NO_PERMISSION("NO_PERMISSION"),
+        // Global
+        NO_PERMISSION("NO_PERMISSION"),
 	MUST_BE_INGAME("MUST_BE_INGAME"),
 	PLAYER_NOT_VALID("PLAYER_NOT_VALID"),
 	MUST_REGISTER("MUST_REGISTER"),
