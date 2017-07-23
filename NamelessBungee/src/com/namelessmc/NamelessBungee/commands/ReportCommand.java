@@ -1,86 +1,91 @@
 package com.namelessmc.NamelessBungee.commands;
 
-import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
-import com.namelessmc.namelessplugin.bungeecord.API.NamelessAPI;
-import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessPlayer;
-import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessReportPlayer;
-import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessChat;
-import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessMessages;
+import java.util.UUID;
 
+import com.namelessmc.NamelessAPI.NamelessException;
+import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.NamelessBungee.NamelessMessages;
+import com.namelessmc.NamelessBungee.NamelessPlugin;
+import com.namelessmc.NamelessBungee.util.UUIDFetcher;
+
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
-
-/*
- *  Report CMD
- */
 
 public class ReportCommand extends Command {
 
 	private String commandName;
 
-	/*
-	 * Constructer
-	 */
 	public ReportCommand(String name) {
 		super(name);
-
 		commandName = name;
 	}
 
-	/*
-	 * Handle inputted command
-	 */
+	@SuppressWarnings("unused")
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		// Instance is a Player
-		if (sender instanceof ProxiedPlayer) {
-			if (sender.hasPermission(NamelessPlugin.permission + ".report")) {
-				ProxiedPlayer player = (ProxiedPlayer) sender;
-				NamelessAPI api = plugin.getAPI();
-				NamelessPlayer namelessPlayer = api.getPlayer(player.getUniqueId().toString());
-				if (namelessPlayer.exists()) {
-					if (namelessPlayer.isValidated()) {
-						// Try to report
-						ProxyServer.getInstance().getScheduler().runAsync(plugin, new Runnable() {
-							@Override
-							public void run() {
-								if (args.length < 2) {
-									sender.sendMessage(NamelessChat.convertColors(
-											NamelessChat.getMessage(NamelessMessages.INCORRECT_USAGE_REPORT)
-													.replaceAll("%command%", commandName)));
-									return;
-								} else {
-									NamelessReportPlayer report = namelessPlayer.reportPlayer(args);
-
-									if (report.hasError()) {
-										// Error with request
-										sender.sendMessage(
-												NamelessChat.convertColors("&4Error: " + report.getErrorMessage()));
-									} else {
-										// Display success message to user
-										sender.sendMessage(NamelessChat
-												.convertColors(NamelessChat.getMessage(NamelessMessages.REPORT_SUCCESS)
-														.replaceAll("%player%", args[0])));
-									}
-								}
-							}
-						});
-					} else {
-						sender.sendMessage(
-								NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.PLAYER_NOT_VALID)));
-					}
-				} else {
-					sender.sendMessage(
-							NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.MUST_REGISTER)));
-				}
-			} else {
-				sender.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
-			}
-		} else {
-			sender.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.MUST_BE_INGAME)));
+		if (!sender.hasPermission(NamelessPlugin.permission + ".report")) {
+			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
+			return;
 		}
+		
+		if (!(sender instanceof ProxiedPlayer)) {
+			sender.sendMessage(NamelessMessages.MUST_BE_INGAME.getComponents());
+			return;
+		}
+		
+		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
+			
+			ProxiedPlayer player = (ProxiedPlayer) sender;
+			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+			
+			if (namelessPlayer.exists()) {
+				sender.sendMessage(NamelessMessages.MUST_REGISTER.getComponents());
+			}
+			
+			if (false /* TODO Check if account is verified*/){
+				player.sendMessage(NamelessMessages.PLAYER_NOT_VALID.getComponents());
+				return;
+			}
+						
+			if (args.length < 2) {
+				player.sendMessage(TextComponent.fromLegacyText(
+						NamelessMessages.INCORRECT_USAGE_REPORT.getMessage().replaceAll("%command%", commandName)));
+				return;
+			}
+			
+			final String targetName = args[0];
+			final UUID targetUuuid;
+			
+			try {
+				targetUuuid = UUIDFetcher.getUUID(targetName);
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage(new ComponentBuilder("This player could not be found").color(ChatColor.RED).create()); // TODO Use messages.yml
+				return;
+			}
+			
+			//Remove first argument, all other arguments are part of the reason
+			int n = args.length - 1;
+			String[] reasonWordsArray = new String[n];
+			System.arraycopy(args, 1, reasonWordsArray, 0, n);
+			
+			String reason = String.join(" ", reasonWordsArray); //Join with space in between words
+			
+			try {
+				namelessPlayer.reportPlayer(targetUuuid, targetName, reason);
+				
+				//Report successful
+				sender.sendMessage(TextComponent.fromLegacyText(
+						NamelessMessages.REPORT_SUCCESS.getMessage().replaceAll("%player%", args[0])));
+			} catch (NamelessException e) {
+				sender.sendMessage(new ComponentBuilder("An error occured: " + e.getMessage()).color(ChatColor.RED).create());
+			}
+			
+		});
 	}
 
 }
