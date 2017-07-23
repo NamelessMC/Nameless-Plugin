@@ -28,7 +28,7 @@ public class ReportCommand extends Command {
 	@SuppressWarnings("unused")
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.permission + ".report")) {
+		if (!sender.hasPermission(NamelessPlugin.PERMISSION + ".report")) {
 			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
 			return;
 		}

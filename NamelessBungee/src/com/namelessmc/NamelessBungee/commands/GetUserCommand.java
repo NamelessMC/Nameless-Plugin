@@ -26,7 +26,7 @@ public class GetUserCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.permissionAdmin + ".getUser")) {
+		if (!sender.hasPermission(NamelessPlugin.PERMISSION_ADMIN + ".getUser")) {
 			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
 			return;
 		}

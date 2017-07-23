@@ -25,7 +25,7 @@ public class RegisterCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.permission + ".register")) {
+		if (!sender.hasPermission(NamelessPlugin.PERMISSION + ".register")) {
 			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
 			return;
 		}

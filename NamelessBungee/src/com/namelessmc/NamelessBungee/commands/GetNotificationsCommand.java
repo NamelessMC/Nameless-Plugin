@@ -25,7 +25,7 @@ public class GetNotificationsCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.permission + ".notifications")) {
+		if (!sender.hasPermission(NamelessPlugin.PERMISSION + ".notifications")) {
 			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
 			return;
 		}

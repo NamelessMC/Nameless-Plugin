@@ -19,13 +19,13 @@ import net.md_5.bungee.config.Configuration;
 
 public class NamelessPlugin extends Plugin {
 
-	private static NamelessPlugin instance;
-
+	public static final String PERMISSION = "namelessmc";
+	public static final String PERMISSION_ADMIN = "namelessmc.admin";
+	
 	public static URL baseApiURL;
 	public static boolean https;
-
-	public static final String permission = "namelessmc";
-	public static final String permissionAdmin = "namelessmc.admin";
+	
+	private static NamelessPlugin instance;
 
 	@Override
 	public void onEnable() {

@@ -26,7 +26,7 @@ public class SetGroupCommand extends Command {
 
 	@Override
 	public void execute(final CommandSender sender, final String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.permissionAdmin + ".setgroup")) {
+		if (!sender.hasPermission(NamelessPlugin.PERMISSION_ADMIN + ".setgroup")) {
 			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
 			return;
 		}
