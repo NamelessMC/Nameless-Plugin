@@ -1,19 +1,18 @@
 package com.namelessmc.NamelessBungee.commands;
 
-import com.namelessmc.namelessplugin.bungeecord.NamelessPlugin;
-import com.namelessmc.namelessplugin.bungeecord.API.NamelessAPI;
-import com.namelessmc.namelessplugin.bungeecord.API.Player.NamelessPlayer;
-import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessChat;
-import com.namelessmc.namelessplugin.bungeecord.API.Utils.NamelessMessages;
+import com.namelessmc.NamelessAPI.NamelessException;
+import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.NamelessBungee.NamelessMessages;
+import com.namelessmc.NamelessBungee.NamelessPlugin;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
-/*
- *  Register CMD
- */
 
 public class RegisterCommand extends Command {
 
@@ -21,50 +20,44 @@ public class RegisterCommand extends Command {
 
 	public RegisterCommand(String name) {
 		super(name);
-
 		commandName = name;
 	}
 
-	/*
-	 * Handle inputted command
-	 */
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		// Instance is Player
-		if (sender instanceof ProxiedPlayer) {
-			if (sender.hasPermission(NamelessPlugin.permission + ".register")) {
-
-				ProxiedPlayer player = (ProxiedPlayer) sender;
-
-				// Try to register user
-				ProxyServer.getInstance().getScheduler().runAsync(plugin, new Runnable() {
-					@Override
-					public void run() {
-
-						NamelessAPI api = plugin.getAPI();
-						NamelessPlayer swPlayer = api.getPlayer(player.getUniqueId().toString());
-						if (!swPlayer.exists()) {
-
-							// Ensure email is set
-							if (args.length < 1 || args.length > 1) {
-								sender.sendMessage(NamelessChat.convertColors(
-										NamelessChat.getMessage(NamelessMessages.INCORRECT_USAGE_REGISTER)
-												.replaceAll("%command%", commandName)));
-							} else {
-								api.registerPlayer(player, args[0]);
-							}
-						}else{
-							sender.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.REGISTER_USERNAME_EXISTS)));
-						}
-					}
-				});
-			} else {
-				sender.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
-			}
-
-		} else {
-			sender.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.MUST_BE_INGAME)));
+		if (!sender.hasPermission(NamelessPlugin.permission + ".register")) {
+			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
+			return;
 		}
+		
+		if (args.length != 1) {
+			sender.sendMessage(TextComponent.fromLegacyText(
+					NamelessMessages.INCORRECT_USAGE_REGISTER.getMessage().replace("%command%", commandName)));
+			return;
+		}
+		
+		if (!(sender instanceof ProxiedPlayer)) {
+			sender.sendMessage(NamelessMessages.MUST_BE_INGAME.getComponents());
+			return;
+		}
+		
+		ProxiedPlayer player = (ProxiedPlayer) sender;
+		
+		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
+			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+			
+			if (namelessPlayer.exists()) {
+				sender.sendMessage(NamelessMessages.REGISTER_USERNAME_EXISTS.getComponents());
+				return;
+			}
+			
+			try {
+				namelessPlayer.register(player.getName(), args[0]);
+			} catch (NamelessException e) {
+				player.sendMessage(new ComponentBuilder("An error occured: " + e.getMessage()).color(ChatColor.RED).create());
+			}
+			
+		});
 	}
 
 }
