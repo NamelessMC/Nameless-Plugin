@@ -59,10 +59,10 @@ public class ReportCommand extends Command {
 			}
 			
 			final String targetName = args[0];
-			final UUID targetUuuid;
+			final UUID targetUuid;
 			
 			try {
-				targetUuuid = UUIDFetcher.getUUID(targetName);
+				targetUuid = UUIDFetcher.getUUID(targetName);
 			} catch (IllegalArgumentException e) {
 				sender.sendMessage(new ComponentBuilder("This player could not be found").color(ChatColor.RED).create()); // TODO Use messages.yml
 				return;
@@ -76,7 +76,7 @@ public class ReportCommand extends Command {
 			String reason = String.join(" ", reasonWordsArray); //Join with space in between words
 			
 			try {
-				namelessPlayer.reportPlayer(targetUuuid, targetName, reason);
+				namelessPlayer.reportPlayer(targetUuid, targetName, reason);
 				
 				//Report successful
 				sender.sendMessage(TextComponent.fromLegacyText(
