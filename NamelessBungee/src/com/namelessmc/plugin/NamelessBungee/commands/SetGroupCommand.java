@@ -5,7 +5,7 @@ import java.util.UUID;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Message;
-import com.namelessmc.plugin.NamelessBungee.Nameless;
+import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
 import com.namelessmc.plugin.NamelessBungee.util.UUIDFetcher;
 
 import net.md_5.bungee.api.ChatColor;
@@ -26,7 +26,7 @@ public class SetGroupCommand extends Command {
 
 	@Override
 	public void execute(final CommandSender sender, final String[] args) {
-		if (!sender.hasPermission(Nameless.PERMISSION_ADMIN + ".setgroup")) {
+		if (!sender.hasPermission(NamelessPlugin.PERMISSION_ADMIN + ".setgroup")) {
 			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}
@@ -48,7 +48,7 @@ public class SetGroupCommand extends Command {
 		}
 		
 		
-		ProxyServer.getInstance().getScheduler().runAsync(Nameless.getInstance(), () -> {
+		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
 			final String targetName = args[0];
 			final UUID targetUuuid;
 			
@@ -60,7 +60,7 @@ public class SetGroupCommand extends Command {
 			}
 			
 			try {
-				final NamelessPlayer target = new NamelessPlayer(targetUuuid, Nameless.baseApiURL);
+				final NamelessPlayer target = new NamelessPlayer(targetUuuid, NamelessPlugin.baseApiURL);
 				final int previousGroupId = target.getGroupID();
 				target.setGroup(groupId);
 			

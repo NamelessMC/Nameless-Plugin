@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Message;
-import com.namelessmc.plugin.NamelessBungee.Nameless;
+import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
 import com.namelessmc.plugin.NamelessBungee.util.UUIDFetcher;
 
 import net.md_5.bungee.api.ChatColor;
@@ -26,7 +26,7 @@ public class GetUserCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(Nameless.PERMISSION_ADMIN + ".getUser")) {
+		if (!sender.hasPermission(NamelessPlugin.PERMISSION_ADMIN + ".getUser")) {
 			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}
@@ -37,7 +37,7 @@ public class GetUserCommand extends Command {
 			return;
 		}
 		
-		ProxyServer.getInstance().getScheduler().runAsync(Nameless.getInstance(), new Runnable() {
+		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), new Runnable() {
 			@Override
 			public void run() {
 				final String targetName = args[0];
@@ -50,7 +50,7 @@ public class GetUserCommand extends Command {
 					return;
 				}
 				
-				NamelessPlayer target = new NamelessPlayer(targetUuid, Nameless.baseApiURL);
+				NamelessPlayer target = new NamelessPlayer(targetUuid, NamelessPlugin.baseApiURL);
 
 				BaseComponent[] separator = new ComponentBuilder("--------------------------------").color(ChatColor.DARK_AQUA).italic(true).create();
 				

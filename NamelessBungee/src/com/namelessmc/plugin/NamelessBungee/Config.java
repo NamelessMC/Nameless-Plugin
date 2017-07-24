@@ -30,7 +30,7 @@ public enum Config {
 	}
 
 	public static void initialize() throws IOException {
-		Nameless plugin = Nameless.getInstance();
+		NamelessPlugin plugin = NamelessPlugin.getInstance();
 		
 		// Create config directory
 		if (!plugin.getDataFolder().exists()) {
@@ -68,12 +68,12 @@ public enum Config {
 	}
 	
 	public void reloadConfig() throws IOException {
-		this.configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(Nameless.getInstance().getDataFolder(), this.fileName));
+		this.configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(NamelessPlugin.getInstance().getDataFolder(), this.fileName));
 	}
 	
 	public void saveConfig() throws IOException {
 		if (this.configuration != null) {
-			ConfigurationProvider.getProvider(YamlConfiguration.class).save(this.configuration, new File(Nameless.getInstance().getDataFolder(), this.fileName));
+			ConfigurationProvider.getProvider(YamlConfiguration.class).save(this.configuration, new File(NamelessPlugin.getInstance().getDataFolder(), this.fileName));
 		}
 	}
 

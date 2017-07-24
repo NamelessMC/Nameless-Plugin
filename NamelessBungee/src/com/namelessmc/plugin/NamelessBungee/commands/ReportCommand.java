@@ -5,7 +5,7 @@ import java.util.UUID;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Message;
-import com.namelessmc.plugin.NamelessBungee.Nameless;
+import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
 import com.namelessmc.plugin.NamelessBungee.util.UUIDFetcher;
 
 import net.md_5.bungee.api.ChatColor;
@@ -28,7 +28,7 @@ public class ReportCommand extends Command {
 	@SuppressWarnings("unused")
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(Nameless.PERMISSION + ".report")) {
+		if (!sender.hasPermission(NamelessPlugin.PERMISSION + ".report")) {
 			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}
@@ -38,10 +38,10 @@ public class ReportCommand extends Command {
 			return;
 		}
 		
-		ProxyServer.getInstance().getScheduler().runAsync(Nameless.getInstance(), () -> {
+		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
 			
 			ProxiedPlayer player = (ProxiedPlayer) sender;
-			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
+			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 			
 			if (namelessPlayer.exists()) {
 				sender.sendMessage(Message.MUST_REGISTER.getComponents());
