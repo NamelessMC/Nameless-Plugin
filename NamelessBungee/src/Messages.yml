@@ -1,56 +1,54 @@
-# Custom Messages Configuration
-
 # Global Messages
-NO_PERMISSION: '&cYou dont have permission to this command!'
-MUST_BE_INGAME: '&cYou must be ingame!'
-PLAYER_NOT_VALID: '&cYou have not validated your profile in our website!'
-MUST_REGISTER: '&cYou must register on our website!'
+no-permission: '&cYou dont have permission to this command!'
+must-be-ingame: '&cYou must be ingame!'
+player-not-valid: '&cYou have not validated your profile in our website!'
+must-register: '&cYou must register on our website!'
 
 # Incorrect Usage
-INCORRECT_USAGE_MAIN: '&cIncorrect usage: /%command% <command>'
-INCORRECT_USAGE_REGISTER: '&cIncorrect usage: /%command% email'
-INCORRECT_USAGE_GETUSER: '&cIncorrect usage: /%command% username/uuid'
-INCORRECT_USAGE_GETNOTIFICATIONS: '&cIncorrect usage: /%command%'
-INCORRECT_USAGE_REPORT: '&cIncorrect usage: /%command% username reason'
-INCORRECT_USAGE_SETGROUP: '&cIncorrect usage: /%command% player groupId'
+incorrect-usage-main: '&cIncorrect usage: /%command% <command>'
+incorrect-usage-register: '&cIncorrect usage: /%command% email'
+incorrect-usage-getuser: '&cIncorrect usage: /%command% username/uuid'
+incorrect-usage-getnotifications: '&cIncorrect usage: /%command%'
+incorrect-usage-report: '&cIncorrect usage: /%command% username reason'
+incorrect-usage-setgroup: '&cIncorrect usage: /%command% player groupId'
   
 # Help/Alone Help Messages
-HELP_DESCRIPTION_MAIN: '&bShows the commands of this command'
-HELP_DESCRIPTION_REGISTER: '&bRegisters on website'
-HELP_DESCRIPTION_GETUSER: '&bGets user details from website.'
-HELP_DESCRIPTION_GETNOTIFICATIONS: '&bGets notifications from website' 
-HELP_DESCRIPTION_REPORT: '&bReports a player to the website'
-HELP_DESCRIPTION_SETGROUP: '&bSets a players group in the website'
+help-description-main: '&bShows the commands of this command'
+help-description-register: '&bRegisters on website'
+help-description-getuser: '&bGets user details from website.'
+help-description-getnotifications: '&bGets notifications from website' 
+help-description-report: '&bReports a player to the website'
+help-description-setgroup: '&bSets a players group in the website'
 
 # Register
-REGISTER_SUCCESS_MESSAGE: '&aYou have successfully registered!'
-REGISTER_USERNAME_EXISTS: '&cUsername already exists!'
-REGISTER_UUID_EXISTS: '&cUUID already exists!'
-REGISTER_EMAIL_EXISTS: '&cEmail already exists!'
+register-success: '&aYou have successfully registered!'
+register-username-exists: '&cUsername already exists!'
+register-uuid-exists: '&cUUID already exists!'
+register-email-exists: '&cEmail already exists!'
 
 # Notification Messages
-NO_NOTIFICATIONS: '&cYou have no Website Notifications.'
-ALERTS_NOTIFICATIONS_MESSAGE: '&6Website Alerts: &2%alerts%'
-PM_NOTIFICATIONS_MESSAGE: '&6Website PMs: &2%pms%'
+no-notifications: '&cYou have no Website Notifications.'
+notifications-alerts: '&6Website Alerts: &2%alerts%'
+notifications-messages: '&6Website PMs: &2%pms%'
 
 # Report 
-REPORT_SUCCESS: '&aYou have successfully reported &b%player%&a!'
+report-success: '&aYou have successfully reported &b%player%&a!'
   
 # SetGroup
-SETGROUP_SUCCESS: '&aYou have successfully changed &b%player%s &3groupID&a, from &3%previousgroup% &ato &3%newgroup%!'
+set-group-success: '&aYou have successfully changed &b%player%s &3groupID&a, from &3%previousgroup% &ato &3%newgroup%!'
 
 # Get User
-GETUSER_USERNAME: '&bUsername: &a%username%'
-GETUSER_DISPLAYNAME: '&aDisplayName: &b%displayname%'
-GETUSER_UUID: '&3UUID: &6%uuid%'
-GETUSER_GROUP_ID: '&6Group Id: &3%groupid%'
-GETUSER_REGISTERED: '&5Registered: &d%registereddate%' 
-GETUSER_REPUTATION: '&dReputation: &5%reputation%'
+userinfo-username: '&bUsername: &a%username%'
+userinfo-displayname: '&aDisplayName: &b%displayname%'
+userinfo-uuid: '&3UUID: &6%uuid%'
+userinfo-group-id: '&6Group Id: &3%groupid%'
+userinfo-registration-date: '&5Registered: &d%registereddate%' 
+userinfo-reputation: '&dReputation: &5%reputation%'
 
-GETUSER_VALIDATED: '&2Validated'
-GETUSER_VALIDATED_YES: '&aYes!'
-GETUSER_VALIDATED_NO: '&cNo!'
+userinfo-validated: '&2Validated'
+userinfo-validated_yes: '&aYes!'
+userinfo-validated_no: '&cNo!'
 
-GETUSER_BANNED: '&4Banned'
-GETUSER_BANNED_YES: '&cYes!'
-GETUSER_BANNED_NO: '&aNo!'
+userinfo-banned: '&4Banned'
+userinfo-banned-yes: '&cYes!'
+userinfo-banned-no: '&aNo!'
