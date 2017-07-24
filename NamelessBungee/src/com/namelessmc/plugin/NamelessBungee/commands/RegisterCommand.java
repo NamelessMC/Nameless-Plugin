@@ -3,7 +3,7 @@ package com.namelessmc.plugin.NamelessBungee.commands;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Message;
-import com.namelessmc.plugin.NamelessBungee.Nameless;
+import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -25,7 +25,7 @@ public class RegisterCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(Nameless.PERMISSION + ".register")) {
+		if (!sender.hasPermission(NamelessPlugin.PERMISSION + ".register")) {
 			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}
@@ -43,8 +43,8 @@ public class RegisterCommand extends Command {
 		
 		ProxiedPlayer player = (ProxiedPlayer) sender;
 		
-		ProxyServer.getInstance().getScheduler().runAsync(Nameless.getInstance(), () -> {
-			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
+		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
+			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 			
 			if (namelessPlayer.exists()) {
 				sender.sendMessage(Message.REGISTER_USERNAME_EXISTS.getComponents());

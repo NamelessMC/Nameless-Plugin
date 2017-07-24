@@ -18,7 +18,7 @@ import com.namelessmc.plugin.NamelessBungee.player.PlayerEventListener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 
-public class Nameless extends Plugin {
+public class NamelessPlugin extends Plugin {
 
 	public static final String PERMISSION = "namelessmc";
 	public static final String PERMISSION_ADMIN = "namelessmc.admin";
@@ -26,7 +26,7 @@ public class Nameless extends Plugin {
 	public static URL baseApiURL;
 	public static boolean https;
 
-	private static Nameless instance;
+	private static NamelessPlugin instance;
 
 	@Override
 	public void onEnable() {
@@ -127,7 +127,7 @@ public class Nameless extends Plugin {
 		}
 	}
 
-	public static Nameless getInstance() {
+	public static NamelessPlugin getInstance() {
 		return instance;
 	}
 
@@ -135,7 +135,7 @@ public class Nameless extends Plugin {
 
 		@Override
 		public void run() {
-			Nameless plugin = Nameless.getInstance();
+			NamelessPlugin plugin = NamelessPlugin.getInstance();
 			plugin.getProxy().getScheduler().runAsync(plugin, () -> {
 				try {
 					for (Config config2 : Config.values()) {

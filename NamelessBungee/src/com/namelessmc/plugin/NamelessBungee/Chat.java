@@ -23,7 +23,7 @@ public class Chat {
 	}
 	
 	public static void log(Level level, String message) {
-		Nameless.getInstance().getLogger().log(level, convertColorsString(message));
+		NamelessPlugin.getInstance().getLogger().log(level, convertColorsString(message));
 	}
 
 }

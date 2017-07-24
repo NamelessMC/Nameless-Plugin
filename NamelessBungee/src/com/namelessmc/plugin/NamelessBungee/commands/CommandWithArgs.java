@@ -5,7 +5,7 @@ import java.util.Arrays;
 import com.namelessmc.plugin.NamelessBungee.Config;
 import com.namelessmc.plugin.NamelessBungee.Chat;
 import com.namelessmc.plugin.NamelessBungee.Message;
-import com.namelessmc.plugin.NamelessBungee.Nameless;
+import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -25,8 +25,8 @@ public class CommandWithArgs extends Command {
 	public CommandWithArgs(String name) {
 		super(name);
 		
-		this.permission = Nameless.PERMISSION;
-		this.permissionAdmin = Nameless.PERMISSION_ADMIN;
+		this.permission = NamelessPlugin.PERMISSION;
+		this.permissionAdmin = NamelessPlugin.PERMISSION_ADMIN;
 
 		commandName = name;
 	}
@@ -52,7 +52,7 @@ public class CommandWithArgs extends Command {
 			
 			sender.sendMessage(separator);
 				
-			sender.sendMessage(TextComponent.fromLegacyText(Chat.convertColorsString(" &b" + Nameless.baseApiURL.toString().split("/api")[0] + "/")));
+			sender.sendMessage(TextComponent.fromLegacyText(Chat.convertColorsString(" &b" + NamelessPlugin.baseApiURL.toString().split("/api")[0] + "/")));
 				
 			sender.sendMessage(separator);
 			

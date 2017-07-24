@@ -7,7 +7,7 @@ import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Config;
 import com.namelessmc.plugin.NamelessBungee.Chat;
 import com.namelessmc.plugin.NamelessBungee.Message;
-import com.namelessmc.plugin.NamelessBungee.Nameless;
+import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -25,8 +25,8 @@ public class PlayerEventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PostLoginEvent event) {
 		ProxiedPlayer player = event.getPlayer();
-		ProxyServer.getInstance().getScheduler().runAsync(Nameless.getInstance(), () -> {
-			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
+		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
+			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 			if (namelessPlayer.exists()) {
 				if (namelessPlayer.isValidated()) {
 					userGetNotifications(player);
@@ -48,7 +48,7 @@ public class PlayerEventListener implements Listener {
 		Configuration config = Config.MAIN.getConfig();
 		if (config.getBoolean("join-notifications")) {
 			try {
-				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
+				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 				int messages = namelessPlayer.getMessageCount();
 				int alerts = namelessPlayer.getAlertCount();
 	
@@ -77,7 +77,7 @@ public class PlayerEventListener implements Listener {
 		if (config.getBoolean("group-synchronization")) {
 			Configuration permissionConfig = Config.MAIN.getConfig();
 			for (String groupID : permissionConfig.getSection("permissions").getKeys()) {
-				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
+				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 				if (String.valueOf(namelessPlayer.getGroupID()).equals(groupID)) {
 					return;
 				} else if (player.hasPermission(permissionConfig.getString("permissions" + groupID))) {
@@ -106,7 +106,7 @@ public class PlayerEventListener implements Listener {
 				playerData.set(player.getUniqueId() + ".Username", player.getName());
 
 				//Now change username on website
-				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
+				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 				namelessPlayer.updateUsername(player.getName());
 			}
 		}
