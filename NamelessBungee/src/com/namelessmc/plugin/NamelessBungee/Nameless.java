@@ -18,7 +18,7 @@ import com.namelessmc.plugin.NamelessBungee.player.PlayerEventListener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 
-public class NamelessPlugin extends Plugin {
+public class Nameless extends Plugin {
 
 	public static final String PERMISSION = "namelessmc";
 	public static final String PERMISSION_ADMIN = "namelessmc.admin";
@@ -26,7 +26,7 @@ public class NamelessPlugin extends Plugin {
 	public static URL baseApiURL;
 	public static boolean https;
 
-	private static NamelessPlugin instance;
+	private static Nameless instance;
 
 	@Override
 	public void onEnable() {
@@ -35,7 +35,7 @@ public class NamelessPlugin extends Plugin {
 		try {
 			Config.initialize();
 		} catch (IOException e) {
-			NamelessChat.log(Level.SEVERE, "&4Unable to load config.");
+			Chat.log(Level.SEVERE, "&4Unable to load config.");
 			e.printStackTrace();
 			return;
 		}
@@ -69,7 +69,7 @@ public class NamelessPlugin extends Plugin {
 		Configuration config = Config.MAIN.getConfig();
 		String url = config.getString("api-url");
 		if (url.equals("")) {
-			NamelessChat.log(Level.SEVERE,
+			Chat.log(Level.SEVERE,
 					"&4No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
 			return false; // Prevent registering of commands, listeners, etc.
 		} else {
@@ -77,18 +77,18 @@ public class NamelessPlugin extends Plugin {
 				baseApiURL = new URL(url);
 			} catch (MalformedURLException e) {
 				// There is an exception, so the connection was not successful.
-				NamelessChat.log(Level.SEVERE,
+				Chat.log(Level.SEVERE,
 						"&4Invalid API Url/Key. Nothing will work until you set the correct url.");
-				NamelessChat.log(Level.SEVERE, "Error: " + e.getMessage());
+				Chat.log(Level.SEVERE, "Error: " + e.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
 
 			Exception exception = NamelessAPI.checkWebAPIConnection(baseApiURL);
 			if (exception != null) {
 				// There is an exception, so the connection was not successful.
-				NamelessChat.log(Level.SEVERE,
+				Chat.log(Level.SEVERE,
 						"&4Invalid API Url/Key. Nothing will work until you set the correct url.");
-				NamelessChat.log(Level.SEVERE, "Error: " + exception.getMessage());
+				Chat.log(Level.SEVERE, "Error: " + exception.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
 		}
@@ -100,7 +100,7 @@ public class NamelessPlugin extends Plugin {
 
 		if ((!commandsConfig.getString("Commands.Use").equals("Alone"))
 				|| (!commandsConfig.getString("Commands.Use").equals("SubCommand"))) {
-			NamelessChat.log(Level.WARNING, "&4" + commandsConfig.getString("Commands.Use")
+			Chat.log(Level.WARNING, "&4" + commandsConfig.getString("Commands.Use")
 					+ " Is an invalid value, Please choose Alone or SubCommand. Commands will not work until fixed and reloaded!");
 			return;
 		}
@@ -129,7 +129,7 @@ public class NamelessPlugin extends Plugin {
 		}
 	}
 
-	public static NamelessPlugin getInstance() {
+	public static Nameless getInstance() {
 		return instance;
 	}
 
@@ -137,7 +137,7 @@ public class NamelessPlugin extends Plugin {
 
 		@Override
 		public void run() {
-			NamelessPlugin plugin = NamelessPlugin.getInstance();
+			Nameless plugin = Nameless.getInstance();
 			plugin.getProxy().getScheduler().runAsync(plugin, () -> {
 				try {
 					for (Config config2 : Config.values()) {

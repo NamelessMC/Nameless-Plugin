@@ -5,9 +5,9 @@ import java.util.logging.Level;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Config;
-import com.namelessmc.plugin.NamelessBungee.NamelessChat;
-import com.namelessmc.plugin.NamelessBungee.NamelessMessages;
-import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Chat;
+import com.namelessmc.plugin.NamelessBungee.Message;
+import com.namelessmc.plugin.NamelessBungee.Nameless;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -25,8 +25,8 @@ public class PlayerEventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PostLoginEvent event) {
 		ProxiedPlayer player = event.getPlayer();
-		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
-			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+		ProxyServer.getInstance().getScheduler().runAsync(Nameless.getInstance(), () -> {
+			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
 			if (namelessPlayer.exists()) {
 				if (namelessPlayer.isValidated()) {
 					userGetNotifications(player);
@@ -38,7 +38,7 @@ public class PlayerEventListener implements Listener {
 						e.printStackTrace();
 					}
 				} else {
-					player.sendMessage(NamelessMessages.PLAYER_NOT_VALID.getComponents());
+					player.sendMessage(Message.PLAYER_NOT_VALID.getComponents());
 				}
 			}
 		});
@@ -48,13 +48,13 @@ public class PlayerEventListener implements Listener {
 		Configuration config = Config.MAIN.getConfig();
 		if (config.getBoolean("join-notifications")) {
 			try {
-				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
 				int messages = namelessPlayer.getMessageCount();
 				int alerts = namelessPlayer.getAlertCount();
 	
-				BaseComponent[] pmMessage = TextComponent.fromLegacyText(NamelessMessages.PM_NOTIFICATIONS_MESSAGE.getMessage().replace("%pms%", messages + ""));
-				BaseComponent[] alertMessage = TextComponent.fromLegacyText(NamelessMessages.ALERTS_NOTIFICATIONS_MESSAGE.getMessage().replace("%alerts%", alerts + ""));
-				BaseComponent[] noNotifications = NamelessMessages.NO_NOTIFICATIONS.getComponents();
+				BaseComponent[] pmMessage = TextComponent.fromLegacyText(Message.PM_NOTIFICATIONS_MESSAGE.getMessage().replace("%pms%", messages + ""));
+				BaseComponent[] alertMessage = TextComponent.fromLegacyText(Message.ALERTS_NOTIFICATIONS_MESSAGE.getMessage().replace("%alerts%", alerts + ""));
+				BaseComponent[] noNotifications = Message.NO_NOTIFICATIONS.getComponents();
 				if (alerts == 0 && messages == 0) {
 					player.sendMessage(noNotifications);
 				} else if (alerts == 0) {
@@ -77,7 +77,7 @@ public class PlayerEventListener implements Listener {
 		if (config.getBoolean("group-synchronization")) {
 			Configuration permissionConfig = Config.MAIN.getConfig();
 			for (String groupID : permissionConfig.getSection("permissions").getKeys()) {
-				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
 				if (String.valueOf(namelessPlayer.getGroupID()).equals(groupID)) {
 					return;
 				} else if (player.hasPermission(permissionConfig.getString("permissions" + groupID))) {
@@ -100,13 +100,13 @@ public class PlayerEventListener implements Listener {
 			//If the name in the file is different, the player has changed they name
 			String previousName = playerData.getString(player.getUniqueId() + ".Username");
 			if (!previousName.equals(player.getName())) {
-				NamelessChat.log(Level.INFO, "&cDetected that &a" + player.getName() + " &chas changed his/her username.");
+				Chat.log(Level.INFO, "&cDetected that &a" + player.getName() + " &chas changed his/her username.");
 	
 				//Update name in file
 				playerData.set(player.getUniqueId() + ".Username", player.getName());
 
 				//Now change username on website
-				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
 				namelessPlayer.updateUsername(player.getName());
 			}
 		}

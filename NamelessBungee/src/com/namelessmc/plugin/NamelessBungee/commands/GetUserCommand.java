@@ -3,8 +3,8 @@ package com.namelessmc.plugin.NamelessBungee.commands;
 import java.util.UUID;
 
 import com.namelessmc.NamelessAPI.NamelessPlayer;
-import com.namelessmc.plugin.NamelessBungee.NamelessMessages;
-import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Message;
+import com.namelessmc.plugin.NamelessBungee.Nameless;
 import com.namelessmc.plugin.NamelessBungee.util.UUIDFetcher;
 
 import net.md_5.bungee.api.ChatColor;
@@ -26,18 +26,18 @@ public class GetUserCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.PERMISSION_ADMIN + ".getUser")) {
-			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
+		if (!sender.hasPermission(Nameless.PERMISSION_ADMIN + ".getUser")) {
+			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}
 		
 		if (args.length != 1) {
 			sender.sendMessage(TextComponent.fromLegacyText(
-					NamelessMessages.INCORRECT_USAGE_GETUSER.getMessage().replace("%command%", commandName)));
+					Message.INCORRECT_USAGE_GETUSER.getMessage().replace("%command%", commandName)));
 			return;
 		}
 		
-		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), new Runnable() {
+		ProxyServer.getInstance().getScheduler().runAsync(Nameless.getInstance(), new Runnable() {
 			@Override
 			public void run() {
 				final String targetName = args[0];
@@ -50,29 +50,29 @@ public class GetUserCommand extends Command {
 					return;
 				}
 				
-				NamelessPlayer target = new NamelessPlayer(targetUuid, NamelessPlugin.baseApiURL);
+				NamelessPlayer target = new NamelessPlayer(targetUuid, Nameless.baseApiURL);
 
 				BaseComponent[] separator = new ComponentBuilder("--------------------------------").color(ChatColor.DARK_AQUA).italic(true).create();
 				
 				sender.sendMessage(separator);
 				
 				sender.sendMessage(TextComponent.fromLegacyText(
-						NamelessMessages.GETUSER_USERNAME.getMessage().replace("%username%", target.getUsername())));
+						Message.GETUSER_USERNAME.getMessage().replace("%username%", target.getUsername())));
 				
 				sender.sendMessage(TextComponent.fromLegacyText(
-						NamelessMessages.GETUSER_DISPLAYNAME.getMessage().replace("%displayname%", target.getDisplayName())));
+						Message.GETUSER_DISPLAYNAME.getMessage().replace("%displayname%", target.getDisplayName())));
 				
 				sender.sendMessage(TextComponent.fromLegacyText(
-						NamelessMessages.GETUSER_UUID.getMessage().replace("%uuid%", targetUuid.toString())));
+						Message.GETUSER_UUID.getMessage().replace("%uuid%", targetUuid.toString())));
 				
 				sender.sendMessage(TextComponent.fromLegacyText(
-						NamelessMessages.GETUSER_GROUP_ID.getMessage().replace("%groupid%", "" + target.getGroupID())));
+						Message.GETUSER_GROUP_ID.getMessage().replace("%groupid%", "" + target.getGroupID())));
 		
 				sender.sendMessage(TextComponent.fromLegacyText(
-						NamelessMessages.GETUSER_REGISTERED.getMessage().replace("%registereddate%", target.getRegisteredDate().toString())));
+						Message.GETUSER_REGISTERED.getMessage().replace("%registereddate%", target.getRegisteredDate().toString())));
 				
 				sender.sendMessage(TextComponent.fromLegacyText(
-						NamelessMessages.GETUSER_REPUTATION.getMessage().replace("%reputation%", "" + target.getReputations())));
+						Message.GETUSER_REPUTATION.getMessage().replace("%reputation%", "" + target.getReputations())));
 
 				/*if (namelessPlayer.isValidated()) { TODO Check if verified
 						sender.sendMessage(NamelessChat.convertColors(
@@ -86,14 +86,14 @@ public class GetUserCommand extends Command {
 				
 				if (target.isBanned()) {
 					sender.sendMessage(TextComponent.fromLegacyText(
-							NamelessMessages.GETUSER_BANNED.getMessage() +
+							Message.GETUSER_BANNED.getMessage() +
 							"&c: " +
-							NamelessMessages.GETUSER_BANNED_YES.getMessage()));
+							Message.GETUSER_BANNED_YES.getMessage()));
 				} else {
 					sender.sendMessage(TextComponent.fromLegacyText(
-							NamelessMessages.GETUSER_BANNED.getMessage() +
+							Message.GETUSER_BANNED.getMessage() +
 							"&a: " +
-							NamelessMessages.GETUSER_BANNED_NO.getMessage()));
+							Message.GETUSER_BANNED_NO.getMessage()));
 				}
 				
 				sender.sendMessage(separator);

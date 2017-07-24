@@ -2,8 +2,8 @@ package com.namelessmc.plugin.NamelessBungee.commands;
 
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
-import com.namelessmc.plugin.NamelessBungee.NamelessMessages;
-import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Message;
+import com.namelessmc.plugin.NamelessBungee.Nameless;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -25,26 +25,26 @@ public class GetNotificationsCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.PERMISSION + ".notifications")) {
-			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
+		if (!sender.hasPermission(Nameless.PERMISSION + ".notifications")) {
+			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}
 		
 		if (args.length != 0) {
 			sender.sendMessage(TextComponent.fromLegacyText(
-					NamelessMessages.INCORRECT_USAGE_GETNOTIFICATIONS.getMessage().replace("%command%", commandName)));
+					Message.INCORRECT_USAGE_GETNOTIFICATIONS.getMessage().replace("%command%", commandName)));
 			return;
 		}
 		
 		if (!(sender instanceof ProxiedPlayer)) {
-			sender.sendMessage(NamelessMessages.MUST_BE_INGAME.getComponents());
+			sender.sendMessage(Message.MUST_BE_INGAME.getComponents());
 			return;
 		}
 		
 		ProxiedPlayer player = (ProxiedPlayer) sender;
 		
-		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
-			NamelessPlayer nameless = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+		ProxyServer.getInstance().getScheduler().runAsync(Nameless.getInstance(), () -> {
+			NamelessPlayer nameless = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
 			
 			int messages;
 			int alerts;
@@ -58,10 +58,10 @@ public class GetNotificationsCommand extends Command {
 			}
 			
 			BaseComponent[] pmMessage = TextComponent.fromLegacyText(
-					NamelessMessages.PM_NOTIFICATIONS_MESSAGE.getMessage().replace("%pms%", "" + messages));
+					Message.PM_NOTIFICATIONS_MESSAGE.getMessage().replace("%pms%", "" + messages));
 			BaseComponent[] alertMessage = TextComponent.fromLegacyText(
-					NamelessMessages.ALERTS_NOTIFICATIONS_MESSAGE.getMessage().replace("%alerts%", "" + alerts));
-			BaseComponent[] noNotifications = NamelessMessages.NO_NOTIFICATIONS.getComponents();
+					Message.ALERTS_NOTIFICATIONS_MESSAGE.getMessage().replace("%alerts%", "" + alerts));
+			BaseComponent[] noNotifications = Message.NO_NOTIFICATIONS.getComponents();
 
 			if (alerts == 0 && messages == 0) {
 				sender.sendMessage(noNotifications);

@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
-import com.namelessmc.plugin.NamelessBungee.NamelessMessages;
-import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Message;
+import com.namelessmc.plugin.NamelessBungee.Nameless;
 import com.namelessmc.plugin.NamelessBungee.util.UUIDFetcher;
 
 import net.md_5.bungee.api.ChatColor;
@@ -28,33 +28,33 @@ public class ReportCommand extends Command {
 	@SuppressWarnings("unused")
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.PERMISSION + ".report")) {
-			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
+		if (!sender.hasPermission(Nameless.PERMISSION + ".report")) {
+			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}
 		
 		if (!(sender instanceof ProxiedPlayer)) {
-			sender.sendMessage(NamelessMessages.MUST_BE_INGAME.getComponents());
+			sender.sendMessage(Message.MUST_BE_INGAME.getComponents());
 			return;
 		}
 		
-		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
+		ProxyServer.getInstance().getScheduler().runAsync(Nameless.getInstance(), () -> {
 			
 			ProxiedPlayer player = (ProxiedPlayer) sender;
-			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
 			
 			if (namelessPlayer.exists()) {
-				sender.sendMessage(NamelessMessages.MUST_REGISTER.getComponents());
+				sender.sendMessage(Message.MUST_REGISTER.getComponents());
 			}
 			
 			if (false /* TODO Check if account is verified*/){
-				player.sendMessage(NamelessMessages.PLAYER_NOT_VALID.getComponents());
+				player.sendMessage(Message.PLAYER_NOT_VALID.getComponents());
 				return;
 			}
 						
 			if (args.length < 2) {
 				player.sendMessage(TextComponent.fromLegacyText(
-						NamelessMessages.INCORRECT_USAGE_REPORT.getMessage().replace("%command%", commandName)));
+						Message.INCORRECT_USAGE_REPORT.getMessage().replace("%command%", commandName)));
 				return;
 			}
 			
@@ -80,7 +80,7 @@ public class ReportCommand extends Command {
 				
 				//Report successful
 				sender.sendMessage(TextComponent.fromLegacyText(
-						NamelessMessages.REPORT_SUCCESS.getMessage().replace("%player%", args[0])));
+						Message.REPORT_SUCCESS.getMessage().replace("%player%", args[0])));
 			} catch (NamelessException e) {
 				sender.sendMessage(new ComponentBuilder("An error occured: " + e.getMessage()).color(ChatColor.RED).create());
 			}

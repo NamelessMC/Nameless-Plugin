@@ -3,9 +3,9 @@ package com.namelessmc.plugin.NamelessBungee.commands;
 import java.util.Arrays;
 
 import com.namelessmc.plugin.NamelessBungee.Config;
-import com.namelessmc.plugin.NamelessBungee.NamelessChat;
-import com.namelessmc.plugin.NamelessBungee.NamelessMessages;
-import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Chat;
+import com.namelessmc.plugin.NamelessBungee.Message;
+import com.namelessmc.plugin.NamelessBungee.Nameless;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -25,8 +25,8 @@ public class CommandWithArgs extends Command {
 	public CommandWithArgs(String name) {
 		super(name);
 		
-		this.permission = NamelessPlugin.PERMISSION;
-		this.permissionAdmin = NamelessPlugin.PERMISSION_ADMIN;
+		this.permission = Nameless.PERMISSION;
+		this.permissionAdmin = Nameless.PERMISSION_ADMIN;
 
 		commandName = name;
 	}
@@ -46,50 +46,50 @@ public class CommandWithArgs extends Command {
 		
 		if (args.length == 0) {
 			if (!sender.hasPermission(permission + ".main")) {
-				sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
+				sender.sendMessage(Message.NO_PERMISSION.getComponents());
 				return;
 			}
 			
 			sender.sendMessage(separator);
 				
-			sender.sendMessage(TextComponent.fromLegacyText(NamelessChat.convertColorsString(" &b" + NamelessPlugin.baseApiURL.toString().split("/api")[0] + "/")));
+			sender.sendMessage(TextComponent.fromLegacyText(Chat.convertColorsString(" &b" + Nameless.baseApiURL.toString().split("/api")[0] + "/")));
 				
 			sender.sendMessage(separator);
 			
 			if (sender.hasPermission(permission + ".main" + commandName.toLowerCase())) {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						ChatColor.GREEN + "/" + commandName + ChatColor.DARK_AQUA + ", " + 
-						NamelessMessages.HELP_DESCRIPTION_MAIN.getMessage()));
+						Message.HELP_DESCRIPTION_MAIN.getMessage()));
 			}
 						
 			if (config.getBoolean("enable-registration") && sender.hasPermission(permission + ".register")) {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						ChatColor.GREEN + "/" + commandName + ChatColor.DARK_AQUA + ", " + 
-						NamelessMessages.HELP_DESCRIPTION_REGISTER.getMessage()));
+						Message.HELP_DESCRIPTION_REGISTER.getMessage()));
 			}
 				
 			if (sender.hasPermission(permission + ".notifications")) {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						ChatColor.GREEN + "/" + commandName + " " + getNotifications + ChatColor.DARK_AQUA + ", " +
-						NamelessMessages.HELP_DESCRIPTION_GETNOTIFICATIONS.getMessage()));
+						Message.HELP_DESCRIPTION_GETNOTIFICATIONS.getMessage()));
 			}
 				
 			if (config.getBoolean("enable-reports") && sender.hasPermission(permission + ".report")) {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						ChatColor.GREEN + "/" + commandName + " " + report + ChatColor.DARK_AQUA + ", " +
-						NamelessMessages.HELP_DESCRIPTION_REPORT.getMessage()));
+						Message.HELP_DESCRIPTION_REPORT.getMessage()));
 			}
 				
 			if (sender.hasPermission(permissionAdmin + ".getuser")) {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						ChatColor.GREEN + "/" + commandName + " " + getUser + ChatColor.DARK_AQUA + ", " +
-						NamelessMessages.HELP_DESCRIPTION_GETUSER.getMessage()));
+						Message.HELP_DESCRIPTION_GETUSER.getMessage()));
 			}
 				
 			if (sender.hasPermission(permissionAdmin + ".setgroup")) {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						ChatColor.GREEN + "/" + commandName + " " + setGroup + ChatColor.DARK_AQUA + ", " + 
-						NamelessMessages.HELP_DESCRIPTION_SETGROUP.getMessage()));
+						Message.HELP_DESCRIPTION_SETGROUP.getMessage()));
 			}
 						
 			sender.sendMessage(separator);
@@ -137,7 +137,7 @@ public class CommandWithArgs extends Command {
 				}
 			} else {
 				sender.sendMessage(TextComponent.fromLegacyText(
-						NamelessMessages.INCORRECT_USAGE_MAIN.getMessage().replace("%command%", commandName)));
+						Message.INCORRECT_USAGE_MAIN.getMessage().replace("%command%", commandName)));
 			}
 		}
 	}

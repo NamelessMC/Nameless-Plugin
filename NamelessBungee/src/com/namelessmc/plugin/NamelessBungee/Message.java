@@ -4,7 +4,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.config.Configuration;
 
-public enum NamelessMessages {
+public enum Message {
 
     // Global
     NO_PERMISSION("NO_PERMISSION"),
@@ -65,13 +65,13 @@ public enum NamelessMessages {
 	
 	String name;
 	
-	private NamelessMessages(String name){
+	private Message(String name){
 		this.name = name;
 	}
 
 	public String getMessage() {
 		Configuration messageConfig = Config.MESSAGES.getConfig();
-		return NamelessChat.convertColorsString(messageConfig.getString(name));
+		return Chat.convertColorsString(messageConfig.getString(name));
 	}
 	
 	public BaseComponent[] getComponents() {

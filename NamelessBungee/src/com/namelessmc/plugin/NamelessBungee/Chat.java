@@ -8,7 +8,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class NamelessChat {
+public class Chat {
 
 	public static TextComponent sendClickableMessage(String message, ClickEvent.Action click, String value,
 			HoverEvent.Action hover, String hoverText) {
@@ -23,7 +23,7 @@ public class NamelessChat {
 	}
 	
 	public static void log(Level level, String message) {
-		NamelessPlugin.getInstance().getLogger().log(level, convertColorsString(message));
+		Nameless.getInstance().getLogger().log(level, convertColorsString(message));
 	}
 
 }

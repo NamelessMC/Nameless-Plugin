@@ -2,8 +2,8 @@ package com.namelessmc.plugin.NamelessBungee.commands;
 
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
-import com.namelessmc.plugin.NamelessBungee.NamelessMessages;
-import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Message;
+import com.namelessmc.plugin.NamelessBungee.Nameless;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -25,29 +25,29 @@ public class RegisterCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.PERMISSION + ".register")) {
-			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
+		if (!sender.hasPermission(Nameless.PERMISSION + ".register")) {
+			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}
 		
 		if (args.length != 1) {
 			sender.sendMessage(TextComponent.fromLegacyText(
-					NamelessMessages.INCORRECT_USAGE_REGISTER.getMessage().replace("%command%", commandName)));
+					Message.INCORRECT_USAGE_REGISTER.getMessage().replace("%command%", commandName)));
 			return;
 		}
 		
 		if (!(sender instanceof ProxiedPlayer)) {
-			sender.sendMessage(NamelessMessages.MUST_BE_INGAME.getComponents());
+			sender.sendMessage(Message.MUST_BE_INGAME.getComponents());
 			return;
 		}
 		
 		ProxiedPlayer player = (ProxiedPlayer) sender;
 		
-		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
-			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+		ProxyServer.getInstance().getScheduler().runAsync(Nameless.getInstance(), () -> {
+			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), Nameless.baseApiURL);
 			
 			if (namelessPlayer.exists()) {
-				sender.sendMessage(NamelessMessages.REGISTER_USERNAME_EXISTS.getComponents());
+				sender.sendMessage(Message.REGISTER_USERNAME_EXISTS.getComponents());
 				return;
 			}
 			

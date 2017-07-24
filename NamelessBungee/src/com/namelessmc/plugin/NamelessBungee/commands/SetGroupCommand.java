@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
-import com.namelessmc.plugin.NamelessBungee.NamelessMessages;
-import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Message;
+import com.namelessmc.plugin.NamelessBungee.Nameless;
 import com.namelessmc.plugin.NamelessBungee.util.UUIDFetcher;
 
 import net.md_5.bungee.api.ChatColor;
@@ -26,14 +26,14 @@ public class SetGroupCommand extends Command {
 
 	@Override
 	public void execute(final CommandSender sender, final String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.PERMISSION_ADMIN + ".setgroup")) {
-			sender.sendMessage(NamelessMessages.NO_PERMISSION.getComponents());
+		if (!sender.hasPermission(Nameless.PERMISSION_ADMIN + ".setgroup")) {
+			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}
 		
 		if (args.length != 2) {
 			sender.sendMessage(TextComponent.fromLegacyText(
-					NamelessMessages.INCORRECT_USAGE_SETGROUP.getMessage().replace("%command%", commandName)));
+					Message.INCORRECT_USAGE_SETGROUP.getMessage().replace("%command%", commandName)));
 			return;
 		}
 		
@@ -43,12 +43,12 @@ public class SetGroupCommand extends Command {
 			groupId = Integer.parseInt(args[1]);
 		} catch (NumberFormatException e) {
 			// The sender has provided a non numeric string
-			sender.sendMessage(TextComponent.fromLegacyText(NamelessMessages.INCORRECT_USAGE_SETGROUP.getMessage().replaceAll("%command%", commandName)));
+			sender.sendMessage(TextComponent.fromLegacyText(Message.INCORRECT_USAGE_SETGROUP.getMessage().replaceAll("%command%", commandName)));
 			return;
 		}
 		
 		
-		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
+		ProxyServer.getInstance().getScheduler().runAsync(Nameless.getInstance(), () -> {
 			final String targetName = args[0];
 			final UUID targetUuuid;
 			
@@ -60,11 +60,11 @@ public class SetGroupCommand extends Command {
 			}
 			
 			try {
-				final NamelessPlayer target = new NamelessPlayer(targetUuuid, NamelessPlugin.baseApiURL);
+				final NamelessPlayer target = new NamelessPlayer(targetUuuid, Nameless.baseApiURL);
 				final int previousGroupId = target.getGroupID();
 				target.setGroup(groupId);
 			
-				String success = NamelessMessages.SETGROUP_SUCCESS.getMessage()
+				String success = Message.SETGROUP_SUCCESS.getMessage()
 						.replace("%player%", args[1])
 						.replace("%previousgroup%", String.valueOf(previousGroupId))
 						.replace("%newgroup%", String.valueOf(groupId));
