@@ -52,8 +52,8 @@ public class PlayerEventListener implements Listener {
 				int messages = namelessPlayer.getMessageCount();
 				int alerts = namelessPlayer.getAlertCount();
 	
-				BaseComponent[] pmMessage = TextComponent.fromLegacyText(Message.PM_NOTIFICATIONS_MESSAGE.getMessage().replace("%pms%", messages + ""));
-				BaseComponent[] alertMessage = TextComponent.fromLegacyText(Message.ALERTS_NOTIFICATIONS_MESSAGE.getMessage().replace("%alerts%", alerts + ""));
+				BaseComponent[] pmMessage = TextComponent.fromLegacyText(Message.NOTIFICATIONS_MESSAGES.getMessage().replace("%pms%", messages + ""));
+				BaseComponent[] alertMessage = TextComponent.fromLegacyText(Message.NOTIFICATIONS_ALERTS.getMessage().replace("%alerts%", alerts + ""));
 				BaseComponent[] noNotifications = Message.NO_NOTIFICATIONS.getComponents();
 				if (alerts == 0 && messages == 0) {
 					player.sendMessage(noNotifications);

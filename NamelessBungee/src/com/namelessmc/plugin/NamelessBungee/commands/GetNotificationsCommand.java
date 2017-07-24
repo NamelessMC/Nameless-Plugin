@@ -58,9 +58,9 @@ public class GetNotificationsCommand extends Command {
 			}
 			
 			BaseComponent[] pmMessage = TextComponent.fromLegacyText(
-					Message.PM_NOTIFICATIONS_MESSAGE.getMessage().replace("%pms%", "" + messages));
+					Message.NOTIFICATIONS_MESSAGES.getMessage().replace("%pms%", "" + messages));
 			BaseComponent[] alertMessage = TextComponent.fromLegacyText(
-					Message.ALERTS_NOTIFICATIONS_MESSAGE.getMessage().replace("%alerts%", "" + alerts));
+					Message.NOTIFICATIONS_ALERTS.getMessage().replace("%alerts%", "" + alerts));
 			BaseComponent[] noNotifications = Message.NO_NOTIFICATIONS.getComponents();
 
 			if (alerts == 0 && messages == 0) {
