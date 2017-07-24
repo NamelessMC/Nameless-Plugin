@@ -1,11 +1,11 @@
-package com.namelessmc.NamelessBungee.commands;
+package com.namelessmc.plugin.NamelessBungee.commands;
 
 import java.util.Arrays;
 
-import com.namelessmc.NamelessBungee.Config;
-import com.namelessmc.NamelessBungee.NamelessChat;
-import com.namelessmc.NamelessBungee.NamelessMessages;
-import com.namelessmc.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Config;
+import com.namelessmc.plugin.NamelessBungee.NamelessChat;
+import com.namelessmc.plugin.NamelessBungee.NamelessMessages;
+import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;

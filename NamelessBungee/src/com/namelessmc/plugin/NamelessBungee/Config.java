@@ -1,4 +1,4 @@
-package com.namelessmc.NamelessBungee;
+package com.namelessmc.plugin.NamelessBungee;
 
 import java.io.File;
 import java.io.IOException;

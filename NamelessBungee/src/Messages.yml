@@ -29,9 +29,9 @@ REGISTER_UUID_EXISTS: '&cUUID already exists!'
 REGISTER_EMAIL_EXISTS: '&cEmail already exists!'
 
 # Notification Messages
-NO_NOTIFICATIONS: '&cYou have no Notifications.'
-ALERTS_NOTIFICATIONS_MESSAGE: '&6Alerts: &2%alerts%'
-PM_NOTIFICATIONS_MESSAGE: '&6PMs: &2%pms%'
+NO_NOTIFICATIONS: '&cYou have no Website Notifications.'
+ALERTS_NOTIFICATIONS_MESSAGE: '&6Website Alerts: &2%alerts%'
+PM_NOTIFICATIONS_MESSAGE: '&6Website PMs: &2%pms%'
 
 # Report 
 REPORT_SUCCESS: '&aYou have successfully reported &b%player%&a!'

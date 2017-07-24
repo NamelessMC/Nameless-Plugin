@@ -1,4 +1,4 @@
-package com.namelessmc.NamelessBungee;
+package com.namelessmc.plugin.NamelessBungee;
 
 import java.util.logging.Level;
 

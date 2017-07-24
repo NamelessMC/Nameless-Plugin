@@ -4,15 +4,14 @@
 # -------------------------------------------------------------------
 
 Commands:
+  Use: SubCommand
   Alone:
-    Use: false
     Register: "Register"
     GetNotifications: "GetNotifications"
     Report: "Report"
     GetUser: "GetUser"
     SetGroup: "SetGroup"
   SubCommand:
-    Use: true
     Main: "Website"
     Register: "Register"
     GetNotifications: "GetNotifications"

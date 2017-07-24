@@ -1,4 +1,4 @@
-package com.namelessmc.NamelessBungee;
+package com.namelessmc.plugin.NamelessBungee;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -6,8 +6,8 @@ import net.md_5.bungee.config.Configuration;
 
 public enum NamelessMessages {
 
-	// Global
-	NO_PERMISSION("NO_PERMISSION"),
+    // Global
+    NO_PERMISSION("NO_PERMISSION"),
 	MUST_BE_INGAME("MUST_BE_INGAME"),
 	PLAYER_NOT_VALID("PLAYER_NOT_VALID"),
 	MUST_REGISTER("MUST_REGISTER"),
@@ -70,7 +70,6 @@ public enum NamelessMessages {
 	}
 
 	public String getMessage() {
-		//Configuration messageConfig = NamelessPlugin.getInstance().getAPI().getConfigManager().getMessageConfig();
 		Configuration messageConfig = Config.MESSAGES.getConfig();
 		return NamelessChat.convertColorsString(messageConfig.getString(name));
 	}

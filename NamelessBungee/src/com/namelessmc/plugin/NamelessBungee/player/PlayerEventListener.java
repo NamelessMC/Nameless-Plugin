@@ -1,9 +1,13 @@
-package com.namelessmc.NamelessBungee;
+package com.namelessmc.plugin.NamelessBungee.player;
 
 import java.util.logging.Level;
 
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.plugin.NamelessBungee.Config;
+import com.namelessmc.plugin.NamelessBungee.NamelessChat;
+import com.namelessmc.plugin.NamelessBungee.NamelessMessages;
+import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -25,7 +29,7 @@ public class PlayerEventListener implements Listener {
 			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 			if (namelessPlayer.exists()) {
 				if (namelessPlayer.isValidated()) {
-					userGetNotification(player);
+					userGetNotifications(player);
 			
 					try {
 						userNameCheck(player);
@@ -40,7 +44,7 @@ public class PlayerEventListener implements Listener {
 		});
 	}
 	
-	public void userGetNotification(ProxiedPlayer player) {
+	public void userGetNotifications(ProxiedPlayer player) {
 		Configuration config = Config.MAIN.getConfig();
 		if (config.getBoolean("join-notifications")) {
 			try {

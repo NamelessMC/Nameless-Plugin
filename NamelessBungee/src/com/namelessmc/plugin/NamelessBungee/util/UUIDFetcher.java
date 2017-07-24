@@ -1,4 +1,4 @@
-package com.namelessmc.NamelessBungee.util;
+package com.namelessmc.plugin.NamelessBungee.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
