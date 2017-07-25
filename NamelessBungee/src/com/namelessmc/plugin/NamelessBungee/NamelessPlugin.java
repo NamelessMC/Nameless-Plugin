@@ -10,6 +10,7 @@ import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.plugin.NamelessBungee.commands.CommandWithArgs;
 import com.namelessmc.plugin.NamelessBungee.commands.GetNotificationsCommand;
 import com.namelessmc.plugin.NamelessBungee.commands.GetUserCommand;
+import com.namelessmc.plugin.NamelessBungee.commands.NamelessCommand;
 import com.namelessmc.plugin.NamelessBungee.commands.RegisterCommand;
 import com.namelessmc.plugin.NamelessBungee.commands.ReportCommand;
 import com.namelessmc.plugin.NamelessBungee.commands.SetGroupCommand;
@@ -95,6 +96,8 @@ public class NamelessPlugin extends Plugin {
 
 	private void registerCommands() {
 		Configuration commandsConfig = Config.COMMANDS.getConfig();
+		
+		getProxy().getPluginManager().registerCommand(this, new NamelessCommand());
 
 		boolean subcommands = Config.COMMANDS.getConfig().getBoolean("subcommands.enabled", true);
 		boolean individual = Config.COMMANDS.getConfig().getBoolean("individual.enabled", true);
@@ -136,8 +139,8 @@ public class NamelessPlugin extends Plugin {
 			NamelessPlugin plugin = NamelessPlugin.getInstance();
 			plugin.getProxy().getScheduler().runAsync(plugin, () -> {
 				try {
-					for (Config config2 : Config.values()) {
-						config2.saveConfig();
+					for (Config config : Config.values()) {
+						config.saveConfig();
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
