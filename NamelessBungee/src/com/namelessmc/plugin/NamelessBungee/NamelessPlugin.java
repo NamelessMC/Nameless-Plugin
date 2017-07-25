@@ -102,26 +102,26 @@ public class NamelessPlugin extends Plugin {
 		if (individual) {
 			if (commandsConfig.getBoolean("enable-registration"))
 				getProxy().getPluginManager().registerCommand(this,
-						new RegisterCommand(commandsConfig.getString("Commands.Alone.Register")));
+						new RegisterCommand(commandsConfig.getString("commands.individual.register")));
 
 			getProxy().getPluginManager().registerCommand(this,
-					new GetUserCommand(commandsConfig.getString("Commands.Alone.GetUser")));
+					new GetUserCommand(commandsConfig.getString("commands.individual.user-info")));
 
 			getProxy().getPluginManager().registerCommand(this,
-					new GetNotificationsCommand(commandsConfig.getString("Commands.Alone.GetNotifications")));
+					new GetNotificationsCommand(commandsConfig.getString("commands.individual.notifications")));
 
 			getProxy().getPluginManager().registerCommand(this,
-					new SetGroupCommand(commandsConfig.getString("Commands.Alone.SetGroup")));
+					new SetGroupCommand(commandsConfig.getString("commands.individual.setgroup")));
 
 			if (commandsConfig.getBoolean("enable-reports"))
 				getProxy().getPluginManager().registerCommand(this,
-						new ReportCommand(commandsConfig.getString("Commands.Alone.Report")));
+						new ReportCommand(commandsConfig.getString("commands.individual.report")));
 
 		}
 		
 		if (subcommands) {
 			getProxy().getPluginManager().registerCommand(this,
-					new CommandWithArgs(commandsConfig.getString("Commands.SubCommand.Main")));
+					new CommandWithArgs(commandsConfig.getString("commands.subcommands.main")));
 		}
 	}
 

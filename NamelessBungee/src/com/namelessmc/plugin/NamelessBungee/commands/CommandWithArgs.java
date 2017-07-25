@@ -33,7 +33,7 @@ public class CommandWithArgs extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		Configuration commandsConfig = Config.COMMANDS.getConfig().getSection("Commands.SubCommand");
+		Configuration commandsConfig = Config.COMMANDS.getConfig().getSection("commands.subcommands");
 		Configuration config = Config.MAIN.getConfig();
 		
 		String register = commandsConfig.getString("Register");

@@ -11,11 +11,11 @@ import net.md_5.bungee.config.YamlConfiguration;
 
 public enum Config {
 	
-	MAIN("Config.yml", true),
-	PLAYER_INFO("PlayersData.yml", false),
-	GROUP_SYNC_PERMISSIONS("GroupSyncPermissions.yml", true),
-	MESSAGES("Messages.yml", true),
-	COMMANDS("Commands.yml", true),
+	MAIN("config.yml", true),
+	PLAYER_INFO("player-data.yml", false),
+	GROUP_SYNC_PERMISSIONS("groupSyncPermissions.yml", true),
+	MESSAGES("messages.yml", true),
+	COMMANDS("commands.yml", true),
 	
 	;
 	

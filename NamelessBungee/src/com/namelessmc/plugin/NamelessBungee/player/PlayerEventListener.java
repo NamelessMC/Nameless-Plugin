@@ -93,12 +93,12 @@ public class PlayerEventListener implements Listener {
 		if (playerData.getBoolean("update-username")) {
 			//Save data if not in file
 			if (!playerData.contains(player.getUniqueId().toString())) {
-				playerData.set(player.getUniqueId().toString() + ".Username", player.getName());
+				playerData.set(player.getUniqueId().toString() + ".username", player.getName());
 				return;
 			}
 			
 			//If the name in the file is different, the player has changed they name
-			String previousName = playerData.getString(player.getUniqueId() + ".Username");
+			String previousName = playerData.getString(player.getUniqueId() + ".username");
 			if (!previousName.equals(player.getName())) {
 				Chat.log(Level.INFO, "&cDetected that &a" + player.getName() + " &chas changed his/her username.");
 	
