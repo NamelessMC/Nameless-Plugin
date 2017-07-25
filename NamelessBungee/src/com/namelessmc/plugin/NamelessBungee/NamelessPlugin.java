@@ -96,14 +96,10 @@ public class NamelessPlugin extends Plugin {
 	private void registerCommands() {
 		Configuration commandsConfig = Config.COMMANDS.getConfig();
 
-		if ((!commandsConfig.getString("Commands.Use").equals("Alone"))
-				|| (!commandsConfig.getString("Commands.Use").equals("SubCommand"))) {
-			Chat.log(Level.WARNING, "&4" + commandsConfig.getString("Commands.Use")
-					+ " Is an invalid value, Please choose Alone or SubCommand. Commands will not work until fixed and reloaded!");
-			return;
-		}
+		boolean subcommands = Config.COMMANDS.getConfig().getBoolean("subcommands.enabled", true);
+		boolean individual = Config.COMMANDS.getConfig().getBoolean("individual.enabled", true);
 
-		if (commandsConfig.getString("Commands.Use").equals("Alone")) {
+		if (individual) {
 			if (commandsConfig.getBoolean("enable-registration"))
 				getProxy().getPluginManager().registerCommand(this,
 						new RegisterCommand(commandsConfig.getString("Commands.Alone.Register")));
@@ -121,7 +117,9 @@ public class NamelessPlugin extends Plugin {
 				getProxy().getPluginManager().registerCommand(this,
 						new ReportCommand(commandsConfig.getString("Commands.Alone.Report")));
 
-		} else {
+		}
+		
+		if (subcommands) {
 			getProxy().getPluginManager().registerCommand(this,
 					new CommandWithArgs(commandsConfig.getString("Commands.SubCommand.Main")));
 		}
