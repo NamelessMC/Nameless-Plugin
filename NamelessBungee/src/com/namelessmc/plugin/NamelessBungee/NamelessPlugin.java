@@ -57,10 +57,10 @@ public class NamelessPlugin extends Plugin {
 
 	@Override
 	public void onDisable() {
-		// Save all configuration files
+		// Save all configuration files that require saving
 		try {
 			for (Config config : Config.values()) {
-				config.saveConfig();
+				if (config.autoSave()) config.saveConfig();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -140,7 +140,7 @@ public class NamelessPlugin extends Plugin {
 			plugin.getProxy().getScheduler().runAsync(plugin, () -> {
 				try {
 					for (Config config : Config.values()) {
-						config.saveConfig();
+						if (config.autoSave()) config.saveConfig();
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

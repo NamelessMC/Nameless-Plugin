@@ -11,22 +11,24 @@ import net.md_5.bungee.config.YamlConfiguration;
 
 public enum Config {
 	
-	MAIN("config.yml", true),
-	PLAYER_INFO("player-data.yml", false),
-	GROUP_SYNC_PERMISSIONS("groupSyncPermissions.yml", true),
-	MESSAGES("messages.yml", true),
-	COMMANDS("commands.yml", true),
+	MAIN("config.yml", true, false),
+	PLAYER_INFO("player-data.yml", false, true),
+	GROUP_SYNC_PERMISSIONS("groupSyncPermissions.yml", true, false),
+	MESSAGES("messages.yml", true, false),
+	COMMANDS("commands.yml", true, false),
 	
 	;
 	
 	private String fileName;
 	private boolean copyFromJar;
+	private boolean autoSave;
 	
 	private Configuration configuration;
 	
-	Config(String fileName, boolean copyFromJar){
+	Config(String fileName, boolean copyFromJar, boolean autoSave){
 		this.fileName = fileName;
 		this.copyFromJar = copyFromJar;
+		this.autoSave = autoSave;
 	}
 
 	public static void initialize() throws IOException {
@@ -65,6 +67,10 @@ public enum Config {
 		} else {
 			return configuration;
 		}
+	}
+	
+	public boolean autoSave() {
+		return autoSave;
 	}
 	
 	public void reloadConfig() throws IOException {
