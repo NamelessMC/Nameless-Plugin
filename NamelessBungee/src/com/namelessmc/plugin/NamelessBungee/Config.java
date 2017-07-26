@@ -13,7 +13,7 @@ public enum Config {
 	
 	MAIN("config.yml", true, false),
 	PLAYER_INFO("player-data.yml", false, true),
-	GROUP_SYNC_PERMISSIONS("groupSyncPermissions.yml", true, false),
+	GROUP_SYNC_PERMISSIONS("group-sync.yml", true, false),
 	MESSAGES("messages.yml", true, false),
 	COMMANDS("commands.yml", true, false),
 	
@@ -24,6 +24,7 @@ public enum Config {
 	private boolean autoSave;
 	
 	private Configuration configuration;
+	private File file;
 	
 	Config(String fileName, boolean copyFromJar, boolean autoSave){
 		this.fileName = fileName;
@@ -41,7 +42,7 @@ public enum Config {
 		
 		//Create config files if missing
 		for (Config config : Config.values()) {
-			File file = new File(plugin.getDataFolder(), config.fileName);
+			File file = config.getFile();
 			if (!file.exists()) {
 				if (config.copyFromJar) {
 					try (InputStream in = plugin.getResourceAsStream(config.fileName)) {
@@ -53,6 +54,15 @@ public enum Config {
 					file.createNewFile();
 				}
 			}
+		}
+	}
+	
+	public File getFile() {
+		if (file == null) {
+			file = new File(NamelessPlugin.getInstance().getDataFolder(), this.fileName);
+			return file;
+		} else {
+			return file;
 		}
 	}
 	
@@ -74,12 +84,12 @@ public enum Config {
 	}
 	
 	public void reloadConfig() throws IOException {
-		this.configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(NamelessPlugin.getInstance().getDataFolder(), this.fileName));
+		this.configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(getFile());
 	}
 	
 	public void saveConfig() throws IOException {
 		if (this.configuration != null) {
-			ConfigurationProvider.getProvider(YamlConfiguration.class).save(this.configuration, new File(NamelessPlugin.getInstance().getDataFolder(), this.fileName));
+			ConfigurationProvider.getProvider(YamlConfiguration.class).save(this.configuration, getFile());
 		}
 	}
 

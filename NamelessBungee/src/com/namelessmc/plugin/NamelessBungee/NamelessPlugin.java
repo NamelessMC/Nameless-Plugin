@@ -30,9 +30,12 @@ public class NamelessPlugin extends Plugin {
 	private static NamelessPlugin instance;
 
 	@Override
-	public void onEnable() {
+	public void onLoad() {
 		instance = this;
-
+	}
+	
+	@Override
+	public void onEnable() {
 		try {
 			Config.initialize();
 		} catch (IOException e) {
