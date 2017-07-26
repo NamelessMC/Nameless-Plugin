@@ -1,6 +1,8 @@
-package com.namelessmc.namelessplugin.spigot.hooks;
+package com.namelessmc.plugin.NamelessSpigot.hooks;
 
-import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.NamelessAPI.NamelessException;
+import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 
 import be.maximvdw.placeholderapi.PlaceholderAPI;
 import be.maximvdw.placeholderapi.PlaceholderReplaceEvent;
@@ -18,11 +20,15 @@ public class MVdWPlaceholderUtil {
 		PlaceholderAPI.registerPlaceholder(plugin, "nameless_alerts", new PlaceholderReplacer() {
 			@Override
 			public String onPlaceholderReplace(PlaceholderReplaceEvent event) {
-				try {
-					return plugin.getAPI().getPlayer(event.getPlayer().getName()).getNotifications().getAlerts()
-							.toString();
-				} catch (Exception e) {
-					e.printStackTrace();
+				NamelessPlayer namelessPlayer = new NamelessPlayer(event.getPlayer().getUniqueId(), NamelessPlugin.baseApiURL);
+				if (namelessPlayer.exists()) {
+					try {
+						return Integer.toString(namelessPlayer.getAlertCount());
+					} catch (NamelessException e) {
+						e.printStackTrace();
+					}
+				}else {
+					return "0";
 				}
 				return null;
 			}
@@ -30,11 +36,15 @@ public class MVdWPlaceholderUtil {
 		PlaceholderAPI.registerPlaceholder(plugin, "nameless_messages", new PlaceholderReplacer() {
 			@Override
 			public String onPlaceholderReplace(PlaceholderReplaceEvent event) {
-				try {
-					return plugin.getAPI().getPlayer(event.getPlayer().getName()).getNotifications().getPMs()
-							.toString();
-				} catch (Exception e) {
-					e.printStackTrace();
+				NamelessPlayer namelessPlayer = new NamelessPlayer(event.getPlayer().getUniqueId(), NamelessPlugin.baseApiURL);
+				if (namelessPlayer.exists()) {
+					try {
+						return Integer.toString(namelessPlayer.getMessageCount());
+					} catch (NamelessException e) {
+						e.printStackTrace();
+					}
+				}else {
+					return "0";
 				}
 				return null;
 			}
