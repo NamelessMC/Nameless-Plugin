@@ -65,16 +65,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
+			<groupId>org.bukkit</groupId>
+			<artifactId>bukkit</artifactId>
 			<version>1.12-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>net.md-5</groupId>
-			<artifactId>bungeecord-chat</artifactId>
-			<version>1.12-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
