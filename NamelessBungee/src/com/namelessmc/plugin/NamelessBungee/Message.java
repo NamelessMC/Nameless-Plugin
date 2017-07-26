@@ -38,12 +38,20 @@ public enum Message {
 	NO_NOTIFICATIONS,
 	NOTIFICATIONS_ALERTS,
 	NOTIFICATIONS_MESSAGES,
+	NOIFICATIONS_ERROR,
+	
+	// Username
+	USERNAME_SYNC_SUCCESS,
+	USERNAME_SYNC_ERROR,
+	
 
 	// Report 
 	REPORT_SUCCESS,
 	
 	// SetGroup
 	SETGROUP_SUCCESS,
+	SETGROUP_SYNC_PLAYER_SUCESS,
+	SETGROUP_SYNC_PLAYER_ERROR,
 	
 	// Get User
 	GETUSER_USERNAME,
@@ -68,6 +76,6 @@ public enum Message {
 	
 	public BaseComponent[] getComponents() {
 		return TextComponent.fromLegacyText(this.getMessage());
-	}
+    }
 
 }
