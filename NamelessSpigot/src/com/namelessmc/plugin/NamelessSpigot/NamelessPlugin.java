@@ -1,25 +1,29 @@
-package com.namelessmc.namelessplugin.spigot;
+package com.namelessmc.plugin.NamelessSpigot;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
-import com.namelessmc.namelessplugin.spigot.API.UpdateChecker;
-import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
-import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
-import com.namelessmc.namelessplugin.spigot.commands.CommandWithArgs;
-import com.namelessmc.namelessplugin.spigot.commands.alone.GetNotificationsCommand;
-import com.namelessmc.namelessplugin.spigot.commands.alone.GetUserCommand;
-import com.namelessmc.namelessplugin.spigot.commands.alone.RegisterCommand;
-import com.namelessmc.namelessplugin.spigot.commands.alone.ReportCommand;
-import com.namelessmc.namelessplugin.spigot.commands.alone.SetGroupCommand;
-import com.namelessmc.namelessplugin.spigot.hooks.MVdWPlaceholderUtil;
-import com.namelessmc.namelessplugin.spigot.hooks.PAPIPlaceholderUtil;
-import com.namelessmc.namelessplugin.spigot.player.PlayerEventListener;
+import com.namelessmc.NamelessAPI.NamelessAPI;
+import com.namelessmc.plugin.NamelessSpigot.commands.CommandWithArgs;
+import com.namelessmc.plugin.NamelessSpigot.commands.GetNotificationsCommand;
+import com.namelessmc.plugin.NamelessSpigot.commands.GetUserCommand;
+import com.namelessmc.plugin.NamelessSpigot.commands.RegisterCommand;
+import com.namelessmc.plugin.NamelessSpigot.commands.ReportCommand;
+import com.namelessmc.plugin.NamelessSpigot.commands.SetGroupCommand;
+import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NLCommand;
+import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
+import com.namelessmc.plugin.NamelessSpigot.hooks.MVdWPlaceholderUtil;
+import com.namelessmc.plugin.NamelessSpigot.hooks.PAPIPlaceholderUtil;
+import com.namelessmc.plugin.NamelessSpigot.player.PlayerEventListener;
 
 import net.milkbowl.vault.permission.Permission;
 
@@ -31,28 +35,17 @@ public class NamelessPlugin extends JavaPlugin {
 	private static NamelessPlugin instance;
 
 	/*
-	 * Plugin API
-	 */
-	private NamelessAPI api;
-
-	/*
 	 * API URL
 	 */
-	private String apiURL = "";
-	private boolean hasSetUrl = false;
+	public static URL baseApiURL;
+	public static boolean https;
 
 	/*
 	 * NamelessMC permission string.
 	 */
 
-	public static final String permission = "namelessmc";
-	public static final String permissionAdmin = "namelessmc.admin";
-
-	/*
-	 * MCStats
-	 */
-	// private MCStats mcStats;
-
+	public static final String PERMISSION = "namelessmc";
+	public static final String PERMISSION_ADMIN = "namelessmc.admin";
 	/*
 	 * Vault
 	 */
@@ -72,13 +65,8 @@ public class NamelessPlugin extends JavaPlugin {
 	/*
 	 * Bukkit command maps
 	 */
-	Field bukkitCommandMap;
-	CommandMap commandMap;
-	
-	/*
-	 * Https
-	 */
-	boolean https = false;
+	private Field bukkitCommandMap;
+	private CommandMap commandMap;
 
 	@Override
 	public void onLoad() {
@@ -90,63 +78,95 @@ public class NamelessPlugin extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable() {
-
 		// Check Sofware (Spigot or Bukkit)
 		checkSoftware();
 
 		if (isSpigot()) {
-			// Register the API
-			api = new NamelessAPI(this);
-
-			// Disabled for now
-			/*
-			 * try { mcStats = new MCStats(this); mcStats.start();
-			 * NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
-			 * "&aMetrics Started!"); } catch (IOException e) {
-			 * e.printStackTrace(); }
-			 */
-
-			// Init config files.
-			api.getConfigManager().initializeFiles();
-
-			if (hasSetUrl) {
-				checkHttps();
-				registerListeners();
-				detectVault();
-				initHooks();
+			try {
+				Config.initialize();
+			} catch (IOException e) {
+				Chat.log(Level.SEVERE, "&4Unable to load config.");
+				e.printStackTrace();
+				return;
 			}
-			if (getAPI().getConfigManager().getConfig().getBoolean("update-checker")) {
-				checkForUpdate();
-			} else {
-				NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
-						"&CIt is recommended to enable update checker.");
+			
+			
+			if (!checkConnection()) {
+				return;
 			}
-		}
-	}
-
-	public void checkForUpdate() {
-		UpdateChecker updateChecker = new UpdateChecker(this);
-		if (updateChecker.updateNeeded()) {
-			for (String msg : updateChecker.getConsoleUpdateMessage()) {
-				NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, msg);
-			}
-		} else {
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aFound no new updates!");
+			
+			initHooks();
+			
+			// Connection is successful, move on with registering listeners and commands.
+			registerCommands();
+			getServer().getPluginManager().registerEvents(new PlayerEventListener(), this);
+			
+			// Start saving data files every 15 minutes
+			getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveConfig(), 5*60*20, 5*60*20);
 		}
 	}
 	
-	public void checkHttps(){
-		if(getAPI().getConfigManager().getConfig().getBoolean("https")){
-			https = true;
+	@Override
+	public void onDisable() {
+		// Save all configuration files that require saving
+		try {
+			for (Config config : Config.values()) {
+				if (config.autoSave()) config.saveConfig();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
+	
+	private boolean checkConnection() {
+		YamlConfiguration config = Config.MAIN.getConfig();
+		String url = config.getString("api-url");
+		if (url.equals("")) {
+			Chat.log(Level.SEVERE, "&4No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
+			return false; // Prevent registering of commands, listeners, etc.
+		} else {
+			try {
+				baseApiURL = new URL(url);
+			} catch (MalformedURLException e) {
+				// There is an exception, so the connection was not successful.
+				Chat.log(Level.SEVERE, "&4Invalid API Url/Key. Nothing will work until you set the correct url.");
+				Chat.log(Level.SEVERE, "Error: " + e.getMessage());
+				return false; // Prevent registering of commands, listeners, etc.
+			}
 
-	/*
-	 * Register Commands/Events
-	 */
-	public void registerListeners() {
+			Exception exception = NamelessAPI.checkWebAPIConnection(baseApiURL);
+			if (exception != null) {
+				// There is an exception, so the connection was unsuccessful.
+				Chat.log(Level.SEVERE, "&4Invalid API Url/Key. Nothing will work until you set the correct url.");
+				Chat.log(Level.SEVERE, "Error: " + exception.getMessage());
+				return false; // Prevent registering of commands, listeners, etc.
+			}
+		}
+		return true;
+	}
 
-		// Register commands & listeners if url has been set
+	// Currently disabled.
+	/*public void checkForUpdate() {
+		if (getAPI().getConfigManager().getConfig().getBoolean("update-checker")) {
+			UpdateChecker updateChecker = new UpdateChecker(this);
+			if (updateChecker.updateNeeded()) {
+				for (String msg : updateChecker.getConsoleUpdateMessage()) {
+					NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, msg);
+				}
+			} else {
+				NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aFound no new updates!");
+			}
+		} else {
+			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
+					"&CIt is recommended to enable update checker.");
+		}
+	}*/
+
+	private void registerCommands() {
+
+		getServer().getPluginCommand("nameless").setExecutor(new NLCommand());
+		
+		YamlConfiguration commandsConfig = Config.COMMANDS.getConfig();
 
 		try {
 			bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
@@ -157,49 +177,45 @@ public class NamelessPlugin extends JavaPlugin {
 		}
 
 		String namelessMC = this.getName();
-		if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.Alone.Use")
-				&& api.getConfigManager().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
-					"&4ERROR REGISTERING COMMANDS! BOUTH IS SET TO TRUE!");
-		} else if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.Alone.Use")) {
-			String register = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.Register");
-			String getUser = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.GetUser");
-			String getNotifications = api.getConfigManager().getCommandsConfig()
-					.getString("Commands.Alone.GetNotifications");
-			String setGroup = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.SetGroup");
-			String report = api.getConfigManager().getCommandsConfig().getString("Commands.Alone.Report");
-			if (api.getConfigManager().getConfig().getBoolean("enable-registration")) {
-				commandMap.register(namelessMC, new RegisterCommand(this, register));
-			}
-			commandMap.register(namelessMC, new GetUserCommand(this, getUser));
-			commandMap.register(namelessMC, new GetNotificationsCommand(this, getNotifications));
-			commandMap.register(namelessMC, new SetGroupCommand(this, setGroup));
-			if (api.getConfigManager().getConfig().getBoolean("enable-reports")) {
-				commandMap.register(namelessMC, new ReportCommand(this, report));
-			}
-		} else if (api.getConfigManager().getCommandsConfig().getBoolean("Commands.SubCommand.Use")) {
-			String subCommand = api.getConfigManager().getCommandsConfig().getString("Commands.SubCommand.Main");
-			commandMap.register(namelessMC, new CommandWithArgs(subCommand));
-		} else {
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "&4ERROR REGISTERING COMMANDS!");
+
+		boolean subcommands = Config.COMMANDS.getConfig().getBoolean("subcommands.enabled", true);
+		boolean individual = Config.COMMANDS.getConfig().getBoolean("individual.enabled", true);
+
+		if (individual) {
+			if (commandsConfig.getBoolean("enable-registration"))
+				commandMap.register(namelessMC, 
+						new RegisterCommand(commandsConfig.getString("commands.individual.register")));
+
+			commandMap.register(namelessMC, 
+					new GetUserCommand(commandsConfig.getString("commands.individual.user-info")));
+
+			commandMap.register(namelessMC, 
+					new GetNotificationsCommand(commandsConfig.getString("commands.individual.notifications")));
+
+			commandMap.register(namelessMC, 
+					new SetGroupCommand(commandsConfig.getString("commands.individual.setgroup")));
+
+			if (commandsConfig.getBoolean("enable-reports"))
+				commandMap.register(namelessMC, 
+						new ReportCommand(commandsConfig.getString("commands.individual.report")));
+
 		}
 
-		// Register events
-		getServer().getPluginManager().registerEvents(new PlayerEventListener(this), this);
-
+		if (subcommands) {
+			commandMap.register(namelessMC, 
+					new CommandWithArgs(commandsConfig.getString("commands.subcommands.main")));
+		}
 	}
 
 	public void checkSoftware() {
 
 		// DISABLED BUKKIT FOR NOW.
-
 		try {
 			Class.forName("org.spigotmc.Metrics");
 		} catch (Exception e) {
 			spigot = false;
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
-					"&4The plugin only works with spigot not bukkit!!!");
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "&4To solve this issue get spigot, disabling.");
+			Chat.log(Level.SEVERE, "&4The plugin only works with spigot not bukkit!");
+			Chat.log(Level.SEVERE, "&4To solve this issue get spigot, disabling.");
 			getServer().getPluginManager().disablePlugin(this);
 		}
 
@@ -217,13 +233,12 @@ public class NamelessPlugin extends JavaPlugin {
 			if (permissions.hasGroupSupport()) {
 				useGroups = true;
 			} else {
-				NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
+				Chat.log(Level.WARNING,
 						"&4Permissions plugin does NOT support groups! Disabling NamelessMC Vault integration.");
 				useGroups = false;
 			}
 		} else {
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
-					"&4Couldn't detect Vault, disabling NamelessMC Vault integration.");
+			Chat.log(Level.WARNING, "&4Couldn't detect Vault, disabling NamelessMC Vault integration.");
 		}
 	}
 
@@ -264,35 +279,6 @@ public class NamelessPlugin extends JavaPlugin {
 		return instance;
 	}
 
-	// Gets the website api url.
-	public String getAPIUrl() {
-		return apiURL;
-	}
-
-	// Gets the Plugin API
-	public NamelessAPI getAPI() {
-		return api;
-	}
-
-	// Checks if hasSetUrl
-	public boolean hasSetUrl() {
-		return hasSetUrl;
-	}
-
-	// Sets HasSetUrl
-	public void setHasSetUrl(boolean value) {
-		hasSetUrl = value;
-	}
-
-	// Sets api url
-	public void setAPIUrl(String value) {
-		apiURL = value;
-	}
-	
-	public boolean enabledHttps(){
-		return https;
-	}
-
 	// Check if Spigot
 	public boolean isSpigot() {
 		return spigot;
@@ -306,6 +292,25 @@ public class NamelessPlugin extends JavaPlugin {
 	// Set Spigot (true or false)
 	public void setSpigot(boolean value) {
 		spigot = value;
+	}
+
+	public static class SaveConfig implements Runnable {
+
+		@Override
+		public void run() {
+			NamelessPlugin plugin = NamelessPlugin.getInstance();
+			plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+				try {
+					for (Config config : Config.values()) {
+						if (config.autoSave())
+							config.saveConfig();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+		}
+
 	}
 
 }

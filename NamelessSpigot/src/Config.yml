@@ -1,5 +1,5 @@
 # Nameless Plugin configuration
-# -----------------------------
+
 # API URL
 # This needs to be the full API URL, including API key
 # For example http://yoursite.com/api/v1/API_KEY
@@ -43,10 +43,3 @@ update-username: false
 # They will get notified when they join.
 # Also there will be a msg displayed in console.
 update-checker: true
-
-# Enable https?
-# If you have a ssl certificate, enable this option.
-https: false
-
-# DO NOT TOUCH! THIS WILL MESS UP YOUR CONFIG!
-config-version: 1

@@ -1,6 +1,10 @@
 name: NamelessMC
-main: com.namelessmc.namelessplugin.spigot.NamelessPlugin
+main: com.namelessmc.plugin.NamelessPlugin
 authors: [Samerton, IsS127, Lmmb74]
 website: https://namelessmc.com/
-version: ${project.version}
+version: Pre-2
 softdepend: [Vault,PlaceholderAPI,MVdWPlaceholderAPI]
+commands:
+  nameless:
+    description: Has reload command.
+    aliases: [nmc, namelessmc, nl]
