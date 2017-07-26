@@ -1,44 +1,22 @@
-package com.namelessmc.namelessplugin.spigot.player;
+package com.namelessmc.plugin.NamelessSpigot.player;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
-import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
-import com.namelessmc.namelessplugin.spigot.API.UpdateChecker;
-import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayer;
-import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayerNotifications;
-import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayerSetGroup;
-import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayerUpdateUsername;
-import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
-import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
+import com.namelessmc.NamelessAPI.NamelessException;
+import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.plugin.NamelessSpigot.Chat;
+import com.namelessmc.plugin.NamelessSpigot.Config;
+import com.namelessmc.plugin.NamelessSpigot.Message;
+import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 
 public class PlayerEventListener implements Listener {
-
-	NamelessPlugin plugin;
-
-	/*
-	 * NamelessConfigs Files
-	 */
-	YamlConfiguration config;
-	YamlConfiguration playerDataConfig;
-	YamlConfiguration permissionConfig;
-
-	/*
-	 * Constructer
-	 */
-	public PlayerEventListener(NamelessPlugin pluginInstance) {
-		this.plugin = pluginInstance;
-	}
 
 	/*
 	 * User File check, Name Check, Get notification, Group sync.
@@ -47,67 +25,58 @@ public class PlayerEventListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-				updateChecker(player);
-				if (plugin.hasSetUrl()) {
-					NamelessAPI api = plugin.getAPI();
-					NamelessPlayer namelessPlayer = api.getPlayer(player.getUniqueId().toString());
-					userFileCheck(player);
-					if (namelessPlayer.exists()) {
-						if (namelessPlayer.isValidated()) {
-							userNameCheck(player);
-							userGetNotification(player);
-							userGroupSync(player);
-						} else {
-							player.sendMessage(NamelessChat
-									.convertColors(NamelessChat.getMessage(NamelessMessages.PLAYER_NOT_VALID)));
-						}
-					}
+		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+			if (namelessPlayer.exists()) {
+				if (namelessPlayer.isValidated()) {
+					// shouldnt be outisde validated cause if your not validated you cant check anything.
+					userGetNotifications(player);
+				} else {
+					player.sendMessage(Message.PLAYER_NOT_VALID.getMessage());
 				}
+				// theese should be outside, better!
+				userNameCheck(player);
+				userGroupSync(player);
+			}
 		});
 	}
 
-	public void updateChecker(Player player) {
-		if (player.hasPermission(NamelessPlugin.permissionAdmin + ".updatenotify")) {
-			UpdateChecker updateChecker = new UpdateChecker(plugin);
-			if (updateChecker.updateNeeded()) {
-				updateChecker.sendUpdateMessage(player);
-			}
-		}
-	}
+	/*
+	 * public void updateChecker(Player player) { if
+	 * (player.hasPermission(NamelessPlugin.permissionAdmin + ".updatenotify")) {
+	 * UpdateChecker updateChecker = new UpdateChecker(plugin); if
+	 * (updateChecker.updateNeeded()) {s updateChecker.sendUpdateMessage(player); }
+	 * } }
+	 */
 
 	/*
 	 * User Notifications.
 	 */
-	public void userGetNotification(Player player) {
-		config = plugin.getAPI().getConfigManager().getConfig();
+	public void userGetNotifications(Player player) {
+		YamlConfiguration config = Config.MAIN.getConfig();
 		if (config.getBoolean("join-notifications")) {
-			NamelessAPI api = plugin.getAPI();
-			NamelessPlayer namelessPlayer = api.getPlayer(player.getUniqueId().toString());
-			NamelessPlayerNotifications notifications = namelessPlayer.getNotifications();
-			Integer pms = notifications.getPMs();
-			Integer alerts = notifications.getAlerts();
-			String errorMessage = notifications.getErrorMessage();
-			boolean hasError = notifications.hasError();
+			try {
+				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+				int messages = namelessPlayer.getMessageCount();
+				int alerts = namelessPlayer.getAlertCount();
 
-			String pmMessage = NamelessChat.getMessage(NamelessMessages.PM_NOTIFICATIONS_MESSAGE).replaceAll("%pms%",
-					pms.toString());
-			String alertMessage = NamelessChat.getMessage(NamelessMessages.ALERTS_NOTIFICATIONS_MESSAGE)
-					.replaceAll("%alerts%", alerts.toString());
-			String noNotifications = NamelessChat.getMessage(NamelessMessages.NO_NOTIFICATIONS);
-
-			if (hasError) {
-				// Error with request
-				player.sendMessage(ChatColor.RED + "Error: " + errorMessage);
-			} else if (alerts.equals(0) && pms.equals(0)) {
-				player.sendMessage(NamelessChat.convertColors(noNotifications));
-			} else if (alerts.equals(0)) {
-				player.sendMessage(NamelessChat.convertColors(pmMessage));
-			} else if (pms.equals(0)) {
-				player.sendMessage(NamelessChat.convertColors(alertMessage));
-			} else {
-				player.sendMessage(NamelessChat.convertColors(alertMessage));
-				player.sendMessage(NamelessChat.convertColors(pmMessage));
+				String pmMessage = Message.NOTIFICATIONS_MESSAGES.getMessage().replace("%pms%", messages + "");
+				String alertMessage = Message.NOTIFICATIONS_ALERTS.getMessage().replace("%alerts%", alerts + "");
+				String noNotifications = Message.NO_NOTIFICATIONS.getMessage();
+				if (alerts == 0 && messages == 0) {
+					player.sendMessage(noNotifications);
+				} else if (alerts == 0) {
+					player.sendMessage(pmMessage);
+				} else if (messages == 0) {
+					player.sendMessage(alertMessage);
+				} else {
+					player.sendMessage(alertMessage);
+					player.sendMessage(pmMessage);
+				}
+			} catch (NamelessException e) {
+				String errorMessage = Message.NOIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage());
+				player.sendMessage(errorMessage);
+				e.printStackTrace();
 			}
 		}
 	}
@@ -116,104 +85,65 @@ public class PlayerEventListener implements Listener {
 	 * User Group Synchronization.
 	 */
 	public void userGroupSync(Player player) {
-		config = plugin.getAPI().getConfigManager().getConfig();
+		YamlConfiguration config = Config.MAIN.getConfig();
 		if (config.getBoolean("group-synchronization")) {
-			permissionConfig = plugin.getAPI().getConfigManager().getGroupSyncPermissionsConfig();
-			ConfigurationSection section = permissionConfig.getConfigurationSection("permissions");
-			try {
-				for (String groupID : section.getKeys(true)) {
-					NamelessPlayer namelessPlayer = plugin.getAPI().getPlayer(player.getUniqueId().toString());
-					if (player.hasPermission(section.getString(groupID))) {
-						if (namelessPlayer.getGroupID().toString().equals(groupID)) {
-							return;
-						} else {
-							Integer previousgroup = namelessPlayer.getGroupID();
-							namelessPlayer.setGroupID(groupID);
-
-							NamelessPlayerSetGroup group = namelessPlayer.setGroupID(groupID);
-							if (group.hasError()) {
-								NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "&4Error trying to change &c"
-										+ player.getName() + "'s group: &4" + group.getErrorMessage());
-							} else if (group.hasSucceeded()) {
-								NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
-										"&aSuccessfully changed &b" + player.getName() + "'s &agroup from &b"
-												+ previousgroup + " &ato &b" + group.getNewGroup() + "&a!");
-							}
-						}
+			YamlConfiguration permissionConfig = Config.MAIN.getConfig();
+			for (String groupID : permissionConfig.getConfigurationSection("permissions").getKeys(true)) {
+				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+				if (String.valueOf(namelessPlayer.getGroupID()).equals(groupID)) {
+					return;
+				} else if (player.hasPermission(permissionConfig.getString("permissions" + groupID))) {
+					Integer previousgroup = namelessPlayer.getGroupID();
+					String successPlayerMessage = Message.SETGROUP_SYNC_PLAYER_ERROR.getMessage();
+					try {
+						namelessPlayer.setGroup(Integer.parseInt(groupID));
+						Chat.log(Level.INFO, "&aSuccessfully changed &b" + player.getName() + "'s &agroup from &b"
+								+ previousgroup + " &ato &b" + groupID + "&a!");
+						player.sendMessage(successPlayerMessage);
+					} catch (NumberFormatException e) {
+						Chat.log(Level.WARNING, "&4The Group ID is not a Integer/Number!");
+					} catch (NamelessException e) {
+						String errorPlayerMessage = Message.SETGROUP_SYNC_PLAYER_ERROR.getMessage().replace("%error%", e.getMessage());
+						Chat.log(Level.WARNING, "&4Error changing &c"
+								+ player.getName() + "'s group: &4" + e.getMessage());
+						player.sendMessage(errorPlayerMessage);
+						e.printStackTrace();
 					}
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
 	}
-
-	/*
-	 * Check if the user exists in the Players Information File.
-	 */
-
-	public void userFileCheck(Player player) {
-
-		playerDataConfig = plugin.getAPI().getConfigManager().getPlayerDataConfig();
-
-		if (!playerDataConfig.contains(player.getUniqueId().toString())) {
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
-					"&c" + player.getName() + " &4is not contained in the Players Data File..");
-			playerDataConfig.set(player.getUniqueId().toString() + ".Username", player.getName());
-			playerDataConfig.options().copyDefaults(true);
-
-			try {
-				playerDataConfig.save(new File(plugin.getDataFolder(), "PlayersData.yml"));
-				NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
-						"&aAdded &b" + player.getName() + " &ato the Players Data File.");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	/*
-	 * Update Username on Login.
-	 */
+	
 	public void userNameCheck(Player player) {
+		YamlConfiguration playerData = Config.PLAYER_INFO.getConfig();
 
-		config = plugin.getAPI().getConfigManager().getConfig();
-		playerDataConfig = plugin.getAPI().getConfigManager().getPlayerDataConfig();
+		if (playerData.getBoolean("update-username")) {
+			//Save data if not in file
+			if (!playerData.contains(player.getUniqueId().toString())) {
+				playerData.set(player.getUniqueId().toString() + ".username", player.getName());
+				return;
+			}
+			
+			//If the name in the file is different, the player has changed they name
+			String previousName = playerData.getString(player.getUniqueId() + ".username");
+			if (!previousName.equals(player.getName())) {
+				Chat.log(Level.INFO, "&cDetected that &a" + player.getName() + " &chas changed his/her username.");
+	
+				//Update name in file
+				playerData.set(player.getUniqueId() + ".Username", player.getName());
 
-		// Check if user has changed Username
-		// If so, change the username in the Players Information File.
-		// And change the username on the website.
-		if (config.getBoolean("update-username")) {
-			if (!playerDataConfig.getString(player.getUniqueId().toString() + ".Username").equals(player.getName())
-					&& playerDataConfig.contains(player.getUniqueId().toString())) {
-				NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
-
-						"&aDetected that &b" + player.getName() + " &ahas changed his/her username!");
-				String previousUsername = playerDataConfig.get(player.getUniqueId().toString() + ".Username")
-						.toString();
-				String newUsername = player.getName();
-				playerDataConfig.set(player.getUniqueId().toString() + ".PreviousUsername", previousUsername);
-				playerDataConfig.set(player.getUniqueId().toString() + ".Username", newUsername);
-				playerDataConfig.options().copyDefaults(true);
-
+				//Now change username on website
+				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 				try {
-					playerDataConfig.save(new File(plugin.getDataFolder(), "PlayersData.yml"));
-				} catch (IOException e) {
+					namelessPlayer.updateUsername(player.getName());
+					String successMessage = Message.USERNAME_SYNC_SUCCESS.getMessage();
+					Chat.log(Level.INFO, "&Updated &b" + player.getName() + "'s &ausername in the website");
+					player.sendMessage(successMessage);
+				} catch (NamelessException e) {
+					String errorMessage = Message.USERNAME_SYNC_ERROR.getMessage().replace("%error%", e.getMessage());
+					Chat.log(Level.WARNING,"&4Failed updating &c" + player.getName() + "'s &4username in the website, Error:" + e.getMessage());
+					player.sendMessage(errorMessage);
 					e.printStackTrace();
-				}
-
-				NamelessPlayer namelessPlayer = plugin.getAPI().getPlayer(player.getUniqueId().toString());
-				// Changing username on Website here.
-				if (!namelessPlayer.getUserName().equals(newUsername)) {
-					NamelessPlayerUpdateUsername updateUsername = namelessPlayer.updateUsername(newUsername);
-					if (updateUsername.hasError()) {
-						NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
-
-								"Failed changing &c" + player.getName() + "'s &4username in the website");
-					} else {
-						NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
-								"&aChanged &b" + player.getName() + "'s &ausername in the website");
-					}
 				}
 			}
 		}
