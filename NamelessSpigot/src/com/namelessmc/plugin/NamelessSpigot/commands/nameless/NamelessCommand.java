@@ -1,11 +1,11 @@
-package com.namelessmc.namelessplugin.spigot.commands;
+package com.namelessmc.plugin.NamelessSpigot.commands.nameless;
 
 import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.PluginIdentifiableCommand;
 
-import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
+import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 
 public abstract class NamelessCommand extends Command implements PluginIdentifiableCommand {
 	protected NamelessCommand(String name) {

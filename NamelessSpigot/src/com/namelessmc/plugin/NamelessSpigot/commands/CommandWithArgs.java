@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.spigot.commands;
+package com.namelessmc.plugin.NamelessSpigot.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,15 +7,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 
-import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
-import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
+import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
-import com.namelessmc.namelessplugin.spigot.commands.alone.GetNotificationsCommand;
-import com.namelessmc.namelessplugin.spigot.commands.alone.GetUserCommand;
-import com.namelessmc.namelessplugin.spigot.commands.alone.RegisterCommand;
-import com.namelessmc.namelessplugin.spigot.commands.alone.ReportCommand;
-import com.namelessmc.namelessplugin.spigot.commands.alone.SetGroupCommand;
+import com.namelessmc.plugin.NamelessSpigot.Chat;
+import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
+import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
 /*
  *  CommandWithArgs/Main CMD
@@ -41,10 +38,10 @@ public class CommandWithArgs extends NamelessCommand {
 	public CommandWithArgs(String name) {
 		super(name);
 		this.plugin = getPlugin();
-		this.permission = NamelessPlugin.permission;
-		this.permission = NamelessPlugin.permissionAdmin;
+		this.permission = NamelessPlugin.PERMISSION;
+		this.permission = NamelessPlugin.PERMISSION_ADMIN;
 		this.setUsage("/" + name + "<args>");
-		this.setDescription(NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_MAIN));
+		this.setDescription(Chat.getMessage(NamelessMessages.HELP_DESCRIPTION_MAIN));
 
 		commandName = name;
 	}

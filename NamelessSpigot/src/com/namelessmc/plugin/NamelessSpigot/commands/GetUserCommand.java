@@ -1,4 +1,4 @@
-package com.namelessmc.namelessplugin.spigot.commands.alone;
+package com.namelessmc.plugin.NamelessSpigot.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
