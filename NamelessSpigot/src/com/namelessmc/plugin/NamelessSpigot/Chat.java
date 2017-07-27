@@ -2,11 +2,11 @@ package com.namelessmc.plugin.NamelessSpigot;
 
 import java.util.logging.Level;
 
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 public class Chat {
 
-	public static net.md_5.bungee.api.chat.TextComponent sendClickableMessage(String message, net.md_5.bungee.api.chat.ClickEvent.Action click, String value,
+	/*public static net.md_5.bungee.api.chat.TextComponent sendClickableMessage(String message, net.md_5.bungee.api.chat.ClickEvent.Action click, String value,
 			net.md_5.bungee.api.chat.HoverEvent.Action hover, String hoverText) {
 		if (NamelessPlugin.getInstance().isSpigot()) {
 			net.md_5.bungee.api.chat.TextComponent msg = new net.md_5.bungee.api.chat.TextComponent(convertColors(message));
@@ -17,7 +17,7 @@ public class Chat {
 		} else {
 			return null;
 		}
-}
+	]*/
 
 	public static String convertColors(String message) {
 		return ChatColor.translateAlternateColorCodes('&', message);

@@ -70,9 +70,5 @@ public enum Message {
 		String configString = this.toString().toLowerCase().replace("_", "-");		
 		return Chat.convertColors(Config.MESSAGES.getConfig().getString(configString));
 	}
-	
-	public BaseComponent[] getComponents() {
-		return TextComponent.fromLegacyText(this.getMessage());
-    }
 
 }
