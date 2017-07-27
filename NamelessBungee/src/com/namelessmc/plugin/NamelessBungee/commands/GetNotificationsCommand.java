@@ -46,6 +46,16 @@ public class GetNotificationsCommand extends Command {
 		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
 			NamelessPlayer nameless = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 			
+			if(!(nameless.exists())) {
+				sender.sendMessage(Message.MUST_REGISTER.getComponents());
+				return;
+			}
+			
+			if (!(nameless.isValidated())) {
+				sender.sendMessage(Message.PLAYER_NOT_VALID.getComponents());
+				return;
+			}
+			
 			int messages;
 			int alerts;
 			

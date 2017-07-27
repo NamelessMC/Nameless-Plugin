@@ -2,6 +2,7 @@
 no-permission: '&cYou dont have permission to this command!'
 must-be-ingame: '&cYou must be ingame!'
 player-not-valid: '&cYou have not validated your profile in our website!'
+player-not-found: '&cThis player could not be found.'
 must-register: '&cYou must register on our website!'
 
 # Incorrect Usage

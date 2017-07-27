@@ -9,6 +9,7 @@ public enum Message {
     NO_PERMISSION,
 	MUST_BE_INGAME,
 	PLAYER_NOT_VALID,
+	PLAYER_NOT_FOUND,
 	MUST_REGISTER,
 	
 	// Incorrect usage

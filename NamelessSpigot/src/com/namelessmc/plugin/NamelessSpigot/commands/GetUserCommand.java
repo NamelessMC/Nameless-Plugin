@@ -1,34 +1,33 @@
 package com.namelessmc.plugin.NamelessSpigot.commands;
 
-import org.bukkit.Bukkit;
+import java.util.UUID;
+
 import org.bukkit.command.CommandSender;
 
-import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
-import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
-import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayer;
-import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
-import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
-import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
+import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.plugin.NamelessSpigot.Chat;
+import com.namelessmc.plugin.NamelessSpigot.Message;
+import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
+import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
+import com.namelessmc.plugin.NamelessSpigot.util.UUIDFetcher;
 
 /*
  *  GetUserCommand CMD
  */
 
 public class GetUserCommand extends NamelessCommand {
-
-	private NamelessPlugin plugin;
+	
 	private String commandName;
 
 	/*
 	 * Constructer
 	 */
-	public GetUserCommand(NamelessPlugin pluginInstance, String name) {
+	public GetUserCommand(String name) {
 		super(name);
-		plugin = pluginInstance;
-		setPermission(NamelessPlugin.permissionAdmin + ".getuser");
-		setPermissionMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
+		setPermission(NamelessPlugin.PERMISSION_ADMIN + ".getuser");
+		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name + "<user>");
-		setDescription(NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_GETUSER));
+		setDescription(Message.HELP_DESCRIPTION_GETUSER.getMessage());
 
 		commandName = name;
 	}
@@ -38,74 +37,63 @@ public class GetUserCommand extends NamelessCommand {
 	 */
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
-		System.out.println(args);
-		// Try to get the user
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+		if (args.length != 1) {
+			sender.sendMessage(
+					Message.INCORRECT_USAGE_GETUSER.getMessage().replace("%command%", commandName));
+			return true;
+		}
+		
+		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), new Runnable() {
 			@Override
 			public void run() {
-				// Ensure username or uuid set.
-				if (args.length < 1 || args.length > 1) {
-					sender.sendMessage(
-							NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.INCORRECT_USAGE_GETUSER)
-									.replaceAll("%command%", commandName)));
+				final String targetName = args[0];
+				
+				// TODO Remove uuidfetcher for getuser cause we can use usernames only later!
+				final UUID targetUuid;
+				
+				try {
+					targetUuid = UUIDFetcher.getUUID(targetName);
+				} catch (IllegalArgumentException e) {
+					sender.sendMessage(Message.PLAYER_NOT_FOUND.getMessage());
 					return;
-				} else {
-
-					NamelessAPI api = plugin.getAPI();
-					NamelessPlayer namelessPlayer = api.getPlayer(args[0]);
-
-					if (namelessPlayer.hasError()) {
-						// Error with request
-						sender.sendMessage(
-								NamelessChat.convertColors("&4Error: &c" + namelessPlayer.getErrorMessage()));
-					} else {
-
-						// Display get user.
-						String line = "&3&m--------------------------------";
-
-						sender.sendMessage(NamelessChat.convertColors(line));
-						sender.sendMessage(
-								NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.GETUSER_USERNAME)
-										.replaceAll("%username%", namelessPlayer.getUserName())));
-						sender.sendMessage(
-								NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.GETUSER_DISPLAYNAME)
-										.replaceAll("%displayname%", namelessPlayer.getDisplayName())));
-						sender.sendMessage(
-								NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.GETUSER_UUID)
-										.replaceAll("%uuid%", namelessPlayer.getUUID())));
-						sender.sendMessage(
-								NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.GETUSER_GROUP_ID)
-										.replaceAll("%groupid%", namelessPlayer.getGroupID().toString())));
-						sender.sendMessage(NamelessChat
-								.convertColors(NamelessChat.getMessage(NamelessMessages.GETUSER_REGISTERED).replaceAll(
-										"%registereddate%", namelessPlayer.getRegisteredDate().toString())));
-						sender.sendMessage(
-								NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.GETUSER_REPUTATION)
-										.replaceAll("%reputation%", namelessPlayer.getReputations().toString())));
-
-						// check if validated
-						if (namelessPlayer.isValidated()) {
-							sender.sendMessage(NamelessChat
-									.convertColors(NamelessChat.getMessage(NamelessMessages.GETUSER_VALIDATED) + "&a: "
-											+ NamelessChat.getMessage(NamelessMessages.GETUSER_VALIDATED_YES)));
-						} else {
-							sender.sendMessage(NamelessChat
-									.convertColors(NamelessChat.getMessage(NamelessMessages.GETUSER_VALIDATED) + "&c: "
-											+ NamelessChat.getMessage(NamelessMessages.GETUSER_VALIDATED_NO)));
-						}
-						// check if banned
-						if (namelessPlayer.isBanned()) {
-							sender.sendMessage(
-									NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.GETUSER_BANNED)
-											+ "&c: " + NamelessChat.getMessage(NamelessMessages.GETUSER_BANNED_YES)));
-						} else {
-							sender.sendMessage(
-									NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.GETUSER_BANNED)
-											+ "&a: " + NamelessChat.getMessage(NamelessMessages.GETUSER_BANNED_NO)));
-						}
-						sender.sendMessage(NamelessChat.convertColors(line));
-					}
 				}
+				
+				NamelessPlayer target = new NamelessPlayer(targetUuid, NamelessPlugin.baseApiURL);
+				
+				if(!target.exists()) {
+					sender.sendMessage(Message.PLAYER_NOT_FOUND.getMessage());
+					return;
+				}
+
+				String separator = Chat.convertColors("&3&m--------------------------------");
+				
+				sender.sendMessage(separator);
+				
+				sender.sendMessage(Message.GETUSER_USERNAME.getMessage().replace("%username%", target.getUsername()));
+				
+				sender.sendMessage(Message.GETUSER_DISPLAYNAME.getMessage().replace("%displayname%", target.getDisplayName()));
+				
+				sender.sendMessage(Message.GETUSER_UUID.getMessage().replace("%uuid%", targetUuid.toString()));
+				
+				sender.sendMessage(Message.GETUSER_GROUP_ID.getMessage().replace("%groupid%", "" + target.getGroupID()));
+		
+				sender.sendMessage(Message.GETUSER_REGISTERED.getMessage().replace("%registereddate%", target.getRegisteredDate().toString()));
+				
+				sender.sendMessage(Message.GETUSER_REPUTATION.getMessage().replace("%reputation%", "" + target.getReputations()));
+
+				if (target.isValidated()) {
+					sender.sendMessage(Chat.convertColors(Message.GETUSER_VALIDATED.getMessage() + "&a: " + Message.GETUSER_VALIDATED_YES.getMessage()));
+				} else {
+					sender.sendMessage(Chat.convertColors(Message.GETUSER_VALIDATED.getMessage() + "&c: " + Message.GETUSER_VALIDATED_NO.getMessage()));
+				}
+				
+				if (target.isBanned()) {
+					sender.sendMessage(Message.GETUSER_BANNED.getMessage() +" &c: " + Message.GETUSER_BANNED_YES.getMessage());
+				} else {
+					sender.sendMessage(Message.GETUSER_BANNED.getMessage() + "&a: " + Message.GETUSER_BANNED_NO.getMessage());
+				}
+				
+				sender.sendMessage(separator);
 			}
 		});
 		return true;

@@ -1,15 +1,13 @@
 package com.namelessmc.plugin.NamelessSpigot.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
-import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayer;
-import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayerNotifications;
-import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
-import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
-import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
+import com.namelessmc.NamelessAPI.NamelessException;
+import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.plugin.NamelessSpigot.Message;
+import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
+import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
 /*
  *  GetNotifications CMD
@@ -17,20 +15,15 @@ import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
 
 public class GetNotificationsCommand extends NamelessCommand {
 
-	private NamelessPlugin plugin;
-	private String commandName;
-
 	/*
 	 * Constructer
 	 */
-	public GetNotificationsCommand(NamelessPlugin pluginInstance, String name) {
+	public GetNotificationsCommand(String name) {
 		super(name);
-		plugin = pluginInstance;
-		setPermission(NamelessPlugin.permission + ".notifications");
-		setPermissionMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
+		setPermission(NamelessPlugin.PERMISSION + ".notifications");
+		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name);
-		setDescription(NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_GETNOTIFICATIONS));
-		commandName = name;
+		setDescription(Message.HELP_DESCRIPTION_GETNOTIFICATIONS.getMessage());
 	}
 
 	/*
@@ -38,66 +31,59 @@ public class GetNotificationsCommand extends NamelessCommand {
 	 */
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
-		// check if player has permission Permission & ensure who inputted
-		// command is a Player
-		if (sender instanceof Player) {
-			Player player = (Player) sender;
-			NamelessPlayer namelessPlayer = plugin.getAPI().getPlayer(player.getUniqueId().toString());
-			String mustRegister = NamelessChat.getMessage(NamelessMessages.MUST_REGISTER);
-			if (namelessPlayer.exists()) {
-				if (namelessPlayer.isValidated()) {
-					// Try to getNotifications
-					Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-						@Override
-						public void run() {
-							if (args.length > 0) {
-								player.sendMessage(NamelessChat.convertColors(
-										NamelessChat.getMessage(NamelessMessages.INCORRECT_USAGE_GETNOTIFICATIONS)
-												.replaceAll("%command%", commandName)));
-								return;
-							} else {
-
-								NamelessPlayerNotifications notifications = namelessPlayer.getNotifications();
-								Integer pms = notifications.getPMs();
-								Integer alerts = notifications.getAlerts();
-								String errorMessage = notifications.getErrorMessage();
-								boolean hasError = notifications.hasError();
-
-								String pmMessage = NamelessChat.getMessage(NamelessMessages.PM_NOTIFICATIONS_MESSAGE)
-										.replaceAll("%pms%", pms.toString());
-								String alertMessage = NamelessChat
-										.getMessage(NamelessMessages.ALERTS_NOTIFICATIONS_MESSAGE)
-										.replaceAll("%alerts%", alerts.toString());
-								String noNotifications = NamelessChat.getMessage(NamelessMessages.NO_NOTIFICATIONS);
-
-								if (hasError) {
-									// Error with request
-									sender.sendMessage(NamelessChat.convertColors("&4Error: " + errorMessage));
-								} else if (alerts.equals(0) && pms.equals(0)) {
-									sender.sendMessage(NamelessChat.convertColors(noNotifications));
-								} else if (alerts.equals(0)) {
-									sender.sendMessage(NamelessChat.convertColors(pmMessage));
-								} else if (pms.equals(0)) {
-									sender.sendMessage(NamelessChat.convertColors(alertMessage));
-								} else {
-									sender.sendMessage(NamelessChat.convertColors(alertMessage));
-									sender.sendMessage(NamelessChat.convertColors(pmMessage));
-								}
-							}
-						}
-					});
-				} else {
-					sender.sendMessage(
-							NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.PLAYER_NOT_VALID)));
-				}
-			} else {
-				sender.sendMessage(NamelessChat.convertColors(mustRegister));
-			}
-
-		} else {
-			// User must be ingame to use register command
-			sender.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.MUST_BE_INGAME)));
+		
+		if (args.length != 0) {
+			sender.sendMessage(Message.INCORRECT_USAGE_GETNOTIFICATIONS.getMessage().replace("%command%", label));
+			return true;
 		}
+		
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(Message.MUST_BE_INGAME.getMessage());
+			return true;
+		}
+		
+		Player player = (Player) sender;
+		
+		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+			NamelessPlayer nameless = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+			
+			if(!(nameless.exists())) {
+				sender.sendMessage(Message.MUST_REGISTER.getMessage());
+				return;
+			}
+			
+			if (!(nameless.isValidated())) {
+				sender.sendMessage(Message.PLAYER_NOT_VALID.getMessage());
+				return;
+			}
+			
+			int messages;
+			int alerts;
+			
+			try {
+				messages = nameless.getMessageCount();
+				alerts = nameless.getAlertCount();
+			} catch (NamelessException e) {
+				String errorMessage = Message.NOIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage());
+				player.sendMessage(errorMessage);
+				return;
+			}
+			
+			String pmMessage = Message.NOTIFICATIONS_MESSAGES.getMessage().replace("%pms%", "" + messages);
+			String alertMessage = Message.NOTIFICATIONS_ALERTS.getMessage().replace("%alerts%", "" + alerts);
+			String noNotifications = Message.NO_NOTIFICATIONS.getMessage();
+
+			if (alerts == 0 && messages == 0) {
+				sender.sendMessage(noNotifications);
+			} else if (alerts == 0) {
+				sender.sendMessage(pmMessage);
+			} else if (messages == 0) {
+				sender.sendMessage(alertMessage);
+			} else {
+				sender.sendMessage(alertMessage);
+				sender.sendMessage(pmMessage);
+			}
+		});
 		return true;
 	}
 

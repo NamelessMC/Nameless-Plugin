@@ -3,6 +3,7 @@ package com.namelessmc.plugin.NamelessBungee.commands;
 import java.util.UUID;
 
 import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.plugin.NamelessBungee.Chat;
 import com.namelessmc.plugin.NamelessBungee.Message;
 import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
 import com.namelessmc.plugin.NamelessBungee.util.UUIDFetcher;
@@ -41,16 +42,23 @@ public class GetUserCommand extends Command {
 			@Override
 			public void run() {
 				final String targetName = args[0];
+				
+				// TODO Remove uuidfetcher for getuser cause we can use usernames only later!
 				final UUID targetUuid;
 				
 				try {
 					targetUuid = UUIDFetcher.getUUID(targetName);
 				} catch (IllegalArgumentException e) {
-					sender.sendMessage(new ComponentBuilder("This player could not be found").color(ChatColor.RED).create()); // TODO Use messages.yml
+					sender.sendMessage(Message.PLAYER_NOT_FOUND.getComponents());
 					return;
 				}
 				
 				NamelessPlayer target = new NamelessPlayer(targetUuid, NamelessPlugin.baseApiURL);
+				
+				if(!target.exists()) {
+					sender.sendMessage(Message.PLAYER_NOT_FOUND.getComponents());
+					return;
+				}
 
 				BaseComponent[] separator = new ComponentBuilder("--------------------------------").color(ChatColor.DARK_AQUA).italic(true).create();
 				
@@ -74,15 +82,13 @@ public class GetUserCommand extends Command {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						Message.GETUSER_REPUTATION.getMessage().replace("%reputation%", "" + target.getReputations())));
 
-				/*if (namelessPlayer.isValidated()) { TODO Check if verified
-						sender.sendMessage(NamelessChat.convertColors(
-								NamelessChat.getMessage(NamelessMessages.GETUSER_VALIDATED) + "&a: "
-												+ NamelessChat.getMessage(NamelessMessages.GETUSER_VALIDATED_YES)));
-							} else {
-								sender.sendMessage(NamelessChat.convertColors(
-										NamelessChat.getMessage(NamelessMessages.GETUSER_VALIDATED) + "&c: "
-												+ NamelessChat.getMessage(NamelessMessages.GETUSER_VALIDATED_NO)));
-							}*/
+				if (target.isValidated()) {
+					sender.sendMessage(TextComponent.fromLegacyText(Chat.convertColorsString(
+							Message.GETUSER_VALIDATED.getMessage() + "&a: " + Message.GETUSER_VALIDATED_YES.getMessage())));
+				} else {
+					sender.sendMessage(TextComponent.fromLegacyText(Chat.convertColorsString(
+							Message.GETUSER_VALIDATED.getMessage() + "&c: " + Message.GETUSER_VALIDATED_NO.getMessage())));
+				}
 				
 				if (target.isBanned()) {
 					sender.sendMessage(TextComponent.fromLegacyText(

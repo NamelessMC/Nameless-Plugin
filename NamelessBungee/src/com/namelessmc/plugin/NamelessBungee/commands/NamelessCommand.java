@@ -30,7 +30,7 @@ public class NamelessCommand extends Command {
 			}
 			
 		} else {
-			sender.sendMessage(new ComponentBuilder("Invalid usage. Use /nameless reload to reload config files.").color(ChatColor.RED).create());
+			sender.sendMessage(new ComponentBuilder("Invalid usage. Use /" + getName() + " reload to reload config files.").color(ChatColor.RED).create());
 		}
 	}
 
