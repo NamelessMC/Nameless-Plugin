@@ -1,16 +1,16 @@
 package com.namelessmc.plugin.NamelessSpigot.commands;
 
-import org.bukkit.Bukkit;
+import java.util.UUID;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
-import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
-import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayer;
-import com.namelessmc.namelessplugin.spigot.API.Player.NamelessReportPlayer;
-import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
-import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
-import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
+import com.namelessmc.NamelessAPI.NamelessException;
+import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.plugin.NamelessSpigot.util.UUIDFetcher;
+import com.namelessmc.plugin.NamelessSpigot.Message;
+import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
+import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
 /*
  *  Report CMD
@@ -18,21 +18,15 @@ import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
 
 public class ReportCommand extends NamelessCommand {
 
-	private NamelessPlugin plugin;
-	private String commandName;
-
 	/*
 	 * Constructer
 	 */
-	public ReportCommand(NamelessPlugin pluginInstance, String name) {
+	public ReportCommand(String name) {
 		super(name);
-		plugin = pluginInstance;
-		setPermission(NamelessPlugin.permission + ".report");
-		setPermissionMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
+		setPermission(NamelessPlugin.PERMISSION + ".report");
+		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name + "<user> <report text>");
-		setDescription(NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_REPORT));
-
-		commandName = name;
+		setDescription(Message.HELP_DESCRIPTION_REPORT.getMessage());
 	}
 
 	/*
@@ -40,52 +34,59 @@ public class ReportCommand extends NamelessCommand {
 	 */
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
-		// Instance is a Player
-		if (sender instanceof Player) {
-
-			Player player = (Player) sender;
-			NamelessAPI api = plugin.getAPI();
-			NamelessPlayer namelessPlayer = api.getPlayer(player.getUniqueId().toString());
-			if (namelessPlayer.exists()) {
-				if (namelessPlayer.isValidated()) {
-					// Try to report
-					Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-						@Override
-						public void run() {
-
-							// Ensure email is set
-							if (args.length < 2) {
-								player.sendMessage(NamelessChat
-										.convertColors(NamelessChat.getMessage(NamelessMessages.INCORRECT_USAGE_REPORT)
-												.replaceAll("%command%", commandName)));
-								return;
-							} else {
-								NamelessReportPlayer report = namelessPlayer.reportPlayer(args);
-
-								if (report.hasError()) {
-									// Error with request
-									player.sendMessage(
-											NamelessChat.convertColors("&4Error: " + report.getErrorMessage()));
-								} else {
-									// Display success message to user
-									player.sendMessage(NamelessChat
-											.convertColors(NamelessChat.getMessage(NamelessMessages.REPORT_SUCCESS)
-													.replaceAll("%player%", args[0])));
-								}
-							}
-						}
-					});
-				} else {
-					sender.sendMessage(
-							NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.PLAYER_NOT_VALID)));
-				}
-			} else {
-				sender.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.MUST_REGISTER)));
-			}
-
-		} else {
-			sender.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.MUST_BE_INGAME)));
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(Message.MUST_BE_INGAME.getMessage());
+			return false;
 		}
+		
+		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+			
+			Player player = (Player) sender;
+			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+			
+			if (namelessPlayer.exists()) {
+				sender.sendMessage(Message.MUST_REGISTER.getMessage());
+			}
+			
+			if (namelessPlayer.isValidated()){
+				player.sendMessage(Message.PLAYER_NOT_VALID.getMessage());
+				return;
+			}
+						
+			if (args.length < 2) {
+				player.sendMessage(
+						Message.INCORRECT_USAGE_REPORT.getMessage().replace("%command%", label));
+				return;
+			}
+			
+			final String targetName = args[0];
+			final UUID targetUuid;
+			
+			try {
+				targetUuid = UUIDFetcher.getUUID(targetName);
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage(Message.PLAYER_NOT_FOUND.getMessage());
+				return;
+			}
+			
+			//Remove first argument, all other arguments are part of the reason
+			int n = args.length - 1;
+			String[] reasonWordsArray = new String[n];
+			System.arraycopy(args, 1, reasonWordsArray, 0, n);
+			
+			String reason = String.join(" ", reasonWordsArray); //Join with space in between words
+			
+			try {
+				namelessPlayer.reportPlayer(targetUuid, targetName, reason);
+				
+				//Report successful
+				sender.sendMessage(
+						Message.REPORT_SUCCESS.getMessage().replace("%player%", args[0]));
+			} catch (NamelessException e) {
+				sender.sendMessage(Message.REPORT_ERROR.getMessage().replace("%error%", e.getMessage()));
+			}
+			
+		});
 		return true;
 	}
 

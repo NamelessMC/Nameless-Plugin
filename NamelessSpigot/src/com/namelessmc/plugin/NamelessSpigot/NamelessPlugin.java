@@ -20,7 +20,6 @@ import com.namelessmc.plugin.NamelessSpigot.commands.RegisterCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.ReportCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.SetGroupCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NLCommand;
-import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 import com.namelessmc.plugin.NamelessSpigot.hooks.MVdWPlaceholderUtil;
 import com.namelessmc.plugin.NamelessSpigot.hooks.PAPIPlaceholderUtil;
 import com.namelessmc.plugin.NamelessSpigot.player.PlayerEventListener;

@@ -6,7 +6,6 @@ import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Chat;
 import com.namelessmc.plugin.NamelessBungee.Message;
 import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
-import com.namelessmc.plugin.NamelessBungee.util.UUIDFetcher;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -41,19 +40,15 @@ public class GetUserCommand extends Command {
 		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), new Runnable() {
 			@Override
 			public void run() {
-				final String targetName = args[0];
+				final String targetID = args[0];
 				
-				// TODO Remove uuidfetcher for getuser cause we can use usernames only later!
-				final UUID targetUuid;
+				NamelessPlayer target = null;
 				
-				try {
-					targetUuid = UUIDFetcher.getUUID(targetName);
-				} catch (IllegalArgumentException e) {
-					sender.sendMessage(Message.PLAYER_NOT_FOUND.getComponents());
-					return;
+				if(targetID.length() > 16) {
+					target = new NamelessPlayer(UUID.fromString(targetID), NamelessPlugin.baseApiURL);
+				}else {
+					target = new NamelessPlayer(targetID, NamelessPlugin.baseApiURL);
 				}
-				
-				NamelessPlayer target = new NamelessPlayer(targetUuid, NamelessPlugin.baseApiURL);
 				
 				if(!target.exists()) {
 					sender.sendMessage(Message.PLAYER_NOT_FOUND.getComponents());
@@ -71,7 +66,7 @@ public class GetUserCommand extends Command {
 						Message.GETUSER_DISPLAYNAME.getMessage().replace("%displayname%", target.getDisplayName())));
 				
 				sender.sendMessage(TextComponent.fromLegacyText(
-						Message.GETUSER_UUID.getMessage().replace("%uuid%", targetUuid.toString())));
+						Message.GETUSER_UUID.getMessage().replace("%uuid%", target.getUniqueId().toString())));
 				
 				sender.sendMessage(TextComponent.fromLegacyText(
 						Message.GETUSER_GROUP_ID.getMessage().replace("%groupid%", "" + target.getGroupID())));

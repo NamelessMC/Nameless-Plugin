@@ -1,15 +1,13 @@
 package com.namelessmc.plugin.NamelessSpigot.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
-import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
-import com.namelessmc.namelessplugin.spigot.API.Player.NamelessPlayer;
-import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
-import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
-import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
+import com.namelessmc.NamelessAPI.NamelessException;
+import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.plugin.NamelessSpigot.Message;
+import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
+import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
 /*
  *  Register CMD
@@ -17,21 +15,15 @@ import com.namelessmc.namelessplugin.spigot.commands.NamelessCommand;
 
 public class RegisterCommand extends NamelessCommand {
 
-	private NamelessPlugin plugin;
-	private String commandName;
-
 	/*
 	 * Constructer
 	 */
-	public RegisterCommand(NamelessPlugin pluginInstance, String name) {
+	public RegisterCommand(String name) {
 		super(name);
-		plugin = pluginInstance;
-		setPermission(NamelessPlugin.permission + ".register");
-		setPermissionMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
+		setPermission(NamelessPlugin.PERMISSION + ".register");
+		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name + "<email>");
-		setDescription(NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_REGISTER));
-
-		commandName = name;
+		setDescription(Message.HELP_DESCRIPTION_REGISTER.getMessage());
 	}
 
 	/*
@@ -39,37 +31,42 @@ public class RegisterCommand extends NamelessCommand {
 	 */
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
-		// Instance is Player
-		if (sender instanceof Player) {
-
-			Player player = (Player) sender;
-
-			// Try to register user
-			Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-				@Override
-				public void run() {
-					NamelessAPI api = plugin.getAPI();
-					NamelessPlayer swPlayer = api.getPlayer(player.getUniqueId().toString());
-					if (!swPlayer.exists()) {
-
-						// Ensure email is set
-						if (args.length < 1 || args.length > 1) {
-							player.sendMessage(NamelessChat
-									.convertColors(NamelessChat.getMessage(NamelessMessages.INCORRECT_USAGE_REGISTER)
-											.replaceAll("%command%", commandName)));
-						} else {
-							api.registerPlayer(player, args[0]);
-						}
-					} else {
-						sender.sendMessage(NamelessChat
-								.convertColors(NamelessChat.getMessage(NamelessMessages.REGISTER_USERNAME_EXISTS)));
-					}
-				}
-			});
-
-		} else {
-			sender.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.MUST_BE_INGAME)));
+		
+		if (args.length != 1) {
+			sender.sendMessage(Message.INCORRECT_USAGE_REGISTER.getMessage().replace("%command%", label));
+			return true;
 		}
+		
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(Message.MUST_BE_INGAME.getMessage());
+			return true;
+		}
+		
+		Player player = (Player) sender;
+		
+		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+			
+			if (namelessPlayer.exists()) {
+					sender.sendMessage(Message.HAS_REGISTERED.getMessage());
+				return;
+			}
+			
+			try {
+				namelessPlayer.register(player.getName(), args[0]);
+				sender.sendMessage(Message.REGISTER_SUCCESS.getMessage());
+			} catch (NamelessException e) {
+				if(e.getMessage().equalsIgnoreCase("Username already exists")) {
+					sender.sendMessage(Message.REGISTER_EMAIL_EXISTS.getMessage());
+				}else if(e.getMessage().equalsIgnoreCase("Email already exists")) {
+					sender.sendMessage(Message.REGISTER_USERNAME_EXISTS.getMessage());
+				}else {
+					player.sendMessage(Message.REGISTER_FAIL.getMessage().replace("%error%", e.getMessage()));
+					e.printStackTrace();
+				}
+			}
+			
+		});
 		return true;
 	}
 

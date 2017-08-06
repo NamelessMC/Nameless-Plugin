@@ -6,12 +6,9 @@ import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Message;
 import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
-import com.namelessmc.plugin.NamelessBungee.util.UUIDFetcher;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 
@@ -49,18 +46,22 @@ public class SetGroupCommand extends Command {
 		
 		
 		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
-			final String targetName = args[0];
-			final UUID targetUuuid;
+			final String targetID = args[0];
 			
-			try {
-				targetUuuid = UUIDFetcher.getUUID(targetName);
-			} catch (IllegalArgumentException e) {
-				sender.sendMessage(new ComponentBuilder("This player could not be found").color(ChatColor.RED).create()); // TODO Use messages.yml
+			NamelessPlayer target = null;
+			
+			if(targetID.length() > 16) {
+				target = new NamelessPlayer(UUID.fromString(targetID), NamelessPlugin.baseApiURL);
+			}else {
+				target = new NamelessPlayer(targetID, NamelessPlugin.baseApiURL);
+			}
+			
+			if(!target.exists()) {
+				sender.sendMessage(Message.PLAYER_NOT_FOUND.getComponents());
 				return;
 			}
 			
 			try {
-				final NamelessPlayer target = new NamelessPlayer(targetUuuid, NamelessPlugin.baseApiURL);
 				final int previousGroupId = target.getGroupID();
 				target.setGroup(groupId);
 			
@@ -70,7 +71,7 @@ public class SetGroupCommand extends Command {
 						.replace("%newgroup%", String.valueOf(groupId));
 				sender.sendMessage(TextComponent.fromLegacyText(success));
 			} catch (NamelessException e) {
-				sender.sendMessage(new ComponentBuilder("An error occured. See the console log for more details. - " + e.getMessage()).color(ChatColor.RED).create());
+				sender.sendMessage(TextComponent.fromLegacyText(Message.SETGROUP_ERROR.getMessage().replaceAll("%error%", e.getMessage())));
 				e.printStackTrace();
 			}
 		}); 

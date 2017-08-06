@@ -11,6 +11,7 @@ import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessChat;
 import com.namelessmc.namelessplugin.spigot.API.Utils.NamelessMessages;
 import com.namelessmc.plugin.NamelessSpigot.Chat;
+import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
@@ -31,6 +32,7 @@ public class CommandWithArgs extends NamelessCommand {
 	private String report;
 	private String getUser;
 	private String setGroup;
+	
 
 	/*
 	 * Constructer
@@ -41,7 +43,7 @@ public class CommandWithArgs extends NamelessCommand {
 		this.permission = NamelessPlugin.PERMISSION;
 		this.permission = NamelessPlugin.PERMISSION_ADMIN;
 		this.setUsage("/" + name + "<args>");
-		this.setDescription(Chat.getMessage(NamelessMessages.HELP_DESCRIPTION_MAIN));
+		this.setDescription(Message.HELP_DESCRIPTION_MAIN.getMessage());
 
 		commandName = name;
 	}

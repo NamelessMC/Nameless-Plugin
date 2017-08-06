@@ -94,7 +94,7 @@ public class PlayerEventListener implements Listener {
 					return;
 				} else if (player.hasPermission(permissionConfig.getString("permissions" + groupID))) {
 					Integer previousgroup = namelessPlayer.getGroupID();
-					String successPlayerMessage = Message.SETGROUP_SYNC_PLAYER_ERROR.getMessage();
+					String successPlayerMessage = Message.GROUP_SYNC_PLAYER_ERROR.getMessage();
 					try {
 						namelessPlayer.setGroup(Integer.parseInt(groupID));
 						Chat.log(Level.INFO, "&aSuccessfully changed &b" + player.getName() + "'s &agroup from &b"
@@ -103,7 +103,7 @@ public class PlayerEventListener implements Listener {
 					} catch (NumberFormatException e) {
 						Chat.log(Level.WARNING, "&4The Group ID is not a Integer/Number!");
 					} catch (NamelessException e) {
-						String errorPlayerMessage = Message.SETGROUP_SYNC_PLAYER_ERROR.getMessage().replace("%error%", e.getMessage());
+						String errorPlayerMessage = Message.GROUP_SYNC_PLAYER_ERROR.getMessage().replace("%error%", e.getMessage());
 						Chat.log(Level.WARNING, "&4Error changing &c"
 								+ player.getName() + "'s group: &4" + e.getMessage());
 						player.sendMessage(errorPlayerMessage);

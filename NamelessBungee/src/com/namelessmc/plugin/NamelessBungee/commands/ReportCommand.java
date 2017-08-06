@@ -8,10 +8,8 @@ import com.namelessmc.plugin.NamelessBungee.Message;
 import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
 import com.namelessmc.plugin.NamelessBungee.util.UUIDFetcher;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
@@ -47,7 +45,7 @@ public class ReportCommand extends Command {
 				sender.sendMessage(Message.MUST_REGISTER.getComponents());
 			}
 			
-			if (false /* TODO Check if account is verified*/){
+			if (namelessPlayer.isValidated()){
 				player.sendMessage(Message.PLAYER_NOT_VALID.getComponents());
 				return;
 			}
@@ -64,7 +62,7 @@ public class ReportCommand extends Command {
 			try {
 				targetUuid = UUIDFetcher.getUUID(targetName);
 			} catch (IllegalArgumentException e) {
-				sender.sendMessage(new ComponentBuilder("This player could not be found").color(ChatColor.RED).create()); // TODO Use messages.yml
+				sender.sendMessage(Message.PLAYER_NOT_FOUND.getComponents());
 				return;
 			}
 			
@@ -82,7 +80,7 @@ public class ReportCommand extends Command {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						Message.REPORT_SUCCESS.getMessage().replace("%player%", args[0])));
 			} catch (NamelessException e) {
-				sender.sendMessage(new ComponentBuilder("An error occured: " + e.getMessage()).color(ChatColor.RED).create());
+				sender.sendMessage(TextComponent.fromLegacyText(Message.REPORT_ERROR.getMessage().replace("%error%", e.getMessage())));
 			}
 			
 		});

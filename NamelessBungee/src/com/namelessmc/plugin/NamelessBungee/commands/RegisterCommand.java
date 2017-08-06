@@ -5,10 +5,8 @@ import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Message;
 import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
 
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
@@ -47,16 +45,23 @@ public class RegisterCommand extends Command {
 			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 			
 			if (namelessPlayer.exists()) {
-				sender.sendMessage(Message.REGISTER_USERNAME_EXISTS.getComponents());
+				sender.sendMessage(Message.HAS_REGISTERED.getComponents());
 				return;
 			}
 			
 			try {
 				namelessPlayer.register(player.getName(), args[0]);
+				sender.sendMessage(Message.REGISTER_SUCCESS.getComponents());
 			} catch (NamelessException e) {
-				player.sendMessage(new ComponentBuilder("An error occured: " + e.getMessage()).color(ChatColor.RED).create());
+				if(e.getMessage().equalsIgnoreCase("Username already exists")) {
+					sender.sendMessage(Message.REGISTER_EMAIL_EXISTS.getComponents());
+				}else if(e.getMessage().equalsIgnoreCase("Email already exists")) {
+					sender.sendMessage(Message.REGISTER_USERNAME_EXISTS.getComponents());
+				}else {
+					player.sendMessage(TextComponent.fromLegacyText(Message.REGISTER_FAIL.getMessage().replace("%error%", e.getMessage())));
+					e.printStackTrace();
+				}
 			}
-			
 		});
 	}
 

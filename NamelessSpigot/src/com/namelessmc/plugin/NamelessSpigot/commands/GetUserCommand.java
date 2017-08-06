@@ -9,15 +9,12 @@ import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
-import com.namelessmc.plugin.NamelessSpigot.util.UUIDFetcher;
 
 /*
  *  GetUserCommand CMD
  */
 
 public class GetUserCommand extends NamelessCommand {
-	
-	private String commandName;
 
 	/*
 	 * Constructer
@@ -28,8 +25,6 @@ public class GetUserCommand extends NamelessCommand {
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name + "<user>");
 		setDescription(Message.HELP_DESCRIPTION_GETUSER.getMessage());
-
-		commandName = name;
 	}
 
 	/*
@@ -39,26 +34,22 @@ public class GetUserCommand extends NamelessCommand {
 	public boolean execute(CommandSender sender, String label, String[] args) {
 		if (args.length != 1) {
 			sender.sendMessage(
-					Message.INCORRECT_USAGE_GETUSER.getMessage().replace("%command%", commandName));
+					Message.INCORRECT_USAGE_GETUSER.getMessage().replace("%command%", label));
 			return true;
 		}
 		
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), new Runnable() {
 			@Override
 			public void run() {
-				final String targetName = args[0];
+				final String targetID = args[0];
 				
-				// TODO Remove uuidfetcher for getuser cause we can use usernames only later!
-				final UUID targetUuid;
+				NamelessPlayer target = null;
 				
-				try {
-					targetUuid = UUIDFetcher.getUUID(targetName);
-				} catch (IllegalArgumentException e) {
-					sender.sendMessage(Message.PLAYER_NOT_FOUND.getMessage());
-					return;
+				if(targetID.length() > 16) {
+					target = new NamelessPlayer(UUID.fromString(targetID), NamelessPlugin.baseApiURL);
+				}else {
+					target = new NamelessPlayer(targetID, NamelessPlugin.baseApiURL);
 				}
-				
-				NamelessPlayer target = new NamelessPlayer(targetUuid, NamelessPlugin.baseApiURL);
 				
 				if(!target.exists()) {
 					sender.sendMessage(Message.PLAYER_NOT_FOUND.getMessage());
@@ -73,7 +64,7 @@ public class GetUserCommand extends NamelessCommand {
 				
 				sender.sendMessage(Message.GETUSER_DISPLAYNAME.getMessage().replace("%displayname%", target.getDisplayName()));
 				
-				sender.sendMessage(Message.GETUSER_UUID.getMessage().replace("%uuid%", targetUuid.toString()));
+				sender.sendMessage(Message.GETUSER_UUID.getMessage().replace("%uuid%", target.getUniqueId().toString()));
 				
 				sender.sendMessage(Message.GETUSER_GROUP_ID.getMessage().replace("%groupid%", "" + target.getGroupID()));
 		
