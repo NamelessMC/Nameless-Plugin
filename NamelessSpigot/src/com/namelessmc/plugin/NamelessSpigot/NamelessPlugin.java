@@ -40,11 +40,19 @@ public class NamelessPlugin extends JavaPlugin {
 	public static boolean https;
 
 	/*
-	 * NamelessMC permission string.
+	 * NamelessMC permissions as string
 	 */
 
 	public static final String PERMISSION = "namelessmc";
+	public static final String PERMISSION_MAIN = "namelessmc.main";
+	public static final String PERMISSION_REGISTER = "namelessmc.register";
+	public static final String PERMISSION_NOTIFICATIONS = "namelessmc.notifications";
+	public static final String PERMISSION_REPORT = "namelessmc.report";
 	public static final String PERMISSION_ADMIN = "namelessmc.admin";
+	public static final String PERMISSION_ADMIN_SETGROUP = "namelessmc.admin.setgroup";
+	public static final String PERMISSION_ADMIN_GETUSER = "namelessmc.admin.getuser";
+	public static final String PERMISSION_ADMIN_UPDATENOTIFY = "namelessmc.admin.updatenotify";
+	
 	/*
 	 * Vault
 	 */
