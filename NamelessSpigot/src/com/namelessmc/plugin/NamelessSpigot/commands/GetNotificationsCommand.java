@@ -20,7 +20,7 @@ public class GetNotificationsCommand extends NamelessCommand {
 	 */
 	public GetNotificationsCommand(String name) {
 		super(name);
-		setPermission(NamelessPlugin.PERMISSION + ".notifications");
+		setPermission(NamelessPlugin.PERMISSION_NOTIFICATIONS);
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name);
 		setDescription(Message.HELP_DESCRIPTION_GETNOTIFICATIONS.getMessage());

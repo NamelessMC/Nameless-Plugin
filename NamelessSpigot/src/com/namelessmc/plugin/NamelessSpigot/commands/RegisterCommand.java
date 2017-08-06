@@ -20,7 +20,7 @@ public class RegisterCommand extends NamelessCommand {
 	 */
 	public RegisterCommand(String name) {
 		super(name);
-		setPermission(NamelessPlugin.PERMISSION + ".register");
+		setPermission(NamelessPlugin.PERMISSION_REGISTER);
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name + "<email>");
 		setDescription(Message.HELP_DESCRIPTION_REGISTER.getMessage());

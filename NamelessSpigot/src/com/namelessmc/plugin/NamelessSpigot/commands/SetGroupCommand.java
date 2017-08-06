@@ -22,7 +22,7 @@ public class SetGroupCommand extends NamelessCommand {
 	 */
 	public SetGroupCommand(String name) {
 		super(name);
-		setPermission(NamelessPlugin.PERMISSION_ADMIN + ".setgroup");
+		setPermission(NamelessPlugin.PERMISSION_ADMIN_SETGROUP);
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name + "<user> <groupID>");
 		setDescription(Message.HELP_DESCRIPTION_SETGROUP.getMessage());

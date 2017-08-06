@@ -23,7 +23,7 @@ public class ReportCommand extends NamelessCommand {
 	 */
 	public ReportCommand(String name) {
 		super(name);
-		setPermission(NamelessPlugin.PERMISSION + ".report");
+		setPermission(NamelessPlugin.PERMISSION_REPORT);
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name + "<user> <report text>");
 		setDescription(Message.HELP_DESCRIPTION_REPORT.getMessage());

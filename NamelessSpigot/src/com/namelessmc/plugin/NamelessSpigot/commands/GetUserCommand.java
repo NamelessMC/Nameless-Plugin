@@ -21,7 +21,7 @@ public class GetUserCommand extends NamelessCommand {
 	 */
 	public GetUserCommand(String name) {
 		super(name);
-		setPermission(NamelessPlugin.PERMISSION_ADMIN + ".getuser");
+		setPermission(NamelessPlugin.PERMISSION_ADMIN_GETUSER);
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name + "<user>");
 		setDescription(Message.HELP_DESCRIPTION_GETUSER.getMessage());
