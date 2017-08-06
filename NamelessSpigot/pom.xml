@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>com.namelessmc</groupId>
 			<artifactId>NamelessAPI</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.0-dev</version>
 		</dependency>
 
 		<dependency>
