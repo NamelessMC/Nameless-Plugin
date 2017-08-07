@@ -155,12 +155,12 @@ public class NamelessPlugin extends JavaPlugin {
 
 	private void initHooks() {
 		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
-			MVdWPlaceholderUtil placeholders = new MVdWPlaceholderUtil(this);
+			MVdWPlaceholderUtil placeholders = new MVdWPlaceholderUtil();
 			placeholders.hook();
 		}
 		
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			PAPIPlaceholderUtil placeholders = new PAPIPlaceholderUtil(this);
+			PAPIPlaceholderUtil placeholders = new PAPIPlaceholderUtil();
 			placeholders.hook();
 		}
 	}

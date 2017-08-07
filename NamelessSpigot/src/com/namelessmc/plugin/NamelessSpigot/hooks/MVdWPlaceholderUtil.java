@@ -10,14 +10,8 @@ import be.maximvdw.placeholderapi.PlaceholderReplacer;
 
 public class MVdWPlaceholderUtil {
 
-	NamelessPlugin plugin;
-
-	public MVdWPlaceholderUtil(NamelessPlugin plugin) {
-		this.plugin = plugin;
-	}
-
 	public void hook() {
-		PlaceholderAPI.registerPlaceholder(plugin, "nameless_alerts", new PlaceholderReplacer() {
+		PlaceholderAPI.registerPlaceholder(NamelessPlugin.getInstance(), "nameless_alerts", new PlaceholderReplacer() {
 			@Override
 			public String onPlaceholderReplace(PlaceholderReplaceEvent event) {
 				NamelessPlayer namelessPlayer = new NamelessPlayer(event.getPlayer().getUniqueId(), NamelessPlugin.baseApiURL);
@@ -33,7 +27,7 @@ public class MVdWPlaceholderUtil {
 				return null;
 			}
 		});
-		PlaceholderAPI.registerPlaceholder(plugin, "nameless_messages", new PlaceholderReplacer() {
+		PlaceholderAPI.registerPlaceholder(NamelessPlugin.getInstance(), "nameless_messages", new PlaceholderReplacer() {
 			@Override
 			public String onPlaceholderReplace(PlaceholderReplaceEvent event) {
 				NamelessPlayer namelessPlayer = new NamelessPlayer(event.getPlayer().getUniqueId(), NamelessPlugin.baseApiURL);

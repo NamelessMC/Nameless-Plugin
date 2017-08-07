@@ -9,11 +9,8 @@ import me.clip.placeholderapi.external.EZPlaceholderHook;
 
 public class PAPIPlaceholderUtil extends EZPlaceholderHook {
 
-	NamelessPlugin plugin;
-
-	public PAPIPlaceholderUtil(NamelessPlugin plugin) {
-		super(plugin, "nameless");
-		this.plugin = plugin;
+	public PAPIPlaceholderUtil() {
+		super(NamelessPlugin.getInstance(), "nameless");
 	}
 
 	@Override
@@ -33,7 +30,7 @@ public class PAPIPlaceholderUtil extends EZPlaceholderHook {
 			try {
 				if (namelessPlayer.exists()) {
 					return Integer.toString(namelessPlayer.getMessageCount());
-				}else {
+				} else {
 					return "0";
 				}
 			} catch (Exception e) {
