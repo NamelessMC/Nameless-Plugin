@@ -1,7 +1,6 @@
 package com.namelessmc.plugin.NamelessBungee;
 
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public enum Permission {
 	COMMAND_MAIN("namelessmc.main"),
@@ -27,14 +26,8 @@ public enum Permission {
 		return permission;
 	}
 	
-	public boolean hasPermission(ProxiedPlayer player) {
-		if(player.hasPermission(asPermission()))return true;
-		return false;
-	}
-	
 	public boolean hasPermission(CommandSender sender) {
-		if(sender.hasPermission(asPermission()))return true;
-		return false;
+		return sender.hasPermission(asPermission());
 	}
 
 }
