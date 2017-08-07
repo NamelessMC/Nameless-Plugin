@@ -171,7 +171,7 @@ public class NamelessPlugin extends Plugin {
 							return;
 						}
 						
-						if (player.hasPermission(permissionConfig.getString("permissions" + groupID))) {
+						if (player.hasPermission(permissionConfig.getString("permissions." + groupID))) {
 							int previousGroup = namelessPlayer.getGroupID();
 
 							try {
