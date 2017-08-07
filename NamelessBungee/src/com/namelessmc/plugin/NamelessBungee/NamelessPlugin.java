@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import com.namelessmc.NamelessAPI.NamelessAPI;
+import com.namelessmc.NamelessAPI.NamelessException;
+import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.commands.CommandWithArgs;
 import com.namelessmc.plugin.NamelessBungee.commands.GetNotificationsCommand;
 import com.namelessmc.plugin.NamelessBungee.commands.GetUserCommand;
@@ -16,6 +18,10 @@ import com.namelessmc.plugin.NamelessBungee.commands.ReportCommand;
 import com.namelessmc.plugin.NamelessBungee.commands.SetGroupCommand;
 import com.namelessmc.plugin.NamelessBungee.player.PlayerEventListener;
 
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 import net.md_5.bungee.config.Configuration;
@@ -54,6 +60,13 @@ public class NamelessPlugin extends Plugin {
 
 		// Start saving data files every 15 minutes
 		getProxy().getScheduler().schedule(this, new SaveConfig(), 15L, 15L, TimeUnit.MINUTES);
+		
+		// Start group synchronization task
+		Configuration config = Config.MAIN.getConfig();
+		if (config.getBoolean("group-synchronization")) {
+			long interval = Config.GROUP_SYNC_PERMISSIONS.getConfig().getInt("sync-interval");
+			getProxy().getScheduler().schedule(this, new SyncGroups(), interval, interval, TimeUnit.SECONDS);
+		}
 	}
 
 	@Override
@@ -145,6 +158,42 @@ public class NamelessPlugin extends Plugin {
 			});
 		}
 
+	}
+	
+	public static class SyncGroups implements Runnable {
+		
+		@Override
+		public void run() {
+			Configuration permissionConfig = Config.MAIN.getConfig();
+			for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+				for (String groupID : permissionConfig.getSection("permissions").getKeys()) {
+					ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
+						NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+						if (String.valueOf(namelessPlayer.getGroupID()).equals(groupID)) {
+							return;
+						} else if (player.hasPermission(permissionConfig.getString("permissions" + groupID))) {
+							Integer previousgroup = namelessPlayer.getGroupID();
+							BaseComponent[] successPlayerMessage = Message.GROUP_SYNC_PLAYER_ERROR.getComponents();
+							try {
+								namelessPlayer.setGroup(Integer.parseInt(groupID));
+								Chat.log(Level.INFO, "&aSuccessfully changed &b" + player.getName() + "'s &agroup from &b"
+										+ previousgroup + " &ato &b" + groupID + "&a!");
+								player.sendMessage(successPlayerMessage);
+							} catch (NumberFormatException e) {
+								Chat.log(Level.WARNING, "&4The Group ID is not a Integer/Number!");
+							} catch (NamelessException e) {
+								BaseComponent[] errorPlayerMessage = TextComponent.fromLegacyText(Message.GROUP_SYNC_PLAYER_ERROR.getMessage().replace("%error%", e.getMessage()));
+								Chat.log(Level.WARNING, "&4Error changing &c"
+										+ player.getName() + "'s group: &4" + e.getMessage());
+								player.sendMessage(errorPlayerMessage);
+								e.printStackTrace();
+							}
+						}
+					});
+				}
+			}
+		}
+		
 	}
 
 }

@@ -34,7 +34,6 @@ public class PlayerEventListener implements Listener {
 				}
 				// theese should be outside, better!
 				userNameCheck(player);
-				userGroupSync(player);
 			}
 		});
 	}
@@ -64,36 +63,6 @@ public class PlayerEventListener implements Listener {
 				BaseComponent[] errorMessage = TextComponent.fromLegacyText(Message.NOIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage()));
 				player.sendMessage(errorMessage);
 				e.printStackTrace();
-			}
-		}
-	}
-
-	public void userGroupSync(ProxiedPlayer player){
-		Configuration config = Config.MAIN.getConfig();
-		if (config.getBoolean("group-synchronization")) {
-			Configuration permissionConfig = Config.MAIN.getConfig();
-			for (String groupID : permissionConfig.getSection("permissions").getKeys()) {
-				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
-				if (String.valueOf(namelessPlayer.getGroupID()).equals(groupID)) {
-					return;
-				} else if (player.hasPermission(permissionConfig.getString("permissions" + groupID))) {
-					Integer previousgroup = namelessPlayer.getGroupID();
-					BaseComponent[] successPlayerMessage = Message.GROUP_SYNC_PLAYER_ERROR.getComponents();
-					try {
-						namelessPlayer.setGroup(Integer.parseInt(groupID));
-						Chat.log(Level.INFO, "&aSuccessfully changed &b" + player.getName() + "'s &agroup from &b"
-								+ previousgroup + " &ato &b" + groupID + "&a!");
-						player.sendMessage(successPlayerMessage);
-					} catch (NumberFormatException e) {
-						Chat.log(Level.WARNING, "&4The Group ID is not a Integer/Number!");
-					} catch (NamelessException e) {
-						BaseComponent[] errorPlayerMessage = TextComponent.fromLegacyText(Message.GROUP_SYNC_PLAYER_ERROR.getMessage().replace("%error%", e.getMessage()));
-						Chat.log(Level.WARNING, "&4Error changing &c"
-								+ player.getName() + "'s group: &4" + e.getMessage());
-						player.sendMessage(errorPlayerMessage);
-						e.printStackTrace();
-					}
-				}
 			}
 		}
 	}
