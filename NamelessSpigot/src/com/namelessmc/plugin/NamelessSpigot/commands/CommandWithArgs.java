@@ -11,26 +11,13 @@ import com.namelessmc.plugin.NamelessSpigot.Config;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
-import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
-/*
- *  CommandWithArgs/Main CMD
- */
+public class CommandWithArgs extends Command {
 
-public class CommandWithArgs extends NamelessCommand {
-
-	/*
-	 * Constructer
-	 */
 	public CommandWithArgs(String name) {
-		super(name);
-		this.setUsage("/" + name + "<args>");
-		this.setDescription(Message.HELP_DESCRIPTION_MAIN.getMessage());
+		super(name, Message.HELP_DESCRIPTION_MAIN.getMessage(), "/" + name + "<args>", null);
 	}
 
-	/*
-	 * Handle inputted command
-	 */
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
 		ConfigurationSection commandsConfig = Config.COMMANDS.getConfig().getConfigurationSection("commands.subcommands");

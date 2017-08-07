@@ -11,28 +11,15 @@ import com.namelessmc.plugin.NamelessSpigot.util.UUIDFetcher;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
-import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
-/*
- *  Report CMD
- */
+public class ReportCommand extends Command {
 
-public class ReportCommand extends NamelessCommand {
-
-	/*
-	 * Constructer
-	 */
 	public ReportCommand(String name) {
-		super(name);
+		super(name, Message.HELP_DESCRIPTION_REPORT.getMessage(), "/" + name + "<user> <report text>", null);
 		setPermission(Permission.COMMAND_REPORT.toString());
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
-		setUsage("/" + name + "<user> <report text>");
-		setDescription(Message.HELP_DESCRIPTION_REPORT.getMessage());
 	}
 
-	/*
-	 * Handle inputted command
-	 */
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
 		if (!(sender instanceof Player)) {

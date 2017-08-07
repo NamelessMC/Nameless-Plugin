@@ -9,28 +9,15 @@ import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
-import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
-/*
- *  GetUserCommand CMD
- */
+public class GetUserCommand extends Command {
 
-public class GetUserCommand extends NamelessCommand {
-
-	/*
-	 * Constructer
-	 */
 	public GetUserCommand(String name) {
-		super(name);
+		super(name, Message.HELP_DESCRIPTION_GETUSER.getMessage(), "/" + name + "<user>", null);
 		setPermission(Permission.COMMAND_ADMIN_GETUSER.toString());
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
-		setUsage("/" + name + "<user>");
-		setDescription(Message.HELP_DESCRIPTION_GETUSER.getMessage());
 	}
 
-	/*
-	 * Handle inputted command
-	 */
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
 		if (args.length != 1) {
