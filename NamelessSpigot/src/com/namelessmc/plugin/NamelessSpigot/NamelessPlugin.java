@@ -128,22 +128,22 @@ public class NamelessPlugin extends JavaPlugin {
 
 			if (individual) {
 				if (commandsConfig.getBoolean("enable-registration")) {
-					map.register(name, new RegisterCommand(commandsConfig.getString("commands.individual.register")));
+					map.register(name, new RegisterCommand(commandsConfig.getString("individual.register")));
 				}
 
-				map.register(name, new GetUserCommand(commandsConfig.getString("commands.individual.user-info")));
+				map.register(name, new GetUserCommand(commandsConfig.getString("individual.user-info")));
 
-				map.register(name, new GetNotificationsCommand(commandsConfig.getString("commands.individual.notifications")));
+				map.register(name, new GetNotificationsCommand(commandsConfig.getString("individual.notifications")));
 
-				map.register(name, new SetGroupCommand(commandsConfig.getString("commands.individual.setgroup")));
+				map.register(name, new SetGroupCommand(commandsConfig.getString("individual.setgroup")));
 
 				if (commandsConfig.getBoolean("enable-reports")) {
-					map.register(name, new ReportCommand(commandsConfig.getString("commands.individual.report")));
+					map.register(name, new ReportCommand(commandsConfig.getString("individual.report")));
 				}
 			}
 
 			if (subcommands) {
-				map.register(name, new CommandWithArgs(commandsConfig.getString("commands.subcommands.main")));
+				map.register(name, new CommandWithArgs(commandsConfig.getString("subcommands.main")));
 			}
 			
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
