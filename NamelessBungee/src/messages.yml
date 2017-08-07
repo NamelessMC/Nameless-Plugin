@@ -46,10 +46,6 @@ report-error: '&cAn error has occured while reporting: %error%'
 set-group-success: '&aYou have successfully changed &b%player%s &3groupID&a, from &3%previousgroup% &ato &3%newgroup%!'
 set-group-error: '&cAn error has occured check console for more details: %error%'
 
-# Group Sync
-group-sync-player-success: '&aSuccessfully changed your group on the website!'
-group-sync-player-error: '&cCouldnt change your group on the website! Contact an admin: %error%'
-
 # Get User
 userinfo-username: '&bUsername: &a%username%'
 userinfo-displayname: '&aDisplayName: &b%displayname%'

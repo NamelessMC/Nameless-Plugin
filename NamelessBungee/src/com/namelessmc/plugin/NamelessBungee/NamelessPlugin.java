@@ -19,8 +19,6 @@ import com.namelessmc.plugin.NamelessBungee.commands.SetGroupCommand;
 import com.namelessmc.plugin.NamelessBungee.player.PlayerEventListener;
 
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
@@ -175,21 +173,13 @@ public class NamelessPlugin extends Plugin {
 							int previousGroup = namelessPlayer.getGroupID();
 
 							try {
-								
 								namelessPlayer.setGroup(Integer.parseInt(groupID));
-								Chat.log(Level.INFO, "Successfully changed " + player.getName() + "'s group from "+ previousGroup + " to " + groupID + ".");
-								player.sendMessage(Message.GROUP_SYNC_PLAYER_ERROR.getComponents());
-								
+								Chat.log(Level.INFO, "Successfully changed " + player.getName() + "'s group from "+ previousGroup + " to " + groupID + ".");								
 							} catch (NumberFormatException e) {
-								
 								Chat.log(Level.WARNING, String.format("The provided group id \"%s\" is not a number.", groupID));
-								
 							} catch (NamelessException e) {
-								
 								Chat.log(Level.WARNING, "Error changing "+ player.getName() + "'s group.");
-								player.sendMessage(TextComponent.fromLegacyText(Message.GROUP_SYNC_PLAYER_ERROR.getMessage().replace("%error%", e.getMessage())));
 								e.printStackTrace();
-								
 							}
 						}
 					}
