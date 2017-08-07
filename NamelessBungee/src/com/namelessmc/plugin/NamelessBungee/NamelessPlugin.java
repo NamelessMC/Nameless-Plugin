@@ -41,9 +41,7 @@ public class NamelessPlugin extends Plugin {
 			return;
 		}
 
-		if (!checkConnection()) {
-			return;
-		}
+		if (!checkConnection()) return;
 
 		// Connection is successful, move on with registering listeners and commands.
 		

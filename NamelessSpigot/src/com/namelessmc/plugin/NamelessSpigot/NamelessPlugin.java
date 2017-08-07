@@ -43,9 +43,7 @@ public class NamelessPlugin extends JavaPlugin {
 			return;
 		}
 			
-		if (!checkConnection()) {
-			return;
-		}
+		if (!checkConnection()) return;
 			
 		initHooks();
 			
