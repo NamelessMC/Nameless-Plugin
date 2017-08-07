@@ -20,14 +20,14 @@ public class CommandWithArgs extends Command {
 
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
-		ConfigurationSection commandsConfig = Config.COMMANDS.getConfig().getConfigurationSection("commands.subcommands");
+		ConfigurationSection commandsConfig = Config.COMMANDS.getConfig().getConfigurationSection("subcommands");
 		YamlConfiguration config = Config.MAIN.getConfig();
 		
-		String register = commandsConfig.getString("Register");
-		String getNotifications = commandsConfig.getString("GetNotifications");
-		String report = commandsConfig.getString("Report");
-		String getUser = commandsConfig.getString("GetUser");
-		String setGroup = commandsConfig.getString("SetGroup");
+		String register = commandsConfig.getString("register");
+		String getNotifications = commandsConfig.getString("get-notifications");
+		String report = commandsConfig.getString("report");
+		String getUser = commandsConfig.getString("get-user");
+		String setGroup = commandsConfig.getString("set-group");
 		
 		String separator = Chat.convertColors("&3&m--------------------------------");
 		

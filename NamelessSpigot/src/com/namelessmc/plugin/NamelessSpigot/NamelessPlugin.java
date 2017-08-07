@@ -135,7 +135,7 @@ public class NamelessPlugin extends JavaPlugin {
 
 				map.register(name, new GetNotificationsCommand(commandsConfig.getString("individual.notifications")));
 
-				map.register(name, new SetGroupCommand(commandsConfig.getString("individual.setgroup")));
+				map.register(name, new SetGroupCommand(commandsConfig.getString("individual.set-group")));
 
 				if (commandsConfig.getBoolean("enable-reports")) {
 					map.register(name, new ReportCommand(commandsConfig.getString("individual.report")));

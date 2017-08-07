@@ -28,14 +28,14 @@ public class CommandWithArgs extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		Configuration commandsConfig = Config.COMMANDS.getConfig().getSection("commands.subcommands");
+		Configuration commandsConfig = Config.COMMANDS.getConfig().getSection("subcommands");
 		Configuration config = Config.MAIN.getConfig();
 		
-		String register = commandsConfig.getString("Register");
-		String getNotifications = commandsConfig.getString("GetNotifications");
-		String report = commandsConfig.getString("Report");
-		String getUser = commandsConfig.getString("GetUser");
-		String setGroup = commandsConfig.getString("SetGroup");
+		String register = commandsConfig.getString("register");
+		String getNotifications = commandsConfig.getString("get-notifications");
+		String report = commandsConfig.getString("report");
+		String getUser = commandsConfig.getString("get-user");
+		String setGroup = commandsConfig.getString("set-group");
 		
 		BaseComponent[] separator = new ComponentBuilder("--------------------------------").color(ChatColor.DARK_AQUA).italic(true).create();
 		
