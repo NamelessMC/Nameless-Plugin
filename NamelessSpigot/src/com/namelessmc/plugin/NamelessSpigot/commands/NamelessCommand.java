@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.NamelessSpigot.commands.nameless;
+package com.namelessmc.plugin.NamelessSpigot.commands;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Config;
 
-public class NLCommand implements CommandExecutor {
+public class NamelessCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

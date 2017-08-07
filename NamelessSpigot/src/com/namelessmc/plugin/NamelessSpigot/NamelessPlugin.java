@@ -15,10 +15,10 @@ import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.plugin.NamelessSpigot.commands.CommandWithArgs;
 import com.namelessmc.plugin.NamelessSpigot.commands.GetNotificationsCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.GetUserCommand;
+import com.namelessmc.plugin.NamelessSpigot.commands.NamelessCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.RegisterCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.ReportCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.SetGroupCommand;
-import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NLCommand;
 import com.namelessmc.plugin.NamelessSpigot.hooks.MVdWPlaceholderUtil;
 import com.namelessmc.plugin.NamelessSpigot.hooks.PAPIPlaceholderUtil;
 import com.namelessmc.plugin.NamelessSpigot.player.PlayerEventListener;
@@ -114,7 +114,7 @@ public class NamelessPlugin extends JavaPlugin {
 	}*/
 
 	private void registerCommands() {
-		getServer().getPluginCommand("nameless").setExecutor(new NLCommand());
+		getServer().getPluginCommand("nameless").setExecutor(new NamelessCommand());
 		
 		YamlConfiguration commandsConfig = Config.COMMANDS.getConfig();
 		
