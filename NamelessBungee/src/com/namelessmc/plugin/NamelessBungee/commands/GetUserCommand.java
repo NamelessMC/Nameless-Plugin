@@ -87,15 +87,15 @@ public class GetUserCommand extends Command {
 				}
 				
 				if (target.isBanned()) {
-					sender.sendMessage(TextComponent.fromLegacyText(
+					sender.sendMessage(TextComponent.fromLegacyText(Chat.convertColorsString(
 							Message.GETUSER_BANNED.getMessage() +
 							"&c: " +
-							Message.GETUSER_BANNED_YES.getMessage()));
+							Message.GETUSER_BANNED_YES.getMessage())));
 				} else {
-					sender.sendMessage(TextComponent.fromLegacyText(
+					sender.sendMessage(TextComponent.fromLegacyText(Chat.convertColorsString(
 							Message.GETUSER_BANNED.getMessage() +
 							"&a: " +
-							Message.GETUSER_BANNED_NO.getMessage()));
+							Message.GETUSER_BANNED_NO.getMessage())));
 				}
 				
 				sender.sendMessage(separator);

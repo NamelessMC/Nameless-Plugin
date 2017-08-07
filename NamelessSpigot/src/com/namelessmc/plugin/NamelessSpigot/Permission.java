@@ -2,6 +2,7 @@ package com.namelessmc.plugin.NamelessSpigot;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionDefault;
 
 public enum Permission {
 	COMMAND_MAIN("namelessmc.main"),
@@ -37,6 +38,10 @@ public enum Permission {
 	public boolean hasPermission(CommandSender sender) {
 		if(sender.hasPermission(asPermission()))return true;
 		return false;
+	}
+	
+	public static org.bukkit.permissions.Permission toGroupSyncPermission(String permission) {
+		return new org.bukkit.permissions.Permission(permission, PermissionDefault.FALSE);
 	}
 
 }

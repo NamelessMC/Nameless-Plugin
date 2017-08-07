@@ -15,6 +15,7 @@ import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Config;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
+import com.namelessmc.plugin.NamelessSpigot.Permission;
 
 public class PlayerEventListener implements Listener {
 
@@ -92,7 +93,7 @@ public class PlayerEventListener implements Listener {
 				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 				if (String.valueOf(namelessPlayer.getGroupID()).equals(groupID)) {
 					return;
-				} else if (player.hasPermission(permissionConfig.getString("permissions" + groupID))) {
+				} else if (player.hasPermission(Permission.toGroupSyncPermission(permissionConfig.getString("permissions" + groupID)))) {
 					Integer previousgroup = namelessPlayer.getGroupID();
 					String successPlayerMessage = Message.GROUP_SYNC_PLAYER_ERROR.getMessage();
 					try {

@@ -80,9 +80,9 @@ public class GetUserCommand extends NamelessCommand {
 				}
 				
 				if (target.isBanned()) {
-					sender.sendMessage(Message.GETUSER_BANNED.getMessage() +" &c: " + Message.GETUSER_BANNED_YES.getMessage());
+					sender.sendMessage(Chat.convertColors(Message.GETUSER_BANNED.getMessage() +" &c: " + Message.GETUSER_BANNED_YES.getMessage()));
 				} else {
-					sender.sendMessage(Message.GETUSER_BANNED.getMessage() + "&a: " + Message.GETUSER_BANNED_NO.getMessage());
+					sender.sendMessage(Chat.convertColors(Message.GETUSER_BANNED.getMessage() + "&a: " + Message.GETUSER_BANNED_NO.getMessage()));
 				}
 				
 				sender.sendMessage(separator);
