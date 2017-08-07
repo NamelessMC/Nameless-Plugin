@@ -133,7 +133,7 @@ public class NamelessPlugin extends JavaPlugin {
 
 				map.register(name, new GetUserCommand(commandsConfig.getString("individual.user-info")));
 
-				map.register(name, new GetNotificationsCommand(commandsConfig.getString("individual.notifications")));
+				map.register(name, new GetNotificationsCommand(commandsConfig.getString("individual.get-notifications")));
 
 				map.register(name, new SetGroupCommand(commandsConfig.getString("individual.set-group")));
 

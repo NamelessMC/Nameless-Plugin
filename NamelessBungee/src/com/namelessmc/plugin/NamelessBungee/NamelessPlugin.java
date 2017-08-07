@@ -109,7 +109,7 @@ public class NamelessPlugin extends Plugin {
 					new GetUserCommand(commandsConfig.getString("individual.user-info")));
 
 			getProxy().getPluginManager().registerCommand(this,
-					new GetNotificationsCommand(commandsConfig.getString("individual.notifications")));
+					new GetNotificationsCommand(commandsConfig.getString("individual.get-notifications")));
 
 			getProxy().getPluginManager().registerCommand(this,
 					new SetGroupCommand(commandsConfig.getString("individual.setgroup")));
