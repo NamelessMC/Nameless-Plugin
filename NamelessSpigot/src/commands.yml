@@ -4,15 +4,15 @@
 individual:
   enabled: true
   register: 'register'
-  notifications: 'notifications'
+  get-notifications: 'getnotifications'
   report: 'report'
-  user-info: 'info'
+  user-info: 'getinfo'
   set-group: 'setgroup'
 subcommands:
   enabled: true
   main: 'website'
   register: 'register'
-  notifications: 'notifications'
+  get-notifications: 'getnotifications'
   report: 'report'
-  user-info: 'info'
+  user-info: 'getinfo'
   set-group: 'setgroup'

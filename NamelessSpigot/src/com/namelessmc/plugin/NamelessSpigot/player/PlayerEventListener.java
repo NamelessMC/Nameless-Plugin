@@ -97,15 +97,13 @@ public class PlayerEventListener implements Listener {
 					String successPlayerMessage = Message.GROUP_SYNC_PLAYER_ERROR.getMessage();
 					try {
 						namelessPlayer.setGroup(Integer.parseInt(groupID));
-						NamelessPlugin.log(Level.INFO, "&aSuccessfully changed &b" + player.getName() + "'s &agroup from &b"
-								+ previousgroup + " &ato &b" + groupID + "&a!");
+						NamelessPlugin.log(Level.INFO, "Successfully changed " + player.getName() + "'s &agroup from " + previousgroup + " to " + groupID);
 						player.sendMessage(successPlayerMessage);
 					} catch (NumberFormatException e) {
-						NamelessPlugin.log(Level.WARNING, "&4The Group ID is not a Integer/Number!");
+						NamelessPlugin.log(Level.WARNING, "The Group ID is not a number.");
 					} catch (NamelessException e) {
 						String errorPlayerMessage = Message.GROUP_SYNC_PLAYER_ERROR.getMessage().replace("%error%", e.getMessage());
-						NamelessPlugin.log(Level.WARNING, "&4Error changing &c"
-								+ player.getName() + "'s group: &4" + e.getMessage());
+						NamelessPlugin.log(Level.WARNING, "Error changing &c" + player.getName() + "'s group: " + e.getMessage());
 						player.sendMessage(errorPlayerMessage);
 						e.printStackTrace();
 					}
@@ -127,7 +125,7 @@ public class PlayerEventListener implements Listener {
 			//If the name in the file is different, the player has changed they name
 			String previousName = playerData.getString(player.getUniqueId() + ".username");
 			if (!previousName.equals(player.getName())) {
-				NamelessPlugin.log(Level.INFO, "&cDetected that &a" + player.getName() + " &chas changed his/her username.");
+				NamelessPlugin.log(Level.INFO, "Detected that " + player.getName() + " has changed his/her username.");
 	
 				//Update name in file
 				playerData.set(player.getUniqueId() + ".Username", player.getName());
@@ -137,11 +135,11 @@ public class PlayerEventListener implements Listener {
 				try {
 					namelessPlayer.updateUsername(player.getName());
 					String successMessage = Message.USERNAME_SYNC_SUCCESS.getMessage();
-					NamelessPlugin.log(Level.INFO, "&Updated &b" + player.getName() + "'s &ausername in the website");
+					NamelessPlugin.log(Level.INFO, "Updated &b" + player.getName() + "'s username in the website");
 					player.sendMessage(successMessage);
 				} catch (NamelessException e) {
 					String errorMessage = Message.USERNAME_SYNC_ERROR.getMessage().replace("%error%", e.getMessage());
-					NamelessPlugin.log(Level.WARNING,"&4Failed updating &c" + player.getName() + "'s &4username in the website, Error:" + e.getMessage());
+					NamelessPlugin.log(Level.WARNING,"Failed updating &c" + player.getName() + "'s username in the website, Error:" + e.getMessage());
 					player.sendMessage(errorMessage);
 					e.printStackTrace();
 				}

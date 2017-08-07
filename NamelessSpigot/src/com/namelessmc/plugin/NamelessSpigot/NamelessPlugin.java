@@ -38,14 +38,12 @@ public class NamelessPlugin extends JavaPlugin {
 		try {
 			Config.initialize();
 		} catch (IOException e) {
-			getLogger().severe("&4Unable to load config.");
+			getLogger().severe("Unable to load config.");
 			e.printStackTrace();
 			return;
 		}
 			
-		if (!checkConnection()) {
-			return;
-		}
+		if (!checkConnection()) return;
 			
 		initHooks();
 			
@@ -73,14 +71,14 @@ public class NamelessPlugin extends JavaPlugin {
 		YamlConfiguration config = Config.MAIN.getConfig();
 		String url = config.getString("api-url");
 		if (url.equals("")) {
-			getLogger().severe("&4No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
+			getLogger().severe("No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
 			return false; // Prevent registering of commands, listeners, etc.
 		} else {
 			try {
 				baseApiURL = new URL(url);
 			} catch (MalformedURLException e) {
 				// There is an exception, so the connection was not successful.
-				getLogger().severe("&4Invalid API Url/Key. Nothing will work until you set the correct url.");
+				getLogger().severe("Invalid API Url/Key. Nothing will work until you set the correct url.");
 				getLogger().severe("Error: " + e.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
@@ -88,7 +86,7 @@ public class NamelessPlugin extends JavaPlugin {
 			Exception exception = NamelessAPI.checkWebAPIConnection(baseApiURL);
 			if (exception != null) {
 				// There is an exception, so the connection was unsuccessful.
-				getLogger().severe("&4Invalid API Url/Key. Nothing will work until you set the correct url.");
+				getLogger().severe("Invalid API Url/Key. Nothing will work until you set the correct url.");
 				getLogger().severe("Error: " + exception.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
@@ -130,22 +128,22 @@ public class NamelessPlugin extends JavaPlugin {
 
 			if (individual) {
 				if (commandsConfig.getBoolean("enable-registration")) {
-					map.register(name, new RegisterCommand(commandsConfig.getString("commands.individual.register")));
+					map.register(name, new RegisterCommand(commandsConfig.getString("individual.register")));
 				}
 
-				map.register(name, new GetUserCommand(commandsConfig.getString("commands.individual.user-info")));
+				map.register(name, new GetUserCommand(commandsConfig.getString("individual.user-info")));
 
-				map.register(name, new GetNotificationsCommand(commandsConfig.getString("commands.individual.notifications")));
+				map.register(name, new GetNotificationsCommand(commandsConfig.getString("individual.get-notifications")));
 
-				map.register(name, new SetGroupCommand(commandsConfig.getString("commands.individual.setgroup")));
+				map.register(name, new SetGroupCommand(commandsConfig.getString("individual.set-group")));
 
 				if (commandsConfig.getBoolean("enable-reports")) {
-					map.register(name, new ReportCommand(commandsConfig.getString("commands.individual.report")));
+					map.register(name, new ReportCommand(commandsConfig.getString("individual.report")));
 				}
 			}
 
 			if (subcommands) {
-				map.register(name, new CommandWithArgs(commandsConfig.getString("commands.subcommands.main")));
+				map.register(name, new CommandWithArgs(commandsConfig.getString("subcommands.main")));
 			}
 			
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {

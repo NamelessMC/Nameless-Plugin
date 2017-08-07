@@ -1,5 +1,5 @@
 name: NamelessMC
-main: com.namelessmc.plugin.NamelessPlugin
+main: com.namelessmc.plugin.NamelessSpigot.NamelessPlugin
 authors: [Samerton, IsS127, Lmmb74]
 website: https://namelessmc.com/
 version: Pre-2

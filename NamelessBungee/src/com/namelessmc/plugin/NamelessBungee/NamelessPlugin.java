@@ -43,14 +43,12 @@ public class NamelessPlugin extends Plugin {
 		try {
 			Config.initialize();
 		} catch (IOException e) {
-			Chat.log(Level.SEVERE, "&4Unable to load config.");
+			Chat.log(Level.SEVERE, "Unable to load config.");
 			e.printStackTrace();
 			return;
 		}
 
-		if (!checkConnection()) {
-			return;
-		}
+		if (!checkConnection()) return;
 
 		// Connection is successful, move on with registering listeners and commands.
 		
@@ -85,14 +83,14 @@ public class NamelessPlugin extends Plugin {
 		Configuration config = Config.MAIN.getConfig();
 		String url = config.getString("api-url");
 		if (url.equals("")) {
-			Chat.log(Level.SEVERE, "&4No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
+			Chat.log(Level.SEVERE, "No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
 			return false; // Prevent registering of commands, listeners, etc.
 		} else {
 			try {
 				baseApiURL = new URL(url);
 			} catch (MalformedURLException e) {
 				// There is an exception, so the connection was not successful.
-				Chat.log(Level.SEVERE, "&4Invalid API Url/Key. Nothing will work until you set the correct url.");
+				Chat.log(Level.SEVERE, "Invalid API Url/Key. Nothing will work until you set the correct url.");
 				Chat.log(Level.SEVERE, "Error: " + e.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
@@ -100,7 +98,7 @@ public class NamelessPlugin extends Plugin {
 			Exception exception = NamelessAPI.checkWebAPIConnection(baseApiURL);
 			if (exception != null) {
 				// There is an exception, so the connection was unsuccessful.
-				Chat.log(Level.SEVERE, "&4Invalid API Url/Key. Nothing will work until you set the correct url.");
+				Chat.log(Level.SEVERE, "Invalid API Url/Key. Nothing will work until you set the correct url.");
 				Chat.log(Level.SEVERE, "Error: " + exception.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
@@ -119,22 +117,22 @@ public class NamelessPlugin extends Plugin {
 
 		if (individual) {
 			if (commandsConfig.getBoolean("enable-registration")) {
-				pm.registerCommand(this, new RegisterCommand(commandsConfig.getString("commands.individual.register")));
+				pm.registerCommand(this, new RegisterCommand(commandsConfig.getString("individual.register")));
 			}
 
-			pm.registerCommand(this, new GetUserCommand(commandsConfig.getString("commands.individual.user-info")));
+			pm.registerCommand(this, new GetUserCommand(commandsConfig.getString("individual.user-info")));
 
-			pm.registerCommand(this, new GetNotificationsCommand(commandsConfig.getString("commands.individual.notifications")));
+			pm.registerCommand(this, new GetNotificationsCommand(commandsConfig.getString("individual.notifications")));
 
-			pm.registerCommand(this, new SetGroupCommand(commandsConfig.getString("commands.individual.setgroup")));
+			pm.registerCommand(this, new SetGroupCommand(commandsConfig.getString("individual.setgroup")));
 
 			if (commandsConfig.getBoolean("enable-reports")) {
-				pm.registerCommand(this, new ReportCommand(commandsConfig.getString("commands.individual.report")));
+				pm.registerCommand(this, new ReportCommand(commandsConfig.getString("individual.report")));
 			}
 		}
 		
 		if (subcommands) {
-			pm.registerCommand(this, new CommandWithArgs(commandsConfig.getString("commands.subcommands.main")));
+			pm.registerCommand(this, new CommandWithArgs(commandsConfig.getString("subcommands.main")));
 		}
 	}
 

@@ -40,7 +40,7 @@ username-sync-error: '&cCouldnt update your username on the website! Contact an 
 
 # Report 
 report-success: '&aYou have successfully reported &b%player%&a!'
-report-error '&cAn error has occured while reporting: %error%'
+report-error: '&cAn error has occured while reporting: %error%'
   
 # Set Group
 set-group-success: '&aYou have successfully changed &b%player%s &3groupID&a, from &3%previousgroup% &ato &3%newgroup%!'
