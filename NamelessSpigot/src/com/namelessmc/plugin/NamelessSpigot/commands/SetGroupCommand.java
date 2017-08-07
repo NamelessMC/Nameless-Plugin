@@ -2,7 +2,6 @@ package com.namelessmc.plugin.NamelessSpigot.commands;
 
 import java.util.UUID;
 
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import com.namelessmc.NamelessAPI.NamelessException;
@@ -10,9 +9,18 @@ import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
+import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
-public class SetGroupCommand extends Command {
 
+/*
+ *  Register CMD
+ */
+
+public class SetGroupCommand extends NamelessCommand {
+
+	/*
+	 * Constructer
+	 */
 	public SetGroupCommand(String name) {
 		super(name);
 		setPermission(Permission.COMMAND_ADMIN_SETGROUP.toString());
@@ -21,6 +29,9 @@ public class SetGroupCommand extends Command {
 		setDescription(Message.HELP_DESCRIPTION_SETGROUP.getMessage());
 	}
 
+	/*
+	 * Handle inputted command
+	 */
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
 		if (args.length != 2) {

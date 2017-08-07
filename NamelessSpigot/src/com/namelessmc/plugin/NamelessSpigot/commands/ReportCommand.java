@@ -2,19 +2,26 @@ package com.namelessmc.plugin.NamelessSpigot.commands;
 
 import java.util.UUID;
 
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.plugin.NamelessSpigot.util.UUIDFetcher;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
-import com.namelessmc.plugin.NamelessSpigot.util.UUIDFetcher;
+import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
-public class ReportCommand extends Command {
+/*
+ *  Report CMD
+ */
 
+public class ReportCommand extends NamelessCommand {
+
+	/*
+	 * Constructer
+	 */
 	public ReportCommand(String name) {
 		super(name);
 		setPermission(Permission.COMMAND_REPORT.toString());
@@ -23,6 +30,9 @@ public class ReportCommand extends Command {
 		setDescription(Message.HELP_DESCRIPTION_REPORT.getMessage());
 	}
 
+	/*
+	 * Handle inputted command
+	 */
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
 		if (!(sender instanceof Player)) {
