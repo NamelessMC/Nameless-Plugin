@@ -27,12 +27,12 @@ public class PlayerEventListener implements Listener {
 			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 			if (namelessPlayer.exists()) {
 				if (namelessPlayer.isValidated()) {
-					// shouldnt be outisde validated cause if your not validated you cant check anything.
+					// Only show notifications if the player has validated their account
 					userGetNotifications(player);
 				} else {
 					player.sendMessage(Message.PLAYER_NOT_VALID.getComponents());
 				}
-				// theese should be outside, better!
+
 				userNameCheck(player);
 			}
 		});
