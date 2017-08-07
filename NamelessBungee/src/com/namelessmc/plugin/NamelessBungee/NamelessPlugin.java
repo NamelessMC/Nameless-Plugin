@@ -17,6 +17,7 @@ import com.namelessmc.plugin.NamelessBungee.commands.SetGroupCommand;
 import com.namelessmc.plugin.NamelessBungee.player.PlayerEventListener;
 
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.api.plugin.PluginManager;
 import net.md_5.bungee.config.Configuration;
 
 public class NamelessPlugin extends Plugin {
@@ -96,35 +97,31 @@ public class NamelessPlugin extends Plugin {
 
 	private void registerCommands() {
 		Configuration commandsConfig = Config.COMMANDS.getConfig();
+		PluginManager pm = getProxy().getPluginManager();
 		
-		getProxy().getPluginManager().registerCommand(this, new NamelessCommand());
+		pm.registerCommand(this, new NamelessCommand());
 
 		boolean subcommands = Config.COMMANDS.getConfig().getBoolean("subcommands.enabled", true);
 		boolean individual = Config.COMMANDS.getConfig().getBoolean("individual.enabled", true);
 
 		if (individual) {
-			if (commandsConfig.getBoolean("enable-registration"))
-				getProxy().getPluginManager().registerCommand(this,
-						new RegisterCommand(commandsConfig.getString("commands.individual.register")));
+			if (commandsConfig.getBoolean("enable-registration")) {
+				pm.registerCommand(this, new RegisterCommand(commandsConfig.getString("commands.individual.register")));
+			}
 
-			getProxy().getPluginManager().registerCommand(this,
-					new GetUserCommand(commandsConfig.getString("commands.individual.user-info")));
+			pm.registerCommand(this, new GetUserCommand(commandsConfig.getString("commands.individual.user-info")));
 
-			getProxy().getPluginManager().registerCommand(this,
-					new GetNotificationsCommand(commandsConfig.getString("commands.individual.notifications")));
+			pm.registerCommand(this, new GetNotificationsCommand(commandsConfig.getString("commands.individual.notifications")));
 
-			getProxy().getPluginManager().registerCommand(this,
-					new SetGroupCommand(commandsConfig.getString("commands.individual.setgroup")));
+			pm.registerCommand(this, new SetGroupCommand(commandsConfig.getString("commands.individual.setgroup")));
 
-			if (commandsConfig.getBoolean("enable-reports"))
-				getProxy().getPluginManager().registerCommand(this,
-						new ReportCommand(commandsConfig.getString("commands.individual.report")));
-
+			if (commandsConfig.getBoolean("enable-reports")) {
+				pm.registerCommand(this, new ReportCommand(commandsConfig.getString("commands.individual.report")));
+			}
 		}
 		
 		if (subcommands) {
-			getProxy().getPluginManager().registerCommand(this,
-					new CommandWithArgs(commandsConfig.getString("commands.subcommands.main")));
+			pm.registerCommand(this, new CommandWithArgs(commandsConfig.getString("commands.subcommands.main")));
 		}
 	}
 
