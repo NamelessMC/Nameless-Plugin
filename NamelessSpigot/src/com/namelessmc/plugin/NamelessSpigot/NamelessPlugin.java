@@ -170,7 +170,7 @@ public class NamelessPlugin extends JavaPlugin {
 	}
 	
 	public static void log(Level level, String message) {
-		NamelessPlugin.getInstance().getLogger().log(level, Chat.convertColors(message));
+		NamelessPlugin.getInstance().getLogger().log(level, message);
 	}
 
 	public static class SaveConfig implements Runnable {
