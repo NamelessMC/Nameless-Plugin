@@ -1,6 +1,6 @@
 package com.namelessmc.plugin.NamelessSpigot.commands;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.bukkit.command.PluginIdentifiableCommand;
 
@@ -12,8 +12,8 @@ public abstract class Command extends org.bukkit.command.Command implements Plug
 		super(name);
 	}
 
-	protected Command(String name, String description, String usageMessage, List<String> aliases) {
-		super(name, description, usageMessage, aliases);
+	protected Command(String name, String description, String usageMessage) {
+		super(name, description, usageMessage, new ArrayList<>());
 	}
 
 	@Override

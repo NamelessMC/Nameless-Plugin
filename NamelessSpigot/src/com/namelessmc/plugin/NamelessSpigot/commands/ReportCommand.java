@@ -15,7 +15,7 @@ import com.namelessmc.plugin.NamelessSpigot.Permission;
 public class ReportCommand extends Command {
 
 	public ReportCommand(String name) {
-		super(name, Message.HELP_DESCRIPTION_REPORT.getMessage(), "/" + name + "<user> <report text>", null);
+		super(name, Message.HELP_DESCRIPTION_REPORT.getMessage(), "/" + name + "<user> <report text>");
 		setPermission(Permission.COMMAND_REPORT.toString());
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 	}

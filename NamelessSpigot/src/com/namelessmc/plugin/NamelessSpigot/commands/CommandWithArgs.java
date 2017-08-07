@@ -15,7 +15,7 @@ import com.namelessmc.plugin.NamelessSpigot.Permission;
 public class CommandWithArgs extends Command {
 
 	public CommandWithArgs(String name) {
-		super(name, Message.HELP_DESCRIPTION_MAIN.getMessage(), "/" + name + "<args>", null);
+		super(name, Message.HELP_DESCRIPTION_MAIN.getMessage(), "/" + name + "<args>");
 	}
 
 	@Override

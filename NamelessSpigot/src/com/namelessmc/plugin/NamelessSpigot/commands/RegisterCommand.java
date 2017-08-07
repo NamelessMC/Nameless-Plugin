@@ -12,7 +12,7 @@ import com.namelessmc.plugin.NamelessSpigot.Permission;
 public class RegisterCommand extends Command {
 
 	public RegisterCommand(String name) {
-		super(name, Message.HELP_DESCRIPTION_REGISTER.getMessage(), "/" + name + "<email>", null);
+		super(name, Message.HELP_DESCRIPTION_REGISTER.getMessage(), "/" + name + "<email>");
 		setPermission(Permission.COMMAND_REGISTER.toString());
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 	}

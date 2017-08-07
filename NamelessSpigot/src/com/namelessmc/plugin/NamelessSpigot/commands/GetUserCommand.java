@@ -13,7 +13,7 @@ import com.namelessmc.plugin.NamelessSpigot.Permission;
 public class GetUserCommand extends Command {
 
 	public GetUserCommand(String name) {
-		super(name, Message.HELP_DESCRIPTION_GETUSER.getMessage(), "/" + name + "<user>", null);
+		super(name, Message.HELP_DESCRIPTION_GETUSER.getMessage(), "/" + name + "<user>");
 		setPermission(Permission.COMMAND_ADMIN_GETUSER.toString());
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 	}

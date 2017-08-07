@@ -13,7 +13,7 @@ import com.namelessmc.plugin.NamelessSpigot.Permission;
 public class SetGroupCommand extends Command {
 
 	public SetGroupCommand(String name) {
-		super(name, Message.HELP_DESCRIPTION_SETGROUP.getMessage(), "/" + name + "<user> <groupID>", null);
+		super(name, Message.HELP_DESCRIPTION_SETGROUP.getMessage(), "/" + name + "<user> <groupID>");
 		setPermission(Permission.COMMAND_ADMIN_SETGROUP.toString());
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 	}
