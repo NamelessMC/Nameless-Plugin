@@ -38,7 +38,7 @@ public class NamelessPlugin extends JavaPlugin {
 		try {
 			Config.initialize();
 		} catch (IOException e) {
-			Chat.log(Level.SEVERE, "&4Unable to load config.");
+			Chat.log(Level.SEVERE, "Unable to load config.");
 			e.printStackTrace();
 			return;
 		}
@@ -71,14 +71,14 @@ public class NamelessPlugin extends JavaPlugin {
 		YamlConfiguration config = Config.MAIN.getConfig();
 		String url = config.getString("api-url");
 		if (url.equals("")) {
-			Chat.log(Level.SEVERE, "&4No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
+			Chat.log(Level.SEVERE, "No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
 			return false; // Prevent registering of commands, listeners, etc.
 		} else {
 			try {
 				baseApiURL = new URL(url);
 			} catch (MalformedURLException e) {
 				// There is an exception, so the connection was not successful.
-				Chat.log(Level.SEVERE, "&4Invalid API Url/Key. Nothing will work until you set the correct url.");
+				Chat.log(Level.SEVERE, "Invalid API Url/Key. Nothing will work until you set the correct url.");
 				Chat.log(Level.SEVERE, "Error: " + e.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
@@ -86,7 +86,7 @@ public class NamelessPlugin extends JavaPlugin {
 			Exception exception = NamelessAPI.checkWebAPIConnection(baseApiURL);
 			if (exception != null) {
 				// There is an exception, so the connection was unsuccessful.
-				Chat.log(Level.SEVERE, "&4Invalid API Url/Key. Nothing will work until you set the correct url.");
+				Chat.log(Level.SEVERE, "Invalid API Url/Key. Nothing will work until you set the correct url.");
 				Chat.log(Level.SEVERE, "Error: " + exception.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}

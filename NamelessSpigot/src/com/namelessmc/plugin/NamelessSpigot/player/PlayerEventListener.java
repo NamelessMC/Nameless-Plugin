@@ -98,15 +98,15 @@ public class PlayerEventListener implements Listener {
 					String successPlayerMessage = Message.GROUP_SYNC_PLAYER_ERROR.getMessage();
 					try {
 						namelessPlayer.setGroup(Integer.parseInt(groupID));
-						Chat.log(Level.INFO, "&aSuccessfully changed &b" + player.getName() + "'s &agroup from &b"
-								+ previousgroup + " &ato &b" + groupID + "&a!");
+						Chat.log(Level.INFO, "&aSuccessfully changed &b" + player.getName() + "'s group from"
+								+ previousgroup + " to " + groupID + "!");
 						player.sendMessage(successPlayerMessage);
 					} catch (NumberFormatException e) {
-						Chat.log(Level.WARNING, "&4The Group ID is not a Integer/Number!");
+						Chat.log(Level.WARNING, "The Group ID is not a Integer/Number!");
 					} catch (NamelessException e) {
 						String errorPlayerMessage = Message.GROUP_SYNC_PLAYER_ERROR.getMessage().replace("%error%", e.getMessage());
-						Chat.log(Level.WARNING, "&4Error changing &c"
-								+ player.getName() + "'s group: &4" + e.getMessage());
+						Chat.log(Level.WARNING, "Error changing "
+								+ player.getName() + "'s group: " + e.getMessage());
 						player.sendMessage(errorPlayerMessage);
 						e.printStackTrace();
 					}
@@ -128,7 +128,7 @@ public class PlayerEventListener implements Listener {
 			//If the name in the file is different, the player has changed they name
 			String previousName = playerData.getString(player.getUniqueId() + ".username");
 			if (!previousName.equals(player.getName())) {
-				Chat.log(Level.INFO, "&cDetected that &a" + player.getName() + " &chas changed his/her username.");
+				Chat.log(Level.INFO, "Detected that " + player.getName() + " has changed his/her username.");
 	
 				//Update name in file
 				playerData.set(player.getUniqueId() + ".Username", player.getName());
@@ -138,11 +138,11 @@ public class PlayerEventListener implements Listener {
 				try {
 					namelessPlayer.updateUsername(player.getName());
 					String successMessage = Message.USERNAME_SYNC_SUCCESS.getMessage();
-					Chat.log(Level.INFO, "&Updated &b" + player.getName() + "'s &ausername in the website");
+					Chat.log(Level.INFO, "Updated &b" + player.getName() + "'s username in the website");
 					player.sendMessage(successMessage);
 				} catch (NamelessException e) {
 					String errorMessage = Message.USERNAME_SYNC_ERROR.getMessage().replace("%error%", e.getMessage());
-					Chat.log(Level.WARNING,"&4Failed updating &c" + player.getName() + "'s &4username in the website, Error:" + e.getMessage());
+					Chat.log(Level.WARNING,"Failed updating " + player.getName() + "'s username in the website, Error:" + e.getMessage());
 					player.sendMessage(errorMessage);
 					e.printStackTrace();
 				}
