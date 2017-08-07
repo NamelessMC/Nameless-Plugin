@@ -7,6 +7,7 @@ import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
+import com.namelessmc.plugin.NamelessSpigot.Permission;
 import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
 /*
@@ -20,7 +21,7 @@ public class RegisterCommand extends NamelessCommand {
 	 */
 	public RegisterCommand(String name) {
 		super(name);
-		setPermission(NamelessPlugin.PERMISSION_REGISTER);
+		setPermission(Permission.COMMAND_REGISTER.toString());
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name + "<email>");
 		setDescription(Message.HELP_DESCRIPTION_REGISTER.getMessage());

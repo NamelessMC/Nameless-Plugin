@@ -10,6 +10,7 @@ import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessSpigot.util.UUIDFetcher;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
+import com.namelessmc.plugin.NamelessSpigot.Permission;
 import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
 /*
@@ -23,7 +24,7 @@ public class ReportCommand extends NamelessCommand {
 	 */
 	public ReportCommand(String name) {
 		super(name);
-		setPermission(NamelessPlugin.PERMISSION_REPORT);
+		setPermission(Permission.COMMAND_REPORT.toString());
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name + "<user> <report text>");
 		setDescription(Message.HELP_DESCRIPTION_REPORT.getMessage());

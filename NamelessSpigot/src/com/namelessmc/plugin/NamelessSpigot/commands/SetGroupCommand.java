@@ -8,6 +8,7 @@ import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
+import com.namelessmc.plugin.NamelessSpigot.Permission;
 import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
 
@@ -22,7 +23,7 @@ public class SetGroupCommand extends NamelessCommand {
 	 */
 	public SetGroupCommand(String name) {
 		super(name);
-		setPermission(NamelessPlugin.PERMISSION_ADMIN_SETGROUP);
+		setPermission(Permission.COMMAND_ADMIN_SETGROUP.toString());
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name + "<user> <groupID>");
 		setDescription(Message.HELP_DESCRIPTION_SETGROUP.getMessage());

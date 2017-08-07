@@ -4,6 +4,7 @@ import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Message;
 import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Permission;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -23,7 +24,7 @@ public class RegisterCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.PERMISSION + ".register")) {
+		if (!Permission.COMMAND_REGISTER.hasPermission(sender)) {
 			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}

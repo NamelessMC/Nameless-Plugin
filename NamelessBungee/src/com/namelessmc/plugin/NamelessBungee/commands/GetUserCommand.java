@@ -6,6 +6,7 @@ import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Chat;
 import com.namelessmc.plugin.NamelessBungee.Message;
 import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Permission;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -26,7 +27,7 @@ public class GetUserCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.PERMISSION_ADMIN + ".getUser")) {
+		if (!Permission.COMMAND_ADMIN_GETUSER.hasPermission(sender)) {
 			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}

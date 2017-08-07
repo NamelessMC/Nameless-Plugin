@@ -6,6 +6,7 @@ import com.namelessmc.plugin.NamelessBungee.Config;
 import com.namelessmc.plugin.NamelessBungee.Chat;
 import com.namelessmc.plugin.NamelessBungee.Message;
 import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Permission;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -17,17 +18,11 @@ import net.md_5.bungee.config.Configuration;
 
 
 public class CommandWithArgs extends Command {
-
-	private String permission;
-	private String permissionAdmin;
+	
 	private String commandName;
 
 	public CommandWithArgs(String name) {
 		super(name);
-		
-		this.permission = NamelessPlugin.PERMISSION;
-		this.permissionAdmin = NamelessPlugin.PERMISSION_ADMIN;
-
 		commandName = name;
 	}
 
@@ -45,7 +40,7 @@ public class CommandWithArgs extends Command {
 		BaseComponent[] separator = new ComponentBuilder("--------------------------------").color(ChatColor.DARK_AQUA).italic(true).create();
 		
 		if (args.length == 0) {
-			if (!sender.hasPermission(permission + ".main")) {
+			if (!Permission.COMMAND_MAIN.hasPermission(sender)) {
 				sender.sendMessage(Message.NO_PERMISSION.getComponents());
 				return;
 			}
@@ -56,37 +51,35 @@ public class CommandWithArgs extends Command {
 				
 			sender.sendMessage(separator);
 			
-			if (sender.hasPermission(permission + ".main" + commandName.toLowerCase())) {
-				sender.sendMessage(TextComponent.fromLegacyText(
-						ChatColor.GREEN + "/" + commandName + ChatColor.DARK_AQUA + ", " + 
-						Message.HELP_DESCRIPTION_MAIN.getMessage()));
-			}
+			sender.sendMessage(TextComponent.fromLegacyText(
+						ChatColor.GREEN + "/" + commandName + ChatColor.DARK_AQUA
+						+ ", " + Message.HELP_DESCRIPTION_MAIN.getMessage()));
 						
-			if (config.getBoolean("enable-registration") && sender.hasPermission(permission + ".register")) {
+			if (config.getBoolean("enable-registration") && Permission.COMMAND_REGISTER.hasPermission(sender)) {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						ChatColor.GREEN + "/" + commandName + ChatColor.DARK_AQUA + ", " + 
 						Message.HELP_DESCRIPTION_REGISTER.getMessage()));
 			}
 				
-			if (sender.hasPermission(permission + ".notifications")) {
+			if (Permission.COMMAND_GETNOTIFICATIONS.hasPermission(sender)) {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						ChatColor.GREEN + "/" + commandName + " " + getNotifications + ChatColor.DARK_AQUA + ", " +
 						Message.HELP_DESCRIPTION_GETNOTIFICATIONS.getMessage()));
 			}
 				
-			if (config.getBoolean("enable-reports") && sender.hasPermission(permission + ".report")) {
+			if (config.getBoolean("enable-reports") && Permission.COMMAND_REPORT.hasPermission(sender)) {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						ChatColor.GREEN + "/" + commandName + " " + report + ChatColor.DARK_AQUA + ", " +
 						Message.HELP_DESCRIPTION_REPORT.getMessage()));
 			}
 				
-			if (sender.hasPermission(permissionAdmin + ".getuser")) {
+			if (Permission.COMMAND_ADMIN_GETUSER.hasPermission(sender)) {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						ChatColor.GREEN + "/" + commandName + " " + getUser + ChatColor.DARK_AQUA + ", " +
 						Message.HELP_DESCRIPTION_GETUSER.getMessage()));
 			}
 				
-			if (sender.hasPermission(permissionAdmin + ".setgroup")) {
+			if (Permission.COMMAND_ADMIN_SETGROUP.hasPermission(sender)) {
 				sender.sendMessage(TextComponent.fromLegacyText(
 						ChatColor.GREEN + "/" + commandName + " " + setGroup + ChatColor.DARK_AQUA + ", " + 
 						Message.HELP_DESCRIPTION_SETGROUP.getMessage()));
@@ -141,24 +134,5 @@ public class CommandWithArgs extends Command {
 			}
 		}
 	}
-
-	/*public boolean commandContainsIgnoreCase(String commandName) {
-		ArrayList<String> list = new ArrayList<String>();
-		if (plugin.getAPI().getConfigManager().getConfig().getBoolean("enable-registration")) {
-			list.add(register);
-		}
-		list.add(getNotifications);
-		if (plugin.getAPI().getConfigManager().getConfig().getBoolean("enable-reports")) {
-			list.add(report);
-		}
-		list.add(getUser);
-		list.add(setGroup);
-		for (String command : list) {
-			if (command.equalsIgnoreCase(commandName)) {
-				return true;
-			}
-		}
-		return false;
-	}*/
 
 }

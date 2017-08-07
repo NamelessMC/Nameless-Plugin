@@ -8,6 +8,7 @@ import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
+import com.namelessmc.plugin.NamelessSpigot.Permission;
 import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
 /*
@@ -21,7 +22,7 @@ public class GetUserCommand extends NamelessCommand {
 	 */
 	public GetUserCommand(String name) {
 		super(name);
-		setPermission(NamelessPlugin.PERMISSION_ADMIN_GETUSER);
+		setPermission(Permission.COMMAND_ADMIN_GETUSER.toString());
 		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 		setUsage("/" + name + "<user>");
 		setDescription(Message.HELP_DESCRIPTION_GETUSER.getMessage());

@@ -6,6 +6,7 @@ import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Message;
 import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Permission;
 import com.namelessmc.plugin.NamelessBungee.util.UUIDFetcher;
 
 import net.md_5.bungee.api.CommandSender;
@@ -22,11 +23,10 @@ public class ReportCommand extends Command {
 		super(name);
 		commandName = name;
 	}
-
-	@SuppressWarnings("unused")
+	
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.PERMISSION + ".report")) {
+		if (!Permission.COMMAND_REPORT.hasPermission(sender)) {
 			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}

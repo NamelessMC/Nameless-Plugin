@@ -6,6 +6,7 @@ import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessBungee.Message;
 import com.namelessmc.plugin.NamelessBungee.NamelessPlugin;
+import com.namelessmc.plugin.NamelessBungee.Permission;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -23,7 +24,7 @@ public class SetGroupCommand extends Command {
 
 	@Override
 	public void execute(final CommandSender sender, final String[] args) {
-		if (!sender.hasPermission(NamelessPlugin.PERMISSION_ADMIN + ".setgroup")) {
+		if (!Permission.COMMAND_ADMIN_SETGROUP.hasPermission(sender)) {
 			sender.sendMessage(Message.NO_PERMISSION.getComponents());
 			return;
 		}
