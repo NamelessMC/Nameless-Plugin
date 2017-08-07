@@ -3,7 +3,7 @@ main: com.namelessmc.plugin.NamelessPlugin
 authors: [Samerton, IsS127, Lmmb74]
 website: https://namelessmc.com/
 version: Pre-2
-softdepend: [Vault,PlaceholderAPI,MVdWPlaceholderAPI]
+softdepend: [PlaceholderAPI,MVdWPlaceholderAPI]
 commands:
   nameless:
     description: Has reload command.
