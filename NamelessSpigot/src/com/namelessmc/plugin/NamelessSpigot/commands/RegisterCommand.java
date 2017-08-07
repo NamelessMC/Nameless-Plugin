@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.NamelessSpigot.commands;
 
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -8,17 +9,9 @@ import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
-import com.namelessmc.plugin.NamelessSpigot.commands.nameless.NamelessCommand;
 
-/*
- *  Register CMD
- */
+public class RegisterCommand extends Command {
 
-public class RegisterCommand extends NamelessCommand {
-
-	/*
-	 * Constructer
-	 */
 	public RegisterCommand(String name) {
 		super(name);
 		setPermission(Permission.COMMAND_REGISTER.toString());
@@ -27,9 +20,6 @@ public class RegisterCommand extends NamelessCommand {
 		setDescription(Message.HELP_DESCRIPTION_REGISTER.getMessage());
 	}
 
-	/*
-	 * Handle inputted command
-	 */
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
 		
