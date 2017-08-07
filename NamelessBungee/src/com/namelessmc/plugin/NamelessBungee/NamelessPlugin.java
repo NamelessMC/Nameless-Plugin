@@ -164,31 +164,36 @@ public class NamelessPlugin extends Plugin {
 		public void run() {
 			Configuration permissionConfig = Config.MAIN.getConfig();
 			for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-				for (String groupID : permissionConfig.getSection("permissions").getKeys()) {
-					ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
+				ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
+					for (String groupID : permissionConfig.getSection("permissions").getKeys()) {
 						NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 						if (String.valueOf(namelessPlayer.getGroupID()).equals(groupID)) {
 							return;
-						} else if (player.hasPermission(permissionConfig.getString("permissions" + groupID))) {
-							Integer previousgroup = namelessPlayer.getGroupID();
-							BaseComponent[] successPlayerMessage = Message.GROUP_SYNC_PLAYER_ERROR.getComponents();
+						}
+						
+						if (player.hasPermission(permissionConfig.getString("permissions" + groupID))) {
+							int previousGroup = namelessPlayer.getGroupID();
+
 							try {
+								
 								namelessPlayer.setGroup(Integer.parseInt(groupID));
-								Chat.log(Level.INFO, "&aSuccessfully changed &b" + player.getName() + "'s &agroup from &b"
-										+ previousgroup + " &ato &b" + groupID + "&a!");
-								player.sendMessage(successPlayerMessage);
+								Chat.log(Level.INFO, "Successfully changed " + player.getName() + "'s group from "+ previousGroup + " to " + groupID + ".");
+								player.sendMessage(Message.GROUP_SYNC_PLAYER_ERROR.getComponents());
+								
 							} catch (NumberFormatException e) {
-								Chat.log(Level.WARNING, "&4The Group ID is not a Integer/Number!");
+								
+								Chat.log(Level.WARNING, String.format("The provided group id \"%s\" is not a number.", groupID));
+								
 							} catch (NamelessException e) {
-								BaseComponent[] errorPlayerMessage = TextComponent.fromLegacyText(Message.GROUP_SYNC_PLAYER_ERROR.getMessage().replace("%error%", e.getMessage()));
-								Chat.log(Level.WARNING, "&4Error changing &c"
-										+ player.getName() + "'s group: &4" + e.getMessage());
-								player.sendMessage(errorPlayerMessage);
+								
+								Chat.log(Level.WARNING, "Error changing "+ player.getName() + "'s group.");
+								player.sendMessage(TextComponent.fromLegacyText(Message.GROUP_SYNC_PLAYER_ERROR.getMessage().replace("%error%", e.getMessage())));
 								e.printStackTrace();
+								
 							}
 						}
-					});
-				}
+					}
+				});
 			}
 		}
 		
