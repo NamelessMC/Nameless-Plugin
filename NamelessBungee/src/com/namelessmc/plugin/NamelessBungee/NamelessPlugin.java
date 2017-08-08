@@ -59,9 +59,13 @@ public class NamelessPlugin extends Plugin {
 		
 		// Start group synchronization task
 		Configuration config = Config.MAIN.getConfig();
-		if (config.getBoolean("group-synchronization")) {
-			long interval = Config.GROUP_SYNC_PERMISSIONS.getConfig().getInt("sync-interval");
-			getProxy().getScheduler().schedule(this, new SyncGroups(), interval, interval, TimeUnit.SECONDS);
+		if (!(config.getInt("group-synchronization.sync-interval") <= 0)) {
+			long interval = config.getInt("group-synchronization.sync-interval");
+			getProxy().getScheduler().schedule(this, () ->{
+				for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+					syncGroup(player);
+				}
+			}, interval, interval, TimeUnit.SECONDS);
 		}
 	}
 
@@ -137,6 +141,33 @@ public class NamelessPlugin extends Plugin {
 	public static NamelessPlugin getInstance() {
 		return instance;
 	}
+	
+	public static void syncGroup(ProxiedPlayer player) {
+		Configuration permissionConfig = Config.GROUP_SYNC_PERMISSIONS.getConfig();
+		ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
+			for (String groupID : permissionConfig.getSection("permissions").getKeys()) {
+				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+				if(!namelessPlayer.exists()) return;
+				if (String.valueOf(namelessPlayer.getGroupID()).equals(groupID))
+					return;
+					
+				if (player.hasPermission(permissionConfig.getString("permissions." + groupID))) {
+					int previousGroup = namelessPlayer.getGroupID();
+
+					try {
+						namelessPlayer.setGroup(Integer.parseInt(groupID));
+						Chat.log(Level.INFO, "Successfully changed " + player.getName() + "'s group from "+ previousGroup + " to " + groupID + ".");								
+					} catch (NumberFormatException e) {
+						Chat.log(Level.WARNING, String.format("The provided group id \"%s\" is not a number.", groupID));
+					} catch (NamelessException e) {
+						Chat.log(Level.WARNING, "Error changing "+ player.getName() + "'s group.");
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		
+	}
 
 	public static class SaveConfig implements Runnable {
 
@@ -154,39 +185,6 @@ public class NamelessPlugin extends Plugin {
 			});
 		}
 
-	}
-	
-	public static class SyncGroups implements Runnable {
-		
-		@Override
-		public void run() {
-			Configuration permissionConfig = Config.MAIN.getConfig();
-			for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-				ProxyServer.getInstance().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
-					for (String groupID : permissionConfig.getSection("permissions").getKeys()) {
-						NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
-						if (String.valueOf(namelessPlayer.getGroupID()).equals(groupID)) {
-							return;
-						}
-						
-						if (player.hasPermission(permissionConfig.getString("permissions." + groupID))) {
-							int previousGroup = namelessPlayer.getGroupID();
-
-							try {
-								namelessPlayer.setGroup(Integer.parseInt(groupID));
-								Chat.log(Level.INFO, "Successfully changed " + player.getName() + "'s group from "+ previousGroup + " to " + groupID + ".");								
-							} catch (NumberFormatException e) {
-								Chat.log(Level.WARNING, String.format("The provided group id \"%s\" is not a number.", groupID));
-							} catch (NamelessException e) {
-								Chat.log(Level.WARNING, "Error changing "+ player.getName() + "'s group.");
-								e.printStackTrace();
-							}
-						}
-					}
-				});
-			}
-		}
-		
 	}
 
 }

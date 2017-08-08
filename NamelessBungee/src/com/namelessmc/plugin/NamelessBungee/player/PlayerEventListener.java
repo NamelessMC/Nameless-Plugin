@@ -30,14 +30,16 @@ public class PlayerEventListener implements Listener {
 					// Only show notifications if the player has validated their account
 					userGetNotifications(player);
 				} else {
+					// If the player has not validated their account they get informed.
 					player.sendMessage(Message.PLAYER_NOT_VALID.getComponents());
 				}
 
 				userNameCheck(player);
+				userGroupSync(player);
 			}
 		});
 	}
-	
+
 	public void userGetNotifications(ProxiedPlayer player) {
 		Configuration config = Config.MAIN.getConfig();
 		if (config.getBoolean("join-notifications")) {
@@ -45,7 +47,7 @@ public class PlayerEventListener implements Listener {
 				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 				int messages = namelessPlayer.getMessageCount();
 				int alerts = namelessPlayer.getAlertCount();
-	
+
 				BaseComponent[] pmMessage = TextComponent.fromLegacyText(Message.NOTIFICATIONS_MESSAGES.getMessage().replace("%pms%", messages + ""));
 				BaseComponent[] alertMessage = TextComponent.fromLegacyText(Message.NOTIFICATIONS_ALERTS.getMessage().replace("%alerts%", alerts + ""));
 				BaseComponent[] noNotifications = Message.NO_NOTIFICATIONS.getComponents();
@@ -67,25 +69,32 @@ public class PlayerEventListener implements Listener {
 		}
 	}
 	
+	public void userGroupSync(ProxiedPlayer player) {
+		Configuration config = Config.MAIN.getConfig();
+		if(config.getBoolean("group-synchronization.on-join")) {
+			NamelessPlugin.syncGroup(player);
+		}
+	}
+
 	public void userNameCheck(ProxiedPlayer player) {
 		Configuration playerData = Config.PLAYER_INFO.getConfig();
 
 		if (playerData.getBoolean("update-username")) {
-			//Save data if not in file
+			// Save data if not in file
 			if (!playerData.contains(player.getUniqueId().toString())) {
 				playerData.set(player.getUniqueId().toString() + ".username", player.getName());
 				return;
 			}
-			
-			//If the name in the file is different, the player has changed they name
-			String previousName = playerData.getString(player.getUniqueId() + ".username");			
+
+			// If the name in the file is different, the player has changed they name
+			String previousName = playerData.getString(player.getUniqueId() + ".username");
 			if (!previousName.equals(player.getName())) {
 				Chat.log(Level.INFO, "Detected that " + player.getName() + " has changed his/her username.");
-	
-				//Update name in file
+
+				// Update name in file
 				playerData.set(player.getUniqueId() + ".Username", player.getName());
 
-				//Now change username on website
+				// Now change username on website
 				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 				try {
 					namelessPlayer.updateUsername(player.getName());
@@ -94,7 +103,7 @@ public class PlayerEventListener implements Listener {
 					player.sendMessage(successMessage);
 				} catch (NamelessException e) {
 					BaseComponent[] errorMessage = TextComponent.fromLegacyText(Message.USERNAME_SYNC_ERROR.getMessage().replace("%error%", e.getMessage()));
-					Chat.log(Level.WARNING,"Failed updating " + player.getName() + "'s username in the website, Error:" + e.getMessage());
+					Chat.log(Level.WARNING, "Failed updating " + player.getName() + "'s username in the website, Error:" + e.getMessage());
 					player.sendMessage(errorMessage);
 					e.printStackTrace();
 				}

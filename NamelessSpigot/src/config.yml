@@ -25,11 +25,16 @@ enable-reports: true
 join-notifications: true
 
 # Enable group synchronization?
-# If true, you must set the permissions required for
+# If enabled is true, you must set the permissions required for
 # the players to be given ranks in the NamelessMC web
 # setup. A GroupSyncPermissions.yml will be generated in order
 # to set the permissions.
-group-synchronization: false
+group-synchronization:
+  # How many seconds between group syncing. Set to 0 to disable periodic group syncing.
+  #sync-interval: 300
+  sync-interval: 0
+  # Sync groups on join?
+  on-join: false
 
 # Enable Update Username?
 # If true, players that has changed their username
