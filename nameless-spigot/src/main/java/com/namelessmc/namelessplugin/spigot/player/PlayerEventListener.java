@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import com.namelessmc.namelessplugin.spigot.NamelessPlugin;
 import com.namelessmc.namelessplugin.spigot.API.NamelessAPI;
@@ -127,7 +129,7 @@ public class PlayerEventListener implements Listener {
 			try {
 				for (String groupID : section.getKeys(true)) {
 					NamelessPlayer namelessPlayer = plugin.getAPI().getPlayer(player.getUniqueId().toString());
-					if (player.hasPermission(section.getString(groupID))) {
+					if (player.hasPermission(new Permission(groupID, PermissionDefault.FALSE))) {
 						if (namelessPlayer.getGroupID().toString().equals(groupID)) {
 							return;
 						} else {
