@@ -1,0 +1,6 @@
+name: NamelessMC
+main: com.namelessmc.namelessplugin.spigot.NamelessPlugin
+authors: [Samerton, IsS127, Lmmb74]
+website: https://namelessmc.com/
+version: ${project.version}
+softdepend: [Vault,PlaceholderAPI,MVdWPlaceholderAPI]

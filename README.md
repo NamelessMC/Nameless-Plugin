@@ -1,7 +1,8 @@
 # Nameless-Plugin
 This is the OFFICIAL plugin for NamelessMC Web Software.
 
-The Plugin is in Pre-Release 2!
+The Plugin branch is in Pre-1.1
+Please get it here https://www.spigotmc.org/resources/official-namelessplugin.42698/
 
 # WARNING
 This plugin is only compatible with NamelessMC 1.0.16 & up.
@@ -16,11 +17,14 @@ If you have found any bugs please report them at https://github.com/NamelessMC/N
 You can get the pre release jars without compiling it yourself at https://www.spigotmc.org/resources/official-namelessplugin.42698/
 
 ## Maven
+This software is deployed using Maven. Maven is required if you want to get the development verions. If you want to use the development versions instead of the released ones, you can clone this repository and execute the following command in the folder:
+```
+maven clean install
+```
+It will generate a folder called target inside the folder nameless contained in this repository. You will find a jar called Nameless.jar inside that folder. This jar is compatible with both Bungeecord & Spigot.
 
-1. Clone https://github.com/NamelessMC/Nameless-Java-API
-2. Nameless-Java-API: mvn clean install
-3. Clone this repository
-4. Nameless-Plugin/NamelessBungee or Nameless-Plugin/NamelessSpigot: mvn package shade:shade
+~~Or you can download from our jenkins page. [DEV BUILDS].
+http://ci.namelessmc.com/jenkins/job/Nameless-Plugin/~~
 
 # [Wiki](https://github.com/NamelessMC/Nameless-Plugin/wiki)
 In our wiki you will find stuff like how to setup, permissions etc
@@ -32,5 +36,4 @@ In our wiki you will find stuff like how to setup, permissions etc
 ## Contributors
 - @IsS127
 - @Lmmb74
-- @Derkades
 - @Samerton
