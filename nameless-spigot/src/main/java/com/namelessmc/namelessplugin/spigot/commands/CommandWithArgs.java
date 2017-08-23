@@ -168,7 +168,7 @@ public class CommandWithArgs extends NamelessCommand {
 
 			} else if (api.getConfigManager().getConfig().getBoolean("enable-reports")
 					&& args[0].equalsIgnoreCase(report)) {
-				if (sender.hasPermission(permission + ".notifications")) {
+				if (sender.hasPermission(permission + ".report")) {
 					ReportCommand command = new ReportCommand(plugin, commandName + " " + report);
 					if (args.length >= 2) {
 						command.execute(sender, commandName + " " + report, Arrays.copyOfRange(args, 1, args.length));
