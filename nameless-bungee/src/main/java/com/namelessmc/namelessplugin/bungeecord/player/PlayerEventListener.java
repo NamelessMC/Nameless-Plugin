@@ -56,7 +56,6 @@ public class PlayerEventListener implements Listener {
 				// TODO Auto-generated method stub
 				if (plugin.hasSetUrl()) {
 					NamelessAPI api = plugin.getAPI();
-					NamelessChat chat = api.getChat();
 					NamelessPlayer namelessPlayer = api.getPlayer(player.getUniqueId().toString());
 					userFileCheck(player);
 					if (namelessPlayer.exists()) {
@@ -65,7 +64,7 @@ public class PlayerEventListener implements Listener {
 							userGetNotification(player);
 							userGroupSync(player);
 						} else {
-							player.sendMessage(chat.convertColors(chat.getMessage(NamelessMessages.PLAYER_NOT_VALID)));
+							player.sendMessage(NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.PLAYER_NOT_VALID)));
 						}
 					}
 				}
@@ -77,10 +76,9 @@ public class PlayerEventListener implements Listener {
 	 * User Notifications.
 	 */
 	public void userGetNotification(ProxiedPlayer player) {
-		config = plugin.getAPI().getConfigs().getConfig();
+		config = plugin.getAPI().getConfigManager().getConfig();
 		if (config.getBoolean("join-notifications")) {
 			NamelessAPI api = plugin.getAPI();
-			NamelessChat chat = api.getChat();
 			NamelessPlayer namelessPlayer = api.getPlayer(player.getUniqueId().toString());
 			NamelessPlayerNotifications notifications = namelessPlayer.getNotifications();
 			Integer pms = notifications.getPMs();
@@ -88,25 +86,25 @@ public class PlayerEventListener implements Listener {
 			String errorMessage = notifications.getErrorMessage();
 			boolean hasError = notifications.hasError();
 
-			String pmMessage = chat.getMessage(NamelessMessages.PM_NOTIFICATIONS_MESSAGE)
+			String pmMessage = NamelessChat.getMessage(NamelessMessages.PM_NOTIFICATIONS_MESSAGE)
 					.replaceAll("%pms%", pms.toString());
-			String alertMessage = chat.getMessage(NamelessMessages.ALERTS_NOTIFICATIONS_MESSAGE)
+			String alertMessage = NamelessChat.getMessage(NamelessMessages.ALERTS_NOTIFICATIONS_MESSAGE)
 					.replaceAll("%alerts%", alerts.toString());
-			String noNotifications = chat.getMessage(NamelessMessages.NO_NOTIFICATIONS);
+			String noNotifications = NamelessChat.getMessage(NamelessMessages.NO_NOTIFICATIONS);
 
 			if (hasError) {
 				// Error with request
 				player.sendMessage(
 						TextComponent.fromLegacyText(ChatColor.RED + "Error: " + errorMessage));
 			} else if (alerts.equals(0) && pms.equals(0)) {
-				player.sendMessage(chat.convertColors(noNotifications));
+				player.sendMessage(NamelessChat.convertColors(noNotifications));
 			} else if (alerts.equals(0)) {
-				player.sendMessage(chat.convertColors(pmMessage));
+				player.sendMessage(NamelessChat.convertColors(pmMessage));
 			} else if (pms.equals(0)) {
-				player.sendMessage(chat.convertColors(alertMessage));
+				player.sendMessage(NamelessChat.convertColors(alertMessage));
 			} else {
-				player.sendMessage(chat.convertColors(alertMessage));
-				player.sendMessage(chat.convertColors(pmMessage));
+				player.sendMessage(NamelessChat.convertColors(alertMessage));
+				player.sendMessage(NamelessChat.convertColors(pmMessage));
 			}
 		}
 	}
@@ -115,9 +113,9 @@ public class PlayerEventListener implements Listener {
 	 * User Group Synchronization.
 	 */
 	public void userGroupSync(ProxiedPlayer player) {
-		config = plugin.getAPI().getConfigs().getConfig();
+		config = plugin.getAPI().getConfigManager().getConfig();
 		if (config.getBoolean("group-synchronization")) {
-			permissionConfig = plugin.getAPI().getConfigs().getGroupSyncPermissionsConfig();
+			permissionConfig = plugin.getAPI().getConfigManager().getGroupSyncPermissionsConfig();
 			Configuration section = permissionConfig.getSection("permissions");
 			try {
 				for (String groupID : section.getKeys()) {
@@ -140,9 +138,9 @@ public class PlayerEventListener implements Listener {
 
 	public void userFileCheck(ProxiedPlayer player) {
 
-		playerDataConfig = plugin.getAPI().getConfigs().getPlayerDataConfig();
+		playerDataConfig = plugin.getAPI().getConfigManager().getPlayerDataConfig();
 
-		if (!plugin.getAPI().getConfigs().contains(playerDataConfig, player.getUniqueId().toString())) {
+		if (!plugin.getAPI().getConfigManager().contains(playerDataConfig, player.getUniqueId().toString())) {
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
 					"&a" + player.getName() + " &cis not contained in the Players Data File.."));
 			plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
@@ -165,7 +163,7 @@ public class PlayerEventListener implements Listener {
 	 */
 	public void userNameCheck(ProxiedPlayer player) {
 
-		playerDataConfig = plugin.getAPI().getConfigs().getPlayerDataConfig();
+		playerDataConfig = plugin.getAPI().getConfigManager().getPlayerDataConfig();
 
 		// Check if user has changed Username
 		// If so, change the username in the Players Information File. (NOT
@@ -173,7 +171,7 @@ public class PlayerEventListener implements Listener {
 		// And change the username on the website.
 		if (playerDataConfig.getBoolean("update-username")) {
 			if (!playerDataConfig.getString(player.getUniqueId() + ".Username").equals(player.getName())
-					&& plugin.getAPI().getConfigs().contains(playerDataConfig, player.getUniqueId().toString())) {
+					&& plugin.getAPI().getConfigManager().contains(playerDataConfig, player.getUniqueId().toString())) {
 				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',
 						"&cDetected that &a" + player.getName() + " &chas changed his/her username!"));
 				plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&',

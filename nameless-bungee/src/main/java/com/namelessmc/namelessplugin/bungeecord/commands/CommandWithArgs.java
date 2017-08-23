@@ -70,7 +70,7 @@ public class CommandWithArgs extends Command {
 						sender.sendMessage(
 								NamelessChat.convertColors(" &b" + plugin.getAPIUrl().split("/api")[0] + "/"));
 						sender.sendMessage(NamelessChat.convertColors("&3&m---------------------------------"));
-						if (sender.hasPermission(permission + ".main" + commandName.toLowerCase())) {
+						if (sender.hasPermission(permission + ".main")) {
 							sender.sendMessage(NamelessChat.convertColors("&a/" + commandName + "&3, "
 									+ NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_MAIN)));
 						}

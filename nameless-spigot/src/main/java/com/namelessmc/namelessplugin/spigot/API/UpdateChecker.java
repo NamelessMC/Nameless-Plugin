@@ -79,7 +79,7 @@ public class UpdateChecker {
 			thisVersion = plugin.getDescription().getVersion();
 			link = children.item(5).getTextContent();
 
-			if (thisVersion != returnLatestV) {
+			if (!thisVersion.equalsIgnoreCase(returnLatestV)) {
 				updateNeeded = true;
 			} else {
 				updateNeeded = false;

@@ -63,16 +63,15 @@ public class CommandWithArgs extends NamelessCommand {
 		getUser = commands.getString("GetUser");
 		setGroup = commands.getString("SetGroup");
 		if (args.length == 0) {
+			if (sender.hasPermission(permission + ".main")) {
 			Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 				@Override
 				public void run() {
 					sender.sendMessage(NamelessChat.convertColors("&3&m---------------------------------"));
 					sender.sendMessage(NamelessChat.convertColors(" &b" + plugin.getAPIUrl().split("/api")[0] + "/"));
 					sender.sendMessage(NamelessChat.convertColors("&3&m---------------------------------"));
-					if (sender.hasPermission(permission + ".main" + commandName.toLowerCase())) {
-						sender.sendMessage(NamelessChat.convertColors("&a/" + commandName + "&3, "
-								+ NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_MAIN)));
-					}
+					sender.sendMessage(NamelessChat.convertColors("&a/" + commandName + "&3, "
+							+ NamelessChat.getMessage(NamelessMessages.HELP_DESCRIPTION_MAIN)));
 					if (api.getConfigManager().getConfig().getBoolean("enable-registration")) {
 						if (sender.hasPermission(permission + ".register")) {
 							sender.sendMessage(NamelessChat.convertColors("&a/" + commandName + " " + register + "&3, "
@@ -101,6 +100,7 @@ public class CommandWithArgs extends NamelessCommand {
 					sender.sendMessage(NamelessChat.convertColors("&3&m---------------------------------"));
 				}
 			});
+			}
 		} else if (args.length >= 1) {
 			if (!commandContainsIgnoreCase(args[0])) {
 				sender.sendMessage(NamelessChat.convertColors(NamelessChat
@@ -109,7 +109,7 @@ public class CommandWithArgs extends NamelessCommand {
 			}
 
 			if (args[0].equalsIgnoreCase(getUser)) {
-				if (sender.hasPermission(permissionAdmin + "." + getUser.toLowerCase())) {
+				if (sender.hasPermission(permissionAdmin + ".getuser")) {
 					GetUserCommand command = new GetUserCommand(plugin, commandName + " " + getUser);
 					if (args.length >= 2) {
 						command.execute(sender, commandName + " " + getUser, Arrays.copyOfRange(args, 1, args.length));
@@ -123,7 +123,7 @@ public class CommandWithArgs extends NamelessCommand {
 							NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
 				}
 			} else if (args[0].equalsIgnoreCase(setGroup)) {
-				if (sender.hasPermission(permissionAdmin + "." + setGroup.toLowerCase())) {
+				if (sender.hasPermission(permissionAdmin + ".setgroup")) {
 					SetGroupCommand command = new SetGroupCommand(plugin, commandName + " " + setGroup);
 					if (args.length >= 2) {
 						command.execute(sender, commandName + " " + setGroup, Arrays.copyOfRange(args, 1, args.length));
@@ -138,7 +138,7 @@ public class CommandWithArgs extends NamelessCommand {
 				}
 			} else if (api.getConfigManager().getConfig().getBoolean("enable-registration")
 					&& args[0].equalsIgnoreCase(register)) {
-				if (sender.hasPermission(permission + "." + register.toLowerCase())) {
+				if (sender.hasPermission(permission + ".register")) {
 					RegisterCommand command = new RegisterCommand(plugin, commandName + " " + register);
 					if (args.length >= 2) {
 						command.execute(sender, commandName + " " + register, Arrays.copyOfRange(args, 1, args.length));
@@ -151,7 +151,7 @@ public class CommandWithArgs extends NamelessCommand {
 							NamelessChat.convertColors(NamelessChat.getMessage(NamelessMessages.NO_PERMISSION)));
 				}
 			} else if (args[0].equalsIgnoreCase(getNotifications)) {
-				if (sender.hasPermission(permission + "." + getNotifications.toLowerCase())) {
+				if (sender.hasPermission(permission + ".notifications")) {
 					GetNotificationsCommand command = new GetNotificationsCommand(plugin,
 							commandName + " " + getNotifications);
 					if (args.length >= 2) {
@@ -168,7 +168,7 @@ public class CommandWithArgs extends NamelessCommand {
 
 			} else if (api.getConfigManager().getConfig().getBoolean("enable-reports")
 					&& args[0].equalsIgnoreCase(report)) {
-				if (sender.hasPermission(permission + "." + report.toLowerCase())) {
+				if (sender.hasPermission(permission + ".notifications")) {
 					ReportCommand command = new ReportCommand(plugin, commandName + " " + report);
 					if (args.length >= 2) {
 						command.execute(sender, commandName + " " + report, Arrays.copyOfRange(args, 1, args.length));
