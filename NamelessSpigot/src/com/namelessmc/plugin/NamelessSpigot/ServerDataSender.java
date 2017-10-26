@@ -18,6 +18,7 @@ public class ServerDataSender extends BukkitRunnable {
 	public void run() {
 		Map<String, Object> map = new HashMap<>();
 		map.put("tps", 20); // TODO tps
+		map.put("time", System.currentTimeMillis());
 		map.put("free-memory", Runtime.getRuntime().freeMemory());
 		map.put("max-memory", Runtime.getRuntime().maxMemory());
 		map.put("allocated-memory", Runtime.getRuntime().totalMemory());
@@ -38,6 +39,9 @@ public class ServerDataSender extends BukkitRunnable {
 			
 			playerInfo.put("location", location);
 			playerInfo.put("ip", player.getAddress().getAddress().getHostAddress());
+			playerInfo.put("rank", "Noob"); // TODO Rank
+			playerInfo.put("money", 0); // TODO Vault money
+			playerInfo.put("login-time", NamelessPlugin.LOGIN_TIME.get(player.getUniqueId()));
 			
 			players.put(player.getUniqueId().toString().replace("-", ""), playerInfo);
 		}

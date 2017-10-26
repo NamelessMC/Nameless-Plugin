@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -25,6 +28,7 @@ import com.namelessmc.plugin.NamelessSpigot.commands.SetGroupCommand;
 import com.namelessmc.plugin.NamelessSpigot.hooks.MVdWPlaceholderUtil;
 import com.namelessmc.plugin.NamelessSpigot.hooks.PAPIPlaceholderUtil;
 import com.namelessmc.plugin.NamelessSpigot.player.PlayerEventListener;
+import com.namelessmc.plugin.NamelessSpigot.player.PlayerQuit;
 
 public class NamelessPlugin extends JavaPlugin {
 
@@ -33,6 +37,8 @@ public class NamelessPlugin extends JavaPlugin {
 	public static URL baseApiURL;
 
 	boolean useGroups = false;
+	
+	public static final Map<UUID, Long> LOGIN_TIME = new HashMap<>();
 	
 	@Override
 	public void onEnable() {
@@ -53,6 +59,7 @@ public class NamelessPlugin extends JavaPlugin {
 		// Connection is successful, move on with registering listeners and commands.
 		registerCommands();
 		getServer().getPluginManager().registerEvents(new PlayerEventListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
 			
 		// Start saving data files every 15 minutes
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveConfig(), 5*60*20, 5*60*20);
@@ -70,6 +77,11 @@ public class NamelessPlugin extends JavaPlugin {
 		
 		int uploadPeriod = config.getInt("server-data-upload-rate", 10) * 20;
 		new ServerDataSender().runTaskTimer(this, uploadPeriod, uploadPeriod);
+		
+		// For reloads
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
+		}
 	}
 	
 	@Override

@@ -23,6 +23,8 @@ public class PlayerEventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
+		
+		NamelessPlugin.LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
