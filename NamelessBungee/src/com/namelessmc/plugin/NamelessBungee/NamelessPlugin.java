@@ -16,7 +16,7 @@ import com.namelessmc.plugin.NamelessBungee.commands.NamelessCommand;
 import com.namelessmc.plugin.NamelessBungee.commands.RegisterCommand;
 import com.namelessmc.plugin.NamelessBungee.commands.ReportCommand;
 import com.namelessmc.plugin.NamelessBungee.commands.SetGroupCommand;
-import com.namelessmc.plugin.NamelessBungee.player.PlayerEventListener;
+import com.namelessmc.plugin.NamelessBungee.event.PlayerLogin;
 
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -52,7 +52,7 @@ public class NamelessPlugin extends Plugin {
 		
 		registerCommands();
 
-		getProxy().getPluginManager().registerListener(this, new PlayerEventListener());
+		getProxy().getPluginManager().registerListener(this, new PlayerLogin());
 
 		// Start saving data files every 15 minutes
 		getProxy().getScheduler().schedule(this, new SaveConfig(), 15L, 15L, TimeUnit.MINUTES);

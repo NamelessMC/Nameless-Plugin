@@ -25,10 +25,10 @@ import com.namelessmc.plugin.NamelessSpigot.commands.NamelessCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.RegisterCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.ReportCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.SetGroupCommand;
+import com.namelessmc.plugin.NamelessSpigot.event.PlayerLogin;
+import com.namelessmc.plugin.NamelessSpigot.event.PlayerQuit;
 import com.namelessmc.plugin.NamelessSpigot.hooks.MVdWPlaceholderUtil;
 import com.namelessmc.plugin.NamelessSpigot.hooks.PAPIPlaceholderUtil;
-import com.namelessmc.plugin.NamelessSpigot.player.PlayerEventListener;
-import com.namelessmc.plugin.NamelessSpigot.player.PlayerQuit;
 
 public class NamelessPlugin extends JavaPlugin {
 
@@ -58,7 +58,7 @@ public class NamelessPlugin extends JavaPlugin {
 			
 		// Connection is successful, move on with registering listeners and commands.
 		registerCommands();
-		getServer().getPluginManager().registerEvents(new PlayerEventListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
 		getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
 			
 		// Start saving data files every 15 minutes

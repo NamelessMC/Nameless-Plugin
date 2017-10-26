@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.NamelessSpigot.player;
+package com.namelessmc.plugin.NamelessSpigot.event;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
