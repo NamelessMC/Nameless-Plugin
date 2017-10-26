@@ -27,7 +27,7 @@ public class ServerDataSender extends BukkitRunnable {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			Map<String, Object> playerInfo = new HashMap<>();
 			
-			map.put("name", player.getName());
+			playerInfo.put("name", player.getName());
 			
 			Map<String, Object> location = new HashMap<>();
 			Location loc = player.getLocation();
@@ -36,11 +36,13 @@ public class ServerDataSender extends BukkitRunnable {
 			location.put("y", loc.getBlockY());
 			location.put("z", loc.getBlockZ());
 			
-			map.put("location", location);
-			map.put("ip", player.getAddress().getAddress().getHostAddress());
+			playerInfo.put("location", location);
+			playerInfo.put("ip", player.getAddress().getAddress().getHostAddress());
 			
 			players.put(player.getUniqueId().toString().replace("-", ""), playerInfo);
 		}
+		
+		map.put("players", players);
 		
 		String data = gson.toJson(map);
 		
