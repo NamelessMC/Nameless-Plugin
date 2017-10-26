@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.NamelessAPI.NamelessAPI;
@@ -30,6 +31,8 @@ import com.namelessmc.plugin.NamelessSpigot.event.PlayerQuit;
 import com.namelessmc.plugin.NamelessSpigot.hooks.MVdWPlaceholderUtil;
 import com.namelessmc.plugin.NamelessSpigot.hooks.PAPIPlaceholderUtil;
 
+import net.milkbowl.vault.economy.Economy;
+
 public class NamelessPlugin extends JavaPlugin {
 
 	private static NamelessPlugin instance;
@@ -40,10 +43,31 @@ public class NamelessPlugin extends JavaPlugin {
 	
 	public static final Map<UUID, Long> LOGIN_TIME = new HashMap<>();
 	
+	public static net.milkbowl.vault.permission.Permission permissions;
+	public static Economy economy;
+	
 	@Override
 	public void onEnable() {
 		instance = this;
 		
+		if (getServer().getPluginManager().getPlugin("Vault") == null) {
+			getLogger().severe("This plugin requires Vault. Please install Vault and restart.");
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
+
+		RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+		permissions = permissionProvider.getProvider();
+		
+		if (permissions == null) {
+			getLogger().severe("You do not have a vault-compatible permissions plugin. Please install one and restart.");
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
+		
+		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
+		economy = economyProvider.getProvider();
+
 		try {
 			Config.initialize();
 		} catch (IOException e) {

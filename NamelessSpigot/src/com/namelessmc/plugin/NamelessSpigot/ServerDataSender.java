@@ -39,8 +39,8 @@ public class ServerDataSender extends BukkitRunnable {
 			
 			playerInfo.put("location", location);
 			playerInfo.put("ip", player.getAddress().getAddress().getHostAddress());
-			playerInfo.put("rank", "Noob"); // TODO Rank
-			playerInfo.put("money", 0); // TODO Vault money
+			playerInfo.put("rank", NamelessPlugin.permissions.getPrimaryGroup(player));
+			playerInfo.put("money", NamelessPlugin.economy == null ? -1 : NamelessPlugin.economy.getBalance(player));
 			playerInfo.put("login-time", NamelessPlugin.LOGIN_TIME.get(player.getUniqueId()));
 			
 			players.put(player.getUniqueId().toString().replace("-", ""), playerInfo);
