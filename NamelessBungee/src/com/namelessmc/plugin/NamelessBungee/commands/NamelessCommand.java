@@ -17,7 +17,7 @@ public class NamelessCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (args.length == 0 && (args[0].equalsIgnoreCase("rl") || args[0].equalsIgnoreCase("reload"))) {
+		if (args.length == 1 && (args[0].equalsIgnoreCase("rl") || args[0].equalsIgnoreCase("reload"))) {
 			try {
 				for (Config config : Config.values()) {
 					config.reloadConfig();
