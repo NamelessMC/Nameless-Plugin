@@ -39,8 +39,15 @@ public class ServerDataSender extends BukkitRunnable {
 			
 			playerInfo.put("location", location);
 			playerInfo.put("ip", player.getAddress().getAddress().getHostAddress());
-			playerInfo.put("rank", NamelessPlugin.permissions.getPrimaryGroup(player));
-			playerInfo.put("money", NamelessPlugin.economy == null ? -1 : NamelessPlugin.economy.getBalance(player));
+			
+			try {
+				playerInfo.put("rank", NamelessPlugin.permissions.getPrimaryGroup(player));
+			} catch (UnsupportedOperationException e) {}
+			
+			try {
+				if (NamelessPlugin.economy != null) playerInfo.put("balance", NamelessPlugin.economy.getBalance(player));
+			} catch (UnsupportedOperationException e) {}
+			
 			playerInfo.put("login-time", NamelessPlugin.LOGIN_TIME.get(player.getUniqueId()));
 			
 			players.put(player.getUniqueId().toString().replace("-", ""), playerInfo);
