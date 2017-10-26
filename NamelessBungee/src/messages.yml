@@ -1,7 +1,7 @@
 # Global Messages
 no-permission: '&cYou don''t have permission to execute this command.'
 must-be-ingame: '&cYou must be a player to execute this command.'
-player-not-valid: '&cYou have not validated your profile on our website.'
+account-not-validated: '&cYour website account has not been verified.'
 player-not-found: '&cThat player could not be found.'
 must-register: '&cYou need to be registered on our website to do this.'
 

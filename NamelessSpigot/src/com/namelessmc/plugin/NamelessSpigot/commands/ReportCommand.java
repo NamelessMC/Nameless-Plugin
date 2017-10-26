@@ -37,7 +37,7 @@ public class ReportCommand extends Command {
 			}
 			
 			if (namelessPlayer.isValidated()){
-				player.sendMessage(Message.PLAYER_NOT_VALID.getMessage());
+				player.sendMessage(Message.ACCOUNT_NOT_VALIDATED.getMessage());
 				return;
 			}
 						

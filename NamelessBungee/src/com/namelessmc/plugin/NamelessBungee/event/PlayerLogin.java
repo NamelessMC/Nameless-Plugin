@@ -28,7 +28,7 @@ public class PlayerLogin implements Listener {
 					userGetNotifications(player);
 				} else {
 					// If the player has not validated their account they get informed.
-					player.sendMessage(Message.PLAYER_NOT_VALID.getComponents());
+					player.sendMessage(Message.ACCOUNT_NOT_VALIDATED.getComponents());
 				}
 
 				userGroupSync(player);

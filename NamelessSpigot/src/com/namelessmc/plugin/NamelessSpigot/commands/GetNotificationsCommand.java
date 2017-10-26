@@ -41,7 +41,7 @@ public class GetNotificationsCommand extends Command {
 			}
 			
 			if (!(nameless.isValidated())) {
-				sender.sendMessage(Message.PLAYER_NOT_VALID.getMessage());
+				sender.sendMessage(Message.ACCOUNT_NOT_VALIDATED.getMessage());
 				return;
 			}
 			
