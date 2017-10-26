@@ -1,9 +1,9 @@
 # Global Messages
-no-permission: '&cYou dont have permission to this command!'
-must-be-ingame: '&cYou must be ingame!'
-player-not-valid: '&cYou have not validated your profile in our website!'
-player-not-found: '&cThe player could not be found.'
-must-register: '&cYou must register on our website!'
+no-permission: '&cYou don''t have permission to execute this command.'
+must-be-ingame: '&cYou must be a player to execute this command.'
+player-not-valid: '&cYou have not validated your profile on our website.'
+player-not-found: '&cThat player could not be found.'
+must-register: '&cYou need to be registered on our website to do this.'
 
 # Incorrect Usage
 incorrect-usage-main: '&cIncorrect usage: /%command% <command>'
@@ -14,12 +14,12 @@ incorrect-usage-report: '&cIncorrect usage: /%command% username reason'
 incorrect-usage-setgroup: '&cIncorrect usage: /%command% player groupId'
   
 # Help/Alone Help Messages
-help-description-main: '&bShows the commands of this command'
-help-description-register: '&bRegisters on website'
+help-description-main: '&bShows help about subcommands'
+help-description-register: '&bCreate an account on our website.'
 help-description-getuser: '&bGets user details from website.'
-help-description-getnotifications: '&bGets notifications from website' 
-help-description-report: '&bReports a player to the website'
-help-description-setgroup: '&bSets a players group in the website'
+help-description-getnotifications: '&bGet number of new notifications on the website.' 
+help-description-report: '&bReport a player.'
+help-description-setgroup: '&bSet a player''s group on the website.'
 
 # Register
 register-success: '&aYou have successfully registered! Please check your email for the next steps!'
@@ -29,14 +29,14 @@ register-email-exists: '&cEmail already exists!'
 has-registered: '&cYou have already registered!'
 
 # Notification Messages
-no-notifications: '&cYou have no Website Notifications.'
-notifications-alerts: '&6Website Alerts: &2%alerts%'
+no-notifications: '&cYou have no website notifications.'
+notifications-alerts: '&6Website alerts: &2%alerts%'
 notifications-messages: '&6Website PMs: &2%pms%'
-notifications-error: '&cCouldnt get your notifications from the website! Contact an admin: %error%'
+notifications-error: '&cCouldn''t get your website notifications. Please contact an admin. Error: %error%'
 
 # Username
-username-sync-success: '&aSuccessfully updated your username on the website!'
-username-sync-error: '&cCouldnt update your username on the website! Contact an admin: %error%'
+username-sync-success: '&aSuccessfully updated your username on the website.'
+username-sync-error: '&cCouldn''t update your username on the website. Please contact an admin. Error: %error%'
 
 # Report 
 report-success: '&aYou have successfully reported &b%player%&a!'
@@ -48,7 +48,7 @@ set-group-error: '&cAn error has occured check console for more details: %error%
 
 # Get User
 userinfo-username: '&bUsername: &a%username%'
-userinfo-displayname: '&aDisplayName: &b%displayname%'
+userinfo-displayname: '&aDisplay name: &b%displayname%'
 userinfo-uuid: '&3UUID: &6%uuid%'
 userinfo-group-id: '&6Group Id: &3%groupid%'
 userinfo-registration-date: '&5Registered: &d%registereddate%' 

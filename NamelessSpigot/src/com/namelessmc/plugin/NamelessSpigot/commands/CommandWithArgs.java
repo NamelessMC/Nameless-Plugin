@@ -29,13 +29,13 @@ public class CommandWithArgs extends Command {
 		String getUser = commandsConfig.getString("get-user");
 		String setGroup = commandsConfig.getString("set-group");
 		
-		String separator = Chat.convertColors("&3&m--------------------------------");
-		
 		if (args.length == 0) {
 			if (!Permission.COMMAND_MAIN.hasPermission(sender)) {
 				sender.sendMessage(Message.NO_PERMISSION.getMessage());
 				return false;
 			}
+			
+			String separator = Chat.convertColors("&3&m--------------------------------");
 
 			sender.sendMessage(separator);
 			sender.sendMessage(Chat.convertColors(" &b" + NamelessPlugin.baseApiURL.toString().split("/api")[0] + "/"));
