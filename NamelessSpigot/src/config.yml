@@ -48,3 +48,9 @@ update-username: false
 # They will get notified when they join.
 # Also there will be a msg displayed in console.
 update-checker: true
+
+# This feature sends information about the server and online players to
+# your NamelessMC website. This value is in seconds. Increase to lower
+# the frequency that data is sent. Decrease to send data more frequently.
+# Setting this too low can cause lag. Set to 0 to disable.
+server-data-upload-rate: 10

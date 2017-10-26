@@ -67,6 +67,9 @@ public class NamelessPlugin extends JavaPlugin {
 				}
 			}, interval, interval);
 		}
+		
+		int uploadPeriod = config.getInt("server-data-upload-rate", 10) * 20;
+		new ServerDataSender().runTaskTimer(this, uploadPeriod, uploadPeriod);
 	}
 	
 	@Override
