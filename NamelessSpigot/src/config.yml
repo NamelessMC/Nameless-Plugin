@@ -3,6 +3,7 @@
 # API URL
 # This needs to be the full API URL, including API key
 # For example http://yoursite.com/api/v1/API_KEY
+# You can enable the API and obtain the key in AdminCP > Minecraft
 api-url: ""
 
 # Use registration?
