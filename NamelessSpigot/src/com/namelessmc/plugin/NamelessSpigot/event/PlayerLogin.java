@@ -32,8 +32,6 @@ public class PlayerLogin implements Listener {
 					// If the player has not validated their account they get informed.
 					player.sendMessage(Message.ACCOUNT_NOT_VALIDATED.getMessage());
 				}
-				
-				userGroupSync(player);
 			}
 		});
 	}
@@ -64,13 +62,6 @@ public class PlayerLogin implements Listener {
 				player.sendMessage(errorMessage);
 				e.printStackTrace();
 			}
-		}
-	}
-
-	public void userGroupSync(Player player) {
-		YamlConfiguration config = Config.MAIN.getConfig();
-		if (config.getBoolean("group-synchronization.on-join")) {
-			NamelessPlugin.syncGroup(player);
 		}
 	}
 

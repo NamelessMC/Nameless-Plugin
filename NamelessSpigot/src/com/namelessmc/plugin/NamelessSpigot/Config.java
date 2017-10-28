@@ -11,7 +11,6 @@ public enum Config {
 	
 	MAIN("config.yml", true, false),
 	PLAYER_INFO("player-data.yml", false, true),
-	GROUP_SYNC_PERMISSIONS("group-sync.yml", true, false),
 	MESSAGES("messages.yml", true, false),
 	COMMANDS("commands.yml", true, false),
 	
