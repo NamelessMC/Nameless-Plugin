@@ -45,7 +45,7 @@ public class PlayerLogin implements Listener {
 				messages = namelessPlayer.getMessageCount();
 				alerts = namelessPlayer.getAlertCount();
 			} catch (NamelessException e) {
-				String errorMessage = Message.NOIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage());
+				String errorMessage = Message.NOTIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage());
 				player.sendMessage(errorMessage);
 				e.printStackTrace();
 				return;

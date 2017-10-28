@@ -52,7 +52,7 @@ public class GetNotificationsCommand extends Command {
 				messages = nameless.getMessageCount();
 				alerts = nameless.getAlertCount();
 			} catch (NamelessException e) {
-				String errorMessage = Message.NOIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage());
+				String errorMessage = Message.NOTIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage());
 				player.sendMessage(errorMessage);
 				return;
 			}
