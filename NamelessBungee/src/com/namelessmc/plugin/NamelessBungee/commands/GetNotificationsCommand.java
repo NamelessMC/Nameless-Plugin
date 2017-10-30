@@ -62,7 +62,7 @@ public class GetNotificationsCommand extends Command {
 				messages = nameless.getMessageCount();
 				alerts = nameless.getAlertCount();
 			} catch (NamelessException e) {
-				BaseComponent[] errorMessage = TextComponent.fromLegacyText(Message.NOIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage()));
+				BaseComponent[] errorMessage = TextComponent.fromLegacyText(Message.NOTIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage()));
 				player.sendMessage(errorMessage);
 				return;
 			}

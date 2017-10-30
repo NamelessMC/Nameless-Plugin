@@ -58,7 +58,7 @@ public class PlayerLogin implements Listener {
 					player.sendMessage(pmMessage);
 				}
 			} catch (NamelessException e) {
-				BaseComponent[] errorMessage = TextComponent.fromLegacyText(Message.NOIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage()));
+				BaseComponent[] errorMessage = TextComponent.fromLegacyText(Message.NOTIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage()));
 				player.sendMessage(errorMessage);
 				e.printStackTrace();
 			}

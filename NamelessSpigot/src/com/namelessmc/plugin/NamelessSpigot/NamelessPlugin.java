@@ -17,8 +17,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.NamelessAPI.NamelessAPI;
-import com.namelessmc.NamelessAPI.NamelessException;
-import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessSpigot.commands.CommandWithArgs;
 import com.namelessmc.plugin.NamelessSpigot.commands.GetNotificationsCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.GetUserCommand;
@@ -87,19 +85,8 @@ public class NamelessPlugin extends JavaPlugin {
 			
 		// Start saving data files every 15 minutes
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveConfig(), 5*60*20, 5*60*20);
-		
-		// Start group synchronization task
-		YamlConfiguration config = Config.MAIN.getConfig();
-		if (!(config.getInt("group-synchronization.sync-interval") <= 0)) {
-			long interval = config.getInt("group-synchronization.sync-interval") * 20L; // TODO check if this right..
-			getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-				for (Player player : getServer().getOnlinePlayers()) {
-					syncGroup(player);
-				}
-			}, interval, interval);
-		}
-		
-		int uploadPeriod = config.getInt("server-data-upload-rate", 10) * 20;
+
+		int uploadPeriod = Config.MAIN.getConfig().getInt("server-data-upload-rate", 10) * 20;
 		new ServerDataSender().runTaskTimer(this, uploadPeriod, uploadPeriod);
 		
 		// For reloads
@@ -222,34 +209,6 @@ public class NamelessPlugin extends JavaPlugin {
 	
 	public static void log(Level level, String message) {
 		NamelessPlugin.getInstance().getLogger().log(level, message);
-	}
-	
-	public static void syncGroup(Player player) {
-		YamlConfiguration config = Config.MAIN.getConfig();
-		if (config.getBoolean("group-synchronization")) {
-			YamlConfiguration permissionConfig = Config.MAIN.getConfig();
-			for (String groupID : permissionConfig.getConfigurationSection("permissions").getKeys(true)) {
-				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
-				if (String.valueOf(namelessPlayer.getGroupID()).equals(groupID)) {
-					return;
-				} else if (player.hasPermission(Permission.toGroupSyncPermission(permissionConfig.getString("permissions." + groupID)))) {
-					Integer previousgroup = namelessPlayer.getGroupID();
-					String successPlayerMessage = Message.GROUP_SYNC_PLAYER_ERROR.getMessage();
-					try {
-						namelessPlayer.setGroup(Integer.parseInt(groupID));
-						NamelessPlugin.log(Level.INFO, "Successfully changed " + player.getName() + "'s &agroup from " + previousgroup + " to " + groupID);
-						player.sendMessage(successPlayerMessage);
-					} catch (NumberFormatException e) {
-						NamelessPlugin.log(Level.WARNING, "The Group ID is not a number.");
-					} catch (NamelessException e) {
-						String errorPlayerMessage = Message.GROUP_SYNC_PLAYER_ERROR.getMessage().replace("%error%", e.getMessage());
-						NamelessPlugin.log(Level.WARNING, "Error changing &c" + player.getName() + "'s group: " + e.getMessage());
-						player.sendMessage(errorPlayerMessage);
-						e.printStackTrace();
-					}
-				}
-			}
-		}
 	}
 
 	public static class SaveConfig implements Runnable {

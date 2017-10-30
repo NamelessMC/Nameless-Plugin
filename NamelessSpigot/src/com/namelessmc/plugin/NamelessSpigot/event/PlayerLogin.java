@@ -21,57 +21,53 @@ public class PlayerLogin implements Listener {
 		Player player = event.getPlayer();
 		
 		NamelessPlugin.LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
+		
+		YamlConfiguration config = Config.MAIN.getConfig();
+		if (!config.getBoolean("join-notifications")) {
+			return;
+		}
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
-			if (namelessPlayer.exists()) {
-				if (namelessPlayer.isValidated()) {
-					// Only show notifications if the player has validated their account
-					userGetNotifications(player);
-				} else {
-					// If the player has not validated their account they get informed.
-					player.sendMessage(Message.ACCOUNT_NOT_VALIDATED.getMessage());
-				}
-				
-				userGroupSync(player);
+			if (!namelessPlayer.exists()) {
+				return;
 			}
-		});
-	}
-
-	public void userGetNotifications(Player player) {
-		YamlConfiguration config = Config.MAIN.getConfig();
-		if (config.getBoolean("join-notifications")) {
+			
+			if (!namelessPlayer.isValidated()) {
+				player.sendMessage(Message.ACCOUNT_NOT_VALIDATED.getMessage());
+				return;
+			}
+			
+			int messages;
+			int alerts;
+			
 			try {
-				NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
-				int messages = namelessPlayer.getMessageCount();
-				int alerts = namelessPlayer.getAlertCount();
-
-				String pmMessage = Message.NOTIFICATIONS_MESSAGES.getMessage().replace("%pms%", messages + "");
-				String alertMessage = Message.NOTIFICATIONS_ALERTS.getMessage().replace("%alerts%", alerts + "");
-				String noNotifications = Message.NO_NOTIFICATIONS.getMessage();
-				if (alerts == 0 && messages == 0) {
-					player.sendMessage(noNotifications);
-				} else if (alerts == 0) {
-					player.sendMessage(pmMessage);
-				} else if (messages == 0) {
-					player.sendMessage(alertMessage);
-				} else {
-					player.sendMessage(alertMessage);
-					player.sendMessage(pmMessage);
-				}
+				messages = namelessPlayer.getMessageCount();
+				alerts = namelessPlayer.getAlertCount();
 			} catch (NamelessException e) {
-				String errorMessage = Message.NOIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage());
+				String errorMessage = Message.NOTIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage());
 				player.sendMessage(errorMessage);
 				e.printStackTrace();
+				return;
 			}
-		}
-	}
+			
 
-	public void userGroupSync(Player player) {
-		YamlConfiguration config = Config.MAIN.getConfig();
-		if (config.getBoolean("group-synchronization.on-join")) {
-			NamelessPlugin.syncGroup(player);
-		}
+			String pmMessage = Message.NOTIFICATIONS_MESSAGES.getMessage().replace("%pms%", messages + "");
+			String alertMessage = Message.NOTIFICATIONS_ALERTS.getMessage().replace("%alerts%", alerts + "");
+			String noNotifications = Message.NO_NOTIFICATIONS.getMessage();
+			
+			if (alerts == 0 && messages == 0) {
+				player.sendMessage(noNotifications);
+			} else if (alerts == 0) {
+				player.sendMessage(pmMessage);
+			} else if (messages == 0) {
+				player.sendMessage(alertMessage);
+			} else {
+				player.sendMessage(alertMessage);
+				player.sendMessage(pmMessage);
+			}
+			
+		});
 	}
 
 }
