@@ -51,7 +51,7 @@ public class NamelessPlugin extends JavaPlugin {
 		instance = this;
 		
 		if (getServer().getPluginManager().getPlugin("Vault") == null) {
-			getLogger().severe("This plugin requires Vault. Please install Vault and restart.");
+			log(Level.SEVERE, "This plugin requires Vault. Please install Vault and restart.");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -60,7 +60,7 @@ public class NamelessPlugin extends JavaPlugin {
 		permissions = permissionProvider.getProvider();
 		
 		if (permissions == null) {
-			getLogger().severe("You do not have a vault-compatible permissions plugin. Please install one and restart.");
+			log(Level.SEVERE, "You do not have a vault-compatible permissions plugin. Please install one and restart.");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -71,7 +71,7 @@ public class NamelessPlugin extends JavaPlugin {
 		try {
 			Config.initialize();
 		} catch (IOException e) {
-			getLogger().severe("Unable to load config.");
+			log(Level.SEVERE, "Unable to load config.");
 			e.printStackTrace();
 			return;
 		}
@@ -124,23 +124,23 @@ public class NamelessPlugin extends JavaPlugin {
 		YamlConfiguration config = Config.MAIN.getConfig();
 		String url = config.getString("api-url");
 		if (url.equals("")) {
-			getLogger().severe("No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
+			log(Level.SEVERE, "No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
 			return false; // Prevent registering of commands, listeners, etc.
 		} else {
 			try {
 				baseApiURL = new URL(url);
 			} catch (MalformedURLException e) {
 				// There is an exception, so the connection was not successful.
-				getLogger().severe("Invalid API Url/Key. Nothing will work until you set the correct url.");
-				getLogger().severe("Error: " + e.getMessage());
+				log(Level.SEVERE, "Invalid API Url/Key. Nothing will work until you set the correct url.");
+				log(Level.SEVERE, "Error: " + e.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
 
 			Exception exception = NamelessAPI.checkWebAPIConnection(baseApiURL);
 			if (exception != null) {
 				// There is an exception, so the connection was unsuccessful.
-				getLogger().severe("Invalid API Url/Key. Nothing will work until you set the correct url.");
-				getLogger().severe("Error: " + exception.getMessage());
+				log(Level.SEVERE, "Invalid API Url/Key. Nothing will work until you set the correct url.");
+				log(Level.SEVERE, "Error: " + exception.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
 		}
