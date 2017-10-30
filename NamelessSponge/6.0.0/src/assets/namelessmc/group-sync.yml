@@ -1,0 +1,12 @@
+# Nameless Plugin configuration
+
+# permissions have to be set the following way:
+# you need to check the groups' ids in your NamelessMC web setup
+# and here you have to set the permissions like the example
+# down here. If the player has a permission which has been set
+# down here, then the group in which the permission is set will
+# be applied to the player if it's registered in the web. 
+
+permissions:
+  # If the player has 'custom.permission', their group will be set to 0
+  0: "custom.permission"
