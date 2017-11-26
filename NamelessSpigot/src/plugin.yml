@@ -1,7 +1,7 @@
 name: NamelessMC
 main: com.namelessmc.plugin.NamelessSpigot.NamelessPlugin
 authors: [Samerton, IsS127, Lmmb74]
-website: https://namelessmc.com/
+website: https://plugin.namelessmc.com/
 version: '@project.version@'
 softdepend: [PlaceholderAPI,MVdWPlaceholderAPI]
 commands:
