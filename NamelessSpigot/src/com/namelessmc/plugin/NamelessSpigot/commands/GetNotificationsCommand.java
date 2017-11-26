@@ -1,13 +1,21 @@
 package com.namelessmc.plugin.NamelessSpigot.commands;
 
+import java.util.List;
+
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.NamelessAPI.Notification;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
+import com.namelessmc.plugin.NamelessSpigot.util.Json;
+import com.namelessmc.plugin.NamelessSpigot.util.Json.ClickAction;
+import com.namelessmc.plugin.NamelessSpigot.util.Json.HoverAction;
+import com.namelessmc.plugin.NamelessSpigot.util.Json.JsonMessage;
 
 public class GetNotificationsCommand extends Command {
 
@@ -32,20 +40,41 @@ public class GetNotificationsCommand extends Command {
 		
 		Player player = (Player) sender;
 		
-		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-			NamelessPlayer nameless = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
-			
-			if(!(nameless.exists())) {
-				sender.sendMessage(Message.MUST_REGISTER.getMessage());
+		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+			try {
+				NamelessPlayer nameless = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+				
+				if(!(nameless.exists())) {
+					sender.sendMessage(Message.MUST_REGISTER.getMessage());
+					return;
+				}
+				
+				if (!(nameless.isValidated())) {
+					sender.sendMessage(Message.ACCOUNT_NOT_VALIDATED.getMessage());
+					return;
+				}
+				
+				// TODO Sort notifications by type
+				
+				List<Notification> notifications = nameless.getNotifications();
+				
+				Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
+					notifications.forEach((notification) -> 
+						new Json().append(JsonMessage.newMessage()
+								.text(notification.getMessage())
+								.onHover(HoverAction.SHOW_TEXT, "Click to open in browser")
+								.onClick(ClickAction.OPEN_URL, notification.getUrl())).send(player)
+					);
+				});
+
+				
+			} catch (NamelessException e) {
+				String errorMessage = Message.NOTIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage());
+				player.sendMessage(errorMessage);
 				return;
 			}
 			
-			if (!(nameless.isValidated())) {
-				sender.sendMessage(Message.ACCOUNT_NOT_VALIDATED.getMessage());
-				return;
-			}
-			
-			int messages;
+			/*int messages;
 			int alerts;
 			
 			try {
@@ -70,7 +99,9 @@ public class GetNotificationsCommand extends Command {
 			} else {
 				sender.sendMessage(alertMessage);
 				sender.sendMessage(pmMessage);
-			}
+			}*/
+			
+			
 		});
 		return true;
 	}

@@ -123,7 +123,7 @@ public class NamelessPlugin extends JavaPlugin {
 				return false; // Prevent registering of commands, listeners, etc.
 			}
 
-			Exception exception = NamelessAPI.checkWebAPIConnection(baseApiURL);
+			Throwable exception = NamelessAPI.checkWebAPIConnection(baseApiURL);
 			if (exception != null) {
 				// There is an exception, so the connection was unsuccessful.
 				log(Level.SEVERE, "Invalid API Url/Key. Nothing will work until you set the correct url.");
