@@ -68,7 +68,7 @@ public class CommandWithArgs extends Command {
 			if (args[0].equalsIgnoreCase(getUser)) {
 				if (Permission.COMMAND_ADMIN_GETUSER.hasPermission(sender)) {
 					String cLabel = label + " " + getUser;
-					GetUserCommand command = new GetUserCommand(cLabel);
+					UserInfoCommand command = new UserInfoCommand(cLabel);
 					if (args.length >= 2) {
 						command.execute(sender, cLabel, Arrays.copyOfRange(args, 1, args.length));
 					} else {

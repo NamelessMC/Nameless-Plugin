@@ -19,7 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.plugin.NamelessSpigot.commands.CommandWithArgs;
 import com.namelessmc.plugin.NamelessSpigot.commands.GetNotificationsCommand;
-import com.namelessmc.plugin.NamelessSpigot.commands.GetUserCommand;
+import com.namelessmc.plugin.NamelessSpigot.commands.UserInfoCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.NamelessCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.RegisterCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.ReportCommand;
@@ -171,7 +171,7 @@ public class NamelessPlugin extends JavaPlugin {
 					map.register(name, new RegisterCommand(commandsConfig.getString("individual.register")));
 				}
 
-				map.register(name, new GetUserCommand(commandsConfig.getString("individual.user-info")));
+				map.register(name, new UserInfoCommand(commandsConfig.getString("individual.user-info")));
 
 				map.register(name, new GetNotificationsCommand(commandsConfig.getString("individual.get-notifications")));
 

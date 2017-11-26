@@ -6,7 +6,7 @@ individual:
   register: 'register'
   get-notifications: 'getnotifications'
   report: 'report'
-  user-info: 'getinfo'
+  user-info: 'info'
   set-group: 'setgroup'
 subcommands:
   enabled: true
@@ -14,5 +14,5 @@ subcommands:
   register: 'register'
   get-notifications: 'getnotifications'
   report: 'report'
-  user-info: 'getinfo'
+  user-info: 'info'
   set-group: 'setgroup'
