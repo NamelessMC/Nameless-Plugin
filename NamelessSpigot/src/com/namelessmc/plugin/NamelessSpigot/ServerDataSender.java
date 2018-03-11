@@ -16,12 +16,18 @@ public class ServerDataSender extends BukkitRunnable {
 	
 	@Override
 	public void run() {
+		int serverId = NamelessPlugin.getInstance().getConfig().getInt("server-id");
+		if (serverId < 1) {
+			return;
+		}
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("tps", 20); // TODO tps
 		map.put("time", System.currentTimeMillis());
 		map.put("free-memory", Runtime.getRuntime().freeMemory());
 		map.put("max-memory", Runtime.getRuntime().maxMemory());
 		map.put("allocated-memory", Runtime.getRuntime().totalMemory());
+		map.put("server-id", serverId);
 		
 		Map<String, Map<String, Object>> players = new HashMap<>();
 		
