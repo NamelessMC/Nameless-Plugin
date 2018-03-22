@@ -123,16 +123,19 @@ public class NamelessPlugin extends JavaPlugin {
 				baseApiURL = new URL(url);
 			} catch (MalformedURLException e) {
 				// There is an exception, so the connection was not successful.
-				log(Level.SEVERE, "Invalid API Url/Key. Nothing will work until you set the correct url.");
+				log(Level.SEVERE, "Syntax error in API URL. Nothing will work until you set the correct url.");
 				log(Level.SEVERE, "Error: " + e.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
 
-			Throwable exception = NamelessAPI.checkWebAPIConnection(baseApiURL);
+			Exception exception = NamelessAPI.checkWebAPIConnection(baseApiURL);
 			if (exception != null) {
 				// There is an exception, so the connection was unsuccessful.
-				log(Level.SEVERE, "Invalid API Url/Key. Nothing will work until you set the correct url.");
+				log(Level.SEVERE, "Invalid API URL/key. Nothing will work until you set the correct url.");
 				log(Level.SEVERE, "Error: " + exception.getMessage());
+				log(Level.SEVERE, "");
+				log(Level.WARNING, "");
+				exception.printStackTrace();
 				return false; // Prevent registering of commands, listeners, etc.
 			}
 		}
