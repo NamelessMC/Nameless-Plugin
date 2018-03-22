@@ -139,23 +139,6 @@ public class NamelessPlugin extends JavaPlugin {
 		return true;
 	}
 
-	// Currently disabled.
-	/*public void checkForUpdate() {
-		if (getAPI().getConfigManager().getConfig().getBoolean("update-checker")) {
-			UpdateChecker updateChecker = new UpdateChecker(this);
-			if (updateChecker.updateNeeded()) {
-				for (String msg : updateChecker.getConsoleUpdateMessage()) {
-					NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, msg);
-				}
-			} else {
-				NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO, "&aFound no new updates!");
-			}
-		} else {
-			NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING,
-					"&CIt is recommended to enable update checker.");
-		}
-	}*/
-
 	private void registerCommands() {
 		getServer().getPluginCommand("nameless").setExecutor(new NamelessCommand());
 		
