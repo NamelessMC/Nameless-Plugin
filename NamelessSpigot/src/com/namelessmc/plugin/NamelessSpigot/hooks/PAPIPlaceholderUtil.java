@@ -2,7 +2,6 @@ package com.namelessmc.plugin.NamelessSpigot.hooks;
 
 import org.bukkit.entity.Player;
 
-import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 
 import me.clip.placeholderapi.external.EZPlaceholderHook;
@@ -15,7 +14,8 @@ public class PAPIPlaceholderUtil extends EZPlaceholderHook {
 
 	@Override
 	public String onPlaceholderRequest(Player player, String identifier) {
-		NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+		return null;
+		/*NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 		if (identifier.equals("alerts")) {
 			try {
 				if (namelessPlayer.exists()) {
@@ -37,7 +37,7 @@ public class PAPIPlaceholderUtil extends EZPlaceholderHook {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return null;*/
 	}
 
 }

@@ -8,10 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import com.namelessmc.NamelessAPI.NamelessException;
-import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessSpigot.Config;
-import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 
 public class PlayerLogin implements Listener {
@@ -28,7 +25,7 @@ public class PlayerLogin implements Listener {
 		}
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+			/*NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 			if (!namelessPlayer.exists()) {
 				return;
 			}
@@ -39,10 +36,11 @@ public class PlayerLogin implements Listener {
 			}
 			
 			int messages;
-			int alerts;
+			int alerts;*/
 			
-			try {
-				messages = namelessPlayer.getMessageCount();
+			player.sendMessage("notifications are temporarely disabled");
+			/*try {
+				messages = namelessPlayer.getNotifications();
 				alerts = namelessPlayer.getAlertCount();
 			} catch (NamelessException e) {
 				String errorMessage = Message.NOTIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage());
@@ -65,7 +63,7 @@ public class PlayerLogin implements Listener {
 			} else {
 				player.sendMessage(alertMessage);
 				player.sendMessage(pmMessage);
-			}
+			}*/
 			
 		});
 	}
