@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.gson.Gson;
+import com.namelessmc.NamelessAPI.NamelessAPI;
+import com.namelessmc.NamelessAPI.NamelessException;
 
 public class ServerDataSender extends BukkitRunnable {
 
@@ -63,7 +65,11 @@ public class ServerDataSender extends BukkitRunnable {
 		
 		String data = gson.toJson(map);
 		
-		System.out.println(data);
+		try {
+			NamelessAPI.submitServerInfo(NamelessPlugin.baseApiURL, data);
+		} catch (NamelessException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
