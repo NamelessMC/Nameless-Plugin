@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessSpigot.util.UUIDFetcher;
+import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
@@ -30,7 +31,16 @@ public class ReportCommand extends Command {
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			
 			Player player = (Player) sender;
-			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+			
+			NamelessPlayer namelessPlayer;
+			
+			try {
+				namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+			} catch (NamelessException e) {
+				sender.sendMessage(Chat.convertColors("&4An error occured, see console log for more details."));
+				e.printStackTrace();
+				return;
+			}
 			
 			if (namelessPlayer.exists()) {
 				sender.sendMessage(Message.MUST_REGISTER.getMessage());
@@ -65,7 +75,7 @@ public class ReportCommand extends Command {
 			String reason = String.join(" ", reasonWordsArray); //Join with space in between words
 			
 			try {
-				namelessPlayer.reportPlayer(targetUuid, targetName, reason);
+				namelessPlayer.createReport(targetUuid, targetName, reason);
 				
 				//Report successful
 				sender.sendMessage(

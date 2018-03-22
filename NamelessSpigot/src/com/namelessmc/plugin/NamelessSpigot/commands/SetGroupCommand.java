@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
@@ -41,10 +42,16 @@ public class SetGroupCommand extends Command {
 			
 			NamelessPlayer target = null;
 			
-			if(targetID.length() > 16) {
-				target = new NamelessPlayer(UUID.fromString(targetID), NamelessPlugin.baseApiURL);
-			}else {
-				target = new NamelessPlayer(targetID, NamelessPlugin.baseApiURL);
+			try {
+				if (targetID.length() > 16) {
+					target = new NamelessPlayer(UUID.fromString(targetID), NamelessPlugin.baseApiURL);
+				} else {
+					target = new NamelessPlayer(targetID, NamelessPlugin.baseApiURL);
+				}
+			} catch (NamelessException e) {
+				sender.sendMessage(Chat.convertColors("&4An error occured, see console log for more details."));
+				e.printStackTrace();
+				return;
 			}
 			
 			if(!target.exists()) {
