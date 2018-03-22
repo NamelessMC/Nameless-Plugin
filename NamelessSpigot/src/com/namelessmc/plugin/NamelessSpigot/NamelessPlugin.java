@@ -55,6 +55,11 @@ public class NamelessPlugin extends JavaPlugin {
 		}
 
 		RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+		if (permissionProvider == null) {
+			log(Level.SEVERE, "You do not have a vault-compatible permissions plugin. Please install one and restart.");
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
 		permissions = permissionProvider.getProvider();
 		
 		if (permissions == null) {
@@ -64,7 +69,7 @@ public class NamelessPlugin extends JavaPlugin {
 		}
 		
 		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
-		economy = economyProvider.getProvider();
+		if (economyProvider != null) economy = economyProvider.getProvider();
 
 		try {
 			Config.initialize();
