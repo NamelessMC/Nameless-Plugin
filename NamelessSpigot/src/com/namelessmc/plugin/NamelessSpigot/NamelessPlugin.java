@@ -92,7 +92,9 @@ public class NamelessPlugin extends JavaPlugin {
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveConfig(), 5*60*20, 5*60*20);
 
 		int uploadPeriod = Config.MAIN.getConfig().getInt("server-data-upload-rate", 10) * 20;
-		new ServerDataSender().runTaskTimer(this, uploadPeriod, uploadPeriod);
+		if (uploadPeriod > 0) {
+			new ServerDataSender().runTaskTimer(this, uploadPeriod, uploadPeriod);
+		}
 		
 		// For reloads
 		for (Player player : Bukkit.getOnlinePlayers()) {
