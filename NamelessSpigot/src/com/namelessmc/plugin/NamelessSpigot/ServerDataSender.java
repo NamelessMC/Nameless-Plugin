@@ -2,6 +2,7 @@ package com.namelessmc.plugin.NamelessSpigot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.gson.Gson;
+import com.namelessmc.NamelessAPI.ApiError;
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.NamelessAPI.NamelessException;
 
@@ -67,6 +69,12 @@ public class ServerDataSender extends BukkitRunnable {
 		
 		try {
 			NamelessAPI.submitServerInfo(NamelessPlugin.baseApiURL, data);
+		} catch (ApiError e) {
+			if (e.getErrorCode() == 27) {
+				NamelessPlugin.getInstance().getLogger().warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
+			} else {
+				e.printStackTrace();
+			}
 		} catch (NamelessException e) {
 			e.printStackTrace();
 		}
