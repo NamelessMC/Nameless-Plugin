@@ -35,14 +35,16 @@ public class NamelessPlugin extends JavaPlugin {
 
 	private static NamelessPlugin instance;
 
-	public static URL baseApiURL;
+	//public static URL baseApiURL;
 
-	boolean useGroups = false;
+	boolean useGroups = false; // TODO Check if this is actually used
 	
 	public static final Map<UUID, Long> LOGIN_TIME = new HashMap<>();
 	
 	public static net.milkbowl.vault.permission.Permission permissions;
 	public static Economy economy;
+	
+	public NamelessAPI api;
 	
 	@Override
 	public void onEnable() {
@@ -79,7 +81,7 @@ public class NamelessPlugin extends JavaPlugin {
 			return;
 		}
 			
-		if (!checkConnection()) return;
+		if (!initApi()) return;
 			
 		initHooks();
 			
@@ -114,23 +116,26 @@ public class NamelessPlugin extends JavaPlugin {
 		}
 	}
 	
-	private boolean checkConnection() {
+	private boolean initApi() {
 		YamlConfiguration config = Config.MAIN.getConfig();
 		String url = config.getString("api-url");
 		if (url.equals("")) {
 			log(Level.SEVERE, "No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
 			return false; // Prevent registering of commands, listeners, etc.
 		} else {
+			URL apiUrl;
 			try {
-				baseApiURL = new URL(url);
+				apiUrl = new URL(url);
 			} catch (MalformedURLException e) {
 				// There is an exception, so the connection was not successful.
 				log(Level.SEVERE, "Syntax error in API URL. Nothing will work until you set the correct url.");
 				log(Level.SEVERE, "Error: " + e.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
+			
+			api = new NamelessAPI(apiUrl);
 
-			Exception exception = NamelessAPI.checkWebAPIConnection(baseApiURL);
+			Exception exception = api.checkWebAPIConnection();
 			if (exception != null) {
 				// There is an exception, so the connection was unsuccessful.
 				log(Level.SEVERE, "Invalid API URL/key. Nothing will work until you set the correct url.");

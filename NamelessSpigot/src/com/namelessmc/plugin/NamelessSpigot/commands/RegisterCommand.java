@@ -37,7 +37,7 @@ public class RegisterCommand extends Command {
 			NamelessPlayer namelessPlayer;
 			
 			try {
-				namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+				namelessPlayer = NamelessPlugin.getInstance().api.getPlayer(player.getUniqueId());
 			} catch (NamelessException e) {
 				sender.sendMessage(Chat.convertColors("&4An error occured, see console log for more details."));
 				e.printStackTrace();

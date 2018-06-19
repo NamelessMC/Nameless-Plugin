@@ -9,7 +9,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Config;
 import com.namelessmc.plugin.NamelessSpigot.Message;
-import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
 
 public class CommandWithArgs extends Command {
@@ -38,8 +37,8 @@ public class CommandWithArgs extends Command {
 			String separator = Chat.convertColors("&3&m--------------------------------");
 
 			sender.sendMessage(separator);
-			sender.sendMessage(Chat.convertColors(" &b" + NamelessPlugin.baseApiURL.toString().split("/api")[0] + "/"));
-			sender.sendMessage(separator);
+			//sender.sendMessage(Chat.convertColors(" &b" + NamelessPlugin.baseApiURL.toString().split("/api")[0] + "/"));
+			//sender.sendMessage(separator);
 			
 			sender.sendMessage(Chat.convertColors("&a/" + label + "&3, " + Message.HELP_DESCRIPTION_MAIN.getMessage()));
 

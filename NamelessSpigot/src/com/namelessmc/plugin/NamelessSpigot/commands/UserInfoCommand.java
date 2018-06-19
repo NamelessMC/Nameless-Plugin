@@ -28,15 +28,15 @@ public class UserInfoCommand extends Command {
 		}
 		
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-			final String targetId = args[0];
+			final String targetID = args[0]; // Name or UUID
 
 			NamelessPlayer target;
 			
 			try {
-				if (targetId.length() > 16) {
-					target = new NamelessPlayer(UUID.fromString(targetId), NamelessPlugin.baseApiURL);
+				if (targetID.length() > 16) {
+					target = NamelessPlugin.getInstance().api.getPlayer(UUID.fromString(targetID));
 				} else {
-					target = new NamelessPlayer(targetId, NamelessPlugin.baseApiURL);
+					target = NamelessPlugin.getInstance().api.getPlayer(targetID);
 				}
 			} catch (IllegalArgumentException e) {
 				sender.sendMessage("Invalid UUID.");

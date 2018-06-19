@@ -38,15 +38,15 @@ public class SetGroupCommand extends Command {
 		
 		
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-			final String targetID = args[0];
+			final String targetID = args[0]; // Name or UUID
 			
 			NamelessPlayer target = null;
 			
 			try {
 				if (targetID.length() > 16) {
-					target = new NamelessPlayer(UUID.fromString(targetID), NamelessPlugin.baseApiURL);
+					target = NamelessPlugin.getInstance().api.getPlayer(UUID.fromString(targetID));
 				} else {
-					target = new NamelessPlayer(targetID, NamelessPlugin.baseApiURL);
+					target = NamelessPlugin.getInstance().api.getPlayer(targetID);
 				}
 			} catch (NamelessException e) {
 				sender.sendMessage(Chat.convertColors("&4An error occured, see console log for more details."));
