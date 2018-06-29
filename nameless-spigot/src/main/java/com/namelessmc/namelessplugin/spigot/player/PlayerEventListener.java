@@ -2,6 +2,7 @@ package com.namelessmc.namelessplugin.spigot.player;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -127,23 +128,24 @@ public class PlayerEventListener implements Listener {
 			permissionConfig = plugin.getAPI().getConfigManager().getGroupSyncPermissionsConfig();
 			ConfigurationSection section = permissionConfig.getConfigurationSection("permissions");
 			try {
-				for (String groupID : section.getKeys(true)) {
+				for (Map.Entry<String,Object> group : section.getValues(true).entrySet()) {
 					NamelessPlayer namelessPlayer = plugin.getAPI().getPlayer(player.getUniqueId().toString());
-					if (player.hasPermission(new Permission(groupID, PermissionDefault.FALSE))) {
-						if (namelessPlayer.getGroupID().toString().equals(groupID)) {
+
+					if (player.hasPermission(new Permission(group.getValue().toString(), PermissionDefault.FALSE))) {
+						if (namelessPlayer.getGroupID().toString().equals(group.getKey())) {
 							return;
 						} else {
 							Integer previousgroup = namelessPlayer.getGroupID();
-							namelessPlayer.setGroupID(groupID);
+							namelessPlayer.setGroupID(group.getKey());
 
-							NamelessPlayerSetGroup group = namelessPlayer.setGroupID(groupID);
-							if (group.hasError()) {
+							NamelessPlayerSetGroup setGroup = namelessPlayer.setGroupID(group.getKey());
+							if (setGroup.hasError()) {
 								NamelessChat.sendToLog(NamelessMessages.PREFIX_WARNING, "&4Error trying to change &c"
-										+ player.getName() + "'s group: &4" + group.getErrorMessage());
-							} else if (group.hasSucceseded()) {
+										+ player.getName() + "'s group: &4" + setGroup.getErrorMessage());
+							} else if (setGroup.hasSucceseded()) {
 								NamelessChat.sendToLog(NamelessMessages.PREFIX_INFO,
 										"&aSuccessfully changed &b" + player.getName() + "'s &agroup from &b"
-												+ previousgroup + " &ato &b" + group.getNewGroup() + "&a!");
+												+ previousgroup + " &ato &b" + setGroup.getNewGroup() + "&a!");
 							}
 						}
 					}
