@@ -22,7 +22,8 @@ help-description-report: '&bReport a player.'
 help-description-setgroup: '&bSet a player''s group on the website.'
 
 # Register
-register-success: '&aYou have successfully registered! Please check your email for the next steps!'
+register-success-email: '&aPlease check your email to complete registration!'
+register-success-link: '&aPlease click the following link to complete registration: {link}'
 register-fail: '&cAn error has occured while registering: %error%'
 register-username-exists: '&cUsername already exists!'
 register-email-exists: '&cEmail already exists!'

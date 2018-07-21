@@ -50,13 +50,18 @@ public class RegisterCommand extends Command {
 			}
 			
 			try {
-				namelessPlayer.register(player.getName(), args[0]);
-				sender.sendMessage(Message.REGISTER_SUCCESS.getMessage());
+				String link = namelessPlayer.register(player.getName(), args[0]);
+				if (link.equals("")) {
+					player.sendMessage(Message.REGISTER_SUCCESS_EMAIL.getMessage());
+				} else {
+					player.sendMessage(Message.REGISTER_SUCCESS_LINK.getMessage().replace("{link}", link));
+				}
+				sender.sendMessage(Message.REGISTER_SUCCESS_EMAIL.getMessage());
 			} catch (NamelessException e) {
 				if(e.getMessage().equalsIgnoreCase("Username already exists")) {
-					sender.sendMessage(Message.REGISTER_EMAIL_EXISTS.getMessage());
+					player.sendMessage(Message.REGISTER_EMAIL_EXISTS.getMessage());
 				}else if(e.getMessage().equalsIgnoreCase("Email already exists")) {
-					sender.sendMessage(Message.REGISTER_USERNAME_EXISTS.getMessage());
+					player.sendMessage(Message.REGISTER_USERNAME_EXISTS.getMessage());
 				}else {
 					player.sendMessage(Message.REGISTER_FAIL.getMessage().replace("%error%", e.getMessage()));
 					e.printStackTrace();
