@@ -18,7 +18,7 @@ public class ServerDataSender extends BukkitRunnable {
 	
 	@Override
 	public void run() {
-		int serverId = NamelessPlugin.getInstance().getConfig().getInt("server-id");
+		int serverId = Config.MAIN.getConfig().getInt("server-id");
 		if (serverId < 1) {
 			return;
 		}
