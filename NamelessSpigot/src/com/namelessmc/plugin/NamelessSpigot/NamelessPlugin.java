@@ -19,15 +19,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.plugin.NamelessSpigot.commands.CommandWithArgs;
 import com.namelessmc.plugin.NamelessSpigot.commands.GetNotificationsCommand;
-import com.namelessmc.plugin.NamelessSpigot.commands.UserInfoCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.NamelessCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.RegisterCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.ReportCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.SetGroupCommand;
+import com.namelessmc.plugin.NamelessSpigot.commands.UserInfoCommand;
 import com.namelessmc.plugin.NamelessSpigot.event.PlayerLogin;
 import com.namelessmc.plugin.NamelessSpigot.event.PlayerQuit;
-import com.namelessmc.plugin.NamelessSpigot.hooks.MVdWPlaceholderUtil;
-import com.namelessmc.plugin.NamelessSpigot.hooks.PAPIPlaceholderUtil;
+import com.namelessmc.plugin.NamelessSpigot.hooks.MVdWPapiHook;
+import com.namelessmc.plugin.NamelessSpigot.hooks.PapiHook;
+import com.namelessmc.plugin.NamelessSpigot.hooks.PlaceholderCacher;
 
 import net.milkbowl.vault.economy.Economy;
 
@@ -190,14 +191,22 @@ public class NamelessPlugin extends JavaPlugin {
 	}
 
 	private void initHooks() {
+		boolean cachePlaceholders = false;
+		
 		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
-			MVdWPlaceholderUtil placeholders = new MVdWPlaceholderUtil();
+			MVdWPapiHook placeholders = new MVdWPapiHook();
 			placeholders.hook();
+			cachePlaceholders = true;
 		}
 		
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			PAPIPlaceholderUtil placeholders = new PAPIPlaceholderUtil();
+			PapiHook placeholders = new PapiHook();
 			placeholders.hook();
+			cachePlaceholders = true;
+		}
+		
+		if (cachePlaceholders) {
+			Bukkit.getScheduler().runTaskAsynchronously(this, new PlaceholderCacher());
 		}
 	}
 
