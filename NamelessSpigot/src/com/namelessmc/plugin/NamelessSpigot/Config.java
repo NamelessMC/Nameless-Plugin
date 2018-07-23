@@ -10,7 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public enum Config {
 	
 	MAIN("config.yml", true, false),
-	PLAYER_INFO("player-data.yml", false, true),
+	//PLAYER_INFO("player-data.yml", false, true),
 	MESSAGES("messages.yml", true, false),
 	COMMANDS("commands.yml", true, false),
 	
