@@ -6,7 +6,7 @@
 # You can enable the API and obtain the key in AdminCP > Minecraft
 api-url: ""
 
-# Enter this if you wish the plugin to send data about this server
+# Enter this if you wish for the plugin to send data about this server
 # and its players to the website.
 # You can find this in AdminCP -> Minecraft -> Minecraft Servers
 server-id: 0
