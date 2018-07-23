@@ -9,8 +9,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -28,79 +30,85 @@ import com.google.inject.Inject;
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.plugin.NamelessSponge.commands.CommandWithArgs;
+import com.namelessmc.plugin.NamelessSponge.commands.GetNotificationsCommand;
+import com.namelessmc.plugin.NamelessSponge.commands.GetUserCommand;
+import com.namelessmc.plugin.NamelessSponge.commands.NamelessCommandSpec;
+import com.namelessmc.plugin.NamelessSponge.commands.RegisterCommand;
+import com.namelessmc.plugin.NamelessSponge.commands.SetGroupCommand;
 import com.namelessmc.plugin.NamelessSponge.event.PlayerLogin;
 import com.namelessmc.plugin.NamelessSponge.event.PlayerQuit;
 import com.namelessmc.plugin.NamelessSponge.permissions.LuckPerms;
 import com.namelessmc.plugin.NamelessSponge.permissions.Permissions;
 import ninja.leaping.configurate.ConfigurationNode;
 
-@Plugin(id = "namelessmc", name = "Nameless Sponge", version = "Pre-2", description = "The Plugin for NamelessMC", url = "https://plugin.namelessmc.com/", authors = {"IsS127", "Derkades", "Samerton"})
+@Plugin(id = "namelessmc", name = "Nameless Sponge", version = "Pre-2", description = "The Plugin for NamelessMC", url = "https://plugin.namelessmc.com/", authors = { "IsS127", "Derkades", "Samerton" })
 public class NamelessPlugin {
-	
+
 	@Inject
 	private Logger logger;
 
 	@Inject
-    private Game game;
-	
+	private Game game;
+
 	@Inject
 	@ConfigDir(sharedRoot = false)
 	private Path configDir = null;
-	
+
 	private static NamelessPlugin instance;
 
 	public static URL baseApiURL;
-	
+
 	public static final Map<UUID, Long> LOGIN_TIME = new HashMap<>();
 
 	public static Permissions permissions = null;
 	public static PermissionService permissionsservice = null;
 	public static EconomyService economy = null;
-	
+
 	public static boolean disabled = false;
-	
+
 	@Listener
-    public void onServerInitialization(GamePreInitializationEvent  event) {
-        instance = this;
-        log(Level.INFO, "Initializing NamelessMC " + getClass().getAnnotation(Plugin.class).version());
-        
-        // Luckperms Check
-        if(game.getPluginManager().isLoaded("luckperms")) {
-        	permissions = new LuckPerms();
-        }
-        
-        // Economy Service Initliazation
-        Optional<EconomyService> eopt = game.getServiceManager().provide(EconomyService.class);
-        if (eopt.isPresent()) {
-        	System.out.println("economy works");
-        	economy = eopt.get();
-        }
-        
-        // Initialize Configuration
-        
-        try {
+	public void onServerInitialization(GamePreInitializationEvent event) {
+		instance = this;
+		log(Level.INFO, "Initializing NamelessMC " + getClass().getAnnotation(Plugin.class).version());
+
+		// Luckperms Check
+		if (game.getPluginManager().isLoaded("luckperms")) {
+			permissions = new LuckPerms();
+		}
+
+		// Economy Service Initliazation
+		Optional<EconomyService> eopt = game.getServiceManager().provide(EconomyService.class);
+		if (eopt.isPresent()) {
+			System.out.println("economy works");
+			economy = eopt.get();
+		}
+
+		// Initialize Configuration
+
+		try {
 			Config.initialize();
 		} catch (IOException e) {
 			log(Level.ERROR, "Unable to load config.");
 			e.printStackTrace();
 			return;
 		}
-			
+
 		if (!checkConnection()) return;
-        
-    }
-	
+
+	}
+
 	@Listener
-    public void onServerStart(GameStartedServerEvent event) {
-		if(disabled) return;
+	public void onServerStart(GameStartedServerEvent event) {
+		if (disabled) return;
 		// Everything has loaded, move on with registering listeners and commands.
-		//registerCommands();
+		registerCommands();
 		game.getEventManager().registerListeners(this, new PlayerLogin());
 		game.getEventManager().registerListeners(this, new PlayerQuit());
-			
+
 		// Start saving data files every 15 minutes
-	    game.getScheduler().createTaskBuilder().execute(new SaveConfig()).interval(15, TimeUnit.MINUTES);
-	    
+		game.getScheduler().createTaskBuilder().execute(new SaveConfig()).interval(15, TimeUnit.MINUTES);
+
 		// Start group synchronization task
 		ConfigurationNode config = Config.MAIN.getConfig();
 		if (!(config.getNode("group-synchronization.sync-interval").getInt() <= 0)) {
@@ -111,19 +119,22 @@ public class NamelessPlugin {
 				}
 			}).interval(interval, TimeUnit.SECONDS);
 		}
-		
+
 		long uploadPeriod = config.getNode("server-data-upload-rate").getLong() * 20L;
 		game.getScheduler().createTaskBuilder().execute(new ServerDataSender()).delay(uploadPeriod, TimeUnit.SECONDS).interval(uploadPeriod, TimeUnit.SECONDS);
-		
+
 		log(Level.INFO, "Successfully loaded!");
 	}
-	
+
 	@Listener
 	public void onPluginReload(GameReloadEvent event) {
-		if(disabled) { if(!checkConnection()) return; disabled = false;}
-		
+		if (disabled) {
+			if (!checkConnection()) return;
+			disabled = false;
+		}
+
 		game.getScheduler().createTaskBuilder().execute(new ServerDataSender()).async();
-		
+
 		try {
 			for (Config config : Config.values()) {
 				if (config.autoSave()) config.saveConfig();
@@ -133,12 +144,12 @@ public class NamelessPlugin {
 		}
 		log(Level.INFO, "Successfully reloaded!");
 	}
-	
+
 	@Listener
 	public void onServerDisabling(GameStoppingServerEvent event) {
-		if(disabled) return;
+		if (disabled) return;
 		game.getScheduler().createTaskBuilder().execute(new ServerDataSender()).async();
-		
+
 		// Save all Configuration
 		try {
 			for (Config config : Config.values()) {
@@ -148,16 +159,162 @@ public class NamelessPlugin {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	@Listener
 	public void onChangeServiceProvider(ChangeServiceProviderEvent event) {
-		if(disabled) return;
+		if (disabled) return;
 		if (event.getService().equals(PermissionService.class)) {
 			permissionsservice = (PermissionService) event.getNewProviderRegistration().getProvider();
 		}
-    }
-	
+	}
+
+	private void registerCommands() {
+		//getServer().getPluginCommand("nameless").setExecutor(new NamelessCommand());
+		
+		ConfigurationNode commandsConfig = Config.COMMANDS.getConfig();
+
+		boolean subcommands = Config.COMMANDS.getConfig().getNode("subcommands", "enabled").getBoolean();
+		boolean individual = Config.COMMANDS.getConfig().getNode("individual", "enabled").getBoolean();
+
+		if (individual) {
+			if (commandsConfig.getNode("enable-registration").getBoolean()) {
+				String register = commandsConfig.getString("individual.register");
+
+				NamelessCommandSpec registerSpec = NamelessCommandSpec.builder()
+						.description(Message.HELP_DESCRIPTION_REGISTER.getMessage())
+						.permission(Permission.COMMAND_REGISTER.toString())
+						.arguments(GenericArguments.onlyOne(GenericArguments.string(Chat.toText("email"))))
+						.executor(new RegisterCommand(register))
+						.build();
+				game.getCommandManager().register(this, registerSpec, register);
+			}
+			
+			String getUser = commandsConfig.getNode("individual", "user-info").getString();
+			NamelessCommandSpec getUserSpec = NamelessCommandSpec.builder()
+					.description(Message.HELP_DESCRIPTION_GETUSER.getMessage())
+					.permission(Permission.COMMAND_ADMIN_GETUSER.toString())
+					.arguments(GenericArguments.onlyOne(GenericArguments.string(Chat.toText("id"))))
+					.executor(new GetUserCommand(getUser))
+					.build();
+			game.getCommandManager().register(this, getUserSpec, getUser);
+				
+			String getNotifications = commandsConfig.getNode("individual", "get-notifications").getString();
+			NamelessCommandSpec getNotificationsSpec = NamelessCommandSpec.builder()
+						.description(Message.HELP_DESCRIPTION_GETNOTIFICATIONS.getMessage())
+						.permission(Permission.COMMAND_GETNOTIFICATIONS.toString())
+						.arguments(GenericArguments.remainingJoinedStrings(Chat.toText("args")))
+						.executor(new GetNotificationsCommand(getNotifications))
+						.build();
+			game.getCommandManager().register(this, getNotificationsSpec, getNotifications);
+				
+			String setGroup = commandsConfig.getNode("individual", "set-group").getString();
+			NamelessCommandSpec setGroupSpec = NamelessCommandSpec.builder()
+					.description(Message.HELP_DESCRIPTION_GETUSER.getMessage())
+					.permission(Permission.COMMAND_ADMIN_GETUSER.toString())
+					.arguments(
+							GenericArguments.onlyOne(GenericArguments.string(Chat.toText("id"))),
+							GenericArguments.onlyOne(GenericArguments.string(Chat.toText("groupID"))))
+					.executor(new SetGroupCommand(setGroup))
+					.build();
+			game.getCommandManager().register(this, setGroupSpec, setGroup);
+				
+			if (commandsConfig.getNode("enable-reports").getBoolean()) {
+				String report = commandsConfig.getNode("individual", "report").getString();
+				NamelessCommandSpec reportSpec = NamelessCommandSpec.builder()
+						.description(Message.HELP_DESCRIPTION_GETUSER.getMessage())
+						.permission(Permission.COMMAND_ADMIN_GETUSER.toString())
+						.arguments(
+							GenericArguments.onlyOne(GenericArguments.string(Chat.toText("id"))),
+							GenericArguments.onlyOne(GenericArguments.remainingJoinedStrings(Chat.toText("message"))))
+						.executor(new SetGroupCommand(report))
+						.build();
+				game.getCommandManager().register(this, reportSpec, report);
+			}
+		}
+
+		if (subcommands) {
+			String register = commandsConfig.getString("individual.register");
+			NamelessCommandSpec registerSpec = NamelessCommandSpec.builder()
+						.description(Message.HELP_DESCRIPTION_REGISTER.getMessage())
+						.permission(Permission.COMMAND_REGISTER.toString())
+						.arguments(GenericArguments.onlyOne(GenericArguments.string(Chat.toText("email"))))
+						.executor(new RegisterCommand(register))
+						.build();
+			
+			String getUser = commandsConfig.getNode("individual", "user-info").getString();
+			NamelessCommandSpec getUserSpec = NamelessCommandSpec.builder()
+					.description(Message.HELP_DESCRIPTION_GETUSER.getMessage())
+					.permission(Permission.COMMAND_ADMIN_GETUSER.toString())
+					.arguments(GenericArguments.onlyOne(GenericArguments.string(Chat.toText("id"))))
+					.executor(new GetUserCommand(getUser))
+					.build();
+				
+			String getNotifications = commandsConfig.getNode("individual", "get-notifications").getString();
+			NamelessCommandSpec getNotificationsSpec = NamelessCommandSpec.builder()
+						.description(Message.HELP_DESCRIPTION_GETNOTIFICATIONS.getMessage())
+						.permission(Permission.COMMAND_GETNOTIFICATIONS.toString())
+						.arguments(GenericArguments.remainingJoinedStrings(Chat.toText("args")))
+						.executor(new GetNotificationsCommand(getNotifications))
+						.build();
+				
+			String setGroup = commandsConfig.getNode("individual", "set-group").getString();
+			NamelessCommandSpec setGroupSpec = NamelessCommandSpec.builder()
+					.description(Message.HELP_DESCRIPTION_GETUSER.getMessage())
+					.permission(Permission.COMMAND_ADMIN_GETUSER.toString())
+					.arguments(
+							GenericArguments.onlyOne(GenericArguments.string(Chat.toText("id"))),
+							GenericArguments.onlyOne(GenericArguments.string(Chat.toText("groupID"))))
+					.executor(new SetGroupCommand(setGroup))
+					.build();
+			
+			String report = commandsConfig.getNode("individual", "report").getString();
+			NamelessCommandSpec reportSpec = NamelessCommandSpec.builder()
+					.description(Message.HELP_DESCRIPTION_GETUSER.getMessage())
+					.permission(Permission.COMMAND_ADMIN_GETUSER.toString())
+					.arguments(
+						GenericArguments.onlyOne(GenericArguments.string(Chat.toText("id"))),
+						GenericArguments.onlyOne(GenericArguments.remainingJoinedStrings(Chat.toText("message"))))
+					.executor(new SetGroupCommand(report))
+					.build();
+				
+			String main = commandsConfig.getNode("subcommand", "main").getString();
+			NamelessCommandSpec mainSpec = null;
+			if (commandsConfig.getNode("enable-reports").getBoolean()) {
+				mainSpec = NamelessCommandSpec.builder()
+						.description(Message.HELP_DESCRIPTION_MAIN.getMessage())
+						.permission(Permission.COMMAND_MAIN.toString())
+						.child(getUserSpec, getUser)
+						.child(getNotificationsSpec, getNotifications)
+						.child(setGroupSpec, setGroup)
+						.child(reportSpec, report)
+						.executor(new CommandWithArgs(main))
+						.build();
+			}else if(commandsConfig.getNode("enable-registration").getBoolean()) {
+				mainSpec = NamelessCommandSpec.builder()
+						.description(Message.HELP_DESCRIPTION_MAIN.getMessage())
+						.permission(Permission.COMMAND_MAIN.toString())
+						.child(registerSpec, register)
+						.child(getUserSpec, getUser)
+						.child(getNotificationsSpec, getNotifications)
+						.child(setGroupSpec, setGroup)
+						.executor(new CommandWithArgs(main))
+						.build();
+			}else {
+				mainSpec = NamelessCommandSpec.builder()
+						.description(Message.HELP_DESCRIPTION_MAIN.getMessage())
+						.permission(Permission.COMMAND_MAIN.toString())
+						.child(registerSpec, register)
+						.child(getUserSpec, getUser)
+						.child(getNotificationsSpec, getNotifications)
+						.child(setGroupSpec, setGroup)
+						.child(reportSpec, report)
+						.executor(new CommandWithArgs(main))
+						.build();
+			}
+			game.getCommandManager().register(this, mainSpec, main);
+		}
+	}
+
 	private boolean checkConnection() {
 		ConfigurationNode config = Config.MAIN.getConfig();
 		String url = config.getNode("api-url").getString();
@@ -188,19 +345,19 @@ public class NamelessPlugin {
 		disabled = true;
 		return true;
 	}
-	
+
 	public static NamelessPlugin getInstance() {
 		return instance;
 	}
-	
-	public static Game getGame(){
+
+	public static Game getGame() {
 		return NamelessPlugin.getInstance().game;
 	}
-	
+
 	public Logger getLogger() {
 		return logger;
 	}
-	
+
 	public static void log(Level level, String message) {
 		Logger logger = NamelessPlugin.getInstance().getLogger();
 		switch (level) {
@@ -223,11 +380,11 @@ public class NamelessPlugin {
 				break;
 		}
 	}
-	
+
 	public static Path getDirectory() {
 		return NamelessPlugin.getInstance().configDir;
 	}
-	
+
 	public static void syncGroup(Player player) {
 		ConfigurationNode config = Config.MAIN.getConfig();
 		if (config.getNode("group-synchronization").getBoolean()) {
@@ -256,15 +413,11 @@ public class NamelessPlugin {
 			}
 		}
 	}
-	
+
 	public enum Level {
-		DEBUG,
-		TRACE,
-		INFO,
-		WARNING,
-		ERROR;
+			DEBUG, TRACE, INFO, WARNING, ERROR;
 	}
-	
+
 	public static class SaveConfig implements Runnable {
 
 		@Override
@@ -272,8 +425,7 @@ public class NamelessPlugin {
 			getGame().getScheduler().createAsyncExecutor(getInstance()).execute(() -> {
 				try {
 					for (Config config : Config.values()) {
-						if (config.autoSave())
-							config.saveConfig();
+						if (config.autoSave()) config.saveConfig();
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

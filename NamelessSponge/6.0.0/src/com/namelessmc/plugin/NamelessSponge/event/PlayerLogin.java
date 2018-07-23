@@ -60,7 +60,7 @@ public class PlayerLogin{
 					player.sendMessage(pmMessage);
 				}
 			} catch (NamelessException e) {
-				Text errorMessage = Chat.toText(Message.NOIFICATIONS_ERROR.getMessageAsString().replace("%error%", e.getMessage()));
+				Text errorMessage = Chat.toText(Message.NOTIFICATIONS_ERROR.getMessageAsString().replace("%error%", e.getMessage()));
 				player.sendMessage(errorMessage);
 				e.printStackTrace();
 			}

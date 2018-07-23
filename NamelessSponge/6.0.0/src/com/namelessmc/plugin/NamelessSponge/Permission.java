@@ -2,7 +2,7 @@ package com.namelessmc.plugin.NamelessSponge;
 
 import java.util.Optional;
 
-import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.service.permission.PermissionDescription;
 import org.spongepowered.api.service.permission.PermissionDescription.Builder;
 
@@ -26,8 +26,8 @@ public enum Permission {
 		return permissionString;
 	}
 	
-	public boolean hasPermission(User user) {
-		return user.hasPermission(permissionString);
+	public boolean hasPermission(CommandSource src) {
+		return src.hasPermission(permissionString);
 	}
 	
 	public static String toGroupSyncPermission(String permission) {

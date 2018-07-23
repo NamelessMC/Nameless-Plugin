@@ -1,5 +1,7 @@
 #  This is a config file for commands.
 #  You need to reload/restart your server after you edit this file.
+#  If you enable individual you would need to use "/<command>" to execute the commands
+#  If you enable subcommands you would need to use "/<main> <command>"
 
 individual:
   enabled: true
