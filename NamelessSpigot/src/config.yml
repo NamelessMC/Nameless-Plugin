@@ -3,7 +3,7 @@
 # API URL
 # This needs to be the full API URL, including API key
 # For example http://yoursite.com/api/v2/API_KEY
-# You can enable the API and obtain the key in AdminCP > Minecraft
+# You can enable the API and obtain the key in AdminCP > Core > API
 api-url: ""
 
 # Enter this if you wish for the plugin to send data about this server
