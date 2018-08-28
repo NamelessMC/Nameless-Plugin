@@ -35,10 +35,6 @@ import net.milkbowl.vault.economy.Economy;
 public class NamelessPlugin extends JavaPlugin {
 
 	private static NamelessPlugin instance;
-
-	//public static URL baseApiURL;
-
-	boolean useGroups = false; // TODO Check if this is actually used
 	
 	public static final Map<UUID, Long> LOGIN_TIME = new HashMap<>();
 	
