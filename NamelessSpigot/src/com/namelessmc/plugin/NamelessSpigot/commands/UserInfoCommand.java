@@ -11,6 +11,7 @@ import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
+import com.namelessmc.plugin.NamelessSpigot.util.UUIDFetcher;
 
 public class UserInfoCommand extends Command {
 
@@ -33,10 +34,14 @@ public class UserInfoCommand extends Command {
 			NamelessPlayer target;
 			
 			try {
+				// TODO Catch errors and display user friendly player not found message
 				if (targetID.length() > 16) {
+					//It's (probably) a UUID
 					target = NamelessPlugin.getInstance().api.getPlayer(UUID.fromString(targetID));
 				} else {
-					target = NamelessPlugin.getInstance().api.getPlayer(targetID);
+					//It's (probably) a name
+					final UUID uuid = UUIDFetcher.getUUID(targetID);
+					target = NamelessPlugin.getInstance().api.getPlayer(uuid);
 				}
 			} catch (IllegalArgumentException e) {
 				sender.sendMessage("Invalid UUID.");

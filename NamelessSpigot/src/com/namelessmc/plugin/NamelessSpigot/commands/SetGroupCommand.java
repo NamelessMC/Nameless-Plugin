@@ -2,6 +2,7 @@ package com.namelessmc.plugin.NamelessSpigot.commands;
 
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import com.namelessmc.NamelessAPI.NamelessException;
@@ -10,6 +11,7 @@ import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
+import com.namelessmc.plugin.NamelessSpigot.util.UUIDFetcher;
 
 public class SetGroupCommand extends Command {
 
@@ -37,16 +39,20 @@ public class SetGroupCommand extends Command {
 		}
 		
 		
-		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			final String targetID = args[0]; // Name or UUID
 			
 			NamelessPlayer target = null;
 			
 			try {
+				// TODO Catch errors and display user friendly player not found message
 				if (targetID.length() > 16) {
+					//It's (probably) a UUID
 					target = NamelessPlugin.getInstance().api.getPlayer(UUID.fromString(targetID));
 				} else {
-					target = NamelessPlugin.getInstance().api.getPlayer(targetID);
+					//It's (probably) a name
+					final UUID uuid = UUIDFetcher.getUUID(targetID);
+					target = NamelessPlugin.getInstance().api.getPlayer(uuid);
 				}
 			} catch (NamelessException e) {
 				sender.sendMessage(Chat.convertColors("&4An error occured, see console log for more details."));
