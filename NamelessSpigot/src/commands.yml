@@ -3,11 +3,11 @@
 
 individual:
   enabled: true
-  register: 'register'
   get-notifications: 'getnotifications'
+  register: 'register'
   report: 'report'
-  user-info: 'info'
   set-group: 'setgroup'
+  user-info: 'info'
 subcommands:
   enabled: true
   main: 'website'

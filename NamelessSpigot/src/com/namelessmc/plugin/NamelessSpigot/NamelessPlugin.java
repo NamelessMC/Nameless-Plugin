@@ -17,6 +17,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.NamelessAPI.NamelessAPI;
+import com.namelessmc.plugin.NamelessSpigot.commands.Command;
 import com.namelessmc.plugin.NamelessSpigot.commands.CommandWithArgs;
 import com.namelessmc.plugin.NamelessSpigot.commands.GetNotificationsCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.NamelessCommand;
@@ -162,19 +163,15 @@ public class NamelessPlugin extends JavaPlugin {
 			boolean individual = Config.COMMANDS.getConfig().getBoolean("individual.enabled", true);
 
 			if (individual) {
-				if (commandsConfig.getBoolean("enable-registration")) {
-					map.register(name, new RegisterCommand(commandsConfig.getString("individual.register")));
-				}
-
-				map.register(name, new UserInfoCommand(commandsConfig.getString("individual.user-info")));
-
-				map.register(name, new GetNotificationsCommand(commandsConfig.getString("individual.get-notifications")));
-
-				map.register(name, new SetGroupCommand(commandsConfig.getString("individual.set-group")));
-
-				if (commandsConfig.getBoolean("enable-reports")) {
-					map.register(name, new ReportCommand(commandsConfig.getString("individual.report")));
-				}
+				Command[] commands = {
+						new GetNotificationsCommand(commandsConfig.getString("individual.get-notifications")),
+						new RegisterCommand(commandsConfig.getString("individual.register")),
+						new ReportCommand(commandsConfig.getString("individual.report")),
+						new SetGroupCommand(commandsConfig.getString("individual.set-group")),
+						new UserInfoCommand(commandsConfig.getString("individual.user-info")),
+				};
+				
+				for (Command command : commands) map.register(name, command);
 			}
 
 			if (subcommands) {
