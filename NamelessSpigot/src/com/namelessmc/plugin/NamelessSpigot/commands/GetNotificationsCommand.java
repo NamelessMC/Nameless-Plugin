@@ -22,7 +22,6 @@ public class GetNotificationsCommand extends Command {
 	public GetNotificationsCommand(String name) {
 		super(name, Message.HELP_DESCRIPTION_GETNOTIFICATIONS.getMessage(), "/" + name);
 		setPermission(Permission.COMMAND_GETNOTIFICATIONS.toString());
-		setPermissionMessage(Message.NO_PERMISSION.getMessage());
 	}
 
 	@Override
