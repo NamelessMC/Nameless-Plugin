@@ -1,5 +1,6 @@
-#  This is a config file for commands.
-#  You need to reload/restart your server after you edit this file.
+# This is a config file for commands.
+# You need to reload/restart your server after you edit this file.
+# Set a command name to "disabled" to disable the command.
 
 individual:
   enabled: true

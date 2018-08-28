@@ -171,7 +171,12 @@ public class NamelessPlugin extends JavaPlugin {
 						new UserInfoCommand(commandsConfig.getString("individual.user-info")),
 				};
 				
-				for (Command command : commands) map.register(name, command);
+				for (Command command : commands) {
+					if (command.getName().equals("disabled"))
+						continue;
+
+					map.register(name, command);
+				}
 			}
 
 			if (subcommands) {
