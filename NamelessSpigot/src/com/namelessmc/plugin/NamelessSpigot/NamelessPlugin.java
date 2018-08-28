@@ -25,6 +25,7 @@ import com.namelessmc.plugin.NamelessSpigot.commands.RegisterCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.ReportCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.SetGroupCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.UserInfoCommand;
+import com.namelessmc.plugin.NamelessSpigot.commands.ValidateCommand;
 import com.namelessmc.plugin.NamelessSpigot.event.PlayerLogin;
 import com.namelessmc.plugin.NamelessSpigot.event.PlayerQuit;
 import com.namelessmc.plugin.NamelessSpigot.hooks.MVdWPapiHook;
@@ -169,6 +170,7 @@ public class NamelessPlugin extends JavaPlugin {
 						new ReportCommand(commandsConfig.getString("individual.report")),
 						new SetGroupCommand(commandsConfig.getString("individual.set-group")),
 						new UserInfoCommand(commandsConfig.getString("individual.user-info")),
+						new ValidateCommand(commandsConfig.getString("individual.validate")),
 				};
 				
 				for (Command command : commands) {

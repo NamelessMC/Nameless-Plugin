@@ -9,6 +9,7 @@ individual:
   report: 'report'
   set-group: 'setgroup'
   user-info: 'info'
+  validate: 'validate'
 subcommands:
   enabled: true
   main: 'website'

@@ -10,6 +10,7 @@ public enum Permission {
 	COMMAND_REPORT("namelessmc.report"),
 	COMMAND_ADMIN_SETGROUP("namelessmc.admin.setgroup"),
 	COMMAND_ADMIN_GETUSER("namelessmc.admin.getuser"),
+	COMMAND_VALIDATE("namelessmc.validate"),
 	ADMIN_UPDATENOTIFY("namelessmc.admin.updatenotify");
 	
 	private org.bukkit.permissions.Permission permission;
