@@ -2,19 +2,16 @@
 # You need to reload/restart your server after you edit this file.
 # Set a command name to "disabled" to disable the command.
 
-individual:
-  enabled: true
-  get-notifications: 'getnotifications'
-  register: 'register'
-  report: 'report'
-  set-group: 'setgroup'
-  user-info: 'info'
-  validate: 'validate'
-subcommands:
-  enabled: true
-  main: 'website'
-  register: 'register'
-  get-notifications: 'getnotifications'
-  report: 'report'
-  user-info: 'info'
-  set-group: 'setgroup'
+# For example, /nameless report <player> <reason>
+subcommands-enabled: true
+subcommands-name: nameless
+
+# For example, /report <player> <reason>
+individual-commands-enabled: true
+
+get-notifications: 'notifications'
+register: 'register'
+report: 'report'
+set-group: 'setgroup'
+user-info: 'info'
+validate: 'validate'

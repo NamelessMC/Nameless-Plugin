@@ -1,88 +1,187 @@
 package com.namelessmc.plugin.NamelessSpigot;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+
 public enum Message {
-
-    // Global
-    NO_PERMISSION,
-	MUST_BE_INGAME,
-	ACCOUNT_NOT_VALIDATED,
-	PLAYER_NOT_FOUND,
-	MUST_REGISTER,
 	
-	// Incorrect usage
-	INCORRECT_USAGE_MAIN,
-	INCORRECT_USAGE_REGISTER,
-	INCORRECT_USAGE_GETUSER,
-	INCORRECT_USAGE_GETNOTIFICATIONS,
-	INCORRECT_USAGE_REPORT,
-	INCORRECT_USAGE_SETGROUP,
-	INCORRECT_USAGE_VALIDATE,
+	PLAYER_OTHER_NOTFOUND("player.other.not-found", 
+			"This player could not be found."),
+	PLAYER_OTHER_NOTVALIDATED("player.other.not-validated", 
+			"This player's account is not validated."),
+	PLAYER_OTHER_NOTREGISTERED("player.other.not-registered", 
+			"This player is not registered on the website."),
+	PLAYER_SELF_NOTVALIDATED("player.self.not-validated", 
+			"Your account must be validated to perform this action."),
+	PLAYER_SELF_NOTREGISTERED("player.self.not-registered", 
+			"You must register for an account to perform this action."),
 	
-	// Help/Alone Help Messages
-	HELP_DESCRIPTION_MAIN,
-	HELP_DESCRIPTION_REGISTER,
-	HELP_DESCRIPTION_GETUSER,
-	HELP_DESCRIPTION_GETNOTIFICATIONS,
-	HELP_DESCRIPTION_REPORT,
-	HELP_DESCRIPTION_SETGROUP,
-	HELP_DESCRIPTION_VALIDATE,
+	COMMAND_NOPERMISSION("command.no-permission", 
+			"You don't have permission to perform this command."),
+	COMMAND_NOTAPLAYER("command.not-a-player", 
+			"You must be a player to perform this command."),
 	
-	// Register
-	REGISTER_SUCCESS_EMAIL,
-	REGISTER_SUCCESS_LINK,
-	REGISTER_FAIL,
-	REGISTER_USERNAME_EXISTS,
-	REGISTER_EMAIL_EXISTS,
-	HAS_REGISTERED,
-
+	COMMAND_NOTIFICATIONS_USAGE("command.notifications.usage", 
+			"{command}"),
+	COMMAND_NOTIFICATIONS_DESCRIPTION("command.notifications.description", 
+			"Displays a list of website notifications"),
+	COMMAND_NOTIFICATIONS_OUTPUT_NONOTIFICATIONS("command.notifications.output.no-notifications",
+			"You do not have any unread notifications."),
+	COMMAND_NOTIFICATIONS_OUTPUT_CLICKTOOPEN("command.notifications.output.click-to-open",
+			"Click to open in web browser"),
+	COMMAND_NOTIFICATIONS_OUTPUT_FAIL_GENERIC("command.notifications.output.fail.generic",
+			"An error occured while trying to retrieve a list of notifications. Please notify the server administrator about this issue."),
 	
-	// Notification
-	NO_NOTIFICATIONS,
-	NOTIFICATIONS_ALERTS,
-	NOTIFICATIONS_MESSAGES,
-	NOTIFICATIONS_ERROR,
+	COMMAND_REGISTER_USAGE("command.register.usage",
+			"{command}"),
+	COMMAND_REGISTER_DESCRIPTION("command.register.description",
+			"Creates an account. Will output a link or email address to complete registration."),
+	COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL("command.register.output.success.email",
+			"Please check your inbox to complete registration."),
+	COMMAND_REGISTER_OUTPUT_SUCCESS_LINK("command.register.output.success.link",
+			"Please visit {link} to complete registration."),
+	COMMAND_REGISTER_OUTPUT_FAIL_GENERIC("command.register.output.fail.generic",
+			"An error occured while trying to register. Please notify the server administrator about this issue."),
+	COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS("command.register.output.fail.already-exists",
+			"You already have an account."),
+	COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED("command.register.output.fail.email-used",
+			"This email address is already used for a different user account."),
 	
-	// Username
-	USERNAME_SYNC_SUCCESS,
-	USERNAME_SYNC_ERROR,
+	COMMAND_REPORT_USAGE("command.report.usage",
+			"{command} <name/uuid> <reason>"),
+	COMMAND_REPORT_DESCRIPTION("command.report.description",
+			"reports a player"),
+	COMMAND_REPORT_OUTPUT_SUCCESS("command.report.output.success",
+			"Thank you for reporting this player."),
+	COMMAND_REPORT_OUTPUT_FAIL_GENERIC("command.report.output.fail.generic",
+			"An error occured while trying to report this player. Please notify the server administrator about this issue."),
 	
-
-	// Report 
-	REPORT_SUCCESS,
-	REPORT_ERROR,
+	COMMAND_SETGROUP_USAGE("command.set-group.usage",
+			"{command} <name/uuid> <group id>"),
+	COMMAND_SETGROUP_DESCRIPTION("command.set-group.description",
+			"Changes a player's group id."),
+	COMMAND_SETGROUP_OUTPUT_SUCCESS("command.set-group.output.success",
+			"Changed group id for {player} from {old} to {new}"),
+	//COMMAND_SETGROUP_OUTPUT_FAIL_NOACCOUNT("command.set-group.output.fail.no-account",
+	//		"This player does not have an account"),
+	COMMAND_SETGROUP_OUTPUT_FAIL_NOTNUMERIC("command.set-group.output.fail-not-numeric",
+			"The provided group id is not a number."),
+	COMMAND_SETGROUP_OUTPUT_FAIL_INVALIDGROUPID("command.set-group.output.fail.invalid-group-id",
+			"This group ID is invalid."),
+	COMMAND_SETGROUP_OUTPUT_FAIL_GENERIC("command.set-group-output.fail.generic",
+			"An unknown error occured while trying to set the player's group."),
 	
-	// SetGroup
-	SETGROUP_SUCCESS,
-	SETGROUP_ERROR,
+	COMMAND_VALIDATE_USAGE("command.validate.usage",
+			"{command} <code>"),
+	COMMAND_VALIDATE_DESCRIPTION("command.validate.description",
+			"Validates the user's website account using the given code."),
+	COMMAND_VALIDATE_OUTPUT_SUCCESS("command.validate.output.success",
+			"Your account has been validated."),
+	COMMAND_VALIDATE_OUTPUT_FAIL_ALREADYVALIDATED("command.validate.output.fail.already-validated",
+			"Your account has already been validated."),
+	COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE("command.validate.output.fail.invalid-code",
+			"Your validation code is incorrect. Please check if you copied it correctly and try again."),
+	COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC("command.user-info.output.fail.generic",
+			"An unknown error occured while trying to submit a validation code."),
 	
-	// Group sync
-	GROUP_SYNC_PLAYER_SUCESS,
-	GROUP_SYNC_PLAYER_ERROR,
-	
-	// Get User
-	GETUSER_USERNAME,
-	GETUSER_DISPLAYNAME,
-	GETUSER_UUID,
-	GETUSER_GROUP_ID,
-	GETUSER_REGISTERED,
-	GETUSER_REPUTATION,
-
-	GETUSER_VALIDATED,
-	GETUSER_VALIDATED_YES,
-	GETUSER_VALIDATED_NO,
-
-	GETUSER_BANNED,
-	GETUSER_BANNED_YES,
-	GETUSER_BANNED_NO,
-	
-	ALREADY_VALIDATED,
-	VALIDATION_CODE_INVALID,
+	COMMAND_USERINFO_USAGE("command.user-info.usage",
+			"{command} [name/uuid]"),
+	COMMAND_USERINFO_DESCRIPTION("command.user-info.description",
+			"Gets information about a user."),
+	COMMAND_USERINFO_OUTPUT_USERNAME("command.user-info.output.username",
+			"Username: {username}"),
+	COMMAND_USERINFO_OUTPUT_DISPLAYNAME("command.user-info.output.displayname",
+			"Display name: {displayname}"),
+	COMMAND_USERINFO_OUTPUT_UUID("command.user-info.output.uuid",
+			"UUID: {uuid}"),
+	COMMAND_USERINFO_OUTPUT_GROUP("command.user-info.output.group",
+			"Group: {groupname} (id: {id})"),
+	COMMAND_USERINFO_OUTPUT_REGISTERDATE("command.user-info.output.registered-date",
+			"Registered on {date}"),
+	COMMAND_USERINFO_OUTPUT_VALIDATED("command.user-info.output.validated",
+			"Account validated: {validated}"),
+	COMMAND_USERINFO_OUTPUT_REPUTATION("command.user-info.output.reputation",
+			"Reputation: {reputation}"),
+	COMMAND_USERINFO_OUTPUT_BANNED("command.user-info.output.banned",
+			"Banned: {banned}"),
+	COMMAND_USERINFO_OUTPUT_BOOLEAN_TRUE("command.user-info.output.boolean.true",
+			"yes"),
+	COMMAND_USERINFO_OUTPUT_BOOLEAN_FALSE("command.user-info.output.boolean.false",
+			"no"),
+	//COMMAND_USERINFO_OUTPUT_FAIL_NOTREGISTERED("command.user-info.output.fail.not-registered",
+	//		"This player does not have an account"),
+	COMMAND_USERINFO_OUTPUT_FAIL_GENERIC("command.user-info.output.fail.generic",
+			"An unknown error occured while trying to retrieve player information."),
 	
 	;
 
+	private String path;
+	private String defaultMessage;
+	
+	Message(String path, String defaultMessage){
+		this.path = path;
+		this.defaultMessage = defaultMessage;
+	}
+	
 	public String getMessage() {
-		String configString = this.toString().toLowerCase().replace("_", "-");		
+		String configString = this.toString().toLowerCase().replace("_", ".");		
 		return Chat.convertColors(Config.MESSAGES.getConfig().getString(configString));
+	}
+	
+	/**
+	 * Uses {@link #getMessage()} then replaces placeholders.
+	 * <br><br>
+	 * "Visit {link} {number} times"
+	 * @param placeholders ["link", "https://example.com", "number", 3]
+	 * @return "Visit https://example.com 3 times"
+	 */
+	public String getMessage(Object... placeholders) {
+		if (placeholders.length % 2 != 0) { // False if length is 1, 3, 5, 6, etc.
+			throw new IllegalArgumentException("Placeholder array length must be an even number");
+		}
+		
+		if (placeholders.length == 0) {
+			return getMessage();
+		}
+		
+		Map<String, String> placeholderMap = new HashMap<>();
+		
+		Object key = null;
+		
+		for (Object object : placeholders) {
+			if (key == null) {
+				// 'placeholder' is a key
+				key = object;
+			} else {
+				// Key has been set previously, 'placeholder' must be a value
+				placeholderMap.put(key.toString(), object.toString());
+				key = null; // Next 'placeholder' is a key
+			}
+		}
+		
+		String message = this.getMessage();
+		
+		placeholderMap.entrySet().forEach((entry) -> message.replace(entry.getKey(), entry.getValue()));
+		
+		return message;
+	}
+	
+	public void send(CommandSender sender) {
+		sender.sendMessage(this.getMessage());
+	}
+	
+	public void send(CommandSender sender, Object... placeholders) {
+		sender.sendMessage(this.getMessage(placeholders));
+	}
+	
+	public static void generateConfig(FileConfiguration config) {
+		for (Message message : Message.values()) {
+			if (config.contains(message.path))
+				config.set(message.path, message.defaultMessage);
+		}
 	}
 
 }

@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import com.namelessmc.NamelessAPI.ApiError;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
-import com.namelessmc.plugin.NamelessSpigot.Chat;
+import com.namelessmc.plugin.NamelessSpigot.Config;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
@@ -16,20 +16,21 @@ import com.namelessmc.plugin.NamelessSpigot.Permission;
  */
 public class ValidateCommand extends Command {
 	
-	public ValidateCommand(String name) {
-		super(name, Message.HELP_DESCRIPTION_VALIDATE.getMessage(), "/" + name + "<email>");
+	public ValidateCommand() {
+		super(Config.COMMANDS.getConfig().getString("validate"), 
+				Message.COMMAND_VALIDATE_DESCRIPTION.getMessage(), 
+				Message.COMMAND_VALIDATE_USAGE.getMessage());
 		setPermission(Permission.COMMAND_VALIDATE.toString());
 	}
 
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
 		if (args.length != 1) {
-			sender.sendMessage(Message.INCORRECT_USAGE_VALIDATE.getMessage().replace("%command%", label));
-			return true;
+			return false;
 		}
 		
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(Message.MUST_BE_INGAME.getMessage());
+			sender.sendMessage(Message.COMMAND_NOTAPLAYER.getMessage());
 			return true;
 		}
 		
@@ -41,13 +42,12 @@ public class ValidateCommand extends Command {
 			try {
 				namelessPlayer = NamelessPlugin.getInstance().api.getPlayer(player.getUniqueId());
 			} catch (NamelessException e) {
-				sender.sendMessage(Chat.convertColors("&4An error occured, see console log for more details."));
-				e.printStackTrace();
+				sender.sendMessage(Message.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC.getMessage());
 				return;
 			}
 			
 			if (namelessPlayer.isValidated()) {
-				sender.sendMessage(Message.ALREADY_VALIDATED.getMessage());
+				sender.sendMessage(Message.COMMAND_VALIDATE_OUTPUT_FAIL_ALREADYVALIDATED.getMessage());
 				return;
 			}
 			
@@ -57,7 +57,7 @@ public class ValidateCommand extends Command {
 				namelessPlayer.validate(code);
 			} catch (ApiError e) {
 				if (e.getErrorCode() == ApiError.INVALID_VALIDATE_CODE) {
-					sender.sendMessage(Message.VALIDATION_CODE_INVALID.getMessage());
+					sender.sendMessage(Message.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE.getMessage());
 				} else {
 					throw new RuntimeException(e);
 				}

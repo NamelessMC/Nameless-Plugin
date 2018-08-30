@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.NamelessAPI.Notification;
+import com.namelessmc.plugin.NamelessSpigot.Config;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
@@ -19,21 +20,21 @@ import com.namelessmc.plugin.NamelessSpigot.util.Json.JsonMessage;
 
 public class GetNotificationsCommand extends Command {
 
-	public GetNotificationsCommand(String name) {
-		super(name, Message.HELP_DESCRIPTION_GETNOTIFICATIONS.getMessage(), "/" + name);
+	public GetNotificationsCommand() {
+		super(Config.COMMANDS.getConfig().getString("get-notifications"), 
+				Message.COMMAND_NOTIFICATIONS_DESCRIPTION.getMessage(), 
+				Message.COMMAND_NOTIFICATIONS_USAGE.getMessage());
 		setPermission(Permission.COMMAND_GETNOTIFICATIONS.toString());
 	}
 
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
-		
 		if (args.length != 0) {
-			sender.sendMessage(Message.INCORRECT_USAGE_GETNOTIFICATIONS.getMessage().replace("%command%", label));
-			return true;
+			return false;
 		}
 		
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(Message.MUST_BE_INGAME.getMessage());
+			sender.sendMessage(Message.COMMAND_NOTAPLAYER.getMessage());
 			return true;
 		}
 		
@@ -44,12 +45,12 @@ public class GetNotificationsCommand extends Command {
 				NamelessPlayer nameless = NamelessPlugin.getInstance().api.getPlayer(player.getUniqueId());
 				
 				if(!(nameless.exists())) {
-					sender.sendMessage(Message.MUST_REGISTER.getMessage());
+					sender.sendMessage(Message.PLAYER_SELF_NOTREGISTERED.getMessage());
 					return;
 				}
 				
 				if (!(nameless.isValidated())) {
-					sender.sendMessage(Message.ACCOUNT_NOT_VALIDATED.getMessage());
+					sender.sendMessage(Message.PLAYER_SELF_NOTVALIDATED.getMessage());
 					return;
 				}
 				
@@ -57,50 +58,25 @@ public class GetNotificationsCommand extends Command {
 				
 				List<Notification> notifications = nameless.getNotifications();
 				
+				if (notifications.size() == 0) {
+					player.sendMessage(Message.COMMAND_NOTIFICATIONS_OUTPUT_NONOTIFICATIONS.getMessage());
+					return;
+				}
+				
 				Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
 					notifications.forEach((notification) -> 
 						new Json().append(JsonMessage.newMessage()
 								.text(notification.getMessage())
-								.onHover(HoverAction.SHOW_TEXT, "Click to open in browser")
+								.onHover(HoverAction.SHOW_TEXT, Message.COMMAND_NOTIFICATIONS_OUTPUT_CLICKTOOPEN.getMessage())
 								.onClick(ClickAction.OPEN_URL, notification.getUrl())).send(player)
 					);
 				});
-
 				
 			} catch (NamelessException e) {
-				String errorMessage = Message.NOTIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage());
-				player.sendMessage(errorMessage);
+				player.sendMessage(Message.COMMAND_NOTIFICATIONS_OUTPUT_FAIL_GENERIC.getMessage());
+				e.printStackTrace();
 				return;
 			}
-			
-			/*int messages;
-			int alerts;
-			
-			try {
-				messages = nameless.getMessageCount();
-				alerts = nameless.getAlertCount();
-			} catch (NamelessException e) {
-				String errorMessage = Message.NOTIFICATIONS_ERROR.getMessage().replace("%error%", e.getMessage());
-				player.sendMessage(errorMessage);
-				return;
-			}
-			
-			String pmMessage = Message.NOTIFICATIONS_MESSAGES.getMessage().replace("%pms%", "" + messages);
-			String alertMessage = Message.NOTIFICATIONS_ALERTS.getMessage().replace("%alerts%", "" + alerts);
-			String noNotifications = Message.NO_NOTIFICATIONS.getMessage();
-
-			if (alerts == 0 && messages == 0) {
-				sender.sendMessage(noNotifications);
-			} else if (alerts == 0) {
-				sender.sendMessage(pmMessage);
-			} else if (messages == 0) {
-				sender.sendMessage(alertMessage);
-			} else {
-				sender.sendMessage(alertMessage);
-				sender.sendMessage(pmMessage);
-			}*/
-			
-			
 		});
 		return true;
 	}

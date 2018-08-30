@@ -4,14 +4,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 
 public enum Permission {
-	COMMAND_MAIN("namelessmc.main"),
+
 	COMMAND_REGISTER("namelessmc.register"),
 	COMMAND_GETNOTIFICATIONS("namelessmc.notifications"),
 	COMMAND_REPORT("namelessmc.report"),
 	COMMAND_ADMIN_SETGROUP("namelessmc.admin.setgroup"),
 	COMMAND_ADMIN_GETUSER("namelessmc.admin.getuser"),
 	COMMAND_VALIDATE("namelessmc.validate"),
-	ADMIN_UPDATENOTIFY("namelessmc.admin.updatenotify");
+	//ADMIN_UPDATENOTIFY("namelessmc.admin.updatenotify");
+	
+	;
 	
 	private org.bukkit.permissions.Permission permission;
 	private String permissionString;

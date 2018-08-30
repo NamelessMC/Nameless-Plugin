@@ -9,19 +9,35 @@ import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 
 public abstract class Command extends org.bukkit.command.Command implements PluginIdentifiableCommand {
 	
-	protected Command(String name) {
+	public static final Command[] COMMANDS = {
+			new GetNotificationsCommand(),
+			new RegisterCommand(),
+			new ReportCommand(),
+			new SetGroupCommand(),
+			new UserInfoCommand(),
+			new ValidateCommand(),
+	};
+	
+	/*protected Command(String name) {
 		super(name);
-		setPermissionMessage(Message.NO_PERMISSION.getMessage());
-	}
+		setPermissionMessage(Message.COMMAND_NOPERMISSION.getMessage());
+	}*/
+	
+	private String usageMessage;
 
 	protected Command(String name, String description, String usageMessage) {
-		super(name, description, usageMessage, new ArrayList<>());
-		setPermissionMessage(Message.NO_PERMISSION.getMessage());
+		super(name, description, usageMessage.replace("{command}", "/" + name), new ArrayList<>());
+		setPermissionMessage(Message.COMMAND_NOPERMISSION.getMessage());
+		this.usageMessage = usageMessage.replace("{command}", name);
 	}
 
 	@Override
 	public NamelessPlugin getPlugin() {
 		return NamelessPlugin.getInstance();
+	}
+	
+	public String getUsageWithoutSlash() {
+		return usageMessage;
 	}
 
 }

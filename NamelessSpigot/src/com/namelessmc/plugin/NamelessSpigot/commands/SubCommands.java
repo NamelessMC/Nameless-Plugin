@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Config;
 
+import xyz.derkades.derkutils.ListUtils;
+
 public class SubCommands extends org.bukkit.command.Command {
 
 	public SubCommands() {
@@ -45,6 +47,8 @@ public class SubCommands extends org.bukkit.command.Command {
 		}
 		
 		sender.sendMessage(separator);
+		
+		return true;
 	}
 
 }

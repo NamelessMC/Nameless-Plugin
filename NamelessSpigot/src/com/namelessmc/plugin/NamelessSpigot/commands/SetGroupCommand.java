@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
-import com.namelessmc.plugin.NamelessSpigot.Chat;
+import com.namelessmc.plugin.NamelessSpigot.Config;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
@@ -15,15 +15,16 @@ import com.namelessmc.plugin.NamelessSpigot.util.UUIDFetcher;
 
 public class SetGroupCommand extends Command {
 
-	public SetGroupCommand(String name) {
-		super(name, Message.HELP_DESCRIPTION_SETGROUP.getMessage(), "/" + name + "<user> <groupID>");
+	public SetGroupCommand() {
+		super(Config.COMMANDS.getConfig().getString("set-group"), 
+				Message.COMMAND_SETGROUP_DESCRIPTION.getMessage(), 
+				Message.COMMAND_SETGROUP_USAGE.getMessage());
 		setPermission(Permission.COMMAND_ADMIN_SETGROUP.toString());
 	}
 
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
 		if (args.length != 2) {
-			sender.sendMessage(Message.INCORRECT_USAGE_SETGROUP.getMessage().replace("%command%", label));
 			return false;
 		}
 		
@@ -33,14 +34,13 @@ public class SetGroupCommand extends Command {
 			groupId = Integer.parseInt(args[1]);
 		} catch (NumberFormatException e) {
 			// The sender has provided a non numeric string
-			sender.sendMessage(Message.INCORRECT_USAGE_SETGROUP.getMessage().replaceAll("%command%", label));
-			return false;
+			sender.sendMessage(Message.COMMAND_SETGROUP_OUTPUT_FAIL_NOTNUMERIC.getMessage());
+			return true;
 		}
 		
+		final String targetID = args[0]; // Name or UUID
 		
-		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-			final String targetID = args[0]; // Name or UUID
-			
+		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {	
 			NamelessPlayer target = null;
 			
 			try {
@@ -54,27 +54,25 @@ public class SetGroupCommand extends Command {
 					target = NamelessPlugin.getInstance().api.getPlayer(uuid);
 				}
 			} catch (NamelessException e) {
-				sender.sendMessage(Chat.convertColors("&4An error occured, see console log for more details."));
-				e.printStackTrace();
+				sender.sendMessage(Message.COMMAND_SETGROUP_OUTPUT_FAIL_GENERIC.getMessage());
 				return;
 			}
 			
-			if(!target.exists()) {
-				sender.sendMessage(Message.PLAYER_NOT_FOUND.getMessage());
+			if (!target.exists()) {
+				sender.sendMessage(Message.PLAYER_OTHER_NOTREGISTERED.getMessage());
 				return;
 			}
 			
 			try {
 				final int previousGroupId = target.getGroupID();
 				target.setGroup(groupId);
-			
-				String success = Message.SETGROUP_SUCCESS.getMessage()
-						.replace("%player%", args[1])
-						.replace("%previousgroup%", String.valueOf(previousGroupId))
-						.replace("%newgroup%", String.valueOf(groupId));
-				sender.sendMessage(success);
+
+				sender.sendMessage(Message.COMMAND_SETGROUP_OUTPUT_SUCCESS.getMessage(
+						"player", targetID,
+						"old", previousGroupId,
+						"new", groupId));
 			} catch (NamelessException e) {
-				sender.sendMessage(Message.SETGROUP_ERROR.getMessage().replace("%error%", e.getMessage()));
+				sender.sendMessage(Message.COMMAND_SETGROUP_OUTPUT_FAIL_GENERIC.getMessage().replace("%error%", e.getMessage()));
 				e.printStackTrace();
 			}
 		});

@@ -3,30 +3,32 @@ package com.namelessmc.plugin.NamelessSpigot.commands;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.namelessmc.NamelessAPI.ApiError;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessSpigot.Chat;
+import com.namelessmc.plugin.NamelessSpigot.Config;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
 
 public class RegisterCommand extends Command {
 
-	public RegisterCommand(String name) {
-		super(name, Message.HELP_DESCRIPTION_REGISTER.getMessage(), "/" + name + "<email>");
+	public RegisterCommand() {
+		super(Config.COMMANDS.getConfig().getString("register"), 
+				Message.COMMAND_REGISTER_DESCRIPTION.getMessage(), 
+				Message.COMMAND_REGISTER_USAGE.getMessage());
 		setPermission(Permission.COMMAND_REGISTER.toString());
 	}
 
 	@Override
 	public boolean execute(CommandSender sender, String label, String[] args) {
-		
 		if (args.length != 1) {
-			sender.sendMessage(Message.INCORRECT_USAGE_REGISTER.getMessage().replace("%command%", label));
-			return true;
+			return false;
 		}
 		
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(Message.MUST_BE_INGAME.getMessage());
+			sender.sendMessage(Message.COMMAND_NOTAPLAYER.getMessage());
 			return true;
 		}
 		
@@ -44,27 +46,27 @@ public class RegisterCommand extends Command {
 			}
 			
 			if (namelessPlayer.exists()) {
-					sender.sendMessage(Message.HAS_REGISTERED.getMessage());
+				sender.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS.getMessage());
 				return;
 			}
 			
 			try {
 				String link = namelessPlayer.register(player.getName(), args[0]);
 				if (link.equals("")) {
-					player.sendMessage(Message.REGISTER_SUCCESS_EMAIL.getMessage());
+					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL.getMessage());
 				} else {
-					player.sendMessage(Message.REGISTER_SUCCESS_LINK.getMessage().replace("{link}", link));
+					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK.getMessage("link", link));
 				}
-				sender.sendMessage(Message.REGISTER_SUCCESS_EMAIL.getMessage());
-			} catch (NamelessException e) {
-				if(e.getMessage().equalsIgnoreCase("Username already exists")) {
-					player.sendMessage(Message.REGISTER_EMAIL_EXISTS.getMessage());
-				}else if(e.getMessage().equalsIgnoreCase("Email already exists")) {
-					player.sendMessage(Message.REGISTER_USERNAME_EXISTS.getMessage());
-				}else {
-					player.sendMessage(Message.REGISTER_FAIL.getMessage().replace("%error%", e.getMessage()));
+			} catch (ApiError e) {
+				if (e.getErrorCode() == ApiError.EMAIL_ALREADY_EXISTS) {
+					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED.getMessage());
+				} else {
+					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC.getMessage());
 					e.printStackTrace();
 				}
+			} catch (NamelessException e) {
+				player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC.getMessage());
+				e.printStackTrace();
 			}
 			
 		});

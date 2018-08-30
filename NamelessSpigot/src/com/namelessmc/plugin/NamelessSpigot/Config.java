@@ -11,7 +11,7 @@ public enum Config {
 	
 	MAIN("config.yml", true, false),
 	//PLAYER_INFO("player-data.yml", false, true),
-	MESSAGES("messages.yml", true, false),
+	MESSAGES("messages.yml", false, false),
 	COMMANDS("commands.yml", true, false),
 	
 	;
@@ -52,6 +52,11 @@ public enum Config {
 				}
 			}
 		}
+		
+		// Manually generate messages configuration file from enum values.
+		// If the file already exists, the method will try to add any missing entries.
+		File messageConfigurationFile = new File(plugin.getDataFolder(), "messages.yml");
+		Message.generateConfig(YamlConfiguration.loadConfiguration(messageConfigurationFile));
 	}
 	
 	public File getFile() {

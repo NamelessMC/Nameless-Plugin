@@ -18,14 +18,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.plugin.NamelessSpigot.commands.Command;
-import com.namelessmc.plugin.NamelessSpigot.commands.CommandWithArgs;
-import com.namelessmc.plugin.NamelessSpigot.commands.GetNotificationsCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.NamelessCommand;
-import com.namelessmc.plugin.NamelessSpigot.commands.RegisterCommand;
-import com.namelessmc.plugin.NamelessSpigot.commands.ReportCommand;
-import com.namelessmc.plugin.NamelessSpigot.commands.SetGroupCommand;
-import com.namelessmc.plugin.NamelessSpigot.commands.UserInfoCommand;
-import com.namelessmc.plugin.NamelessSpigot.commands.ValidateCommand;
+import com.namelessmc.plugin.NamelessSpigot.commands.SubCommands;
 import com.namelessmc.plugin.NamelessSpigot.event.PlayerLogin;
 import com.namelessmc.plugin.NamelessSpigot.event.PlayerQuit;
 import com.namelessmc.plugin.NamelessSpigot.hooks.MVdWPapiHook;
@@ -88,7 +82,7 @@ public class NamelessPlugin extends JavaPlugin {
 		registerCommands();
 		getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
 		getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
-			
+		
 		// Start saving data files every 15 minutes
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveConfig(), 5*60*20, 5*60*20);
 
@@ -151,8 +145,6 @@ public class NamelessPlugin extends JavaPlugin {
 	private void registerCommands() {
 		getServer().getPluginCommand("nameless").setExecutor(new NamelessCommand());
 		
-		YamlConfiguration commandsConfig = Config.COMMANDS.getConfig();
-		
 		try {
 			Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
 			field.setAccessible(true);
@@ -163,17 +155,8 @@ public class NamelessPlugin extends JavaPlugin {
 			boolean subcommands = Config.COMMANDS.getConfig().getBoolean("subcommands.enabled", true);
 			boolean individual = Config.COMMANDS.getConfig().getBoolean("individual.enabled", true);
 
-			if (individual) {
-				Command[] commands = {
-						new GetNotificationsCommand(commandsConfig.getString("individual.get-notifications")),
-						new RegisterCommand(commandsConfig.getString("individual.register")),
-						new ReportCommand(commandsConfig.getString("individual.report")),
-						new SetGroupCommand(commandsConfig.getString("individual.set-group")),
-						new UserInfoCommand(commandsConfig.getString("individual.user-info")),
-						new ValidateCommand(commandsConfig.getString("individual.validate")),
-				};
-				
-				for (Command command : commands) {
+			if (individual) {				
+				for (Command command : Command.COMMANDS) {
 					if (command.getName().equals("disabled"))
 						continue;
 
@@ -182,7 +165,7 @@ public class NamelessPlugin extends JavaPlugin {
 			}
 
 			if (subcommands) {
-				map.register(name, new CommandWithArgs(commandsConfig.getString("subcommands.main")));
+				map.register(name, new SubCommands());
 			}
 			
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
