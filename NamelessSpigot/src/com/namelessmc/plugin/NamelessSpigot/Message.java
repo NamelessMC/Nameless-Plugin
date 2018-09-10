@@ -1,10 +1,10 @@
 package com.namelessmc.plugin.NamelessSpigot;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 
 public enum Message {
 	
@@ -177,11 +177,12 @@ public enum Message {
 		sender.sendMessage(this.getMessage(placeholders));
 	}
 	
-	public static void generateConfig(FileConfiguration config) {
+	public static void generateConfig(Config config) throws IOException {
 		for (Message message : Message.values()) {
-			if (config.contains(message.path))
-				config.set(message.path, message.defaultMessage);
+			if (config.getConfig().contains(message.path))
+				config.getConfig().set(message.path, message.defaultMessage);
 		}
+		config.saveConfig();
 	}
 
 }

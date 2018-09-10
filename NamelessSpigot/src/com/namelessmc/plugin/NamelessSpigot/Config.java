@@ -55,8 +55,7 @@ public enum Config {
 		
 		// Manually generate messages configuration file from enum values.
 		// If the file already exists, the method will try to add any missing entries.
-		File messageConfigurationFile = new File(plugin.getDataFolder(), "messages.yml");
-		Message.generateConfig(YamlConfiguration.loadConfiguration(messageConfigurationFile));
+		Message.generateConfig(MESSAGES);
 	}
 	
 	public File getFile() {
