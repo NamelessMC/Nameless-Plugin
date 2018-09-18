@@ -91,12 +91,18 @@
 			<scope>provided</scope>
 		</dependency>
 
-        <dependency>
-            <groupId>net.milkbowl.vault</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>1.6</version>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>net.milkbowl.vault</groupId>
+			<artifactId>VaultAPI</artifactId>
+			<version>1.6</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
 
 	</dependencies>
 
@@ -117,10 +123,10 @@
 			<url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
 		</repository>
 
-        <repository>
-	        <id>vault-repo</id>
-	        <url>http://nexus.hc.to/content/repositories/pub_releases</url>
-        </repository>
+		<repository>
+			<id>vault-repo</id>
+			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
+		</repository>
 
 	</repositories>
 
