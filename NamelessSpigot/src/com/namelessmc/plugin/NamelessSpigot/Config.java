@@ -25,6 +25,7 @@ public enum Config {
 	private File file;
 	
 	Config(String fileName, boolean copyFromJar, boolean autoSave){
+		this.fileName = fileName;
 		this.copyFromJar = copyFromJar;
 		this.autoSave = autoSave;
 		
