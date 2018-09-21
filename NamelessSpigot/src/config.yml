@@ -48,3 +48,6 @@ update-checker: true
 # the frequency that data is sent. Decrease to send data more frequently.
 # Setting this too low can cause lag. Set to 0 to disable.
 server-data-upload-rate: 10
+
+# Turn on debug mode for the underlying NamelessMC Java API
+api-debug-mode: false

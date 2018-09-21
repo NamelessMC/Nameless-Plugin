@@ -122,7 +122,9 @@ public class NamelessPlugin extends JavaPlugin {
 				return false; // Prevent registering of commands, listeners, etc.
 			}
 			
-			api = new NamelessAPI(apiUrl);
+			boolean debug = config.getBoolean("api-debug-mode", false);
+			
+			api = new NamelessAPI(apiUrl, debug);
 
 			Exception exception = api.checkWebAPIConnection();
 			if (exception != null) {
