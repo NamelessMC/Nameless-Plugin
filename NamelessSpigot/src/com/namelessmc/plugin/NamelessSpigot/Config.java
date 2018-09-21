@@ -72,7 +72,7 @@ public enum Config {
 		if (!file.exists()) {
 			try {
 				if (copyFromJar) {
-					FileUtils.copyOutOfJar(Config.class, "/xyz/derkades/metadatasaver/default-config.yml", file);
+					FileUtils.copyOutOfJar(Config.class, fileName, file);
 				} else {
 					file.createNewFile(); //Create blank file
 				}
