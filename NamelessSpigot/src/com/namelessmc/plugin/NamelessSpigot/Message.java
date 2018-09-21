@@ -128,8 +128,7 @@ public enum Message {
 	}
 	
 	public String getMessage() {
-		String configString = this.toString().toLowerCase().replace("_", ".");		
-		return Chat.convertColors(Config.MESSAGES.getConfig().getString(configString));
+		return Chat.convertColors(Config.MESSAGES.getConfig().getString(path));
 	}
 	
 	/**
