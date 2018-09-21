@@ -181,7 +181,7 @@ public enum Message {
 	public static void generateConfig(Config config) throws IOException {
 		FileConfiguration fileConfig = config.getConfig();
 		for (Message message : Message.values()) {
-			if (fileConfig.contains(message.path))
+			if (!fileConfig.contains(message.path))
 				fileConfig.set(message.path, message.defaultMessage);
 		}
 		config.setConfig(fileConfig);
