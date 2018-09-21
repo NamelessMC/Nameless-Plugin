@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import com.namelessmc.NamelessAPI.ApiError;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
-import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Config;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
@@ -40,7 +39,7 @@ public class RegisterCommand extends Command {
 			try {
 				namelessPlayer = NamelessPlugin.getInstance().api.getPlayer(player.getUniqueId());
 			} catch (NamelessException e) {
-				sender.sendMessage(Chat.convertColors("&4An error occured, see console log for more details."));
+				sender.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC.getMessage());
 				e.printStackTrace();
 				return;
 			}
