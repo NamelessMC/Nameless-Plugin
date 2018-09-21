@@ -38,6 +38,9 @@ public class UUIDFetcher {
 		String uuid = "";
 		
 		for(int i = 0; i <= 31; i++) {
+			if(i >= u.length())
+				break;
+
 			uuid = uuid + u.charAt(i);
 			if(i == 7 || i == 11 || i == 15 || i == 19) {
 				uuid = uuid + "-";
@@ -51,6 +54,9 @@ public class UUIDFetcher {
 		int i = 7;
 		
 		while(i < 200) {
+			if(i >= toRead.length())
+				break;
+
 			if(!String.valueOf(toRead.charAt(i)).equalsIgnoreCase("\"")) {
 				
 				result.append(String.valueOf(toRead.charAt(i)));

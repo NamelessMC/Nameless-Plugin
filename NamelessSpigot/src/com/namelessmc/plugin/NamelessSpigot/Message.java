@@ -163,9 +163,11 @@ public enum Message {
 		}
 		
 		String message = this.getMessage();
-		
-		placeholderMap.entrySet().forEach((entry) -> message.replace(entry.getKey(), entry.getValue()));
-		
+
+		for(Map.Entry<String, String> entry : placeholderMap.entrySet()) {
+			message = message.replace(entry.getKey(), entry.getValue());
+		}
+
 		return message;
 	}
 	
