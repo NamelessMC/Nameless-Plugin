@@ -2,10 +2,11 @@ package com.namelessmc.plugin.NamelessSpigot;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+
+import xyz.derkades.derkutils.FileUtils;
 
 public enum Config {
 	
@@ -20,13 +21,16 @@ public enum Config {
 	private boolean copyFromJar;
 	private boolean autoSave;
 	
-	private YamlConfiguration configuration;
+	private FileConfiguration configuration;
 	private File file;
 	
 	Config(String fileName, boolean copyFromJar, boolean autoSave){
-		this.fileName = fileName;
 		this.copyFromJar = copyFromJar;
 		this.autoSave = autoSave;
+		
+		File dataFolder = NamelessPlugin.getInstance().getDataFolder();
+		if (!dataFolder.exists()) dataFolder.mkdirs();
+		this.file = new File(NamelessPlugin.getInstance().getDataFolder(), this.fileName);
 	}
 
 	public static void initialize() throws IOException {
@@ -39,18 +43,7 @@ public enum Config {
 		
 		//Create config files if missing
 		for (Config config : Config.values()) {
-			File file = config.getFile();
-			if (!file.exists()) {
-				if (config.copyFromJar) {
-					try (InputStream in = plugin.getResource(config.fileName)) {
-						Files.copy(in, file.toPath());
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} else {
-					file.createNewFile();
-				}
-			}
+			config.reload();
 		}
 		
 		// Manually generate messages configuration file from enum values.
@@ -58,39 +51,45 @@ public enum Config {
 		Message.generateConfig(MESSAGES);
 	}
 	
-	public File getFile() {
-		if (file == null) {
-			file = new File(NamelessPlugin.getInstance().getDataFolder(), this.fileName);
-			return file;
-		} else {
-			return file;
+	public FileConfiguration getConfig() {
+		if (configuration == null) {
+			reload();
 		}
+		
+		return configuration;
 	}
 	
-	public YamlConfiguration getConfig() {
-		if (configuration == null) {
-			try {
-				reloadConfig();
-				return configuration;
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		} else {
-			return configuration;
-		}
+	public void setConfig(FileConfiguration config) {
+		this.configuration = config;
 	}
 	
 	public boolean autoSave() {
 		return autoSave;
 	}
 	
-	public void reloadConfig() throws IOException {
-		this.configuration = YamlConfiguration.loadConfiguration(getFile());
+	public void reload() {
+		if (!file.exists()) {
+			try {
+				if (copyFromJar) {
+					FileUtils.copyOutOfJar(Config.class, "/xyz/derkades/metadatasaver/default-config.yml", file);
+				} else {
+					file.createNewFile(); //Create blank file
+				}
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		this.configuration = YamlConfiguration.loadConfiguration(file);
 	}
 	
-	public void saveConfig() throws IOException {
+	public void save() {
 		if (this.configuration != null) {
-			configuration.save(getFile());
+			try {
+				configuration.save(file);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 

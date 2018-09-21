@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public enum Message {
 	
@@ -178,11 +179,13 @@ public enum Message {
 	}
 	
 	public static void generateConfig(Config config) throws IOException {
+		FileConfiguration fileConfig = config.getConfig();
 		for (Message message : Message.values()) {
-			if (config.getConfig().contains(message.path))
-				config.getConfig().set(message.path, message.defaultMessage);
+			if (fileConfig.contains(message.path))
+				fileConfig.set(message.path, message.defaultMessage);
 		}
-		config.saveConfig();
+		config.setConfig(fileConfig);
+		config.save();
 	}
 
 }

@@ -11,7 +11,7 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -100,17 +100,13 @@ public class NamelessPlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		// Save all configuration files that require saving
-		try {
-			for (Config config : Config.values()) {
-				if (config.autoSave()) config.saveConfig();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		for (Config config : Config.values()) {
+			if (config.autoSave()) config.save();
 		}
 	}
 	
 	private boolean initApi() {
-		YamlConfiguration config = Config.MAIN.getConfig();
+		FileConfiguration config = Config.MAIN.getConfig();
 		String url = config.getString("api-url");
 		if (url.equals("")) {
 			log(Level.SEVERE, "No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
@@ -207,13 +203,9 @@ public class NamelessPlugin extends JavaPlugin {
 		public void run() {
 			NamelessPlugin plugin = NamelessPlugin.getInstance();
 			plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-				try {
-					for (Config config : Config.values()) {
-						if (config.autoSave())
-							config.saveConfig();
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
+				for (Config config : Config.values()) {
+					if (config.autoSave())
+						config.save();
 				}
 			});
 		}

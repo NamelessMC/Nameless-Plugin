@@ -1,7 +1,5 @@
 package com.namelessmc.plugin.NamelessSpigot.commands;
 
-import java.io.IOException;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,16 +12,11 @@ public class NamelessCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length == 1 && (args[0].equalsIgnoreCase("rl") || args[0].equalsIgnoreCase("reload"))) {
-			try {
-				for (Config config : Config.values()) {
-					config.reloadConfig();
-				}
-				
-				sender.sendMessage(Chat.convertColors("&bSuccessfully reloaded all configuration files."));
-			} catch (IOException e) {
-				sender.sendMessage(Chat.convertColors("&4An error occured, see console log for more details."));
-				e.printStackTrace();
+			for (Config config : Config.values()) {
+				config.reload();
 			}
+				
+			sender.sendMessage(Chat.convertColors("&bSuccessfully reloaded all configuration files."));
 			
 		} else {
 			sender.sendMessage(Chat.convertColors("&4Invalid usage. Use /" + label +" reload to reload config files."));

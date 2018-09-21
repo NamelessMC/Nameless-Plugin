@@ -1,7 +1,7 @@
 package com.namelessmc.plugin.NamelessSpigot.event;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,7 +19,7 @@ public class PlayerLogin implements Listener {
 		
 		NamelessPlugin.LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
 		
-		YamlConfiguration config = Config.MAIN.getConfig();
+		FileConfiguration config = Config.MAIN.getConfig();
 		if (!config.getBoolean("join-notifications")) {
 			return;
 		}
@@ -38,7 +38,7 @@ public class PlayerLogin implements Listener {
 			int messages;
 			int alerts;*/
 			
-			player.sendMessage("notifications are temporarely disabled");
+			//player.sendMessage("notifications are temporarely disabled");
 			/*try {
 				messages = namelessPlayer.getNotifications();
 				alerts = namelessPlayer.getAlertCount();
