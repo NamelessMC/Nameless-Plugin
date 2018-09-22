@@ -7,6 +7,7 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
@@ -23,11 +24,18 @@ public class UUIDFetcher {
 	}
 	
 	/**
-	 * @param playername The name of the player
+	 * @param playerName The name of the player
 	 * @return The UUID of the given player
 	 */
-	public static UUID getUUID(String playername) {
-		String output = callURL("https://api.mojang.com/users/profiles/minecraft/" + playername);
+	public static UUID getUUID(String playerName) {
+		// First check if the player is online
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (player.getName().equals(playerName)) {
+				return player.getUniqueId();
+			}
+		}
+		
+		String output = callURL("https://api.mojang.com/users/profiles/minecraft/" + playerName);
 		
 		StringBuilder result = new StringBuilder();
 		
