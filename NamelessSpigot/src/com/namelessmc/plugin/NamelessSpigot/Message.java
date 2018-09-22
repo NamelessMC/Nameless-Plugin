@@ -116,6 +116,8 @@ public enum Message {
 	//		"This player does not have an account"),
 	COMMAND_USERINFO_OUTPUT_FAIL_GENERIC("command.user-info.output.fail.generic",
 			"An unknown error occured while trying to retrieve player information."),
+	COMMAND_SUBCOMMANDS_USAGE("commands.subcommands.usage",
+			"{command} [subcommand] [arguments..]")
 	
 	;
 

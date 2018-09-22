@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 
 import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Config;
+import com.namelessmc.plugin.NamelessSpigot.Message;
 
 import xyz.derkades.derkutils.ListUtils;
 
@@ -14,7 +15,7 @@ public class SubCommands extends org.bukkit.command.Command {
 	public SubCommands() {
 		super(Config.COMMANDS.getConfig().getString("subcommands-name"),
 				"", 
-				"/" + Config.COMMANDS.getConfig().getString("subcommands-name"), 
+				"/" + Message.COMMAND_SUBCOMMANDS_USAGE.getMessage("{command}", Config.COMMANDS.getConfig().getString("subcommands-name")), 
 				new ArrayList<>());
 	}
 
@@ -41,7 +42,7 @@ public class SubCommands extends org.bukkit.command.Command {
 				continue;
 			}
 			
-			sender.sendMessage(this.getUsage() + command.getUsageWithoutSlash());
+			sender.sendMessage(this.getUsage() + " " + command.getUsageWithoutSlash());
 			sender.sendMessage(command.getDescription());
 			sender.sendMessage("");
 		}
