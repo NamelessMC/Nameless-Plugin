@@ -1,47 +1,13 @@
 # Nameless Plugin configuration
 
-# API URL
-# This needs to be the full API URL, including API key
 # For example http://yoursite.com/api/v2/API_KEY
-# You can enable the API and obtain the key in AdminCP > Core > API
+# Enable the API and obtain the API URL in AdminCP > Core > API
 api-url: ""
 
 # Enter this if you wish for the plugin to send data about this server
-# and its players to the website.
+# and its players to the website. This is required for name and rank sync.
 # You can find this in AdminCP -> Minecraft -> Minecraft Servers
 server-id: 0
-
-# Use registration?
-# At the moment we bypass the option of registration in the
-# website, so you can disable or enable it here.
-# By default its enabled.
-enable-registration: true
-
-# Use reports?
-# If true, a /report command will be added to report users ingame
-# which will be added to the website's report system
-# Valid values = true, false
-enable-reports: true
-
-# Enable join notifications?
-# If true, players will be sent a notification message
-# on join, containing the amount of alerts and private
-# messages received
-# Valid values = true, false
-join-notifications: true
-
-# Enable Update Username?
-# If true, players that has changed their username
-# will be updated on the website.
-# Valid values = true, false
-update-username: false
-
-# Enable UpdateChecker
-# If true anyone with namelessmc.admin.updatenotify permission,
-# will get notified when there is a new update,
-# They will get notified when they join.
-# Also there will be a msg displayed in console.
-update-checker: true
 
 # This feature sends information about the server and online players to
 # your NamelessMC website. This value is in seconds. Increase to lower
