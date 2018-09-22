@@ -49,5 +49,15 @@ update-checker: true
 # Setting this too low can cause lag. Set to 0 to disable.
 server-data-upload-rate: 10
 
+# Enable PlaceholderAPI and MVdWPlaceholderAPI placeholders
+# This will increase traffic to your NamelessMC website (depending on placeholders-request-delay)
+# This option will be ignored if PlaceholderAPI and MVdWPlaceholderAPI are not installed
+enable-placeholders: false
+
+# Number of milliseconds in between notifications request
+# Lower number means more frequent updates of placeholders, but higher
+# network usage.
+placeholders-request-delay: 2000
+
 # Turn on debug mode for the underlying NamelessMC Java API
 api-debug-mode: false

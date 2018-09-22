@@ -172,21 +172,21 @@ public class NamelessPlugin extends JavaPlugin {
 	}
 
 	private void initHooks() {
-		boolean cachePlaceholders = false;
+		boolean placeholderPluginInstalled = false;
 		
 		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
 			MVdWPapiHook placeholders = new MVdWPapiHook();
 			placeholders.hook();
-			cachePlaceholders = true;
+			placeholderPluginInstalled = true;
 		}
 		
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			PapiHook placeholders = new PapiHook();
 			placeholders.hook();
-			cachePlaceholders = true;
+			placeholderPluginInstalled = true;
 		}
 		
-		if (cachePlaceholders) {
+		if (placeholderPluginInstalled && Config.MAIN.getConfig().getBoolean("enable-placeholders", false)) {
 			Bukkit.getScheduler().runTaskAsynchronously(this, new PlaceholderCacher());
 		}
 	}
