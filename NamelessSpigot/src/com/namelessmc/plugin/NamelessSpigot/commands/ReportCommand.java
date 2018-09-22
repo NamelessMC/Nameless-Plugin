@@ -47,11 +47,12 @@ public class ReportCommand extends Command {
 				return;
 			}
 			
-			if (namelessPlayer.exists()) {
+			if (!namelessPlayer.exists()) {
 				sender.sendMessage(Message.PLAYER_SELF_NOTREGISTERED.getMessage());
+				return;
 			}
 			
-			if (namelessPlayer.isValidated()){
+			if (!namelessPlayer.isValidated()){
 				player.sendMessage(Message.PLAYER_SELF_NOTVALIDATED.getMessage());
 				return;
 			}
