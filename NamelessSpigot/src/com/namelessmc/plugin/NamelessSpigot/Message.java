@@ -37,7 +37,7 @@ public enum Message {
 			"An error occured while trying to retrieve a list of notifications. Please notify the server administrator about this issue."),
 	
 	COMMAND_REGISTER_USAGE("command.register.usage",
-			"{command}"),
+			"{command} <email>"),
 	COMMAND_REGISTER_DESCRIPTION("command.register.description",
 			"Creates an account. Will output a link or email address to complete registration."),
 	COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL("command.register.output.success.email",
