@@ -5,13 +5,22 @@ import org.bukkit.permissions.PermissionDefault;
 
 public enum Permission {
 
-	COMMAND_REGISTER("namelessmc.register"),
-	COMMAND_GETNOTIFICATIONS("namelessmc.notifications"),
-	COMMAND_REPORT("namelessmc.report"),
-	COMMAND_ADMIN_SETGROUP("namelessmc.admin.setgroup"),
-	COMMAND_ADMIN_GETUSER("namelessmc.admin.getuser"),
-	COMMAND_VALIDATE("namelessmc.validate"),
+	//COMMAND_REGISTER("namelessmc.register"),
+	//COMMAND_GETNOTIFICATIONS("namelessmc.notifications"),
+	//COMMAND_REPORT("namelessmc.report"),
+	//COMMAND_ADMIN_SETGROUP("namelessmc.admin.setgroup"),
+	//COMMAND_ADMIN_GETUSER("namelessmc.admin.getuser"),
+	//COMMAND_VALIDATE("namelessmc.validate"),
 	//ADMIN_UPDATENOTIFY("namelessmc.admin.updatenotify");
+	
+	COMMAND_GET_NOTIFICATIONS("namelessmc.command.getnotifications"),
+	COMMAND_REGISTER("namelessmc.command.register"),
+	COMMAND_REPORT("namelessmc.command.report"),
+	COMMAND_SET_GROUP("namelessmc.command.setgroup"),
+	COMMAND_USER_INFO("namelessmc.command.userinfo"),
+	COMMAND_VALIDATE("namelessmc.command.validate"),
+	
+	COMMAND_NAMELESS("namelessmc.command.nameless"),
 	
 	;
 	

@@ -19,8 +19,8 @@ public class UserInfoCommand extends Command {
 	public UserInfoCommand() {
 		super(Config.COMMANDS.getConfig().getString("user-info"), 
 				Message.COMMAND_USERINFO_DESCRIPTION.getMessage(), 
-				Message.COMMAND_USERINFO_USAGE.getMessage());
-		setPermission(Permission.COMMAND_ADMIN_GETUSER.toString());
+				Message.COMMAND_USERINFO_USAGE.getMessage(),
+				Permission.COMMAND_USER_INFO);
 	}
 
 	@Override

@@ -19,9 +19,11 @@ public enum Message {
 			"Your account must be validated to perform this action."),
 	PLAYER_SELF_NOTREGISTERED("player.self.not-registered", 
 			"You must register for an account to perform this action."),
-	
-	COMMAND_NOPERMISSION("command.no-permission", 
-			"You don't have permission to perform this command."),
+	PLAYER_SELF_NO_PERMISSION_GENERIC("player.self.no-permission.generic",
+			"You don't have permission to perform this action."),
+	PLAYER_SELF_NO_PERMISSION_COMMAND("player.self.no-permission.command",
+			"You don't have permission to execute this command."),
+
 	COMMAND_NOTAPLAYER("command.not-a-player", 
 			"You must be a player to perform this command."),
 	
@@ -117,7 +119,7 @@ public enum Message {
 	COMMAND_SUBCOMMANDS_USAGE("commands.subcommands.usage",
 			"{command} [subcommand] [arguments..]"),
 	COMMAND_SUBCOMMANDS_HELP_PREFIX("commands.submenu.help-prefix",
-			"{command}"),
+			"/{command}"),
 	
 	;
 

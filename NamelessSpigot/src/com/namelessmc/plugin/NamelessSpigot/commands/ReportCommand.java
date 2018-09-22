@@ -20,8 +20,8 @@ public class ReportCommand extends Command {
 	public ReportCommand() {
 		super(Config.COMMANDS.getConfig().getString("report"), 
 				Message.COMMAND_REPORT_DESCRIPTION.getMessage(), 
-				Message.COMMAND_REPORT_USAGE.getMessage());
-		setPermission(Permission.COMMAND_REPORT.toString());
+				Message.COMMAND_REPORT_USAGE.getMessage(),
+				Permission.COMMAND_REPORT);
 	}
 
 	@Override

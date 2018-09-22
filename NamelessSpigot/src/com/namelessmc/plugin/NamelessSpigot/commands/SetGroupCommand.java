@@ -18,8 +18,8 @@ public class SetGroupCommand extends Command {
 	public SetGroupCommand() {
 		super(Config.COMMANDS.getConfig().getString("set-group"), 
 				Message.COMMAND_SETGROUP_DESCRIPTION.getMessage(), 
-				Message.COMMAND_SETGROUP_USAGE.getMessage());
-		setPermission(Permission.COMMAND_ADMIN_SETGROUP.toString());
+				Message.COMMAND_SETGROUP_USAGE.getMessage(),
+				Permission.COMMAND_SET_GROUP);
 	}
 
 	@Override

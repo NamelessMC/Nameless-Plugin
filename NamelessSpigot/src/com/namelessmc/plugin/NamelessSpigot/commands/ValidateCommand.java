@@ -19,8 +19,8 @@ public class ValidateCommand extends Command {
 	public ValidateCommand() {
 		super(Config.COMMANDS.getConfig().getString("validate"), 
 				Message.COMMAND_VALIDATE_DESCRIPTION.getMessage(), 
-				Message.COMMAND_VALIDATE_USAGE.getMessage());
-		setPermission(Permission.COMMAND_VALIDATE.toString());
+				Message.COMMAND_VALIDATE_USAGE.getMessage(),
+				Permission.COMMAND_VALIDATE);
 	}
 
 	@Override
