@@ -2,6 +2,7 @@ package com.namelessmc.plugin.NamelessSpigot.commands;
 
 import java.util.ArrayList;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
 
 import com.namelessmc.plugin.NamelessSpigot.Message;
@@ -39,5 +40,18 @@ public abstract class Command extends org.bukkit.command.Command implements Plug
 	public String getUsageWithoutSlash() {
 		return usageMessage;
 	}
+	
+	@Override
+	public boolean execute(CommandSender sender, String label, String[] args) {
+		boolean success = execute(sender, args);
+		
+		if (!success) {
+			sender.sendMessage(this.getUsage());
+		}
+		
+		return success;
+	}
+	
+	public abstract boolean execute(CommandSender sender, String[] args);
 
 }

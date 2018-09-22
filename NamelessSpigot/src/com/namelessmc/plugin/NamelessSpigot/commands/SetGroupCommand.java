@@ -23,7 +23,7 @@ public class SetGroupCommand extends Command {
 	}
 
 	@Override
-	public boolean execute(CommandSender sender, String label, String[] args) {
+	public boolean execute(CommandSender sender, String[] args) {
 		if (args.length != 2) {
 			return false;
 		}

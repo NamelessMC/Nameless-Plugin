@@ -24,7 +24,7 @@ public class UserInfoCommand extends Command {
 	}
 
 	@Override
-	public boolean execute(CommandSender sender, String label, String[] args) {
+	public boolean execute(CommandSender sender, String[] args) {
 		if (args.length == 0) {
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(Message.COMMAND_NOTAPLAYER.getMessage());
@@ -32,7 +32,7 @@ public class UserInfoCommand extends Command {
 			}
 			
 			// Player itself as first argument
-			return execute(sender, label, new String[] {((Player) sender).getUniqueId().toString()});
+			return execute(sender, new String[] {((Player) sender).getUniqueId().toString()});
 		}
 		
 		if (args.length != 1) {
