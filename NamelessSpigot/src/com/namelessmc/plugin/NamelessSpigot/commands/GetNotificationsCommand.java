@@ -13,10 +13,10 @@ import com.namelessmc.plugin.NamelessSpigot.Config;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
-import com.namelessmc.plugin.NamelessSpigot.util.Json;
-import com.namelessmc.plugin.NamelessSpigot.util.Json.ClickAction;
-import com.namelessmc.plugin.NamelessSpigot.util.Json.HoverAction;
-import com.namelessmc.plugin.NamelessSpigot.util.Json.JsonMessage;
+
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 
 public class GetNotificationsCommand extends Command {
 
@@ -65,10 +65,10 @@ public class GetNotificationsCommand extends Command {
 				
 				Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
 					notifications.forEach((notification) -> 
-						new Json().append(JsonMessage.newMessage()
-								.text(notification.getMessage())
-								.onHover(HoverAction.SHOW_TEXT, Message.COMMAND_NOTIFICATIONS_OUTPUT_CLICKTOOPEN.getMessage())
-								.onClick(ClickAction.OPEN_URL, notification.getUrl())).send(player)
+						new ComponentBuilder(notification.getMessage())
+							.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Message.COMMAND_NOTIFICATIONS_OUTPUT_CLICKTOOPEN.getMessage()).create()))
+							.event(new ClickEvent(ClickEvent.Action.OPEN_URL, notification.getUrl()))
+							.create()
 					);
 				});
 				
