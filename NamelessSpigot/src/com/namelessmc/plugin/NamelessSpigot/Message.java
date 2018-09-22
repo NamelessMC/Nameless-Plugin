@@ -66,8 +66,7 @@ public enum Message {
 			"Changes a player's group id."),
 	COMMAND_SETGROUP_OUTPUT_SUCCESS("command.set-group.output.success",
 			"Changed group id for {player} from {old} to {new}"),
-	//COMMAND_SETGROUP_OUTPUT_FAIL_NOACCOUNT("command.set-group.output.fail.no-account",
-	//		"This player does not have an account"),
+
 	COMMAND_SETGROUP_OUTPUT_FAIL_NOTNUMERIC("command.set-group.output.fail-not-numeric",
 			"The provided group id is not a number."),
 	COMMAND_SETGROUP_OUTPUT_FAIL_INVALIDGROUPID("command.set-group.output.fail.invalid-group-id",
@@ -112,12 +111,13 @@ public enum Message {
 			"yes"),
 	COMMAND_USERINFO_OUTPUT_BOOLEAN_FALSE("command.user-info.output.boolean.false",
 			"no"),
-	//COMMAND_USERINFO_OUTPUT_FAIL_NOTREGISTERED("command.user-info.output.fail.not-registered",
-	//		"This player does not have an account"),
+	
 	COMMAND_USERINFO_OUTPUT_FAIL_GENERIC("command.user-info.output.fail.generic",
 			"An unknown error occured while trying to retrieve player information."),
 	COMMAND_SUBCOMMANDS_USAGE("commands.subcommands.usage",
-			"{command} [subcommand] [arguments..]")
+			"{command} [subcommand] [arguments..]"),
+	COMMAND_SUBCOMMANDS_HELP_PREFIX("commands.submenu.help-prefix",
+			"{command}"),
 	
 	;
 

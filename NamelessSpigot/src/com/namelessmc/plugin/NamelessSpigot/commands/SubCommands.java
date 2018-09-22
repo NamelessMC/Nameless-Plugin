@@ -42,7 +42,8 @@ public class SubCommands extends org.bukkit.command.Command {
 				continue;
 			}
 			
-			sender.sendMessage(this.getUsage() + " " + command.getUsageWithoutSlash());
+			sender.sendMessage(Message.COMMAND_SUBCOMMANDS_HELP_PREFIX.getMessage("{command}", this.getName()) 
+					+ " " + command.getUsageWithoutSlash());
 			sender.sendMessage(command.getDescription());
 			sender.sendMessage("");
 		}
