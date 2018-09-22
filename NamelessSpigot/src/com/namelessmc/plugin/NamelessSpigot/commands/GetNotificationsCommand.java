@@ -14,6 +14,7 @@ import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
 
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -64,12 +65,13 @@ public class GetNotificationsCommand extends Command {
 				}
 				
 				Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
-					notifications.forEach((notification) -> 
-						new ComponentBuilder(notification.getMessage())
+					notifications.forEach((notification) -> {
+						BaseComponent[] message = new ComponentBuilder(notification.getMessage())
 							.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Message.COMMAND_NOTIFICATIONS_OUTPUT_CLICKTOOPEN.getMessage()).create()))
 							.event(new ClickEvent(ClickEvent.Action.OPEN_URL, notification.getUrl()))
-							.create()
-					);
+							.create();
+						player.spigot().sendMessage(message);
+					});
 				});
 				
 			} catch (NamelessException e) {
