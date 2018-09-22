@@ -50,7 +50,7 @@ public class RegisterCommand extends Command {
 			}
 			
 			try {
-				String link = namelessPlayer.register(player.getName(), args[0], player.getUniqueId());
+				String link = namelessPlayer.register(player.getName(), args[0]);
 				if (link.equals("")) {
 					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL.getMessage());
 				} else {
