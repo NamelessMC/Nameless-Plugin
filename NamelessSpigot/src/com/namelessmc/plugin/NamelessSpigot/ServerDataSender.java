@@ -65,17 +65,19 @@ public class ServerDataSender extends BukkitRunnable {
 		
 		String data = gson.toJson(map);
 		
-		try {
-			NamelessPlugin.getInstance().api.submitServerInfo(data);
-		} catch (ApiError e) {
-			if (e.getErrorCode() == 27) {
-				NamelessPlugin.getInstance().getLogger().warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
-			} else {
+		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+			try {
+				NamelessPlugin.getInstance().api.submitServerInfo(data);
+			} catch (ApiError e) {
+				if (e.getErrorCode() == 27) {
+					NamelessPlugin.getInstance().getLogger().warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
+				} else {
+					e.printStackTrace();
+				}
+			} catch (NamelessException e) {
 				e.printStackTrace();
 			}
-		} catch (NamelessException e) {
-			e.printStackTrace();
-		}
+		});
 	}
 
 }
