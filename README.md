@@ -1,36 +1,23 @@
 # Nameless-Plugin
-This is the OFFICIAL plugin for NamelessMC Web Software.
+The official Minecraft plugin for NamelessMC v2. For compiled fils see the [spigot resource page](https://www.spigotmc.org/resources/nameless-plugin-for-v2.59032/)
 
-The Plugin is in Pre-Release 2!
-
-# WARNING
-This plugin is only compatible with NamelessMC 1.0.16 & up.
-
-Expect Bugs!
-
-If you have found any bugs please report them at https://github.com/NamelessMC/Nameless-Plugin/issues
+# Features
+* Register command
+* Report command
+* Set group command
+* User information command
+* Validate command (broken)
+* Notifications command (v2-pre5+)
+* Permissions
+* Mvdw and PlaceholderAPI placeholders for number of notifications
+* Server data sender (in v2, the plugin can send detailed information about the minecraft servers and the players online to the website)
+* Group sync (v2-pre5+)
 
 # Installation
-
-## Pre Release (Spigot resource)
-You can get the pre release jars without compiling it yourself at https://www.spigotmc.org/resources/official-namelessplugin.42698/
-
-## Maven
-
-1. Clone https://github.com/NamelessMC/Nameless-Java-API
-2. Nameless-Java-API: mvn clean install
-3. Clone this repository
-4. Nameless-Plugin/NamelessBungee or Nameless-Plugin/NamelessSpigot: mvn package shade:shade
-
-# [Wiki](https://github.com/NamelessMC/Nameless-Plugin/wiki)
-In our wiki you will find stuff like how to setup, permissions etc
+Install the plugin in your Spigot server, and enter an API key and server id in config.yml.
 
 ## Discord
 [<img src="https://discordapp.com/api/guilds/246705793066467328/widget.png?style=shield">](https://discord.gg/J6QsVaP)
 
-# With thanks to
-## Contributors
-- @IsS127
-- @Lmmb74
-- @Derkades
-- @Samerton
+# v1
+The legacy NamelessPlugin for v1 is available for download [on spigot](https://www.spigotmc.org/resources/official-namelessplugin.42698/). The source is available in the v1-Pre-1.1 branch.
