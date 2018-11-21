@@ -72,7 +72,7 @@ public class SetGroupCommand extends Command {
 						"old", previousGroupId,
 						"new", groupId));
 			} catch (NamelessException e) {
-				sender.sendMessage(Message.COMMAND_SETGROUP_OUTPUT_FAIL_GENERIC.getMessage().replace("%error%", e.getMessage()));
+				sender.sendMessage(Message.COMMAND_SETGROUP_OUTPUT_FAIL_GENERIC.getMessage());
 				e.printStackTrace();
 			}
 		});

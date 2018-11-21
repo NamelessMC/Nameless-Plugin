@@ -24,7 +24,7 @@ public class GetNotificationsCommand extends Command {
 	public GetNotificationsCommand() {
 		super(Config.COMMANDS.getConfig().getString("get-notifications"), 
 				Message.COMMAND_NOTIFICATIONS_DESCRIPTION.getMessage(), 
-				Message.COMMAND_NOTIFICATIONS_USAGE.getMessage(),
+				Message.COMMAND_NOTIFICATIONS_USAGE.getMessage("command", Config.COMMANDS.getConfig().getString("get-notifications")),
 				Permission.COMMAND_GET_NOTIFICATIONS);
 	}
 

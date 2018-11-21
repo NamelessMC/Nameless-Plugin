@@ -169,7 +169,7 @@ public enum Message {
 		String message = this.getMessage();
 
 		for(Map.Entry<String, String> entry : placeholderMap.entrySet()) {
-			message = message.replace(entry.getKey(), entry.getValue());
+			message = message.replace("{" + entry.getKey() + "}", entry.getValue());
 		}
 
 		return message;

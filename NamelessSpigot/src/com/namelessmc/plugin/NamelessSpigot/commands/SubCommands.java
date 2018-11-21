@@ -15,7 +15,7 @@ public class SubCommands extends org.bukkit.command.Command {
 	public SubCommands() {
 		super(Config.COMMANDS.getConfig().getString("subcommands-name"),
 				"", 
-				"/" + Message.COMMAND_SUBCOMMANDS_USAGE.getMessage("{command}", Config.COMMANDS.getConfig().getString("subcommands-name")), 
+				"/" + Message.COMMAND_SUBCOMMANDS_USAGE.getMessage("command", Config.COMMANDS.getConfig().getString("subcommands-name")), 
 				new ArrayList<>());
 	}
 
@@ -26,8 +26,7 @@ public class SubCommands extends org.bukkit.command.Command {
 			
 			for (Command command : Command.COMMANDS) {
 				if (command.getName().equalsIgnoreCase(subcommand)) {
-					command.execute(sender, label, ListUtils.removeFirstStringFromArray(args));
-					return true;
+					return command.execute(sender, label, ListUtils.removeFirstStringFromArray(args));
 				}
 			}
 		}
@@ -42,7 +41,7 @@ public class SubCommands extends org.bukkit.command.Command {
 				continue;
 			}
 			
-			sender.sendMessage(Message.COMMAND_SUBCOMMANDS_HELP_PREFIX.getMessage("{command}", this.getName()) 
+			sender.sendMessage(Message.COMMAND_SUBCOMMANDS_HELP_PREFIX.getMessage("command", this.getName()) 
 					+ " " + command.getUsageWithoutSlash());
 			sender.sendMessage(command.getDescription());
 			sender.sendMessage("");

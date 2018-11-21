@@ -20,7 +20,7 @@ public class ReportCommand extends Command {
 	public ReportCommand() {
 		super(Config.COMMANDS.getConfig().getString("report"), 
 				Message.COMMAND_REPORT_DESCRIPTION.getMessage(), 
-				Message.COMMAND_REPORT_USAGE.getMessage(),
+				Message.COMMAND_REPORT_USAGE.getMessage("command", Config.COMMANDS.getConfig().getString("report")),
 				Permission.COMMAND_REPORT);
 	}
 
@@ -66,11 +66,7 @@ public class ReportCommand extends Command {
 				sender.sendMessage(Message.PLAYER_OTHER_NOTFOUND.getMessage());
 				return;
 			}
-			
-			//Remove first argument, all other arguments are part of the reason
-			//int n = args.length - 1;
-			//String[] reasonWordsArray = new String[n];
-			//System.arraycopy(args, 1, reasonWordsArray, 0, n);
+	
 			String[] reasonWordsArray = ListUtils.removeFirstStringFromArray(args);
 			String reason = String.join(" ", reasonWordsArray); //Join with space in between words
 			

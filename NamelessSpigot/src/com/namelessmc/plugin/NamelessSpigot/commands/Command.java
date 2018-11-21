@@ -20,11 +20,6 @@ public abstract class Command extends org.bukkit.command.Command implements Plug
 			new ValidateCommand(),
 	};
 	
-	/*protected Command(String name) {
-		super(name);
-		setPermissionMessage(Message.COMMAND_NOPERMISSION.getMessage());
-	}*/
-	
 	private String usageMessage;
 	private Permission permission;
 

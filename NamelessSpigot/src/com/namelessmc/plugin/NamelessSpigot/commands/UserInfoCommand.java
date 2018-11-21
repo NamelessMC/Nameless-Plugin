@@ -19,7 +19,7 @@ public class UserInfoCommand extends Command {
 	public UserInfoCommand() {
 		super(Config.COMMANDS.getConfig().getString("user-info"), 
 				Message.COMMAND_USERINFO_DESCRIPTION.getMessage(), 
-				Message.COMMAND_USERINFO_USAGE.getMessage(),
+				Message.COMMAND_USERINFO_USAGE.getMessage("command", Config.COMMANDS.getConfig().getString("user-info")),
 				Permission.COMMAND_USER_INFO);
 	}
 
@@ -67,10 +67,6 @@ public class UserInfoCommand extends Command {
 				sender.sendMessage(Message.PLAYER_OTHER_NOTREGISTERED.getMessage());
 				return;
 			}
-
-			//String separator = Chat.convertColors("&3&m--------------------------------");
-
-			//sender.sendMessage(separator);
 			
 			String yes = Message.COMMAND_USERINFO_OUTPUT_BOOLEAN_TRUE.getMessage();
 			String no = Message.COMMAND_USERINFO_OUTPUT_BOOLEAN_FALSE.getMessage();
@@ -78,16 +74,14 @@ public class UserInfoCommand extends Command {
 			String validated = target.isValidated() ? yes : no;
 			String banned = target.isBanned() ? yes : no;
 
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_USERNAME.getMessage("{username}", target.getUsername()));
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_DISPLAYNAME.getMessage("{displayname}", target.getDisplayName()));
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_UUID.getMessage("{uuid}", target.getUniqueId()));
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_GROUP.getMessage("{groupname}", target.getGroupName(), "{id}", target.getGroupID()));
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_REGISTERDATE.getMessage("{date}", target.getRegisteredDate())); // TODO Format nicely (add option in config for date format)
+			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_USERNAME.getMessage("username", target.getUsername()));
+			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_DISPLAYNAME.getMessage("displayname", target.getDisplayName()));
+			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_UUID.getMessage("uuid", target.getUniqueId()));
+			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_GROUP.getMessage("groupname", target.getGroupName(), "id", target.getGroupID()));
+			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_REGISTERDATE.getMessage("date", target.getRegisteredDate())); // TODO Format nicely (add option in config for date format)
 			//sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_REPUTATION.getMessage("{reputation}", target.getReputation())); temporarily disabled until added to API
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_VALIDATED.getMessage("{validated}", validated));
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_BANNED.getMessage("{banned}", banned));
-
-			//sender.sendMessage(separator);
+			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_VALIDATED.getMessage("validated", validated));
+			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_BANNED.getMessage("banned", banned));
 		});
 		return true;
 	}

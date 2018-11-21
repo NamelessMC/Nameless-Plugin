@@ -16,7 +16,7 @@ public class RegisterCommand extends Command {
 	public RegisterCommand() {
 		super(Config.COMMANDS.getConfig().getString("register"), 
 				Message.COMMAND_REGISTER_DESCRIPTION.getMessage(), 
-				Message.COMMAND_REGISTER_USAGE.getMessage(),
+				Message.COMMAND_REGISTER_USAGE.getMessage("command", Config.COMMANDS.getConfig().getString("register")),
 				Permission.COMMAND_REGISTER);
 	}
 
