@@ -59,6 +59,8 @@ public class RegisterCommand extends Command {
 			} catch (ApiError e) {
 				if (e.getErrorCode() == ApiError.EMAIL_ALREADY_EXISTS) {
 					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED.getMessage());
+				} else if (e.getErrorCode() == ApiError.USERNAME_ALREADY_EXISTS) {
+					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS.getMessage());
 				} else {
 					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC.getMessage());
 					e.printStackTrace();
