@@ -27,3 +27,6 @@ placeholders-request-delay: 2000
 
 # Turn on debug mode for the underlying NamelessMC Java API
 api-debug-mode: false
+
+# Send a message to players that don't have a NamelessMC account when they join
+not-registered-join-message: false

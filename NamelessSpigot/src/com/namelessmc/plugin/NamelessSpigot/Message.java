@@ -121,6 +121,9 @@ public enum Message {
 	COMMAND_SUBCOMMANDS_HELP_PREFIX("commands.submenu.help-prefix",
 			"/{command}"),
 	
+	JOIN_NOTREGISTERED("join.not-registed",
+			"You do not have an account on our website yet. Please register using /register"),
+	
 	;
 
 	private String path;

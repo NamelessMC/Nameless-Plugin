@@ -8,7 +8,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import com.namelessmc.NamelessAPI.NamelessException;
+import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.plugin.NamelessSpigot.Config;
+import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
 
 public class PlayerLogin implements Listener {
@@ -22,6 +25,20 @@ public class PlayerLogin implements Listener {
 		FileConfiguration config = Config.MAIN.getConfig();
 		if (!config.getBoolean("join-notifications")) {
 			return;
+		}
+		
+		if (config.getBoolean("not-registered-join-message")) {
+			Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+				try {
+					NamelessPlayer namelessPlayer = NamelessPlugin.getInstance().api.getPlayer(player.getUniqueId());
+					if (!namelessPlayer.exists()) {
+						Message.JOIN_NOTREGISTERED.send(player);
+					}
+				} catch (NamelessException e) {
+					e.printStackTrace();
+				}
+
+			});
 		}
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
