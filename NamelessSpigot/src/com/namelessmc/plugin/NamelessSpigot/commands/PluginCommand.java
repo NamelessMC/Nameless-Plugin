@@ -4,12 +4,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import com.namelessmc.plugin.NamelessSpigot.Chat;
 import com.namelessmc.plugin.NamelessSpigot.Config;
 import com.namelessmc.plugin.NamelessSpigot.Message;
 import com.namelessmc.plugin.NamelessSpigot.Permission;
 
-public class NamelessCommand implements CommandExecutor {
+public class PluginCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -23,11 +22,11 @@ public class NamelessCommand implements CommandExecutor {
 				config.reload();
 			}
 				
-			sender.sendMessage(Chat.convertColors("&bSuccessfully reloaded all configuration files."));
-			
+			sender.sendMessage("Successfully reloaded all configuration files.");
 		} else {
-			sender.sendMessage(Chat.convertColors("&4Invalid usage. Use /" + label +" reload to reload config files."));
+			sender.sendMessage("Invalid usage. Use /" + label + " reload to reload config files.");
 		}
+		
 		return true;
 	}
 }

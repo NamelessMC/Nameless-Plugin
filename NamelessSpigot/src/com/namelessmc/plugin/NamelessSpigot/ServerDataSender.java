@@ -56,6 +56,14 @@ public class ServerDataSender extends BukkitRunnable {
 				if (NamelessPlugin.economy != null) playerInfo.put("balance", NamelessPlugin.economy.getBalance(player));
 			} catch (UnsupportedOperationException e) {}
 			
+			Map<String, String> placeholders = new HashMap<>();
+			
+			Config.MAIN.getConfig().getStringList("upload-placeholders")
+				.forEach(placeholder -> 
+				placeholders.put(placeholder, NamelessPlugin.getInstance().papiParser.parse(player, placeholder)));
+			
+			playerInfo.put("placeholders", placeholders);
+			
 			playerInfo.put("login-time", NamelessPlugin.LOGIN_TIME.get(player.getUniqueId()));
 			
 			players.put(player.getUniqueId().toString().replace("-", ""), playerInfo);

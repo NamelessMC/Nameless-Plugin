@@ -1,12 +1,13 @@
 # Nameless Plugin configuration
 
-# For example http://yoursite.com/api/v2/API_KEY
-# Enable the API and obtain the API URL in AdminCP > Core > API
+# For example http(s)://yoursite.com/api/v2/API_KEY or http(s)://yoursite.com/index.php?route=/api/v2/API_KEY
+# Enable the API and obtain the API URL in StaffCP > Configuration > API
+# After setting this, you need to do a full server restart, because the plugin's reload command won't work.
 api-url: ""
 
 # Enter this if you wish for the plugin to send data about this server
-# and its players to the website. This is required for name and rank sync.
-# You can find this in AdminCP -> Minecraft -> Minecraft Servers
+# and its players to the website. This is required for username and rank synchronisation.
+# You can find this in StaffCP > Integrations > Minecraft > Minecraft Servers
 server-id: 0
 
 # This feature sends information about the server and online players to
@@ -14,6 +15,13 @@ server-id: 0
 # the frequency that data is sent. Decrease to send data more frequently.
 # Setting this too low can cause lag. Set to 0 to disable.
 server-data-upload-rate: 10
+
+# You can add PlaceholderAPI placeholders (without {} or %%) here, they will be sent to the website to be used by NamelessMC or addons.
+# The placeholders can be global or player-specific
+# This option will work regardless of the "enable-placeholders" option
+upload-placeholders:
+- player_level
+
 
 # Enable PlaceholderAPI and MVdWPlaceholderAPI placeholders
 # This will increase traffic to your NamelessMC website (depending on placeholders-request-delay)
@@ -28,5 +36,5 @@ placeholders-request-delay: 2000
 # Turn on debug mode for the underlying NamelessMC Java API
 api-debug-mode: false
 
-# Send a message to players that don't have a NamelessMC account when they join
+# Send a message to players who don't have a NamelessMC account when they join
 not-registered-join-message: false

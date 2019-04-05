@@ -18,12 +18,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.plugin.NamelessSpigot.commands.Command;
-import com.namelessmc.plugin.NamelessSpigot.commands.NamelessCommand;
+import com.namelessmc.plugin.NamelessSpigot.commands.PluginCommand;
 import com.namelessmc.plugin.NamelessSpigot.commands.SubCommands;
 import com.namelessmc.plugin.NamelessSpigot.event.PlayerLogin;
 import com.namelessmc.plugin.NamelessSpigot.event.PlayerQuit;
 import com.namelessmc.plugin.NamelessSpigot.hooks.MVdWPapiHook;
 import com.namelessmc.plugin.NamelessSpigot.hooks.PapiHook;
+import com.namelessmc.plugin.NamelessSpigot.hooks.PapiParser;
+import com.namelessmc.plugin.NamelessSpigot.hooks.PapiParserDisabled;
+import com.namelessmc.plugin.NamelessSpigot.hooks.PapiParserEnabled;
 import com.namelessmc.plugin.NamelessSpigot.hooks.PlaceholderCacher;
 
 import net.milkbowl.vault.economy.Economy;
@@ -38,6 +41,8 @@ public class NamelessPlugin extends JavaPlugin {
 	public static Economy economy;
 	
 	public NamelessAPI api;
+	
+	public PapiParser papiParser;
 	
 	@Override
 	public void onEnable() {
@@ -141,7 +146,7 @@ public class NamelessPlugin extends JavaPlugin {
 	}
 
 	private void registerCommands() {
-		getServer().getPluginCommand("nameless").setExecutor(new NamelessCommand());
+		getServer().getPluginCommand("namelessplugin").setExecutor(new PluginCommand());
 		
 		try {
 			Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
@@ -184,6 +189,10 @@ public class NamelessPlugin extends JavaPlugin {
 			PapiHook placeholders = new PapiHook();
 			placeholders.hook();
 			placeholderPluginInstalled = true;
+			
+			papiParser = new PapiParserEnabled();
+		} else {
+			papiParser = new PapiParserDisabled();
 		}
 		
 		if (placeholderPluginInstalled && Config.MAIN.getConfig().getBoolean("enable-placeholders", false)) {

@@ -2,9 +2,9 @@
 # You need to reload/restart your server after you edit this file.
 # Set a command name to "disabled" to disable the command.
 
-# For example, /nameless report <player> <reason>
+# For example, /website report <player> <reason>
 subcommands-enabled: true
-subcommands-name: nameless
+subcommands-name: website
 
 # For example, /report <player> <reason>
 individual-commands-enabled: true

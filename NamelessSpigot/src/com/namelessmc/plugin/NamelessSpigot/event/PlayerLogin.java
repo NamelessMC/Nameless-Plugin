@@ -23,9 +23,6 @@ public class PlayerLogin implements Listener {
 		NamelessPlugin.LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
 		
 		FileConfiguration config = Config.MAIN.getConfig();
-		if (!config.getBoolean("join-notifications")) {
-			return;
-		}
 		
 		if (config.getBoolean("not-registered-join-message")) {
 			Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
@@ -40,9 +37,13 @@ public class PlayerLogin implements Listener {
 
 			});
 		}
-
+		
+		/*if (!config.getBoolean("join-notifications")) {
+			return;
+		}
+	
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-			/*NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
+			NamelessPlayer namelessPlayer = new NamelessPlayer(player.getUniqueId(), NamelessPlugin.baseApiURL);
 			if (!namelessPlayer.exists()) {
 				return;
 			}
@@ -80,9 +81,9 @@ public class PlayerLogin implements Listener {
 			} else {
 				player.sendMessage(alertMessage);
 				player.sendMessage(pmMessage);
-			}*/
+			}
 			
-		});
+		});*/
 	}
 
 }
