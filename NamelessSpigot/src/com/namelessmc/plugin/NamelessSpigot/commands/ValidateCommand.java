@@ -46,6 +46,11 @@ public class ValidateCommand extends Command {
 				return;
 			}
 			
+			if (!namelessPlayer.exists()) {
+				sender.sendMessage(Message.PLAYER_SELF_NOTREGISTERED.getMessage());
+				return;
+			}
+			
 			if (namelessPlayer.isValidated()) {
 				sender.sendMessage(Message.COMMAND_VALIDATE_OUTPUT_FAIL_ALREADYVALIDATED.getMessage());
 				return;
