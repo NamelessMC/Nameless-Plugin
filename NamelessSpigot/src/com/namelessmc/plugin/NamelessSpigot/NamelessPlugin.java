@@ -100,6 +100,9 @@ public class NamelessPlugin extends JavaPlugin {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
 		}
+		
+		// In the start function there is a check if the feature is actually enabled
+		new WhitelistRegistered().start();
 	}
 	
 	@Override

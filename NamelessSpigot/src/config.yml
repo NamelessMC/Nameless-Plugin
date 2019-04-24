@@ -38,3 +38,19 @@ api-debug-mode: false
 
 # Send a message to players who don't have a NamelessMC account when they join
 not-registered-join-message: false
+
+# Auto whitelist registered players.
+#
+# When enabled, the plugin will automatically whitelist players that are registered on the website.
+# Warning: Anyone who is not registered on the website will be removed from the whitelist, also
+# if they were added before enabling this option!
+# By default, the plugin will poll the website every 5 minutes to get a list of registered users.
+# You need to fully restart the server after changing this option.
+auto-whitelist-registered:
+  enabled: false
+  # Do not whitelist banned users
+  exclude-banned: true
+  # Do not whitelist users who have not activated their account
+  exclude-inactive: false
+  # Number of seconds to wait in between updating the whitelist
+  poll-interval: 300
