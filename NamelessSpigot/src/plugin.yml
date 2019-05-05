@@ -1,9 +1,12 @@
 name: NamelessMC
 main: com.namelessmc.plugin.NamelessSpigot.NamelessPlugin
-authors: [Samerton, IsS127, Derkades]
+author: Derkades
+authors: [Derkades, Samerton, IsS127]
 website: https://plugin.namelessmc.com/
 version: '@project.version@'
-softdepend: [PlaceholderAPI,MVdWPlaceholderAPI]
+
+softdepend: [PlaceholderAPI, MVdWPlaceholderAPI]
+
 commands:
   namelessplugin:
     description: NamelessMC plugin command (/nlpl also works)
