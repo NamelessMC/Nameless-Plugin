@@ -31,12 +31,6 @@ public class WhitelistRegistered implements Runnable {
 		try {
 			final Set<UUID> uuids = NamelessPlugin.getInstance().api.getRegisteredUsers(hideInactive, hideBanned).keySet();
 			
-			//debug
-			System.out.println("[DEBUG] Registered players as received from the website:");
-			for (UUID uuid : uuids) {
-				System.out.println(uuid + " : " + Bukkit.getOfflinePlayer(uuid).getName());
-			}
-			
 			for (final OfflinePlayer whitelistedPlayer : Bukkit.getWhitelistedPlayers()) {
 				if (!uuids.contains(whitelistedPlayer.getUniqueId())) {
 					// The player is whitelisted, but no(t) (longer) registered.

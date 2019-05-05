@@ -190,7 +190,7 @@ public class NamelessPlugin extends JavaPlugin {
 		
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			PapiHook placeholders = new PapiHook();
-			placeholders.hook();
+			placeholders.register();
 			placeholderPluginInstalled = true;
 			
 			papiParser = new PapiParserEnabled();
