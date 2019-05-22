@@ -52,6 +52,8 @@ public enum Message {
 			"You already have an account."),
 	COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED("command.register.output.fail.email-used",
 			"This email address is already used for a different user account."),
+	COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID("commands.register.output.fail.email-invalid",
+			"The provided email address is invalid."),
 	
 	COMMAND_REPORT_USAGE("command.report.usage",
 			"{command} <name/uuid> <reason>"),
