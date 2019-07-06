@@ -49,7 +49,7 @@ public class ServerDataSender extends BukkitRunnable {
 			playerInfo.put("ip", player.getAddress().getAddress().getHostAddress());
 			
 			try {
-				playerInfo.put("rank", NamelessPlugin.permissions.getPrimaryGroup(player));
+				if (NamelessPlugin.permissions != null) playerInfo.put("rank", NamelessPlugin.permissions.getPrimaryGroup(player));
 			} catch (UnsupportedOperationException e) {}
 			
 			try {
