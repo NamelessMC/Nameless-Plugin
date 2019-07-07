@@ -48,28 +48,20 @@ public class NamelessPlugin extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		
-		if (getServer().getPluginManager().getPlugin("Vault") == null) {
-			log(Level.SEVERE, "This plugin requires Vault. Please install Vault and restart.");
-			Bukkit.getPluginManager().disablePlugin(this);
-			return;
+		if (getServer().getPluginManager().getPlugin("Vault") != null) {
+			RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+			if (permissionProvider != null) {
+				permissions = permissionProvider.getProvider();				
+				if (permissions == null) log(Level.SEVERE, "Haven't found a vault-compatible permissions plugin.");
+			} else {
+				log(Level.SEVERE, "Haven't found a vault-compatible permissions plugin.");
+			}
+			
+			RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
+			if (economyProvider != null) economy = economyProvider.getProvider();
+		} else {
+			log(Level.SEVERE, "Vault was not found.");
 		}
-
-		RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-		if (permissionProvider == null) {
-			log(Level.SEVERE, "You do not have a vault-compatible permissions plugin. Please install one and restart.");
-			Bukkit.getPluginManager().disablePlugin(this);
-			return;
-		}
-		permissions = permissionProvider.getProvider();
-		
-		if (permissions == null) {
-			log(Level.SEVERE, "You do not have a vault-compatible permissions plugin. Please install one and restart.");
-			Bukkit.getPluginManager().disablePlugin(this);
-			return;
-		}
-		
-		RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
-		if (economyProvider != null) economy = economyProvider.getProvider();
 
 		try {
 			Config.initialize();
