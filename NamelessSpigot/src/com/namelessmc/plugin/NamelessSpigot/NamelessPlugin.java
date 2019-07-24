@@ -48,48 +48,52 @@ public class NamelessPlugin extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		
-		if (getServer().getPluginManager().getPlugin("Vault") != null) {
-			RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
+			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
 			if (permissionProvider != null) {
 				permissions = permissionProvider.getProvider();				
-				if (permissions == null) log(Level.SEVERE, "Haven't found a vault-compatible permissions plugin.");
+				if (permissions == null) {
+					log(Level.SEVERE, "Haven't found a vault-compatible permissions plugin.");
+				}
 			} else {
 				log(Level.SEVERE, "Haven't found a vault-compatible permissions plugin.");
 			}
 			
-			RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
-			if (economyProvider != null) economy = economyProvider.getProvider();
+			final RegisteredServiceProvider<Economy> economyProvider = this.getServer().getServicesManager().getRegistration(Economy.class);
+			if (economyProvider != null) {
+				economy = economyProvider.getProvider();
+			}
 		} else {
 			log(Level.SEVERE, "Vault was not found.");
 		}
 
 		try {
 			Config.initialize();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			log(Level.SEVERE, "Unable to load config.");
 			e.printStackTrace();
 			return;
 		}
 			
-		if (!initApi()) return;
+		if (!this.initApi()) return;
 			
-		initHooks();
+		this.initHooks();
 			
 		// Connection is successful, move on with registering listeners and commands.
-		registerCommands();
-		getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
-		getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
+		this.registerCommands();
+		this.getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
 		
 		// Start saving data files every 15 minutes
-		getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveConfig(), 5*60*20, 5*60*20);
+		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveConfig(), 5*60*20, 5*60*20);
 
-		int uploadPeriod = Config.MAIN.getConfig().getInt("server-data-upload-rate", 10) * 20;
+		final int uploadPeriod = Config.MAIN.getConfig().getInt("server-data-upload-rate", 10) * 20;
 		if (uploadPeriod > 0) {
 			new ServerDataSender().runTaskTimer(this, uploadPeriod, uploadPeriod);
 		}
 		
 		// For reloads
-		for (Player player : Bukkit.getOnlinePlayers()) {
+		for (final Player player : Bukkit.getOnlinePlayers()) {
 			LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
 		}
 		
@@ -100,14 +104,16 @@ public class NamelessPlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		// Save all configuration files that require saving
-		for (Config config : Config.values()) {
-			if (config.autoSave()) config.save();
+		for (final Config config : Config.values()) {
+			if (config.autoSave()) {
+				config.save();
+			}
 		}
 	}
 	
 	private boolean initApi() {
-		FileConfiguration config = Config.MAIN.getConfig();
-		String url = config.getString("api-url");
+		final FileConfiguration config = Config.MAIN.getConfig();
+		final String url = config.getString("api-url");
 		if (url.equals("")) {
 			log(Level.SEVERE, "No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
 			return false; // Prevent registering of commands, listeners, etc.
@@ -115,18 +121,22 @@ public class NamelessPlugin extends JavaPlugin {
 			URL apiUrl;
 			try {
 				apiUrl = new URL(url);
-			} catch (MalformedURLException e) {
+			} catch (final MalformedURLException e) {
 				// There is an exception, so the connection was not successful.
 				log(Level.SEVERE, "Syntax error in API URL. Nothing will work until you set the correct url.");
 				log(Level.SEVERE, "Error: " + e.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
 			
-			boolean debug = config.getBoolean("api-debug-mode", false);
+			final boolean debug = config.getBoolean("api-debug-mode", false);
 			
-			api = new NamelessAPI(apiUrl, debug);
+			this.api = new NamelessAPI(apiUrl, debug);
+			
+			if (config.contains("user-agent")) {
+				this.api.setUserAgent(config.getString("user-agent"));
+			}
 
-			Exception exception = api.checkWebAPIConnection();
+			final Exception exception = this.api.checkWebAPIConnection();
 			if (exception != null) {
 				// There is an exception, so the connection was unsuccessful.
 				log(Level.SEVERE, "Invalid API URL/key. Nothing will work until you set the correct url.");
@@ -141,22 +151,23 @@ public class NamelessPlugin extends JavaPlugin {
 	}
 
 	private void registerCommands() {
-		getServer().getPluginCommand("namelessplugin").setExecutor(new PluginCommand());
+		this.getServer().getPluginCommand("namelessplugin").setExecutor(new PluginCommand());
 		
 		try {
-			Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+			final Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
 			field.setAccessible(true);
-			CommandMap map = (CommandMap) field.get(Bukkit.getServer());
+			final CommandMap map = (CommandMap) field.get(Bukkit.getServer());
 			
-			String name = this.getName(); //Get name of plugin from config.yml just in case we ever change it
+			final String name = this.getName(); //Get name of plugin from config.yml just in case we ever change it
 
-			boolean subcommands = Config.COMMANDS.getConfig().getBoolean("subcommands.enabled", true);
-			boolean individual = Config.COMMANDS.getConfig().getBoolean("individual.enabled", true);
+			final boolean subcommands = Config.COMMANDS.getConfig().getBoolean("subcommands.enabled", true);
+			final boolean individual = Config.COMMANDS.getConfig().getBoolean("individual.enabled", true);
 
 			if (individual) {				
-				for (Command command : Command.COMMANDS) {
-					if (command.getName().equals("disabled"))
+				for (final Command command : Command.COMMANDS) {
+					if (command.getName().equals("disabled")) {
 						continue;
+					}
 
 					map.register(name, command);
 				}
@@ -175,19 +186,19 @@ public class NamelessPlugin extends JavaPlugin {
 		boolean placeholderPluginInstalled = false;
 		
 		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
-			MVdWPapiHook placeholders = new MVdWPapiHook();
+			final MVdWPapiHook placeholders = new MVdWPapiHook();
 			placeholders.hook();
 			placeholderPluginInstalled = true;
 		}
 		
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			PapiHook placeholders = new PapiHook();
+			final PapiHook placeholders = new PapiHook();
 			placeholders.register();
 			placeholderPluginInstalled = true;
 			
-			papiParser = new PapiParserEnabled();
+			this.papiParser = new PapiParserEnabled();
 		} else {
-			papiParser = new PapiParserDisabled();
+			this.papiParser = new PapiParserDisabled();
 		}
 		
 		if (placeholderPluginInstalled && Config.MAIN.getConfig().getBoolean("enable-placeholders", false)) {
@@ -199,7 +210,7 @@ public class NamelessPlugin extends JavaPlugin {
 		return instance;
 	}
 	
-	public static void log(Level level, String message) {
+	public static void log(final Level level, final String message) {
 		NamelessPlugin.getInstance().getLogger().log(level, message);
 	}
 
@@ -207,11 +218,12 @@ public class NamelessPlugin extends JavaPlugin {
 
 		@Override
 		public void run() {
-			NamelessPlugin plugin = NamelessPlugin.getInstance();
+			final NamelessPlugin plugin = NamelessPlugin.getInstance();
 			plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-				for (Config config : Config.values()) {
-					if (config.autoSave())
+				for (final Config config : Config.values()) {
+					if (config.autoSave()) {
 						config.save();
+					}
 				}
 			});
 		}
