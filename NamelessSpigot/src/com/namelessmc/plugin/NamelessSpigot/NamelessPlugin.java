@@ -34,31 +34,31 @@ import net.milkbowl.vault.economy.Economy;
 public class NamelessPlugin extends JavaPlugin {
 
 	private static NamelessPlugin instance;
-	
+
 	public static final Map<UUID, Long> LOGIN_TIME = new HashMap<>();
-	
+
 	public static net.milkbowl.vault.permission.Permission permissions;
 	public static Economy economy;
-	
+
 	public NamelessAPI api;
-	
+
 	public PapiParser papiParser;
-	
+
 	@Override
 	public void onEnable() {
 		instance = this;
-		
+
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
 			if (permissionProvider != null) {
-				permissions = permissionProvider.getProvider();				
+				permissions = permissionProvider.getProvider();
 				if (permissions == null) {
 					log(Level.SEVERE, "Haven't found a vault-compatible permissions plugin.");
 				}
 			} else {
 				log(Level.SEVERE, "Haven't found a vault-compatible permissions plugin.");
 			}
-			
+
 			final RegisteredServiceProvider<Economy> economyProvider = this.getServer().getServicesManager().getRegistration(Economy.class);
 			if (economyProvider != null) {
 				economy = economyProvider.getProvider();
@@ -74,16 +74,16 @@ public class NamelessPlugin extends JavaPlugin {
 			e.printStackTrace();
 			return;
 		}
-			
+
 		if (!this.initApi()) return;
-			
+
 		this.initHooks();
-			
+
 		// Connection is successful, move on with registering listeners and commands.
 		this.registerCommands();
 		this.getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
-		
+
 		// Start saving data files every 15 minutes
 		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveConfig(), 5*60*20, 5*60*20);
 
@@ -91,16 +91,16 @@ public class NamelessPlugin extends JavaPlugin {
 		if (uploadPeriod > 0) {
 			new ServerDataSender().runTaskTimer(this, uploadPeriod, uploadPeriod);
 		}
-		
+
 		// For reloads
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
 		}
-		
-		// In the start function there is a check if the feature is actually enabled
-		new WhitelistRegistered().start();
+
+
+		new WhitelistRegistered(); // In the constructor there is a check if the feature is actually enabled
 	}
-	
+
 	@Override
 	public void onDisable() {
 		// Save all configuration files that require saving
@@ -110,7 +110,7 @@ public class NamelessPlugin extends JavaPlugin {
 			}
 		}
 	}
-	
+
 	private boolean initApi() {
 		final FileConfiguration config = Config.MAIN.getConfig();
 		final String url = config.getString("api-url");
@@ -127,11 +127,11 @@ public class NamelessPlugin extends JavaPlugin {
 				log(Level.SEVERE, "Error: " + e.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
-			
+
 			final boolean debug = config.getBoolean("api-debug-mode", false);
-			
+
 			this.api = new NamelessAPI(apiUrl, debug);
-			
+
 			if (config.contains("user-agent")) {
 				this.api.setUserAgent(config.getString("user-agent"));
 			}
@@ -152,18 +152,18 @@ public class NamelessPlugin extends JavaPlugin {
 
 	private void registerCommands() {
 		this.getServer().getPluginCommand("namelessplugin").setExecutor(new PluginCommand());
-		
+
 		try {
 			final Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
 			field.setAccessible(true);
 			final CommandMap map = (CommandMap) field.get(Bukkit.getServer());
-			
+
 			final String name = this.getName(); //Get name of plugin from config.yml just in case we ever change it
 
 			final boolean subcommands = Config.COMMANDS.getConfig().getBoolean("subcommands.enabled", true);
 			final boolean individual = Config.COMMANDS.getConfig().getBoolean("individual.enabled", true);
 
-			if (individual) {				
+			if (individual) {
 				for (final Command command : Command.COMMANDS) {
 					if (command.getName().equals("disabled")) {
 						continue;
@@ -176,7 +176,7 @@ public class NamelessPlugin extends JavaPlugin {
 			if (subcommands) {
 				map.register(name, new SubCommands());
 			}
-			
+
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 		}
@@ -184,23 +184,23 @@ public class NamelessPlugin extends JavaPlugin {
 
 	private void initHooks() {
 		boolean placeholderPluginInstalled = false;
-		
+
 		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
 			final MVdWPapiHook placeholders = new MVdWPapiHook();
 			placeholders.hook();
 			placeholderPluginInstalled = true;
 		}
-		
+
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			final PapiHook placeholders = new PapiHook();
 			placeholders.register();
 			placeholderPluginInstalled = true;
-			
+
 			this.papiParser = new PapiParserEnabled();
 		} else {
 			this.papiParser = new PapiParserDisabled();
 		}
-		
+
 		if (placeholderPluginInstalled && Config.MAIN.getConfig().getBoolean("enable-placeholders", false)) {
 			Bukkit.getScheduler().runTaskAsynchronously(this, new PlaceholderCacher());
 		}
@@ -209,7 +209,7 @@ public class NamelessPlugin extends JavaPlugin {
 	public static NamelessPlugin getInstance() {
 		return instance;
 	}
-	
+
 	public static void log(final Level level, final String message) {
 		NamelessPlugin.getInstance().getLogger().log(level, message);
 	}
