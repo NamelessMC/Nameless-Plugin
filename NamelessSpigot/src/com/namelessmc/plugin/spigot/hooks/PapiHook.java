@@ -1,8 +1,8 @@
-package com.namelessmc.plugin.NamelessSpigot.hooks;
+package com.namelessmc.plugin.spigot.hooks;
 
 import org.bukkit.entity.Player;
 
-import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import xyz.derkades.derkutils.caching.Cache;

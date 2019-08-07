@@ -1,12 +1,12 @@
-package com.namelessmc.plugin.NamelessSpigot.commands;
+package com.namelessmc.plugin.spigot.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import com.namelessmc.plugin.NamelessSpigot.Config;
-import com.namelessmc.plugin.NamelessSpigot.Message;
-import com.namelessmc.plugin.NamelessSpigot.Permission;
+import com.namelessmc.plugin.spigot.Config;
+import com.namelessmc.plugin.spigot.Message;
+import com.namelessmc.plugin.spigot.Permission;
 
 public class PluginCommand implements CommandExecutor {
 

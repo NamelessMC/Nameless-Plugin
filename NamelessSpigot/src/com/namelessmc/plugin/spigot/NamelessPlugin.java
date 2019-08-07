@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.NamelessSpigot;
+package com.namelessmc.plugin.spigot;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -17,17 +17,17 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.NamelessAPI.NamelessAPI;
-import com.namelessmc.plugin.NamelessSpigot.commands.Command;
-import com.namelessmc.plugin.NamelessSpigot.commands.PluginCommand;
-import com.namelessmc.plugin.NamelessSpigot.commands.SubCommands;
-import com.namelessmc.plugin.NamelessSpigot.event.PlayerLogin;
-import com.namelessmc.plugin.NamelessSpigot.event.PlayerQuit;
-import com.namelessmc.plugin.NamelessSpigot.hooks.MVdWPapiHook;
-import com.namelessmc.plugin.NamelessSpigot.hooks.PapiHook;
-import com.namelessmc.plugin.NamelessSpigot.hooks.PapiParser;
-import com.namelessmc.plugin.NamelessSpigot.hooks.PapiParserDisabled;
-import com.namelessmc.plugin.NamelessSpigot.hooks.PapiParserEnabled;
-import com.namelessmc.plugin.NamelessSpigot.hooks.PlaceholderCacher;
+import com.namelessmc.plugin.spigot.commands.Command;
+import com.namelessmc.plugin.spigot.commands.PluginCommand;
+import com.namelessmc.plugin.spigot.commands.SubCommands;
+import com.namelessmc.plugin.spigot.event.PlayerLogin;
+import com.namelessmc.plugin.spigot.event.PlayerQuit;
+import com.namelessmc.plugin.spigot.hooks.MVdWPapiHook;
+import com.namelessmc.plugin.spigot.hooks.PapiHook;
+import com.namelessmc.plugin.spigot.hooks.PapiParser;
+import com.namelessmc.plugin.spigot.hooks.PapiParserDisabled;
+import com.namelessmc.plugin.spigot.hooks.PapiParserEnabled;
+import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
 
 import net.milkbowl.vault.economy.Economy;
 

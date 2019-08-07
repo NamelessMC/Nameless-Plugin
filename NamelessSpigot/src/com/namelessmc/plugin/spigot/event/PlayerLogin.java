@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.NamelessSpigot.event;
+package com.namelessmc.plugin.spigot.event;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,9 +10,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
-import com.namelessmc.plugin.NamelessSpigot.Config;
-import com.namelessmc.plugin.NamelessSpigot.Message;
-import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
+import com.namelessmc.plugin.spigot.Config;
+import com.namelessmc.plugin.spigot.Message;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 public class PlayerLogin implements Listener {
 

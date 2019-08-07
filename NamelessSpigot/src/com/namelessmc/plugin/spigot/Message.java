@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.NamelessSpigot;
+package com.namelessmc.plugin.spigot;
 
 import java.io.IOException;
 import java.util.HashMap;

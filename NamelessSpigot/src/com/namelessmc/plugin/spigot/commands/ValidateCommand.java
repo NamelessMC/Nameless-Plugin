@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.NamelessSpigot.commands;
+package com.namelessmc.plugin.spigot.commands;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -6,10 +6,10 @@ import org.bukkit.entity.Player;
 import com.namelessmc.NamelessAPI.ApiError;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
-import com.namelessmc.plugin.NamelessSpigot.Config;
-import com.namelessmc.plugin.NamelessSpigot.Message;
-import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
-import com.namelessmc.plugin.NamelessSpigot.Permission;
+import com.namelessmc.plugin.spigot.Config;
+import com.namelessmc.plugin.spigot.Message;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
+import com.namelessmc.plugin.spigot.Permission;
 
 /**
  * Command used to submit a code to validate a user's NamelessMC account

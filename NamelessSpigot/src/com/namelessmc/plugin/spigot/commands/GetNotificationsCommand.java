@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.NamelessSpigot.commands;
+package com.namelessmc.plugin.spigot.commands;
 
 import java.util.List;
 
@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 import com.namelessmc.NamelessAPI.NamelessException;
 import com.namelessmc.NamelessAPI.NamelessPlayer;
 import com.namelessmc.NamelessAPI.Notification;
-import com.namelessmc.plugin.NamelessSpigot.Config;
-import com.namelessmc.plugin.NamelessSpigot.Message;
-import com.namelessmc.plugin.NamelessSpigot.NamelessPlugin;
-import com.namelessmc.plugin.NamelessSpigot.Permission;
+import com.namelessmc.plugin.spigot.Config;
+import com.namelessmc.plugin.spigot.Message;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
+import com.namelessmc.plugin.spigot.Permission;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;

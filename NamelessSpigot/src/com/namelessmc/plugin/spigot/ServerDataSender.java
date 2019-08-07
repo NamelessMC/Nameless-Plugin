@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.NamelessSpigot;
+package com.namelessmc.plugin.spigot;
 
 import java.util.HashMap;
 import java.util.Map;

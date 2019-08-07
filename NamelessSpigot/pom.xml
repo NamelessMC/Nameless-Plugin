@@ -3,8 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.namelessmc.plugin</groupId>
-	<artifactId>NamelessSpigot</artifactId>
+	<artifactId>spigot</artifactId>
 	<version>beta-27</version>
+    
+    <name>Nameless-Spigot</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -12,9 +14,10 @@
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+        
 		<resources>
 			<resource>
-				<directory>src/</directory>
+				<directory>resources</directory>
 				<includes>
 					<include>**/*.yml</include>
 				</includes>
