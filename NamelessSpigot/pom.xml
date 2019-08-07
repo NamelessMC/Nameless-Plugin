@@ -4,9 +4,9 @@
 
 	<groupId>com.namelessmc.plugin</groupId>
 	<artifactId>spigot</artifactId>
-	<version>beta-27</version>
+	<version>beta-28</version>
     
-    <name>Nameless-Spigot</name>
+    <name>Nameless-Plugin-Spigot</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,6 +14,7 @@
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<finalName>${project.name}-${project.version}</finalName>
         
 		<resources>
 			<resource>
