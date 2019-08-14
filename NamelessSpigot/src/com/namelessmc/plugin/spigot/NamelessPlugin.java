@@ -45,38 +45,48 @@ public class NamelessPlugin extends JavaPlugin {
 	public PapiParser papiParser;
 
 	@Override
-	public void onEnable() {
+	public void onLoad() {
 		instance = this;
 
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-			if (permissionProvider != null) {
-				permissions = permissionProvider.getProvider();
-				if (permissions == null) {
-					log(Level.SEVERE, "Haven't found a vault-compatible permissions plugin.");
-				}
+			if (permissionProvider == null) {
+				log(Level.WARNING, "No vault compatible permissions plugin was found. Rank sync will not work.");
 			} else {
-				log(Level.SEVERE, "Haven't found a vault-compatible permissions plugin.");
+				permissions = permissionProvider.getProvider();
+
+				if (permissions == null) {
+					log(Level.WARNING, "No vault compatible permissions plugin was found. Rank sync will not work.");
+				}
 			}
 
 			final RegisteredServiceProvider<Economy> economyProvider = this.getServer().getServicesManager().getRegistration(Economy.class);
-			if (economyProvider != null) {
+			if (economyProvider == null) {
+				log(Level.WARNING, "No economy plugin was found.");
+			} else {
 				economy = economyProvider.getProvider();
+
+				if (economy == null) {
+					log(Level.WARNING, "No economy plugin was found.");
+				}
 			}
 		} else {
-			log(Level.SEVERE, "Vault was not found.");
+			log(Level.WARNING, "Vault was not found. Rank sync will not work.");
 		}
 
 		try {
 			Config.initialize();
 		} catch (final IOException e) {
-			log(Level.SEVERE, "Unable to load config.");
-			e.printStackTrace();
-			return;
+			throw new RuntimeException(e);
 		}
 
-		if (!this.initApi()) return;
+		if (!this.initApi()) {
+			throw new RuntimeException("Unable to initialize API");
+		}
+	}
 
+	@Override
+	public void onEnable() {
 		this.initHooks();
 
 		// Connection is successful, move on with registering listeners and commands.
