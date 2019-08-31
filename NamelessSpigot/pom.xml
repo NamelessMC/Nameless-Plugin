@@ -60,20 +60,13 @@
 		<dependency>
 			<groupId>xyz.derkades</groupId>
 			<artifactId>Derkutils</artifactId>
-			<version>1.5.2-legacy</version>
+			<version>legacy</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<version>1.8.8-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>be.maximvdw</groupId>
-			<artifactId>MVdWPlaceholderAPI</artifactId>
-			<version>1.0.2-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -103,12 +96,7 @@
 
 		<repository>
 			<id>spigot-repo</id>
-			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-		</repository>
-
-		<repository>
-			<id>mvdw-software</id>
-			<url>http://repo.mvdw-software.be/content/groups/public/</url>
+			<url>http://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 
 		<repository>

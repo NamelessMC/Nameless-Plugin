@@ -22,7 +22,6 @@ import com.namelessmc.plugin.spigot.commands.PluginCommand;
 import com.namelessmc.plugin.spigot.commands.SubCommands;
 import com.namelessmc.plugin.spigot.event.PlayerLogin;
 import com.namelessmc.plugin.spigot.event.PlayerQuit;
-import com.namelessmc.plugin.spigot.hooks.MVdWPapiHook;
 import com.namelessmc.plugin.spigot.hooks.PapiHook;
 import com.namelessmc.plugin.spigot.hooks.PapiParser;
 import com.namelessmc.plugin.spigot.hooks.PapiParserDisabled;
@@ -194,12 +193,6 @@ public class NamelessPlugin extends JavaPlugin {
 
 	private void initHooks() {
 		boolean placeholderPluginInstalled = false;
-
-		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
-			final MVdWPapiHook placeholders = new MVdWPapiHook();
-			placeholders.hook();
-			placeholderPluginInstalled = true;
-		}
 
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			final PapiHook placeholders = new PapiHook();
