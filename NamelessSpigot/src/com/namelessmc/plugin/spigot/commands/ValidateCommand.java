@@ -60,6 +60,7 @@ public class ValidateCommand extends Command {
 
 			try {
 				namelessPlayer.validate(code);
+				sender.sendMessage(Message.COMMAND_VALIDATE_OUTPUT_SUCCESS.getMessage());
 			} catch (final ApiError e) {
 				if (e.getErrorCode() == ApiError.INVALID_VALIDATE_CODE) {
 					sender.sendMessage(Message.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE.getMessage());
