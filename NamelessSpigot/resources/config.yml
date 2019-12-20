@@ -1,6 +1,6 @@
 # Nameless Plugin configuration
 
-# For example http(s)://yoursite.com/api/v2/API_KEY or http(s)://yoursite.com/index.php?route=/api/v2/API_KEY
+# For example http(s)://yoursite.com/index.php?route=/api/v2/API_KEY
 # Enable the API and obtain the API URL in StaffCP > Configuration > API
 # After setting this, you need to do a full server restart, because the plugin's reload command won't work.
 api-url: ""
