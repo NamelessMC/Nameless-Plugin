@@ -1,5 +1,5 @@
 # Nameless-Plugin
-The official Minecraft plugin for NamelessMC v2. For compiled fils see the [spigot resource page](https://www.spigotmc.org/resources/nameless-plugin-for-v2.59032/)
+The official Minecraft plugin for NamelessMC v2. For compiled files see the [spigot resource page](https://www.spigotmc.org/resources/nameless-plugin-for-v2.59032/)
 
 # Features
 * Register command
