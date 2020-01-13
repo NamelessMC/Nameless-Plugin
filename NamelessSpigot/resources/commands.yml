@@ -3,11 +3,13 @@
 # Set a command name to "disabled" to disable the command.
 
 # For example, /website report <player> <reason>
-subcommands-enabled: true
-subcommands-name: website
+subcommands:
+  enabled: true
+  name: website
 
 # For example, /report <player> <reason>
-individual-commands-enabled: true
+individual:
+  enabled: true
 
 get-notifications: 'notifications'
 register: 'register'
