@@ -47,6 +47,19 @@ public class NamelessPlugin extends JavaPlugin {
 	public void onLoad() {
 		instance = this;
 
+		try {
+			Config.initialize();
+		} catch (final IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		if (!this.initApi()) {
+			throw new RuntimeException("Unable to initialize API");
+		}
+	}
+
+	@Override
+	public void onEnable() {
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
 			if (permissionProvider == null) {
@@ -72,20 +85,7 @@ public class NamelessPlugin extends JavaPlugin {
 		} else {
 			log(Level.WARNING, "Vault was not found. Rank sync will not work.");
 		}
-
-		try {
-			Config.initialize();
-		} catch (final IOException e) {
-			throw new RuntimeException(e);
-		}
-
-		if (!this.initApi()) {
-			throw new RuntimeException("Unable to initialize API");
-		}
-	}
-
-	@Override
-	public void onEnable() {
+		
 		this.initHooks();
 
 		// Connection is successful, move on with registering listeners and commands.
@@ -105,7 +105,6 @@ public class NamelessPlugin extends JavaPlugin {
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
 		}
-
 
 		new WhitelistRegistered(); // In the constructor there is a check if the feature is actually enabled
 	}
