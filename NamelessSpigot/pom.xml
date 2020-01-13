@@ -4,7 +4,7 @@
 
 	<groupId>com.namelessmc.plugin</groupId>
 	<artifactId>spigot</artifactId>
-	<version>beta-31</version>
+	<version>beta-32</version>
     
     <name>Nameless-Plugin-Spigot</name>
 
