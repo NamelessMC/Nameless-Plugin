@@ -24,6 +24,7 @@ public class WhitelistRegistered implements Runnable {
 	public void run() {
 		final boolean hideInactive = Config.MAIN.getConfig().getBoolean("auto-whitelist-registered.exclude-inactive");
 		final boolean hideBanned = Config.MAIN.getConfig().getBoolean("auto-whitelist-registered.exclude-banned");
+		final boolean log = Config.MAIN.getConfig().getBoolean("auto-whitelist-registered.log");
 
 		final Logger logger = NamelessPlugin.getInstance().getLogger();
 
@@ -44,7 +45,9 @@ public class WhitelistRegistered implements Runnable {
 						// The player is whitelisted, but no(t) (longer) registered.
 						whitelistedPlayer.setWhitelisted(false);
 						uuids.remove(whitelistedPlayer.getUniqueId());
-						logger.info("Removed " + whitelistedPlayer.getName() + " from the whitelist.");
+						if (log) {
+							logger.info("Removed " + whitelistedPlayer.getName() + " from the whitelist.");
+						}
 					}
 				}
 
@@ -53,7 +56,9 @@ public class WhitelistRegistered implements Runnable {
 				for (final UUID uuid : uuids) {
 					final OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
 					player.setWhitelisted(true);
-					logger.info("Added " + player.getName() + " to the whitelist.");
+					if (log) {
+						logger.info("Added " + player.getName() + " to the whitelist.");
+					}
 				}
 
 				// Run again after wait time

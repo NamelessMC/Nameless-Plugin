@@ -54,6 +54,8 @@ auto-whitelist-registered:
   exclude-inactive: false
   # Number of seconds to wait in between updating the whitelist
   poll-interval: 300
+  # Send log messages when whitelisting or unwhitelisting users
+  log: true
   
 # Configure the user agent to be more like something a browser would send if requests
 # from the plugins are being blocked.
