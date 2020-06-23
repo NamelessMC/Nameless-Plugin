@@ -51,8 +51,7 @@ public class WhitelistRegistered implements Runnable {
 					}
 				}
 
-				// All remaining UUIDs in the set are from players that are not on the whitelist
-				// yet
+				// All remaining UUIDs in the set are from players that are not on the whitelist yet
 				for (final UUID uuid : uuids) {
 					final OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
 					player.setWhitelisted(true);
