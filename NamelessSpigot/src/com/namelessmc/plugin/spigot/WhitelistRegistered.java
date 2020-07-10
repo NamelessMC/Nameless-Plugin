@@ -25,7 +25,9 @@ public class WhitelistRegistered implements Runnable {
 		final boolean hideInactive = Config.MAIN.getConfig().getBoolean("auto-whitelist-registered.exclude-inactive");
 		final boolean hideBanned = Config.MAIN.getConfig().getBoolean("auto-whitelist-registered.exclude-banned");
 		final boolean log = Config.MAIN.getConfig().getBoolean("auto-whitelist-registered.log");
-
+		
+		List<String> permWhitelistUUID = new List<>();
+		
 		final Logger logger = NamelessPlugin.getInstance().getLogger();
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
@@ -38,15 +40,21 @@ public class WhitelistRegistered implements Runnable {
 				e.printStackTrace();
 				return;
 			}
+			
+			Config.MAIN.getConfig().getStringList("permanent-whitelisted")
+			.forEach(playername -> permWhitelistUUID.add(playername.getUniqueId()));		
 
 			Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
 				for (final OfflinePlayer whitelistedPlayer : Bukkit.getWhitelistedPlayers()) {
 					if (!uuids.contains(whitelistedPlayer.getUniqueId())) {
-						// The player is whitelisted, but no(t) (longer) registered.
-						whitelistedPlayer.setWhitelisted(false);
-						uuids.remove(whitelistedPlayer.getUniqueId());
-						if (log) {
-							logger.info("Removed " + whitelistedPlayer.getName() + " from the whitelist.");
+						// The player is not on the permanent whitelist exclusion list
+						if (!permanentWhitelisted.contains(whitelistedPlayer.getUniqueId())) {						
+							// The player is whitelisted, but no(t) (longer) registered.
+							whitelistedPlayer.setWhitelisted(false);
+							uuids.remove(whitelistedPlayer.getUniqueId());
+							if (log) {
+								logger.info("Removed " + whitelistedPlayer.getName() + " from the whitelist.");
+							}
 						}
 					}
 				}
