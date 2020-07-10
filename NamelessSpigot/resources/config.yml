@@ -56,6 +56,9 @@ auto-whitelist-registered:
   poll-interval: 300
   # Send log messages when whitelisting or unwhitelisting users
   log: true
+  # Keep the following players permanently whitelisted despite not having a registered or activated account
+  permanent-whitelisted:
+  - playername
   
 # Configure the user agent to be more like something a browser would send if requests
 # from the plugins are being blocked.
