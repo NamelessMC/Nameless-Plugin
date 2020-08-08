@@ -52,14 +52,15 @@ public class NamelessPlugin extends JavaPlugin {
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-
-		if (!this.initApi()) {
-			throw new RuntimeException("Unable to initialize API");
-		}
 	}
 
 	@Override
 	public void onEnable() {
+		if (!this.initApi()) {
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
+		
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
 			if (permissionProvider == null) {
@@ -124,6 +125,7 @@ public class NamelessPlugin extends JavaPlugin {
 		final String url = config.getString("api-url");
 		if (url.equals("")) {
 			log(Level.SEVERE, "No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
+			log(Level.SEVERE, "After fixing the issue, restart the server.");
 			return false; // Prevent registering of commands, listeners, etc.
 		} else {
 			URL apiUrl;
@@ -132,6 +134,7 @@ public class NamelessPlugin extends JavaPlugin {
 			} catch (final MalformedURLException e) {
 				// There is an exception, so the connection was not successful.
 				log(Level.SEVERE, "Syntax error in API URL. Nothing will work until you set the correct url.");
+				log(Level.SEVERE, "After fixing the issue, restart the server.");
 				log(Level.SEVERE, "Error: " + e.getMessage());
 				return false; // Prevent registering of commands, listeners, etc.
 			}
@@ -148,6 +151,7 @@ public class NamelessPlugin extends JavaPlugin {
 			if (exception != null) {
 				// There is an exception, so the connection was unsuccessful.
 				log(Level.SEVERE, "Invalid API URL/key. Nothing will work until you set the correct url.");
+				log(Level.SEVERE, "After fixing the issue, restart the server.");
 				log(Level.SEVERE, "Error: " + exception.getMessage());
 				log(Level.SEVERE, "");
 				log(Level.WARNING, "");
