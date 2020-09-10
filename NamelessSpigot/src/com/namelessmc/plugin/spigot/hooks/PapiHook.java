@@ -12,10 +12,10 @@ import xyz.derkades.derkutils.caching.Cache;
 public class PapiHook extends PlaceholderExpansion {
 
 	@Override
-	public String onPlaceholderRequest(Player player, String identifier) {
+	public String onPlaceholderRequest(final Player player, final String identifier) {
 		if (identifier.equals("notifications") && player != null) {
 			final Optional<Integer> cache = Cache.get("nlmc-not" + player.getName());
-			if (cache.isEmpty()) {
+			if (cache.isPresent()) {
 				return "?";
 			} else {
 				return String.valueOf(cache.get());
