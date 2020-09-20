@@ -3,9 +3,9 @@ package com.namelessmc.plugin.spigot.commands;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.namelessmc.NamelessAPI.ApiError;
-import com.namelessmc.NamelessAPI.NamelessException;
-import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.java_api.UserNotExistException;
 import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.Message;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
@@ -37,40 +37,20 @@ public class ValidateCommand extends Command {
 		final Player player = (Player) sender;
 
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-			final NamelessPlayer namelessPlayer;
-
 			try {
-				namelessPlayer = NamelessPlugin.getInstance().api.getPlayer(player.getUniqueId());
-			} catch (final NamelessException e) {
-				sender.sendMessage(Message.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC.getMessage());
-				return;
-			}
-
-			if (!namelessPlayer.exists()) {
-				sender.sendMessage(Message.PLAYER_SELF_NOTREGISTERED.getMessage());
-				return;
-			}
-
-//			if (namelessPlayer.isValidated()) {
-//				sender.sendMessage(Message.COMMAND_VALIDATE_OUTPUT_FAIL_ALREADYVALIDATED.getMessage());
-//				return;
-//			}
-
-			final String code = args[0];
-
-			try {
-				namelessPlayer.validate(code);
-				sender.sendMessage(Message.COMMAND_VALIDATE_OUTPUT_SUCCESS.getMessage());
-			} catch (final ApiError e) {
-				if (e.getErrorCode() == ApiError.INVALID_VALIDATE_CODE) {
-					sender.sendMessage(Message.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE.getMessage());
+				final NamelessUser user = NamelessPlugin.getInstance().api.getUser(player.getUniqueId());
+				final String code = args[0];
+				if (user.verifyMinecraft(code)) {
+					Message.COMMAND_VALIDATE_OUTPUT_SUCCESS.send(sender);
 				} else {
-					throw new RuntimeException(e);
+					Message.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE.send(sender);
 				}
+			} catch (final UserNotExistException e) {
+				Message.PLAYER_SELF_NOTREGISTERED.send(sender);
 			} catch (final NamelessException e) {
-				throw new RuntimeException(e);
+				Message.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC.send(sender);
+				return;
 			}
-
 		});
 
 		return true;

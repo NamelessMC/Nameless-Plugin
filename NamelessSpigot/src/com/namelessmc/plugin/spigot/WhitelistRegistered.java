@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
-import com.namelessmc.NamelessAPI.NamelessException;
+import com.namelessmc.java_api.NamelessException;
 
 public class WhitelistRegistered implements Runnable {
 

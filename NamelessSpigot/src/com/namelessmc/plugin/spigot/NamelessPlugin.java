@@ -16,7 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.namelessmc.NamelessAPI.NamelessAPI;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.plugin.spigot.commands.Command;
 import com.namelessmc.plugin.spigot.commands.PluginCommand;
 import com.namelessmc.plugin.spigot.commands.SubCommands;
@@ -143,19 +144,16 @@ public class NamelessPlugin extends JavaPlugin {
 
 			this.api = new NamelessAPI(apiUrl, debug);
 
-			if (config.contains("user-agent")) {
-				this.api.setUserAgent(config.getString("user-agent"));
-			}
-
-			final Exception exception = this.api.checkWebAPIConnection();
-			if (exception != null) {
+			try {
+				this.api.checkWebAPIConnection();
+			} catch (final NamelessException e) {
 				// There is an exception, so the connection was unsuccessful.
 				log(Level.SEVERE, "Invalid API URL/key. Nothing will work until you set the correct url.");
 				log(Level.SEVERE, "After fixing the issue, restart the server.");
-				log(Level.SEVERE, "Error: " + exception.getMessage());
+				log(Level.SEVERE, "Error: " + e.getMessage());
 				log(Level.SEVERE, "");
 				log(Level.WARNING, "");
-				exception.printStackTrace();
+				e.printStackTrace();
 				return false; // Prevent registering of commands, listeners, etc.
 			}
 		}

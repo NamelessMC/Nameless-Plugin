@@ -5,8 +5,8 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
-import com.namelessmc.NamelessAPI.NamelessException;
-import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.namelessapi.NamelessException;
+import com.namelessmc.namelessapi.NamelessPlayer;
 import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.Message;
 import com.namelessmc.plugin.spigot.NamelessPlugin;

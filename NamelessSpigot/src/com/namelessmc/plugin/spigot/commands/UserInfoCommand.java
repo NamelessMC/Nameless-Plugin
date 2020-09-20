@@ -6,8 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.namelessmc.NamelessAPI.NamelessException;
-import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.namelessapi.NamelessPlayer;
 import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.Message;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
@@ -17,14 +17,14 @@ import com.namelessmc.plugin.spigot.util.UUIDFetcher;
 public class UserInfoCommand extends Command {
 
 	public UserInfoCommand() {
-		super(Config.COMMANDS.getConfig().getString("user-info"), 
-				Message.COMMAND_USERINFO_DESCRIPTION.getMessage(), 
+		super(Config.COMMANDS.getConfig().getString("user-info"),
+				Message.COMMAND_USERINFO_DESCRIPTION.getMessage(),
 				Message.COMMAND_USERINFO_USAGE.getMessage("command", Config.COMMANDS.getConfig().getString("user-info")),
 				Permission.COMMAND_USER_INFO);
 	}
 
 	@Override
-	public boolean execute(CommandSender sender, String[] args) {
+	public boolean execute(final CommandSender sender, final String[] args) {
 		if (args.length == 0) {
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(Message.COMMAND_NOTAPLAYER.getMessage());
@@ -54,10 +54,10 @@ public class UserInfoCommand extends Command {
 					final UUID uuid = UUIDFetcher.getUUID(targetID);
 					target = NamelessPlugin.getInstance().api.getPlayer(uuid);
 				}
-			} catch (IllegalArgumentException e) {
+			} catch (final IllegalArgumentException e) {
 				sender.sendMessage(Message.PLAYER_OTHER_NOTFOUND.getMessage());
 				return;
-			} catch (NamelessException e) {
+			} catch (final NamelessException e) {
 				sender.sendMessage(e.getMessage());
 				e.printStackTrace();
 				return;
@@ -68,18 +68,17 @@ public class UserInfoCommand extends Command {
 				return;
 			}
 			
-			String yes = Message.COMMAND_USERINFO_OUTPUT_BOOLEAN_TRUE.getMessage();
-			String no = Message.COMMAND_USERINFO_OUTPUT_BOOLEAN_FALSE.getMessage();
+			final String yes = Message.COMMAND_USERINFO_OUTPUT_BOOLEAN_TRUE.getMessage();
+			final String no = Message.COMMAND_USERINFO_OUTPUT_BOOLEAN_FALSE.getMessage();
 			
-			String validated = target.isValidated() ? yes : no;
-			String banned = target.isBanned() ? yes : no;
+			final String validated = target.isValidated() ? yes : no;
+			final String banned = target.isBanned() ? yes : no;
 
 			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_USERNAME.getMessage("username", target.getUsername()));
 			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_DISPLAYNAME.getMessage("displayname", target.getDisplayName()));
 			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_UUID.getMessage("uuid", target.getUniqueId()));
 			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_GROUP.getMessage("groupname", target.getGroupName(), "id", target.getGroupID()));
 			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_REGISTERDATE.getMessage("date", target.getRegisteredDate())); // TODO Format nicely (add option in config for date format)
-			//sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_REPUTATION.getMessage("{reputation}", target.getReputation())); temporarily disabled until added to API
 			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_VALIDATED.getMessage("validated", validated));
 			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_BANNED.getMessage("banned", banned));
 		});

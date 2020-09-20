@@ -3,8 +3,9 @@ package com.namelessmc.plugin.spigot.hooks;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.namelessmc.NamelessAPI.NamelessException;
-import com.namelessmc.NamelessAPI.NamelessPlayer;
+import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.java_api.UserNotExistException;
 import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 
@@ -22,14 +23,11 @@ public class PlaceholderCacher implements Runnable {
 					
 					Thread.sleep(delay);
 					try {
-						final NamelessPlayer nameless = NamelessPlugin.getInstance().api.getPlayer(player.getUniqueId());
-						
-						if (!(nameless.exists() && nameless.isValidated())) {
-							continue;
-						}
-						
-						final int notificationCount = nameless.getNotifications().size();
+						final NamelessUser user = NamelessPlugin.getInstance().api.getUser(player.getUniqueId());
+						final int notificationCount = user.getNotificationCount();
 						Cache.set("nlmc-not" + player.getName(), notificationCount, 60);
+					} catch (final UserNotExistException e) {
+						continue;
 					} catch (final NamelessException e) {
 						e.printStackTrace();
 					}

@@ -106,8 +106,6 @@ public enum Message {
 			"Registered on {date}"),
 	COMMAND_USERINFO_OUTPUT_VALIDATED("command.user-info.output.validated",
 			"Account validated: {validated}"),
-	COMMAND_USERINFO_OUTPUT_REPUTATION("command.user-info.output.reputation",
-			"Reputation: {reputation}"),
 	COMMAND_USERINFO_OUTPUT_BANNED("command.user-info.output.banned",
 			"Banned: {banned}"),
 	COMMAND_USERINFO_OUTPUT_BOOLEAN_TRUE("command.user-info.output.boolean.true",
