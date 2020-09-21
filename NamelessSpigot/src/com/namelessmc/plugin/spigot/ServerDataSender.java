@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -47,6 +48,7 @@ public class ServerDataSender extends BukkitRunnable {
 			
 			playerInfo.put("location", location);
 			playerInfo.put("ip", player.getAddress().getAddress().getHostAddress());
+			playerInfo.put("playtime", player.getStatistic(Statistic.PLAY_ONE_TICK) / 120);
 			
 			try {
 				if (NamelessPlugin.permissions != null) {
