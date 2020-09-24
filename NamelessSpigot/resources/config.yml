@@ -56,4 +56,6 @@ auto-whitelist-registered:
   poll-interval: 300
   # Send log messages when whitelisting or unwhitelisting users
   log: true
+  # List of UUIDs to exlude (never add to or remove from the whitelist)
+  exclude: []
  

@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.spigot;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -38,6 +39,11 @@ public class WhitelistRegistered implements Runnable {
 				e.printStackTrace();
 				return;
 			}
+			
+			// Use Set for O(1) contains()
+			final Set<String> excludes = new HashSet<>();
+			excludes.addAll(Config.MAIN.getConfig().getStringList("auto-whitelist-registered.log"));
+			uuids.removeIf(u -> excludes.contains(u.toString()));
 
 			Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
 				for (final OfflinePlayer whitelistedPlayer : Bukkit.getWhitelistedPlayers()) {
