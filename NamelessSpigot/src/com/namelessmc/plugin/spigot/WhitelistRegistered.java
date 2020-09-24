@@ -43,17 +43,25 @@ public class WhitelistRegistered implements Runnable {
 			// Use Set for O(1) contains()
 			final Set<String> excludes = new HashSet<>();
 			excludes.addAll(Config.MAIN.getConfig().getStringList("auto-whitelist-registered.log"));
-			uuids.removeIf(u -> excludes.contains(u.toString()));
 
 			Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
-				for (final OfflinePlayer whitelistedPlayer : Bukkit.getWhitelistedPlayers()) {
-					if (!uuids.contains(whitelistedPlayer.getUniqueId())) {
-						// The player is whitelisted, but no(t) (longer) registered.
-						whitelistedPlayer.setWhitelisted(false);
-						uuids.remove(whitelistedPlayer.getUniqueId());
+				for (final OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+					final UUID uuid = player.getUniqueId();
+					final String name = player.getName() == null ? uuid.toString() : player.getName();
+					if (excludes.contains(uuid.toString())) {
+						continue;
+					}
+					
+					if (uuids.contains(uuid) && !player.isWhitelisted()) {
 						if (log) {
-							logger.info("Removed " + whitelistedPlayer.getName() + " from the whitelist.");
+							logger.info("Added " + name + " to the whitelist.");
 						}
+						player.setWhitelisted(true);
+					} else if (!uuids.contains(uuid) && player.isWhitelisted()) {
+						if (log) {
+							logger.info("Removed " + name + " from the whitelist.");
+						}
+						player.setWhitelisted(false);
 					}
 				}
 
