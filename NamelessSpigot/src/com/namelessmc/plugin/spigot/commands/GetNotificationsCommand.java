@@ -1,6 +1,7 @@
 package com.namelessmc.plugin.spigot.commands;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -9,7 +10,6 @@ import org.bukkit.entity.Player;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.Notification;
-import com.namelessmc.java_api.UserNotExistException;
 import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.Message;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
@@ -44,11 +44,18 @@ public class GetNotificationsCommand extends Command {
 		
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
-				final NamelessUser user = NamelessPlugin.getInstance().api.getUser(player.getUniqueId());
+				final Optional<NamelessUser> optional = NamelessPlugin.getInstance().api.getUser(player.getUniqueId());
 				
-				// TODO Sort notifications by type
+				if (!optional.isPresent()) {
+					sender.sendMessage(Message.PLAYER_SELF_NOTREGISTERED.getMessage());
+					return;
+				}
+				
+				final NamelessUser user = optional.get();
 				
 				final List<Notification> notifications = user.getNotifications();
+				
+				notifications.sort((n1, n2) -> n2.getType().ordinal() - n1.getType().ordinal());
 				
 				if (notifications.size() == 0) {
 					player.sendMessage(Message.COMMAND_NOTIFICATIONS_OUTPUT_NONOTIFICATIONS.getMessage());
@@ -64,8 +71,6 @@ public class GetNotificationsCommand extends Command {
 						player.spigot().sendMessage(message);
 					});
 				});
-			} catch (final UserNotExistException e) {
-				sender.sendMessage(Message.PLAYER_SELF_NOTREGISTERED.getMessage());
 			} catch (final NamelessException e) {
 				player.sendMessage(Message.COMMAND_NOTIFICATIONS_OUTPUT_FAIL_GENERIC.getMessage());
 				e.printStackTrace();
