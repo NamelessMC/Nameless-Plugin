@@ -48,10 +48,8 @@ not-registered-join-message: false
 # You need to fully restart the server after changing this option.
 auto-whitelist-registered:
   enabled: false
-  # Do not whitelist banned users
-  exclude-banned: true
-  # Do not whitelist users who have not activated their account
-  exclude-inactive: false
+  # Only whitelist player if their account is verified
+  verified: true
   # Number of seconds to wait in between updating the whitelist
   poll-interval: 300
   # Send log messages when whitelisting or unwhitelisting users
