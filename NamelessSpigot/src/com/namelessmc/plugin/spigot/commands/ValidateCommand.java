@@ -1,11 +1,12 @@
 package com.namelessmc.plugin.spigot.commands;
 
+import java.util.Optional;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.java_api.UserNotExistException;
 import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.Message;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
@@ -38,15 +39,18 @@ public class ValidateCommand extends Command {
 
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
-				final NamelessUser user = NamelessPlugin.getInstance().api.getUser(player.getUniqueId());
+				final Optional<NamelessUser> user = NamelessPlugin.getInstance().api.getUser(player.getUniqueId());
+				if (!user.isPresent()) {
+					Message.PLAYER_SELF_NOTREGISTERED.send(sender);
+					return;
+				}
+				
 				final String code = args[0];
-				if (user.verifyMinecraft(code)) {
+				if (user.get().verifyMinecraft(code)) {
 					Message.COMMAND_VALIDATE_OUTPUT_SUCCESS.send(sender);
 				} else {
 					Message.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE.send(sender);
 				}
-			} catch (final UserNotExistException e) {
-				Message.PLAYER_SELF_NOTREGISTERED.send(sender);
 			} catch (final NamelessException e) {
 				Message.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC.send(sender);
 				return;

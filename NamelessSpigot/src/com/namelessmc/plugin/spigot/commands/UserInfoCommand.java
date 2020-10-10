@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.spigot.commands;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -7,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.namelessapi.NamelessPlayer;
+import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.Message;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
@@ -42,18 +43,39 @@ public class UserInfoCommand extends Command {
 		final String targetID = args[0]; // Name or UUID
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-			NamelessPlayer target;
+			final Optional<NamelessUser> targetOptional;
 			
 			try {
 				// TODO Catch errors and display user friendly player not found message
 				if (targetID.length() > 16) {
 					//It's (probably) a UUID
-					target = NamelessPlugin.getInstance().api.getPlayer(UUID.fromString(targetID));
+					targetOptional = NamelessPlugin.getInstance().api.getUser(UUID.fromString(targetID));
 				} else {
 					//It's (probably) a name
 					final UUID uuid = UUIDFetcher.getUUID(targetID);
-					target = NamelessPlugin.getInstance().api.getPlayer(uuid);
+					targetOptional = NamelessPlugin.getInstance().api.getUser(uuid);
 				}
+				
+				if (!targetOptional.isPresent()) {
+					sender.sendMessage(Message.PLAYER_OTHER_NOTREGISTERED.getMessage());
+					return;
+				}
+				
+				final NamelessUser user = targetOptional.get();
+				
+				final String yes = Message.COMMAND_USERINFO_OUTPUT_BOOLEAN_TRUE.getMessage();
+				final String no = Message.COMMAND_USERINFO_OUTPUT_BOOLEAN_FALSE.getMessage();
+				
+				final String validated = user.isVerified() ? yes : no;
+				final String banned = user.isBanned() ? yes : no;
+
+				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_USERNAME.getMessage("username", user.getUsername()));
+				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_DISPLAYNAME.getMessage("displayname", user.getDisplayName()));
+				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_UUID.getMessage("uuid", user.getUniqueId()));
+				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_GROUP.getMessage("groupname", user.getPrimaryGroup().getName(), "id", user.getPrimaryGroup().getId()));
+				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_REGISTERDATE.getMessage("date", user.getRegisteredDate())); // TODO Format nicely (add option in config for date format)
+				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_VALIDATED.getMessage("validated", validated));
+				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_BANNED.getMessage("banned", banned));
 			} catch (final IllegalArgumentException e) {
 				sender.sendMessage(Message.PLAYER_OTHER_NOTFOUND.getMessage());
 				return;
@@ -62,25 +84,6 @@ public class UserInfoCommand extends Command {
 				e.printStackTrace();
 				return;
 			}
-
-			if (!target.exists()) {
-				sender.sendMessage(Message.PLAYER_OTHER_NOTREGISTERED.getMessage());
-				return;
-			}
-			
-			final String yes = Message.COMMAND_USERINFO_OUTPUT_BOOLEAN_TRUE.getMessage();
-			final String no = Message.COMMAND_USERINFO_OUTPUT_BOOLEAN_FALSE.getMessage();
-			
-			final String validated = target.isValidated() ? yes : no;
-			final String banned = target.isBanned() ? yes : no;
-
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_USERNAME.getMessage("username", target.getUsername()));
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_DISPLAYNAME.getMessage("displayname", target.getDisplayName()));
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_UUID.getMessage("uuid", target.getUniqueId()));
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_GROUP.getMessage("groupname", target.getGroupName(), "id", target.getGroupID()));
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_REGISTERDATE.getMessage("date", target.getRegisteredDate())); // TODO Format nicely (add option in config for date format)
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_VALIDATED.getMessage("validated", validated));
-			sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_BANNED.getMessage("banned", banned));
 		});
 		return true;
 	}

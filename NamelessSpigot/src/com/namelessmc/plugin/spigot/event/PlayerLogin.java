@@ -1,5 +1,7 @@
 package com.namelessmc.plugin.spigot.event;
 
+import java.util.Optional;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -10,7 +12,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.java_api.UserNotExistException;
 import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.Message;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
@@ -28,10 +29,10 @@ public class PlayerLogin implements Listener {
 		if (config.getBoolean("not-registered-join-message")) {
 			Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 				try {
-					final NamelessUser user = NamelessPlugin.getInstance().api.getUser(player.getUniqueId());
-					user.getUsername();
-				} catch (final UserNotExistException e) {
-					Message.JOIN_NOTREGISTERED.send(player);
+					final Optional<NamelessUser> user = NamelessPlugin.getInstance().api.getUser(player.getUniqueId());
+					if (!user.isPresent()) {
+						Message.JOIN_NOTREGISTERED.send(player);
+					}
 				} catch (final NamelessException e) {
 					e.printStackTrace();
 				}
