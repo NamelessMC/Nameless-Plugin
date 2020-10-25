@@ -1,13 +1,13 @@
-package com.namelessmc.plugin.spigot.commands;
+package com.namelessmc.spigot.commands;
 
 import java.util.ArrayList;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
 
-import com.namelessmc.plugin.spigot.Message;
-import com.namelessmc.plugin.spigot.NamelessPlugin;
-import com.namelessmc.plugin.spigot.Permission;
+import com.namelessmc.spigot.Message;
+import com.namelessmc.spigot.NamelessPlugin;
+import com.namelessmc.spigot.Permission;
 
 public abstract class Command extends org.bukkit.command.Command implements PluginIdentifiableCommand {
 	

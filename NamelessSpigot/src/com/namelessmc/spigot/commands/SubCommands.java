@@ -1,12 +1,12 @@
-package com.namelessmc.plugin.spigot.commands;
+package com.namelessmc.spigot.commands;
 
 import java.util.ArrayList;
 
 import org.bukkit.command.CommandSender;
 
-import com.namelessmc.plugin.spigot.Chat;
-import com.namelessmc.plugin.spigot.Config;
-import com.namelessmc.plugin.spigot.Message;
+import com.namelessmc.spigot.Chat;
+import com.namelessmc.spigot.Config;
+import com.namelessmc.spigot.Message;
 
 import xyz.derkades.derkutils.ListUtils;
 

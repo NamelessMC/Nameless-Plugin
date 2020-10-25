@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot;
+package com.namelessmc.spigot;
 
 import java.util.HashSet;
 import java.util.List;

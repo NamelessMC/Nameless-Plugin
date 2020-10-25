@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot.commands;
+package com.namelessmc.spigot.commands;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -9,11 +9,11 @@ import org.bukkit.entity.Player;
 
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.plugin.spigot.Config;
-import com.namelessmc.plugin.spigot.Message;
-import com.namelessmc.plugin.spigot.NamelessPlugin;
-import com.namelessmc.plugin.spigot.Permission;
-import com.namelessmc.plugin.spigot.util.UUIDFetcher;
+import com.namelessmc.spigot.Config;
+import com.namelessmc.spigot.Message;
+import com.namelessmc.spigot.NamelessPlugin;
+import com.namelessmc.spigot.Permission;
+import com.namelessmc.spigot.util.UUIDFetcher;
 
 public class UserInfoCommand extends Command {
 

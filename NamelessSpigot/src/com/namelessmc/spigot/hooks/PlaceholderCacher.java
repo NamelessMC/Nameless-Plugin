@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot.hooks;
+package com.namelessmc.spigot.hooks;
 
 import java.util.Optional;
 
@@ -7,8 +7,8 @@ import org.bukkit.entity.Player;
 
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.plugin.spigot.Config;
-import com.namelessmc.plugin.spigot.NamelessPlugin;
+import com.namelessmc.spigot.Config;
+import com.namelessmc.spigot.NamelessPlugin;
 
 import xyz.derkades.derkutils.caching.Cache;
 

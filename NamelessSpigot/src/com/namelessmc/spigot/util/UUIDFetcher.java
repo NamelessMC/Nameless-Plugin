@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot.util;
+package com.namelessmc.spigot.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
