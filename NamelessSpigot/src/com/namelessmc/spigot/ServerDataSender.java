@@ -31,6 +31,12 @@ public class ServerDataSender extends BukkitRunnable {
 		map.put("max-memory", Runtime.getRuntime().maxMemory());
 		map.put("allocated-memory", Runtime.getRuntime().totalMemory());
 		map.put("server-id", serverId);
+
+		try {
+			if (NamelessPlugin.permissions != null) {
+				map.put("groups", NamelessPlugin.permissions.getGroups());
+			}
+		} catch (final UnsupportedOperationException e) {}
 		
 		final Map<String, Map<String, Object>> players = new HashMap<>();
 		
