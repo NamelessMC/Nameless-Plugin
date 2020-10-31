@@ -1,7 +1,6 @@
 package com.namelessmc.spigot;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,13 +8,13 @@ import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
 
 public class ServerDataSender extends BukkitRunnable {
-
-	Gson gson = new Gson();
 	
 	@Override
 	public void run() {
@@ -24,66 +23,66 @@ public class ServerDataSender extends BukkitRunnable {
 			return;
 		}
 		
-		final Map<String, Object> map = new HashMap<>();
-		map.put("tps", 20); // TODO tps
-		map.put("time", System.currentTimeMillis());
-		map.put("free-memory", Runtime.getRuntime().freeMemory());
-		map.put("max-memory", Runtime.getRuntime().maxMemory());
-		map.put("allocated-memory", Runtime.getRuntime().totalMemory());
-		map.put("server-id", serverId);
+		final JsonObject data = new JsonObject();
+		data.addProperty("time", System.currentTimeMillis());
+		data.addProperty("free-memory", Runtime.getRuntime().freeMemory());
+		data.addProperty("max-memory", Runtime.getRuntime().maxMemory());
+		data.addProperty("allocated-memory", Runtime.getRuntime().totalMemory());
+		data.addProperty("server-id", serverId);
 
 		try {
 			if (NamelessPlugin.permissions != null) {
-				map.put("groups", NamelessPlugin.permissions.getGroups());
+				final String[] gArray = NamelessPlugin.permissions.getGroups();
+				final JsonArray groups = new JsonArray(gArray.length);
+				Arrays.stream(gArray).map(JsonPrimitive::new).forEach(groups::add);
+				data.add("groups", groups);
 			}
 		} catch (final UnsupportedOperationException e) {}
 		
-		final Map<String, Map<String, Object>> players = new HashMap<>();
+		final JsonObject players = new JsonObject();
 		
 		for (final Player player : Bukkit.getOnlinePlayers()) {
-			final Map<String, Object> playerInfo = new HashMap<>();
+			final JsonObject playerInfo = new JsonObject();
 			
-			playerInfo.put("name", player.getName());
+			playerInfo.addProperty("name", player.getName());
 			
-			final Map<String, Object> location = new HashMap<>();
+			final JsonObject location = new JsonObject();
 			final Location loc = player.getLocation();
-			location.put("world", loc.getWorld().getName());
-			location.put("x", loc.getBlockX());
-			location.put("y", loc.getBlockY());
-			location.put("z", loc.getBlockZ());
+			location.addProperty("world", loc.getWorld().getName());
+			location.addProperty("x", loc.getBlockX());
+			location.addProperty("y", loc.getBlockY());
+			location.addProperty("z", loc.getBlockZ());
 			
-			playerInfo.put("location", location);
-			playerInfo.put("ip", player.getAddress().getAddress().getHostAddress());
-			playerInfo.put("playtime", player.getStatistic(Statistic.PLAY_ONE_TICK) / 120);
+			playerInfo.add("location", location);
+			playerInfo.addProperty("ip", player.getAddress().getAddress().getHostAddress());
+			playerInfo.addProperty("playtime", player.getStatistic(Statistic.PLAY_ONE_TICK) / 120);
 			
 			try {
 				if (NamelessPlugin.permissions != null) {
-					playerInfo.put("rank", NamelessPlugin.permissions.getPrimaryGroup(player));
+					playerInfo.addProperty("rank", NamelessPlugin.permissions.getPrimaryGroup(player));
 				}
 			} catch (final UnsupportedOperationException e) {}
 			
 			try {
 				if (NamelessPlugin.economy != null) {
-					playerInfo.put("balance", NamelessPlugin.economy.getBalance(player));
+					playerInfo.addProperty("balance", NamelessPlugin.economy.getBalance(player));
 				}
 			} catch (final UnsupportedOperationException e) {}
 			
-			final Map<String, String> placeholders = new HashMap<>();
+			final JsonObject placeholders = new JsonObject();
 			
 			Config.MAIN.getConfig().getStringList("upload-placeholders")
 				.forEach(placeholder ->
-				placeholders.put(placeholder, NamelessPlugin.getInstance().papiParser.parse(player, placeholder)));
+				placeholders.addProperty(placeholder, NamelessPlugin.getInstance().papiParser.parse(player, placeholder)));
 			
-			playerInfo.put("placeholders", placeholders);
+			playerInfo.add("placeholders", placeholders);
 			
-			playerInfo.put("login-time", NamelessPlugin.LOGIN_TIME.get(player.getUniqueId()));
+			playerInfo.addProperty("login-time", NamelessPlugin.LOGIN_TIME.get(player.getUniqueId()));
 			
-			players.put(player.getUniqueId().toString().replace("-", ""), playerInfo);
+			players.add(player.getUniqueId().toString().replace("-", ""), playerInfo);
 		}
 		
-		map.put("players", players);
-		
-		final String data = this.gson.toJson(map);
+		data.add("players", players);
 		
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
