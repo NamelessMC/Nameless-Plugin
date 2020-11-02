@@ -15,15 +15,14 @@ public abstract class Command extends org.bukkit.command.Command implements Plug
 			new GetNotificationsCommand(),
 			new RegisterCommand(),
 			new ReportCommand(),
-			new SetGroupCommand(),
 			new UserInfoCommand(),
 			new ValidateCommand(),
 	};
 	
-	private String usageMessage;
-	private Permission permission;
+	private final String usageMessage;
+	private final Permission permission;
 
-	protected Command(String name, String description, String usageMessage, Permission permission) {
+	protected Command(final String name, final String description, final String usageMessage, final Permission permission) {
 		super(name, description, usageMessage.replace("{command}", "/" + name), new ArrayList<>());
 		
 		this.usageMessage = usageMessage.replace("{command}", name);
@@ -36,17 +35,17 @@ public abstract class Command extends org.bukkit.command.Command implements Plug
 	}
 	
 	public String getUsageWithoutSlash() {
-		return usageMessage;
+		return this.usageMessage;
 	}
 	
 	@Override
-	public boolean execute(CommandSender sender, String label, String[] args) {
-		if (!permission.hasPermission(sender)) {
+	public boolean execute(final CommandSender sender, final String label, final String[] args) {
+		if (!this.permission.hasPermission(sender)) {
 			Message.PLAYER_SELF_NO_PERMISSION_COMMAND.send(sender);
 			return true;
 		}
 		
-		boolean success = execute(sender, args);
+		final boolean success = execute(sender, args);
 		
 		if (!success) {
 			sender.sendMessage(this.getUsage());

@@ -14,6 +14,5 @@ individual:
 get-notifications: 'notifications'
 register: 'register'
 report: 'report'
-set-group: 'setgroup'
 user-info: 'info'
 validate: 'validate'
