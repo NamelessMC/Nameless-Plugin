@@ -59,7 +59,10 @@ public class ServerDataSender extends BukkitRunnable {
 			
 			try {
 				if (NamelessPlugin.permissions != null) {
-					playerInfo.addProperty("rank", NamelessPlugin.permissions.getPrimaryGroup(player));
+					final String[] gArray = NamelessPlugin.permissions.getPlayerGroups(player);
+					final JsonArray groups = new JsonArray(gArray.length);
+					Arrays.stream(gArray).map(JsonPrimitive::new).forEach(groups::add);
+					playerInfo.add("groups", groups);
 				}
 			} catch (final UnsupportedOperationException e) {}
 			
