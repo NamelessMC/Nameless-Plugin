@@ -72,7 +72,7 @@ public class UserInfoCommand extends Command {
 				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_USERNAME.getMessage("username", user.getUsername()));
 				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_DISPLAYNAME.getMessage("displayname", user.getDisplayName()));
 				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_UUID.getMessage("uuid", user.getUniqueId()));
-				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_GROUP.getMessage("groupname", user.getPrimaryGroup().getName(), "id", user.getPrimaryGroup().getId()));
+				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_GROUP.getMessage("groupname", user.getPrimaryGroup().get().getName(), "id", user.getPrimaryGroup().get().getId()));
 				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_REGISTERDATE.getMessage("date", user.getRegisteredDate())); // TODO Format nicely (add option in config for date format)
 				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_VALIDATED.getMessage("validated", validated));
 				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_BANNED.getMessage("banned", banned));
