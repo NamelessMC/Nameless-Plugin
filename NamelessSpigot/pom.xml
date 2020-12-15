@@ -1,12 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.namelessmc.plugin</groupId>
 	<artifactId>spigot</artifactId>
 	<version>1.0.0-alpha</version>
-    
-    <name>Nameless-Plugin-Spigot</name>
+
+	<name>Nameless-Plugin-Spigot</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,7 +16,7 @@
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<finalName>${project.name}-${project.version}</finalName>
-        
+
 		<resources>
 			<resource>
 				<directory>resources</directory>
@@ -39,12 +40,26 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>
+								true
+							</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.2.4</version>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<minimizeJar>true</minimizeJar>
-					
+
 					<relocations>
 						<relocation>
 							<pattern>com.google.gson</pattern>
@@ -63,7 +78,7 @@
 							<shadedPattern>com.namelessmc.spigot.lib.derkutils</shadedPattern>
 						</relocation>
 					</relocations>
-					
+
 					<filters>
 						<filter>
 							<artifact>*:*</artifact>

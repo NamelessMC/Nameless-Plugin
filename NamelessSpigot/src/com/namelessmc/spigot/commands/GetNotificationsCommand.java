@@ -44,7 +44,7 @@ public class GetNotificationsCommand extends Command {
 		
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
-				final Optional<NamelessUser> optional = NamelessPlugin.getInstance().api.getUser(player.getUniqueId());
+				final Optional<NamelessUser> optional = NamelessPlugin.getApi().getUser(player.getUniqueId());
 				
 				if (!optional.isPresent()) {
 					sender.sendMessage(Message.PLAYER_SELF_NOTREGISTERED.getMessage());

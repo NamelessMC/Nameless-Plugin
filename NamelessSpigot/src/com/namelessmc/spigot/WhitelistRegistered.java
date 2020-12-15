@@ -41,7 +41,7 @@ public class WhitelistRegistered implements Runnable {
 			
 			List<NamelessUser> users;
 			try {
-				users = NamelessPlugin.getInstance().api.getRegisteredUsers(filters);
+				users = NamelessPlugin.getApi().getRegisteredUsers(filters);
 			} catch (final NamelessException e) {
 				logger.warning(
 						"An error occured while getting a list of registered users from the website for the auto-whitelist-registered feature.");

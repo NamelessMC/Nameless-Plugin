@@ -36,7 +36,7 @@ public class RegisterCommand extends Command {
 		
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
-				final Optional<String> link = NamelessPlugin.getInstance().api.registerUser(player.getName(), args[0], player.getUniqueId());
+				final Optional<String> link = NamelessPlugin.getApi().registerUser(player.getName(), args[0], player.getUniqueId());
 				if (link.isPresent()) {
 					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK.getMessage("link", link.get()));
 				} else {

@@ -89,7 +89,7 @@ public class ServerDataSender extends BukkitRunnable {
 		
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
-				NamelessPlugin.getInstance().api.submitServerInfo(data);
+				NamelessPlugin.getApi().submitServerInfo(data);
 			} catch (final ApiError e) {
 				if (e.getError() == ApiError.INVALID_SERVER_ID) {
 					NamelessPlugin.getInstance().getLogger().warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");

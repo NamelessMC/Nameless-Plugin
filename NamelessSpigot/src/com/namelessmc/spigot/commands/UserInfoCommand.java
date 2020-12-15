@@ -49,11 +49,11 @@ public class UserInfoCommand extends Command {
 				// TODO Catch errors and display user friendly player not found message
 				if (targetID.length() > 16) {
 					//It's (probably) a UUID
-					targetOptional = NamelessPlugin.getInstance().api.getUser(UUID.fromString(targetID));
+					targetOptional = NamelessPlugin.getApi().getUser(UUID.fromString(targetID));
 				} else {
 					//It's (probably) a name
 					final UUID uuid = UUIDFetcher.getUUID(targetID);
-					targetOptional = NamelessPlugin.getInstance().api.getUser(uuid);
+					targetOptional = NamelessPlugin.getApi().getUser(uuid);
 				}
 				
 				if (!targetOptional.isPresent()) {

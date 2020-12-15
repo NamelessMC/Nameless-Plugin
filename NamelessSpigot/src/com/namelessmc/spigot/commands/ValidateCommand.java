@@ -39,7 +39,7 @@ public class ValidateCommand extends Command {
 
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
-				final Optional<NamelessUser> user = NamelessPlugin.getInstance().api.getUser(player.getUniqueId());
+				final Optional<NamelessUser> user = NamelessPlugin.getApi().getUser(player.getUniqueId());
 				if (!user.isPresent()) {
 					Message.PLAYER_SELF_NOTREGISTERED.send(sender);
 					return;

@@ -40,8 +40,6 @@ public class NamelessPlugin extends JavaPlugin {
 	public static net.milkbowl.vault.permission.Permission permissions;
 	public static Economy economy;
 
-	public NamelessAPI api;
-
 	public PapiParser papiParser;
 
 	@Override
@@ -57,11 +55,6 @@ public class NamelessPlugin extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		if (!this.initApi()) {
-			Bukkit.getPluginManager().disablePlugin(this);
-			return;
-		}
-		
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
 			if (permissionProvider == null) {
@@ -120,46 +113,36 @@ public class NamelessPlugin extends JavaPlugin {
 			}
 		}
 	}
-
-	private boolean initApi() {
-		final FileConfiguration config = Config.MAIN.getConfig();
-		final String url = config.getString("api-url");
-		if (url.equals("")) {
-			log(Level.SEVERE, "No API URL set in the NamelessMC configuration. Nothing will work until you set the correct url.");
-			log(Level.SEVERE, "After fixing the issue, restart the server.");
-			return false; // Prevent registering of commands, listeners, etc.
-		} else {
-			URL apiUrl;
-			try {
-				apiUrl = new URL(url);
-			} catch (final MalformedURLException e) {
-				// There is an exception, so the connection was not successful.
-				log(Level.SEVERE, "Syntax error in API URL. Nothing will work until you set the correct url.");
-				log(Level.SEVERE, "After fixing the issue, restart the server.");
-				log(Level.SEVERE, "Error: " + e.getMessage());
-				return false; // Prevent registering of commands, listeners, etc.
-			}
-
-			final boolean debug = config.getBoolean("api-debug-mode", false);
-
-			this.api = new NamelessAPI(apiUrl, debug);
-
-			try {
-				this.api.checkWebAPIConnection();
-			} catch (final NamelessException e) {
-				// There is an exception, so the connection was unsuccessful.
-				log(Level.SEVERE, "Invalid API URL/key. Nothing will work until you set the correct url.");
-				log(Level.SEVERE, "After fixing the issue, restart the server.");
-				log(Level.SEVERE, "Error: " + e.getMessage());
-				log(Level.SEVERE, "");
-				log(Level.WARNING, "");
-				e.printStackTrace();
-				return false; // Prevent registering of commands, listeners, etc.
-			}
+	
+	public static void reload() {
+		NamelessPlugin.instance.reloadConfig();
+		cachedApi = null;
+		for (final Config config : Config.values()) {
+			config.reload();
 		}
-		return true;
 	}
-
+	
+	private static final String USER_AGENT = "Nameless-Plugin/" + NamelessPlugin.class.getPackage().getImplementationVersion();
+	private static NamelessAPI cachedApi = null;
+	
+	public static NamelessAPI getApi() throws NamelessException {
+		if (cachedApi != null) {
+			return cachedApi;
+		}
+		
+		final FileConfiguration config = NamelessPlugin.getInstance().getConfig();
+		final boolean debug = config.getBoolean("api-debug-mode", false);
+		final URL apiUrl;
+		try {
+			apiUrl = new URL(config.getString("api-url"));
+		} catch (final MalformedURLException e) {
+			throw new NamelessException("Malformed URL", e);
+		}
+		
+		cachedApi = new NamelessAPI(apiUrl, USER_AGENT, debug);
+		return cachedApi;
+	}
+	
 	private void registerCommands() {
 		this.getServer().getPluginCommand("namelessplugin").setExecutor(new PluginCommand());
 

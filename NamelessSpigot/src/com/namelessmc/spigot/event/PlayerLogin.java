@@ -29,7 +29,7 @@ public class PlayerLogin implements Listener {
 		if (config.getBoolean("not-registered-join-message")) {
 			Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 				try {
-					final Optional<NamelessUser> user = NamelessPlugin.getInstance().api.getUser(player.getUniqueId());
+					final Optional<NamelessUser> user = NamelessPlugin.getApi().getUser(player.getUniqueId());
 					if (!user.isPresent()) {
 						Message.JOIN_NOTREGISTERED.send(player);
 					}

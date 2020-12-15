@@ -41,7 +41,7 @@ public class ReportCommand extends Command {
 				final String username = args[0];
 				final String[] reasonWordsArray = ListUtils.removeFirstStringFromArray(args);
 				final String reason = String.join(" ", reasonWordsArray); //Join with space in between words
-				final Optional<NamelessUser> user = NamelessPlugin.getInstance().api.getUser(player.getUniqueId());
+				final Optional<NamelessUser> user = NamelessPlugin.getApi().getUser(player.getUniqueId());
 				if (!user.isPresent()) {
 					sender.sendMessage(Message.PLAYER_SELF_NOTREGISTERED.getMessage());
 					return;
