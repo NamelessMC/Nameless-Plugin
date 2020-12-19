@@ -80,6 +80,19 @@ public class NamelessPlugin extends JavaPlugin {
 		} else {
 			log(Level.WARNING, "Vault was not found. Rank sync will not work.");
 		}
+
+		try {
+			Message.updateFiles();
+		} catch (final IOException e) {
+			throw new RuntimeException(e);
+		}
+		
+		if (!Message.setActiveLanguage(Config.MAIN.getConfig().getString("lanuage", "en"))) {
+			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
+			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
+			this.getLogger().severe("FIX IMMEDIATELY");
+			return;
+		}
 		
 		this.initHooks();
 
@@ -120,6 +133,12 @@ public class NamelessPlugin extends JavaPlugin {
 		for (final Config config : Config.values()) {
 			config.reload();
 		}
+		try {
+			Message.updateFiles();
+		} catch (final IOException e) {
+			throw new RuntimeException(e);
+		}
+		Message.setActiveLanguage(Config.MAIN.getConfig().getString("lanuage", "en"));
 	}
 	
 	private static final String USER_AGENT = "Nameless-Plugin/" + NamelessPlugin.class.getPackage().getImplementationVersion();

@@ -58,7 +58,7 @@ public class GetNotificationsCommand extends Command {
 				notifications.sort((n1, n2) -> n2.getType().ordinal() - n1.getType().ordinal());
 				
 				if (notifications.size() == 0) {
-					player.sendMessage(Message.COMMAND_NOTIFICATIONS_OUTPUT_NONOTIFICATIONS.getMessage());
+					player.sendMessage(Message.COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS.getMessage());
 					return;
 				}
 				
@@ -72,7 +72,7 @@ public class GetNotificationsCommand extends Command {
 					});
 				});
 			} catch (final NamelessException e) {
-				player.sendMessage(Message.COMMAND_NOTIFICATIONS_OUTPUT_FAIL_GENERIC.getMessage());
+				player.sendMessage(Message.COMMAND_NOTIFICATIONS_OUTPUT_FAIL.getMessage());
 				e.printStackTrace();
 				return;
 			}

@@ -1,0 +1,70 @@
+player:
+  other:
+    not-found: This player could not be found.
+    not-validated: This player's account is not validated.
+    not-registered: This player is not registered on the website.
+  self:
+    not-validated: Your account must be validated to perform this action.
+    not-registered: You must register for an account to perform this action.
+    no-permission: You don't have permission to perform this action.
+
+command:
+  not-a-player: You must be a player to perform this command.
+  no-permission: You don't have permission to execute this command.
+
+  notifications:
+    usage: '{command}'
+    description: Displays a list of website notifications.
+    output:
+      no-notifications: 'You do not have any unread notifications.'
+      click-to-open: Click to open in a web browser
+      fail: An error occured while trying to retrieve a list of notifications. Please notify the server administrator about this issue.
+
+  register:
+    usage: "{command} <email>"
+    description: Creates an account. Will output a link or email address to complete registration.
+    output:
+      success:
+        email: Please check your inbox to complete registration.
+        link: Please visit {link} to complete registration.
+      fail:
+        generic: "An error occured while trying to register. Please notify the server administrator about this issue."
+        already-exists: "You already have an account."
+        email-used: "This email address is already used for a different user account."
+        email-invalid: "The provided email address is invalid."
+
+  report:
+    usage: "{command} <name/uuid> <reason>"
+    description: "Report a player"
+    output:
+      success: "Thank you for reporting this player."
+      fail: "An error occured while trying to report this player. Please notify the server administrator about this issue."
+
+  validate:
+    usage: "{command} <code>"
+    description: "Validates the user's website account using the given code."
+    output:
+      success: "Your account has been validated."
+      fail:
+        invalid-code: "Your validation code is incorrect. Please check if you copied it correctly and try again."
+        generic: "An unknown error occured while trying to submit a validation code."
+
+  user-info:
+    usage: "{command} [name/uuid]"
+    description: "Retrieve information about a website user"
+    output:
+      username: "Username: {username}"
+      displayname: "Display name: {displayname}"
+      uuid: "UUID: {uuid}"
+      registered-date: "Registered on {date}"
+      validated: "Account validated: {validated}"
+      banned: "Banned: {banned}"
+      'yes': "yes"
+      'no': "no"
+      fail: "An unknown error occured while trying to retrieve player information."
+
+  subcommands:
+    usage: "{command} [subcommand] [arguments..]"
+    help-prefix: "/{command}"
+
+join-not-registered: "You do not have an account on our website yet. Please register using /register."

@@ -41,7 +41,7 @@ public abstract class Command extends org.bukkit.command.Command implements Plug
 	@Override
 	public boolean execute(final CommandSender sender, final String label, final String[] args) {
 		if (!this.permission.hasPermission(sender)) {
-			Message.PLAYER_SELF_NO_PERMISSION_COMMAND.send(sender);
+			Message.COMMAND_NO_PERMISSION.send(sender);
 			return true;
 		}
 		

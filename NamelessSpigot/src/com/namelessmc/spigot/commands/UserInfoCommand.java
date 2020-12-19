@@ -63,8 +63,8 @@ public class UserInfoCommand extends Command {
 				
 				final NamelessUser user = targetOptional.get();
 				
-				final String yes = Message.COMMAND_USERINFO_OUTPUT_BOOLEAN_TRUE.getMessage();
-				final String no = Message.COMMAND_USERINFO_OUTPUT_BOOLEAN_FALSE.getMessage();
+				final String yes = Message.COMMAND_USERINFO_OUTPUT_YES.getMessage();
+				final String no = Message.COMMAND_USERINFO_OUTPUT_NO.getMessage();
 				
 				final String validated = user.isVerified() ? yes : no;
 				final String banned = user.isBanned() ? yes : no;

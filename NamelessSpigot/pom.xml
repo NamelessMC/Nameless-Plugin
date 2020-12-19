@@ -20,9 +20,6 @@
 		<resources>
 			<resource>
 				<directory>resources</directory>
-				<includes>
-					<include>**/*.yml</include>
-				</includes>
 				<filtering>true</filtering>
 			</resource>
 		</resources>

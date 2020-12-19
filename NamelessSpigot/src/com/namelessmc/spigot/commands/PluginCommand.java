@@ -13,7 +13,7 @@ public class PluginCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
 		if (!Permission.COMMAND_NAMELESS.hasPermission(sender)) {
-			Message.PLAYER_SELF_NO_PERMISSION_COMMAND.send(sender);
+			Message.COMMAND_NO_PERMISSION.send(sender);
 			return true;
 		}
 		

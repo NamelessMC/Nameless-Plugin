@@ -4,7 +4,7 @@ author: Derkades
 authors: [Derkades, Samerton, IsS127]
 website: https://plugin.namelessmc.com/
 version: '@project.version@'
-
+api-version: 1.13
 softdepend: [Vault, PlaceholderAPI]
 
 commands:

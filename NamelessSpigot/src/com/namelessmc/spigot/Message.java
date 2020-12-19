@@ -1,141 +1,105 @@
 package com.namelessmc.spigot;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.google.common.io.Files;
 
 public enum Message {
 
-	PLAYER_OTHER_NOTFOUND("player.other.not-found",
-			"This player could not be found."),
-	PLAYER_OTHER_NOTVALIDATED("player.other.not-validated",
-			"This player's account is not validated."),
-	PLAYER_OTHER_NOTREGISTERED("player.other.not-registered",
-			"This player is not registered on the website."),
-	PLAYER_SELF_NOTVALIDATED("player.self.not-validated",
-			"Your account must be validated to perform this action."),
-	PLAYER_SELF_NOTREGISTERED("player.self.not-registered",
-			"You must register for an account to perform this action."),
-	PLAYER_SELF_NO_PERMISSION_GENERIC("player.self.no-permission.generic",
-			"You don't have permission to perform this action."),
-	PLAYER_SELF_NO_PERMISSION_COMMAND("player.self.no-permission.command",
-			"You don't have permission to execute this command."),
+	PLAYER_OTHER_NOTFOUND("player.other.not-found"),
+	PLAYER_OTHER_NOTVALIDATED("player.other.not-validated"),
+	PLAYER_OTHER_NOTREGISTERED("player.other.not-registered"),
+	PLAYER_SELF_NOTVALIDATED("player.self.not-validated"),
+	PLAYER_SELF_NOTREGISTERED("player.self.not-registered"),
+	PLAYER_SELF_NO_PERMISSION_GENERIC("player.self.no-permission"),
 
-	COMMAND_NOTAPLAYER("command.not-a-player",
-			"You must be a player to perform this command."),
+	COMMAND_NOTAPLAYER("command.not-a-player"),
+	COMMAND_NO_PERMISSION("command.no-permission"),
 
-	COMMAND_NOTIFICATIONS_USAGE("command.notifications.usage",
-			"{command}"),
-	COMMAND_NOTIFICATIONS_DESCRIPTION("command.notifications.description",
-			"Displays a list of website notifications"),
-	COMMAND_NOTIFICATIONS_OUTPUT_NONOTIFICATIONS("command.notifications.output.no-notifications",
-			"You do not have any unread notifications."),
-	COMMAND_NOTIFICATIONS_OUTPUT_CLICKTOOPEN("command.notifications.output.click-to-open",
-			"Click to open in web browser"),
-	COMMAND_NOTIFICATIONS_OUTPUT_FAIL_GENERIC("command.notifications.output.fail.generic",
-			"An error occured while trying to retrieve a list of notifications. Please notify the server administrator about this issue."),
+	COMMAND_NOTIFICATIONS_USAGE("command.notifications.usage"),
+	COMMAND_NOTIFICATIONS_DESCRIPTION("command.notifications.description"),
+	COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS("command.notifications.output.no-notifications"),
+	COMMAND_NOTIFICATIONS_OUTPUT_CLICKTOOPEN("command.notifications.output.click-to-open"),
+	COMMAND_NOTIFICATIONS_OUTPUT_FAIL("command.notifications.output.fail"),
 
-	COMMAND_REGISTER_USAGE("command.register.usage",
-			"{command} <email>"),
-	COMMAND_REGISTER_DESCRIPTION("command.register.description",
-			"Creates an account. Will output a link or email address to complete registration."),
-	COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL("command.register.output.success.email",
-			"Please check your inbox to complete registration."),
-	COMMAND_REGISTER_OUTPUT_SUCCESS_LINK("command.register.output.success.link",
-			"Please visit {link} to complete registration."),
-	COMMAND_REGISTER_OUTPUT_FAIL_GENERIC("command.register.output.fail.generic",
-			"An error occured while trying to register. Please notify the server administrator about this issue."),
-	COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS("command.register.output.fail.already-exists",
-			"You already have an account."),
-	COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED("command.register.output.fail.email-used",
-			"This email address is already used for a different user account."),
-	COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID("commands.register.output.fail.email-invalid",
-			"The provided email address is invalid."),
+	COMMAND_REGISTER_USAGE("command.register.usage"),
+	COMMAND_REGISTER_DESCRIPTION("command.register.description"),
+	COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL("command.register.output.success.email"),
+	COMMAND_REGISTER_OUTPUT_SUCCESS_LINK("command.register.output.success.link"),
+	COMMAND_REGISTER_OUTPUT_FAIL_GENERIC("command.register.output.fail.generic"),
+	COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS("command.register.output.fail.already-exists"),
+	COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED("command.register.output.fail.email-used"),
+	COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID("commands.register.output.fail.email-invalid"),
 
-	COMMAND_REPORT_USAGE("command.report.usage",
-			"{command} <name/uuid> <reason>"),
-	COMMAND_REPORT_DESCRIPTION("command.report.description",
-			"reports a player"),
-	COMMAND_REPORT_OUTPUT_SUCCESS("command.report.output.success",
-			"Thank you for reporting this player."),
-	COMMAND_REPORT_OUTPUT_FAIL_GENERIC("command.report.output.fail.generic",
-			"An error occured while trying to report this player. Please notify the server administrator about this issue."),
+	COMMAND_REPORT_USAGE("command.report.usage"),
+	COMMAND_REPORT_DESCRIPTION("command.report.description"),
+	COMMAND_REPORT_OUTPUT_SUCCESS("command.report.output.success"),
+	COMMAND_REPORT_OUTPUT_FAIL_GENERIC("command.report.output.fail.generic"),
 
-	COMMAND_SETGROUP_USAGE("command.set-group.usage",
-			"{command} <name/uuid> <group id>"),
-	COMMAND_SETGROUP_DESCRIPTION("command.set-group.description",
-			"Changes a player's group id."),
-	COMMAND_SETGROUP_OUTPUT_SUCCESS("command.set-group.output.success",
-			"Changed group id for {player} from {old} to {new}"),
-	COMMAND_SETGROUP_OUTPUT_FAIL_NOTNUMERIC("command.set-group.output.fail.not-numeric",
-			"The provided group id is not a number."),
-	COMMAND_SETGROUP_OUTPUT_FAIL_INVALIDGROUPID("command.set-group.output.fail.invalid-group-id",
-			"This group ID is invalid."),
-	COMMAND_SETGROUP_OUTPUT_FAIL_GENERIC("command.set-group-output.fail.generic",
-			"An unknown error occured while trying to set the player's group."),
+	COMMAND_VALIDATE_USAGE("command.validate.usage"),
+	COMMAND_VALIDATE_DESCRIPTION("command.validate.description"),
+	COMMAND_VALIDATE_OUTPUT_SUCCESS("command.validate.output.success"),
+	COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE("command.validate.output.fail.invalid-code"),
+	COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC("command.user-info.output.fail.generic"),
 
-	COMMAND_VALIDATE_USAGE("command.validate.usage",
-			"{command} <code>"),
-	COMMAND_VALIDATE_DESCRIPTION("command.validate.description",
-			"Validates the user's website account using the given code."),
-	COMMAND_VALIDATE_OUTPUT_SUCCESS("command.validate.output.success",
-			"Your account has been validated."),
-//	COMMAND_VALIDATE_OUTPUT_FAIL_ALREADYVALIDATED("command.validate.output.fail.already-validated",
-//			"Your account has already been validated."),
-	COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE("command.validate.output.fail.invalid-code",
-			"Your validation code is incorrect. Please check if you copied it correctly and try again."),
-	COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC("command.user-info.output.fail.generic",
-			"An unknown error occured while trying to submit a validation code."),
-
-	COMMAND_USERINFO_USAGE("command.user-info.usage",
-			"{command} [name/uuid]"),
-	COMMAND_USERINFO_DESCRIPTION("command.user-info.description",
-			"Gets information about a user."),
-	COMMAND_USERINFO_OUTPUT_USERNAME("command.user-info.output.username",
-			"Username: {username}"),
-	COMMAND_USERINFO_OUTPUT_DISPLAYNAME("command.user-info.output.displayname",
-			"Display name: {displayname}"),
-	COMMAND_USERINFO_OUTPUT_UUID("command.user-info.output.uuid",
-			"UUID: {uuid}"),
-	COMMAND_USERINFO_OUTPUT_GROUP("command.user-info.output.group",
-			"Group: {groupname} (id: {id})"),
-	COMMAND_USERINFO_OUTPUT_REGISTERDATE("command.user-info.output.registered-date",
-			"Registered on {date}"),
-	COMMAND_USERINFO_OUTPUT_VALIDATED("command.user-info.output.validated",
-			"Account validated: {validated}"),
-	COMMAND_USERINFO_OUTPUT_BANNED("command.user-info.output.banned",
-			"Banned: {banned}"),
-	COMMAND_USERINFO_OUTPUT_BOOLEAN_TRUE("command.user-info.output.boolean.true",
-			"yes"),
-	COMMAND_USERINFO_OUTPUT_BOOLEAN_FALSE("command.user-info.output.boolean.false",
-			"no"),
-	COMMAND_USERINFO_OUTPUT_FAIL_GENERIC("command.user-info.output.fail.generic",
-			"An unknown error occured while trying to retrieve player information."),
+	COMMAND_USERINFO_USAGE("command.user-info.usage"),
+	COMMAND_USERINFO_DESCRIPTION("command.user-info.description"),
+	COMMAND_USERINFO_OUTPUT_USERNAME("command.user-info.output.username"),
+	COMMAND_USERINFO_OUTPUT_DISPLAYNAME("command.user-info.output.displayname"),
+	COMMAND_USERINFO_OUTPUT_UUID("command.user-info.output.uuid"),
+	COMMAND_USERINFO_OUTPUT_GROUP("command.user-info.output.group"),
+	COMMAND_USERINFO_OUTPUT_REGISTERDATE("command.user-info.output.registered-date"),
+	COMMAND_USERINFO_OUTPUT_VALIDATED("command.user-info.output.validated"),
+	COMMAND_USERINFO_OUTPUT_BANNED("command.user-info.output.banned"),
+	COMMAND_USERINFO_OUTPUT_YES("command.user-info.output.yes"),
+	COMMAND_USERINFO_OUTPUT_NO("command.user-info.output.no"),
+	COMMAND_USERINFO_OUTPUT_FAIL("command.user-info.output.fail"),
 	
-	COMMAND_SUBCOMMANDS_USAGE("commands.subcommands.usage",
-			"{command} [subcommand] [arguments..]"),
-	COMMAND_SUBCOMMANDS_HELP_PREFIX("commands.submenu.help-prefix",
-			"/{command}"),
+	COMMAND_SUBCOMMANDS_USAGE("command.subcommands.usage"),
+	COMMAND_SUBCOMMANDS_HELP_PREFIX("command.subcommands.help-prefix"),
 
-	JOIN_NOTREGISTERED("join.not-registed",
-			"You do not have an account on our website yet. Please register using /register"),
+	JOIN_NOTREGISTERED("join-not-registed"),
 
 	;
+	
+	/**
+	 * Language version. Increment by one when adding, removing, or changing strings.
+	 */
+	private static final int VERSION = 1;
+	
+	private static final String[] LANGUAGES_LIST = {
+			"en",
+	};
+
+	private static final Charset VERSION_FILE_CHARSET = Charset.forName("UTF-8");
+	private static final String VERSION_FILE_NAME = ".VERSION_DO_NOT_DELETE.dat";
 
 	private String path;
-	private String defaultMessage;
 
-	Message(final String path, final String defaultMessage){
+	Message(final String path) {
 		this.path = path;
-		this.defaultMessage = defaultMessage;
 	}
+
+	private static FileConfiguration activeLanguageFile = null;
 
 	public String getMessage() {
-		return Chat.convertColors(Config.MESSAGES.getConfig().getString(this.path));
+		final String unconverted = activeLanguageFile.getString(this.path);
+		Validate.notNull(unconverted, "Message '" + this.path + "' missing from language file. This is a bug, adding it to the language file is usually not the correct solution.");
+		return Chat.convertColors(unconverted);
 	}
+	
 
 	/**
 	 * Uses {@link #getMessage()} then replaces placeholders.
@@ -148,6 +112,8 @@ public enum Message {
 		if (placeholders.length % 2 != 0) { // False if length is 1, 3, 5, 6, etc.
 			throw new IllegalArgumentException("Placeholder array length must be an even number");
 		}
+		
+		Validate.noNullElements(placeholders);
 
 		if (placeholders.length == 0) {
 			return this.getMessage();
@@ -184,16 +150,68 @@ public enum Message {
 	public void send(final CommandSender sender, final Object... placeholders) {
 		sender.sendMessage(this.getMessage(placeholders));
 	}
+	
+	private static File getLanguageDirectory() {
+		return new File(NamelessPlugin.getInstance().getDataFolder(), "languages");
+	}
 
-	public static void generateConfig(final Config config) throws IOException {
-		final FileConfiguration fileConfig = config.getConfig();
-		for (final Message message : Message.values()) {
-			if (!fileConfig.contains(message.path)) {
-				fileConfig.set(message.path, message.defaultMessage);
+	public static void updateFiles() throws IOException {
+		final Logger log = NamelessPlugin.getInstance().getLogger();
+		
+		final File languageDirectory = getLanguageDirectory();
+		languageDirectory.mkdirs();
+		
+		final File versionFile = new File(languageDirectory, VERSION_FILE_NAME);
+		
+		if (versionFile.exists()) {
+			final String versionContent = FileUtils.readFileToString(versionFile, VERSION_FILE_CHARSET);
+			if (versionContent.equals(String.valueOf(VERSION))) {
+				log.info("Language files up to date");
+				return;
+			} else {
+				log.warning("Language files are outdated!");
+				log.info("Making backup of old languages directory");
+				final File dest = new File(NamelessPlugin.getInstance().getDataFolder(), "oldlanguages-" + System.currentTimeMillis());
+				Files.move(languageDirectory, dest);
+				languageDirectory.mkdir();
 			}
+		} else {
+			log.warning("Languages appear to not be installed yet.");
 		}
-		config.setConfig(fileConfig);
-		config.save();
+		
+		log.info("Installing language files");
+		
+		for (final String languageName : LANGUAGES_LIST) {
+			final String languagePathInJar = "/languages/" + languageName + ".yaml";
+			final File dest = new File(languageDirectory, languageName + ".yaml");
+			dest.createNewFile();
+			FileUtils.copyURLToFile(Message.class.getResource(languagePathInJar), dest);
+		}
+		
+		log.info("Creating version file");
+		
+		FileUtils.writeStringToFile(versionFile, String.valueOf(VERSION), VERSION_FILE_CHARSET);
+		
+		log.info("Done");
+	}
+	
+	public static boolean setActiveLanguage(final String languageName) {
+		final Logger log = NamelessPlugin.getInstance().getLogger();
+		
+		if (!ArrayUtils.contains(LANGUAGES_LIST, languageName)) {
+			log.severe("Language '" + languageName + "' not known.");
+			return false;
+		}
+		
+		final File file = new File(getLanguageDirectory(), languageName + ".yaml");
+		
+		if (!file.exists()) {
+			log.severe("File not found: '" + file.getAbsolutePath() + "'");
+			return false;
+		}
+		
+		activeLanguageFile = YamlConfiguration.loadConfiguration(file);
+		return true;
 	}
 
 }
