@@ -1,1 +1,11 @@
-{}
+player:
+  other:
+    not-found: Deze speler kon niet gevonden worden.
+    not-validated: Het account van deze speler is niet gevalideerd.
+    not-registered: Deze speler is niet geregistreerd op de website.
+  self:
+    not-validated: Je moet een gevalideerd account hebben om deze actie uit te voeren.
+    not-registered: Je moet geregistreerd zijn op de website om dit te doen.
+    no-permission: Je hebt onvoldoende rechten om dit te doen.
+command:
+  not-a-player: Dit commando kan alleen als speler uitgevoerd worden.
