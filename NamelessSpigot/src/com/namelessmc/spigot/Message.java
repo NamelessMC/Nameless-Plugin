@@ -92,10 +92,14 @@ public enum Message {
 		this.path = path;
 	}
 
+	private static FileConfiguration fallbackLanguageFile = null;
 	private static FileConfiguration activeLanguageFile = null;
 
 	public String getMessage() {
-		final String unconverted = activeLanguageFile.getString(this.path);
+		String unconverted = activeLanguageFile.getString(this.path);
+		if (unconverted == null) {
+			unconverted = fallbackLanguageFile.getString(this.path);
+		}
 		Validate.notNull(unconverted, "Message '" + this.path + "' missing from language file. This is a bug, adding it to the language file is usually not the correct solution.");
 		return Chat.convertColors(unconverted);
 	}
@@ -195,23 +199,32 @@ public enum Message {
 		log.info("Done");
 	}
 	
-	public static boolean setActiveLanguage(final String languageName) {
+	private static FileConfiguration readLanguageFile(final String languageName) {
 		final Logger log = NamelessPlugin.getInstance().getLogger();
 		
 		if (!ArrayUtils.contains(LANGUAGES_LIST, languageName)) {
 			log.severe("Language '" + languageName + "' not known.");
-			return false;
+			return null;
 		}
 		
 		final File file = new File(getLanguageDirectory(), languageName + ".yaml");
 		
 		if (!file.exists()) {
 			log.severe("File not found: '" + file.getAbsolutePath() + "'");
-			return false;
+			return null;
 		}
 		
-		activeLanguageFile = YamlConfiguration.loadConfiguration(file);
-		return true;
+		return YamlConfiguration.loadConfiguration(file);
+	}
+	
+	public static boolean setActiveLanguage(final String languageName) {
+		activeLanguageFile = readLanguageFile(languageName);
+		if (languageName.equals("en")) {
+			fallbackLanguageFile = activeLanguageFile;
+		} else {
+			fallbackLanguageFile = readLanguageFile("en");
+		}
+		return activeLanguageFile != null && fallbackLanguageFile != null;
 	}
 
 }
