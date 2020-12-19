@@ -4,7 +4,6 @@ The official Minecraft plugin for NamelessMC v2. For compiled files see the [spi
 # Features
 * Register command
 * Report command
-* Set group command
 * User information command
 * Validate command (broken)
 * Notifications command (v2-pre5+)
