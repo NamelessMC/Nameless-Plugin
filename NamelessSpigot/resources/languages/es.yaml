@@ -7,3 +7,64 @@ player:
     not-validated: Su cuenta debe ser validada para realizar esta acción.
     not-registered: Debe registrarse para realizar esta acción.
     no-permission: No tiene permiso para realizar esta acción.
+command:
+  register:
+    description: Crea una cuenta. Se emitirá un enlace o una dirección de correo electrónico
+      para completar el registro.
+    usage: '{command} <correo electrónico>'
+    output:
+      success:
+        link: Por favor, visite {link} para completar el registro.
+        email: Por favor, compruebe su bandeja de entrada para completar el registro.
+      fail:
+        already-exists: Usted ya tiene una cuenta.
+        email-used: Esta dirección de correo electrónico ya se ha utilizado para otra
+          cuenta.
+        email-invalid: La dirección de correo electrónico proporcionada es inválida.
+        generic: Se produjo un error al tratar de registrarse. Por favor, notifique
+          al administrador del servidor sobre este problema.
+  not-a-player: Debes ser un jugador para usar este comando.
+  no-permission: No tienes permiso para ejecutar este comando.
+  notifications:
+    usage: '{command}'
+    description: Muestra una lista de notificaciones del sitio web.
+    output:
+      no-notifications: No tiene ninguna notificación sin leer.
+      click-to-open: Haga clic para abrir en un navegador web
+      fail: Se produjo un error al intentar recuperar una lista de notificaciones.
+        Por favor, notifique al administrador del servidor sobre este problema.
+  report:
+    description: Reporta a un jugador
+    output:
+      success: Gracias por reportar a este jugador.
+      fail: Se produjo un error al tratar de reportar a este jugador. Por favor, notifica
+        al administrador del servidor sobre este problema.
+    usage: '{command} <nombre/uuid> <razón>'
+  subcommands:
+    help-prefix: /{command}
+    usage: '{command} [subcomando] [argumentos..]'
+  validate:
+    output:
+      success: Su cuenta ha sido validada.
+      fail:
+        generic: Se produjo un error desconocido al intentar enviar un código de validación.
+        invalid-code: Su código de validación es incorrecto. Por favor, compruebe
+          si lo ha copiado correctamente e inténtelo de nuevo.
+    usage: '{command} <código>'
+    description: Valida la cuenta del sitio web del usuario usando el código proporcionado.
+  user-info:
+    usage: '{command} [nombre/uuid]'
+    output:
+      username: 'Nombre de usuario: {username}'
+      displayname: 'Nombre para mostrar: {displayname}'
+      uuid: 'UUID: {uuid}'
+      registered-date: Registrado el {date}
+      validated: 'Cuenta validada: {validated}'
+      banned: 'Expulsado: {banned}'
+      'yes': sí
+      'no': no
+      fail: Se produjo un error desconocido al intentar obtener la información del
+        jugador.
+    description: Obtener información sobre un usuario del sitio web
+join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
+  usando /register.
