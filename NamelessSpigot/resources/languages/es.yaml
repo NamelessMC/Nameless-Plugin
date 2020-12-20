@@ -1,1 +1,9 @@
-{}
+player:
+  other:
+    not-validated: La cuenta de este jugador no está validada.
+    not-found: Este jugador no pudo ser encontrado.
+    not-registered: Este jugador no está registrado en el sitio web.
+  self:
+    not-validated: Su cuenta debe ser validada para realizar esta acción.
+    not-registered: Debe registrarse para realizar esta acción.
+    no-permission: No tiene permiso para realizar esta acción.
