@@ -1,1 +1,62 @@
-{}
+player:
+  other:
+    not-found: 无法找到此玩家。
+    not-registered: 此玩家尚未在网站上注册。
+    not-validated: 此玩家的帐号尚未被验证。
+  self:
+    not-validated: 您的帐号必须在验证后才能执行此操作。
+    not-registered: 您必须先注册一个帐号才能执行此操作。
+    no-permission: 您没有执行此操作的权限。
+command:
+  notifications:
+    output:
+      fail: 获得通知信息时出现了一个问题。请将此问题告知服务器管理员。
+      no-notifications: 您没有任何未读通知。
+      click-to-open: 点击来在浏览器中打开
+    description: 显示网站通知列表。
+    usage: '{command}'
+  report:
+    output:
+      success: 感谢您举报此玩家。
+      fail: 举报此玩家时出现了一个错误。请将此问题告知服务器管理员。
+    usage: '{command} <名字/uuid> <理由>'
+    description: 举报一名玩家
+  user-info:
+    output:
+      registered-date: 于 {date} 注册
+      fail: 试图获取玩家信息时发生了一个未知错误。
+      username: '用户名: {username}'
+      displayname: '显示名: {displayname}'
+      uuid: 'UUID: {uuid}'
+      validated: '帐号是否已验证: {validated}'
+      banned: '是否被封禁: {banned}'
+      'yes': 是
+      'no': 否
+    usage: '{command} [名字/uuid]'
+    description: 获得一个网站用户的信息
+  not-a-player: 您必须是一个玩家才能执行此指令。
+  no-permission: 您没有执行此指令的权限。
+  register:
+    usage: '{command} <邮箱>'
+    output:
+      success:
+        email: 请查看您的收件箱来完成注册。
+        link: 请查看 {link} 来完成注册。
+      fail:
+        generic: 试图注册时出现了一个错误。请将此问题告知服务器管理员。
+        already-exists: 您已经有一个帐号了。
+        email-used: 此邮箱已被另一个帐号使用了。
+        email-invalid: 提供的邮箱地址无效。
+    description: 创建一个帐号。会输出一个链接或发送邮件来完成注册。
+  validate:
+    usage: '{command} <验证码>'
+    description: 使用给定的验证码来验证用户的网站帐号。
+    output:
+      success: 成功验证了您的帐号。
+      fail:
+        invalid-code: 您的验证码不正确。请检查您是否正确的拷贝了它，随后再试一次。
+        generic: 试图提交验证码时发生了一个未知错误。
+  subcommands:
+    usage: '{command} [子命令] [参数...]'
+    help-prefix: /{command}
+join-not-registered: 您在我们的网站上没有帐号。请使用 /register 来注册。
