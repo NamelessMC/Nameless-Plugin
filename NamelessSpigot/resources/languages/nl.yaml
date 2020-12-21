@@ -9,3 +9,12 @@ player:
     no-permission: Je hebt onvoldoende rechten om dit te doen.
 command:
   not-a-player: Dit commando kan alleen als speler uitgevoerd worden.
+  notifications:
+    usage: '{command}'
+    output:
+      no-notifications: Je hebt geen ongelezen meldingen.
+      click-to-open: Klik om te openen in een webbrowser
+      fail: Er is een fout opgetreden bij het ophalen van meldingen.
+    description: Laat een lijst van website meldingen zien.
+  register:
+    usage: '{command} <e-mail>'
