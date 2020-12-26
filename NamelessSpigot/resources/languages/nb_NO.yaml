@@ -1,0 +1,4 @@
+player:
+  other:
+    not-found: Denne spilleren kunne ikke bli funnet.
+    not-registered: Denne spilleren er ikke registrert på nettsiden.

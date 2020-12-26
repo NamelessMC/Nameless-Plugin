@@ -1,0 +1,66 @@
+command:
+  notifications:
+    output:
+      fail: Při pokusu získat seznam oznámení se vyskytla chyba. Oznamte to prosím
+        správcům serveru.
+      no-notifications: Nemáte žádná nepřečtená oznámení.
+      click-to-open: Klikněte pro otevření ve webovém prohlížeči
+    usage: '{command}'
+    description: Zobrazí seznam webových oznámení.
+  register:
+    output:
+      fail:
+        generic: Při registraci se vyskytla chyba. Oznamte to prosím správcům serveru.
+        already-exists: Již máte účet.
+        email-used: Tuto e-mailovou adresu již používá jiný účet.
+        email-invalid: Zadaná e-mailová adresa není platná.
+      success:
+        email: Zkontrolujte svou e-mailovou schránku pro dokončení registrace.
+        link: Navštivte prosím {link} pro dokončení registrace.
+    usage: '{command} <email>'
+    description: Vytvoří účet. Zobrazí odkaz nebo e-mailovou adresu pro dokončení
+      registrace.
+  report:
+    output:
+      fail: Při nahlašování tohoto hráče se vyskytla chyba. Oznamte to prosím správcům
+        serveru.
+      success: Děkujeme za nahlášení tohoto hráče.
+    usage: '{command} <jméno/uuid> <důvod>'
+    description: Nahlásit hráče
+  validate:
+    output:
+      fail:
+        invalid-code: Váš ověřovací kód je nesprávný. Zkontrolujte, zda jste jej zkopírovali
+          správně a zkuste to znovu.
+        generic: Při odesílání ověřovacího kódu se vyskytla neznámá chyba.
+      success: Váš účet byl ověřen.
+    usage: '{command} <kód>'
+    description: Ověří účet uživatele pomocí daného kódu.
+  user-info:
+    usage: '{command} [jméno/uuid]'
+    description: Získá informace o uživateli
+    output:
+      username: 'Uživatelské jméno: {username}'
+      displayname: 'Zobrazované jméno: {displayname}'
+      uuid: 'UUID: {uuid}'
+      registered-date: Zaregistrován {date}
+      validated: 'Účet ověřen: {validated}'
+      banned: 'Zablokován: {banned}'
+      'yes': ano
+      'no': ne
+      fail: Při získávání informací o hráči se vyskytla neznámá chyba.
+  subcommands:
+    usage: '{command} [podpříkaz] [argumenty..]'
+    help-prefix: /{command}
+  not-a-player: Pro vykonání této akce musíte být hráčem.
+  no-permission: Nemáte oprávnění pro vykonání tohoto příkazu.
+join-not-registered: Ještě nemáte na našem webu účet. Zaregistrujte se pomocí /register.
+player:
+  other:
+    not-found: Hráč nebyl nalezen.
+    not-validated: Účet tohoto hráče není ověřen.
+    not-registered: Tento hráč není zaregistrován na webu.
+  self:
+    not-registered: Pro vykonání této akce se musíte zaregistrovat.
+    no-permission: Nemáte oprávnění pro vykonání této akce.
+    not-validated: Pro vykonání této akce musí být váš účet musí být ověřen.
