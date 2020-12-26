@@ -56,7 +56,20 @@ public class ServerDataSender extends BukkitRunnable {
 			
 			playerInfo.add("location", location);
 			playerInfo.addProperty("ip", player.getAddress().getAddress().getHostAddress());
-			playerInfo.addProperty("playtime", player.getStatistic(Statistic.PLAY_ONE_TICK) / 120);
+			Statistic playStat;
+			try {
+				playStat = Statistic.PLAY_ONE_TICK;
+			} catch (final NoSuchFieldError e) {
+				try {
+					// it's PLAY_ONE_MINUTE in 1.13+ but unlike the name suggests it actually still records ticks played
+					playStat = (Statistic) Statistic.class.getField("PLAY_ONE_MINUTE").get(null);
+				} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException
+						| SecurityException e1) {
+					e1.printStackTrace();
+					return;
+				}
+			}
+			playerInfo.addProperty("playtime", player.getStatistic(playStat) / 120);
 			
 			try {
 				if (NamelessPlugin.permissions != null) {
