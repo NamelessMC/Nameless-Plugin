@@ -70,7 +70,7 @@ public enum Message {
 	COMMAND_SUBCOMMANDS_USAGE("command.subcommands.usage"),
 	COMMAND_SUBCOMMANDS_HELP_PREFIX("command.subcommands.help-prefix"),
 
-	JOIN_NOTREGISTERED("join-not-registed"),
+	JOIN_NOTREGISTERED("join-not-registered"),
 
 	;
 	
