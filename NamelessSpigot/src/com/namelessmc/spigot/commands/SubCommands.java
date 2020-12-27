@@ -15,7 +15,7 @@ public class SubCommands extends org.bukkit.command.Command {
 	public SubCommands() {
 		super(Config.COMMANDS.getConfig().getString("subcommands.name"),
 				"",
-				"/" + Message.COMMAND_SUBCOMMANDS_USAGE.getMessage("command", Config.COMMANDS.getConfig().getString("subcommands.name")),
+				"/" + Message.COMMAND_SUBCOMMANDS_USAGE.getMessage("command", Config.COMMANDS.getConfig().getString("subcommands.name", "website")),
 				new ArrayList<>());
 	}
 
