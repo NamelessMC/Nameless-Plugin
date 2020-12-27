@@ -141,7 +141,7 @@ public class NamelessPlugin extends JavaPlugin {
 		Message.setActiveLanguage(Config.MAIN.getConfig().getString("lanuage", "en"));
 	}
 	
-	private static final String USER_AGENT = "Nameless-Plugin/" + NamelessPlugin.class.getPackage().getImplementationVersion();
+	private static final String USER_AGENT = "Nameless-Plugin";
 	private static NamelessAPI cachedApi = null;
 	
 	public static NamelessAPI getApi() throws NamelessException {
