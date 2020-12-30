@@ -170,7 +170,7 @@ public class NamelessPlugin extends JavaPlugin {
 			field.setAccessible(true);
 			final CommandMap map = (CommandMap) field.get(Bukkit.getServer());
 
-			final String name = this.getName(); //Get name of plugin from config.yml just in case we ever change it
+			final String name = this.getName();
 
 			final boolean subcommands = Config.COMMANDS.getConfig().getBoolean("subcommands.enabled", true);
 			final boolean individual = Config.COMMANDS.getConfig().getBoolean("individual.enabled", true);
