@@ -1,0 +1,68 @@
+player:
+  other:
+    not-registered: Gracz nie jest zarejestrowany na stronie.
+    not-validated: Konto gracza nie jest zweryfikowane.
+    not-found: Gracz nie mogl zostac znaleziony.
+  self:
+    no-permission: Nie wystarczajace uprawnienia.
+    not-validated: Twoje konto musi byc zweryfikowane aby wykonac ta akcje.
+    not-registered: Musisz byc zarejestrowany aby wykonac ta akcje.
+command:
+  not-a-player: Musisz byc Uzytkownikiem aby uzyc tej komendy.
+  no-permission: Nie masz wystarczajacych uprawnien aby uzyc tej komendy.
+  notifications:
+    usage: '{komenda}'
+    output:
+      no-notifications: Nie posiadasz zadnych nie przeczytanych powiadomien.
+      click-to-open: Kliknij aby otworzyc przegladarke
+      fail: Wystapil blad podczas proby wyswietlenia listy powiadomien. Prosze skontaktowac
+        sie z Administratorem.
+    description: Wyswietla liste powiadomien ze strony.
+  register:
+    usage: '{komenda} <email>'
+    output:
+      success:
+        email: Prosze sprawdzic swoja skrzynke w celu dokonczenia rejestracji.
+        link: Prosze wejsc na {link} w celu dokkonczenia rejestracji.
+      fail:
+        generic: Wystapil blad podczas proby rejestracji. Prosze skontaktowac sie
+          z Administratorem.
+        already-exists: Posiadasz juz konto.
+        email-used: Ten adres email zostal juz uzyty przez innego uzytkownika.
+        email-invalid: Wprowadzony adres email jest bledny.
+    description: Tworzy konto. Wyswietli link lub adres e-mail w celu zakonczenia
+      rejestracji.
+  report:
+    usage: '{komenda} <nick/uuid> <powod>'
+    output:
+      success: Dziekujemy za zgloszenie.
+      fail: Wystapil blad podczas proby zgloszenia gracza. Prosze skontaktowac sie
+        z Administratorem.
+    description: Zglos gracza
+  validate:
+    usage: '{komenda} <kod>'
+    description: Zweryfikuj swoje konto na stronie uzywajac kodu.
+    output:
+      success: Twoje konto zostalo zweryfikowane.
+      fail:
+        invalid-code: Twoj kod weryfikujacy jest bledny. Sprawdz czy skopiowales go
+          dobrze i sprobuj jeszcze raz.
+        generic: Wystapil blad podczas proby wprowadzenia kodu weryfikujacego.
+  user-info:
+    usage: '{komenda} [nick/uuid]'
+    output:
+      username: 'Nick: {nick}'
+      uuid: 'UUID: {uuid}'
+      validated: 'Konto zweryfikowane: {zweryfikowane}'
+      banned: 'Zbanowany: {zbanowany}'
+      registered-date: Zarejestrowany {data}
+      'yes': tak
+      'no': nie
+      displayname: 'Wyswietlany nick: {nick}'
+      fail: Wystapl blad podczas proby zdobycia informacji o uzytkowniku.
+    description: Zdobadz informacje o uzytkowniku
+  subcommands:
+    usage: '{komenda} [podkomenda] [argumenty..]'
+    help-prefix: /{komenda}
+join-not-registered: Nie posiadasz jeszcze konta na stronie. Prosimy sie zarejestrowac
+  przy uzyciu /register.
