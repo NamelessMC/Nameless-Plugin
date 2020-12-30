@@ -52,7 +52,7 @@ public enum Message {
 	COMMAND_VALIDATE_DESCRIPTION("command.validate.description"),
 	COMMAND_VALIDATE_OUTPUT_SUCCESS("command.validate.output.success"),
 	COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE("command.validate.output.fail.invalid-code"),
-	COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC("command.user-info.output.fail.generic"),
+	COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC("command.validate.output.fail.generic"),
 
 	COMMAND_USERINFO_USAGE("command.user-info.usage"),
 	COMMAND_USERINFO_DESCRIPTION("command.user-info.description"),
