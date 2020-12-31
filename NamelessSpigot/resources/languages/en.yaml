@@ -50,12 +50,13 @@ command:
         generic: "An unknown error occured while trying to submit a validation code."
 
   user-info:
-    usage: "{command} [name/uuid]"
+    usage: "{command} [username]"
     description: "Retrieve information about a website user"
     output:
       username: "Username: {username}"
       displayname: "Display name: {displayname}"
       uuid: "UUID: {uuid}"
+      uuid-unknown: 'unknown'
       registered-date: "Registered on {date}"
       validated: "Account validated: {validated}"
       banned: "Banned: {banned}"

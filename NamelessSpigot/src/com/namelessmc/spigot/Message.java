@@ -59,6 +59,7 @@ public enum Message {
 	COMMAND_USERINFO_OUTPUT_USERNAME("command.user-info.output.username"),
 	COMMAND_USERINFO_OUTPUT_DISPLAYNAME("command.user-info.output.displayname"),
 	COMMAND_USERINFO_OUTPUT_UUID("command.user-info.output.uuid"),
+	COMMAND_USERINFO_OUTPUT_UUID_UNKNOWN("command.user-info.output.uuid-unknown"),
 	COMMAND_USERINFO_OUTPUT_GROUP("command.user-info.output.group"),
 	COMMAND_USERINFO_OUTPUT_REGISTERDATE("command.user-info.output.registered-date"),
 	COMMAND_USERINFO_OUTPUT_VALIDATED("command.user-info.output.validated"),
@@ -77,7 +78,7 @@ public enum Message {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 1;
+	private static final int VERSION = 2;
 	
 	private static final String[] LANGUAGES_LIST = {
 			"en",
