@@ -37,7 +37,7 @@ command:
     usage: '{command} <kód>'
     description: Ověří účet uživatele pomocí daného kódu.
   user-info:
-    usage: '{command} [jméno/uuid]'
+    usage: '{command} [jméno]'
     description: Získá informace o uživateli
     output:
       username: 'Uživatelské jméno: {username}'
@@ -49,6 +49,7 @@ command:
       'yes': ano
       'no': ne
       fail: Při získávání informací o hráči se vyskytla neznámá chyba.
+      uuid-unknown: neznámé
   subcommands:
     usage: '{command} [podpříkaz] [argumenty..]'
     help-prefix: /{command}

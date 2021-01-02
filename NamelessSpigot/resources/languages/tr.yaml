@@ -1,0 +1,69 @@
+command:
+  validate:
+    output:
+      fail:
+        invalid-code: Doğrulama kodunuz yanlış. Lütfen doğru kopyalayıp kopyalamadığınızı
+          kontrol edin ve tekrar deneyin.
+        generic: Doğrulama kodu göndermeye çalışırken bilinmeyen bir hata oluştu.
+      success: Hesabınız doğrulandı.
+    usage: '{command} <kod>'
+    description: Verilen kodu kullanarak kullanıcının web sitesi hesabını doğrular.
+  user-info:
+    output:
+      uuid: 'UUID: {uuid}'
+      uuid-unknown: Bilinmiyor
+      fail: Oyuncu bilgilerini almaya çalışırken bilinmeyen bir hata oluştu.
+      displayname: 'Görünen ad: {displayname}'
+      username: 'Kullanıcı Adı: {username}'
+      registered-date: 'Kayıt Tarihi : {date}'
+      validated: 'Doğrulanmış Hesap: {validated}'
+      banned: 'Yasaklı: {banned}'
+      'yes': evet
+      'no': hayır
+    description: Bir web sitesi kullanıcısı hakkında bilgi alın
+    usage: '{command} [kullanıcı adı]'
+  no-permission: Bu komutu yürütme izniniz yok.
+  notifications:
+    usage: '{command}'
+    output:
+      no-notifications: Okunmamış bildiriminiz yok.
+      click-to-open: Bir web tarayıcısında açmak için tıklayın
+      fail: Bildirim listesini almaya çalışırken bir hata oluştu. Lütfen bu sorunu
+        sunucu yöneticisine bildirin.
+    description: Web sitesi bildirimlerinin bir listesini görüntüler.
+  register:
+    description: Bir hesap oluşturur. Kaydı tamamlamak için bir bağlantı veya e-posta
+      adresi verir.
+    output:
+      success:
+        email: Kaydı tamamlamak için lütfen gelen kutunuzu kontrol edin.
+        link: Kaydı tamamlamak için lütfen {link} adresini ziyaret edin.
+      fail:
+        already-exists: Zaten bir hesabınız var.
+        email-used: Bu e-posta adresi zaten farklı bir kullanıcı hesabı için kullanılıyor.
+        email-invalid: Girdiğiniz e-posta adresi geçersiz.
+        generic: Kaydolmaya çalışırken bir hata oluştu. Lütfen bu sorunu sunucu yöneticisine
+          bildirin.
+    usage: '{command} <eposta>'
+  report:
+    description: Bir oyuncuyu rapor et
+    usage: '{command} <isim/uuid> <sebeb>'
+    output:
+      success: Bu oyuncuyu bildirdiğiniz için teşekkür ederiz.
+      fail: Bu oynatıcıyı bildirmeye çalışırken bir hata oluştu. Lütfen bu sorunu
+        sunucu yöneticisine bildirin.
+  subcommands:
+    usage: '{command} [alt komut] [içerik..]'
+    help-prefix: /{command}
+  not-a-player: Bu komutu gerçekleştirmek için oyuncu olmalısınız.
+player:
+  other:
+    not-validated: Bu oyuncunun hesabı doğrulanmadı.
+    not-found: Bu Oyuncu Bulunamadı.
+    not-registered: Bu oyuncu web sitesinde kayıtlı değil.
+  self:
+    not-validated: Bu eylemi gerçekleştirmek için hesabınızın doğrulanması gerekir.
+    not-registered: Bu eylemi gerçekleştirmek için bir hesap açmalısınız.
+    no-permission: Bu eylemi gerçekleştirme izniniz yok.
+join-not-registered: Henüz web sitemizde bir hesabınız yok. Lütfen / register kullanarak
+  kaydolun.

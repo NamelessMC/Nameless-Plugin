@@ -53,7 +53,7 @@ command:
     usage: '{command} <código>'
     description: Valida la cuenta del sitio web del usuario usando el código proporcionado.
   user-info:
-    usage: '{command} [nombre/uuid]'
+    usage: '{command} [nombre de usuario]'
     output:
       username: 'Nombre de usuario: {username}'
       displayname: 'Nombre para mostrar: {displayname}'
@@ -65,6 +65,7 @@ command:
       'no': no
       fail: Se produjo un error desconocido al intentar obtener la información del
         jugador.
+      uuid-unknown: desconocido
     description: Obtener información sobre un usuario del sitio web
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /register.
