@@ -32,7 +32,8 @@ command:
       banned: '是否被封禁: {banned}'
       'yes': 是
       'no': 否
-    usage: '{command} [名字/uuid]'
+      uuid-unknown: 未知
+    usage: '{command} [用户名]'
     description: 获得一个网站用户的信息
   not-a-player: 您必须是一个玩家才能执行此指令。
   no-permission: 您没有执行此指令的权限。
