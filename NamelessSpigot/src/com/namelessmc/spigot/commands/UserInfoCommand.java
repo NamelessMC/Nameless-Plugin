@@ -31,7 +31,7 @@ public class UserInfoCommand extends Command {
 			}
 			
 			// Player itself as first argument
-			return execute(sender, new String[] {((Player) sender).getUniqueId().toString()});
+			return execute(sender, new String[] { sender.getName() });
 		}
 		
 		if (args.length != 1) {
