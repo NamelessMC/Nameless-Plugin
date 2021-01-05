@@ -1,1 +1,74 @@
-{}
+player:
+  other:
+    not-found: Dieser Spieler konnte nicht gefunden werden.
+    not-validated: Das Konto dieses Spielers ist nicht validiert.
+    not-registered: Dieser Spieler ist nicht auf der Website registriert.
+  self:
+    not-validated: Ihr Konto muss validiert sein, um diese Aktion ausführen zu können.
+    no-permission: Du hast keine Reche, diese Aktion auszuführen.
+    not-registered: Du must ein Konto erstellen, um diese Aktion ausführen zu können.
+command:
+  notifications:
+    output:
+      fail: Beim Versuch, eine Liste mit Benachrichtigungen abzurufen, ist ein Fehler
+        aufgetreten. Bitte benachrichtigen Sie den Serveradministrator über dieses
+        Problem.
+      no-notifications: Du hast keine ungelesenen Benachrichtigungen.
+      click-to-open: Klicke hier, um es in einem Webbrowser zu öffnen
+    usage: '{Befehl}'
+    description: Zeigt eine Liste der Website-Benachrichtigungen an.
+  not-a-player: Du must ein Spieler sein, um diesen Befehl ausführen zu können.
+  register:
+    output:
+      fail:
+        generic: Beim Versuch, sich zu registrieren, ist ein Fehler aufgetreten. Bitte
+          benachrichtigen Sie den Serveradministrator über dieses Problem.
+        already-exists: Du hast schon ein Konto.
+        email-used: Diese E-Mail-Adresse wird bereits für ein anderes Benutzerkonto
+          verwendet.
+        email-invalid: Die angegebene E-Mail-Adresse ist ungültig.
+      success:
+        email: Bitte überprüfe Deinen Posteingang, um die Registrierung abzuschließen.
+        link: 'Bitte besuche diesen link: {link}, um die Registrierung abzuschließen.'
+    usage: '{Befehl} <Mail>'
+    description: Erstellt ein Konto. Gibt einen Link oder eine E-Mail-Adresse aus,
+      um die Registrierung abzuschließen.
+  no-permission: Du hast keine Rechte, diesen Befehl auszuführen.
+  report:
+    usage: '{Befehl} <Name/UUID> <Grund>'
+    description: Einen Spieler melden
+    output:
+      success: Vielen Dank, das du diesen Spieler gemeldet haben.
+      fail: Beim Versuch, diesen Spieler zu melden, ist ein Fehler aufgetreten. Bitte
+        benachrichtigen Sie den Serveradministrator über dieses Problem.
+  validate:
+    usage: '{Befehl} <Code>'
+    description: Überprüft das Website-Konto des Benutzers anhand des angegebenen
+      Codes.
+    output:
+      success: Ihr Konto wurde validiert.
+      fail:
+        invalid-code: Ihr Validierungscode ist falsch. Bitte überprüfe, ob du den
+          code richtig kopiert hast und versuche es erneut.
+        generic: Beim Versuch, einen Validierungscode zu senden, ist ein unbekannter
+          Fehler aufgetreten.
+  user-info:
+    output:
+      username: 'Benutzername: {Benutzername}'
+      displayname: 'Anzeigename: {Anzeigename}'
+      uuid: 'UUID: {uuid}'
+      registered-date: Registriert am {Datum}
+      validated: 'Konto validiert: {validiert}'
+      banned: 'Gebannt: {banned}'
+      'yes': Ja
+      'no': Nein
+      uuid-unknown: Unbekannt
+      fail: Beim Versuch, Spielerinformationen abzurufen, ist ein unbekannter Fehler
+        aufgetreten.
+    usage: '{Befehl} [Benutzername]'
+    description: Informationen zu einem Website-Benutzer abrufen
+  subcommands:
+    usage: '{Befehl} [Unterbefehl] [Argumente ..]'
+    help-prefix: /{Befehl}
+join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
+  Dich mit /register.
