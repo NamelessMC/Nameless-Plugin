@@ -14,7 +14,44 @@ command:
     output:
       no-notifications: Je hebt geen ongelezen meldingen.
       click-to-open: Klik om te openen in een webbrowser
-      fail: Er is een fout opgetreden bij het ophalen van meldingen.
+      fail: Er is een fout opgetreden bij het ophalen van meldingen. Gelieve de serverbeheerder
+        op de hoogte te brengen van dit probleem.
     description: Laat een lijst van website meldingen zien.
   register:
     usage: '{command} <e-mail>'
+    output:
+      success:
+        email: Controleer uw inbox om de registratie te voltooien.
+        link: Ga naar {link} om de registratie te voltooien.
+      fail:
+        already-exists: U heeft al een account.
+        email-used: Dit e-mailadres wordt al gebruikt door een andere gebruiker.
+        email-invalid: Het opgegeven e-mailadres is ongeldig.
+  user-info:
+    usage: '{command} [username]'
+    output:
+      username: 'Gebruikersnaam: {username}'
+      uuid: 'UUID: {uuid}'
+      displayname: 'Weergavenaam: {displayname}'
+      'yes': Ja
+      'no': Nee
+      uuid-unknown: onbekend
+      registered-date: Geregistreerd op {date}
+      validated: 'Account gevalideerd: {validated}'
+      banned: 'Verbannen: {banned}'
+      fail: Er is een onbekende fout opgetreden tijdens een poging om spelersinformatie
+        op te halen.
+    description: Informatie opvragen over een websitegebruiker
+  no-permission: Je hebt geen toestemming om dit commando uit te voeren.
+  report:
+    description: Rapporteer een speler
+    output:
+      success: Bedankt voor het rapporteren van deze speler.
+    usage: '{command} <name/uuid> <reason>'
+  validate:
+    usage: '{command} <code>'
+    output:
+      success: Je account is gevalideerd.
+  subcommands:
+    help-prefix: /{command}
+    usage: '{command} [subcommand] [arguments..]'
