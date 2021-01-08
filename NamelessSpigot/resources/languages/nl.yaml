@@ -27,6 +27,10 @@ command:
         already-exists: U heeft al een account.
         email-used: Dit e-mailadres wordt al gebruikt door een andere gebruiker.
         email-invalid: Het opgegeven e-mailadres is ongeldig.
+        generic: Er is een fout opgetreden bij het registreren. Breng de serverbeheerder
+          op de hoogte van dit probleem.
+    description: Maakt een account aan. Zal een link of e-mailadres uitvoeren om de
+      registratie te voltooien.
   user-info:
     usage: '{command} [username]'
     output:
@@ -47,11 +51,19 @@ command:
     description: Rapporteer een speler
     output:
       success: Bedankt voor het rapporteren van deze speler.
+      fail: Er is een fout opgetreden bij het rapporteren van deze speler. Breng de
+        serverbeheerder op de hoogte van dit probleem.
     usage: '{command} <name/uuid> <reason>'
   validate:
     usage: '{command} <code>'
     output:
       success: Je account is gevalideerd.
+      fail:
+        generic: Er is een onbekende fout opgetreden bij het verzenden van een validatiecode.
+        invalid-code: Jouw validatiecode is onjuist. Controleer of je het correct
+          hebt gekopieerd en probeer het opnieuw.
+    description: Valideert het websiteaccount van de gebruiker met de opgegeven code.
   subcommands:
     help-prefix: /{command}
     usage: '{command} [subcommand] [arguments..]'
+join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.

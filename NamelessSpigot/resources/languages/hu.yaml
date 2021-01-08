@@ -1,0 +1,68 @@
+command:
+  register:
+    output:
+      fail:
+        email-invalid: A megadott e-mail cím érvénytelen.
+        already-exists: Már van fiókja.
+        email-used: Ezt az e-mail címet már használják egy másik felhasználói fiókhoz.
+        generic: Hiba történt a regisztráció során. Kérjük, értesítse a szerver rendszergazdáját
+          erről a problémáról.
+      success:
+        email: A regisztráció befejezéséhez ellenőrizze a beérkező leveleket.
+        link: A regisztráció befejezéséhez látogasson el a (z) {link} oldalra.
+    usage: '{parancs} <email>'
+    description: Fiókot hoz létre. Linket vagy e-mail címet ad ki a regisztráció befejezéséhez.
+  report:
+    description: Játékos jelentése
+    output:
+      fail: Hiba történt a lejátszó bejelentése közben. Kérjük, értesítse a szerver
+        rendszergazdáját erről a problémáról.
+      success: Köszönjük, hogy bejelentetted ezt a játékost.
+    usage: '{parancs} <név/uuid> <indok>'
+  validate:
+    usage: '{parancs} <kód>'
+    description: A megadott kód használatával érvényesíti a felhasználó webhelyfiókját.
+    output:
+      success: Fiókját érvényesítettük.
+      fail:
+        invalid-code: Helytelen az érvényesítési kódod. Kérjük, ellenőrizze, hogy
+          helyesen másolta-e, és próbálkozzon újra.
+        generic: Ismeretlen hiba történt egy ellenőrző kód elküldése során.
+  not-a-player: A parancs végrehajtásához játékosnak kell lenned.
+  no-permission: Nincs engedélye a parancs végrehajtására.
+  notifications:
+    output:
+      click-to-open: Kattintson, hogy megnyissa a webböngészőben
+      no-notifications: Nincsenek olvasatlan értesítései.
+      fail: Hiba történt az értesítések listájának lekérése közben. Kérjük, értesítse
+        a szerver rendszergazdáját erről a problémáról.
+    usage: '{parancs}'
+    description: Megjeleníti a webhely értesítéseinek listáját.
+  user-info:
+    usage: '{parancs} [felhasználónév]'
+    output:
+      username: 'Felhasználónév: {felhasználónév}'
+      displayname: 'Megjelenített név: {displayname}'
+      uuid-unknown: ismeretlen
+      banned: 'Kitiltva: {kitiltva}'
+      'yes': Igen
+      'no': Nem
+      fail: Ismeretlen hiba történt a lejátszó adatainak lekérése közben.
+      uuid: 'UUID: {uuid}'
+      registered-date: 'Regisztráció dátuma: {dátum}'
+      validated: 'Fiók érvényesítve: {validated}'
+    description: Információk lekérése a webhely felhasználójáról
+  subcommands:
+    usage: '{parancs} [alparancs] [érvek ..]'
+    help-prefix: /{parancs}
+player:
+  other:
+    not-validated: A játékos fiókja nincs beállítva.
+    not-registered: Ez a játékos nem regisztrált a weboldalon.
+    not-found: Ez a játékos nem taláható.
+  self:
+    not-validated: A művelet végrehajtásához fiókját érvényesíteni kell.
+    not-registered: A művelet végrehajtásához regisztrálnia kell egy fiókot.
+    no-permission: Nincs engedélye a művelet végrehajtására.
+join-not-registered: Még nincs fiókja a weboldalunkon. Kérjük, regisztráljon a / register
+  segítségével.
