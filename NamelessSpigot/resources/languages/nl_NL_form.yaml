@@ -1,1 +1,15 @@
-{}
+player:
+  self:
+    not-validated: Ihr Konto muss validiert sein, um diese Aktion ausführen zu können.
+    not-registered: Sie müssen sich für ein Konto registrieren, um diese Aktion ausführen
+      zu können.
+    no-permission: Sie haben keine Berechtigung, diese Aktion auszuführen.
+  other:
+    not-found: Dieser Spieler konnte nicht gefunden werden.
+    not-validated: Das Konto dieses Spielers ist nicht validiert.
+    not-registered: Dieser Player ist nicht auf der Website registriert.
+command:
+  not-a-player: Sie müssen ein Spieler sein, um diesen Befehl ausführen zu können.
+  notifications:
+    usage: '{Befehl}'
+  no-permission: Sie haben keine Berechtigung, diesen Befehl auszuführen.
