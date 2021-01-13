@@ -7,6 +7,7 @@ command:
         email-used: Ezt az e-mail címet már használják egy másik felhasználói fiókhoz.
         generic: Hiba történt a regisztráció során. Kérjük, értesítse a szerver rendszergazdáját
           erről a problémáról.
+        username-invalid: A megadott felhasználónév érvénytelen.
       success:
         email: A regisztráció befejezéséhez ellenőrizze a beérkező leveleket.
         link: A regisztráció befejezéséhez látogasson el a (z) {link} oldalra.
@@ -28,6 +29,7 @@ command:
         invalid-code: Helytelen az érvényesítési kódod. Kérjük, ellenőrizze, hogy
           helyesen másolta-e, és próbálkozzon újra.
         generic: Ismeretlen hiba történt egy ellenőrző kód elküldése során.
+        already-vaidated: Fiókja már érvényesítve van.
   not-a-player: A parancs végrehajtásához játékosnak kell lenned.
   no-permission: Nincs engedélye a parancs végrehajtására.
   notifications:
