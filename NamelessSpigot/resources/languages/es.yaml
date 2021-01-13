@@ -23,6 +23,7 @@ command:
         email-invalid: La dirección de correo electrónico proporcionada es inválida.
         generic: Se produjo un error al tratar de registrarse. Por favor, notifique
           al administrador del servidor sobre este problema.
+        username-invalid: El nombre de usuario proporcionado es inválido.
   not-a-player: Debes ser un jugador para usar este comando.
   no-permission: No tienes permiso para ejecutar este comando.
   notifications:
@@ -50,6 +51,7 @@ command:
         generic: Se produjo un error desconocido al intentar enviar un código de validación.
         invalid-code: Su código de validación es incorrecto. Por favor, compruebe
           si lo ha copiado correctamente e inténtelo de nuevo.
+        already-vaidated: Su cuenta ya está validada.
     usage: '{command} <código>'
     description: Valida la cuenta del sitio web del usuario usando el código proporcionado.
   user-info:
