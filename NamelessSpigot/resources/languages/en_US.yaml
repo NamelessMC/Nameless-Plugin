@@ -1,1 +1,22 @@
-{}
+player:
+  other:
+    not-found: This player could not be found.
+    not-validated: This player's account is not validated.
+    not-registered: This player is not registered on the website.
+  self:
+    not-validated: Your account must be validated to perform this action.
+    not-registered: You must register for an account to perform this action.
+    no-permission: You don't have permission to perform this action.
+command:
+  not-a-player: You must be a player to perform this command.
+  no-permission: You don't have permission to execute this command.
+  notifications:
+    usage: '{command}'
+    description: Displays a list of website notifications.
+    output:
+      no-notifications: You do not have any unread notifications.
+      click-to-open: Click to open in a web browser
+      fail: An error occured while trying to retrieve a list of notifications. Please
+        notify the server administrator about this issue.
+  register:
+    usage: '{command} <email>'
