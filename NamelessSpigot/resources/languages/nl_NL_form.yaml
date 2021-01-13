@@ -8,7 +8,22 @@ player:
     not-validated: Het account van deze speler is niet gevalideerd.
     not-registered: Deze speler is niet geregistreerd op de website.
 command:
-  not-a-player: Sie müssen ein Spieler sein, um diesen Befehl ausführen zu können.
+  not-a-player: U moet een speler zijn om dit commando uit te voeren.
   notifications:
     usage: '{command}'
-  no-permission: Sie haben keine Berechtigung, diesen Befehl auszuführen.
+    output:
+      click-to-open: Klik om te openen in een webbrowser
+  no-permission: U heeft geen toestemming om dit commando uit te voeren.
+  report:
+    description: Rapporteer een speler
+  user-info:
+    usage: '{command} [username]'
+    output:
+      registered-date: Geregistreerd op {date}
+      validated: 'Account gevalideerd: {validated}'
+      username: 'Gebruikersnaam: {username}'
+  validate:
+    output:
+      success: Uw account is gevalideerd.
+      fail:
+        already-vaidated: Uw account is al gevalideerd.
