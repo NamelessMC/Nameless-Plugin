@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.java_api.exception.AccountAlreadyActivatedException;
+import com.namelessmc.java_api.exception.InvalidValidateCodeException;
 import com.namelessmc.spigot.Config;
 import com.namelessmc.spigot.Message;
 import com.namelessmc.spigot.NamelessPlugin;
@@ -46,14 +48,14 @@ public class ValidateCommand extends Command {
 				}
 				
 				final String code = args[0];
-				if (user.get().verifyMinecraft(code)) {
-					Message.COMMAND_VALIDATE_OUTPUT_SUCCESS.send(sender);
-				} else {
-					Message.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE.send(sender);
-				}
+				user.get().verifyMinecraft(code);
+				Message.COMMAND_VALIDATE_OUTPUT_SUCCESS.send(sender);
 			} catch (final NamelessException e) {
 				Message.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC.send(sender);
-				return;
+			} catch (final InvalidValidateCodeException e) {
+				Message.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE.send(sender);
+			} catch (final AccountAlreadyActivatedException e) {
+				Message.COMMAND_VALIDATE_OUTPUT_FAIL_ALREADYVALIDATED.send(sender);
 			}
 		});
 

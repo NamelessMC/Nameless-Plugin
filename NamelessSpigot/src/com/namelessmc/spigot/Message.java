@@ -42,6 +42,7 @@ public enum Message {
 	COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS("command.register.output.fail.already-exists"),
 	COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED("command.register.output.fail.email-used"),
 	COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID("commands.register.output.fail.email-invalid"),
+	COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEINVALID("commands.register.output.fail.username-invalid"),
 
 	COMMAND_REPORT_USAGE("command.report.usage"),
 	COMMAND_REPORT_DESCRIPTION("command.report.description"),
@@ -52,6 +53,7 @@ public enum Message {
 	COMMAND_VALIDATE_DESCRIPTION("command.validate.description"),
 	COMMAND_VALIDATE_OUTPUT_SUCCESS("command.validate.output.success"),
 	COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE("command.validate.output.fail.invalid-code"),
+	COMMAND_VALIDATE_OUTPUT_FAIL_ALREADYVALIDATED("command.validate.output.fail.already-validated"),
 	COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC("command.validate.output.fail.generic"),
 
 	COMMAND_USERINFO_USAGE("command.user-info.usage"),

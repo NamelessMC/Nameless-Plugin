@@ -32,6 +32,7 @@ command:
         already-exists: "You already have an account."
         email-used: "This email address is already used for a different user account."
         email-invalid: "The provided email address is invalid."
+        username-invalid: "The provided username is invalid."
 
   report:
     usage: "{command} <name/uuid> <reason>"
@@ -47,6 +48,7 @@ command:
       success: "Your account has been validated."
       fail:
         invalid-code: "Your validation code is incorrect. Please check if you copied it correctly and try again."
+        already-vaidated: "Your account is already validated."
         generic: "An unknown error occured while trying to submit a validation code."
 
   user-info:

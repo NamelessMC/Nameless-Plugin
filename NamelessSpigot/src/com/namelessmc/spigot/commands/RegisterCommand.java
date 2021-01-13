@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.InvalidUsernameException;
 import com.namelessmc.spigot.Config;
 import com.namelessmc.spigot.Message;
 import com.namelessmc.spigot.NamelessPlugin;
@@ -56,8 +57,9 @@ public class RegisterCommand extends Command {
 			} catch (final NamelessException e) {
 				player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC.getMessage());
 				e.printStackTrace();
+			} catch (final InvalidUsernameException e) {
+				player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEINVALID.getMessage());
 			}
-			
 		});
 		
 		return true;
