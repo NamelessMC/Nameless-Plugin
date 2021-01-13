@@ -29,6 +29,7 @@ command:
         email-invalid: Het opgegeven e-mailadres is ongeldig.
         generic: Er is een fout opgetreden bij het registreren. Breng de serverbeheerder
           op de hoogte van dit probleem.
+        username-invalid: De opgegeven gebruikersnaam is ongeldig.
     description: Maakt een account aan. Zal een link of e-mailadres uitvoeren om de
       registratie te voltooien.
   user-info:
@@ -62,6 +63,7 @@ command:
         generic: Er is een onbekende fout opgetreden bij het verzenden van een validatiecode.
         invalid-code: Jouw validatiecode is onjuist. Controleer of je het correct
           hebt gekopieerd en probeer het opnieuw.
+        already-vaidated: Jouw account is al gevalideerd.
     description: Valideert het websiteaccount van de gebruiker met de opgegeven code.
   subcommands:
     help-prefix: /{command}
