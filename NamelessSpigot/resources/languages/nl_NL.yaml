@@ -33,7 +33,7 @@ command:
     description: Maakt een account aan. Zal een link of e-mailadres uitvoeren om de
       registratie te voltooien.
   user-info:
-    usage: '{command} [username]'
+    usage: '{command} [gebruikersnaam]'
     output:
       username: 'Gebruikersnaam: {username}'
       uuid: 'UUID: {uuid}'
@@ -64,8 +64,9 @@ command:
         invalid-code: Jouw validatiecode is onjuist. Controleer of je het correct
           hebt gekopieerd en probeer het opnieuw.
         already-vaidated: Jouw account is al gevalideerd.
+        already-validated: Je account is al gevalideerd.
     description: Valideert het websiteaccount van de gebruiker met de opgegeven code.
   subcommands:
     help-prefix: /{command}
-    usage: '{command} [subcommand] [arguments..]'
+    usage: '{command} [subcommando] [argumenten..]'
 join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.
