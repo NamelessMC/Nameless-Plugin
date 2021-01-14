@@ -80,10 +80,10 @@ public enum Message {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 4;
+	private static final int VERSION = 5;
 	
 	private static final String[] LANGUAGES_LIST = {
-			"en",
+			"en_UK",
 	};
 
 	private static final Charset VERSION_FILE_CHARSET = Charset.forName("UTF-8");
