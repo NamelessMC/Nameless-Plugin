@@ -30,6 +30,7 @@ command:
           helyesen másolta-e, és próbálkozzon újra.
         generic: Ismeretlen hiba történt egy ellenőrző kód elküldése során.
         already-vaidated: Fiókja már érvényesítve van.
+        already-validated: Fiókja már érvényesítve van.
   not-a-player: A parancs végrehajtásához játékosnak kell lenned.
   no-permission: Nincs engedélye a parancs végrehajtására.
   notifications:
