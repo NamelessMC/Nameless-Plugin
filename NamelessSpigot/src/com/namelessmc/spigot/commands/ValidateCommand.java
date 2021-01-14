@@ -52,6 +52,7 @@ public class ValidateCommand extends Command {
 				Message.COMMAND_VALIDATE_OUTPUT_SUCCESS.send(sender);
 			} catch (final NamelessException e) {
 				Message.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC.send(sender);
+				e.printStackTrace();
 			} catch (final InvalidValidateCodeException e) {
 				Message.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE.send(sender);
 			} catch (final AccountAlreadyActivatedException e) {
