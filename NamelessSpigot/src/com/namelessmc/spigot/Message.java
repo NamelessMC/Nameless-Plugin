@@ -83,7 +83,25 @@ public enum Message {
 	private static final int VERSION = 5;
 	
 	private static final String[] LANGUAGES_LIST = {
+			"cs_CZ",
+			"de_DE",
+			"el_GR",
 			"en_UK",
+			"en_US",
+			"es_419",
+			"es_ES",
+			"fr_FR",
+			"hu_HU",
+			"it_IT",
+			"lt_LT",
+			"nb_NO",
+			"nl_NL_form",
+			"nl_NL",
+			"pl_PL",
+			"ru_RU",
+			"sk_SK",
+			"tr_TR",
+			"zh_CN",
 	};
 
 	private static final Charset VERSION_FILE_CHARSET = Charset.forName("UTF-8");
