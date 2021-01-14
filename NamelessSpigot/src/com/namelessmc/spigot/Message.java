@@ -104,7 +104,7 @@ public enum Message {
 			"zh_CN",
 	};
 	
-	private static final String DEFAULT_LANGUAGE = "en_UK";
+	static final String DEFAULT_LANGUAGE = "en_UK";
 
 	private static final Charset VERSION_FILE_CHARSET = Charset.forName("UTF-8");
 	private static final String VERSION_FILE_NAME = ".VERSION_DO_NOT_DELETE.dat";
