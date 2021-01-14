@@ -87,7 +87,7 @@ public class NamelessPlugin extends JavaPlugin {
 			throw new RuntimeException(e);
 		}
 		
-		if (!Message.setActiveLanguage(Config.MAIN.getConfig().getString("lanuage", "en"))) {
+		if (!Message.setActiveLanguage(Config.MAIN.getConfig().getString("language", Message.DEFAULT_LANGUAGE))) {
 			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
 			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
 			this.getLogger().severe("FIX IMMEDIATELY");
