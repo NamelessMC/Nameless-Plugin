@@ -80,7 +80,7 @@ public enum Message {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 5;
+	private static final int VERSION = 6;
 	
 	private static final String[] LANGUAGES_LIST = {
 			"cs_CZ",
@@ -103,6 +103,8 @@ public enum Message {
 			"tr_TR",
 			"zh_CN",
 	};
+	
+	private static final String DEFAULT_LANGUAGE = "en_UK";
 
 	private static final Charset VERSION_FILE_CHARSET = Charset.forName("UTF-8");
 	private static final String VERSION_FILE_NAME = ".VERSION_DO_NOT_DELETE.dat";
@@ -240,10 +242,10 @@ public enum Message {
 	
 	public static boolean setActiveLanguage(final String languageName) {
 		activeLanguageFile = readLanguageFile(languageName);
-		if (languageName.equals("en")) {
+		if (languageName.equals(DEFAULT_LANGUAGE)) {
 			fallbackLanguageFile = activeLanguageFile;
 		} else {
-			fallbackLanguageFile = readLanguageFile("en");
+			fallbackLanguageFile = readLanguageFile(DEFAULT_LANGUAGE);
 		}
 		return activeLanguageFile != null && fallbackLanguageFile != null;
 	}
