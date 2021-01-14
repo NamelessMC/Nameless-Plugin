@@ -14,6 +14,7 @@ command:
         already-exists: Již máte účet.
         email-used: Tuto e-mailovou adresu již používá jiný účet.
         email-invalid: Zadaná e-mailová adresa není platná.
+        username-invalid: Zadané uživatelské jméno je neplatné.
       success:
         email: Zkontrolujte svou e-mailovou schránku pro dokončení registrace.
         link: Navštivte prosím {link} pro dokončení registrace.
@@ -33,6 +34,7 @@ command:
         invalid-code: Váš ověřovací kód je nesprávný. Zkontrolujte, zda jste jej zkopírovali
           správně a zkuste to znovu.
         generic: Při odesílání ověřovacího kódu se vyskytla neznámá chyba.
+        already-vaidated: Váš účet je již ověřen.
       success: Váš účet byl ověřen.
     usage: '{command} <kód>'
     description: Ověří účet uživatele pomocí daného kódu.

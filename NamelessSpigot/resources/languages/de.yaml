@@ -27,6 +27,7 @@ command:
         email-used: Diese E-Mail-Adresse wird bereits für ein anderes Benutzerkonto
           verwendet.
         email-invalid: Die angegebene E-Mail-Adresse ist ungültig.
+        username-invalid: Der angegebene Benutzername ist ungültig.
       success:
         email: Bitte überprüfe Deinen Posteingang, um die Registrierung abzuschließen.
         link: 'Bitte besuche diesen link: {link}, um die Registrierung abzuschließen.'
@@ -52,6 +53,7 @@ command:
           code richtig kopiert hast und versuche es erneut.
         generic: Beim Versuch, einen Validierungscode zu senden, ist ein unbekannter
           Fehler aufgetreten.
+        already-vaidated: Ihr Konto ist bereits validiert.
   user-info:
     output:
       username: 'Benutzername: {Benutzername}'
