@@ -48,7 +48,7 @@ command:
       success: "Your account has been validated."
       fail:
         invalid-code: "Your validation code is incorrect. Please check if you copied it correctly and try again."
-        already-vaidated: "Your account is already validated."
+        already-validated: "Your account is already validated."
         generic: "An unknown error occured while trying to submit a validation code."
 
   user-info:
