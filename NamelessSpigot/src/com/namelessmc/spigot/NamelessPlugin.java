@@ -58,12 +58,12 @@ public class NamelessPlugin extends JavaPlugin {
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
 			if (permissionProvider == null) {
-				log(Level.WARNING, "No vault compatible permissions plugin was found. Rank sync will not work.");
+				log(Level.WARNING, "No vault compatible permissions plugin was found. Group sync will not work.");
 			} else {
 				permissions = permissionProvider.getProvider();
 
 				if (permissions == null) {
-					log(Level.WARNING, "No vault compatible permissions plugin was found. Rank sync will not work.");
+					log(Level.WARNING, "No vault compatible permissions plugin was found. Group sync will not work.");
 				}
 			}
 
@@ -78,7 +78,7 @@ public class NamelessPlugin extends JavaPlugin {
 				}
 			}
 		} else {
-			log(Level.WARNING, "Vault was not found. Rank sync will not work.");
+			log(Level.WARNING, "Vault was not found. Group sync will not work.");
 		}
 
 		try {
