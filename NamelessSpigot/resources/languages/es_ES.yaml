@@ -52,6 +52,7 @@ command:
         invalid-code: Su código de validación es incorrecto. Por favor, compruebe
           si lo ha copiado correctamente e inténtelo de nuevo.
         already-vaidated: Su cuenta ya está validada.
+        already-validated: Su cuenta ya está validada.
     usage: '{command} <código>'
     description: Valida la cuenta del sitio web del usuario usando el código proporcionado.
   user-info:
