@@ -20,3 +20,52 @@ command:
         notify the server administrator about this issue.
   register:
     usage: '{command} <email>'
+    output:
+      success:
+        email: Please check your inbox to complete registration.
+        link: Please visit {link} to complete registration.
+      fail:
+        generic: An error occured while trying to register. Please notify the server
+          administrator about this issue.
+        already-exists: You already have an account.
+        email-used: This email address is already used for a different user account.
+        username-invalid: The provided username is invalid.
+        email-invalid: The provided email address is invalid.
+    description: Creates an account. Will output a link or email address to complete
+      registration.
+  report:
+    usage: '{command} <name/uuid> <reason>'
+    description: Report a player
+    output:
+      success: Thank you for reporting this player.
+      fail: An error occured while trying to report this player. Please notify the
+        server administrator about this issue.
+  validate:
+    usage: '{command} <code>'
+    description: Validates the user's website account using the given code.
+    output:
+      success: Your account has been validated.
+      fail:
+        invalid-code: Your validation code is incorrect. Please check if you copied
+          it correctly and try again.
+        already-validated: Your account is already validated.
+        generic: An unknown error occured while trying to submit a validation code.
+  user-info:
+    usage: '{command} [username]'
+    output:
+      username: 'Username: {username}'
+      displayname: 'Display name: {displayname}'
+      uuid: 'UUID: {uuid}'
+      uuid-unknown: unknown
+      registered-date: Registered on {date}
+      validated: 'Account validated: {validated}'
+      banned: 'Banned: {banned}'
+      'yes': yes
+      'no': no
+      fail: An unknown error occured while trying to retrieve player information.
+    description: Retrieve information about a website user
+  subcommands:
+    usage: '{command} [subcommand] [arguments..]'
+    help-prefix: /{command}
+join-not-registered: You do not have an account on our website yet. Please register
+  using /register.
