@@ -35,6 +35,7 @@ command:
           správně a zkuste to znovu.
         generic: Při odesílání ověřovacího kódu se vyskytla neznámá chyba.
         already-vaidated: Váš účet je již ověřen.
+        already-validated: Váš účet je již ověřen.
       success: Váš účet byl ověřen.
     usage: '{command} <kód>'
     description: Ověří účet uživatele pomocí daného kódu.
