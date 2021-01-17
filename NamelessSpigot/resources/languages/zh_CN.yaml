@@ -48,6 +48,7 @@ command:
         already-exists: 您已经有一个帐号了。
         email-used: 此邮箱已被另一个帐号使用了。
         email-invalid: 提供的邮箱地址无效。
+        username-invalid: 提供的用户名无效。
     description: 创建一个帐号。会输出一个链接或发送邮件来完成注册。
   validate:
     usage: '{command} <验证码>'
@@ -57,6 +58,7 @@ command:
       fail:
         invalid-code: 您的验证码不正确。请检查您是否正确的拷贝了它，随后再试一次。
         generic: 试图提交验证码时发生了一个未知错误。
+        already-validated: 您的账号已被验证过了。
   subcommands:
     usage: '{command} [子命令] [参数...]'
     help-prefix: /{command}
