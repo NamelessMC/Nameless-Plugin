@@ -53,6 +53,10 @@
 							<shadedPattern>com.namelessmc.spigot.lib.nameless_api</shadedPattern>
 						</relocation>
 						<relocation>
+							<pattern>org.apache.commons.lang3</pattern>
+							<shadedPattern>com.namelessmc.spigot.lib.commons_lang3</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>org.apache.commons.io</pattern>
 							<shadedPattern>com.namelessmc.spigot.lib.commons_io</shadedPattern>
 						</relocation>
