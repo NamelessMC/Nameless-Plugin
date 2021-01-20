@@ -8,6 +8,8 @@ command:
         generic: Hiba történt a regisztráció során. Kérjük, értesítse a szerver rendszergazdáját
           erről a problémáról.
         username-invalid: A megadott felhasználónév érvénytelen.
+        cannot-send-email: Nem sikerült elküldeni a regisztrációs e-mailt, a fiók
+          aktiválásához vegye fel a kapcsolatot az adminisztrátorral.
       success:
         email: A regisztráció befejezéséhez ellenőrizze a beérkező leveleket.
         link: A regisztráció befejezéséhez látogasson el a (z) {link} oldalra.
