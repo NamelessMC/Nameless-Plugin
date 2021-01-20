@@ -23,6 +23,31 @@ The official Minecraft plugin for NamelessMC v2. For compiled files see the [spi
 <img src="http://translate.namelessmc.com/widgets/namelessmc/-/spigot-plugin/multi-auto.svg" alt="Translation status" />
 </a>
 
+## Compiling (Spigot)
+
+Requirements: Maven, JDK 11, git
+
+`apt install maven openjdk-11-jdk git`
+
+```sh
+git clone https://github.com/Derkades/Derkutils
+cd Derkutils
+git checkout legacy # important!
+mvn install
+cd ..
+
+git clone https://github.com/NamelessMC/Nameless-Java-API
+cd Nameless-Java-API
+mvn install
+cd ..
+
+git clone https://github.com/NamelessMC/Nameless-Plugin
+cd Nameless-Plugin/NamelessSpigot
+mvn package shade:shade
+cd target
+# find jar file here
+```
+
 ## Discord
 [<img src="https://discordapp.com/api/guilds/246705793066467328/widget.png?style=shield">](https://discord.gg/J6QsVaP)
 
