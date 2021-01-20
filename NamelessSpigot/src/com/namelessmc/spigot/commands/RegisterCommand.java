@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.CannotSendEmailException;
 import com.namelessmc.java_api.exception.InvalidUsernameException;
 import com.namelessmc.spigot.Config;
 import com.namelessmc.spigot.Message;
@@ -59,6 +60,8 @@ public class RegisterCommand extends Command {
 				e.printStackTrace();
 			} catch (final InvalidUsernameException e) {
 				player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEINVALID.getMessage());
+			} catch (final CannotSendEmailException e) {
+				player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_CANNOTSENDEMAIL.getMessage());
 			}
 		});
 		

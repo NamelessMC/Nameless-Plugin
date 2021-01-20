@@ -33,6 +33,7 @@ command:
         email-used: "This email address is already used for a different user account."
         email-invalid: "The provided email address is invalid."
         username-invalid: "The provided username is invalid."
+        cannot-send-email: "Unable to send registration email, please contact an admin to activate your account."
 
   report:
     usage: "{command} <name/uuid> <reason>"

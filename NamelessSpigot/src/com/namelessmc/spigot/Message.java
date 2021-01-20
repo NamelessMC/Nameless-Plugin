@@ -43,6 +43,7 @@ public enum Message {
 	COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED("command.register.output.fail.email-used"),
 	COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID("commands.register.output.fail.email-invalid"),
 	COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEINVALID("commands.register.output.fail.username-invalid"),
+	COMMAND_REGISTER_OUTPUT_FAIL_CANNOTSENDEMAIL("commands.register.output.fail.cannot-send-email"),
 
 	COMMAND_REPORT_USAGE("command.report.usage"),
 	COMMAND_REPORT_DESCRIPTION("command.report.description"),
@@ -80,7 +81,7 @@ public enum Message {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 6;
+	private static final int VERSION = 7;
 	
 	private static final String[] LANGUAGES_LIST = {
 			"cs_CZ",
