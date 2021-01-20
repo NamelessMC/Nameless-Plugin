@@ -24,6 +24,8 @@ command:
         generic: Se produjo un error al tratar de registrarse. Por favor, notifique
           al administrador del servidor sobre este problema.
         username-invalid: El nombre de usuario proporcionado es inválido.
+        cannot-send-email: No se puede enviar el correo electrónico de registro, por
+          favor contacte con un administrador para activar su cuenta.
   not-a-player: Debes ser un jugador para usar este comando.
   no-permission: No tienes permiso para ejecutar este comando.
   notifications:
