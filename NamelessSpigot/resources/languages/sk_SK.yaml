@@ -1,1 +1,3 @@
-{}
+player:
+  other:
+    not-found: Hráč nebol nájdený.
