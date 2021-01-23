@@ -49,6 +49,7 @@ command:
         email-used: 此邮箱已被另一个帐号使用了。
         email-invalid: 提供的邮箱地址无效。
         username-invalid: 提供的用户名无效。
+        cannot-send-email: 无法发送注册邮件，请联系管理员来激活您的账户。
     description: 创建一个帐号。会输出一个链接或发送邮件来完成注册。
   validate:
     usage: '{command} <验证码>'
