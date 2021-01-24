@@ -91,7 +91,8 @@ public class WhitelistRegistered implements Runnable {
 					final OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
 					player.setWhitelisted(true);
 					if (log) {
-						logger.info("Added " + player.getName() + " to the whitelist.");
+						final String name = player.getName() == null ? uuid.toString() : player.getName();
+						logger.info("Added " + name + " to the whitelist.");
 					}
 				}
 
