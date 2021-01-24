@@ -31,6 +31,8 @@ command:
         email-used: This email address is already used for a different user account.
         username-invalid: The provided username is invalid.
         email-invalid: The provided email address is invalid.
+        cannot-send-email: Unable to send registration email, please contact an admin
+          to activate your account.
     description: Creates an account. Will output a link or email address to complete
       registration.
   report:
