@@ -57,7 +57,7 @@ auto-whitelist-registered:
   # Only whitelist player if their account is verified
   verified: true
   # Number of seconds to wait in between updating the whitelist
-  poll-interval: 300
+  poll-interval: 30
   # Send log messages when whitelisting or unwhitelisting users
   log: true
   # List of UUIDs to exlude (never add to or remove from the whitelist)
