@@ -66,33 +66,26 @@ public class WhitelistRegistered implements Runnable {
 			excludes.addAll(Config.MAIN.getConfig().getStringList("auto-whitelist-registered.log"));
 
 			Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
-				for (final OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+				// Remove players who aren't supposed to be whitelisted
+				for (final OfflinePlayer player : Bukkit.getWhitelistedPlayers()) {
 					final UUID uuid = player.getUniqueId();
-					final String name = player.getName() == null ? uuid.toString() : player.getName();
-					if (excludes.contains(uuid.toString())) {
-						continue;
-					}
-					
-					if (uuids.contains(uuid) && !player.isWhitelisted()) {
+					if (!excludes.contains(uuid.toString()) && !uuids.contains(uuid)) {
 						if (log) {
-							logger.info("Added " + name + " to the whitelist.");
-						}
-						player.setWhitelisted(true);
-					} else if (!uuids.contains(uuid) && player.isWhitelisted()) {
-						if (log) {
-							logger.info("Removed " + name + " from the whitelist.");
+							logger.info("Removed " + player.getName() == null ? uuid.toString() : player.getName() + " from the whitelist.");
 						}
 						player.setWhitelisted(false);
 					}
 				}
 
-				// All remaining UUIDs in the set are from players that are not on the whitelist yet
+				// Whitelist players who are not whitelisted but should be
 				for (final UUID uuid : uuids) {
 					final OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+					if (player.isWhitelisted()) {
+						continue;
+					}
 					player.setWhitelisted(true);
 					if (log) {
-						final String name = player.getName() == null ? uuid.toString() : player.getName();
-						logger.info("Added " + name + " to the whitelist.");
+						logger.info("Added " + player.getName() == null ? uuid.toString() : player.getName() + " to the whitelist.");
 					}
 				}
 
