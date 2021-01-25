@@ -17,7 +17,7 @@ command:
   report:
     description: Rapporteer een speler
   user-info:
-    usage: '{command} [username]'
+    usage: '{command} [gebruikersnaam]'
     output:
       registered-date: Geregistreerd op {date}
       validated: 'Account gevalideerd: {validated}'
