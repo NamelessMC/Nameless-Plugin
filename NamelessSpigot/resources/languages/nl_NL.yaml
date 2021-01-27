@@ -30,6 +30,8 @@ command:
         generic: Er is een fout opgetreden bij het registreren. Breng de serverbeheerder
           op de hoogte van dit probleem.
         username-invalid: De opgegeven gebruikersnaam is ongeldig.
+        cannot-send-email: Kon de registratie e-mail niet verzenden, neem contact
+          op met een administrator om je account te activeren.
     description: Maakt een account aan. Zal een link of e-mailadres uitvoeren om de
       registratie te voltooien.
   user-info:
