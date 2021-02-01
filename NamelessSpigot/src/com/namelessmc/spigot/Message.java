@@ -48,7 +48,7 @@ public enum Message {
 	COMMAND_REPORT_USAGE("command.report.usage"),
 	COMMAND_REPORT_DESCRIPTION("command.report.description"),
 	COMMAND_REPORT_OUTPUT_SUCCESS("command.report.output.success"),
-	COMMAND_REPORT_OUTPUT_FAIL_GENERIC("command.report.output.fail.generic"),
+	COMMAND_REPORT_OUTPUT_FAIL("command.report.output.fail"),
 
 	COMMAND_VALIDATE_USAGE("command.validate.usage"),
 	COMMAND_VALIDATE_DESCRIPTION("command.validate.description"),

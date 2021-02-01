@@ -49,7 +49,7 @@ public class ReportCommand extends Command {
 				user.get().createReport(username, reason);
 				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_SUCCESS.getMessage());
 			} catch (final NamelessException e) {
-				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_FAIL_GENERIC.getMessage());
+				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_FAIL.getMessage());
 				e.printStackTrace();
 				return;
 			}
