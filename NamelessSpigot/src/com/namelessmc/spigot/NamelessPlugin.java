@@ -91,6 +91,7 @@ public class NamelessPlugin extends JavaPlugin {
 			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
 			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
 			this.getLogger().severe("FIX IMMEDIATELY");
+			this.getLogger().severe("In config.yml, set 'language' to '" + Message.DEFAULT_LANGUAGE + "' or any other supported language.");
 			return;
 		}
 		
