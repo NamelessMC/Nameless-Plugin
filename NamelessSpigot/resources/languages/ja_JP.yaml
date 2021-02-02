@@ -1,1 +1,26 @@
-{}
+player:
+  other:
+    not-validated: このプレイヤーのアカウントは有効ではありません。
+    not-found: このプレイヤーは見つかりませんでした。
+    not-registered: このプレイヤーはウェブサイトに登録されていません。
+  self:
+    no-permission: 実行する権限がありません。
+    not-registered: 実行するには、アカウントの登録が必要です。
+    not-validated: 実行するには、アカウントが有効である必要があります。
+command:
+  not-a-player: このコマンドを実行するにはプレイヤーでなければなりません。
+  notifications:
+    usage: '{command}'
+    output:
+      no-notifications: 未読通知はありません。
+      click-to-open: クリックするとウェブブラウザで開きます
+      fail: 通知一覧を取得しようとした際にエラーが発生しました。この問題については、サーバー管理者に連絡してください。
+    description: ウェブサイトの通知一覧を表示します。
+  register:
+    usage: '{command} <メールアドレス>'
+    output:
+      success:
+        email: メールボックスを確認して登録を完了させてください。
+        link: '{link}にアクセスして登録を完了させてください。'
+    description: アカウントを作成。登録を完了するためのリンクやメールアドレスを出力します。
+  no-permission: このコマンドを実行する権限がありません。
