@@ -42,9 +42,9 @@ public enum Message {
 	COMMAND_REGISTER_OUTPUT_FAIL_GENERIC("command.register.output.fail.generic"),
 	COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS("command.register.output.fail.already-exists"),
 	COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED("command.register.output.fail.email-used"),
-	COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID("commands.register.output.fail.email-invalid"),
-	COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEINVALID("commands.register.output.fail.username-invalid"),
-	COMMAND_REGISTER_OUTPUT_FAIL_CANNOTSENDEMAIL("commands.register.output.fail.cannot-send-email"),
+	COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID("command.register.output.fail.email-invalid"),
+	COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEINVALID("command.register.output.fail.username-invalid"),
+	COMMAND_REGISTER_OUTPUT_FAIL_CANNOTSENDEMAIL("command.register.output.fail.cannot-send-email"),
 
 	COMMAND_REPORT_USAGE("command.report.usage"),
 	COMMAND_REPORT_DESCRIPTION("command.report.description"),
