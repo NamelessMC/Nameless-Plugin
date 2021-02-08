@@ -7,6 +7,9 @@ import org.bukkit.entity.Player;
 
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.java_api.exception.AlreadyHasOpenReportException;
+import com.namelessmc.java_api.exception.ReportUserBannedException;
+import com.namelessmc.java_api.exception.UnableToCreateReportException;
 import com.namelessmc.spigot.Config;
 import com.namelessmc.spigot.Message;
 import com.namelessmc.spigot.NamelessPlugin;
@@ -46,10 +49,17 @@ public class ReportCommand extends Command {
 					sender.sendMessage(Message.PLAYER_SELF_NOTREGISTERED.getMessage());
 					return;
 				}
+				
 				user.get().createReport(username, reason);
 				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_SUCCESS.getMessage());
+			} catch (final ReportUserBannedException e) {
+				sender.sendMessage(Message.PLAYER_SELF_COMMAND_BANNED.getMessage());
+			} catch (final AlreadyHasOpenReportException e) {
+				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN.getMessage());
+			} catch (final UnableToCreateReportException e) {
+				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_FAIL_GENERIC.getMessage());
 			} catch (final NamelessException e) {
-				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_FAIL.getMessage());
+				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_FAIL_GENERIC.getMessage());
 				e.printStackTrace();
 				return;
 			}

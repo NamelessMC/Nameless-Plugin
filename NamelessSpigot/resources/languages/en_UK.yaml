@@ -7,6 +7,7 @@ player:
     not-validated: "Your account must be validated to perform this action."
     not-registered: "You must register for an account to perform this action."
     no-permission: "You don't have permission to perform this action."
+    command-banned: "You cannot run this command, you are banned from the website."
 
 command:
   not-a-player: "You must be a player to perform this command."
@@ -40,7 +41,9 @@ command:
     description: "Report a player"
     output:
       success: "Thank you for reporting this player."
-      fail: "An error occured while trying to report this player. Please notify the server administrator about this issue."
+      fail:
+        generic: "An error occured while trying to report this player. Please notify the server administrator about this issue."
+        already-open: "You cannot report this player, you already have an open report for them."
 
   validate:
     usage: "{command} <code>"

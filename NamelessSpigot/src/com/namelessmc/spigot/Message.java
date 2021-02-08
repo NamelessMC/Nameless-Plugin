@@ -24,6 +24,7 @@ public enum Message {
 	PLAYER_SELF_NOTVALIDATED("player.self.not-validated"),
 	PLAYER_SELF_NOTREGISTERED("player.self.not-registered"),
 	PLAYER_SELF_NO_PERMISSION_GENERIC("player.self.no-permission"),
+	PLAYER_SELF_COMMAND_BANNED("player.self.command-banned"),
 
 	COMMAND_NOTAPLAYER("command.not-a-player"),
 	COMMAND_NO_PERMISSION("command.no-permission"),
@@ -48,7 +49,8 @@ public enum Message {
 	COMMAND_REPORT_USAGE("command.report.usage"),
 	COMMAND_REPORT_DESCRIPTION("command.report.description"),
 	COMMAND_REPORT_OUTPUT_SUCCESS("command.report.output.success"),
-	COMMAND_REPORT_OUTPUT_FAIL("command.report.output.fail"),
+	COMMAND_REPORT_OUTPUT_FAIL_GENERIC("command.report.output.fail.generic"),
+	COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN("command.report.output.fail.already-open"),
 
 	COMMAND_VALIDATE_USAGE("command.validate.usage"),
 	COMMAND_VALIDATE_DESCRIPTION("command.validate.description"),
@@ -81,7 +83,7 @@ public enum Message {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 7;
+	private static final int VERSION = 8;
 	
 	private static final String[] LANGUAGES_LIST = {
 			"cs_CZ",
