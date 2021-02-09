@@ -3,6 +3,7 @@ player:
     not-validated: Uw account moet gevalideerd worden om deze actie te ondernemen.
     not-registered: U heeft een account nodig om deze actie uit te voeren.
     no-permission: U beschikt niet over de rechten vereist om deze actie uit te voeren.
+    command-banned: U kunt deze opdracht niet uitvoeren, u bent verbannen van de website.
   other:
     not-found: De speler kon niet worden gevonden.
     not-validated: Het account van deze speler is niet gevalideerd.
@@ -13,9 +14,14 @@ command:
     usage: '{command}'
     output:
       click-to-open: Klik om te openen in een webbrowser
+      no-notifications: U heeft geen ongelezen berichten.
+      fail: Er is een fout opgetreden bij het ophalen van berichten. Gelieve een serverbeheerder
+        op de hoogte te brengen van dit probleem.
+    description: Laat een lijst van websiteberichten zien.
   no-permission: U heeft geen toestemming om dit commando uit te voeren.
   report:
     description: Rapporteer een speler
+    usage: '{command} <naam/uuid> <reden>'
   user-info:
     usage: '{command} [gebruikersnaam]'
     output:
@@ -27,3 +33,10 @@ command:
       success: Uw account is gevalideerd.
       fail:
         already-vaidated: Uw account is al gevalideerd.
+  register:
+    usage: '{command} <e-mail>'
+    output:
+      fail:
+        username-invalid: De opgegeven gebruikersnaam is ongeldig.
+        cannot-send-email: Kon de registratie e-mail niet verzenden, neem contact
+          op met de serverbeheerder.

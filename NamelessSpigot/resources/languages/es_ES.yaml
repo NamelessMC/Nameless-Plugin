@@ -7,6 +7,7 @@ player:
     not-validated: Su cuenta debe ser validada para realizar esta acción.
     not-registered: Debe registrarse para realizar esta acción.
     no-permission: No tiene permiso para realizar esta acción.
+    command-banned: No puedes ejecutar este comando, estás expulsado del sitio web.
 command:
   register:
     description: Crea una cuenta. Se emitirá un enlace o una dirección de correo electrónico
@@ -40,8 +41,11 @@ command:
     description: Reporta a un jugador
     output:
       success: Gracias por reportar a este jugador.
-      fail: Se produjo un error al tratar de reportar a este jugador. Por favor, notifica
-        al administrador del servidor sobre este problema.
+      fail:
+        generic: Se ha producido un error al intentar informar sobre este jugador.
+          Por favor, notifique al administrador del servidor sobre este problema.
+        already-open: No puedes reportar a este jugador, ya tienes un reporte abierto
+          para él.
     usage: '{command} <nombre/uuid> <razón>'
   subcommands:
     help-prefix: /{command}

@@ -24,3 +24,11 @@ command:
         link: '{link}にアクセスして登録を完了させてください。'
     description: アカウントを作成。登録を完了するためのリンクやメールアドレスを出力します。
   no-permission: このコマンドを実行する権限がありません。
+  user-info:
+    usage: '{command} [ユーザー名]'
+    output:
+      uuid: 'UUID: {uuid}'
+      username: 'ユーザー名: {username}'
+      displayname: '表示名: {displayname}'
+  validate:
+    usage: '{command} <コード>'
