@@ -21,8 +21,7 @@ command:
         email: Zkontrolujte svou e-mailovou schránku pro dokončení registrace.
         link: Navštivte prosím {link} pro dokončení registrace.
     usage: '{command} <email>'
-    description: Vytvoří účet. Zobrazí odkaz nebo e-mailovou adresu pro dokončení
-      registrace.
+    description: Vytvořit účet na webu
   report:
     output:
       fail:
