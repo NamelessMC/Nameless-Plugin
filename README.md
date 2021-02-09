@@ -5,12 +5,13 @@ The official Minecraft plugin for NamelessMC v2. For compiled files see the [spi
 * Register command
 * Report command
 * User information command
-* Validate command (broken)
-* Notifications command (v2-pre5+)
+* Validate command
+* Notifications command
 * Permissions
 * Mvdw and PlaceholderAPI placeholders for number of notifications
-* Server data sender (in v2, the plugin can send detailed information about the minecraft servers and the players online to the website)
-* Group sync (v2-pre5+)
+* Server data sender (the plugin can send detailed information about the minecraft servers and the players online to the website)
+* Group sync
+* Whitelist registered users
 
 ## Installation
 1. Install the plugin jar file in the `plugins` folder
