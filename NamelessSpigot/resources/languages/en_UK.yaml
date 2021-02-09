@@ -23,7 +23,7 @@ command:
 
   register:
     usage: "{command} <email>"
-    description: "Creates an account. Will output a link or email address to complete registration."
+    description: "Create a website account"
     output:
       success:
         email: "Please check your inbox to complete registration."
