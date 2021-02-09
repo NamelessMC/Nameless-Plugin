@@ -21,6 +21,7 @@ command:
   no-permission: U heeft geen toestemming om dit commando uit te voeren.
   report:
     description: Rapporteer een speler
+    usage: '{command} <naam/uuid> <reden>'
   user-info:
     usage: '{command} [gebruikersnaam]'
     output:
@@ -34,3 +35,8 @@ command:
         already-vaidated: Uw account is al gevalideerd.
   register:
     usage: '{command} <e-mail>'
+    output:
+      fail:
+        username-invalid: De opgegeven gebruikersnaam is ongeldig.
+        cannot-send-email: Kon de registratie e-mail niet verzenden, neem contact
+          op met de serverbeheerder.
