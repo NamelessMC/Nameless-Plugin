@@ -14,12 +14,15 @@ command:
         email: A regisztráció befejezéséhez ellenőrizze a beérkező leveleket.
         link: A regisztráció befejezéséhez látogasson el a (z) {link} oldalra.
     usage: '{parancs} <email>'
-    description: Fiókot hoz létre. Linket vagy e-mail címet ad ki a regisztráció befejezéséhez.
+    description: Hozzon létre egy webhelyfiókot
   report:
     description: Játékos jelentése
     output:
-      fail: Hiba történt a lejátszó bejelentése közben. Kérjük, értesítse a szerver
-        rendszergazdáját erről a problémáról.
+      fail:
+        generic: Hiba történt a lejátszó bejelentése közben. Kérjük, értesítse a szerver
+          rendszergazdáját erről a problémáról.
+        already-open: Nem jelentheted ezt a játékost, mert már van nyitott jelentésed
+          a moderátorok felé.
       success: Köszönjük, hogy bejelentetted ezt a játékost.
     usage: '{parancs} <név/uuid> <indok>'
   validate:
@@ -69,5 +72,6 @@ player:
     not-validated: A művelet végrehajtásához fiókját érvényesíteni kell.
     not-registered: A művelet végrehajtásához regisztrálnia kell egy fiókot.
     no-permission: Nincs engedélye a művelet végrehajtására.
+    command-banned: Nem futtathatja ezt a parancsot, mert ki van tiltva a webhelyről.
 join-not-registered: Még nincs fiókja a weboldalunkon. Kérjük, regisztráljon a / register
   segítségével.
