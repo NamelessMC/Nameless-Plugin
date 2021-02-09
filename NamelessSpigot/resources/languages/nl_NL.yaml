@@ -7,6 +7,8 @@ player:
     not-validated: Je moet een gevalideerd account hebben om deze actie uit te voeren.
     not-registered: Je moet geregistreerd zijn op de website om dit te doen.
     no-permission: Je hebt onvoldoende rechten om dit te doen.
+    command-banned: Je kan deze opdracht niet uitvoeren, je bent verbannen van de
+      website.
 command:
   not-a-player: Dit commando kan alleen als speler uitgevoerd worden.
   notifications:
@@ -54,8 +56,11 @@ command:
     description: Rapporteer een speler
     output:
       success: Bedankt voor het rapporteren van deze speler.
-      fail: Er is een fout opgetreden bij het rapporteren van deze speler. Breng de
-        serverbeheerder op de hoogte van dit probleem.
+      fail:
+        generic: Er is een fout opgetreden bij het rapporten van deze speler. Gelieve
+          een serverbeheerder op de hoogte te brengen van dit probleem.
+        already-open: Je kan niet deze speler rapporteren, er staat al een rapport
+          open.
     usage: '{command} <name/uuid> <reason>'
   validate:
     usage: '{command} <code>'
