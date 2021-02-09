@@ -25,9 +25,9 @@ The official Minecraft plugin for NamelessMC v2. For compiled files see the [spi
 
 ## Compiling (Spigot)
 
-Requirements: Maven, JDK 11, git
+Requirements: Maven, JDK 8, git (any JDK >8 will also work as long as your server doesn't use a lower JDK version)
 
-`apt install maven openjdk-11-jdk git`
+`apt install maven openjdk-8-jdk git`
 
 ```sh
 git clone https://github.com/Derkades/Derkutils
