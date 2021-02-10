@@ -1,11 +1,13 @@
 package com.namelessmc.spigot.commands;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.namelessmc.java_api.Group;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.spigot.Config;
@@ -61,6 +63,7 @@ public class UserInfoCommand extends Command {
 				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_DISPLAYNAME.getMessage("displayname", user.getDisplayName()));
 				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_UUID.getMessage("uuid", user.getUniqueId().isPresent() ? user.getUniqueId().get().toString() : Message.COMMAND_USERINFO_OUTPUT_UUID_UNKNOWN.getMessage()));
 				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP.getMessage("groupname", user.getPrimaryGroup().get().getName(), "id", user.getPrimaryGroup().get().getId()));
+				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_ALL_GROUPS.getMessage("groups_names_list", user.getGroups().stream().map(Group::getName).collect(Collectors.joining(", "))));
 				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_REGISTERDATE.getMessage("date", user.getRegisteredDate())); // TODO Format nicely (add option in config for date format)
 				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_VALIDATED.getMessage("validated", validated));
 				sender.sendMessage(Message.COMMAND_USERINFO_OUTPUT_BANNED.getMessage("banned", banned));

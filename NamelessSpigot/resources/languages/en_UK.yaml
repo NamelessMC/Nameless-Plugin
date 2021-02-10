@@ -64,6 +64,7 @@ command:
       uuid: "UUID: {uuid}"
       uuid-unknown: 'unknown'
       primary-group: 'Primary group: {groupname}'
+      all-groups: 'All groups: {groups_names_list}'
       registered-date: "Registered on {date}"
       validated: "Account validated: {validated}"
       banned: "Banned: {banned}"

@@ -66,6 +66,7 @@ public enum Message {
 	COMMAND_USERINFO_OUTPUT_UUID("command.user-info.output.uuid"),
 	COMMAND_USERINFO_OUTPUT_UUID_UNKNOWN("command.user-info.output.uuid-unknown"),
 	COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP("command.user-info.output.primary-group"),
+	COMMAND_USERINFO_OUTPUT_ALL_GROUPS("command.user-info.output.all-groups"),
 	COMMAND_USERINFO_OUTPUT_REGISTERDATE("command.user-info.output.registered-date"),
 	COMMAND_USERINFO_OUTPUT_VALIDATED("command.user-info.output.validated"),
 	COMMAND_USERINFO_OUTPUT_BANNED("command.user-info.output.banned"),
@@ -83,7 +84,7 @@ public enum Message {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 9;
+	private static final int VERSION = 10;
 	
 	private static final String[] LANGUAGES_LIST = {
 			"cs_CZ",
