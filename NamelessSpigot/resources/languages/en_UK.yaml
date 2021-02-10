@@ -63,6 +63,7 @@ command:
       displayname: "Display name: {displayname}"
       uuid: "UUID: {uuid}"
       uuid-unknown: 'unknown'
+      primary-group: 'Primary group: {groupname}'
       registered-date: "Registered on {date}"
       validated: "Account validated: {validated}"
       banned: "Banned: {banned}"
