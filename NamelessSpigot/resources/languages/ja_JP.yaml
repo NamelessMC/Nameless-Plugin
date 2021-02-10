@@ -7,6 +7,7 @@ player:
     no-permission: 実行する権限がありません。
     not-registered: 実行するには、アカウントの登録が必要です。
     not-validated: 実行するには、アカウントが有効である必要があります。
+    command-banned: このコマンドを実行できません。あなたはウェブサイトからBANされています。
 command:
   not-a-player: このコマンドを実行するにはプレイヤーでなければなりません。
   notifications:
@@ -22,7 +23,14 @@ command:
       success:
         email: メールボックスを確認して登録を完了させてください。
         link: '{link}にアクセスして登録を完了させてください。'
-    description: アカウントを作成。登録を完了するためのリンクやメールアドレスを出力します。
+      fail:
+        already-exists: 既にアカウントがあります。
+        generic: 登録時にエラーが発生しました。この問題については、サーバー管理者に連絡してください。
+        email-used: このメールアドレスはすでに別のユーザーアカウントで使用されています。
+        email-invalid: メールアドレスは無効です。
+        username-invalid: ユーザー名は無効です。
+        cannot-send-email: 登録メールが送信されない場合は、管理者に連絡してアカウントを有効化してください。
+    description: ウェブサイトアカウントを作成
   no-permission: このコマンドを実行する権限がありません。
   user-info:
     usage: '{command} [ユーザー名]'
@@ -30,5 +38,21 @@ command:
       uuid: 'UUID: {uuid}'
       username: 'ユーザー名: {username}'
       displayname: '表示名: {displayname}'
+      'no': いいえ
+      'yes': はい
+      uuid-unknown: 不明
+      registered-date: 登録日 {date}
   validate:
     usage: '{command} <コード>'
+  report:
+    usage: '{command} <ユーザー名/uuid> <理由>'
+    output:
+      success: プレイヤーを報告していただきありがとうございます。
+      fail:
+        generic: プレイヤーを報告しようとした時にエラーが発生しました。この問題については、サーバー管理者に連絡してください。
+        already-open: プレイヤーを報告することはできません。あなたは既に問題を開いています。
+    description: プレイヤーを報告
+  subcommands:
+    help-prefix: /{command}
+    usage: '{command} [サブコマンド] [引数..]'
+join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。
