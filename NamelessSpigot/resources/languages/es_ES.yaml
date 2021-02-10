@@ -10,8 +10,7 @@ player:
     command-banned: No puedes ejecutar este comando, estás expulsado del sitio web.
 command:
   register:
-    description: Crea una cuenta. Se emitirá un enlace o una dirección de correo electrónico
-      para completar el registro.
+    description: Crear una cuenta en el sitio web
     usage: '{command} <correo electrónico>'
     output:
       success:
