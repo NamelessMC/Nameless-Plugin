@@ -23,6 +23,8 @@ command:
       fail: Произошла неизвестная ошибка при попытке получить информацию об игроке.
       uuid-unknown: неизвестно
       banned: 'Забанен: {banned}'
+      primary-group: 'Основная группа: {groupname}'
+      all-groups: 'Все группы: {groups_names_list}'
     usage: '{command} [username]'
     description: Получить информацию о пользователе веб-сайта
   not-a-player: Чтобы выполнить эту команду, вы должны быть игроком.
