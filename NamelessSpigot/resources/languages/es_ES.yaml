@@ -74,6 +74,8 @@ command:
       fail: Se produjo un error desconocido al intentar obtener la información del
         jugador.
       uuid-unknown: desconocido
+      primary-group: 'Grupo principal: {groupname}'
+      all-groups: 'Todos los grupos: {groups_names_list}'
     description: Obtener información sobre un usuario del sitio web
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /register.
