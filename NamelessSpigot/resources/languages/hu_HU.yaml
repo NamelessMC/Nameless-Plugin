@@ -59,6 +59,8 @@ command:
       uuid: 'UUID: {uuid}'
       registered-date: 'Regisztráció dátuma: {dátum}'
       validated: 'Fiók érvényesítve: {validated}'
+      primary-group: 'Elsődleges csoport: {groupname}'
+      all-groups: 'Összes csoport: {groups_names_list}'
     description: Információk lekérése a webhely felhasználójáról
   subcommands:
     usage: '{parancs} [alparancs] [érvek ..]'
