@@ -56,6 +56,8 @@ command:
       'no': ne
       fail: Při získávání informací o hráči se vyskytla neznámá chyba.
       uuid-unknown: neznámé
+      primary-group: 'Hlavní skupina: {groupname}'
+      all-groups: 'Všechny skupiny: {groups_names_list}'
   subcommands:
     usage: '{command} [podpříkaz] [argumenty..]'
     help-prefix: /{command}
