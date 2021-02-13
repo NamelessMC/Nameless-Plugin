@@ -41,16 +41,21 @@ public class ReportCommand extends Command {
 		
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
-				final String username = args[0];
-				final String[] reasonWordsArray = ListUtils.removeFirstStringFromArray(args);
-				final String reason = String.join(" ", reasonWordsArray); //Join with space in between words
+				final String targetUsername = args[0];
+				final String reason = String.join(" ", ListUtils.removeFirstStringFromArray(args));
 				final Optional<NamelessUser> user = NamelessPlugin.getApi().getUser(player.getUniqueId());
 				if (!user.isPresent()) {
 					sender.sendMessage(Message.PLAYER_SELF_NOTREGISTERED.getMessage());
 					return;
 				}
 				
-				user.get().createReport(username, reason);
+				final Optional<NamelessUser> target = NamelessPlugin.getApi().getUser(targetUsername);
+				if (!target.isPresent()) {
+					sender.sendMessage(Message.PLAYER_OTHER_NOTREGISTERED.getMessage());
+					return;
+				}
+				
+				user.get().createReport(target.get(), reason);
 				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_SUCCESS.getMessage());
 			} catch (final ReportUserBannedException e) {
 				sender.sendMessage(Message.PLAYER_SELF_COMMAND_BANNED.getMessage());
