@@ -42,8 +42,21 @@ command:
       'yes': はい
       uuid-unknown: 不明
       registered-date: 登録日 {date}
+      primary-group: 'プライマリーグループ: {groupname}'
+      all-groups: '全てのグループ: {groups_names_list}'
+      banned: 'Ban: {banned}'
+      fail: プレイヤー情報を取得しようとした際に不明なエラーが発生しました。
+      validated: 'アカウント認証: {validated}'
+    description: ウェブサイトユーザーに関する情報を取得
   validate:
     usage: '{command} <コード>'
+    output:
+      fail:
+        generic: 認証コードを送信しようとした際に不明なエラーが発生しました。
+        invalid-code: 認証コードが正しくありません。正しくコピーされているかどうかを確認して、もう一度お試しください。
+        already-validated: アカウントはすでに認証されています。
+      success: アカウントは認証されました。
+    description: コードを使用して、ユーザーのウェブサイトアカウントを認証します。
   report:
     usage: '{command} <ユーザー名/uuid> <理由>'
     output:

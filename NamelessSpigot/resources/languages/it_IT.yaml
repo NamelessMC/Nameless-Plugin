@@ -1,1 +1,41 @@
-{}
+player:
+  other:
+    not-found: Questo giocatore non è stato trovato.
+    not-validated: L'account di questo giocatore non è stato convalidato.
+    not-registered: Questo giocatore non è registrato nel sito web.
+  self:
+    not-validated: Il tuo account deve essere convalidato per poter eseguire quest'azione.
+    no-permission: Non hai il permesso per eseguire quest'azione.
+    command-banned: Non puoi eseguire questo comando, sei bannato dal sito web.
+command:
+  notifications:
+    usage: '{command}'
+    description: Mostra una lista di notifiche dal sito web.
+    output:
+      no-notifications: Non hai notifiche non lette.
+      click-to-open: Click per aprire in un motore di ricerca
+      fail: E' stato riscontrato un errore nel tentativo di richiamare la lista delle
+        notifiche. Per favore, avvisa un amministratore del server di questo problema.
+  register:
+    output:
+      fail:
+        email-used: Questo indirizzo mail è stato già usato per un altro account.
+        cannot-send-email: Impossibile inviare l'email di registrazione, per favore,
+          contatta un amministratore per attivare il tuo account.
+        generic: Si è verificato un errore nel tentativo di registrare l'account.
+          Per favore, avvisa un amministratore del server di questo problema.
+        already-exists: Hai già un account.
+        email-invalid: L'indirizzo mail fornito non è valido.
+        username-invalid: L'username fornito non è valido.
+      success:
+        email: Per favore, controlla la tua posta in entrata per completare la registrazione.
+        link: Per favore, visita {link} per completare la registrazione.
+  report:
+    description: Segnala un giocatore
+    output:
+      success: Grazie per aver segnalato questo giocatore.
+      fail:
+        generic: E' stato riscontrato un errore nel tentativo di segnalare il giocatore.
+          Per favore, avvisa un amministratore del server di questo problmma.
+  not-a-player: Devi essere un giocatore per poter eseguire questo comando.
+  no-permission: Non hai il permesso per eseguire questo comando.
