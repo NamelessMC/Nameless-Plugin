@@ -1,3 +1,26 @@
 player:
   other:
     not-found: Hráč nebol nájdený.
+command:
+  report:
+    output:
+      fail:
+        generic: Nastala chyba pri nahlasovani tohto hráča. Prosím nahláste to administrátorom
+          servera.
+        already-open: Nemôžeš nahlásit tochto hráča pretože si ho už nahlásil.
+      success: Ďakujeme za nahlásenie hráča.
+    description: Nahlásit hráča
+    usage: '{command} <meno/uuid> <dôvod>'
+  notifications:
+    usage: '{command}'
+  no-permission: Na odoslanie tohto príkazu nemáš dostatočné práva.
+  register:
+    output:
+      fail:
+        username-invalid: Zadané použivatelské meno neexistuje.
+    description: Vytvorit webový účet
+  user-info:
+    output:
+      banned: 'Zabanovaný: {banned}'
+  validate:
+    usage: '{command} <kód>'
