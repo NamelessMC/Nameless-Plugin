@@ -5,7 +5,7 @@
 
 	<groupId>com.namelessmc.plugin</groupId>
 	<artifactId>spigot</artifactId>
-	<version>1.1.2</version>
+	<version>1.1.3-beta</version>
 
 	<name>Nameless-Plugin-Spigot</name>
 
