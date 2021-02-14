@@ -2,10 +2,10 @@ package com.namelessmc.spigot;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -30,6 +30,10 @@ public class WhitelistRegistered implements Runnable {
 		final boolean verified = Config.MAIN.getConfig().getBoolean("auto-whitelist-registered.verified");
 		final boolean log = Config.MAIN.getConfig().getBoolean("auto-whitelist-registered.log");
 		final Logger logger = NamelessPlugin.getInstance().getLogger();
+		
+		if (log) {
+			logger.info("Starting auto-whitelist");
+		}
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			UserFilter<?>[] filters;
@@ -37,6 +41,10 @@ public class WhitelistRegistered implements Runnable {
 				filters = new UserFilter<?>[] {UserFilter.VERIFIED, UserFilter.UNBANNED};
 			} else {
 				filters = new UserFilter<?>[] {UserFilter.UNBANNED};
+			}
+			
+			if (log) {
+				logger.info("Retrieving list of users...");
 			}
 			
 			List<NamelessUser> users;
@@ -49,19 +57,24 @@ public class WhitelistRegistered implements Runnable {
 				return;
 			}
 			
-			final Set<UUID> uuids = users.stream()
-					.map(user -> {
-						try {
-							return user.getUniqueId();
-						} catch (final NamelessException e) {
-							return null;
-						}
-					})
-					.filter(opt -> opt != null && opt.isPresent())
-					.map(opt -> opt.get())
-					.collect(Collectors.toSet());
+			final Set<UUID> uuids = new HashSet<>();
+			for (final NamelessUser user : users) {
+				try {
+					final Optional<UUID> optUuid = user.getUniqueId();
+					if (optUuid.isPresent()) {
+						uuids.add(optUuid.get());
+					} else {
+						logger.warning("Website user " + user.getUsername() + " does not have a UUID!");
+					}
+				} catch (final NamelessException e) {
+					logger.warning("A user has been skipped due to a website communication error");
+				}
+			}
 			
-			// Use Set for O(1) contains()
+			if (log) {
+				logger.info("Done, updating bukkit whitelist...");
+			}
+
 			final Set<String> excludes = new HashSet<>();
 			excludes.addAll(Config.MAIN.getConfig().getStringList("auto-whitelist-registered.log"));
 
