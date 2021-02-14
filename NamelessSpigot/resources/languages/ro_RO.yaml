@@ -1,1 +1,18 @@
-{}
+player:
+  other:
+    not-found: Acest jucător nu a putut fi găsit.
+    not-validated: Contul acestui jucător nu a fost validat.
+    not-registered: Acest jucător nu este înregistrat pe site.
+  self:
+    not-registered: Trebuie să îți înregistrezi un cont pentru a efectua această acțiune.
+    not-validated: Contul tău trebuie să fie validat pentru a efectua această acțiune.
+    no-permission: Nu ai permisiunea să efectuezi această acțiune.
+    command-banned: Nu poți rula această comandă, ești interzis de pe site.
+command:
+  notifications:
+    description: Afișează o listă de notificări ale site-ului.
+    output:
+      no-notifications: Nu ai nicio notificare necitită.
+    usage: '{command}'
+  not-a-player: Trebuie să fii un jucător pentru a efectua această comandă.
+  no-permission: Nu ai permisiunea de a executa această comandă.
