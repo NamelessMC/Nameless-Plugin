@@ -34,8 +34,7 @@ command:
         username-invalid: De opgegeven gebruikersnaam is ongeldig.
         cannot-send-email: Kon de registratie e-mail niet verzenden, neem contact
           op met een administrator om je account te activeren.
-    description: Maakt een account aan. Zal een link of e-mailadres uitvoeren om de
-      registratie te voltooien.
+    description: Maak een website account
   user-info:
     usage: '{command} [gebruikersnaam]'
     output:
@@ -50,6 +49,8 @@ command:
       banned: 'Verbannen: {banned}'
       fail: Er is een onbekende fout opgetreden tijdens een poging om spelersinformatie
         op te halen.
+      primary-group: 'Hoofdgroep: {groupname}'
+      all-groups: 'Alle groepen: {groups_names_list}'
     description: Informatie opvragen over een websitegebruiker
   no-permission: Je hebt geen toestemming om dit commando uit te voeren.
   report:

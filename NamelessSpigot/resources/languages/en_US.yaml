@@ -68,6 +68,8 @@ command:
       'yes': yes
       'no': no
       fail: An unknown error occured while trying to retrieve player information.
+      primary-group: 'Primary group: {groupname}'
+      all-groups: 'All groups: {groups_names_list}'
     description: Retrieve information about a website user
   subcommands:
     usage: '{command} [subcommand] [arguments..]'
