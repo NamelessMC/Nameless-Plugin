@@ -103,9 +103,12 @@ public enum Message {
 			"nl_NL_form",
 			"nl_NL",
 			"pl_PL",
+			"pt_BR",
+			"ro_RO",
 			"ru_RU",
 			"sk_SK",
 			"tr_TR",
+			"vi_VN",
 			"zh_CN",
 	};
 	
