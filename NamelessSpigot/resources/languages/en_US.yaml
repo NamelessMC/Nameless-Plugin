@@ -12,7 +12,7 @@ command:
   not-a-player: You must be a player to perform this command.
   no-permission: You don't have permission to execute this command.
   notifications:
-    usage: '{command}'
+    usage: '/{command}'
     description: Displays a list of website notifications.
     output:
       no-notifications: You do not have any unread notifications.
@@ -20,7 +20,7 @@ command:
       fail: An error occured while trying to retrieve a list of notifications. Please
         notify the server administrator about this issue.
   register:
-    usage: '{command} <email>'
+    usage: '/{command} <email>'
     output:
       success:
         email: Please check your inbox to complete registration.
@@ -36,7 +36,7 @@ command:
           to activate your account.
     description: Create a website account
   report:
-    usage: '{command} <name/uuid> <reason>'
+    usage: '/{command} <name/uuid> <reason>'
     description: Report a player
     output:
       success: Thank you for reporting this player.
@@ -46,7 +46,7 @@ command:
         generic: An error occured while trying to report this player. Please notify
           the server administrator about this issue.
   validate:
-    usage: '{command} <code>'
+    usage: '/{command} <code>'
     description: Validates the user's website account using the given code.
     output:
       success: Your account has been validated.
@@ -56,7 +56,7 @@ command:
         already-validated: Your account is already validated.
         generic: An unknown error occured while trying to submit a validation code.
   user-info:
-    usage: '{command} [username]'
+    usage: '/{command} [username]'
     output:
       username: 'Username: {username}'
       displayname: 'Display name: {displayname}'
@@ -72,7 +72,7 @@ command:
       all-groups: 'All groups: {groups_names_list}'
     description: Retrieve information about a website user
   subcommands:
-    usage: '{command} [subcommand] [arguments..]'
+    usage: '/{command} [subcommand] [arguments..]'
     help-prefix: /{command}
 join-not-registered: You do not have an account on our website yet. Please register
   using /register.
