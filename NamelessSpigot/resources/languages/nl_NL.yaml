@@ -12,7 +12,7 @@ player:
 command:
   not-a-player: Dit commando kan alleen als speler uitgevoerd worden.
   notifications:
-    usage: '{command}'
+    usage: '/{command}'
     output:
       no-notifications: Je hebt geen ongelezen meldingen.
       click-to-open: Klik om te openen in een webbrowser
@@ -20,7 +20,7 @@ command:
         op de hoogte te brengen van dit probleem.
     description: Laat een lijst van website meldingen zien.
   register:
-    usage: '{command} <e-mail>'
+    usage: '/{command} <e-mail>'
     output:
       success:
         email: Controleer uw inbox om de registratie te voltooien.
@@ -36,7 +36,7 @@ command:
           op met een administrator om je account te activeren.
     description: Maak een website account
   user-info:
-    usage: '{command} [gebruikersnaam]'
+    usage: '/{command} [gebruikersnaam]'
     output:
       username: 'Gebruikersnaam: {username}'
       uuid: 'UUID: {uuid}'
@@ -62,9 +62,9 @@ command:
           een serverbeheerder op de hoogte te brengen van dit probleem.
         already-open: Je kan niet deze speler rapporteren, er staat al een rapport
           open.
-    usage: '{command} <name/uuid> <reason>'
+    usage: '/{command} <name/uuid> <reason>'
   validate:
-    usage: '{command} <code>'
+    usage: '/{command} <code>'
     output:
       success: Je account is gevalideerd.
       fail:
@@ -76,5 +76,5 @@ command:
     description: Valideert het websiteaccount van de gebruiker met de opgegeven code.
   subcommands:
     help-prefix: /{command}
-    usage: '{command} [subcommando] [argumenten..]'
+    usage: '/{command} [subcommando] [argumenten..]'
 join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.
