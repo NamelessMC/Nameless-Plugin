@@ -8,7 +8,7 @@ command:
         already-vaidated: Ваша учетная запись уже подтверждена.
         already-validated: Ваш аккаунт уже подтверждён.
       success: Ваша учетная запись была подтверждена.
-    usage: '{command} <code>'
+    usage: '/{command} <code>'
     description: Проверяет учетную запись пользователя на веб-сайте с помощью указанного
       кода.
   user-info:
@@ -25,7 +25,7 @@ command:
       banned: 'Забанен: {banned}'
       primary-group: 'Основная группа: {groupname}'
       all-groups: 'Все группы: {groups_names_list}'
-    usage: '{command} [username]'
+    usage: '/{command} [username]'
     description: Получить информацию о пользователе веб-сайта
   not-a-player: Чтобы выполнить эту команду, вы должны быть игроком.
   no-permission: У вас нет разрешения на выполнение этой команды.
@@ -36,9 +36,9 @@ command:
       click-to-open: Щелкните, чтобы открыть в веб-браузере
       fail: Произошла ошибка при попытке получить список уведомлений. Сообщите администратору
         сервера об этой проблеме.
-    usage: '{command}'
+    usage: '/{command}'
   register:
-    usage: '{command} <email>'
+    usage: '/{command} <email>'
     description: Создайте аккаунт на сайте
     output:
       success:
@@ -55,7 +55,7 @@ command:
         cannot-send-email: Отправить письмо на ваш Email не удалось. Пожалуйста, свяжитесь
           с администрацией для активации вашего аккаунта.
   report:
-    usage: '{command} <name/uuid> <reason>'
+    usage: '/{command} <name/uuid> <reason>'
     description: Пожаловаться на игрока
     output:
       success: Спасибо, что пожаловались на этого игрока.
@@ -64,7 +64,7 @@ command:
           для решения проблемы.
         already-open: Вы уже отправляли жалобу на этого игрока.
   subcommands:
-    usage: '{command} [subcommand] [arguments..]'
+    usage: '/{command} [subcommand] [arguments..]'
     help-prefix: /{command}
 player:
   self:
