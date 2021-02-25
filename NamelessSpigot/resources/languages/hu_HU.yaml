@@ -13,7 +13,7 @@ command:
       success:
         email: A regisztráció befejezéséhez ellenőrizze a beérkező leveleket.
         link: A regisztráció befejezéséhez látogasson el a (z) {link} oldalra.
-    usage: '/{parancs} <email>'
+    usage: '/{command} <email>'
     description: Hozzon létre egy webhelyfiókot
   report:
     description: Játékos jelentése
@@ -24,9 +24,9 @@ command:
         already-open: Nem jelentheted ezt a játékost, mert már van nyitott jelentésed
           a moderátorok felé.
       success: Köszönjük, hogy bejelentetted ezt a játékost.
-    usage: '/{parancs} <név/uuid> <indok>'
+    usage: '/{command} <név/uuid> <indok>'
   validate:
-    usage: '/{parancs} <kód>'
+    usage: '/{command} <kód>'
     description: A megadott kód használatával érvényesíti a felhasználó webhelyfiókját.
     output:
       success: Fiókját érvényesítettük.
@@ -44,27 +44,27 @@ command:
       no-notifications: Nincsenek olvasatlan értesítései.
       fail: Hiba történt az értesítések listájának lekérése közben. Kérjük, értesítse
         a szerver rendszergazdáját erről a problémáról.
-    usage: '/{parancs}'
+    usage: '/{command}'
     description: Megjeleníti a webhely értesítéseinek listáját.
   user-info:
     usage: '/{parancs} [felhasználónév]'
     output:
-      username: 'Felhasználónév: {felhasználónév}'
+      username: 'Felhasználónév: {username}'
       displayname: 'Megjelenített név: {displayname}'
       uuid-unknown: ismeretlen
-      banned: 'Kitiltva: {kitiltva}'
+      banned: 'Kitiltva: {banned}'
       'yes': Igen
       'no': Nem
       fail: Ismeretlen hiba történt a lejátszó adatainak lekérése közben.
       uuid: 'UUID: {uuid}'
-      registered-date: 'Regisztráció dátuma: {dátum}'
+      registered-date: 'Regisztráció dátuma: {date}'
       validated: 'Fiók érvényesítve: {validated}'
       primary-group: 'Elsődleges csoport: {groupname}'
       all-groups: 'Összes csoport: {groups_names_list}'
     description: Információk lekérése a webhely felhasználójáról
   subcommands:
-    usage: '/{parancs} [alparancs] [érvek ..]'
-    help-prefix: /{parancs}
+    usage: '/{command} [alparancs] [érvek ..]'
+    help-prefix: /{command}
 player:
   other:
     not-validated: A játékos fiókja nincs beállítva.
