@@ -13,7 +13,7 @@ command:
       success:
         email: A regisztráció befejezéséhez ellenőrizze a beérkező leveleket.
         link: A regisztráció befejezéséhez látogasson el a (z) {link} oldalra.
-    usage: '{parancs} <email>'
+    usage: '/{parancs} <email>'
     description: Hozzon létre egy webhelyfiókot
   report:
     description: Játékos jelentése
@@ -24,9 +24,9 @@ command:
         already-open: Nem jelentheted ezt a játékost, mert már van nyitott jelentésed
           a moderátorok felé.
       success: Köszönjük, hogy bejelentetted ezt a játékost.
-    usage: '{parancs} <név/uuid> <indok>'
+    usage: '/{parancs} <név/uuid> <indok>'
   validate:
-    usage: '{parancs} <kód>'
+    usage: '/{parancs} <kód>'
     description: A megadott kód használatával érvényesíti a felhasználó webhelyfiókját.
     output:
       success: Fiókját érvényesítettük.
@@ -44,10 +44,10 @@ command:
       no-notifications: Nincsenek olvasatlan értesítései.
       fail: Hiba történt az értesítések listájának lekérése közben. Kérjük, értesítse
         a szerver rendszergazdáját erről a problémáról.
-    usage: '{parancs}'
+    usage: '/{parancs}'
     description: Megjeleníti a webhely értesítéseinek listáját.
   user-info:
-    usage: '{parancs} [felhasználónév]'
+    usage: '/{parancs} [felhasználónév]'
     output:
       username: 'Felhasználónév: {felhasználónév}'
       displayname: 'Megjelenített név: {displayname}'
@@ -63,7 +63,7 @@ command:
       all-groups: 'Összes csoport: {groups_names_list}'
     description: Információk lekérése a webhely felhasználójáról
   subcommands:
-    usage: '{parancs} [alparancs] [érvek ..]'
+    usage: '/{parancs} [alparancs] [érvek ..]'
     help-prefix: /{parancs}
 player:
   other:
