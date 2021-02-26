@@ -33,7 +33,7 @@ command:
     description: ウェブサイトアカウントを作成
   no-permission: このコマンドを実行する権限がありません。
   user-info:
-    usage: '{command} [ユーザー名]'
+    usage: '/{command} [ユーザー名]'
     output:
       uuid: 'UUID: {uuid}'
       username: 'ユーザー名: {username}'
@@ -67,5 +67,5 @@ command:
     description: プレイヤーを報告
   subcommands:
     help-prefix: /{command}
-    usage: '{command} [サブコマンド] [引数..]'
+    usage: '/{command} [サブコマンド] [引数..]'
 join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。
