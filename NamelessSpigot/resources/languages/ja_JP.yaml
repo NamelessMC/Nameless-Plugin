@@ -11,14 +11,14 @@ player:
 command:
   not-a-player: このコマンドを実行するにはプレイヤーでなければなりません。
   notifications:
-    usage: '{command}'
+    usage: '/{command}'
     output:
       no-notifications: 未読通知はありません。
       click-to-open: クリックするとウェブブラウザで開きます
       fail: 通知一覧を取得しようとした際にエラーが発生しました。この問題については、サーバー管理者に連絡してください。
     description: ウェブサイトの通知一覧を表示します。
   register:
-    usage: '{command} <メールアドレス>'
+    usage: '/{command} <メールアドレス>'
     output:
       success:
         email: メールボックスを確認して登録を完了させてください。
@@ -33,7 +33,7 @@ command:
     description: ウェブサイトアカウントを作成
   no-permission: このコマンドを実行する権限がありません。
   user-info:
-    usage: '{command} [ユーザー名]'
+    usage: '/{command} [ユーザー名]'
     output:
       uuid: 'UUID: {uuid}'
       username: 'ユーザー名: {username}'
@@ -49,7 +49,7 @@ command:
       validated: 'アカウント認証: {validated}'
     description: ウェブサイトユーザーに関する情報を取得
   validate:
-    usage: '{command} <コード>'
+    usage: '/{command} <コード>'
     output:
       fail:
         generic: 認証コードを送信しようとした際に不明なエラーが発生しました。
@@ -58,7 +58,7 @@ command:
       success: アカウントは認証されました。
     description: コードを使用して、ユーザーのウェブサイトアカウントを認証します。
   report:
-    usage: '{command} <ユーザー名/uuid> <理由>'
+    usage: '/{command} <ユーザー名/uuid> <理由>'
     output:
       success: プレイヤーを報告していただきありがとうございます。
       fail:
@@ -67,5 +67,5 @@ command:
     description: プレイヤーを報告
   subcommands:
     help-prefix: /{command}
-    usage: '{command} [サブコマンド] [引数..]'
+    usage: '/{command} [サブコマンド] [引数..]'
 join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。

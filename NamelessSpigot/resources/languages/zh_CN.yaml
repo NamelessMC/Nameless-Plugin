@@ -15,14 +15,14 @@ command:
       no-notifications: 您没有任何未读通知。
       click-to-open: 点击来在浏览器中打开
     description: 显示网站通知列表。
-    usage: '{command}'
+    usage: '/{command}'
   report:
     output:
       success: 感谢您举报此玩家。
       fail:
         generic: 试图举报此玩家时发生了一个错误。请将此问题告知服务器管理员。
         already-open: 由于您已经有尚未处理的关于此玩家的举报，您无法举报此玩家。
-    usage: '{command} <名字/uuid> <理由>'
+    usage: '/{command} <名字/uuid> <理由>'
     description: 举报一名玩家
   user-info:
     output:
@@ -36,12 +36,14 @@ command:
       'yes': 是
       'no': 否
       uuid-unknown: 未知
-    usage: '{command} [用户名]'
+      primary-group: 主要群组：{groupname}
+      all-groups: 全部群组：{groups_names_list}
+    usage: '/{command} [用户名]'
     description: 获得一个网站用户的信息
   not-a-player: 您必须是一个玩家才能执行此指令。
   no-permission: 您没有执行此指令的权限。
   register:
-    usage: '{command} <邮箱>'
+    usage: '/{command} <邮箱>'
     output:
       success:
         email: 请查看您的收件箱来完成注册。
@@ -53,9 +55,9 @@ command:
         email-invalid: 提供的邮箱地址无效。
         username-invalid: 提供的用户名无效。
         cannot-send-email: 无法发送注册邮件，请联系管理员来激活您的账户。
-    description: 创建一个帐号。会输出一个链接或发送邮件来完成注册。
+    description: 注册网页账号
   validate:
-    usage: '{command} <验证码>'
+    usage: '/{command} <验证码>'
     description: 使用给定的验证码来验证用户的网站帐号。
     output:
       success: 成功验证了您的帐号。
@@ -64,6 +66,6 @@ command:
         generic: 试图提交验证码时发生了一个未知错误。
         already-validated: 您的账号已被验证过了。
   subcommands:
-    usage: '{command} [子命令] [参数...]'
+    usage: '/{command} [子命令] [参数...]'
     help-prefix: /{command}
 join-not-registered: 您在我们的网站上没有帐号。请使用 /register 来注册。
