@@ -12,7 +12,7 @@ command:
   not-a-player: Você precisa ser um jogador para executar esse comando.
   no-permission: Você não tem permissão para executar esse comando.
   notifications:
-    usage: '{command}'
+    usage: '/{command}'
     output:
       no-notifications: Você não tem notificações não lidas.
       click-to-open: Clique para abrir em um navegador da web
@@ -20,7 +20,7 @@ command:
         o administrador do servidor sobre este problema.
     description: Exiber uma lista de notificações do site.
   register:
-    usage: '{command} <email>'
+    usage: '/{command} <email>'
     description: Crie uma conta no site
     output:
       success:
@@ -37,7 +37,7 @@ command:
         cannot-send-email: Não foi possível enviar o email de registro, entre em contato
           com um administrador para ativar sua conta.
   report:
-    usage: '{command} <nome/uuid> <motivo>'
+    usage: '/{command} <nome/uuid> <motivo>'
     description: Denunciar um jogador
     output:
       success: Obrigado por denunciar este jogador.
@@ -54,10 +54,10 @@ command:
           o código correto e tente novamente.
         generic: Ocorreu um erro desconhecido ao tentar enviar um código de validação.
       success: Sua conta foi validada.
-    usage: '{command} <código>'
+    usage: '/{command} <código>'
     description: Validar a conta do site do usuário usando o código fornecido.
   user-info:
-    usage: '{command} [nome de usuário]'
+    usage: '/{command} [nome de usuário]'
     output:
       username: 'Nome de usuário: {username}'
       displayname: 'Nome de exibição: {displayname}'
@@ -73,7 +73,7 @@ command:
       fail: Ocorreu um erro desconhecido ao tentar recuperar as informações do jogador.
     description: Recuperar informações sobre um usuário do site
   subcommands:
-    usage: '{command} [subcomando] [argumentos..]'
+    usage: '/{command} [subcomando] [argumentos..]'
     help-prefix: /{command}
 join-not-registered: Você ainda não tem uma conta em nosso site. Por favor, registre-se
   usando /register.
