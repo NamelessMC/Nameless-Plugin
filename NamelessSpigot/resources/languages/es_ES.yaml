@@ -11,7 +11,7 @@ player:
 command:
   register:
     description: Crear una cuenta en el sitio web
-    usage: '{command} <correo electrónico>'
+    usage: '/{command} <correo electrónico>'
     output:
       success:
         link: Por favor, visite {link} para completar el registro.
@@ -29,7 +29,7 @@ command:
   not-a-player: Debes ser un jugador para usar este comando.
   no-permission: No tienes permiso para ejecutar este comando.
   notifications:
-    usage: '{command}'
+    usage: '/{command}'
     description: Muestra una lista de notificaciones del sitio web.
     output:
       no-notifications: No tiene ninguna notificación sin leer.
@@ -45,10 +45,10 @@ command:
           Por favor, notifique al administrador del servidor sobre este problema.
         already-open: No puedes reportar a este jugador, ya tienes un reporte abierto
           para él.
-    usage: '{command} <nombre/uuid> <razón>'
+    usage: '/{command} <nombre/uuid> <razón>'
   subcommands:
     help-prefix: /{command}
-    usage: '{command} [subcomando] [argumentos..]'
+    usage: '/{command} [subcomando] [argumentos..]'
   validate:
     output:
       success: Su cuenta ha sido validada.
@@ -58,10 +58,10 @@ command:
           si lo ha copiado correctamente e inténtelo de nuevo.
         already-vaidated: Su cuenta ya está validada.
         already-validated: Su cuenta ya está validada.
-    usage: '{command} <código>'
+    usage: '/{command} <código>'
     description: Valida la cuenta del sitio web del usuario usando el código proporcionado.
   user-info:
-    usage: '{command} [nombre de usuario]'
+    usage: '/{command} [nombre de usuario]'
     output:
       username: 'Nombre de usuario: {username}'
       displayname: 'Nombre para mostrar: {displayname}'
