@@ -23,7 +23,7 @@ command:
         generic: 试图举报此玩家时发生了一个错误。请将此问题告知服务器管理员。
         already-open: 由于您已经有尚未处理的关于此玩家的举报，您无法举报此玩家。
     usage: '/{command} <名字/uuid> <理由>'
-    description: 举报一名玩家
+    description: 举报
   user-info:
     output:
       registered-date: 于 {date} 注册
@@ -55,7 +55,7 @@ command:
         email-invalid: 提供的邮箱地址无效。
         username-invalid: 提供的用户名无效。
         cannot-send-email: 无法发送注册邮件，请联系管理员来激活您的账户。
-    description: 注册网页账号
+    description: 注册
   validate:
     usage: '/{command} <验证码>'
     description: 使用给定的验证码来验证用户的网站帐号。
