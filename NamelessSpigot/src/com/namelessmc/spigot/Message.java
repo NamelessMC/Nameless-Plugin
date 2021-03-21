@@ -98,7 +98,7 @@ public enum Message {
 			"hu_HU",
 			"it_IT",
 			"ja_JP",
-			"ko_KO",
+			"ko_KR",
 			"lt_LT",
 			"nb_NO",
 			"nl_NL_form",
