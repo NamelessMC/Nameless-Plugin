@@ -1,1 +1,71 @@
-{}
+player:
+  other:
+    not-found: 플레이어를 찾을 수 없습니다.
+    not-registered: 사이트에 등록되지 않은 플레이어입니다.
+    not-validated: 인증되지 않은 플레이어입니다.
+  self:
+    no-permission: 권한이 없습니다.
+    command-banned: 사이트에서 차단되어 이 명령을 실행할 수 없습니다.
+    not-validated: 이 동작을 수행하려면 인증된 플레이어여야 합니다.
+    not-registered: 이 동작을 수행하려면 등록되어야 합니다.
+command:
+  notifications:
+    output:
+      click-to-open: 클릭해서 사이트를 엽니다
+      fail: 알림 목록을 불러오는 중 오류가 발생했습니다. 서버 관리자에게 문의하십시오.
+      no-notifications: 새 알림이 없습니다.
+    usage: /{command}
+    description: 웹 사이트의 알림 목록을 불러옵니다.
+  register:
+    output:
+      fail:
+        already-exists: 이미 아이디를 등록했습니다.
+        email-used: 다른 계정에서 사용 중인 메일입니다.
+        email-invalid: 유효하지 않은 메일 주소입니다.
+        cannot-send-email: 인증 메일을 보낼 수 없습니다. 관리자를 통해 계정을 활성화하십시오.
+        generic: 가입 중 오류가 발생했습니다. 서버 관리자에게 문의하십시오.
+        username-invalid: 잘못된 아이디입니다.
+      success:
+        email: 발송된 인증 메일을 확인하십시오.
+        link: '{link}로 접속해 인증을 완료하십시오.'
+    usage: /{command} <email>
+    description: 웹 사이트 아이디를 생성합니다
+  report:
+    output:
+      fail:
+        generic: 신고 접수 중 오류가 발생했습니다. 관리자에게 직접 문의하십시오.
+        already-open: 이미 신고된 플레이어를 신고할 수 없습니다.
+      success: 신고가 접수되었습니다.
+    usage: /{command} <닉네임/UUID> <사유>
+    description: 플레이어를 신고합니다
+  validate:
+    output:
+      fail:
+        already-validated: 이미 인증된 계정입니다.
+        generic: 인증 코드를 확인하던 중 알 수 없는 오류가 발생했습니다.
+        invalid-code: 잘못된 코드입니다. 제대로 복사했는지 확인 후 다시 시도하십시오.
+      success: 계정이 활성화되었습니다.
+    usage: /{command} <코드>
+    description: 입력된 코드로 플레이어의 웹 사이트 계정을 활성화합니다.
+  not-a-player: 플레이어만 이 명령어를 사용할 수 있습니다.
+  no-permission: 권한이 없습니다.
+  user-info:
+    usage: /{command} [아이디]
+    description: 웹 사이트 유저의 정보를 불러옵니다
+    output:
+      username: '아이디: {username}'
+      displayname: '표시된 이름: {displayname}'
+      uuid: 'UUID: {uuid}'
+      uuid-unknown: 알 수 없음
+      primary-group: '기본 그룹: {groupname}'
+      all-groups: '모든 그룹: {groups_names_list}'
+      registered-date: '{date}에 가입함'
+      validated: '{validated}에 인증됨'
+      banned: '{banned}에 차단됨'
+      'yes': 예
+      'no': 아니오
+      fail: 플레이어 정보를 불러오던 중 알 수 없는 오류가 발생했습니다.
+  subcommands:
+    usage: /{command} [서브 커맨드] [입력값...]
+    help-prefix: /{command}
+join-not-registered: 웹 사이트 계정이 존재하지 않습니다. /register 로 가입하세요.
