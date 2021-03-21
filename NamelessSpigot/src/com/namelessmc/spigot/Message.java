@@ -73,19 +73,19 @@ public enum Message {
 	COMMAND_USERINFO_OUTPUT_YES("command.user-info.output.yes"),
 	COMMAND_USERINFO_OUTPUT_NO("command.user-info.output.no"),
 	COMMAND_USERINFO_OUTPUT_FAIL("command.user-info.output.fail"),
-	
+
 	COMMAND_SUBCOMMANDS_USAGE("command.subcommands.usage"),
 	COMMAND_SUBCOMMANDS_HELP_PREFIX("command.subcommands.help-prefix"),
 
 	JOIN_NOTREGISTERED("join-not-registered"),
 
 	;
-	
+
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
 	private static final int VERSION = 11;
-	
+
 	private static final String[] LANGUAGES_LIST = {
 			"cs_CZ",
 			"de_DE",
@@ -98,6 +98,7 @@ public enum Message {
 			"hu_HU",
 			"it_IT",
 			"ja_JP",
+			"ko_KO",
 			"lt_LT",
 			"nb_NO",
 			"nl_NL_form",
@@ -111,7 +112,7 @@ public enum Message {
 			"vi_VN",
 			"zh_CN",
 	};
-	
+
 	static final String DEFAULT_LANGUAGE = "en_UK";
 
 	private static final Charset VERSION_FILE_CHARSET = Charset.forName("UTF-8");
@@ -134,7 +135,7 @@ public enum Message {
 		Validate.notNull(unconverted, "Message '" + this.path + "' missing from language file. This is a bug, adding it to the language file is usually not the correct solution.");
 		return Chat.convertColors(unconverted);
 	}
-	
+
 
 	/**
 	 * Uses {@link #getMessage()} then replaces placeholders.
@@ -147,7 +148,7 @@ public enum Message {
 		if (placeholders.length % 2 != 0) { // False if length is 1, 3, 5, 6, etc.
 			throw new IllegalArgumentException("Placeholder array length must be an even number");
 		}
-		
+
 		Validate.noNullElements(placeholders);
 
 		if (placeholders.length == 0) {
@@ -185,19 +186,19 @@ public enum Message {
 	public void send(final CommandSender sender, final Object... placeholders) {
 		sender.sendMessage(this.getMessage(placeholders));
 	}
-	
+
 	private static File getLanguageDirectory() {
 		return new File(NamelessPlugin.getInstance().getDataFolder(), "languages");
 	}
 
 	public static void updateFiles() throws IOException {
 		final Logger log = NamelessPlugin.getInstance().getLogger();
-		
+
 		final File languageDirectory = getLanguageDirectory();
 		languageDirectory.mkdirs();
-		
+
 		final File versionFile = new File(languageDirectory, VERSION_FILE_NAME);
-		
+
 		if (versionFile.exists()) {
 			final String versionContent = FileUtils.readFileToString(versionFile, VERSION_FILE_CHARSET);
 			if (versionContent.equals(String.valueOf(VERSION))) {
@@ -213,41 +214,41 @@ public enum Message {
 		} else {
 			log.warning("Languages appear to not be installed yet.");
 		}
-		
+
 		log.info("Installing language files");
-		
+
 		for (final String languageName : LANGUAGES_LIST) {
 			final String languagePathInJar = "/languages/" + languageName + ".yaml";
 			final File dest = new File(languageDirectory, languageName + ".yaml");
 			dest.createNewFile();
 			FileUtils.copyURLToFile(Message.class.getResource(languagePathInJar), dest);
 		}
-		
+
 		log.info("Creating version file");
-		
+
 		FileUtils.writeStringToFile(versionFile, String.valueOf(VERSION), VERSION_FILE_CHARSET);
-		
+
 		log.info("Done");
 	}
-	
+
 	private static FileConfiguration readLanguageFile(final String languageName) {
 		final Logger log = NamelessPlugin.getInstance().getLogger();
-		
+
 		if (!ArrayUtils.contains(LANGUAGES_LIST, languageName)) {
 			log.severe("Language '" + languageName + "' not known.");
 			return null;
 		}
-		
+
 		final File file = new File(getLanguageDirectory(), languageName + ".yaml");
-		
+
 		if (!file.exists()) {
 			log.severe("File not found: '" + file.getAbsolutePath() + "'");
 			return null;
 		}
-		
+
 		return YamlConfiguration.loadConfiguration(file);
 	}
-	
+
 	public static boolean setActiveLanguage(final String languageName) {
 		activeLanguageFile = readLanguageFile(languageName);
 		if (languageName.equals(DEFAULT_LANGUAGE)) {
