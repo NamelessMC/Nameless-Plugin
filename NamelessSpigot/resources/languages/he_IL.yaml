@@ -7,7 +7,7 @@ command:
       fail: אירעה שגיאה בניסיון לאחזר רשימת התראות. אנא הודע למנהל השרת על בעיה זו.
     usage: '{command}/'
   register:
-    description: צור חשבון באתר.
+    description: צור חשבון באתר
     output:
       success:
         email: אנא בדוק את תיבת הדואר הנכנס שלך כדי להשלים את ההרשמה.
