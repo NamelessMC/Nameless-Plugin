@@ -6,7 +6,7 @@ command:
           kontrol edin ve tekrar deneyin.
         generic: Doğrulama kodu göndermeye çalışırken bilinmeyen bir hata oluştu.
       success: Hesabınız doğrulandı.
-    usage: '{command} <kod>'
+    usage: '/{command} <kod>'
     description: Verilen kodu kullanarak kullanıcının web sitesi hesabını doğrular.
   user-info:
     output:
@@ -21,10 +21,10 @@ command:
       'yes': evet
       'no': hayır
     description: Bir web sitesi kullanıcısı hakkında bilgi alın
-    usage: '{command} [kullanıcı adı]'
+    usage: '/{command} [kullanıcı adı]'
   no-permission: Bu komutu yürütme izniniz yok.
   notifications:
-    usage: '{command}'
+    usage: '/{command}'
     output:
       no-notifications: Okunmamış bildiriminiz yok.
       click-to-open: Bir web tarayıcısında açmak için tıklayın
@@ -32,8 +32,7 @@ command:
         sunucu yöneticisine bildirin.
     description: Web sitesi bildirimlerinin bir listesini görüntüler.
   register:
-    description: Bir hesap oluşturur. Kaydı tamamlamak için bir bağlantı veya e-posta
-      adresi verir.
+    description: Bir hesap oluşturur
     output:
       success:
         email: Kaydı tamamlamak için lütfen gelen kutunuzu kontrol edin.
@@ -44,16 +43,16 @@ command:
         email-invalid: Girdiğiniz e-posta adresi geçersiz.
         generic: Kaydolmaya çalışırken bir hata oluştu. Lütfen bu sorunu sunucu yöneticisine
           bildirin.
-    usage: '{command} <eposta>'
+    usage: '/{command} <eposta>'
   report:
     description: Bir oyuncuyu rapor et
-    usage: '{command} <isim/uuid> <sebeb>'
+    usage: '/{command} <isim/uuid> <sebeb>'
     output:
       success: Bu oyuncuyu bildirdiğiniz için teşekkür ederiz.
       fail: Bu oynatıcıyı bildirmeye çalışırken bir hata oluştu. Lütfen bu sorunu
         sunucu yöneticisine bildirin.
   subcommands:
-    usage: '{command} [alt komut] [içerik..]'
+    usage: '/{command} [alt komut] [içerik..]'
     help-prefix: /{command}
   not-a-player: Bu komutu gerçekleştirmek için oyuncu olmalısınız.
 player:
