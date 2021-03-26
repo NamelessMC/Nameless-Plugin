@@ -8,7 +8,7 @@ player:
 command:
   report:
     description: Rapporter en spiller.
-    usage: /{kommando} <navn/uuid> <grunn>
+    usage: /{command} <navn/uuid> <grunn>
     output:
       success: Takk for at du rapporterte denne spilleren.
   notifications:
