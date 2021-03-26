@@ -2,6 +2,11 @@ player:
   other:
     not-found: Denne spilleren kunne ikke bli funnet.
     not-registered: Denne spilleren er ikke registrert på nettsiden.
+    not-validated: Denne spillerens konto er ikke validert.
+  self:
+    not-validated: Kontoen din må valideres for å utføre denne handlingen.
 command:
   report:
     description: Rapporter en spiller.
+  notifications:
+    usage: /{kommando}
