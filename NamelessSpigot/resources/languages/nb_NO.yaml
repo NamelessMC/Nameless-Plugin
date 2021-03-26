@@ -12,5 +12,5 @@ command:
     usage: /{kommando}
     output:
       no-notifications: Du har ingen uleste varslinger.
-      click-to-open: Klikk for å åpne i nettleser.
+      click-to-open: Klikk for å åpne i nettleser
   no-permission: Du har ikke tilgang til denne kommandoen.
