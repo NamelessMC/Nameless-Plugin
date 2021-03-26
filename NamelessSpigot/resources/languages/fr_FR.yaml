@@ -19,7 +19,7 @@ command:
         de notifications. Veuillez informer l'administrateur du serveur de ce problème.
     description: Affiche une liste de notifications de site Web.
   register:
-    usage: '{commande} <email>'
+    usage: '/{command} <email>'
     description: Crée un compte
     output:
       success:
@@ -42,14 +42,14 @@ command:
   user-info:
     output:
       'yes': oui
-      validated: 'Compte validé: {validated}'
-      banned: 'Banni: {banned}'
+      validated: 'Compte validé : {validated}'
+      banned: 'Banni : {banned}'
       'no': non
       fail: Une erreur inconnue s'est produite lors de la tentative d'extraction des
         informations du joueur.
-      username: "Nom d'utilisateur: {username}"
-      displayname: 'Nom affiché: {displayname}'
-      uuid: 'UUID: {uuid}'
+      username: "Nom d'utilisateur : {username}"
+      displayname: 'Nom affiché : {displayname}'
+      uuid: 'UUID : {uuid}'
       uuid-unknown: inconnu
       registered-date: Inscrit le {date}
     description: Extrait de l'information à propos d'un utilisateur du site web
