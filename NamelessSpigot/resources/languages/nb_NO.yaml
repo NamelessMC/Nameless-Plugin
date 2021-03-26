@@ -9,6 +9,8 @@ command:
   report:
     description: Rapporter en spiller.
     usage: /{kommando} <navn/uuid> <grunn>
+    output:
+      success: Takk for at du rapporterte denne spilleren.
   notifications:
     usage: /{kommando}
     output:
@@ -24,3 +26,5 @@ command:
       fail:
         already-exists: Du har allerede en konto.
         email-used: Denne epostadressen er allerede i bruk av en annen brukerkonto.
+  validate:
+    usage: ({kommando} <kode>
