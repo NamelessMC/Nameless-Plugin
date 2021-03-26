@@ -1,1 +1,73 @@
-{}
+command:
+  notifications:
+    description: מציג רשימה של התראות באתר.
+    output:
+      no-notifications: אין לך התראות שלא נקראו.
+      click-to-open: לחץ לפתיחה בדפדפן אינטרנט
+      fail: אירעה שגיאה בניסיון לאחזר רשימת התראות. אנא הודע למנהל השרת על בעיה זו.
+    usage: '{command}/'
+  register:
+    description: צור חשבון באתר.
+    output:
+      success:
+        email: אנא בדוק את תיבת הדואר הנכנס שלך כדי להשלים את ההרשמה.
+        link: בקר בכתובת {link} להשלמת ההרשמה.
+      fail:
+        generic: אירעה שגיאה בניסיון הרישום. אנא הודע למנהל השרת על בעיה זו.
+        cannot-send-email: לא ניתן לשלוח דוא"ל לרישום, אנא צרו קשר עם מנהל המערכת
+          כדי להפעיל את חשבונכם.
+        already-exists: כבר יש לך חשבון באתר.
+        email-used: כתובת דוא"ל זו כבר משמשת לחשבון משתמש אחר.
+        email-invalid: כתובת הדוא"ל שצוינה אינה חוקית.
+        username-invalid: שם המשתמש שסופק אינו חוקי.
+    usage: <איימיל> {command}/
+  report:
+    output:
+      success: תודה שדיווחת על שחקן זה.
+      fail:
+        generic: אירעה שגיאה בניסיון לדווח על נגן זה. אנא הודע למנהל השרת על בעיה
+          זו.
+        already-open: אינך יכול לדווח על שחקן זה, כבר יש לך דוח פתוח בשבילו.
+    description: דווח על שחקן
+    usage: /{command} <שם/uuid> <סיבה>
+  validate:
+    output:
+      success: חשבונך אומת.
+      fail:
+        invalid-code: קוד האימות שלך שגוי. אנא בדוק אם העתקת אותו כראוי ונסה שוב.
+        generic: אירעה שגיאה לא ידועה בעת ניסיון להגיש קוד אימות.
+        already-validated: חשבונך כבר מאומת.
+    usage: <קוד> {פקודה}/
+    description: מאמת את חשבון האתר של המשתמש באמצעות הקוד הנתון.
+  user-info:
+    usage: '[שם משתמש] {פקודה}/'
+    description: אחזר מידע על משתמש באתר
+    output:
+      uuid: 'UUID: {uuid}'
+      uuid-unknown: לא ידוע
+      primary-group: 'קבוצה ראשית: {groupname}'
+      registered-date: נרשום בתאריך {date}
+      validated: 'חשבון מאומת: {מאומת}'
+      username: 'שמ משתמש: {username}'
+      displayname: 'שם תצוגה: {displayname}'
+      fail: אירעה שגיאה לא ידועה בעת ניסיון לאחזר מידע על הנגן.
+      all-groups: 'כל הקבוצות: {groups_names_list}'
+      banned: 'נאסר: {banned}'
+      'yes': כן
+      'no': לא
+  not-a-player: אתה צריך להיות השחקן כדי לבצע את הפקודה הזאת.
+  subcommands:
+    usage: /{command} [תת-פקודה] [טיעונים ]
+    help-prefix: /{command}
+  no-permission: אין לך הרשאה לבצע פקודה זו.
+player:
+  other:
+    not-found: המשתמש זה לא נמצא.
+    not-validated: המשתמש של השחקן הוא לא מאומת.
+    not-registered: המשתמש הזה לא נרשם לאתר.
+  self:
+    not-validated: אתה צריך לאמת את החשבון שלך כדי לעשות את הפעולה הזאת.
+    not-registered: אתה צריך להירשם כדי לעשות את הפעולה הזאת.
+    no-permission: אין לך הרשאה לבצע את הפעולה הזאת.
+    command-banned: אתה לא יכול לעשות את הפקודה הזאות, מכיון שאתה מורחק מהאתר.
+join-not-registered: עדיין אין לך חשבון באתר שלנו. אנא הירשם באמצעות / הירשם.
