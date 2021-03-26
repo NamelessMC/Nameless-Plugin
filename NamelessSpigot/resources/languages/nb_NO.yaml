@@ -8,6 +8,7 @@ player:
 command:
   report:
     description: Rapporter en spiller.
+    usage: /{kommando} <navn/uuid> <grunn>
   notifications:
     usage: /{kommando}
     output:
@@ -16,3 +17,10 @@ command:
   no-permission: Du har ikke tilgang til denne kommandoen.
   register:
     usage: /{command} <epost>
+    description: Opprett en nettsidekonto
+    output:
+      success:
+        email: Sjekk innboksen din for å fullføre registrering .
+      fail:
+        already-exists: Du har allerede en konto.
+        email-used: Denne epostadressen er allerede i bruk av en annen brukerkonto.
