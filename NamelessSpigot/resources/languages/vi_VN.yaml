@@ -1,1 +1,3 @@
-{}
+player:
+  other:
+    not-found: Không thể tìm thấy người chơi này.

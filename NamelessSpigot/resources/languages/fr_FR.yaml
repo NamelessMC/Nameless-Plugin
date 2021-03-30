@@ -11,7 +11,7 @@ command:
   not-a-player: Vous devez être un joueur pour exécuter cette commande.
   no-permission: Vous n'êtes pas autorisé à exécuter cette commande.
   notifications:
-    usage: '{commander}'
+    usage: '/{command}'
     output:
       no-notifications: Vous n'avez aucune notification non lue.
       click-to-open: Cliquez pour ouvrir dans un navigateur Web
@@ -19,15 +19,53 @@ command:
         de notifications. Veuillez informer l'administrateur du serveur de ce problème.
     description: Affiche une liste de notifications de site Web.
   register:
-    usage: '{commande} <email>'
-    description: Crée un compte. Affiche un lien ou une adresse e-mail pour terminer
-      l'inscription.
+    usage: '/{command} <email>'
+    description: Crée un compte
     output:
       success:
         email: Veuillez vérifier votre boîte de réception pour terminer l'inscription.
         link: Veuillez visiter {link} pour terminer l'inscription.
       fail:
-        already-exists: Avez vous déjà un compte.
+        already-exists: Vous avez déjà un compte.
         email-used: Cette adresse e-mail est déjà utilisée pour un autre compte utilisateur.
         generic: Une erreur s'est produite lors de la tentative d'inscription. Veuillez
           informer l'administrateur du serveur de ce problème.
+        email-invalid: L'adresse e-mail fournie est invalide.
+        username-invalid: Le nom d'utilisateur fourni est invalide.
+        cannot-send-email: L'envoi de l'e-mail d'inscription a échoué, contactez un
+          administrateur pour activer votre compte.
+  report:
+    description: Signaler un joueur
+    usage: /{command} <nom/uuid> <raison>
+    output:
+      success: Merci d'avoir signalé ce joueur.
+  user-info:
+    output:
+      'yes': oui
+      validated: 'Compte validé : {validated}'
+      banned: 'Banni : {banned}'
+      'no': non
+      fail: Une erreur inconnue s'est produite lors de la tentative d'extraction des
+        informations du joueur.
+      username: "Nom d'utilisateur : {username}"
+      displayname: 'Nom affiché : {displayname}'
+      uuid: 'UUID : {uuid}'
+      uuid-unknown: inconnu
+      registered-date: Inscrit le {date}
+    description: Extrait de l'information à propos d'un utilisateur du site web
+  subcommands:
+    help-prefix: /{command}
+    usage: /{command} [sous-commande] [paramètres..]
+  validate:
+    usage: /{command} <code>
+    description: Valide le compte du joueur sur le site web à partir du code donné.
+    output:
+      success: Votre compte a été validé.
+      fail:
+        invalid-code: Votre code de validation est incorrect. Veuillez le vérifier
+          puis réessayer.
+        already-validated: Votre compte a déjà été validé.
+        generic: Une erreur indéterminée s'est produite lors de la tentative d'envoi
+          d'un code de validation.
+join-not-registered: Vous n'avez pas encore de compte sur notre site web. Veuillez
+  vous inscrire avec /register.

@@ -30,8 +30,7 @@ command:
         already-exists: Posiadasz juz konto.
         email-used: Ten adres email zostal juz uzyty przez innego uzytkownika.
         email-invalid: Wprowadzony adres email jest bledny.
-    description: Tworzy konto. Wyswietli link lub adres e-mail w celu zakonczenia
-      rejestracji.
+    description: Tworzy konto
   report:
     usage: '{command} <nick/uuid> <powod>'
     output:

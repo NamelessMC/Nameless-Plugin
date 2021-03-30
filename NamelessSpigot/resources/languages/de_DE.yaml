@@ -1,12 +1,14 @@
 player:
   other:
     not-found: Dieser Spieler konnte nicht gefunden werden.
-    not-validated: Das Konto dieses Spielers ist nicht validiert.
+    not-validated: Das Konto dieses Spielers ist nicht bestätigt.
     not-registered: Dieser Spieler ist nicht auf der Website registriert.
   self:
-    not-validated: Ihr Konto muss validiert sein, um diese Aktion ausführen zu können.
+    not-validated: Ihr Konto muss bestätigt sein, um diese Aktion ausführen zu können.
     no-permission: Du hast keine Reche, diese Aktion auszuführen.
     not-registered: Du must ein Konto erstellen, um diese Aktion ausführen zu können.
+    command-banned: Du kannst diesen Command nicht ausführen, du wurdest von dieser
+      Website gebannt.
 command:
   notifications:
     output:
@@ -15,7 +17,7 @@ command:
         Problem.
       no-notifications: Du hast keine ungelesenen Benachrichtigungen.
       click-to-open: Klicke hier, um es in einem Webbrowser zu öffnen
-    usage: '{Befehl}'
+    usage: '/{command}'
     description: Zeigt eine Liste der Website-Benachrichtigungen an.
   not-a-player: Du must ein Spieler sein, um diesen Befehl ausführen zu können.
   register:
@@ -28,12 +30,13 @@ command:
           verwendet.
         email-invalid: Die angegebene E-Mail-Adresse ist ungültig.
         username-invalid: Der angegebene Benutzername ist ungültig.
+        cannot-send-email: Die Registrierungs-E-Mail kann nicht gesendet werden, bitte
+          kontaktieren Sie einen Admin, um Ihr Konto zu aktivieren.
       success:
         email: Bitte überprüfe Deinen Posteingang, um die Registrierung abzuschließen.
         link: 'Bitte besuche diesen link: {link}, um die Registrierung abzuschließen.'
-    usage: '{Befehl} <Mail>'
-    description: Erstellt ein Konto. Gibt einen Link oder eine E-Mail-Adresse aus,
-      um die Registrierung abzuschließen.
+    usage: '/{command} <Mail>'
+    description: Erstellt ein Konto
   no-permission: Du hast keine Rechte, diesen Befehl auszuführen.
   report:
     usage: '{Befehl} <Name/UUID> <Grund>'
@@ -47,13 +50,14 @@ command:
     description: Überprüft das Website-Konto des Benutzers anhand des angegebenen
       Codes.
     output:
-      success: Ihr Konto wurde validiert.
+      success: Ihr Konto wurde bestätigt.
       fail:
-        invalid-code: Ihr Validierungscode ist falsch. Bitte überprüfe, ob du den
-          code richtig kopiert hast und versuche es erneut.
-        generic: Beim Versuch, einen Validierungscode zu senden, ist ein unbekannter
+        invalid-code: Ihr Bestätigungscode ist falsch. Bitte überprüfe, ob du den
+          Code richtig kopiert hast und versuche es erneut.
+        generic: Beim Versuch, einen Bestätigungscode zu senden, ist ein unbekannter
           Fehler aufgetreten.
         already-vaidated: Ihr Konto ist bereits validiert.
+        already-validated: Dein Konto ist bereits bestätigt.
   user-info:
     output:
       username: 'Benutzername: {Benutzername}'
