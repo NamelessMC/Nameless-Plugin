@@ -95,6 +95,8 @@ public enum Message {
 			"es_419",
 			"es_ES",
 			"fr_FR",
+			"he_IL",
+			"hr_HR",
 			"hu_HU",
 			"it_IT",
 			"ja_JP",
