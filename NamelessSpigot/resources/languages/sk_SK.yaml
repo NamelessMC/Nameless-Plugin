@@ -1,6 +1,8 @@
 player:
   other:
     not-found: Hráč nebol nájdený.
+    not-validated: Účet tohto hráča není overený.
+    not-registered: Tento hráč neni registrovaný na webe.
 command:
   report:
     output:
