@@ -10,6 +10,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -86,7 +87,7 @@ public class NamelessPlugin extends JavaPlugin {
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-		
+
 		if (!Message.setActiveLanguage(Config.MAIN.getConfig().getString("language", Message.DEFAULT_LANGUAGE))) {
 			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
 			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
@@ -94,7 +95,7 @@ public class NamelessPlugin extends JavaPlugin {
 			this.getLogger().severe("In config.yml, set 'language' to '" + Message.DEFAULT_LANGUAGE + "' or any other supported language.");
 			return;
 		}
-		
+
 		this.initHooks();
 
 		// Connection is successful, move on with registering listeners and commands.
@@ -116,6 +117,20 @@ public class NamelessPlugin extends JavaPlugin {
 		}
 
 		new WhitelistRegistered(); // In the constructor there is a check if the feature is actually enabled
+
+		checkUuids();
+	}
+
+	private void checkUuids() {
+		@SuppressWarnings("deprecation")
+		final OfflinePlayer notch = Bukkit.getOfflinePlayer("Notch");
+		if (notch.getUniqueId().toString().equals("069a79f4-44e9-4726-a5be-fca90e38aaf5")) {
+			getLogger().info("UUIDs are working properly.");
+		} else {
+			getLogger().severe("*** IMPORTANT ***");
+			getLogger().severe("Your server does not use Mojang UUIDs!");
+			getLogger().severe("This plugin won't work for cracked servers. If you do not intend to run a cracked server and you use BungeeCord, make sure `bungeecord: true` is set in spigot.yml and ip forwarding is enabled in the BungeeCord config file.");
+		}
 	}
 
 	@Override
@@ -127,7 +142,7 @@ public class NamelessPlugin extends JavaPlugin {
 			}
 		}
 	}
-	
+
 	public static void reload() {
 		NamelessPlugin.instance.reloadConfig();
 		cachedApi = null;
@@ -141,15 +156,15 @@ public class NamelessPlugin extends JavaPlugin {
 		}
 		Message.setActiveLanguage(Config.MAIN.getConfig().getString("language", Message.DEFAULT_LANGUAGE));
 	}
-	
+
 	private static final String USER_AGENT = "Nameless-Plugin";
 	private static NamelessAPI cachedApi = null;
-	
+
 	public static NamelessAPI getApi() throws NamelessException {
 		if (cachedApi != null) {
 			return cachedApi;
 		}
-		
+
 		final FileConfiguration config = NamelessPlugin.getInstance().getConfig();
 		final boolean debug = config.getBoolean("api-debug-mode", false);
 		final URL apiUrl;
@@ -158,11 +173,11 @@ public class NamelessPlugin extends JavaPlugin {
 		} catch (final MalformedURLException e) {
 			throw new NamelessException("Malformed URL", e);
 		}
-		
+
 		cachedApi = new NamelessAPI(apiUrl, USER_AGENT, debug);
 		return cachedApi;
 	}
-	
+
 	private void registerCommands() {
 		this.getServer().getPluginCommand("namelessplugin").setExecutor(new PluginCommand());
 
