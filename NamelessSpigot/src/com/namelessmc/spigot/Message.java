@@ -84,7 +84,7 @@ public enum Message {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 11;
+	private static final int VERSION = 12;
 
 	private static final String[] LANGUAGES_LIST = {
 			"cs_CZ",
