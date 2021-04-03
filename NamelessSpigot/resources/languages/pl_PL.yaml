@@ -2,16 +2,17 @@ player:
   other:
     not-registered: Gracz nie jest zarejestrowany na stronie.
     not-validated: Konto gracza nie jest zweryfikowane.
-    not-found: Gracz nie mogl zostac znaleziony.
+    not-found: Gracz nie mógł zostać znaleziony.
   self:
     no-permission: Nie wystarczajace uprawnienia.
     not-validated: Twoje konto musi byc zweryfikowane aby wykonac ta akcje.
     not-registered: Musisz byc zarejestrowany aby wykonac ta akcje.
+    command-banned: Nie możesz użyć tej komendy, jesteś zbanowany/a ze strony.
 command:
   not-a-player: Musisz byc Uzytkownikiem aby uzyc tej komendy.
   no-permission: Nie masz wystarczajacych uprawnien aby uzyc tej komendy.
   notifications:
-    usage: '{command}'
+    usage: '/{komenda}'
     output:
       no-notifications: Nie posiadasz zadnych nie przeczytanych powiadomien.
       click-to-open: Kliknij aby otworzyc przegladarke
@@ -19,7 +20,7 @@ command:
         sie z Administratorem.
     description: Wyswietla liste powiadomien ze strony.
   register:
-    usage: '{command} <email>'
+    usage: '/{komenda} <email>'
     output:
       success:
         email: Prosze sprawdzic swoja skrzynke w celu dokonczenia rejestracji.
@@ -30,16 +31,21 @@ command:
         already-exists: Posiadasz juz konto.
         email-used: Ten adres email zostal juz uzyty przez innego uzytkownika.
         email-invalid: Wprowadzony adres email jest bledny.
+        username-invalid: Podany nick jest nieprawidłowy.
+        cannot-send-email: Nie udało się wysłać registration email, proszę skontaktuj
+          się z adminem aby aktywował twoje konto.
     description: Tworzy konto
   report:
-    usage: '{command} <nick/uuid> <powod>'
+    usage: '/{komenda} <nick/uuid> <powód>'
     output:
       success: Dziekujemy za zgloszenie.
-      fail: Wystapil blad podczas proby zgloszenia gracza. Prosze skontaktowac sie
-        z Administratorem.
+      fail:
+        already-open: Nie możesz zgłosić tego gracza, już został przez ciebie zgłoszony.
+        generic: Wystąpił błąd podczas próby zgłaszania tego gracza. Proszę powiadom
+          administratora serwera o tym błędzie.
     description: Zglos gracza
   validate:
-    usage: '{command} <kod>'
+    usage: '/{komenda} <kod>'
     description: Zweryfikuj swoje konto na stronie uzywajac kodu.
     output:
       success: Twoje konto zostalo zweryfikowane.
@@ -47,8 +53,9 @@ command:
         invalid-code: Twoj kod weryfikujacy jest bledny. Sprawdz czy skopiowales go
           dobrze i sprobuj jeszcze raz.
         generic: Wystapil blad podczas proby wprowadzenia kodu weryfikujacego.
+        already-validated: Twoje konto już jest zatwierdzone.
   user-info:
-    usage: '{command} [nick/uuid]'
+    usage: '/{komenda} [nazwa użytkownika]'
     output:
       username: 'Nick: {username}'
       uuid: 'UUID: {uuid}'
@@ -59,9 +66,12 @@ command:
       'no': nie
       displayname: 'Wyswietlany nick: {displayname}'
       fail: Wystapl blad podczas proby zdobycia informacji o uzytkowniku.
+      uuid-unknown: nieznany
+      all-groups: 'Wszystkie grupy: {lista_nazw_grup}'
+      primary-group: 'Podstawowa grupa: {nazwagrupy}'
     description: Zdobadz informacje o uzytkowniku
   subcommands:
-    usage: '{command} [podkomenda] [argumenty..]'
+    usage: '/{komenda} [podkomenda] [argumenty..]'
     help-prefix: /{komenda}
 join-not-registered: Nie posiadasz jeszcze konta na stronie. Prosimy sie zarejestrowac
   przy uzyciu /register.
