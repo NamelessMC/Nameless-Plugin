@@ -12,7 +12,7 @@ command:
   not-a-player: Musisz byc Uzytkownikiem aby uzyc tej komendy.
   no-permission: Nie masz wystarczajacych uprawnien aby uzyc tej komendy.
   notifications:
-    usage: '/{komenda}'
+    usage: '/{command}'
     output:
       no-notifications: Nie posiadasz zadnych nie przeczytanych powiadomien.
       click-to-open: Kliknij aby otworzyc przegladarke
@@ -20,7 +20,7 @@ command:
         sie z Administratorem.
     description: Wyswietla liste powiadomien ze strony.
   register:
-    usage: '/{komenda} <email>'
+    usage: '/{command} <email>'
     output:
       success:
         email: Prosze sprawdzic swoja skrzynke w celu dokonczenia rejestracji.
@@ -36,7 +36,7 @@ command:
           się z adminem aby aktywował twoje konto.
     description: Tworzy konto
   report:
-    usage: '/{komenda} <nick/uuid> <powód>'
+    usage: '/{command} <nick/uuid> <powód>'
     output:
       success: Dziekujemy za zgloszenie.
       fail:
@@ -45,7 +45,7 @@ command:
           administratora serwera o tym błędzie.
     description: Zglos gracza
   validate:
-    usage: '/{komenda} <kod>'
+    usage: '/{command} <kod>'
     description: Zweryfikuj swoje konto na stronie uzywajac kodu.
     output:
       success: Twoje konto zostalo zweryfikowane.
@@ -55,7 +55,7 @@ command:
         generic: Wystapil blad podczas proby wprowadzenia kodu weryfikujacego.
         already-validated: Twoje konto już jest zatwierdzone.
   user-info:
-    usage: '/{komenda} [nazwa użytkownika]'
+    usage: '/{command} [nazwa użytkownika]'
     output:
       username: 'Nick: {username}'
       uuid: 'UUID: {uuid}'
@@ -71,7 +71,7 @@ command:
       primary-group: 'Podstawowa grupa: {nazwagrupy}'
     description: Zdobadz informacje o uzytkowniku
   subcommands:
-    usage: '/{komenda} [podkomenda] [argumenty..]'
-    help-prefix: /{komenda}
+    usage: '/{command} [podkomenda] [argumenty..]'
+    help-prefix: /{command}
 join-not-registered: Nie posiadasz jeszcze konta na stronie. Prosimy sie zarejestrowac
   przy uzyciu /register.
