@@ -37,5 +37,7 @@ command:
       fail:
         generic: E' stato riscontrato un errore nel tentativo di segnalare il giocatore.
           Per favore, avvisa un amministratore del server di questo problmma.
+        already-open: Non puoi segnalare questo giocatore, hai già una segnalazione
+          aperta.
   not-a-player: Devi essere un giocatore per poter eseguire questo comando.
   no-permission: Non hai il permesso per eseguire questo comando.
