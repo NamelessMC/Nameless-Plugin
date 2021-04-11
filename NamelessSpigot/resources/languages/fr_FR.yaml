@@ -7,6 +7,8 @@ player:
     not-validated: Votre compte doit être validé pour effectuer cette action.
     not-registered: Vous devez créer un compte pour effectuer cette action.
     no-permission: Vous n'êtes pas autorisé à effectuer cette action.
+    command-banned: Vous ne pouvez pas exécuter cette commande, vous êtes banni du
+      site.
 command:
   not-a-player: Vous devez être un joueur pour exécuter cette commande.
   no-permission: Vous n'êtes pas autorisé à exécuter cette commande.
@@ -39,6 +41,11 @@ command:
     usage: /{command} <nom/uuid> <raison>
     output:
       success: Merci d'avoir signalé ce joueur.
+      fail:
+        generic: Une erreur s'est produite en essayant de signaler ce joueur. Veuillez
+          informer l'administrateur du serveur de ce problème.
+        already-open: Vous ne pouvez pas signaler ce joueur, vous avez déjà un rapport
+          ouvert pour lui.
   user-info:
     output:
       'yes': oui
@@ -52,7 +59,10 @@ command:
       uuid: 'UUID : {uuid}'
       uuid-unknown: inconnu
       registered-date: Inscrit le {date}
+      primary-group: 'Groupe primaire : {groupname}'
+      all-groups: 'Tous les groupes : {groups_names_list}'
     description: Extrait de l'information à propos d'un utilisateur du site web
+    usage: /{command} [pseudo]
   subcommands:
     help-prefix: /{command}
     usage: /{command} [sous-commande] [paramètres..]
