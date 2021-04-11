@@ -2,19 +2,19 @@ package com.namelessmc.spigot;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.google.common.io.Files;
+import xyz.derkades.derkutils.FileUtils;
 
 public enum Message {
 
@@ -117,7 +117,6 @@ public enum Message {
 
 	static final String DEFAULT_LANGUAGE = "en_UK";
 
-	private static final Charset VERSION_FILE_CHARSET = Charset.forName("UTF-8");
 	private static final String VERSION_FILE_NAME = ".VERSION_DO_NOT_DELETE.dat";
 
 	private String path;
@@ -202,7 +201,7 @@ public enum Message {
 		final File versionFile = new File(languageDirectory, VERSION_FILE_NAME);
 
 		if (versionFile.exists()) {
-			final String versionContent = FileUtils.readFileToString(versionFile, VERSION_FILE_CHARSET);
+			final String versionContent = new String(Files.readAllBytes(versionFile.toPath()), StandardCharsets.UTF_8);
 			if (versionContent.equals(String.valueOf(VERSION))) {
 				log.info("Language files up to date");
 				return;
@@ -210,7 +209,7 @@ public enum Message {
 				log.warning("Language files are outdated!");
 				log.info("Making backup of old languages directory");
 				final File dest = new File(NamelessPlugin.getInstance().getDataFolder(), "oldlanguages-" + System.currentTimeMillis());
-				Files.move(languageDirectory, dest);
+				Files.move(languageDirectory.toPath(), dest.toPath());
 				languageDirectory.mkdir();
 			}
 		} else {
@@ -223,12 +222,13 @@ public enum Message {
 			final String languagePathInJar = "/languages/" + languageName + ".yaml";
 			final File dest = new File(languageDirectory, languageName + ".yaml");
 			dest.createNewFile();
-			FileUtils.copyURLToFile(Message.class.getResource(languagePathInJar), dest);
+			FileUtils.copyOutOfJar(Message.class, languagePathInJar, dest);
 		}
 
 		log.info("Creating version file");
 
-		FileUtils.writeStringToFile(versionFile, String.valueOf(VERSION), VERSION_FILE_CHARSET);
+		final byte[] bytes = String.valueOf(VERSION).getBytes(StandardCharsets.UTF_8);
+		Files.write(versionFile.toPath(), bytes);
 
 		log.info("Done");
 	}
