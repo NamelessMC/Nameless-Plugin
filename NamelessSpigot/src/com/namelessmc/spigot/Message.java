@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -188,20 +189,20 @@ public enum Message {
 		sender.sendMessage(this.getMessage(placeholders));
 	}
 
-	private static File getLanguageDirectory() {
-		return new File(NamelessPlugin.getInstance().getDataFolder(), "languages");
+	private static Path getLanguageDirectory() {
+		return NamelessPlugin.getInstance().getDataFolder().toPath().resolve("languages");
 	}
 
 	public static void updateFiles() throws IOException {
 		final Logger log = NamelessPlugin.getInstance().getLogger();
 
-		final File languageDirectory = getLanguageDirectory();
-		languageDirectory.mkdirs();
+		final Path languageDirectory = getLanguageDirectory();
+		Files.createDirectories(languageDirectory);
 
-		final File versionFile = new File(languageDirectory, VERSION_FILE_NAME);
+		final Path versionFile = languageDirectory.resolve(VERSION_FILE_NAME);
 
-		if (versionFile.exists()) {
-			final String versionContent = new String(Files.readAllBytes(versionFile.toPath()), StandardCharsets.UTF_8);
+		if (Files.exists(versionFile)) {
+			final String versionContent = new String(Files.readAllBytes(versionFile), StandardCharsets.UTF_8);
 			if (versionContent.equals(String.valueOf(VERSION))) {
 				log.info("Language files up to date");
 				return;
@@ -209,8 +210,8 @@ public enum Message {
 				log.warning("Language files are outdated!");
 				log.info("Making backup of old languages directory");
 				final File dest = new File(NamelessPlugin.getInstance().getDataFolder(), "oldlanguages-" + System.currentTimeMillis());
-				Files.move(languageDirectory.toPath(), dest.toPath());
-				languageDirectory.mkdir();
+				Files.move(languageDirectory, dest.toPath());
+				Files.createDirectory(languageDirectory);
 			}
 		} else {
 			log.warning("Languages appear to not be installed yet.");
@@ -220,15 +221,14 @@ public enum Message {
 
 		for (final String languageName : LANGUAGES_LIST) {
 			final String languagePathInJar = "/languages/" + languageName + ".yaml";
-			final File dest = new File(languageDirectory, languageName + ".yaml");
-			dest.createNewFile();
+			final Path dest = languageDirectory.resolve(languageName + ".yaml");
 			FileUtils.copyOutOfJar(Message.class, languagePathInJar, dest);
 		}
 
 		log.info("Creating version file");
 
 		final byte[] bytes = String.valueOf(VERSION).getBytes(StandardCharsets.UTF_8);
-		Files.write(versionFile.toPath(), bytes);
+		Files.write(versionFile, bytes);
 
 		log.info("Done");
 	}
@@ -241,14 +241,14 @@ public enum Message {
 			return null;
 		}
 
-		final File file = new File(getLanguageDirectory(), languageName + ".yaml");
+		final Path file = getLanguageDirectory().resolve(languageName + ".yaml");
 
-		if (!file.exists()) {
-			log.severe("File not found: '" + file.getAbsolutePath() + "'");
+		if (!Files.isRegularFile(file)) {
+			log.severe("File not found: '" + file.toString() + "'");
 			return null;
 		}
 
-		return YamlConfiguration.loadConfiguration(file);
+		return YamlConfiguration.loadConfiguration(file.toFile());
 	}
 
 	public static boolean setActiveLanguage(final String languageName) {
