@@ -59,10 +59,10 @@ command:
       uuid: 'UUID : {uuid}'
       uuid-unknown: inconnu
       registered-date: Inscrit le {date}
-      primary-group: 'Groupe primaire : {nomdugroupe}'
-      all-groups: 'Tous les groupes : {liste_des_noms_de_groupes}'
+      primary-group: 'Groupe primaire : {groupname}'
+      all-groups: 'Tous les groupes : {groups_names_list}'
     description: Extrait de l'information à propos d'un utilisateur du site web
-    usage: /{commande} [pseudo]
+    usage: /{command} [pseudo]
   subcommands:
     help-prefix: /{command}
     usage: /{command} [sous-commande] [paramètres..]
