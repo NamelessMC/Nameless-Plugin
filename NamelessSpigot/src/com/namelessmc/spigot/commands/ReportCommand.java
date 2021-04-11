@@ -1,5 +1,6 @@
 package com.namelessmc.spigot.commands;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.bukkit.command.CommandSender;
@@ -15,8 +16,6 @@ import com.namelessmc.spigot.Message;
 import com.namelessmc.spigot.NamelessPlugin;
 import com.namelessmc.spigot.Permission;
 
-import xyz.derkades.derkutils.ListUtils;
-
 public class ReportCommand extends Command {
 
 	public ReportCommand() {
@@ -31,30 +30,30 @@ public class ReportCommand extends Command {
 		if (args.length < 2) {
 			return false;
 		}
-		
+
 		if (!(sender instanceof Player)) {
 			sender.sendMessage(Message.COMMAND_NOTAPLAYER.getMessage());
 			return false;
 		}
-		
+
 		final Player player = (Player) sender;
-		
+
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
 				final String targetUsername = args[0];
-				final String reason = String.join(" ", ListUtils.removeFirstStringFromArray(args));
+				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 				final Optional<NamelessUser> user = NamelessPlugin.getApi().getUser(player.getUniqueId());
 				if (!user.isPresent()) {
 					sender.sendMessage(Message.PLAYER_SELF_NOTREGISTERED.getMessage());
 					return;
 				}
-				
+
 				final Optional<NamelessUser> target = NamelessPlugin.getApi().getUser(targetUsername);
 				if (!target.isPresent()) {
 					sender.sendMessage(Message.PLAYER_OTHER_NOTREGISTERED.getMessage());
 					return;
 				}
-				
+
 				user.get().createReport(target.get(), reason);
 				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_SUCCESS.getMessage());
 			} catch (final ReportUserBannedException e) {
