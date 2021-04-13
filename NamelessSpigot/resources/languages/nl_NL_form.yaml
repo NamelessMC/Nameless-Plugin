@@ -22,17 +22,42 @@ command:
   report:
     description: Rapporteer een speler
     usage: '/{command} <naam/uuid> <reden>'
+    output:
+      fail:
+        generic: Er is een fout opgetreden tijdens het rapporteren van deze speler.
+          Neem alstublieft contact op met de server administrator over dit probleem.
+        already-open: U kunt deze speler niet rapporteren, u heeft al een open rapport
+          over hem.
+      success: Bedankt om deze speler te rapporteren.
   user-info:
     usage: '/{command} [gebruikersnaam]'
     output:
       registered-date: Geregistreerd op {date}
       validated: 'Account gevalideerd: {validated}'
       username: 'Gebruikersnaam: {username}'
+      primary-group: 'Hoofdgroep: {groupname}'
+      banned: 'Verbannen: {banned}'
+      'yes': ja
+      'no': nee
+      all-groups: 'Alle groepen: {groups_names_list}'
+      fail: Er is een onbekend probleem opgetreden bij het ophalen van de speler informatie.
+      displayname: 'Weergavenaam: {displayname}'
+      uuid: 'UUID: {uuid}'
+      uuid-unknown: onbekend
+    description: Haal informatie op over een website gebruiker
   validate:
     output:
       success: Uw account is gevalideerd.
       fail:
         already-vaidated: Uw account is al gevalideerd.
+        already-validated: Uw account is al gevalideerd.
+        generic: Er is een onbekende fout opgetreden bij het verzenden van een validatie
+          code.
+        invalid-code: Uw validatie code is ongeldig. Kijkt u alstublieft na of u deze
+          correct gekopieerd heeft en probeer het opnieuw.
+    usage: /{command} <code>
+    description: Valideert de gebruiker zijn website account door middel van de opgegeven
+      code.
   register:
     usage: '/{command} <e-mail>'
     output:
@@ -40,7 +65,17 @@ command:
         username-invalid: De opgegeven gebruikersnaam is ongeldig.
         cannot-send-email: Kon de registratie e-mail niet verzenden, neem contact
           op met de serverbeheerder.
+        already-exists: U heeft al een account.
+        email-used: Dit email adres is al gebruikt voor een ander account.
+        email-invalid: Het opgegeven email adres is ongeldig.
+        generic: Er is een fout opgetreden tijdens het registreren. Neem alstublieft
+          contact op met de server administrator over dit probleem.
       success:
         link: Open alstublieft {link} om de registratie te voltooien.
         email: Controleer alstublieft uw e-mail inbox om de registratie te voltooien.
     description: Maak een website account
+  subcommands:
+    help-prefix: /{command}
+    usage: /{command} [subcommando] [argumenten..]
+join-not-registered: U heeft nog geen account op onze website. Registreer alstublieft
+  met /register.
