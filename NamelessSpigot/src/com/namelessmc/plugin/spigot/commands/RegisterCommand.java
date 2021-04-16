@@ -9,17 +9,17 @@ import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.CannotSendEmailException;
 import com.namelessmc.java_api.exception.InvalidUsernameException;
-import com.namelessmc.plugin.common.Message;
-import com.namelessmc.plugin.spigot.Config;
+import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 import com.namelessmc.plugin.spigot.Permission;
 
 public class RegisterCommand extends Command {
 
 	public RegisterCommand() {
-		super(Config.COMMANDS.getConfig().getString("register"),
-				Message.COMMAND_REGISTER_DESCRIPTION.getMessage(),
-				Message.COMMAND_REGISTER_USAGE.getMessage("command", Config.COMMANDS.getConfig().getString("register")),
+		super("register",
+				Term.COMMAND_REGISTER_DESCRIPTION,
+				Term.COMMAND_REGISTER_USAGE,
 				Permission.COMMAND_REGISTER);
 	}
 
@@ -28,43 +28,45 @@ public class RegisterCommand extends Command {
 		if (args.length != 1) {
 			return false;
 		}
-		
+
+		final LanguageHandler<CommandSender> lang = NamelessPlugin.getInstance().getLanguageHandler();
+
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(Message.COMMAND_NOTAPLAYER.getMessage());
+			lang.send(Term.COMMAND_NOTAPLAYER, sender);
 			return true;
 		}
-		
+
 		final Player player = (Player) sender;
-		
+
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
-				final Optional<String> link = NamelessPlugin.getApi().registerUser(player.getName(), args[0], Optional.of(player.getUniqueId()));
+				final Optional<String> link = NamelessPlugin.getInstance().getNamelessApi().registerUser(player.getName(), args[0], Optional.of(player.getUniqueId()));
 				if (link.isPresent()) {
-					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK.getMessage("link", link.get()));
+					lang.send(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK, player, "link", link.get());
 				} else {
-					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL.getMessage());
+					lang.send(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL, player);
 				}
 			} catch (final ApiError e) {
 				if (e.getError() == ApiError.EMAIL_ALREADY_EXISTS) {
-					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED.getMessage());
+					lang.send(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED, player);
 				} else if (e.getError() == ApiError.USERNAME_ALREADY_EXISTS) {
-					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS.getMessage());
+					lang.send(Term.COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS, player);
 				} else if (e.getError() == ApiError.INVALID_EMAIL_ADDRESS) {
-					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID.getMessage());
+					lang.send(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID, player);
 				} else {
-					player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC.getMessage());
+					lang.send(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC, player);
 					e.printStackTrace();
 				}
 			} catch (final NamelessException e) {
-				player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC.getMessage());
+				lang.send(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC, player);
 				e.printStackTrace();
 			} catch (final InvalidUsernameException e) {
-				player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEINVALID.getMessage());
+				lang.send(Term.COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEINVALID, player);
 			} catch (final CannotSendEmailException e) {
-				player.sendMessage(Message.COMMAND_REGISTER_OUTPUT_FAIL_CANNOTSENDEMAIL.getMessage());
+				lang.send(Term.COMMAND_REGISTER_OUTPUT_FAIL_CANNOTSENDEMAIL, player);
 			}
 		});
-		
+
 		return true;
 	}
 

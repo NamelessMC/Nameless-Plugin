@@ -9,8 +9,8 @@ import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.AccountAlreadyActivatedException;
 import com.namelessmc.java_api.exception.InvalidValidateCodeException;
-import com.namelessmc.plugin.common.Message;
-import com.namelessmc.plugin.spigot.Config;
+import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 import com.namelessmc.plugin.spigot.Permission;
 
@@ -20,20 +20,22 @@ import com.namelessmc.plugin.spigot.Permission;
 public class ValidateCommand extends Command {
 
 	public ValidateCommand() {
-		super(Config.COMMANDS.getConfig().getString("validate"),
-				Message.COMMAND_VALIDATE_DESCRIPTION.getMessage(),
-				Message.COMMAND_VALIDATE_USAGE.getMessage("command", Config.COMMANDS.getConfig().getString("validate")),
+		super("validate",
+				Term.COMMAND_VALIDATE_DESCRIPTION,
+				Term.COMMAND_VALIDATE_USAGE,
 				Permission.COMMAND_VALIDATE);
 	}
 
 	@Override
 	public boolean execute(final CommandSender sender, final String[] args) {
+		final LanguageHandler<CommandSender> lang = NamelessPlugin.getInstance().getLanguageHandler();
+
 		if (args.length != 1) {
 			return false;
 		}
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(Message.COMMAND_NOTAPLAYER.getMessage());
+			lang.send(Term.COMMAND_NOTAPLAYER, sender);
 			return true;
 		}
 
@@ -41,22 +43,22 @@ public class ValidateCommand extends Command {
 
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
-				final Optional<NamelessUser> user = NamelessPlugin.getApi().getUser(player.getUniqueId());
+				final Optional<NamelessUser> user = NamelessPlugin.getInstance().getNamelessApi().getUser(player.getUniqueId());
 				if (!user.isPresent()) {
-					Message.PLAYER_SELF_NOTREGISTERED.send(sender);
+					lang.send(Term.PLAYER_SELF_NOTREGISTERED, sender);
 					return;
 				}
-				
+
 				final String code = args[0];
 				user.get().verifyMinecraft(code);
-				Message.COMMAND_VALIDATE_OUTPUT_SUCCESS.send(sender);
+				lang.send(Term.COMMAND_VALIDATE_OUTPUT_SUCCESS, sender);
 			} catch (final NamelessException e) {
-				Message.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC.send(sender);
+				lang.send(Term.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC, sender);
 				e.printStackTrace();
 			} catch (final InvalidValidateCodeException e) {
-				Message.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE.send(sender);
+				lang.send(Term.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE, sender);
 			} catch (final AccountAlreadyActivatedException e) {
-				Message.COMMAND_VALIDATE_OUTPUT_FAIL_ALREADYVALIDATED.send(sender);
+				lang.send(Term.COMMAND_VALIDATE_OUTPUT_FAIL_ALREADYVALIDATED, sender);
 			}
 		});
 

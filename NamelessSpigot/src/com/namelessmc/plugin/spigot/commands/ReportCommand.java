@@ -11,17 +11,17 @@ import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.AlreadyHasOpenReportException;
 import com.namelessmc.java_api.exception.ReportUserBannedException;
 import com.namelessmc.java_api.exception.UnableToCreateReportException;
-import com.namelessmc.plugin.common.Message;
-import com.namelessmc.plugin.spigot.Config;
+import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 import com.namelessmc.plugin.spigot.Permission;
 
 public class ReportCommand extends Command {
 
 	public ReportCommand() {
-		super(Config.COMMANDS.getConfig().getString("report"),
-				Message.COMMAND_REPORT_DESCRIPTION.getMessage(),
-				Message.COMMAND_REPORT_USAGE.getMessage("command", Config.COMMANDS.getConfig().getString("report")),
+		super("report",
+				Term.COMMAND_REPORT_DESCRIPTION,
+				Term.COMMAND_REPORT_USAGE,
 				Permission.COMMAND_REPORT);
 	}
 
@@ -31,8 +31,10 @@ public class ReportCommand extends Command {
 			return false;
 		}
 
+		final LanguageHandler<CommandSender> lang = NamelessPlugin.getInstance().getLanguageHandler();
+
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(Message.COMMAND_NOTAPLAYER.getMessage());
+			lang.send(Term.COMMAND_NOTAPLAYER, sender);
 			return false;
 		}
 
@@ -42,28 +44,28 @@ public class ReportCommand extends Command {
 			try {
 				final String targetUsername = args[0];
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-				final Optional<NamelessUser> user = NamelessPlugin.getApi().getUser(player.getUniqueId());
+				final Optional<NamelessUser> user = NamelessPlugin.getInstance().getNamelessApi().getUser(player.getUniqueId());
 				if (!user.isPresent()) {
-					sender.sendMessage(Message.PLAYER_SELF_NOTREGISTERED.getMessage());
+					lang.send(Term.PLAYER_SELF_NOTREGISTERED, player);
 					return;
 				}
 
-				final Optional<NamelessUser> target = NamelessPlugin.getApi().getUser(targetUsername);
+				final Optional<NamelessUser> target = NamelessPlugin.getInstance().getNamelessApi().getUser(targetUsername);
 				if (!target.isPresent()) {
-					sender.sendMessage(Message.PLAYER_OTHER_NOTREGISTERED.getMessage());
+					lang.send(Term.PLAYER_OTHER_NOTREGISTERED, player);
 					return;
 				}
 
 				user.get().createReport(target.get(), reason);
-				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_SUCCESS.getMessage());
+				lang.send(Term.COMMAND_REPORT_OUTPUT_SUCCESS, player);
 			} catch (final ReportUserBannedException e) {
-				sender.sendMessage(Message.PLAYER_SELF_COMMAND_BANNED.getMessage());
+				lang.send(Term.PLAYER_SELF_COMMAND_BANNED, player);
 			} catch (final AlreadyHasOpenReportException e) {
-				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN.getMessage());
+				lang.send(Term.COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN, player);
 			} catch (final UnableToCreateReportException e) {
-				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_FAIL_GENERIC.getMessage());
+				lang.send(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC, player);
 			} catch (final NamelessException e) {
-				sender.sendMessage(Message.COMMAND_REPORT_OUTPUT_FAIL_GENERIC.getMessage());
+				lang.send(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC, player);
 				e.printStackTrace();
 				return;
 			}

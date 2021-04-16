@@ -1,5 +1,5 @@
 name: NamelessMC
-main: com.namelessmc.spigot.NamelessPlugin
+main: com.namelessmc.plugin.spigot.NamelessPlugin
 author: Derkades
 authors: [Derkades, Samerton, IsS127]
 website: https://plugin.namelessmc.com/

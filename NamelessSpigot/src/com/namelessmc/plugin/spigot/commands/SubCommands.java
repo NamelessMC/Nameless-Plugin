@@ -1,21 +1,23 @@
 package com.namelessmc.plugin.spigot.commands;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.bukkit.command.CommandSender;
 
-import com.namelessmc.plugin.common.Message;
+import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.spigot.Chat;
 import com.namelessmc.plugin.spigot.Config;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 public class SubCommands extends org.bukkit.command.Command {
 
 	public SubCommands() {
 		super(Config.COMMANDS.getConfig().getString("subcommands.name", "website"),
 				"",
-				"/" + Message.COMMAND_SUBCOMMANDS_USAGE.getMessage("command", Config.COMMANDS.getConfig().getString("subcommands.name", "website")),
-				new ArrayList<>());
+				"/" + NamelessPlugin.getInstance().getLanguageHandler().getMessage(Term.COMMAND_SUBCOMMANDS_USAGE, "command", Config.COMMANDS.getConfig().getString("subcommands.name", "website")),
+				Collections.emptyList());
 	}
 
 	@Override
@@ -30,6 +32,8 @@ public class SubCommands extends org.bukkit.command.Command {
 			}
 		}
 
+		final LanguageHandler<CommandSender> lang = NamelessPlugin.getInstance().getLanguageHandler();
+
 		final String separator = Chat.convertColors("&3&m--------------------------------");
 
 		sender.sendMessage(separator);
@@ -40,7 +44,7 @@ public class SubCommands extends org.bukkit.command.Command {
 				continue;
 			}
 
-			sender.sendMessage(Message.COMMAND_SUBCOMMANDS_HELP_PREFIX.getMessage("command", this.getName())
+			sender.sendMessage(lang.getMessage(Term.COMMAND_SUBCOMMANDS_HELP_PREFIX, sender, "command", this.getName())
 					+ " " + command.getUsageWithoutSlash());
 			sender.sendMessage(command.getDescription());
 			sender.sendMessage("");

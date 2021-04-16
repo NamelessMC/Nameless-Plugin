@@ -30,7 +30,7 @@ public class WhitelistRegistered implements Runnable {
 		final boolean verified = Config.MAIN.getConfig().getBoolean("auto-whitelist-registered.verified");
 		final boolean log = Config.MAIN.getConfig().getBoolean("auto-whitelist-registered.log");
 		final Logger logger = NamelessPlugin.getInstance().getLogger();
-		
+
 		if (log) {
 			logger.info("Starting auto-whitelist");
 		}
@@ -42,21 +42,21 @@ public class WhitelistRegistered implements Runnable {
 			} else {
 				filters = new UserFilter<?>[] {UserFilter.UNBANNED};
 			}
-			
+
 			if (log) {
 				logger.info("Retrieving list of users...");
 			}
-			
+
 			List<NamelessUser> users;
 			try {
-				users = NamelessPlugin.getApi().getRegisteredUsers(filters);
+				users = NamelessPlugin.getInstance().getNamelessApi().getRegisteredUsers(filters);
 			} catch (final NamelessException e) {
 				logger.warning(
 						"An error occured while getting a list of registered users from the website for the auto-whitelist-registered feature.");
 				e.printStackTrace();
 				return;
 			}
-			
+
 			final Set<UUID> uuids = new HashSet<>();
 			for (final NamelessUser user : users) {
 				try {
@@ -70,7 +70,7 @@ public class WhitelistRegistered implements Runnable {
 					logger.warning("A user has been skipped due to a website communication error");
 				}
 			}
-			
+
 			if (log) {
 				logger.info("Done, updating bukkit whitelist...");
 			}

@@ -13,7 +13,7 @@ import com.namelessmc.plugin.spigot.NamelessPlugin;
 import xyz.derkades.derkutils.caching.Cache;
 
 public class PlaceholderCacher implements Runnable {
-	
+
 	@Override
 	public void run() {
 		try {
@@ -21,10 +21,10 @@ public class PlaceholderCacher implements Runnable {
 			while (true) {
 				Thread.sleep(500); // In case no players are online, wait in between checking for online players
 				for (final Player player : Bukkit.getOnlinePlayers()) {
-					
+
 					Thread.sleep(delay);
 					try {
-						final Optional<NamelessUser> user = NamelessPlugin.getApi().getUser(player.getUniqueId());
+						final Optional<NamelessUser> user = NamelessPlugin.getInstance().getNamelessApi().getUser(player.getUniqueId());
 						if (!user.isPresent()) {
 							continue;
 						}
@@ -39,7 +39,7 @@ public class PlaceholderCacher implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 
 }
