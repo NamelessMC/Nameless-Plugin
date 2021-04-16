@@ -1,38 +1,50 @@
-package com.namelessmc.spigot;
+package com.namelessmc.plugin.spigot;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandMap;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.spigot.commands.Command;
-import com.namelessmc.spigot.commands.PluginCommand;
-import com.namelessmc.spigot.commands.SubCommands;
-import com.namelessmc.spigot.event.PlayerLogin;
-import com.namelessmc.spigot.event.PlayerQuit;
-import com.namelessmc.spigot.hooks.PapiHook;
-import com.namelessmc.spigot.hooks.PapiParser;
-import com.namelessmc.spigot.hooks.PapiParserDisabled;
-import com.namelessmc.spigot.hooks.PapiParserEnabled;
-import com.namelessmc.spigot.hooks.PlaceholderCacher;
+import com.namelessmc.plugin.common.AbstractYamlFile;
+import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.LanguageHandlerProvider;
+import com.namelessmc.plugin.common.NamelessApiProvider;
+import com.namelessmc.plugin.spigot.commands.Command;
+import com.namelessmc.plugin.spigot.commands.PluginCommand;
+import com.namelessmc.plugin.spigot.commands.SubCommands;
+import com.namelessmc.plugin.spigot.event.PlayerLogin;
+import com.namelessmc.plugin.spigot.event.PlayerQuit;
+import com.namelessmc.plugin.spigot.hooks.PapiHook;
+import com.namelessmc.plugin.spigot.hooks.PapiParser;
+import com.namelessmc.plugin.spigot.hooks.PapiParserDisabled;
+import com.namelessmc.plugin.spigot.hooks.PapiParserEnabled;
+import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
 
 import net.milkbowl.vault.economy.Economy;
 
-public class NamelessPlugin extends JavaPlugin {
+public class NamelessPlugin extends JavaPlugin implements NamelessApiProvider, LanguageHandlerProvider<CommandSender> {
+
+	private static final Function<Path, AbstractYamlFile> LANGUAGE_FILE_LOADER = (file) -> {
+		return new YamlFileImpl(YamlConfiguration.loadConfiguration(file.toFile()));
+	};
 
 	private static NamelessPlugin instance;
 
@@ -53,6 +65,8 @@ public class NamelessPlugin extends JavaPlugin {
 			throw new RuntimeException(e);
 		}
 	}
+
+	private LanguageHandler<CommandSender> language;
 
 	@Override
 	public void onEnable() {
@@ -82,17 +96,19 @@ public class NamelessPlugin extends JavaPlugin {
 			log(Level.WARNING, "Vault was not found. Group sync will not work.");
 		}
 
+		this.language = new LanguageHandler<>(CommandSender::sendMessage);
+
 		try {
-			Message.updateFiles();
+			this.getLanguageHandler().updateFiles();
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
 
-		if (!Message.setActiveLanguage(Config.MAIN.getConfig().getString("language", Message.DEFAULT_LANGUAGE))) {
+		if (!this.getLanguageHandler().setActiveLanguage(Config.MAIN.getConfig().getString("language", LanguageHandler.DEFAULT_LANGUAGE), LANGUAGE_FILE_LOADER)) {
 			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
 			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
 			this.getLogger().severe("FIX IMMEDIATELY");
-			this.getLogger().severe("In config.yml, set 'language' to '" + Message.DEFAULT_LANGUAGE + "' or any other supported language.");
+			this.getLogger().severe("In config.yml, set 'language' to '" + LanguageHandler.DEFAULT_LANGUAGE + "' or any other supported language.");
 			return;
 		}
 
@@ -143,24 +159,25 @@ public class NamelessPlugin extends JavaPlugin {
 		}
 	}
 
-	public static void reload() {
+	public void reload() {
 		NamelessPlugin.instance.reloadConfig();
 		cachedApi = null;
 		for (final Config config : Config.values()) {
 			config.reload();
 		}
 		try {
-			Message.updateFiles();
+			this.getLanguageHandler().updateFiles();
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-		Message.setActiveLanguage(Config.MAIN.getConfig().getString("language", Message.DEFAULT_LANGUAGE));
+		this.getLanguageHandler().setActiveLanguage(Config.MAIN.getConfig().getString("language", LanguageHandler.DEFAULT_LANGUAGE), LANGUAGE_FILE_LOADER);
 	}
 
 	private static final String USER_AGENT = "Nameless-Plugin";
 	private static NamelessAPI cachedApi = null;
 
-	public static NamelessAPI getApi() throws NamelessException {
+	@Override
+	public NamelessAPI getNamelessApi() throws NamelessException {
 		if (cachedApi != null) {
 			return cachedApi;
 		}
@@ -176,6 +193,11 @@ public class NamelessPlugin extends JavaPlugin {
 
 		cachedApi = new NamelessAPI(apiUrl, USER_AGENT, debug);
 		return cachedApi;
+	}
+
+	@Override
+	public LanguageHandler<CommandSender> getLanguageHandler() {
+		return this.language;
 	}
 
 	private void registerCommands() {

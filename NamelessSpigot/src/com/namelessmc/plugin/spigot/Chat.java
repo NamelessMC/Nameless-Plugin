@@ -1,4 +1,4 @@
-package com.namelessmc.spigot;
+package com.namelessmc.plugin.spigot;
 
 import org.bukkit.ChatColor;
 

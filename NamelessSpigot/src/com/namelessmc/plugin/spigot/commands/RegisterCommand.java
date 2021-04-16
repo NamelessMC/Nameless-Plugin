@@ -1,4 +1,4 @@
-package com.namelessmc.spigot.commands;
+package com.namelessmc.plugin.spigot.commands;
 
 import java.util.Optional;
 
@@ -9,10 +9,10 @@ import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.CannotSendEmailException;
 import com.namelessmc.java_api.exception.InvalidUsernameException;
-import com.namelessmc.spigot.Config;
-import com.namelessmc.spigot.Message;
-import com.namelessmc.spigot.NamelessPlugin;
-import com.namelessmc.spigot.Permission;
+import com.namelessmc.plugin.common.Message;
+import com.namelessmc.plugin.spigot.Config;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
+import com.namelessmc.plugin.spigot.Permission;
 
 public class RegisterCommand extends Command {
 

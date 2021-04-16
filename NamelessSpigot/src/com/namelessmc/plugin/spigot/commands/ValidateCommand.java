@@ -1,4 +1,4 @@
-package com.namelessmc.spigot.commands;
+package com.namelessmc.plugin.spigot.commands;
 
 import java.util.Optional;
 
@@ -9,10 +9,10 @@ import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.AccountAlreadyActivatedException;
 import com.namelessmc.java_api.exception.InvalidValidateCodeException;
-import com.namelessmc.spigot.Config;
-import com.namelessmc.spigot.Message;
-import com.namelessmc.spigot.NamelessPlugin;
-import com.namelessmc.spigot.Permission;
+import com.namelessmc.plugin.common.Message;
+import com.namelessmc.plugin.spigot.Config;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
+import com.namelessmc.plugin.spigot.Permission;
 
 /**
  * Command used to submit a code to validate a user's NamelessMC account

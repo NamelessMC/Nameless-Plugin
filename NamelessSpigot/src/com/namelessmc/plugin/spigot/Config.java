@@ -1,4 +1,4 @@
-package com.namelessmc.spigot;
+package com.namelessmc.plugin.spigot;
 
 import java.io.File;
 import java.io.IOException;

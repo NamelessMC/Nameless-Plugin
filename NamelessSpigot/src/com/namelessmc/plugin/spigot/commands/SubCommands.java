@@ -1,13 +1,13 @@
-package com.namelessmc.spigot.commands;
+package com.namelessmc.plugin.spigot.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.bukkit.command.CommandSender;
 
-import com.namelessmc.spigot.Chat;
-import com.namelessmc.spigot.Config;
-import com.namelessmc.spigot.Message;
+import com.namelessmc.plugin.common.Message;
+import com.namelessmc.plugin.spigot.Chat;
+import com.namelessmc.plugin.spigot.Config;
 
 public class SubCommands extends org.bukkit.command.Command {
 

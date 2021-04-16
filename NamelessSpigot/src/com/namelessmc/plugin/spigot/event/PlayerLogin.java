@@ -1,4 +1,4 @@
-package com.namelessmc.spigot.event;
+package com.namelessmc.plugin.spigot.event;
 
 import java.util.Optional;
 
@@ -12,9 +12,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.spigot.Config;
-import com.namelessmc.spigot.Message;
-import com.namelessmc.spigot.NamelessPlugin;
+import com.namelessmc.plugin.common.Message;
+import com.namelessmc.plugin.spigot.Config;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 public class PlayerLogin implements Listener {
 
