@@ -18,13 +18,15 @@ command:
       click-to-open: Klikk for å åpne i nettleser
   no-permission: Du har ikke tilgang til denne kommandoen.
   register:
-    usage: /{command} <epost>
+    usage: /{command} <e-post>
     description: Opprett en nettsidekonto
     output:
       success:
         email: Sjekk innboksen din for å fullføre registrering .
       fail:
         already-exists: Du har allerede en konto.
-        email-used: Denne epostadressen er allerede i bruk av en annen brukerkonto.
+        email-used: Denne e-postadressen er allerede i bruk av en annen brukerkonto.
   validate:
     usage: /{command} <kode>
+  user-info:
+    usage: /{command} [brukernavn]
