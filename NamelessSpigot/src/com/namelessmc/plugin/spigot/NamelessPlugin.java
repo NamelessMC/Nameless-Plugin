@@ -23,7 +23,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.Website;
 import com.namelessmc.plugin.common.AbstractYamlFile;
+import com.namelessmc.plugin.common.GlobalConstants;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.LanguageHandlerProvider;
 import com.namelessmc.plugin.common.NamelessApiProvider;
@@ -192,6 +194,11 @@ public class NamelessPlugin extends JavaPlugin implements NamelessApiProvider, L
 		}
 
 		cachedApi = new NamelessAPI(apiUrl, USER_AGENT, debug);
+		final Website info = cachedApi.getWebsite();
+		if (!GlobalConstants.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+			getLogger().severe("Your website runs a version of Nameless (" + info.getVersion() + ") that is not supported by this version of the plugin.");
+		}
+
 		return cachedApi;
 	}
 
