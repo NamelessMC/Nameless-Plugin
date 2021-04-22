@@ -21,9 +21,6 @@ public class ServerDataSender extends BukkitRunnable {
 	@Override
 	public void run() {
 		final int serverId = Config.MAIN.getConfig().getInt("server-id");
-		if (serverId < 1) {
-			return;
-		}
 
 		final JsonObject data = new JsonObject();
 		data.addProperty("tps", 20); // TODO Send real TPS

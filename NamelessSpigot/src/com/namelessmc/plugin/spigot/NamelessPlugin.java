@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
@@ -43,6 +44,7 @@ public class NamelessPlugin extends JavaPlugin implements LanguageHandlerProvide
 	private net.milkbowl.vault.permission.Permission permissions;
 	private Economy economy;
 	private PapiParser papiParser;
+	private BukkitTask dataSenderTask;
 
 	@Override
 	public void onLoad() {
@@ -97,11 +99,6 @@ public class NamelessPlugin extends JavaPlugin implements LanguageHandlerProvide
 		// Start saving data files every 15 minutes
 		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveConfig(), 5*60*20, 5*60*20);
 
-		final int uploadPeriod = Config.MAIN.getConfig().getInt("server-data-upload-rate", 10) * 20;
-		if (uploadPeriod > 0) {
-			new ServerDataSender().runTaskTimer(this, uploadPeriod, uploadPeriod);
-		}
-
 		// For reloads
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
@@ -151,6 +148,16 @@ public class NamelessPlugin extends JavaPlugin implements LanguageHandlerProvide
 			this.getLogger().severe("FIX IMMEDIATELY");
 			this.getLogger().severe("In config.yml, set 'language' to '" + LanguageHandler.DEFAULT_LANGUAGE + "' or any other supported language.");
 			throw new RuntimeException("Failed to load language file");
+		}
+
+		this.dataSenderTask.cancel();
+
+		final int rate = Config.MAIN.getConfig().getInt("server-data-upload-rate", 10) * 20;
+		final int serverId = Config.MAIN.getConfig().getInt("server-id");
+		if (rate < 0 || serverId < 0) {
+			this.dataSenderTask = null;
+		} else {
+			new ServerDataSender().runTaskTimer(this, rate, rate);
 		}
 	}
 
