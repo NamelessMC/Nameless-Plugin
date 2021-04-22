@@ -14,6 +14,8 @@ import com.google.gson.JsonPrimitive;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
 
+import net.milkbowl.vault.economy.Economy;
+
 public class ServerDataSender extends BukkitRunnable {
 
 	@Override
@@ -31,9 +33,12 @@ public class ServerDataSender extends BukkitRunnable {
 		data.addProperty("allocated-memory", Runtime.getRuntime().totalMemory());
 		data.addProperty("server-id", serverId);
 
+
+		final net.milkbowl.vault.permission.Permission permissions = NamelessPlugin.getInstance().getPermissions();
+
 		try {
-			if (NamelessPlugin.permissions != null) {
-				final String[] gArray = NamelessPlugin.permissions.getGroups();
+			if (permissions != null) {
+				final String[] gArray = permissions.getGroups();
 				final JsonArray groups = new JsonArray(gArray.length);
 				Arrays.stream(gArray).map(JsonPrimitive::new).forEach(groups::add);
 				data.add("groups", groups);
@@ -72,8 +77,8 @@ public class ServerDataSender extends BukkitRunnable {
 			playerInfo.addProperty("playtime", player.getStatistic(playStat) / 120);
 
 			try {
-				if (NamelessPlugin.permissions != null) {
-					final String[] gArray = NamelessPlugin.permissions.getPlayerGroups(player);
+				if (permissions != null) {
+					final String[] gArray = permissions.getPlayerGroups(player);
 					final JsonArray groups = new JsonArray(gArray.length);
 					Arrays.stream(gArray).map(JsonPrimitive::new).forEach(groups::add);
 					playerInfo.add("groups", groups);
@@ -81,8 +86,9 @@ public class ServerDataSender extends BukkitRunnable {
 			} catch (final UnsupportedOperationException e) {}
 
 			try {
-				if (NamelessPlugin.economy != null) {
-					playerInfo.addProperty("balance", NamelessPlugin.economy.getBalance(player));
+				final Economy economy = NamelessPlugin.getInstance().getEconomy();
+				if (economy != null) {
+					playerInfo.addProperty("balance", economy.getBalance(player));
 				}
 			} catch (final UnsupportedOperationException e) {}
 
@@ -90,7 +96,7 @@ public class ServerDataSender extends BukkitRunnable {
 
 			Config.MAIN.getConfig().getStringList("upload-placeholders")
 				.forEach(placeholder ->
-				placeholders.addProperty(placeholder, NamelessPlugin.getInstance().papiParser.parse(player, placeholder)));
+				placeholders.addProperty(placeholder, NamelessPlugin.getInstance().getPapiParser().parse(player, placeholder)));
 
 			playerInfo.add("placeholders", placeholders);
 

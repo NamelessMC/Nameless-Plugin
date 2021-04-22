@@ -1,5 +1,7 @@
 package com.namelessmc.plugin.spigot;
 
+import java.nio.file.Path;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.namelessmc.plugin.common.AbstractYamlFile;
@@ -8,8 +10,8 @@ public class YamlFileImpl extends AbstractYamlFile {
 
 	private final YamlConfiguration config;
 
-	public YamlFileImpl(final YamlConfiguration config) {
-		this.config = config;
+	public YamlFileImpl(final Path file) {
+		this.config = YamlConfiguration.loadConfiguration(file.toFile());
 	}
 
 	@Override

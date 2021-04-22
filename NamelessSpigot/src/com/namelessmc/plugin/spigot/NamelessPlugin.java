@@ -2,33 +2,23 @@ package com.namelessmc.plugin.spigot;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.Website;
-import com.namelessmc.plugin.common.AbstractYamlFile;
-import com.namelessmc.plugin.common.GlobalConstants;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.LanguageHandlerProvider;
-import com.namelessmc.plugin.common.NamelessApiProvider;
 import com.namelessmc.plugin.spigot.commands.Command;
 import com.namelessmc.plugin.spigot.commands.PluginCommand;
 import com.namelessmc.plugin.spigot.commands.SubCommands;
@@ -42,44 +32,39 @@ import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
 
 import net.milkbowl.vault.economy.Economy;
 
-public class NamelessPlugin extends JavaPlugin implements NamelessApiProvider, LanguageHandlerProvider<CommandSender> {
-
-	private static final Function<Path, AbstractYamlFile> LANGUAGE_FILE_LOADER = (file) -> {
-		return new YamlFileImpl(YamlConfiguration.loadConfiguration(file.toFile()));
-	};
-
-	private static NamelessPlugin instance;
+public class NamelessPlugin extends JavaPlugin implements LanguageHandlerProvider<CommandSender> {
 
 	public static final Map<UUID, Long> LOGIN_TIME = new HashMap<>();
 
-	public static net.milkbowl.vault.permission.Permission permissions;
-	public static Economy economy;
+	private static NamelessPlugin instance;
 
-	public PapiParser papiParser;
+	private ApiProviderImpl apiProvider;
+	private LanguageHandler<CommandSender> language;
+	private net.milkbowl.vault.permission.Permission permissions;
+	private Economy economy;
+	private PapiParser papiParser;
 
 	@Override
 	public void onLoad() {
 		instance = this;
+	}
 
+	@Override
+	public void onEnable() {
 		try {
 			Config.initialize();
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-	}
 
-	private LanguageHandler<CommandSender> language;
-
-	@Override
-	public void onEnable() {
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
 			if (permissionProvider == null) {
 				log(Level.WARNING, "No vault compatible permissions plugin was found. Group sync will not work.");
 			} else {
-				permissions = permissionProvider.getProvider();
+				this.permissions = permissionProvider.getProvider();
 
-				if (permissions == null) {
+				if (this.permissions == null) {
 					log(Level.WARNING, "No vault compatible permissions plugin was found. Group sync will not work.");
 				}
 			}
@@ -88,9 +73,9 @@ public class NamelessPlugin extends JavaPlugin implements NamelessApiProvider, L
 			if (economyProvider == null) {
 				log(Level.WARNING, "No economy plugin was found.");
 			} else {
-				economy = economyProvider.getProvider();
+				this.economy = economyProvider.getProvider();
 
-				if (economy == null) {
+				if (this.economy == null) {
 					log(Level.WARNING, "No economy plugin was found.");
 				}
 			}
@@ -98,21 +83,9 @@ public class NamelessPlugin extends JavaPlugin implements NamelessApiProvider, L
 			log(Level.WARNING, "Vault was not found. Group sync will not work.");
 		}
 
-		this.language = new LanguageHandler<>(CommandSender::sendMessage);
+		this.language = new LanguageHandler<>(getDataFolder().toPath().resolve("languages"), CommandSender::sendMessage);
 
-		try {
-			this.getLanguageHandler().updateFiles();
-		} catch (final IOException e) {
-			throw new RuntimeException(e);
-		}
-
-		if (!this.getLanguageHandler().setActiveLanguage(Config.MAIN.getConfig().getString("language", LanguageHandler.DEFAULT_LANGUAGE), LANGUAGE_FILE_LOADER)) {
-			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
-			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
-			this.getLogger().severe("FIX IMMEDIATELY");
-			this.getLogger().severe("In config.yml, set 'language' to '" + LanguageHandler.DEFAULT_LANGUAGE + "' or any other supported language.");
-			return;
-		}
+		reload();
 
 		this.initHooks();
 
@@ -163,7 +136,7 @@ public class NamelessPlugin extends JavaPlugin implements NamelessApiProvider, L
 
 	public void reload() {
 		NamelessPlugin.instance.reloadConfig();
-		cachedApi = null;
+		this.apiProvider.loadConfiguration(getConfig());
 		for (final Config config : Config.values()) {
 			config.reload();
 		}
@@ -172,39 +145,34 @@ public class NamelessPlugin extends JavaPlugin implements NamelessApiProvider, L
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-		this.getLanguageHandler().setActiveLanguage(Config.MAIN.getConfig().getString("language", LanguageHandler.DEFAULT_LANGUAGE), LANGUAGE_FILE_LOADER);
-	}
-
-	private static final String USER_AGENT = "Nameless-Plugin";
-	private static NamelessAPI cachedApi = null;
-
-	@Override
-	public NamelessAPI getNamelessApi() throws NamelessException {
-		if (cachedApi != null) {
-			return cachedApi;
+		if (!this.getLanguageHandler().setActiveLanguage(Config.MAIN.getConfig().getString("language", LanguageHandler.DEFAULT_LANGUAGE), YamlFileImpl::new)) {
+			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
+			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
+			this.getLogger().severe("FIX IMMEDIATELY");
+			this.getLogger().severe("In config.yml, set 'language' to '" + LanguageHandler.DEFAULT_LANGUAGE + "' or any other supported language.");
+			throw new RuntimeException("Failed to load language file");
 		}
-
-		final FileConfiguration config = NamelessPlugin.getInstance().getConfig();
-		final boolean debug = config.getBoolean("api-debug-mode", false);
-		final URL apiUrl;
-		try {
-			apiUrl = new URL(config.getString("api-url"));
-		} catch (final MalformedURLException e) {
-			throw new NamelessException("Malformed URL", e);
-		}
-
-		cachedApi = new NamelessAPI(apiUrl, USER_AGENT, debug);
-		final Website info = cachedApi.getWebsite();
-		if (!GlobalConstants.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
-			getLogger().severe("Your website runs a version of Nameless (" + info.getVersion() + ") that is not supported by this version of the plugin.");
-		}
-
-		return cachedApi;
 	}
 
 	@Override
 	public LanguageHandler<CommandSender> getLanguageHandler() {
 		return this.language;
+	}
+
+	public NamelessAPI getNamelessApi() throws NamelessException {
+		return this.apiProvider.getNamelessApi();
+	}
+
+	public PapiParser getPapiParser() {
+		return this.papiParser;
+	}
+
+	public net.milkbowl.vault.permission.Permission getPermissions() {
+		return this.permissions;
+	}
+
+	public Economy getEconomy() {
+		return this.economy;
 	}
 
 	private void registerCommands() {

@@ -137,9 +137,11 @@ public class LanguageHandler<MessageReceiver> {
 
 	private AbstractYamlFile fallbackLanguageFile = null;
 	private AbstractYamlFile activeLanguageFile = null;
+	private final Path languageDirectory;
 	private final BiConsumer<MessageReceiver, String> messageSender;
 
-	public LanguageHandler(final BiConsumer<MessageReceiver, String> messageSender) {
+	public LanguageHandler(final Path languageDirectory, final BiConsumer<MessageReceiver, String> messageSender) {
+		this.languageDirectory = languageDirectory;
 		this.messageSender = messageSender;
 	}
 
@@ -203,17 +205,12 @@ public class LanguageHandler<MessageReceiver> {
 		this.messageSender.accept(sender, this.getMessage(term, placeholders));
 	}
 
-	private Path getLanguageDirectory() {
-		return NamelessPlugin.getInstance().getDataFolder().toPath().resolve("languages");
-	}
-
 	public void updateFiles() throws IOException {
 		final Logger log = NamelessPlugin.getInstance().getLogger();
 
-		final Path languageDirectory = getLanguageDirectory();
-		Files.createDirectories(languageDirectory);
+		Files.createDirectories(this.languageDirectory);
 
-		final Path versionFile = languageDirectory.resolve(VERSION_FILE_NAME);
+		final Path versionFile = this.languageDirectory.resolve(VERSION_FILE_NAME);
 
 		if (Files.exists(versionFile)) {
 			final String versionContent = new String(Files.readAllBytes(versionFile), StandardCharsets.UTF_8);
@@ -224,8 +221,8 @@ public class LanguageHandler<MessageReceiver> {
 				log.warning("Language files are outdated!");
 				log.info("Making backup of old languages directory");
 				final File dest = new File(NamelessPlugin.getInstance().getDataFolder(), "oldlanguages-" + System.currentTimeMillis());
-				Files.move(languageDirectory, dest.toPath());
-				Files.createDirectory(languageDirectory);
+				Files.move(this.languageDirectory, dest.toPath());
+				Files.createDirectory(this.languageDirectory);
 			}
 		} else {
 			log.warning("Languages appear to not be installed yet.");
@@ -235,7 +232,7 @@ public class LanguageHandler<MessageReceiver> {
 
 		for (final String languageName : LANGUAGES_LIST) {
 			final String languagePathInJar = "/languages/" + languageName + ".yaml";
-			final Path dest = languageDirectory.resolve(languageName + ".yaml");
+			final Path dest = this.languageDirectory.resolve(languageName + ".yaml");
 			FileUtils.copyOutOfJar(LanguageHandler.class, languagePathInJar, dest);
 		}
 
@@ -255,7 +252,7 @@ public class LanguageHandler<MessageReceiver> {
 			return null;
 		}
 
-		final Path file = getLanguageDirectory().resolve(languageName + ".yaml");
+		final Path file = this.languageDirectory.resolve(languageName + ".yaml");
 
 		if (!Files.isRegularFile(file)) {
 			log.severe("File not found: '" + file.toString() + "'");
