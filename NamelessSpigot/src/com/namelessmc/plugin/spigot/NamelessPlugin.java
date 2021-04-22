@@ -134,7 +134,7 @@ public class NamelessPlugin extends JavaPlugin implements NamelessApiProvider, L
 
 		new WhitelistRegistered(); // In the constructor there is a check if the feature is actually enabled
 
-		checkUuids();
+		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
 	}
 
 	private void checkUuids() {
