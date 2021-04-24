@@ -83,7 +83,7 @@ public class NamelessPlugin extends Plugin implements LanguageHandlerProvider<Co
 
 		final int rate = this.getConfig().getInt("server-data-upload-rate", 10);
 		final int serverId = getConfig().getInt("server-id");
-		if (rate > 0 || serverId < 0) {
+		if (rate < 0 || serverId < 0) {
 			this.dataSenderTask = null;
 		} else {
 			this.dataSenderTask = getProxy().getScheduler().schedule(this, new ServerDataSender(), rate, rate, TimeUnit.SECONDS);
