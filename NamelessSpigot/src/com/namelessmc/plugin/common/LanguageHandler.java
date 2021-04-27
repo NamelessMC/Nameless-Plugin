@@ -56,6 +56,7 @@ public class LanguageHandler<MessageReceiver> {
 		COMMAND_REPORT_OUTPUT_SUCCESS("command.report.output.success"),
 		COMMAND_REPORT_OUTPUT_FAIL_GENERIC("command.report.output.fail.generic"),
 		COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN("command.report.output.fail.already-open"),
+		COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF("command.report.output.fail.report-self"),
 
 		COMMAND_VALIDATE_USAGE("command.validate.usage"),
 		COMMAND_VALIDATE_DESCRIPTION("command.validate.description"),
@@ -100,7 +101,7 @@ public class LanguageHandler<MessageReceiver> {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 12;
+	private static final int VERSION = 13;
 
 	private static final String[] LANGUAGES_LIST = {
 			"cs_CZ",

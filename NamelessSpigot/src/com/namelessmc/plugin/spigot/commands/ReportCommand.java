@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.AlreadyHasOpenReportException;
+import com.namelessmc.java_api.exception.CannotReportSelfException;
 import com.namelessmc.java_api.exception.ReportUserBannedException;
 import com.namelessmc.java_api.exception.UnableToCreateReportException;
 import com.namelessmc.plugin.common.LanguageHandler;
@@ -64,10 +65,11 @@ public class ReportCommand extends Command {
 				lang.send(Term.COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN, player);
 			} catch (final UnableToCreateReportException e) {
 				lang.send(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC, player);
+			} catch (final CannotReportSelfException e) {
+				lang.send(Term.COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF, player);
 			} catch (final NamelessException e) {
 				lang.send(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC, player);
 				e.printStackTrace();
-				return;
 			}
 		});
 		return true;

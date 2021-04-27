@@ -44,6 +44,7 @@ command:
       fail:
         generic: "An error occured while trying to report this player. Please notify the server administrator about this issue."
         already-open: "You cannot report this player, you already have an open report for them."
+        report-self: "You cannot report yourself."
 
   validate:
     usage: "/{command} <code>"
