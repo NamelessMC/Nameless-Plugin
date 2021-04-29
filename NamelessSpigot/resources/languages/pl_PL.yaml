@@ -43,6 +43,7 @@ command:
         already-open: Nie możesz zgłosić tego gracza, już został przez ciebie zgłoszony.
         generic: Wystąpił błąd podczas próby zgłaszania tego gracza. Proszę powiadom
           administratora serwera o tym błędzie.
+        report-self: Nie możesz zgłosić siebie.
     description: Zglos gracza
   validate:
     usage: '/{command} <kod>'
