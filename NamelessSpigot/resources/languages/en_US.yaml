@@ -45,6 +45,7 @@ command:
           for them.
         generic: An error occured while trying to report this player. Please notify
           the server administrator about this issue.
+        report-self: You cannot report yourself.
   validate:
     usage: '/{command} <code>'
     description: Validates the user's website account using the given code.
