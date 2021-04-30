@@ -63,6 +63,7 @@ command:
         generic: Произошла ошибка во время отправки жалобы. Свяжитесь с администрацией
           для решения проблемы.
         already-open: Вы уже отправляли жалобу на этого игрока.
+        report-self: Вы не можете отправить заявку на самого себя.
   subcommands:
     usage: '/{command} [subcommand] [arguments..]'
     help-prefix: /{command}
