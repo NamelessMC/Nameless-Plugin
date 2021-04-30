@@ -28,6 +28,7 @@ command:
         generic: Při nahlašování tohoto hráče se vyskytla chyba. Oznamte ji prosím
           správci serveru.
         already-open: Nemůžete nahlásit tohoto hráče, již na něj máte otevřené nahlášení.
+        report-self: Nemůžete nahlásit sami sebe.
       success: Děkujeme za nahlášení tohoto hráče.
     usage: '/{command} <jméno/uuid> <důvod>'
     description: Nahlásit hráče
