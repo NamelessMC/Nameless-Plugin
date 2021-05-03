@@ -1,7 +1,10 @@
 package com.namelessmc.plugin.common;
 
-public interface LanguageHandlerProvider<MessageReceiver> {
+@Deprecated
+public interface LanguageHandlerProvider {
 
-	LanguageHandler<MessageReceiver> getLanguageHandler();
+//	LanguageHandler<MessageReceiver> getLanguageHandler();
+
+	LanguageHandler getLanguageHandler();
 
 }

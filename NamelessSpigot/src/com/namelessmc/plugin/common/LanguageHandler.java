@@ -7,19 +7,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 
+import com.namelessmc.plugin.common.command.CommandSender;
 import com.namelessmc.plugin.spigot.Chat;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import xyz.derkades.derkutils.FileUtils;
 
-public class LanguageHandler<MessageReceiver> {
+public class LanguageHandler {
 
 	public enum Term {
 
@@ -37,7 +39,7 @@ public class LanguageHandler<MessageReceiver> {
 		COMMAND_NOTIFICATIONS_USAGE("command.notifications.usage"),
 		COMMAND_NOTIFICATIONS_DESCRIPTION("command.notifications.description"),
 		COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS("command.notifications.output.no-notifications"),
-		COMMAND_NOTIFICATIONS_OUTPUT_CLICKTOOPEN("command.notifications.output.click-to-open"),
+		COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION("command.notifications.output.notification"),
 		COMMAND_NOTIFICATIONS_OUTPUT_FAIL("command.notifications.output.fail"),
 
 		COMMAND_REGISTER_USAGE("command.register.usage"),
@@ -139,11 +141,11 @@ public class LanguageHandler<MessageReceiver> {
 	private AbstractYamlFile fallbackLanguageFile = null;
 	private AbstractYamlFile activeLanguageFile = null;
 	private final Path languageDirectory;
-	private final BiConsumer<MessageReceiver, String> messageSender;
+//	private final BiConsumer<MessageReceiver, String> messageSender;
 
-	public LanguageHandler(final Path languageDirectory, final BiConsumer<MessageReceiver, String> messageSender) {
+	public LanguageHandler(final Path languageDirectory/*, final BiConsumer<MessageReceiver, String> messageSender*/) {
 		this.languageDirectory = languageDirectory;
-		this.messageSender = messageSender;
+//		this.messageSender = messageSender;
 	}
 
 	public String getMessage(final Term term) {
@@ -155,6 +157,10 @@ public class LanguageHandler<MessageReceiver> {
 		return Chat.convertColors(unconverted);
 	}
 
+	public Component getComponent(final Term term) {
+		return MiniMessage.get().parse(getMessage(term)); // TODO cache?
+	}
+
 
 	/**
 	 * Uses {@link #getMessage()} then replaces placeholders.
@@ -163,6 +169,7 @@ public class LanguageHandler<MessageReceiver> {
 	 * @param placeholders ["link", "https://example.com", "number", 3]
 	 * @return "Visit https://example.com 3 times"
 	 */
+	@Deprecated
 	public String getMessage(final Term term, final Object... placeholders) {
 		if (placeholders.length % 2 != 0) { // False if length is 1, 3, 5, 6, etc.
 			throw new IllegalArgumentException("Placeholder array length must be an even number");
@@ -198,12 +205,22 @@ public class LanguageHandler<MessageReceiver> {
 		return message;
 	}
 
-	public void send(final Term term, final MessageReceiver sender) {
-		this.messageSender.accept(sender, this.getMessage(term));
+//	public void send(final Term term, final MessageReceiver sender) {
+//		this.messageSender.accept(sender, this.getMessage(term));
+//	}
+//
+//	public void send(final Term term, final MessageReceiver sender, final Object... placeholders) {
+//		this.messageSender.accept(sender, this.getMessage(term, placeholders));
+//	}
+
+	@Deprecated
+	public void send(final Term term, final CommandSender sender) {
+		sender.sendMessage(this.getMessage(term));
 	}
 
-	public void send(final Term term, final MessageReceiver sender, final Object... placeholders) {
-		this.messageSender.accept(sender, this.getMessage(term, placeholders));
+	@Deprecated
+	public void send(final Term term, final CommandSender sender, final Object... placeholders) {
+		sender.sendMessage(this.getMessage(term, placeholders));
 	}
 
 	public void updateFiles() throws IOException {

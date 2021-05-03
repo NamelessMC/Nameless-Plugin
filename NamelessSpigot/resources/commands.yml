@@ -1,15 +1,6 @@
 # This is a config file for commands.
 # You need to reload/restart your server after you edit this file.
-# Set a command name to "disabled" to disable the command.
-
-# For example, /website report <player> <reason>
-subcommands:
-  enabled: true
-  name: website
-
-# For example, /report <player> <reason>
-individual:
-  enabled: true
+# Comment/remove a command to disable it
 
 get-notifications: 'notifications'
 register: 'register'

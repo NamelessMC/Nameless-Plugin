@@ -8,34 +8,37 @@ import java.util.concurrent.TimeUnit;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
-import com.namelessmc.plugin.common.LanguageHandlerProvider;
+import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.YamlFileImpl;
 
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.platform.AudienceProvider;
+import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
-public class NamelessPlugin extends Plugin implements LanguageHandlerProvider<CommandSender> {
+public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 
 	private static NamelessPlugin instance;
 
 	private Configuration config;
-	private LanguageHandler<CommandSender> language;
-	private ApiProviderImpl apiProvider;
 	private ScheduledTask dataSenderTask;
+
+	private ApiProviderImpl apiProvider;
+	private LanguageHandler language;
+	private BungeeAudiences adventure;
 
 	@Override
 	public void onEnable() {
 		instance = this;
 
-		this.language = new LanguageHandler<>(getDataFolder().toPath().resolve("languages"),
-				(sender, message) -> sender.sendMessage(TextComponent.fromLegacyText(message)));
+		this.adventure = BungeeAudiences.create(this);
+		this.language = new LanguageHandler(getDataFolder().toPath().resolve("languages"));
 
 		try {
 			reload();
@@ -45,8 +48,20 @@ public class NamelessPlugin extends Plugin implements LanguageHandlerProvider<Co
 	}
 
 	@Override
-	public LanguageHandler<CommandSender> getLanguageHandler() {
-		return this.language;
+	public AbstractScheduler getScheduler() {
+		return new AbstractScheduler() {
+
+			@Override
+			public void runAsync(final Runnable runnable) {
+				runnable.run();
+			}
+
+			@Override
+			public void runSync(final Runnable runnable) {
+				runnable.run();
+			}
+
+		};
 	}
 
 	public void reload() throws IOException {
@@ -64,12 +79,12 @@ public class NamelessPlugin extends Plugin implements LanguageHandlerProvider<Co
 		this.apiProvider.loadConfiguration(this.config);
 
 		try {
-			this.getLanguageHandler().updateFiles();
+			this.getLanguage().updateFiles();
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
 
-		if (!this.getLanguageHandler().setActiveLanguage(
+		if (!this.getLanguage().setActiveLanguage(
 				Config.MAIN.getConfig().getString("language", LanguageHandler.DEFAULT_LANGUAGE), YamlFileImpl::new)) {
 			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
 			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
@@ -90,8 +105,19 @@ public class NamelessPlugin extends Plugin implements LanguageHandlerProvider<Co
 		}
 	}
 
+	@Override
 	public NamelessAPI getNamelessApi() throws NamelessException {
 		return this.apiProvider.getNamelessApi();
+	}
+
+	@Override
+	public LanguageHandler getLanguage() {
+		return this.language;
+	}
+
+	@Override
+	public AudienceProvider adventure() {
+		return this.adventure;
 	}
 
 	public Configuration getConfig() {

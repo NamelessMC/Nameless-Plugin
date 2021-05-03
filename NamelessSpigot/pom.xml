@@ -127,6 +127,24 @@
 			<version>2.8.6</version>
 		</dependency>
 
+		<dependency>
+			<groupId>net.kyori</groupId>
+			<artifactId>adventure-text-minimessage</artifactId>
+			<version>4.1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kyori</groupId>
+			<artifactId>adventure-platform-bukkit</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.kyori</groupId>
+			<artifactId>adventure-platform-bungeecord</artifactId>
+			<version>4.0.0-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 
 	<repositories>
@@ -148,6 +166,11 @@
 
 		<repository>
 			<id>bungeecord-repo</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+
+		<repository>
+			<id>sonatype-oss-snapshots</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</repository>
 

@@ -18,7 +18,7 @@ command:
     description: "Displays a list of website notifications."
     output:
       no-notifications: "You do not have any unread notifications."
-      click-to-open: "Click to open in a web browser"
+      notification: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"{url}\">{message}"
       fail: "An error occured while trying to retrieve a list of notifications. Please notify the server administrator about this issue."
 
   register:

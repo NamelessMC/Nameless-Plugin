@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandMap;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,11 +17,9 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
-import com.namelessmc.plugin.common.LanguageHandlerProvider;
-import com.namelessmc.plugin.spigot.commands.Command;
-import com.namelessmc.plugin.spigot.commands.PluginCommand;
-import com.namelessmc.plugin.spigot.commands.SubCommands;
+import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.spigot.event.PlayerLogin;
 import com.namelessmc.plugin.spigot.event.PlayerQuit;
 import com.namelessmc.plugin.spigot.hooks.PapiHook;
@@ -31,16 +28,19 @@ import com.namelessmc.plugin.spigot.hooks.PapiParserDisabled;
 import com.namelessmc.plugin.spigot.hooks.PapiParserEnabled;
 import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
 
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.milkbowl.vault.economy.Economy;
 
-public class NamelessPlugin extends JavaPlugin implements LanguageHandlerProvider<CommandSender> {
+public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider {
 
 	public static final Map<UUID, Long> LOGIN_TIME = new HashMap<>();
 
 	private static NamelessPlugin instance;
 
 	private ApiProviderImpl apiProvider;
-	private LanguageHandler<CommandSender> language;
+	private LanguageHandler language;
+	private static BukkitAudiences adventure;
+
 	private net.milkbowl.vault.permission.Permission permissions;
 	private Economy economy;
 	private PapiParser papiParser;
@@ -85,7 +85,9 @@ public class NamelessPlugin extends JavaPlugin implements LanguageHandlerProvide
 			log(Level.WARNING, "Vault was not found. Group sync will not work.");
 		}
 
-		this.language = new LanguageHandler<>(getDataFolder().toPath().resolve("languages"), CommandSender::sendMessage);
+		adventure = BukkitAudiences.create(this);
+
+		this.language = new LanguageHandler(getDataFolder().toPath().resolve("languages"));
 
 		reload();
 
@@ -138,11 +140,11 @@ public class NamelessPlugin extends JavaPlugin implements LanguageHandlerProvide
 			config.reload();
 		}
 		try {
-			this.getLanguageHandler().updateFiles();
+			this.getLanguage().updateFiles();
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-		if (!this.getLanguageHandler().setActiveLanguage(Config.MAIN.getConfig().getString("language", LanguageHandler.DEFAULT_LANGUAGE), YamlFileImpl::new)) {
+		if (!this.getLanguage().setActiveLanguage(Config.MAIN.getConfig().getString("language", LanguageHandler.DEFAULT_LANGUAGE), YamlFileImpl::new)) {
 			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
 			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
 			this.getLogger().severe("FIX IMMEDIATELY");
@@ -162,12 +164,35 @@ public class NamelessPlugin extends JavaPlugin implements LanguageHandlerProvide
 	}
 
 	@Override
-	public LanguageHandler<CommandSender> getLanguageHandler() {
+	public NamelessAPI getNamelessApi() throws NamelessException {
+		return this.apiProvider.getNamelessApi();
+	}
+
+	@Override
+	public AbstractScheduler getScheduler() {
+		return new AbstractScheduler() {
+
+			@Override
+			public void runAsync(final Runnable runnable) {
+				Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.this, runnable);
+			}
+
+			@Override
+			public void runSync(final Runnable runnable) {
+				Bukkit.getScheduler().runTask(NamelessPlugin.this, runnable);
+			}
+
+		};
+	}
+
+	@Override
+	public LanguageHandler getLanguage() {
 		return this.language;
 	}
 
-	public NamelessAPI getNamelessApi() throws NamelessException {
-		return this.apiProvider.getNamelessApi();
+	@Override
+	public BukkitAudiences adventure() {
+		return adventure;
 	}
 
 	public PapiParser getPapiParser() {
@@ -190,25 +215,11 @@ public class NamelessPlugin extends JavaPlugin implements LanguageHandlerProvide
 			field.setAccessible(true);
 			final CommandMap map = (CommandMap) field.get(Bukkit.getServer());
 
-			final String name = this.getName();
-
-			final boolean subcommands = Config.COMMANDS.getConfig().getBoolean("subcommands.enabled", true);
-			final boolean individual = Config.COMMANDS.getConfig().getBoolean("individual.enabled", true);
-
-			if (individual) {
-				for (final Command command : Command.COMMANDS) {
-					if (command.getName().equals("disabled")) {
-						continue;
-					}
-
-					map.register(name, command);
+			for (final String name : CommonCommandProxy.COMMAND_SUPPLIERS.keySet()) {
+				if (Config.COMMANDS.getConfig().contains(name)) {
+					map.register(this.getName(), CommonCommandProxy.COMMAND_SUPPLIERS.get(name).get());
 				}
 			}
-
-			if (subcommands) {
-				map.register(name, new SubCommands());
-			}
-
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 		}

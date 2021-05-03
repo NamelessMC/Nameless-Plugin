@@ -16,6 +16,8 @@ import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 
+import net.kyori.adventure.text.Component;
+
 public class PlayerLogin implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -31,7 +33,10 @@ public class PlayerLogin implements Listener {
 				try {
 					final Optional<NamelessUser> user = NamelessPlugin.getInstance().getNamelessApi().getUser(player.getUniqueId());
 					if (!user.isPresent()) {
-						NamelessPlugin.getInstance().getLanguageHandler().send(Term.JOIN_NOTREGISTERED, player);
+						Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
+							final Component message = NamelessPlugin.getInstance().getLanguage().getComponent(Term.JOIN_NOTREGISTERED);
+							NamelessPlugin.getInstance().adventure().player(event.getPlayer()).sendMessage(message);
+						});
 					}
 				} catch (final NamelessException e) {
 					e.printStackTrace();
