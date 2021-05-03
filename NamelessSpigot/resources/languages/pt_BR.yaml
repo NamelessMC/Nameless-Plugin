@@ -46,6 +46,7 @@ command:
           do servidor sobre este problema.
         already-open: Você não pode denunciar este jogador, você já tem uma denuncia
           aberta para ele.
+        report-self: Você não pode denunciar a si mesmo.
   validate:
     output:
       fail:
