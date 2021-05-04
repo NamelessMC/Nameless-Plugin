@@ -19,6 +19,7 @@ command:
       click-to-open: Click to open in a web browser
       fail: An error occured while trying to retrieve a list of notifications. Please
         notify the server administrator about this issue.
+      notification: <hover:show_text:"Click to open in a web browser"><click:open_url:"{url}">{message}
   register:
     usage: '/{command} <email>'
     output:
