@@ -17,6 +17,7 @@ command:
       no-notifications: U heeft geen ongelezen berichten.
       fail: Er is een fout opgetreden bij het ophalen van berichten. Gelieve een serverbeheerder
         op de hoogte te brengen van dit probleem.
+      notification: <hover:show_text:"Klik om te openen in een web browser"><click:open_url:"{url}">{message}
     description: Laat een lijst van websiteberichten zien.
   no-permission: U heeft geen toestemming om dit commando uit te voeren.
   report:
@@ -28,6 +29,7 @@ command:
           Neem alstublieft contact op met de server administrator over dit probleem.
         already-open: U kunt deze speler niet rapporteren, u heeft al een open rapport
           over hem.
+        report-self: U kunt uzelf niet rapporteren.
       success: Bedankt om deze speler te rapporteren.
   user-info:
     usage: '/{command} [gebruikersnaam]'
