@@ -45,6 +45,7 @@ command:
           Por favor, notifique al administrador del servidor sobre este problema.
         already-open: No puedes reportar a este jugador, ya tienes un reporte abierto
           para él.
+        report-self: No puedes denunciarte a ti mismo.
     usage: '/{command} <nombre/uuid> <razón>'
   subcommands:
     help-prefix: /{command}

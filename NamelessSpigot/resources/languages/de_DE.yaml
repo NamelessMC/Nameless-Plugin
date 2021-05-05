@@ -39,14 +39,17 @@ command:
     description: Erstellt ein Konto
   no-permission: Du hast keine Rechte, diesen Befehl auszuführen.
   report:
-    usage: '{Befehl} <Name/UUID> <Grund>'
+    usage: '/{command} <Name/UUID> <Grund>'
     description: Einen Spieler melden
     output:
       success: Vielen Dank, das du diesen Spieler gemeldet haben.
-      fail: Beim Versuch, diesen Spieler zu melden, ist ein Fehler aufgetreten. Bitte
-        benachrichtigen Sie den Serveradministrator über dieses Problem.
+      fail:
+        already-open: Sie können diesen Spieler nicht melden, Sie haben bereits eine
+          offene Meldung für ihn.
+        generic: Beim Versuch, diesen Spieler zu melden, ist ein Fehler aufgetreten.
+          Bitte informieren Sie den Server-Administrator über dieses Problem.
   validate:
-    usage: '{Befehl} <Code>'
+    usage: '/{command} <Code>'
     description: Überprüft das Website-Konto des Benutzers anhand des angegebenen
       Codes.
     output:
@@ -71,10 +74,12 @@ command:
       uuid-unknown: Unbekannt
       fail: Beim Versuch, Spielerinformationen abzurufen, ist ein unbekannter Fehler
         aufgetreten.
-    usage: '{Befehl} [Benutzername]'
+      primary-group: 'Primäre Gruppe: {groupname}'
+      all-groups: 'Alle Gruppen: {groups_names_list}'
+    usage: '/{command} [Benutzername]'
     description: Informationen zu einem Website-Benutzer abrufen
   subcommands:
-    usage: '{Befehl} [Unterbefehl] [Argumente ..]'
+    usage: '/{command} [Unterbefehl] [Argumente ..]'
     help-prefix: /{Befehl}
 join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
   Dich mit /register.

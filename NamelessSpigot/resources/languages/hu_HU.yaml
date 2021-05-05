@@ -23,6 +23,7 @@ command:
           rendszergazdáját erről a problémáról.
         already-open: Nem jelentheted ezt a játékost, mert már van nyitott jelentésed
           a moderátorok felé.
+        report-self: Nem jelentheted saját magad.
       success: Köszönjük, hogy bejelentetted ezt a játékost.
     usage: '/{command} <név/uuid> <indok>'
   validate:

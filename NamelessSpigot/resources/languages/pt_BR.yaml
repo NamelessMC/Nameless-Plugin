@@ -18,6 +18,7 @@ command:
       click-to-open: Clique para abrir em um navegador da web
       fail: Ocorreu um erro ao tentar recuperar uma lista de notificações. Notifique
         o administrador do servidor sobre este problema.
+      notification: <hover:show_text:"Clique para abrir em um navegador da web"><click:open_url:"{url}">{message}
     description: Exiber uma lista de notificações do site.
   register:
     usage: '/{command} <email>'
@@ -46,6 +47,7 @@ command:
           do servidor sobre este problema.
         already-open: Você não pode denunciar este jogador, você já tem uma denuncia
           aberta para ele.
+        report-self: Você não pode denunciar a si mesmo.
   validate:
     output:
       fail:

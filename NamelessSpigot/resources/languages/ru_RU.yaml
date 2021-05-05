@@ -36,6 +36,7 @@ command:
       click-to-open: Щелкните, чтобы открыть в веб-браузере
       fail: Произошла ошибка при попытке получить список уведомлений. Сообщите администратору
         сервера об этой проблеме.
+      notification: <hover:show_text:"Нажмите сюда для открытия в браузере"><click:open_url:"{url}">{message}
     usage: '/{command}'
   register:
     usage: '/{command} <email>'
@@ -63,6 +64,7 @@ command:
         generic: Произошла ошибка во время отправки жалобы. Свяжитесь с администрацией
           для решения проблемы.
         already-open: Вы уже отправляли жалобу на этого игрока.
+        report-self: Вы не можете отправить заявку на самого себя.
   subcommands:
     usage: '/{command} [subcommand] [arguments..]'
     help-prefix: /{command}
