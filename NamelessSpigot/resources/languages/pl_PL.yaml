@@ -18,6 +18,7 @@ command:
       click-to-open: Kliknij aby otworzyc przegladarke
       fail: Wystapil blad podczas proby wyswietlenia listy powiadomien. Prosze skontaktowac
         sie z Administratorem.
+      notification: <hover:show_text:"Kliknij, aby uruchomić w przeglądarce"><click:open_url:"{url}">{message}
     description: Wyswietla liste powiadomien ze strony.
   register:
     usage: '/{command} <email>'
