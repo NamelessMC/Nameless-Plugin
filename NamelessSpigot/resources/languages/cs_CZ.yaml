@@ -5,6 +5,7 @@ command:
         správcům serveru.
       no-notifications: Nemáte žádná nepřečtená oznámení.
       click-to-open: Klikněte pro otevření ve webovém prohlížeči
+      notification: <hover:show_text:"Klikněte pro otevření ve webovém prohlížeči"><click:open_url:"{url}">{message}
     usage: '/{command}'
     description: Zobrazí seznam webových oznámení.
   register:
