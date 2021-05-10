@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -30,7 +31,6 @@ public class ServerDataSender extends BukkitRunnable {
 		data.addProperty("allocated-memory", Runtime.getRuntime().totalMemory());
 		data.addProperty("server-id", serverId);
 
-
 		final net.milkbowl.vault.permission.Permission permissions = NamelessPlugin.getInstance().getPermissions();
 
 		try {
@@ -41,6 +41,18 @@ public class ServerDataSender extends BukkitRunnable {
 				data.add("groups", groups);
 			}
 		} catch (final UnsupportedOperationException e) {}
+
+		final FileConfiguration conf = Config.MAIN.getConfig();
+		final boolean uploadPlaceholders = conf.isConfigurationSection("upload-placeholders") &&
+				conf.getBoolean("upload-placeholders");
+
+		if (uploadPlaceholders) {
+			final JsonObject placeholders = new JsonObject();
+			conf.getStringList("upload-placeholders.global").forEach((key) -> {
+				placeholders.addProperty(key, NamelessPlugin.getInstance().getPapiParser().parse(null, key));
+			});
+			data.add("placeholders", placeholders);
+		}
 
 		final JsonObject players = new JsonObject();
 
@@ -89,13 +101,13 @@ public class ServerDataSender extends BukkitRunnable {
 				}
 			} catch (final UnsupportedOperationException e) {}
 
-			final JsonObject placeholders = new JsonObject();
-
-			Config.MAIN.getConfig().getStringList("upload-placeholders")
-				.forEach(placeholder ->
-				placeholders.addProperty(placeholder, NamelessPlugin.getInstance().getPapiParser().parse(player, placeholder)));
-
-			playerInfo.add("placeholders", placeholders);
+			if (uploadPlaceholders) {
+				final JsonObject placeholders = new JsonObject();
+				conf.getStringList("upload-placeholders.player").forEach((key) -> {
+					placeholders.addProperty(key, NamelessPlugin.getInstance().getPapiParser().parse(player, key));
+				});
+				data.add("placeholders", placeholders);
+			}
 
 			playerInfo.addProperty("login-time", NamelessPlugin.LOGIN_TIME.get(player.getUniqueId()));
 

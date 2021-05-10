@@ -16,11 +16,15 @@ server-id: 0
 # Setting this too low can cause lag. Set to 0 to disable.
 server-data-upload-rate: 10
 
-# You can add PlaceholderAPI placeholders (without {} or %%) here, they will be sent to the website to be used by NamelessMC or addons.
+# You can add PlaceholderAPI placeholders here, they will be sent to the website to be used by NamelessMC or modules.
 # The placeholders can be global or player-specific
-# This option will work regardless of the "enable-placeholders" option
+# This option is unrelated to the "enable-placeholders" option
 upload-placeholders:
-- player_level
+  enabled: false
+  # global placeholders to send to the website
+  global: []
+  # player-specific placeholders to send to the website
+  player: []
 
 
 # Enable PlaceholderAPI and MVdWPlaceholderAPI placeholders
