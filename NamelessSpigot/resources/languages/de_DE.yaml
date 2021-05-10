@@ -17,6 +17,7 @@ command:
         Problem.
       no-notifications: Du hast keine ungelesenen Benachrichtigungen.
       click-to-open: Klicke hier, um es in einem Webbrowser zu öffnen
+      notification: <hover:show_text:"Klicken um in einem Browser zu öffnen"><click:open_url:"{url}">{message}
     usage: '/{command}'
     description: Zeigt eine Liste der Website-Benachrichtigungen an.
   not-a-player: Du must ein Spieler sein, um diesen Befehl ausführen zu können.
@@ -48,6 +49,7 @@ command:
           offene Meldung für ihn.
         generic: Beim Versuch, diesen Spieler zu melden, ist ein Fehler aufgetreten.
           Bitte informieren Sie den Server-Administrator über dieses Problem.
+        report-self: Du kannst dich nicht selber melden.
   validate:
     usage: '/{command} <Code>'
     description: Überprüft das Website-Konto des Benutzers anhand des angegebenen
