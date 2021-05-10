@@ -36,6 +36,7 @@ command:
       click-to-open: Haga clic para abrir en un navegador web
       fail: Se produjo un error al intentar recuperar una lista de notificaciones.
         Por favor, notifique al administrador del servidor sobre este problema.
+      notification: <hover:show_text:"Clic para abrir en un navegador web"><click:open_url:"{url}">{message}
   report:
     description: Reporta a un jugador
     output:
