@@ -5,8 +5,7 @@ command:
       no-notifications: אין לך התראות שלא נקראו.
       click-to-open: לחץ לפתיחה בדפדפן אינטרנט
       fail: אירעה שגיאה בניסיון לאחזר רשימת התראות. אנא הודע למנהל השרת על בעיה זו.
-      notification: '<hover: show_text: "לחץ לפתיחה בדפדפן אינטרנט"> <click: open_url:
-        "{url}"> {message}'
+      notification: '<hover:show_text:"לחץ לפתיחה בדפדפן אינטרנט"><click:open_url:"{url}">{message}'
     usage: '{command}/'
   register:
     description: צור חשבון באתר
