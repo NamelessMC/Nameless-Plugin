@@ -163,7 +163,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		if (rate <= 0 || serverId <= 0) {
 			this.dataSenderTask = null;
 		} else {
-			new ServerDataSender().runTaskTimer(this, rate, rate);
+			this.dataSenderTask = new ServerDataSender().runTaskTimer(this, rate, rate);
 		}
 	}
 
