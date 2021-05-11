@@ -53,6 +53,8 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	@Override
 	public void onEnable() {
+		this.apiProvider = new ApiProviderImpl();
+
 		try {
 			Config.initialize();
 		} catch (final IOException e) {
@@ -152,11 +154,13 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			throw new RuntimeException("Failed to load language file");
 		}
 
-		this.dataSenderTask.cancel();
+		if (this.dataSenderTask != null) {
+			this.dataSenderTask.cancel();
+		}
 
 		final int rate = Config.MAIN.getConfig().getInt("server-data-upload-rate", 10) * 20;
 		final int serverId = Config.MAIN.getConfig().getInt("server-id");
-		if (rate < 0 || serverId < 0) {
+		if (rate <= 0 || serverId <= 0) {
 			this.dataSenderTask = null;
 		} else {
 			new ServerDataSender().runTaskTimer(this, rate, rate);
