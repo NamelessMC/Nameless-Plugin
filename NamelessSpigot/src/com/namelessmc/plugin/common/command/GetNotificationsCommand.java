@@ -19,7 +19,8 @@ public class GetNotificationsCommand extends CommonCommand {
 	@Override
 	public void execute(final CommandSender sender, final String[] args) {
 		if (args.length != 0) {
-			return; // TODO help text
+			sender.sendMessage(getLanguage().getMessage(Term.COMMAND_NOTIFICATIONS_USAGE));
+			return;
 		}
 
 		if (!sender.isPlayer()) {

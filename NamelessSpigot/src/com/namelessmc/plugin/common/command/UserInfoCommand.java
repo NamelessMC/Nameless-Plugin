@@ -29,7 +29,7 @@ public class UserInfoCommand extends CommonCommand {
 		}
 
 		if (args.length != 1) {
-			// TODO send help text
+			sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_USAGE));
 			return;
 		}
 

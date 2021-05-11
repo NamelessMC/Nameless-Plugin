@@ -19,7 +19,8 @@ public class ValidateCommand extends CommonCommand {
 	@Override
 	public void execute(final CommandSender sender, final String[] args) {
 		if (args.length != 1) {
-			return; // TODO help text
+			sender.sendMessage(getLanguage().getMessage(Term.COMMAND_VALIDATE_USAGE));
+			return;
 		}
 
 		if (!sender.isPlayer()) {

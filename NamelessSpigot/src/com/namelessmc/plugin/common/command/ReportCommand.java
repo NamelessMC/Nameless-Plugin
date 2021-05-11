@@ -22,7 +22,8 @@ public class ReportCommand extends CommonCommand {
 	@Override
 	public void execute(final CommandSender sender, final String[] args) {
 		if (args.length < 2) {
-			return; // TODO help message
+			sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_USAGE));
+			return;
 		}
 
 		if (!sender.isPlayer()) {
