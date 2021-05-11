@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 
-import com.namelessmc.plugin.common.command.CommandSender;
 import com.namelessmc.plugin.spigot.Chat;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 
@@ -141,11 +140,9 @@ public class LanguageHandler {
 	private AbstractYamlFile fallbackLanguageFile = null;
 	private AbstractYamlFile activeLanguageFile = null;
 	private final Path languageDirectory;
-//	private final BiConsumer<MessageReceiver, String> messageSender;
 
-	public LanguageHandler(final Path languageDirectory/*, final BiConsumer<MessageReceiver, String> messageSender*/) {
+	public LanguageHandler(final Path languageDirectory) {
 		this.languageDirectory = languageDirectory;
-//		this.messageSender = messageSender;
 	}
 
 	public String getMessage(final Term term) {
@@ -205,24 +202,6 @@ public class LanguageHandler {
 		return message;
 	}
 
-//	public void send(final Term term, final MessageReceiver sender) {
-//		this.messageSender.accept(sender, this.getMessage(term));
-//	}
-//
-//	public void send(final Term term, final MessageReceiver sender, final Object... placeholders) {
-//		this.messageSender.accept(sender, this.getMessage(term, placeholders));
-//	}
-
-	@Deprecated
-	public void send(final Term term, final CommandSender sender) {
-		sender.sendMessage(this.getMessage(term));
-	}
-
-	@Deprecated
-	public void send(final Term term, final CommandSender sender, final Object... placeholders) {
-		sender.sendMessage(this.getMessage(term, placeholders));
-	}
-
 	public void updateFiles() throws IOException {
 		final Logger log = NamelessPlugin.getInstance().getLogger();
 
@@ -277,8 +256,6 @@ public class LanguageHandler {
 			return null;
 		}
 
-//		return YamlConfiguration.loadConfiguration(file.toFile());
-//		return new AbstractYamlFile(file);
 		return fileReader.apply(file);
 	}
 

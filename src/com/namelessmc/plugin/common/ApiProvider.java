@@ -19,16 +19,6 @@ public abstract class ApiProvider {
 			return this.cachedApi;
 		}
 
-//		final FileConfiguration config = NamelessPlugin.getInstance().getConfig();
-//		final boolean debug = config.getBoolean("api-debug-mode", false);
-//		final URL apiUrl;
-//		try {
-////			apiUrl = new URL(config.getString("api-url"));
-//		} catch (final MalformedURLException e) {
-//			throw new NamelessException("Malformed URL", e);
-//		}
-
-//		this.cachedApi = new NamelessAPI(apiUrl, USER_AGENT, debug);
 		this.cachedApi = NamelessAPI.builder()
 				.apiUrl(this.getApiUrl())
 				.userAgent(USER_AGENT)
