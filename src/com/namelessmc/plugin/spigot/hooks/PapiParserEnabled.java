@@ -5,9 +5,9 @@ import org.bukkit.entity.Player;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public class PapiParserEnabled implements PapiParser {
-	
+
 	@Override
-	public String parse(Player player, String text) {
+	public String parse(final Player player, final String text) {
 		return PlaceholderAPI.setPlaceholders(player, text);
 	}
 

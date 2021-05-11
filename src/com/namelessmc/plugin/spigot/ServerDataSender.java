@@ -44,12 +44,15 @@ public class ServerDataSender extends BukkitRunnable {
 
 		final FileConfiguration conf = Config.MAIN.getConfig();
 		final boolean uploadPlaceholders = conf.isConfigurationSection("upload-placeholders") &&
-				conf.getBoolean("upload-placeholders");
+				conf.getBoolean("upload-placeholders.enabled");
+
+		System.out.println(uploadPlaceholders);
 
 		if (uploadPlaceholders) {
 			final JsonObject placeholders = new JsonObject();
 			conf.getStringList("upload-placeholders.global").forEach((key) -> {
-				placeholders.addProperty(key, NamelessPlugin.getInstance().getPapiParser().parse(null, key));
+				System.out.println(key);
+				placeholders.addProperty(key, NamelessPlugin.getInstance().getPapiParser().parse(null, "%" + key + "%"));
 			});
 			data.add("placeholders", placeholders);
 		}
@@ -104,9 +107,9 @@ public class ServerDataSender extends BukkitRunnable {
 			if (uploadPlaceholders) {
 				final JsonObject placeholders = new JsonObject();
 				conf.getStringList("upload-placeholders.player").forEach((key) -> {
-					placeholders.addProperty(key, NamelessPlugin.getInstance().getPapiParser().parse(player, key));
+					placeholders.addProperty(key, NamelessPlugin.getInstance().getPapiParser().parse(player, "%" + key + "%"));
 				});
-				data.add("placeholders", placeholders);
+				playerInfo.add("placeholders", placeholders);
 			}
 
 			playerInfo.addProperty("login-time", NamelessPlugin.LOGIN_TIME.get(player.getUniqueId()));
