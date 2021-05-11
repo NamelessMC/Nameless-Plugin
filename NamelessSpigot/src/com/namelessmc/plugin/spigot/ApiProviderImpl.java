@@ -12,6 +12,7 @@ public class ApiProviderImpl extends ApiProvider {
 	void loadConfiguration(final FileConfiguration config) {
 		this.apiUrl = config.getString("api-url");
 		this.debug = config.getBoolean("api-debug-mode", false);
+		this.clearCachedApi();
 	}
 
 	@Override
