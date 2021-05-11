@@ -24,7 +24,7 @@ The official Minecraft plugin for NamelessMC v2. For compiled files see the [spi
 <img src="http://translate.namelessmc.com/widgets/namelessmc/-/spigot-plugin/multi-auto.svg" alt="Translation status" />
 </a>
 
-## Compiling (Spigot)
+## Compiling
 
 Requirements: Maven, JDK 8, git (any JDK >8 will also work as long as your server doesn't use a lower JDK version)
 
@@ -43,7 +43,7 @@ mvn install
 cd ..
 
 git clone https://github.com/NamelessMC/Nameless-Plugin
-cd Nameless-Plugin/NamelessSpigot
+cd Nameless-Plugin
 mvn package shade:shade
 cd target
 # find jar file here
