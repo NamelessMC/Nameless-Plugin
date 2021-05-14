@@ -46,8 +46,6 @@ public class ServerDataSender extends BukkitRunnable {
 		final boolean uploadPlaceholders = conf.isConfigurationSection("upload-placeholders") &&
 				conf.getBoolean("upload-placeholders.enabled");
 
-		System.out.println(uploadPlaceholders);
-
 		if (uploadPlaceholders) {
 			final JsonObject placeholders = new JsonObject();
 			conf.getStringList("upload-placeholders.global").forEach((key) -> {
