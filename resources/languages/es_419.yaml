@@ -46,6 +46,7 @@ command:
       click-to-open: Haga clic para abrir en el navegador web
       fail: Se produjo un error al intentar recuperar una lista de notificaciones.
         Por favor, notifique al administrador del servidor sobre este problema.
+      notification: <hover:show_text:"Click para abrir en un navegador web"><click:open_url:"{url}">{message}
   report:
     output:
       success: Gracias por reportar a este jugador.
@@ -54,6 +55,7 @@ command:
           Por favor, notifique al administrador del servidor sobre este problema.
         already-open: No puedes reportar a este jugador, ya tienes un reporte abierto
           para él.
+        report-self: No puedes denunciarte a ti mismo.
     usage: '/{command} <nombre/uuid> <razón>'
     description: Reportar a un jugador
   validate:
