@@ -63,6 +63,7 @@ command:
           een serverbeheerder op de hoogte te brengen van dit probleem.
         already-open: Je kan niet deze speler rapporteren, er staat al een rapport
           open.
+        report-self: Je kunt jezelf niet rapporteren.
     usage: '/{command} <name/uuid> <reason>'
   validate:
     usage: '/{command} <code>'
