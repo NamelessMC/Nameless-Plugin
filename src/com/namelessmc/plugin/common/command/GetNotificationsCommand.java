@@ -51,8 +51,8 @@ public class GetNotificationsCommand extends CommonCommand {
 				getScheduler().runSync(() -> {
 					notifications.forEach((notification) -> {
 						sender.sendMessage(getLanguage().getMessage(Term.COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION),
-								"{url}", notification.getUrl(),
-								"{message}", notification.getMessage());
+								"url", notification.getUrl(),
+								"message", notification.getMessage());
 					});
 				});
 			} catch (final NamelessException e) {

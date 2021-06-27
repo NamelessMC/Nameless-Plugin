@@ -26,6 +26,7 @@ public class UserInfoCommand extends CommonCommand {
 
 			// Player itself as first argument
 			execute(sender, new String[] { sender.getName() });
+			return;
 		}
 
 		if (args.length != 1) {
@@ -53,25 +54,25 @@ public class UserInfoCommand extends CommonCommand {
 				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_DISPLAYNAME), "displayname", user.getDisplayName());
 
 				final String uuid = user.getUniqueId().isPresent() ? user.getUniqueId().get().toString() : getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_UUID_UNKNOWN);
-				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_UUID), "{uuid}", uuid);
+				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_UUID), "uuid", uuid);
 
 				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP),
-						"{groupname}", user.getPrimaryGroup().get().getName(),
-						"{id}", String.valueOf(user.getPrimaryGroup().get().getId()));
+						"groupname", user.getPrimaryGroup().get().getName(),
+						"id", String.valueOf(user.getPrimaryGroup().get().getId()));
 
 				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_ALL_GROUPS),
-						"{groups_names_list}", user.getGroups().stream().map(Group::getName).collect(Collectors.joining(", ")));
+						"groups_names_list", user.getGroups().stream().map(Group::getName).collect(Collectors.joining(", ")));
 
 				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_REGISTERDATE),
-						"{date}", user.getRegisteredDate().toString()); // TODO Format nicely (add option in config for date format)
+						"date", user.getRegisteredDate().toString()); // TODO Format nicely (add option in config for date format)
 
 				final String validated = user.isVerified() ? yes : no;
 				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_VALIDATED),
-						"{validated}", validated);
+						"validated", validated);
 
 				final String banned = user.isBanned() ? yes : no;
 				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_BANNED),
-						"{banned}", banned);
+						"banned", banned);
 			} catch (final NamelessException e) {
 				sender.sendMessage(e.getMessage());
 				e.printStackTrace();

@@ -32,7 +32,7 @@ public class RegisterCommand extends CommonCommand {
 			try {
 				final Optional<String> link = NamelessPlugin.getInstance().getNamelessApi().registerUser(sender.getName(), args[0], Optional.of(sender.getUniqueId()));
 				if (link.isPresent()) {
-					sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK), "{link}", link.get());
+					sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK), "link", link.get());
 				} else {
 					sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL));
 				}
