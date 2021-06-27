@@ -18,14 +18,14 @@ command:
       click-to-open: Klik om te openen in een webbrowser
       fail: Er is een fout opgetreden bij het ophalen van meldingen. Gelieve de serverbeheerder
         op de hoogte te brengen van dit probleem.
-      notification: <hover:show_text:"Klik om in een web browser te openen"><click:open_url:"{url}">{message}
+      notification: <hover:show_text:"Klik om in een web browser te openen"><click:open_url:"<url>"><message>
     description: Laat een lijst van website meldingen zien.
   register:
     usage: '/{command} <e-mail>'
     output:
       success:
         email: Controleer uw inbox om de registratie te voltooien.
-        link: Ga naar {link} om de registratie te voltooien.
+        link: Ga naar <link> om de registratie te voltooien.
       fail:
         already-exists: U heeft al een account.
         email-used: Dit e-mailadres wordt al gebruikt door een andere gebruiker.
@@ -39,19 +39,19 @@ command:
   user-info:
     usage: '/{command} [gebruikersnaam]'
     output:
-      username: 'Gebruikersnaam: {username}'
-      uuid: 'UUID: {uuid}'
-      displayname: 'Weergavenaam: {displayname}'
+      username: 'Gebruikersnaam: <username>'
+      uuid: 'UUID: <uuid>'
+      displayname: 'Weergavenaam: <displayname>'
       'yes': Ja
       'no': Nee
       uuid-unknown: onbekend
-      registered-date: Geregistreerd op {date}
-      validated: 'Account gevalideerd: {validated}'
-      banned: 'Verbannen: {banned}'
+      registered-date: Geregistreerd op <date>
+      validated: 'Account gevalideerd: <validated>'
+      banned: 'Verbannen: <banned>'
       fail: Er is een onbekende fout opgetreden tijdens een poging om spelersinformatie
         op te halen.
-      primary-group: 'Hoofdgroep: {groupname}'
-      all-groups: 'Alle groepen: {groups_names_list}'
+      primary-group: 'Hoofdgroep: <groupname>'
+      all-groups: 'Alle groepen: <groups_names_list>'
     description: Informatie opvragen over een websitegebruiker
   no-permission: Je hebt geen toestemming om dit commando uit te voeren.
   report:
