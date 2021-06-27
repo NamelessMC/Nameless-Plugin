@@ -5,7 +5,7 @@ command:
         správcům serveru.
       no-notifications: Nemáte žádná nepřečtená oznámení.
       click-to-open: Klikněte pro otevření ve webovém prohlížeči
-      notification: <hover:show_text:"Klikněte pro otevření ve webovém prohlížeči"><click:open_url:"{url}">{message}
+      notification: <hover:show_text:"Klikněte pro otevření ve webovém prohlížeči"><click:open_url:"<url>"><message>
     usage: '/{command}'
     description: Zobrazí seznam webových oznámení.
   register:
@@ -20,7 +20,7 @@ command:
           správce, aby aktivoval tvůj účet.
       success:
         email: Zkontrolujte svou e-mailovou schránku pro dokončení registrace.
-        link: Navštivte prosím {link} pro dokončení registrace.
+        link: Navštivte prosím <link> pro dokončení registrace.
     usage: '/{command} <e-mail>'
     description: Vytvořit účet na webu
   report:
@@ -48,18 +48,18 @@ command:
     usage: '/{command} [jméno]'
     description: Získá informace o uživateli
     output:
-      username: 'Uživatelské jméno: {username}'
-      displayname: 'Zobrazované jméno: {displayname}'
-      uuid: 'UUID: {uuid}'
-      registered-date: Zaregistrován {date}
-      validated: 'Účet ověřen: {validated}'
-      banned: 'Zablokován: {banned}'
+      username: 'Uživatelské jméno: <username>'
+      displayname: 'Zobrazované jméno: <displayname>'
+      uuid: 'UUID: <uuid>'
+      registered-date: Zaregistrován <date>
+      validated: 'Účet ověřen: <validated>'
+      banned: 'Zablokován: <banned>'
       'yes': ano
       'no': ne
       fail: Při získávání informací o hráči se vyskytla neznámá chyba.
       uuid-unknown: neznámé
-      primary-group: 'Hlavní skupina: {groupname}'
-      all-groups: 'Všechny skupiny: {groups_names_list}'
+      primary-group: 'Hlavní skupina: <groupname>'
+      all-groups: 'Všechny skupiny: <groups_names_list>'
   subcommands:
     usage: '/{command} [podpříkaz] [argumenty..]'
     help-prefix: /{command}
