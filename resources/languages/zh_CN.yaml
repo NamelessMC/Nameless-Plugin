@@ -14,7 +14,7 @@ command:
       fail: 获得通知信息时出现了一个问题。请将此问题告知服务器管理员。
       no-notifications: 您没有任何未读通知。
       click-to-open: 点击来在浏览器中打开
-      notification: <hover:show_text:"点击以在网页浏览器中打开"><click:open_url:"{url}">{message}
+      notification: <hover:show_text:"点击以在网页浏览器中打开"><click:open_url:"<url>"><message>
     description: 显示网站通知列表。
     usage: '/{command}'
   report:
@@ -28,18 +28,18 @@ command:
     description: 举报
   user-info:
     output:
-      registered-date: 于 {date} 注册
+      registered-date: 于 <date> 注册
       fail: 试图获取玩家信息时发生了一个未知错误。
-      username: '用户名: {username}'
-      displayname: '显示名: {displayname}'
-      uuid: 'UUID: {uuid}'
-      validated: '帐号是否已验证: {validated}'
-      banned: '是否被封禁: {banned}'
+      username: '用户名: <username>'
+      displayname: '显示名: <displayname>'
+      uuid: 'UUID: <uuid>'
+      validated: '帐号是否已验证: <validated>'
+      banned: '是否被封禁: <banned>'
       'yes': 是
       'no': 否
       uuid-unknown: 未知
-      primary-group: 主要群组：{groupname}
-      all-groups: 全部群组：{groups_names_list}
+      primary-group: 主要群组：<groupname>
+      all-groups: 全部群组：<groups_names_list>
     usage: '/{command} [用户名]'
     description: 获得一个网站用户的信息
   not-a-player: 您必须是一个玩家才能执行此指令。
@@ -49,7 +49,7 @@ command:
     output:
       success:
         email: 请查看您的收件箱来完成注册。
-        link: 请查看 {link} 来完成注册。
+        link: 请查看 <link> 来完成注册。
       fail:
         generic: 试图注册时出现了一个错误。请将此问题告知服务器管理员。
         already-exists: 您已经有一个帐号了。
