@@ -79,9 +79,6 @@ public class LanguageHandler {
 		COMMAND_USERINFO_OUTPUT_NO("command.user-info.output.no"),
 		COMMAND_USERINFO_OUTPUT_FAIL("command.user-info.output.fail"),
 
-		COMMAND_SUBCOMMANDS_USAGE("command.subcommands.usage"),
-		COMMAND_SUBCOMMANDS_HELP_PREFIX("command.subcommands.help-prefix"),
-
 		JOIN_NOTREGISTERED("join-not-registered"),
 
 		;
@@ -100,7 +97,7 @@ public class LanguageHandler {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 13;
+	private static final int VERSION = 14;
 
 	private static final String[] LANGUAGES_LIST = {
 			"cs_CZ",

@@ -18,7 +18,7 @@ command:
     description: "Displays a list of website notifications."
     output:
       no-notifications: "You do not have any unread notifications."
-      notification: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"{url}\">{message}"
+      notification: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\"><message>"
       fail: "An error occured while trying to retrieve a list of notifications. Please notify the server administrator about this issue."
 
   register:
@@ -27,7 +27,7 @@ command:
     output:
       success:
         email: "Please check your inbox to complete registration."
-        link: "Please visit {link} to complete registration."
+        link: "Please visit <link> to complete registration."
       fail:
         generic: "An error occured while trying to register. Please notify the server administrator about this issue."
         already-exists: "You already have an account."
@@ -60,21 +60,17 @@ command:
     usage: "/{command} [username]"
     description: "Retrieve information about a website user"
     output:
-      username: "Username: {username}"
-      displayname: "Display name: {displayname}"
-      uuid: "UUID: {uuid}"
+      username: "Username: <username>"
+      displayname: "Display name: <displayname>"
+      uuid: "UUID: <uuid>"
       uuid-unknown: 'unknown'
-      primary-group: 'Primary group: {groupname}'
-      all-groups: 'All groups: {groups_names_list}'
-      registered-date: "Registered on {date}"
-      validated: "Account validated: {validated}"
-      banned: "Banned: {banned}"
+      primary-group: 'Primary group: <groupname>'
+      all-groups: 'All groups: <groups_names_list>'
+      registered-date: "Registered on <date>"
+      validated: "Account validated: <validated>"
+      banned: "Banned: <banned>"
       'yes': "yes"
       'no': "no"
       fail: "An unknown error occured while trying to retrieve player information."
-
-  subcommands:
-    usage: "/{command} [subcommand] [arguments..]"
-    help-prefix: "/{command}"
 
 join-not-registered: "You do not have an account on our website yet. Please register using /register."
