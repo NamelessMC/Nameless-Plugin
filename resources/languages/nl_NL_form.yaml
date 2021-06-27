@@ -17,7 +17,7 @@ command:
       no-notifications: U heeft geen ongelezen berichten.
       fail: Er is een fout opgetreden bij het ophalen van berichten. Gelieve een serverbeheerder
         op de hoogte te brengen van dit probleem.
-      notification: <hover:show_text:"Klik om te openen in een web browser"><click:open_url:"{url}">{message}
+      notification: <hover:show_text:"Klik om te openen in een web browser"><click:open_url:"<url>"><message>
     description: Laat een lijst van websiteberichten zien.
   no-permission: U heeft geen toestemming om dit commando uit te voeren.
   report:
@@ -34,17 +34,17 @@ command:
   user-info:
     usage: '/{command} [gebruikersnaam]'
     output:
-      registered-date: Geregistreerd op {date}
-      validated: 'Account gevalideerd: {validated}'
-      username: 'Gebruikersnaam: {username}'
-      primary-group: 'Hoofdgroep: {groupname}'
-      banned: 'Verbannen: {banned}'
+      registered-date: Geregistreerd op <date>
+      validated: 'Account gevalideerd: <validated>'
+      username: 'Gebruikersnaam: <username>'
+      primary-group: 'Hoofdgroep: <groupname>'
+      banned: 'Verbannen: <banned>'
       'yes': ja
       'no': nee
-      all-groups: 'Alle groepen: {groups_names_list}'
+      all-groups: 'Alle groepen: <groups_names_list>'
       fail: Er is een onbekend probleem opgetreden bij het ophalen van de speler informatie.
-      displayname: 'Weergavenaam: {displayname}'
-      uuid: 'UUID: {uuid}'
+      displayname: 'Weergavenaam: <displayname>'
+      uuid: 'UUID: <uuid>'
       uuid-unknown: onbekend
     description: Haal informatie op over een website gebruiker
   validate:
@@ -73,7 +73,7 @@ command:
         generic: Er is een fout opgetreden tijdens het registreren. Neem alstublieft
           contact op met de server administrator over dit probleem.
       success:
-        link: Open alstublieft {link} om de registratie te voltooien.
+        link: Open alstublieft <link> om de registratie te voltooien.
         email: Controleer alstublieft uw e-mail inbox om de registratie te voltooien.
     description: Maak een website account
   subcommands:
