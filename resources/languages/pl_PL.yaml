@@ -18,14 +18,14 @@ command:
       click-to-open: Kliknij aby otworzyc przegladarke
       fail: Wystapil blad podczas proby wyswietlenia listy powiadomien. Prosze skontaktowac
         sie z Administratorem.
-      notification: <hover:show_text:"Kliknij, aby uruchomić w przeglądarce"><click:open_url:"{url}">{message}
+      notification: <hover:show_text:"Kliknij, aby uruchomić w przeglądarce"><click:open_url:"<url>"><message>
     description: Wyswietla liste powiadomien ze strony.
   register:
     usage: '/{command} <email>'
     output:
       success:
         email: Prosze sprawdzic swoja skrzynke w celu dokonczenia rejestracji.
-        link: Prosze wejsc na {link} w celu dokkonczenia rejestracji.
+        link: Prosze wejsc na <link> w celu dokkonczenia rejestracji.
       fail:
         generic: Wystapil blad podczas proby rejestracji. Prosze skontaktowac sie
           z Administratorem.
@@ -59,18 +59,18 @@ command:
   user-info:
     usage: '/{command} [nazwa użytkownika]'
     output:
-      username: 'Nick: {username}'
-      uuid: 'UUID: {uuid}'
-      validated: 'Konto zweryfikowane: {validated}'
-      banned: 'Zbanowany: {banned}'
-      registered-date: Zarejestrowany {date}
+      username: 'Nick: <username>'
+      uuid: 'UUID: <uuid>'
+      validated: 'Konto zweryfikowane: <validated>'
+      banned: 'Zbanowany: <banned>'
+      registered-date: Zarejestrowany <date>
       'yes': tak
       'no': nie
-      displayname: 'Wyswietlany nick: {displayname}'
+      displayname: 'Wyswietlany nick: <displayname>'
       fail: Wystapl blad podczas proby zdobycia informacji o uzytkowniku.
       uuid-unknown: nieznany
-      all-groups: 'Wszystkie grupy: {lista_nazw_grup}'
-      primary-group: 'Podstawowa grupa: {nazwagrupy}'
+      all-groups: 'Wszystkie grupy: <groups_names_list>'
+      primary-group: 'Podstawowa grupa: <nazwagrupy>'
     description: Zdobadz informacje o uzytkowniku
   subcommands:
     usage: '/{command} [podkomenda] [argumenty..]'
