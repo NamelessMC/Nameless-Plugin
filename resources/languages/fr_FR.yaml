@@ -46,6 +46,7 @@ command:
           informer l'administrateur du serveur de ce problème.
         already-open: Vous ne pouvez pas signaler ce joueur, vous avez déjà un rapport
           ouvert pour lui.
+        report-self: Vous ne pouvez pas vous signaler vous-même.
   user-info:
     output:
       'yes': oui
