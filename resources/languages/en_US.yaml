@@ -19,13 +19,13 @@ command:
       click-to-open: Click to open in a web browser
       fail: An error occured while trying to retrieve a list of notifications. Please
         notify the server administrator about this issue.
-      notification: <hover:show_text:"Click to open in a web browser"><click:open_url:"{url}">{message}
+      notification: <hover:show_text:"Click to open in a web browser"><click:open_url:"<url>"><message>
   register:
     usage: '/{command} <email>'
     output:
       success:
         email: Please check your inbox to complete registration.
-        link: Please visit {link} to complete registration.
+        link: Please visit <link> to complete registration.
       fail:
         generic: An error occured while trying to register. Please notify the server
           administrator about this issue.
@@ -60,18 +60,18 @@ command:
   user-info:
     usage: '/{command} [username]'
     output:
-      username: 'Username: {username}'
-      displayname: 'Display name: {displayname}'
-      uuid: 'UUID: {uuid}'
+      username: 'Username: <username>'
+      displayname: 'Display name: <displayname>'
+      uuid: 'UUID: <uuid>'
       uuid-unknown: unknown
-      registered-date: Registered on {date}
-      validated: 'Account validated: {validated}'
-      banned: 'Banned: {banned}'
+      registered-date: Registered on <date>
+      validated: 'Account validated: <validated>'
+      banned: 'Banned: <banned>'
       'yes': yes
       'no': no
       fail: An unknown error occured while trying to retrieve player information.
-      primary-group: 'Primary group: {groupname}'
-      all-groups: 'All groups: {groups_names_list}'
+      primary-group: 'Primary group: <groupname>'
+      all-groups: 'All groups: <groups_names_list>'
     description: Retrieve information about a website user
   subcommands:
     usage: '/{command} [subcommand] [arguments..]'
