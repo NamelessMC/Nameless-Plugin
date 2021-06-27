@@ -26,7 +26,7 @@ command:
     output:
       success:
         email: Veuillez vérifier votre boîte de réception pour terminer l'inscription.
-        link: Veuillez visiter {link} pour terminer l'inscription.
+        link: Veuillez visiter <link> pour terminer l'inscription.
       fail:
         already-exists: Vous avez déjà un compte.
         email-used: Cette adresse e-mail est déjà utilisée pour un autre compte utilisateur.
@@ -50,18 +50,18 @@ command:
   user-info:
     output:
       'yes': oui
-      validated: 'Compte validé : {validated}'
-      banned: 'Banni : {banned}'
+      validated: 'Compte validé : <validated>'
+      banned: 'Banni : <banned>'
       'no': non
       fail: Une erreur inconnue s'est produite lors de la tentative d'extraction des
         informations du joueur.
-      username: "Nom d'utilisateur : {username}"
-      displayname: 'Nom affiché : {displayname}'
-      uuid: 'UUID : {uuid}'
+      username: "Nom d'utilisateur : <username>"
+      displayname: 'Nom affiché : <displayname>'
+      uuid: 'UUID : <uuid>'
       uuid-unknown: inconnu
-      registered-date: Inscrit le {date}
-      primary-group: 'Groupe primaire : {groupname}'
-      all-groups: 'Tous les groupes : {groups_names_list}'
+      registered-date: Inscrit le <date>
+      primary-group: 'Groupe primaire : <groupname>'
+      all-groups: 'Tous les groupes : <groups_names_list>'
     description: Extrait de l'information à propos d'un utilisateur du site web
     usage: /{command} [pseudo]
   subcommands:
