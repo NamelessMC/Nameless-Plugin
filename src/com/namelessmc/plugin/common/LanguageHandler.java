@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
@@ -178,25 +176,18 @@ public class LanguageHandler {
 			return this.getMessage(term);
 		}
 
-		final Map<String, String> placeholderMap = new HashMap<>();
-
 		Object key = null;
+		String message = this.getMessage(term);
 
 		for (final Object object : placeholders) {
 			if (key == null) {
 				// 'placeholder' is a key
 				key = object;
 			} else {
-				// Key has been set previously, 'placeholder' must be a value
-				placeholderMap.put(key.toString(), object.toString());
+				// Key has been set previously, 'object' must be the placeholder value
+				message = message.replace("{" + key + "}", object.toString());
 				key = null; // Next 'placeholder' is a key
 			}
-		}
-
-		String message = this.getMessage(term);
-
-		for(final Map.Entry<String, String> entry : placeholderMap.entrySet()) {
-			message = message.replace("{" + entry.getKey() + "}", entry.getValue());
 		}
 
 		return message;
