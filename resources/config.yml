@@ -21,9 +21,9 @@ server-data-upload-rate: 10
 # This option is unrelated to the "enable-placeholders" option
 upload-placeholders:
   enabled: false
-  # global placeholders to send to the website
+  # global placeholders to send to the website (list of placeholder names without %%)
   global: []
-  # player-specific placeholders to send to the website
+  # player-specific placeholders to send to the website (list of placeholder names without %%)
   player: []
 
 
