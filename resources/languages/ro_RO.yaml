@@ -32,7 +32,7 @@ command:
         username-invalid: Numele de utilizator dat este invalid.
       success:
         email: Te rog verifică-ți email-ul pentru a completa înregistrarea.
-        link: Te rog intră pe {link} pentru a completa înregistrarea.
+        link: Te rog intră pe <link> pentru a completa înregistrarea.
     usage: '{command} <email>'
     description: Creează un cont pe site
   report:

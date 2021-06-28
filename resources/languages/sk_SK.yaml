@@ -23,6 +23,6 @@ command:
     description: Vytvorit webový účet
   user-info:
     output:
-      banned: 'Zabanovaný: {banned}'
+      banned: 'Zabanovaný: <banned>'
   validate:
     usage: '{command} <kód>'

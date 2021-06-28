@@ -10,14 +10,14 @@ command:
     description: Verilen kodu kullanarak kullanıcının web sitesi hesabını doğrular.
   user-info:
     output:
-      uuid: 'UUID: {uuid}'
+      uuid: 'UUID: <uuid>'
       uuid-unknown: Bilinmiyor
       fail: Oyuncu bilgilerini almaya çalışırken bilinmeyen bir hata oluştu.
-      displayname: 'Görünen ad: {displayname}'
-      username: 'Kullanıcı Adı: {username}'
-      registered-date: 'Kayıt Tarihi : {date}'
-      validated: 'Doğrulanmış Hesap: {validated}'
-      banned: 'Yasaklı: {banned}'
+      displayname: 'Görünen ad: <displayname>'
+      username: 'Kullanıcı Adı: <username>'
+      registered-date: 'Kayıt Tarihi : <date>'
+      validated: 'Doğrulanmış Hesap: <validated>'
+      banned: 'Yasaklı: <banned>'
       'yes': evet
       'no': hayır
     description: Bir web sitesi kullanıcısı hakkında bilgi alın
@@ -36,7 +36,7 @@ command:
     output:
       success:
         email: Kaydı tamamlamak için lütfen gelen kutunuzu kontrol edin.
-        link: Kaydı tamamlamak için lütfen {link} adresini ziyaret edin.
+        link: Kaydı tamamlamak için lütfen <link> adresini ziyaret edin.
       fail:
         already-exists: Zaten bir hesabınız var.
         email-used: Bu e-posta adresi zaten farklı bir kullanıcı hesabı için kullanılıyor.

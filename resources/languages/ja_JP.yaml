@@ -16,14 +16,14 @@ command:
       no-notifications: 未読通知はありません。
       click-to-open: クリックするとウェブブラウザで開きます
       fail: 通知一覧を取得しようとした際にエラーが発生しました。この問題については、サーバー管理者に連絡してください。
-      notification: <hover:show_text:"クリックしてウェブブラウザで開く"><click:open_url:"{url}">{message}
+      notification: <hover:show_text:"クリックしてウェブブラウザで開く"><click:open_url:"<url>"><message>
     description: ウェブサイトの通知一覧を表示します。
   register:
     usage: '/{command} <メールアドレス>'
     output:
       success:
         email: メールボックスを確認して登録を完了させてください。
-        link: '{link}にアクセスして登録を完了させてください。'
+        link: '<link>にアクセスして登録を完了させてください。'
       fail:
         already-exists: 既にアカウントがあります。
         generic: 登録時にエラーが発生しました。この問題については、サーバー管理者に連絡してください。
@@ -36,18 +36,18 @@ command:
   user-info:
     usage: '/{command} [ユーザー名]'
     output:
-      uuid: 'UUID: {uuid}'
-      username: 'ユーザー名: {username}'
-      displayname: '表示名: {displayname}'
+      uuid: 'UUID: <uuid>'
+      username: 'ユーザー名: <username>'
+      displayname: '表示名: <displayname>'
       'no': いいえ
       'yes': はい
       uuid-unknown: 不明
-      registered-date: 登録日 {date}
-      primary-group: 'プライマリーグループ: {groupname}'
-      all-groups: '全てのグループ: {groups_names_list}'
-      banned: 'Ban: {banned}'
+      registered-date: 登録日 <date>
+      primary-group: 'プライマリーグループ: <groupname>'
+      all-groups: '全てのグループ: <groups_names_list>'
+      banned: 'Ban: <banned>'
       fail: プレイヤー情報を取得しようとした際に不明なエラーが発生しました。
-      validated: 'アカウント認証: {validated}'
+      validated: 'アカウント認証: <validated>'
     description: ウェブサイトユーザーに関する情報を取得
   validate:
     usage: '/{command} <コード>'

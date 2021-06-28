@@ -17,7 +17,7 @@ command:
         Problem.
       no-notifications: Du hast keine ungelesenen Benachrichtigungen.
       click-to-open: Klicke hier, um es in einem Webbrowser zu öffnen
-      notification: <hover:show_text:"Klicken um in einem Browser zu öffnen"><click:open_url:"{url}">{message}
+      notification: <hover:show_text:"Klicken um in einem Browser zu öffnen"><click:open_url:"<url>"><message>
     usage: '/{command}'
     description: Zeigt eine Liste der Website-Benachrichtigungen an.
   not-a-player: Du must ein Spieler sein, um diesen Befehl ausführen zu können.
@@ -35,7 +35,7 @@ command:
           kontaktieren Sie einen Admin, um Ihr Konto zu aktivieren.
       success:
         email: Bitte überprüfe Deinen Posteingang, um die Registrierung abzuschließen.
-        link: 'Bitte besuche diesen link: {link}, um die Registrierung abzuschließen.'
+        link: 'Bitte besuche diesen link: <link>, um die Registrierung abzuschließen.'
     usage: '/{command} <Mail>'
     description: Erstellt ein Konto
   no-permission: Du hast keine Rechte, diesen Befehl auszuführen.
@@ -65,19 +65,19 @@ command:
         already-validated: Dein Konto ist bereits bestätigt.
   user-info:
     output:
-      username: 'Benutzername: {Benutzername}'
-      displayname: 'Anzeigename: {Anzeigename}'
-      uuid: 'UUID: {uuid}'
-      registered-date: Registriert am {Datum}
-      validated: 'Konto validiert: {validiert}'
-      banned: 'Gebannt: {banned}'
+      username: 'Benutzername: <username>'
+      displayname: 'Anzeigename: <displayname>'
+      uuid: 'UUID: <uuid>'
+      registered-date: Registriert am <date>
+      validated: 'Konto validiert: <validiert>'
+      banned: 'Gebannt: <banned>'
       'yes': Ja
       'no': Nein
       uuid-unknown: Unbekannt
       fail: Beim Versuch, Spielerinformationen abzurufen, ist ein unbekannter Fehler
         aufgetreten.
-      primary-group: 'Primäre Gruppe: {groupname}'
-      all-groups: 'Alle Gruppen: {groups_names_list}'
+      primary-group: 'Primäre Gruppe: <groupname>'
+      all-groups: 'Alle Gruppen: <groups_names_list>'
     usage: '/{command} [Benutzername]'
     description: Informationen zu einem Website-Benutzer abrufen
   subcommands:

@@ -13,18 +13,18 @@ command:
       кода.
   user-info:
     output:
-      displayname: 'Отображаемое имя: {displayname}'
-      username: 'Имя пользователя: {username}'
-      uuid: 'UUID: {uuid}'
-      registered-date: Зарегистрировано {date}
-      validated: 'Аккаунт подтвержден: {validated}'
+      displayname: 'Отображаемое имя: <displayname>'
+      username: 'Имя пользователя: <username>'
+      uuid: 'UUID: <uuid>'
+      registered-date: Зарегистрировано <date>
+      validated: 'Аккаунт подтвержден: <validated>'
       'yes': да
       'no': нет
       fail: Произошла неизвестная ошибка при попытке получить информацию об игроке.
       uuid-unknown: неизвестно
-      banned: 'Забанен: {banned}'
-      primary-group: 'Основная группа: {groupname}'
-      all-groups: 'Все группы: {groups_names_list}'
+      banned: 'Забанен: <banned>'
+      primary-group: 'Основная группа: <groupname>'
+      all-groups: 'Все группы: <groups_names_list>'
     usage: '/{command} [username]'
     description: Получить информацию о пользователе веб-сайта
   not-a-player: Чтобы выполнить эту команду, вы должны быть игроком.
@@ -36,7 +36,7 @@ command:
       click-to-open: Щелкните, чтобы открыть в веб-браузере
       fail: Произошла ошибка при попытке получить список уведомлений. Сообщите администратору
         сервера об этой проблеме.
-      notification: <hover:show_text:"Нажмите сюда для открытия в браузере"><click:open_url:"{url}">{message}
+      notification: <hover:show_text:"Нажмите сюда для открытия в браузере"><click:open_url:"<url>"><message>
     usage: '/{command}'
   register:
     usage: '/{command} <email>'
@@ -44,7 +44,7 @@ command:
     output:
       success:
         email: Пожалуйста, проверьте свой почтовый ящик, чтобы завершить регистрацию.
-        link: Посетите {link}, чтобы завершить регистрацию.
+        link: Посетите <link>, чтобы завершить регистрацию.
       fail:
         generic: Произошла ошибка при попытке регистрации. Сообщите администратору
           сервера об этой проблеме.

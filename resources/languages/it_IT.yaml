@@ -17,7 +17,7 @@ command:
       click-to-open: Click per aprire in un motore di ricerca
       fail: E' stato riscontrato un errore nel tentativo di richiamare la lista delle
         notifiche. Per favore, avvisa un amministratore del server di questo problema.
-      notification: <hover:show_text:"Click to open in a web browser"><click:open_url:"{url}">{message}
+      notification: <hover:show_text:"Click to open in a web browser"><click:open_url:"<url>"><message>
   register:
     output:
       fail:
@@ -31,7 +31,7 @@ command:
         username-invalid: L'username fornito non è valido.
       success:
         email: Per favore, controlla la tua posta in entrata per completare la registrazione.
-        link: Per favore, visita {link} per completare la registrazione.
+        link: Per favore, visita <link> per completare la registrazione.
     usage: /{command} <email>
     description: Crea un account sul sito
   report:
@@ -48,15 +48,15 @@ command:
   no-permission: Non hai il permesso per eseguire questo comando.
   user-info:
     output:
-      registered-date: 'Registrato il: {date}'
-      uuid: 'UUID: {uuid}'
+      registered-date: 'Registrato il: <date>'
+      uuid: 'UUID: <uuid>'
       uuid-unknown: sconosciuto
-      all-groups: 'Tutti i gruppi: {groups_names_list}'
-      validated: 'Account verificato: {validated}'
-      banned: 'Bannato: {banned}'
+      all-groups: 'Tutti i gruppi: <groups_names_list>'
+      validated: 'Account verificato: <validated>'
+      banned: 'Bannato: <banned>'
       'yes': Si
       'no': No
-      primary-group: 'Gruppo primario: {groupname}'
+      primary-group: 'Gruppo primario: <groupname>'
     description: Prendi informazioni di un account sul sito
   subcommands:
     help-prefix: /{command}

@@ -12,7 +12,7 @@ command:
           aktiválásához vegye fel a kapcsolatot az adminisztrátorral.
       success:
         email: A regisztráció befejezéséhez ellenőrizze a beérkező leveleket.
-        link: A regisztráció befejezéséhez látogasson el a (z) {link} oldalra.
+        link: A regisztráció befejezéséhez látogasson el a (z) <link> oldalra.
     usage: '/{command} <email>'
     description: Hozzon létre egy webhelyfiókot
   report:
@@ -50,18 +50,18 @@ command:
   user-info:
     usage: '/{parancs} [felhasználónév]'
     output:
-      username: 'Felhasználónév: {username}'
-      displayname: 'Megjelenített név: {displayname}'
+      username: 'Felhasználónév: <username>'
+      displayname: 'Megjelenített név: <displayname>'
       uuid-unknown: ismeretlen
-      banned: 'Kitiltva: {banned}'
+      banned: 'Kitiltva: <banned>'
       'yes': Igen
       'no': Nem
       fail: Ismeretlen hiba történt a lejátszó adatainak lekérése közben.
-      uuid: 'UUID: {uuid}'
-      registered-date: 'Regisztráció dátuma: {date}'
-      validated: 'Fiók érvényesítve: {validated}'
-      primary-group: 'Elsődleges csoport: {groupname}'
-      all-groups: 'Összes csoport: {groups_names_list}'
+      uuid: 'UUID: <uuid>'
+      registered-date: 'Regisztráció dátuma: <date>'
+      validated: 'Fiók érvényesítve: <validated>'
+      primary-group: 'Elsődleges csoport: <groupname>'
+      all-groups: 'Összes csoport: <groups_names_list>'
     description: Információk lekérése a webhely felhasználójáról
   subcommands:
     usage: '/{command} [alparancs] [érvek ..]'
