@@ -49,7 +49,6 @@ public class ServerDataSender extends BukkitRunnable {
 		if (uploadPlaceholders) {
 			final JsonObject placeholders = new JsonObject();
 			conf.getStringList("upload-placeholders.global").forEach((key) -> {
-				System.out.println(key);
 				placeholders.addProperty(key, NamelessPlugin.getInstance().getPapiParser().parse(null, "%" + key + "%"));
 			});
 			data.add("placeholders", placeholders);
