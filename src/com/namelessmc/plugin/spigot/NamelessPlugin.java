@@ -29,7 +29,6 @@ import com.namelessmc.plugin.spigot.hooks.PapiParserEnabled;
 import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
 
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import net.milkbowl.vault.economy.Economy;
 
 public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider {
 
@@ -193,10 +192,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	public net.milkbowl.vault.permission.Permission getPermissions() {
 		return this.permissions;
-	}
-
-	public Economy getEconomy() {
-		return this.economy;
 	}
 
 	private void registerCommands() {
