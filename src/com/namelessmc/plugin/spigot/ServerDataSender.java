@@ -15,8 +15,6 @@ import com.google.gson.JsonPrimitive;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
 
-import net.milkbowl.vault.economy.Economy;
-
 public class ServerDataSender extends BukkitRunnable {
 
 	@Override
@@ -91,13 +89,6 @@ public class ServerDataSender extends BukkitRunnable {
 					final JsonArray groups = new JsonArray(gArray.length);
 					Arrays.stream(gArray).map(JsonPrimitive::new).forEach(groups::add);
 					playerInfo.add("groups", groups);
-				}
-			} catch (final UnsupportedOperationException e) {}
-
-			try {
-				final Economy economy = NamelessPlugin.getInstance().getEconomy();
-				if (economy != null) {
-					playerInfo.addProperty("balance", economy.getBalance(player));
 				}
 			} catch (final UnsupportedOperationException e) {}
 

@@ -42,7 +42,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	private static BukkitAudiences adventure;
 
 	private net.milkbowl.vault.permission.Permission permissions;
-	private Economy economy;
 	private PapiParser papiParser;
 	private BukkitTask dataSenderTask;
 
@@ -70,17 +69,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 				if (this.permissions == null) {
 					log(Level.WARNING, "No vault compatible permissions plugin was found. Group sync will not work.");
-				}
-			}
-
-			final RegisteredServiceProvider<Economy> economyProvider = this.getServer().getServicesManager().getRegistration(Economy.class);
-			if (economyProvider == null) {
-				log(Level.WARNING, "No economy plugin was found.");
-			} else {
-				this.economy = economyProvider.getProvider();
-
-				if (this.economy == null) {
-					log(Level.WARNING, "No economy plugin was found.");
 				}
 			}
 		} else {
