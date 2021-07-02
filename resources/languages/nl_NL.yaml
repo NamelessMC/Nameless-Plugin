@@ -25,7 +25,7 @@ command:
     output:
       success:
         email: Controleer uw inbox om de registratie te voltooien.
-        link: Ga naar <link> om de registratie te voltooien.
+        link: <click:open_url:"<url>">Klik hier om de registratie te voltooien.
       fail:
         already-exists: U heeft al een account.
         email-used: Dit e-mailadres wordt al gebruikt door een andere gebruiker.

@@ -20,7 +20,7 @@ command:
           správce, aby aktivoval tvůj účet.
       success:
         email: Zkontrolujte svou e-mailovou schránku pro dokončení registrace.
-        link: Navštivte prosím <link> pro dokončení registrace.
+        link: <click:open_url:"<url>">Klikněte sem pro dokončení registrace.
     usage: '/{command} <e-mail>'
     description: Vytvořit účet na webu
   report:
