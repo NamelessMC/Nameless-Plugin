@@ -1,28 +1,75 @@
 player:
   other:
     not-found: Hráč nebol nájdený.
-    not-validated: Účet tohto hráča není overený.
-    not-registered: Tento hráč neni registrovaný na webe.
+    not-validated: Účet tohto hráča nie je overený.
+    not-registered: Tento hráč nie je registrovaný na webe.
+  self:
+    command-banned: Tento príkaz nemôžete spustiť, máte ban na webe.
+    no-permission: Na vykonanie tejto akcie nemáte povolenie.
+    not-validated: Váš účet musí byť overený, ak chcete vykonať túto akciu.
+    not-registered: Musíte sa zaregistrovať, ak chcete vykonať túto akciu.
 command:
   report:
     output:
       fail:
-        generic: Nastala chyba pri nahlasovani tohto hráča. Prosím nahláste to administrátorom
+        generic: Nastala chyba pri nahlasovaní tohto hráča. Prosím nahláste to administrátorom
           servera.
-        already-open: Nemôžeš nahlásit tochto hráča pretože si ho už nahlásil.
+        already-open: Tohto hráča nemôžete nahlásiť, pretože si už nahlásil.
+        report-self: Nemôžete sa nahlásiť.
       success: Ďakujeme za nahlásenie hráča.
-    description: Nahlásit hráča
-    usage: '{command} <meno/uuid> <dôvod>'
+    description: Nahlásiť hráča
+    usage: '/{command} <name/uuid> <reason>'
   notifications:
-    usage: '{command}'
-  no-permission: Na odoslanie tohto príkazu nemáš dostatočné práva.
+    usage: '/{command}'
+    output:
+      fail: Nastala chyba pri načítaní zoznamu upozornení. Prosím nahláste to administrátorom
+        servera.
+      notification: <hover:show_text:"Kliknutím otvoríte vo webovom prehliadači"><click:open_url:"<url>"><message>
+      no-notifications: Nemáte žiadne neprečítané upozornenia.
+    description: Zobrazí zoznam upozornení na webu.
+  no-permission: Na vykonanie tohto príkazu nemáte povolenie.
   register:
     output:
       fail:
-        username-invalid: Zadané použivatelské meno neexistuje.
-    description: Vytvorit webový účet
+        username-invalid: Zadané používateľské meno je neplatné.
+        generic: Nastala chyba pri pokuse o registráciu. Prosím nahláste to administrátorom
+          servera.
+        already-exists: Už máte účet.
+        email-invalid: Zadaná e-mailová adresa je neplatná.
+        email-used: Táto e-mailová adresa sa už používa pre iný používateľský účet.
+        cannot-send-email: Registračný e-mail nie je možné odoslať. Požiadajte správcu
+          o aktiváciu vášho účtu.
+      success:
+        email: Skontrolujte svoju doručenú poštu a dokončite registráciu.
+        link: <click:open_url:"<url>">Registráciu dokončíte kliknutím sem.
+    description: Vytvoriť webový účet
+    usage: /{command} <email>
   user-info:
     output:
       banned: 'Zabanovaný: <banned>'
+      primary-group: 'Primárna skupina: <groupname>'
+      registered-date: Registrovaný/á dňa <date>
+      username: 'Užívateľské meno: <username>'
+      displayname: 'Zobrazené meno: <displayname>'
+      uuid: 'UUID: <uuid>'
+      uuid-unknown: neznáme
+      all-groups: 'Všetky skupiny: <groups_names_list>'
+      validated: 'Účet bol overený: <validated>'
+      'yes': áno
+      'no': nie
+      fail: Nastala chyba pri načítavaní hráčových informácií.
+    usage: /{command} [username]
+    description: Načítanie používateľových informácii na webe
   validate:
     usage: '{command} <kód>'
+    output:
+      fail:
+        generic: Nastala chyba pri odosielaní overovacieho kódu.
+        invalid-code: Váš overovací kód je nesprávny. Skontrolujte, či ste ho skopírovali
+          správne, a skúste to znova.
+        already-validated: Váš účet je už overený.
+      success: Váš účet bol overený.
+    description: Overuje účet používateľa na danom webe pomocou daného kódu.
+  not-a-player: Musíte byť hráč, ak chcete vykonať tento príkaz.
+join-not-registered: Na našej webovej stránke ešte nemáte účet. Prosím zaregistrujte
+  sa pomocou /register.
