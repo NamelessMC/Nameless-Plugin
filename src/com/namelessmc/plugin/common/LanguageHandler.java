@@ -97,7 +97,7 @@ public class LanguageHandler {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 15;
+	private static final int VERSION = 16;
 
 	private static final String[] LANGUAGES_LIST = {
 			"cs_CZ",
