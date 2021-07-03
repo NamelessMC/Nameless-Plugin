@@ -6,7 +6,8 @@
 api-url: ""
 
 # Enter this if you wish for the plugin to send data about this server
-# and its players to the website. This is required for username and rank synchronisation.
+# and its players to the website. This is required for many features like placeholder uploading,
+# group synchronization, username synchronization, online status, ...
 # You can find this in StaffCP > Integrations > Minecraft > Minecraft Servers
 server-id: 0
 
@@ -17,8 +18,7 @@ server-id: 0
 server-data-upload-rate: 10
 
 # You can add PlaceholderAPI placeholders here, they will be sent to the website to be used by NamelessMC or modules.
-# The placeholders can be global or player-specific
-# This option is unrelated to the "enable-placeholders" option
+# Requires entering server-id above.
 upload-placeholders:
   enabled: false
   # global placeholders to send to the website (list of placeholder names without %%). Currently not used by the website.
@@ -27,9 +27,8 @@ upload-placeholders:
   player: []
 
 
-# Enable PlaceholderAPI and MVdWPlaceholderAPI placeholders
-# This will increase traffic to your NamelessMC website (depending on placeholders-request-delay)
-# This option will be ignored if PlaceholderAPI and MVdWPlaceholderAPI are not installed
+# Enable retrieving PlaceholderAPI placeholders (NOT the same as sending placeholders to the website!)
+# https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders#nameless-plugin
 enable-placeholders: false
 
 # Number of milliseconds in between notifications request
@@ -54,7 +53,7 @@ language: en_UK
 # When enabled, the plugin will automatically whitelist players that are registered on the website.
 # Warning: Anyone who is not registered on the website will be removed from the whitelist, also
 # if they were added before enabling this option!
-# By default, the plugin will poll the website every 5 minutes to get a list of registered users.
+# By default, the plugin will poll the website every 30 seconds to get a list of registered users.
 # You need to fully restart the server after changing this option.
 auto-whitelist-registered:
   enabled: false
