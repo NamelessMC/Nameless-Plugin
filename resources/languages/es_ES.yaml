@@ -14,7 +14,7 @@ command:
     usage: '/{command} <correo electrónico>'
     output:
       success:
-        link: Por favor, visite <link> para completar el registro.
+        link: <click:open_url:"<url>">Haga clic aquí para completar su registro.
         email: Por favor, compruebe su bandeja de entrada para completar el registro.
       fail:
         already-exists: Usted ya tiene una cuenta.
