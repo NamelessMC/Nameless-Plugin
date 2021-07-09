@@ -17,9 +17,9 @@ public class ValidateCommand extends CommonCommand {
 	}
 
 	@Override
-	public void execute(final CommandSender sender, final String[] args) {
+	public void execute(final CommandSender sender, final String[] args, final String usage) {
 		if (args.length != 1) {
-			sender.sendMessage(getLanguage().getMessage(Term.COMMAND_VALIDATE_USAGE));
+			sender.sendMessage(usage);
 			return;
 		}
 

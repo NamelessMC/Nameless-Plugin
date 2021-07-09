@@ -17,7 +17,7 @@ public class UserInfoCommand extends CommonCommand {
 	}
 
 	@Override
-	public void execute(final CommandSender sender, final String[] args) {
+	public void execute(final CommandSender sender, final String[] args, final String usage) {
 		if (args.length == 0) {
 			if (!sender.isPlayer()) {
 				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_NOTAPLAYER));
@@ -25,12 +25,12 @@ public class UserInfoCommand extends CommonCommand {
 			}
 
 			// Player itself as first argument
-			execute(sender, new String[] { sender.getName() });
+			execute(sender, new String[] { sender.getName() }, usage);
 			return;
 		}
 
 		if (args.length != 1) {
-			sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_USAGE));
+			sender.sendMessage(usage);
 			return;
 		}
 

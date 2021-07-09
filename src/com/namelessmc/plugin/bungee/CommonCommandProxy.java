@@ -56,10 +56,12 @@ public class CommonCommandProxy extends Command {
 	};
 
 	private final CommonCommand commonCommand;
+	private final String usage;
 
 	private CommonCommandProxy(final CommonCommand commonCommand, final String name, final String usage, final Permission permission, final String[] aliases) {
 		super(name, permission.toString(), aliases);
 		this.commonCommand = commonCommand;
+		this.usage = usage;
 	}
 
 	private static CommonCommandProxy createCommand(final CommonCommand commonCommand, final String configName, final Term usage, final Permission permission) {
@@ -83,8 +85,7 @@ public class CommonCommandProxy extends Command {
 //			return;
 //		}
 
-		this.commonCommand.execute(sender2, args);
-		return;
+		this.commonCommand.execute(sender2, args, this.usage);
 	}
 
 //	private final String usageMessage;

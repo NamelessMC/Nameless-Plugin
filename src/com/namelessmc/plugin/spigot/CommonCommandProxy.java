@@ -10,8 +10,8 @@ import java.util.function.Supplier;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import com.namelessmc.plugin.common.command.GetNotificationsCommand;
 import com.namelessmc.plugin.common.command.RegisterCommand;
@@ -86,7 +86,7 @@ public class CommonCommandProxy extends Command {
 			return true;
 		}
 
-		this.commonCommand.execute(sender2, args);
+		this.commonCommand.execute(sender2, args, this.getUsage());
 		return true;
 	}
 

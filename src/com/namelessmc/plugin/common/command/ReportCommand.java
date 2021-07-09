@@ -20,9 +20,9 @@ public class ReportCommand extends CommonCommand {
 	}
 
 	@Override
-	public void execute(final CommandSender sender, final String[] args) {
+	public void execute(final CommandSender sender, final String[] args, final String usage) {
 		if (args.length < 2) {
-			sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_USAGE));
+			sender.sendMessage(usage);
 			return;
 		}
 

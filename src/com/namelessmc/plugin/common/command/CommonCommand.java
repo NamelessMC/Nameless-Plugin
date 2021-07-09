@@ -21,6 +21,6 @@ public abstract class CommonCommand {
 		return this.language;
 	}
 
-	public abstract void execute(CommandSender sender, String[] args);
+	public abstract void execute(CommandSender sender, String[] args, String usage);
 
 }
