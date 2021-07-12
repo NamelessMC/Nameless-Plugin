@@ -49,7 +49,7 @@ command:
     output:
       success:
         email: 请查看您的收件箱来完成注册。
-        link: 请查看 <link> 来完成注册。
+        link: <click:open_url:"<url>">请点此处来完成注册。
       fail:
         generic: 试图注册时出现了一个错误。请将此问题告知服务器管理员。
         already-exists: 您已经有一个帐号了。
