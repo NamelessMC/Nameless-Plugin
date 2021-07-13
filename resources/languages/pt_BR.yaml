@@ -26,7 +26,8 @@ command:
     output:
       success:
         email: Verifique sua caixa de entrada para concluir o registro.
-        link: <click:open_url:"<url>">Clique aqui para concluir o seu registro.
+        link: <hover:show_text:"Clique para abrir em um navegador da web"><click:open_url:"<url>">Conclua
+          o registro acessando <url>.
       fail:
         already-exists: Você já possui uma conta.
         email-used: Este endereço de email já está em uso em uma conta de usuário
