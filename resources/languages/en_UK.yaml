@@ -27,7 +27,7 @@ command:
     output:
       success:
         email: "Please check your inbox to complete registration."
-        link: "<click:open_url:\"<url>\">Please click here to complete registration."
+        link: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\">Please complete registration by going to <url>."
       fail:
         generic: "An error occured while trying to register. Please notify the server administrator about this issue."
         already-exists: "You already have an account."
