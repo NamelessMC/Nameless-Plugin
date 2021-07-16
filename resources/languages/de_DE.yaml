@@ -7,8 +7,8 @@ player:
     not-validated: Ihr Konto muss bestätigt sein, um diese Aktion ausführen zu können.
     no-permission: Du hast keine Reche, diese Aktion auszuführen.
     not-registered: Du must ein Konto erstellen, um diese Aktion ausführen zu können.
-    command-banned: Du kannst diesen Command nicht ausführen, du wurdest von dieser
-      Website gebannt.
+    command-banned: Du kannst diesen Befehl nicht ausführen, da du von der Website
+      gebannt wurdest.
 command:
   notifications:
     output:
@@ -32,12 +32,13 @@ command:
         email-invalid: Die angegebene E-Mail-Adresse ist ungültig.
         username-invalid: Der angegebene Benutzername ist ungültig.
         cannot-send-email: Die Registrierungs-E-Mail kann nicht gesendet werden, bitte
-          kontaktieren Sie einen Admin, um Ihr Konto zu aktivieren.
+          kontaktiere einen Admin, um deinen Account zu aktivieren.
       success:
         email: Bitte überprüfe Deinen Posteingang, um die Registrierung abzuschließen.
-        link: 'Bitte besuche diesen link: <link>, um die Registrierung abzuschließen.'
+        link: '<hover:show_text:"Klicke, um den Link im Browser zu öffnen"><click:open_url:"<url>">Registrierung
+          abschließen, indem du <url> aufrufst.'
     usage: '/{command} <Mail>'
-    description: Erstellt ein Konto
+    description: Erstelle einen Forum-Account
   no-permission: Du hast keine Rechte, diesen Befehl auszuführen.
   report:
     usage: '/{command} <Name/UUID> <Grund>'
@@ -62,7 +63,7 @@ command:
         generic: Beim Versuch, einen Bestätigungscode zu senden, ist ein unbekannter
           Fehler aufgetreten.
         already-vaidated: Ihr Konto ist bereits validiert.
-        already-validated: Dein Konto ist bereits bestätigt.
+        already-validated: Dein Account ist schon aktiviert.
   user-info:
     output:
       username: 'Benutzername: <username>'
