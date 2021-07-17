@@ -5,6 +5,9 @@ player:
     not-validated: Denne spillerens konto er ikke validert.
   self:
     not-validated: Kontoen din må valideres for å utføre denne handlingen.
+    not-registered: Du må registrere en konto for å utføre denne handlingen.
+    no-permission: Du har ikke tilgang til å utføre denne handlingen.
+    command-banned: Du kan ikke utføre denne kommandoen, du er utestengt fra nettsiden.
 command:
   report:
     description: Rapporter en spiller
@@ -16,6 +19,8 @@ command:
     output:
       no-notifications: Du har ingen uleste varslinger.
       click-to-open: Klikk for å åpne i nettleser
+      notification: <hover:show_text:"Klikk for å åpne i en nettleser"><click:open_url:"<url>"><message>
+    description: Viser en liste over alle nettsidevarsler.
   no-permission: Du har ikke tilgang til denne kommandoen.
   register:
     usage: /{command} <e-post>
@@ -30,3 +35,4 @@ command:
     usage: /{command} <kode>
   user-info:
     usage: /{command} [brukernavn]
+  not-a-player: Du må være en spiller for å utføre denne kommandoen.
