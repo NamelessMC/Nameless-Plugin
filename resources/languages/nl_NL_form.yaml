@@ -73,7 +73,8 @@ command:
         generic: Er is een fout opgetreden tijdens het registreren. Neem alstublieft
           contact op met de server administrator over dit probleem.
       success:
-        link: <click:open_url:"<url>">Klik alstublieft hier om de registratie te voltooien.
+        link: <hover:show_text:"Klik om te openen in een web browser"><click:open_url:"<url>">Om
+          de registratie te voltooien, ga alstublieft naar <url>.
         email: Controleer alstublieft uw e-mail inbox om de registratie te voltooien.
     description: Maak een website account
   subcommands:
