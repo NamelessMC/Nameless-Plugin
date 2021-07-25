@@ -13,7 +13,8 @@ command:
         username-invalid: El nombre de usuario proporcionado es inválido.
       success:
         email: Por favor, compruebe su bandeja de entrada para completar el registro.
-        link: Por favor, visite <link> para completar el registro.
+        link: <hover:show_text:"Haga clic para abrir en un navegador web"><click:open_url:"<url>">Por
+          favor complete el registro yendo a <url>.
     usage: '/{command} <correo electrónico>'
     description: Crear una cuenta en el sitio web
   user-info:
