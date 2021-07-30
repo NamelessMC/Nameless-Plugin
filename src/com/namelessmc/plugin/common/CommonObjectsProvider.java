@@ -1,5 +1,7 @@
 package com.namelessmc.plugin.common;
 
+import java.util.Optional;
+
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
@@ -12,7 +14,7 @@ public interface CommonObjectsProvider {
 
 	LanguageHandler getLanguage();
 
-	NamelessAPI getNamelessApi() throws NamelessException;
+	Optional<NamelessAPI> getNamelessApi() throws NamelessException;
 
 	AudienceProvider adventure();
 

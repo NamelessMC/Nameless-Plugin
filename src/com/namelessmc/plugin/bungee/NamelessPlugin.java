@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
@@ -106,7 +106,7 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 	}
 
 	@Override
-	public NamelessAPI getNamelessApi() throws NamelessException {
+	public Optional<NamelessAPI> getNamelessApi() {
 		return this.apiProvider.getNamelessApi();
 	}
 

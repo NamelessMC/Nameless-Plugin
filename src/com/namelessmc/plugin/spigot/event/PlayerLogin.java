@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
@@ -30,16 +31,21 @@ public class PlayerLogin implements Listener {
 
 		if (config.getBoolean("not-registered-join-message")) {
 			Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-				try {
-					final Optional<NamelessUser> user = NamelessPlugin.getInstance().getNamelessApi().getUser(player.getUniqueId());
-					if (!user.isPresent()) {
-						Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
-							final Component message = NamelessPlugin.getInstance().getLanguage().getComponent(Term.JOIN_NOTREGISTERED);
-							NamelessPlugin.getInstance().adventure().player(event.getPlayer()).sendMessage(message);
-						});
+				Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
+				if (optApi.isPresent()) {
+					try {
+						final Optional<NamelessUser> user = optApi.get().getUser(player.getUniqueId());
+						if (!user.isPresent()) {
+							Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
+								final Component message = NamelessPlugin.getInstance().getLanguage().getComponent(Term.JOIN_NOTREGISTERED);
+								NamelessPlugin.getInstance().adventure().player(event.getPlayer()).sendMessage(message);
+							});
+						}
+					} catch (final NamelessException e) {
+						e.printStackTrace();
 					}
-				} catch (final NamelessException e) {
-					e.printStackTrace();
+				} else {
+					NamelessPlugin.getInstance().getLogger().warning("Not sending join message, API is not working properly.");
 				}
 			});
 		}

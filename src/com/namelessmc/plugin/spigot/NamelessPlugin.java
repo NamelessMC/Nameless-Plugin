@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -16,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
@@ -155,7 +155,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	}
 
 	@Override
-	public NamelessAPI getNamelessApi() throws NamelessException {
+	public Optional<NamelessAPI> getNamelessApi() {
 		return this.apiProvider.getNamelessApi();
 	}
 

@@ -1,25 +1,18 @@
 package com.namelessmc.plugin.spigot.hooks;
 
-import java.util.Optional;
-
 import org.bukkit.entity.Player;
 
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import xyz.derkades.derkutils.caching.Cache;
 
 public class PapiHook extends PlaceholderExpansion {
 
 	@Override
 	public String onPlaceholderRequest(final Player player, final String identifier) {
 		if (identifier.equals("notifications") && player != null) {
-			final Optional<Integer> cache = Cache.get("nlmc-not" + player.getName());
-			if (cache.isPresent()) {
-				return "?";
-			} else {
-				return String.valueOf(cache.get());
-			}
+			Integer notifs = PlaceholderCacher.CACHED_NOTIFICATION_COUNT.get(player.getUniqueId());
+			return notifs == null ? "?" : String.valueOf(notifs);
 		}
 		return null;
 	}

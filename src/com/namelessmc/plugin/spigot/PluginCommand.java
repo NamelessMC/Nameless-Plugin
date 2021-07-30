@@ -23,10 +23,8 @@ public class PluginCommand implements CommandExecutor {
 		if (args.length == 1 && (args[0].equalsIgnoreCase("rl") || args[0].equalsIgnoreCase("reload"))) {
 			NamelessPlugin.getInstance().reload();
 			sender.sendMessage("Successfully reloaded all configuration files."); // TODO translate
-		} else {
-			sender.sendMessage("Invalid usage. Use /" + label + " reload to reload config files."); // TODO translate
 		}
-
-		return true;
+		
+		return false;
 	}
 }

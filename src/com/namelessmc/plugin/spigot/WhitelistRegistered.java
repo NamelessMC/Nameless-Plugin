@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.UserFilter;
@@ -49,7 +50,13 @@ public class WhitelistRegistered implements Runnable {
 
 			List<NamelessUser> users;
 			try {
-				users = NamelessPlugin.getInstance().getNamelessApi().getRegisteredUsers(filters);
+				Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
+				if (optApi.isPresent()) {
+					users = optApi.get().getRegisteredUsers(filters);
+				} else {
+					logger.warning("Skipped getting list of registered users, it looks like the API is not working properly.");
+					return;
+				}
 			} catch (final NamelessException e) {
 				logger.warning(
 						"An error occured while getting a list of registered users from the website for the auto-whitelist-registered feature.");

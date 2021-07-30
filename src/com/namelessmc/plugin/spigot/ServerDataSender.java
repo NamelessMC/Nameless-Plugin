@@ -108,17 +108,19 @@ public class ServerDataSender extends BukkitRunnable {
 		data.add("players", players);
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-			try {
-				NamelessPlugin.getInstance().getNamelessApi().submitServerInfo(data);
-			} catch (final ApiError e) {
-				if (e.getError() == ApiError.INVALID_SERVER_ID) {
-					NamelessPlugin.getInstance().getLogger().warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
-				} else {
+			NamelessPlugin.getInstance().getNamelessApi().ifPresent(api -> {
+				try {
+					api.submitServerInfo(data);
+				} catch (final ApiError e) {
+					if (e.getError() == ApiError.INVALID_SERVER_ID) {
+						NamelessPlugin.getInstance().getLogger().warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
+					} else {
+						e.printStackTrace();
+					}
+				} catch (final NamelessException e) {
 					e.printStackTrace();
 				}
-			} catch (final NamelessException e) {
-				e.printStackTrace();
-			}
+			});
 		});
 	}
 
