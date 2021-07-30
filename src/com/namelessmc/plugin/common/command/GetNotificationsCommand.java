@@ -3,12 +3,12 @@ package com.namelessmc.plugin.common.command;
 import java.util.List;
 import java.util.Optional;
 
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.Notification;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
-import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 public class GetNotificationsCommand extends CommonCommand {
 
@@ -28,9 +28,16 @@ public class GetNotificationsCommand extends CommonCommand {
 			return;
 		}
 
+		final Optional<NamelessAPI> optApi = this.getApi();
+		if (!optApi.isPresent()) {
+			sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
+			return;
+		}
+		final NamelessAPI api = optApi.get();
+
 		getScheduler().runAsync(() -> {
 			try {
-				final Optional<NamelessUser> optional = NamelessPlugin.getInstance().getNamelessApi().getUser(sender.getUniqueId());
+				final Optional<NamelessUser> optional = api.getUser(sender.getUniqueId());
 
 				if (!optional.isPresent()) {
 					sender.sendMessage(getLanguage().getMessage(Term.PLAYER_SELF_NOTREGISTERED));

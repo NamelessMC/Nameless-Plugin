@@ -50,7 +50,7 @@ public class WhitelistRegistered implements Runnable {
 
 			List<NamelessUser> users;
 			try {
-				Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
+				final Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
 				if (optApi.isPresent()) {
 					users = optApi.get().getRegisteredUsers(filters);
 				} else {

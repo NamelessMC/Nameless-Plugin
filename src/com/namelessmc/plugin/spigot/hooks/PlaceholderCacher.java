@@ -15,7 +15,7 @@ import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 public class PlaceholderCacher implements Runnable {
-	
+
 	static final Map<UUID, Integer> CACHED_NOTIFICATION_COUNT = new HashMap<>(); // TODO Remove player when they leave the server?
 
 	@Override
@@ -24,7 +24,7 @@ public class PlaceholderCacher implements Runnable {
 			final int delay = Config.MAIN.getConfig().getInt("placeholders-request-delay", 2000);
 			while (true) {
 				Thread.sleep(500); // In case no players are online, wait in between checking for online players
-				Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
+				final Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
 				if (optApi.isPresent()) {
 					for (final Player player : Bukkit.getOnlinePlayers()) {
 						Thread.sleep(delay);
@@ -39,7 +39,7 @@ public class PlaceholderCacher implements Runnable {
 							e.printStackTrace();
 						}
 					}
-				};
+				}
 			}
 		} catch (final InterruptedException e) {
 			e.printStackTrace();

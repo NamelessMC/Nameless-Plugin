@@ -11,7 +11,7 @@ public class PapiHook extends PlaceholderExpansion {
 	@Override
 	public String onPlaceholderRequest(final Player player, final String identifier) {
 		if (identifier.equals("notifications") && player != null) {
-			Integer notifs = PlaceholderCacher.CACHED_NOTIFICATION_COUNT.get(player.getUniqueId());
+			final Integer notifs = PlaceholderCacher.CACHED_NOTIFICATION_COUNT.get(player.getUniqueId());
 			return notifs == null ? "?" : String.valueOf(notifs);
 		}
 		return null;
@@ -31,12 +31,12 @@ public class PapiHook extends PlaceholderExpansion {
 	public String getVersion() {
 		return NamelessPlugin.getInstance().getDescription().getVersion();
 	}
-	
+
     @Override
     public boolean persist(){
         return true;
     }
-    
+
     @Override
     public boolean canRegister(){
         return true;

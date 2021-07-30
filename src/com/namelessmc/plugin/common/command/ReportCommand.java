@@ -3,6 +3,7 @@ package com.namelessmc.plugin.common.command;
 import java.util.Arrays;
 import java.util.Optional;
 
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.AlreadyHasOpenReportException;
@@ -11,7 +12,6 @@ import com.namelessmc.java_api.exception.ReportUserBannedException;
 import com.namelessmc.java_api.exception.UnableToCreateReportException;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
-import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 public class ReportCommand extends CommonCommand {
 
@@ -31,17 +31,24 @@ public class ReportCommand extends CommonCommand {
 			return;
 		}
 
+		final Optional<NamelessAPI> optApi = this.getApi();
+		if (!optApi.isPresent()) {
+			sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
+			return;
+		}
+		final NamelessAPI api = optApi.get();
+
 		getScheduler().runAsync(() -> {
 			try {
 				final String targetUsername = args[0];
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-				final Optional<NamelessUser> user = NamelessPlugin.getInstance().getNamelessApi().getUser(sender.getUniqueId());
+				final Optional<NamelessUser> user = api.getUser(sender.getUniqueId());
 				if (!user.isPresent()) {
 					sender.sendMessage(getLanguage().getMessage(Term.PLAYER_SELF_NOTREGISTERED));
 					return;
 				}
 
-				final Optional<NamelessUser> target = NamelessPlugin.getInstance().getNamelessApi().getUser(targetUsername);
+				final Optional<NamelessUser> target = api.getUser(targetUsername);
 				if (!target.isPresent()) {
 					sender.sendMessage(getLanguage().getMessage(Term.PLAYER_OTHER_NOTREGISTERED));
 					return;

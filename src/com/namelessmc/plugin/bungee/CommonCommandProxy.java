@@ -53,7 +53,7 @@ public class CommonCommandProxy extends Command {
 				"validate",
 				Term.COMMAND_VALIDATE_USAGE,
 				Permission.COMMAND_VALIDATE));
-	};
+	}
 
 	private final CommonCommand commonCommand;
 	private final String usage;

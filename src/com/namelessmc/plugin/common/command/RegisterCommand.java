@@ -3,6 +3,7 @@ package com.namelessmc.plugin.common.command;
 import java.util.Optional;
 
 import com.namelessmc.java_api.ApiError;
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.CannotSendEmailException;
 import com.namelessmc.java_api.exception.InvalidUsernameException;
@@ -28,9 +29,16 @@ public class RegisterCommand extends CommonCommand {
 			return;
 		}
 
+		final Optional<NamelessAPI> optApi = this.getApi();
+		if (!optApi.isPresent()) {
+			sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));
+			return;
+		}
+		final NamelessAPI api = optApi.get();
+
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
-				final Optional<String> link = NamelessPlugin.getInstance().getNamelessApi().registerUser(sender.getName(), args[0], Optional.of(sender.getUniqueId()));
+				final Optional<String> link = api.registerUser(sender.getName(), args[0], Optional.of(sender.getUniqueId()));
 				if (link.isPresent()) {
 					sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK), "url", link.get());
 				} else {

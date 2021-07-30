@@ -24,7 +24,7 @@ public class PluginCommand implements CommandExecutor {
 			NamelessPlugin.getInstance().reload();
 			sender.sendMessage("Successfully reloaded all configuration files."); // TODO translate
 		}
-		
+
 		return false;
 	}
 }

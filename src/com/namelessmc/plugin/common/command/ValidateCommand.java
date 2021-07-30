@@ -2,6 +2,7 @@ package com.namelessmc.plugin.common.command;
 
 import java.util.Optional;
 
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.AccountAlreadyActivatedException;
@@ -28,9 +29,16 @@ public class ValidateCommand extends CommonCommand {
 			return;
 		}
 
+		final Optional<NamelessAPI> optApi = this.getApi();
+		if (!optApi.isPresent()) {
+			sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
+			return;
+		}
+		final NamelessAPI api = optApi.get();
+
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			try {
-				final Optional<NamelessUser> user = NamelessPlugin.getInstance().getNamelessApi().getUser(sender.getUniqueId());
+				final Optional<NamelessUser> user = api.getUser(sender.getUniqueId());
 				if (!user.isPresent()) {
 					sender.sendMessage(getLanguage().getMessage(Term.PLAYER_SELF_NOTREGISTERED));
 					return;

@@ -4,11 +4,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.namelessmc.java_api.Group;
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
-import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 public class UserInfoCommand extends CommonCommand {
 
@@ -34,11 +34,18 @@ public class UserInfoCommand extends CommonCommand {
 			return;
 		}
 
+		final Optional<NamelessAPI> optApi = this.getApi();
+		if (!optApi.isPresent()) {
+			sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_FAIL));
+			return;
+		}
+		final NamelessAPI api = optApi.get();
+
 		getScheduler().runAsync(() -> {
 			final Optional<NamelessUser> targetOptional;
 
 			try {
-				targetOptional = NamelessPlugin.getInstance().getNamelessApi().getUser(args[0]);
+				targetOptional = api.getUser(args[0]);
 
 				if (!targetOptional.isPresent()) {
 					sender.sendMessage(getLanguage().getMessage(Term.COMMAND_NOTAPLAYER));

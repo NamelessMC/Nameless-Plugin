@@ -1,24 +1,29 @@
 package com.namelessmc.plugin.common.command;
 
+import java.util.Optional;
+
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
 
 public abstract class CommonCommand {
 
-	private final AbstractScheduler scheduler;
-	private final LanguageHandler language;
+	private final CommonObjectsProvider provider;
 
 	public CommonCommand(final CommonObjectsProvider provider) {
-		this.scheduler = provider.getScheduler();
-		this.language = provider.getLanguage();
+		this.provider = provider;
 	}
 
 	protected AbstractScheduler getScheduler() {
-		return this.scheduler;
+		return this.provider.getScheduler();
 	}
 
 	protected LanguageHandler getLanguage() {
-		return this.language;
+		return this.provider.getLanguage();
+	}
+
+	protected Optional<NamelessAPI> getApi(){
+		return this.provider.getNamelessApi();
 	}
 
 	public abstract void execute(CommandSender sender, String[] args, String usage);
