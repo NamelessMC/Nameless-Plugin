@@ -23,7 +23,7 @@ command:
     output:
       success:
         email: メールボックスを確認して登録を完了させてください。
-        link: '<link>にアクセスして登録を完了させてください。'
+        link: '<hover:show_text:"クリックしてウェブブラウザで開く"><click:open_url:"<url>"><url>にアクセスして登録を完了してください。'
       fail:
         already-exists: 既にアカウントがあります。
         generic: 登録時にエラーが発生しました。この問題については、サーバー管理者に連絡してください。
