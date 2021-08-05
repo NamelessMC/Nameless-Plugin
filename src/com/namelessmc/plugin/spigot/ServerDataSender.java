@@ -15,6 +15,8 @@ import com.google.gson.JsonPrimitive;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class ServerDataSender extends BukkitRunnable {
 
 	@Override
@@ -47,7 +49,7 @@ public class ServerDataSender extends BukkitRunnable {
 		if (uploadPlaceholders) {
 			final JsonObject placeholders = new JsonObject();
 			conf.getStringList("upload-placeholders.global").forEach((key) -> {
-				placeholders.addProperty(key, NamelessPlugin.getInstance().getPapiParser().parse(null, "%" + key + "%"));
+				placeholders.addProperty(key, ChatColor.stripColor(NamelessPlugin.getInstance().getPapiParser().parse(null, "%" + key + "%")));
 			});
 			data.add("placeholders", placeholders);
 		}
@@ -95,7 +97,7 @@ public class ServerDataSender extends BukkitRunnable {
 			if (uploadPlaceholders) {
 				final JsonObject placeholders = new JsonObject();
 				conf.getStringList("upload-placeholders.player").forEach((key) -> {
-					placeholders.addProperty(key, NamelessPlugin.getInstance().getPapiParser().parse(player, "%" + key + "%"));
+					placeholders.addProperty(key, ChatColor.stripColor(NamelessPlugin.getInstance().getPapiParser().parse(player, "%" + key + "%")));
 				});
 				playerInfo.add("placeholders", placeholders);
 			}
