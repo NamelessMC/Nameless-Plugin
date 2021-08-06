@@ -50,6 +50,7 @@ public abstract class ApiProvider {
 			// Do not cache so it immediately tries again the next time. These types of errors may fix on their
 			// own, so we don't want to break the plugin until the administrator reloads.
 			this.cachedApi = null;
+			return Optional.empty();
 		}
 
 		return this.cachedApi;
