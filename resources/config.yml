@@ -1,4 +1,5 @@
 # Nameless Plugin configuration
+# Something not working? Please see our troubleshooting guide: https://docs.namelessmc.com/en/integrations/plugin-troubleshooting
 
 # For example http(s)://yoursite.com/index.php?route=/api/v2/API_KEY
 # Enable the API and obtain the API URL in StaffCP > Configuration > API
