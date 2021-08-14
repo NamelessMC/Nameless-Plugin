@@ -5,6 +5,7 @@ command:
         invalid-code: Doğrulama kodunuz yanlış. Lütfen doğru kopyalayıp kopyalamadığınızı
           kontrol edin ve tekrar deneyin.
         generic: Doğrulama kodu göndermeye çalışırken bilinmeyen bir hata oluştu.
+        already-validated: Hesabınız zaten doğrulandı.
       success: Hesabınız doğrulandı.
     usage: '/{command} <kod>'
     description: Verilen kodu kullanarak kullanıcının web sitesi hesabını doğrular.
@@ -20,6 +21,7 @@ command:
       banned: 'Yasaklı: <banned>'
       'yes': evet
       'no': hayır
+      primary-group: 'Birincil grup: <groupname>'
     description: Bir web sitesi kullanıcısı hakkında bilgi alın
     usage: '/{command} [kullanıcı adı]'
   no-permission: Bu komutu yürütme izniniz yok.
@@ -30,6 +32,7 @@ command:
       click-to-open: Bir web tarayıcısında açmak için tıklayın
       fail: Bildirim listesini almaya çalışırken bir hata oluştu. Lütfen bu sorunu
         sunucu yöneticisine bildirin.
+      notification: <hover:show_text:"Tarayıcıyı Açmak İçin Tıkla."><click:open_url:"<url>"><message>
     description: Web sitesi bildirimlerinin bir listesini görüntüler.
   register:
     description: Bir hesap oluşturur
@@ -43,14 +46,21 @@ command:
         email-invalid: Girdiğiniz e-posta adresi geçersiz.
         generic: Kaydolmaya çalışırken bir hata oluştu. Lütfen bu sorunu sunucu yöneticisine
           bildirin.
+        username-invalid: Sağlanan kullanıcı adı geçersiz.
+        cannot-send-email: Kayıt e-postası gönderilemiyor, hesabınızı etkinleştirmek
+          için lütfen bir yöneticiyle iletişime geçin.
     usage: '/{command} <eposta>'
   report:
     description: Bir oyuncuyu rapor et
     usage: '/{command} <isim/uuid> <sebeb>'
     output:
       success: Bu oyuncuyu bildirdiğiniz için teşekkür ederiz.
-      fail: Bu oynatıcıyı bildirmeye çalışırken bir hata oluştu. Lütfen bu sorunu
-        sunucu yöneticisine bildirin.
+      fail:
+        already-open: Bu oyuncuyu şikayet edemezsiniz, onlar için zaten açık bir raporunuz
+          var.
+        generic: Bu oyuncu bildirilmeye çalışılırken bir hata oluştu. Lütfen bu sorunu
+          sunucu yöneticisine bildirin.
+        report-self: Kendi kendini şikayet edemezsin.
   subcommands:
     usage: '/{command} [alt komut] [içerik..]'
     help-prefix: /{command}
@@ -64,5 +74,6 @@ player:
     not-validated: Bu eylemi gerçekleştirmek için hesabınızın doğrulanması gerekir.
     not-registered: Bu eylemi gerçekleştirmek için bir hesap açmalısınız.
     no-permission: Bu eylemi gerçekleştirme izniniz yok.
+    command-banned: Bu komutu çalıştıramazsınız, siteden yasaklanırsınız.
 join-not-registered: Henüz web sitemizde bir hesabınız yok. Lütfen / register kullanarak
   kaydolun.
