@@ -11,9 +11,9 @@ import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 
-public class ValidateCommand extends CommonCommand {
+public class VerifyCommand extends CommonCommand {
 
-	public ValidateCommand(final CommonObjectsProvider provider) {
+	public VerifyCommand(final CommonObjectsProvider provider) {
 		super(provider);
 	}
 

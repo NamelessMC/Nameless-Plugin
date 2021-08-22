@@ -17,7 +17,7 @@ import com.namelessmc.plugin.common.command.GetNotificationsCommand;
 import com.namelessmc.plugin.common.command.RegisterCommand;
 import com.namelessmc.plugin.common.command.ReportCommand;
 import com.namelessmc.plugin.common.command.UserInfoCommand;
-import com.namelessmc.plugin.common.command.ValidateCommand;
+import com.namelessmc.plugin.common.command.VerifyCommand;
 
 public class CommonCommandProxy extends Command {
 
@@ -52,9 +52,9 @@ public class CommonCommandProxy extends Command {
 				Term.COMMAND_USERINFO_USAGE,
 				Permission.COMMAND_USER_INFO));
 
-		COMMAND_SUPPLIERS.put("validate", () -> createCommand(
-				new ValidateCommand(NamelessPlugin.getInstance()),
-				"validate",
+		COMMAND_SUPPLIERS.put("verify", () -> createCommand(
+				new VerifyCommand(NamelessPlugin.getInstance()),
+				"verify",
 				Term.COMMAND_VALIDATE_DESCRIPTION,
 				Term.COMMAND_VALIDATE_USAGE,
 				Permission.COMMAND_VALIDATE));

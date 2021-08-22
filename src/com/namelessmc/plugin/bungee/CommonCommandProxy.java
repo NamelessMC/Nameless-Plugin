@@ -11,7 +11,7 @@ import com.namelessmc.plugin.common.command.GetNotificationsCommand;
 import com.namelessmc.plugin.common.command.RegisterCommand;
 import com.namelessmc.plugin.common.command.ReportCommand;
 import com.namelessmc.plugin.common.command.UserInfoCommand;
-import com.namelessmc.plugin.common.command.ValidateCommand;
+import com.namelessmc.plugin.common.command.VerifyCommand;
 import com.namelessmc.plugin.spigot.Config;
 
 import net.md_5.bungee.api.CommandSender;
@@ -49,7 +49,7 @@ public class CommonCommandProxy extends Command {
 				Permission.COMMAND_USER_INFO));
 
 		COMMAND_SUPPLIERS.put("validate", () -> createCommand(
-				new ValidateCommand(NamelessPlugin.getInstance()),
+				new VerifyCommand(NamelessPlugin.getInstance()),
 				"validate",
 				Term.COMMAND_VALIDATE_USAGE,
 				Permission.COMMAND_VALIDATE));
