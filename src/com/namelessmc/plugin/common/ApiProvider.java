@@ -8,6 +8,7 @@ import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.Website;
+import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import com.namelessmc.java_api.logger.ApiLogger;
 import com.namelessmc.java_api.logger.JavaLoggerLogger;
 
@@ -40,10 +41,15 @@ public abstract class ApiProvider {
 
 		try {
 			final Website info = api.getWebsite();
-			if (GlobalConstants.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
-				this.cachedApi = Optional.of(api);
-			} else {
-				this.logger.severe("Your website runs a version of NamelessMC (" + info.getVersion() + ") that is not supported by this version of the plugin.");
+			try {
+				if (GlobalConstants.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+					this.cachedApi = Optional.of(api);
+				} else {
+					this.logger.severe("Your website runs a version of NamelessMC (" + info.getVersion() + ") that is not supported by this version of the plugin. Note that usually only the newest one or two NamelessMC versions are supported.");
+					this.cachedApi = Optional.empty();
+				}
+			} catch (final UnknownNamelessVersionException e) {
+				this.logger.severe("The plugin doesn't recognize the NamelessMC version you are using. Try updating the plugin to the latest version.");
 				this.cachedApi = Optional.empty();
 			}
 		} catch (final ApiError e) {
