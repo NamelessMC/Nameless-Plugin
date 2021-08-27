@@ -7,7 +7,7 @@ public enum Permission {
 	COMMAND_REPORT("namelessmc.command.report"),
 	COMMAND_SET_GROUP("namelessmc.command.setgroup"),
 	COMMAND_USER_INFO("namelessmc.command.userinfo"),
-	COMMAND_VALIDATE("namelessmc.command.validate"),
+	COMMAND_VERIFY("namelessmc.command.verify"),
 
 	COMMAND_NAMELESS("namelessmc.command.nameless"),
 

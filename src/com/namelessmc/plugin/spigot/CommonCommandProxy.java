@@ -57,7 +57,7 @@ public class CommonCommandProxy extends Command {
 				"verify",
 				Term.COMMAND_VALIDATE_DESCRIPTION,
 				Term.COMMAND_VALIDATE_USAGE,
-				Permission.COMMAND_VALIDATE));
+				Permission.COMMAND_VERIFY));
 	}
 
 	private final CommonCommand commonCommand;

@@ -52,7 +52,7 @@ public class CommonCommandProxy extends Command {
 				new VerifyCommand(NamelessPlugin.getInstance()),
 				"validate",
 				Term.COMMAND_VALIDATE_USAGE,
-				Permission.COMMAND_VALIDATE));
+				Permission.COMMAND_VERIFY));
 	}
 
 	private final CommonCommand commonCommand;
