@@ -45,6 +45,8 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
+
+		this.apiProvider = new ApiProviderImpl(this.getLogger());
 	}
 
 	@Override

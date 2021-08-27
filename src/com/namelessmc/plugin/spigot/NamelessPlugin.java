@@ -51,7 +51,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	@Override
 	public void onEnable() {
-		this.apiProvider = new ApiProviderImpl();
+		this.apiProvider = new ApiProviderImpl(this.getLogger());
 
 		try {
 			Config.initialize();
@@ -98,6 +98,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		new WhitelistRegistered(); // In the constructor there is a check if the feature is actually enabled
 
 		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
+
 	}
 
 	private void checkUuids() {
