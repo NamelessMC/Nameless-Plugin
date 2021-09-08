@@ -123,6 +123,7 @@ public class LanguageHandler {
 			"ro_RO",
 			"ru_RU",
 			"sk_SK",
+			"sv_SE",
 			"tr_TR",
 			"vi_VN",
 			"zh_CN",
