@@ -29,14 +29,14 @@ public class VerifyCommand extends CommonCommand {
 			return;
 		}
 
-		final Optional<NamelessAPI> optApi = this.getApi();
-		if (!optApi.isPresent()) {
-			sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
-			return;
-		}
-		final NamelessAPI api = optApi.get();
-
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+			final Optional<NamelessAPI> optApi = this.getApi();
+			if (!optApi.isPresent()) {
+				sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
+				return;
+			}
+			final NamelessAPI api = optApi.get();
+
 			try {
 				final Optional<NamelessUser> user = api.getUser(sender.getUniqueId());
 				if (!user.isPresent()) {

@@ -34,14 +34,14 @@ public class UserInfoCommand extends CommonCommand {
 			return;
 		}
 
-		final Optional<NamelessAPI> optApi = this.getApi();
-		if (!optApi.isPresent()) {
-			sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_FAIL));
-			return;
-		}
-		final NamelessAPI api = optApi.get();
-
 		getScheduler().runAsync(() -> {
+			final Optional<NamelessAPI> optApi = this.getApi();
+			if (!optApi.isPresent()) {
+				sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_FAIL));
+				return;
+			}
+			final NamelessAPI api = optApi.get();
+
 			final Optional<NamelessUser> targetOptional;
 
 			try {

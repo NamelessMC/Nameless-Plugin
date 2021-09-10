@@ -29,14 +29,14 @@ public class RegisterCommand extends CommonCommand {
 			return;
 		}
 
-		final Optional<NamelessAPI> optApi = this.getApi();
-		if (!optApi.isPresent()) {
-			sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));
-			return;
-		}
-		final NamelessAPI api = optApi.get();
-
 		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+			final Optional<NamelessAPI> optApi = this.getApi();
+			if (!optApi.isPresent()) {
+				sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));
+				return;
+			}
+			final NamelessAPI api = optApi.get();
+
 			try {
 				final Optional<String> link = api.registerUser(sender.getName(), args[0], Optional.of(sender.getUniqueId()));
 				if (link.isPresent()) {

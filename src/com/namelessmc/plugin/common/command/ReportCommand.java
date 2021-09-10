@@ -31,14 +31,14 @@ public class ReportCommand extends CommonCommand {
 			return;
 		}
 
-		final Optional<NamelessAPI> optApi = this.getApi();
-		if (!optApi.isPresent()) {
-			sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
-			return;
-		}
-		final NamelessAPI api = optApi.get();
-
 		getScheduler().runAsync(() -> {
+			final Optional<NamelessAPI> optApi = this.getApi();
+			if (!optApi.isPresent()) {
+				sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
+				return;
+			}
+			final NamelessAPI api = optApi.get();
+
 			try {
 				final String targetUsername = args[0];
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
