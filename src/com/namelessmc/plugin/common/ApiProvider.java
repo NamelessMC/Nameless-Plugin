@@ -30,28 +30,32 @@ public abstract class ApiProvider {
 			return this.cachedApi;
 		}
 
-		this.cachedApi = Optional.empty();
-
 		final Optional<ApiLogger> debugLogger = this.getDebug()
 				? Optional.of(new JavaLoggerLogger(this.logger, Level.INFO, "[Nameless-Java-API] "))
 				: Optional.empty();
 
-		try {
-			final NamelessAPI api = NamelessAPI.builder()
-					.apiUrl(this.getApiUrl())
-					.userAgent(USER_AGENT)
-					.withCustomDebugLogger(debugLogger)
-					.build();
+		this.cachedApi = Optional.empty();
 
-			final Website info = api.getWebsite();
-			try {
-				if (GlobalConstants.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
-					this.cachedApi = Optional.of(api);
-				} else {
-					this.logger.severe("Your website runs a version of NamelessMC (" + info.getVersion() + ") that is not supported by this version of the plugin. Note that usually only the newest one or two NamelessMC versions are supported.");
+		try {
+			if (this.getApiUrl().isEmpty()) {
+				this.logger.severe("You have not entered an API URL in the config. Please get your site's API URL from StaffCP > Configuration > API and reload the plugin.");
+			} else {
+				final NamelessAPI api = NamelessAPI.builder()
+						.apiUrl(this.getApiUrl())
+						.userAgent(USER_AGENT)
+						.withCustomDebugLogger(debugLogger)
+						.build();
+
+				final Website info = api.getWebsite();
+				try {
+					if (GlobalConstants.SUPPORTED_WEBSITE_VERSIONS.contains(info.getParsedVersion())) {
+						this.cachedApi = Optional.of(api);
+					} else {
+						this.logger.severe("Your website runs a version of NamelessMC (" + info.getVersion() + ") that is not supported by this version of the plugin. Note that usually only the newest one or two NamelessMC versions are supported.");
+					}
+				} catch (final UnknownNamelessVersionException e) {
+					this.logger.severe("The plugin doesn't recognize the NamelessMC version you are using. Try updating the plugin to the latest version.");
 				}
-			} catch (final UnknownNamelessVersionException e) {
-				this.logger.severe("The plugin doesn't recognize the NamelessMC version you are using. Try updating the plugin to the latest version.");
 			}
 		} catch (final MalformedURLException e) {
 			this.logger.severe("You have entered an invalid API URL or not entered one at all. Please get an up-to-date API URL from StaffCP > Configuration > API and reload the plugin.");
