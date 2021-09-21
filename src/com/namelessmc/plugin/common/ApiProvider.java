@@ -70,6 +70,11 @@ public abstract class ApiProvider {
 			this.logger.warning("Encounted an error when connecting to the website. This message is expected if your site is down temporarily and can be ignored if the plugin works fine otherwise. If the plugin doesn't work as expected, please enable api-debug-mode in the config and run /nlpl reload to get more information.");
 			// Do not cache so it immediately tries again the next time. These types of errors may fix on their
 			// own, so we don't want to break the plugin until the administrator reloads.
+			if (this.getDebug()) {
+				this.logger.warning("Debug is enabled, printing full error message:");
+				e.printStackTrace();
+			}
+
 			this.cachedApi = null;
 			return Optional.empty();
 		}
