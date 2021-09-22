@@ -38,7 +38,7 @@ public class VerifyCommand extends CommonCommand {
 			final NamelessAPI api = optApi.get();
 
 			try {
-				final Optional<NamelessUser> user = api.getUser(sender.getUniqueId());
+				final Optional<NamelessUser> user = super.useUuids() ? api.getUser(sender.getUniqueId()) : api.getUser(sender.getName());
 				if (!user.isPresent()) {
 					sender.sendMessage(getLanguage().getMessage(Term.PLAYER_SELF_NOTREGISTERED));
 					return;

@@ -15,6 +15,8 @@ public interface CommonObjectsProvider {
 
 	Optional<NamelessAPI> getNamelessApi();
 
+	ApiProvider getApiProvider();
+
 	AudienceProvider adventure();
 
 }

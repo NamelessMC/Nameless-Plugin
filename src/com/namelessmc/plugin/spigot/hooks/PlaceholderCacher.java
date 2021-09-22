@@ -26,10 +26,12 @@ public class PlaceholderCacher implements Runnable {
 				Thread.sleep(500); // In case no players are online, wait in between checking for online players
 				final Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
 				if (optApi.isPresent()) {
+					final NamelessAPI api = optApi.get();
 					for (final Player player : Bukkit.getOnlinePlayers()) {
 						Thread.sleep(delay);
 						try {
-							final Optional<NamelessUser> user = optApi.get().getUser(player.getUniqueId());
+							final Optional<NamelessUser> user = NamelessPlugin.getInstance().getApiProvider().useUuids()
+									? api.getUser(player.getUniqueId()) : api.getUser(player.getName());
 							if (!user.isPresent()) {
 								continue;
 							}

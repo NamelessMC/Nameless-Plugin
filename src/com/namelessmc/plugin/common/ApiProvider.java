@@ -90,4 +90,6 @@ public abstract class ApiProvider {
 
 	protected abstract boolean getDebug();
 
+	public abstract boolean useUuids();
+
 }

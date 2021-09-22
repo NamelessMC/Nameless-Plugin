@@ -26,6 +26,10 @@ public abstract class CommonCommand {
 		return this.provider.getNamelessApi();
 	}
 
+	protected boolean useUuids() {
+		return this.provider.getApiProvider().useUuids();
+	}
+
 	public abstract void execute(CommandSender sender, String[] args, String usage);
 
 }

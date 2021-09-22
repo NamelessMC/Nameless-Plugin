@@ -49,6 +49,9 @@ not-registered-join-message: false
 # WARNING: The language file will be replaced with the default when new messages are added in a plugin update
 language: en_UK
 
+# EXPERIMENTAL: Use usernames instead of UUIDs to identify players. Not recommended.
+api-usernames: false
+
 # Auto whitelist registered players.
 #
 # When enabled, the plugin will automatically whitelist players that are registered on the website.

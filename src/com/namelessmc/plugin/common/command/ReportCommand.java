@@ -42,7 +42,7 @@ public class ReportCommand extends CommonCommand {
 			try {
 				final String targetUsername = args[0];
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-				final Optional<NamelessUser> user = api.getUser(sender.getUniqueId());
+				final Optional<NamelessUser> user = super.useUuids() ? api.getUser(sender.getUniqueId()) : api.getUser(sender.getName());
 				if (!user.isPresent()) {
 					sender.sendMessage(getLanguage().getMessage(Term.PLAYER_SELF_NOTREGISTERED));
 					return;

@@ -39,7 +39,10 @@ public class RegisterCommand extends CommonCommand {
 			final NamelessAPI api = optApi.get();
 
 			try {
-				final Optional<String> link = api.registerUser(sender.getName(), args[0], sender.getUniqueId());
+				final Optional<String> link =
+						super.useUuids() ?
+						api.registerUser(sender.getName(), args[0], sender.getUniqueId()) :
+						api.registerUser(sender.getName(), args[0]);
 				if (link.isPresent()) {
 					sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK), "url", link.get());
 				} else {

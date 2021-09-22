@@ -37,7 +37,7 @@ public class GetNotificationsCommand extends CommonCommand {
 			final NamelessAPI api = optApi.get();
 
 			try {
-				final Optional<NamelessUser> optional = api.getUser(sender.getUniqueId());
+				final Optional<NamelessUser> optional = super.useUuids() ? api.getUser(sender.getUniqueId()) : api.getUser(sender.getName());
 
 				if (!optional.isPresent()) {
 					sender.sendMessage(getLanguage().getMessage(Term.PLAYER_SELF_NOTREGISTERED));

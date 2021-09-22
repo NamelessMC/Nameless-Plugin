@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.plugin.common.ApiProvider;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
@@ -158,6 +159,11 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	@Override
 	public Optional<NamelessAPI> getNamelessApi() {
 		return this.apiProvider.getNamelessApi();
+	}
+
+	@Override
+	public ApiProvider getApiProvider() {
+		return this.apiProvider;
 	}
 
 	@Override
