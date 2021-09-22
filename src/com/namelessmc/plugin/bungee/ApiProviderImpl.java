@@ -30,4 +30,9 @@ public class ApiProviderImpl extends ApiProvider {
 		return this.debug;
 	}
 
+	@Override
+	public boolean useUuids() {
+		return false;
+	}
+
 }
