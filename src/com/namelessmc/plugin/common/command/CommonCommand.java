@@ -23,7 +23,7 @@ public abstract class CommonCommand {
 	}
 
 	protected Optional<NamelessAPI> getApi(){
-		return this.provider.getNamelessApi();
+		return this.provider.getApiProvider().getNamelessApi();
 	}
 
 	protected boolean useUuids() {

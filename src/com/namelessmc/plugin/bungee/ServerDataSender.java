@@ -34,7 +34,7 @@ public class ServerDataSender implements Runnable {
 		data.add("players", players);
 
 		NamelessPlugin.getInstance().getProxy().getScheduler().runAsync(NamelessPlugin.getInstance(), () -> {
-			NamelessPlugin.getInstance().getNamelessApi().ifPresent((api) -> {
+			NamelessPlugin.getInstance().getApiProvider().getNamelessApi().ifPresent((api) -> {
 				try {
 					api.submitServerInfo(data);
 				} catch (final ApiError e) {

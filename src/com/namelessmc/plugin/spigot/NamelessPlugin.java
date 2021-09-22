@@ -156,7 +156,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		}
 	}
 
-	@Override
 	public Optional<NamelessAPI> getNamelessApi() {
 		return this.apiProvider.getNamelessApi();
 	}

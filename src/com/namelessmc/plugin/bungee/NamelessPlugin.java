@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.plugin.common.ApiProvider;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
@@ -106,11 +104,6 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 		} else {
 			this.dataSenderTask = getProxy().getScheduler().schedule(this, new ServerDataSender(), rate, rate, TimeUnit.SECONDS);
 		}
-	}
-
-	@Override
-	public Optional<NamelessAPI> getNamelessApi() {
-		return this.apiProvider.getNamelessApi();
 	}
 
 	@Override
