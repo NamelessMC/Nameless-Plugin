@@ -45,28 +45,16 @@
 
 					<relocations>
 						<relocation>
-							<pattern>com.google.gson</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.gson</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>com.namelessmc.java_api</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.nameless_api</shadedPattern>
 						</relocation>
-						<relocation>
-							<pattern>net.kyori</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.kyori</shadedPattern>
+						-<relocation>
+							<pattern>net.kyori.adventure.text.minimessage</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.minimessage</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.apache.commons.lang3</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.commons_lang3</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.apache.commons.io</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.commons_io</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.checkerframework</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.checkerframework</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.intellij.lang.annotations</pattern>
@@ -138,6 +126,14 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.8.6</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.kyori</groupId>
+			<artifactId>adventure-api</artifactId>
+			<version>4.9.1</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
