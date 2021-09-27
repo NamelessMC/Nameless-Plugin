@@ -38,7 +38,7 @@ public class PlayerLogin implements Listener {
 						if (!user.isPresent()) {
 							Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
 								final Component message = NamelessPlugin.getInstance().getLanguage().getComponent(Term.JOIN_NOTREGISTERED);
-								NamelessPlugin.getInstance().adventure().player(event.getPlayer()).sendMessage(message);
+								event.getPlayer().sendMessage(message);
 							});
 						}
 					} catch (final NamelessException e) {

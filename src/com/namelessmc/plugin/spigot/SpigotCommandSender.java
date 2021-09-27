@@ -3,19 +3,19 @@ package com.namelessmc.plugin.spigot;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import com.namelessmc.plugin.common.command.CommandSender;
 
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 
 public class SpigotCommandSender extends CommandSender {
 
 	private final org.bukkit.command.CommandSender sender;
-	private final Audience adventure;
 
 	public SpigotCommandSender(final org.bukkit.command.CommandSender sender) {
 		this.sender = sender;
-		this.adventure = NamelessPlugin.getInstance().adventure().sender(sender);
 	}
 
 	@Override
@@ -32,10 +32,14 @@ public class SpigotCommandSender extends CommandSender {
 	public String getName() {
 		return this.sender.getName();
 	}
+	
+	public void sendMessage(@NotNull Component component) {
+		sender.sendMessage(component);
+	}
 
 	@Override
 	public Audience adventure() {
-		return this.adventure;
+		return sender;
 	}
 
 }

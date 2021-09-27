@@ -29,8 +29,6 @@ import com.namelessmc.plugin.spigot.hooks.PapiParserDisabled;
 import com.namelessmc.plugin.spigot.hooks.PapiParserEnabled;
 import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
 
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-
 public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider {
 
 	public static final Map<UUID, Long> LOGIN_TIME = new HashMap<>();
@@ -39,7 +37,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	private ApiProviderImpl apiProvider;
 	private LanguageHandler language;
-	private static BukkitAudiences adventure;
 
 	private net.milkbowl.vault.permission.Permission permissions;
 	private PapiParser papiParser;
@@ -74,8 +71,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		} else {
 			log(Level.WARNING, "Vault was not found. Group sync will not work.");
 		}
-
-		adventure = BukkitAudiences.create(this);
 
 		this.language = new LanguageHandler(getDataFolder().toPath().resolve("languages"));
 
@@ -185,11 +180,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	@Override
 	public LanguageHandler getLanguage() {
 		return this.language;
-	}
-
-	@Override
-	public BukkitAudiences adventure() {
-		return adventure;
 	}
 
 	public PapiParser getPapiParser() {
