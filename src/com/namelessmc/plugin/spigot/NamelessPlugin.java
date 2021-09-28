@@ -12,9 +12,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.Nullable;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.plugin.common.ApiProvider;
@@ -28,6 +30,8 @@ import com.namelessmc.plugin.spigot.hooks.PapiParser;
 import com.namelessmc.plugin.spigot.hooks.PapiParserDisabled;
 import com.namelessmc.plugin.spigot.hooks.PapiParserEnabled;
 import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
+import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
+import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 
@@ -36,13 +40,28 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	public static final Map<UUID, Long> LOGIN_TIME = new HashMap<>();
 
 	private static NamelessPlugin instance;
+	public static NamelessPlugin getInstance() { return instance; }
 
 	private ApiProviderImpl apiProvider;
+	@Override public ApiProvider getApiProvider() { return this.apiProvider; }
+	public Optional<NamelessAPI> getNamelessApi() { return this.apiProvider.getNamelessApi(); }
+	
 	private LanguageHandler language;
-	private static BukkitAudiences adventure;
+	@Override public LanguageHandler getLanguage() { return this.language; }
+	
+	private BukkitAudiences adventure;
+	@Override public BukkitAudiences adventure() {return adventure; }
 
 	private net.milkbowl.vault.permission.Permission permissions;
+	public net.milkbowl.vault.permission.Permission getPermissions() { return this.permissions; }
+	
 	private PapiParser papiParser;
+	public PapiParser getPapiParser() { return this.papiParser; }
+	
+	@Nullable
+	private MaintenanceStatusProvider maintenanceStatusProvider;
+	@Nullable public MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
+	
 	private BukkitTask dataSenderTask;
 
 	@Override
@@ -156,15 +175,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		}
 	}
 
-	public Optional<NamelessAPI> getNamelessApi() {
-		return this.apiProvider.getNamelessApi();
-	}
-
-	@Override
-	public ApiProvider getApiProvider() {
-		return this.apiProvider;
-	}
-
 	@Override
 	public AbstractScheduler getScheduler() {
 		return new AbstractScheduler() {
@@ -180,24 +190,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			}
 
 		};
-	}
-
-	@Override
-	public LanguageHandler getLanguage() {
-		return this.language;
-	}
-
-	@Override
-	public BukkitAudiences adventure() {
-		return adventure;
-	}
-
-	public PapiParser getPapiParser() {
-		return this.papiParser;
-	}
-
-	public net.milkbowl.vault.permission.Permission getPermissions() {
-		return this.permissions;
 	}
 
 	private void registerCommands() {
@@ -219,6 +211,11 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	}
 
 	private void initHooks() {
+		initPapi();
+		initMaintenance();
+	}
+	
+	private void initPapi() {
 		boolean placeholderPluginInstalled = false;
 
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -235,9 +232,14 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			Bukkit.getScheduler().runTaskAsynchronously(this, new PlaceholderCacher());
 		}
 	}
-
-	public static NamelessPlugin getInstance() {
-		return instance;
+	
+	private void initMaintenance() {
+		if (Bukkit.getPluginManager().isPluginEnabled("Maintenance")) {
+			Plugin plugin = Bukkit.getPluginManager().getPlugin("Maintenance");
+			if (plugin.getDescription().getAuthors().contains("kennytv")) {
+				this.maintenanceStatusProvider = new KennyMaintenance();
+			}
+		}
 	}
 
 	public static void log(final Level level, final String message) {

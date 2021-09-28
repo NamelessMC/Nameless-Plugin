@@ -14,6 +14,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -41,6 +42,11 @@ public class ServerDataSender extends BukkitRunnable {
 				data.add("groups", groups);
 			}
 		} catch (final UnsupportedOperationException e) {}
+		
+		MaintenanceStatusProvider maintenance = NamelessPlugin.getInstance().getMaintenanceStatusProvider();
+		if (maintenance != null) {
+			data.addProperty("maintenance", maintenance.maintenanceEnabled());
+		}
 
 		final FileConfiguration conf = Config.MAIN.getConfig();
 		final boolean uploadPlaceholders = conf.isConfigurationSection("upload-placeholders") &&
