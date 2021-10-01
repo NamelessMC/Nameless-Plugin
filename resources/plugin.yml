@@ -5,7 +5,7 @@ authors: [Derkades, Samerton, IsS127]
 website: https://plugin.namelessmc.com/
 version: '@project.version@'
 api-version: 1.13
-softdepend: [Vault, PlaceholderAPI]
+softdepend: [Vault, PlaceholderAPI, Maintenance]
 
 commands:
   namelessplugin:

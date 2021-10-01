@@ -37,6 +37,12 @@ git checkout legacy # important!
 mvn install
 cd ..
 
+git clone https://github.com/kennytv/Maintenance
+cd Derkutils
+git checkout refs/tags/<check pom.xml for version>
+mvn install
+cd ..
+
 git clone https://github.com/NamelessMC/Nameless-Java-API
 cd Nameless-Java-API
 mvn install
