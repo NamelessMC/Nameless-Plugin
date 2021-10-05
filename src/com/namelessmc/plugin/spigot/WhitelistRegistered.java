@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.spigot;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -67,11 +68,17 @@ public class WhitelistRegistered implements Runnable {
 			final Set<UUID> uuids = new HashSet<>();
 			for (final NamelessUser user : users) {
 				try {
-					final Optional<UUID> optUuid = user.getUniqueId();
-					if (optUuid.isPresent()) {
-						uuids.add(optUuid.get());
+					if (NamelessPlugin.getInstance().getApiProvider().useUuids()) {
+						final Optional<UUID> optUuid = user.getUniqueId();
+						if (optUuid.isPresent()) {
+							uuids.add(optUuid.get());
+						} else {
+							logger.warning("Website user " + user.getUsername() + " does not have a UUID!");
+						}
 					} else {
-						logger.warning("Website user " + user.getUsername() + " does not have a UUID!");
+						String name = user.getUsername();
+						UUID offlineUuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
+						uuids.add(offlineUuid);
 					}
 				} catch (final NamelessException e) {
 					logger.warning("A user has been skipped due to a website communication error");
