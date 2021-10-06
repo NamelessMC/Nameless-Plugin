@@ -2,10 +2,7 @@ package com.namelessmc.plugin.spigot;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -62,7 +59,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	private MaintenanceStatusProvider maintenanceStatusProvider;
 	@Nullable public MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 	
-	private BukkitTask dataSenderTask;
+	private ArrayList<BukkitTask> tasks = new ArrayList<>(2);
 
 	@Override
 	public void onLoad() {
@@ -115,8 +112,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
 		}
 
-		new WhitelistRegistered(); // In the constructor there is a check if the feature is actually enabled
-
 		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
 
 	}
@@ -162,17 +157,22 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			throw new RuntimeException("Failed to load language file");
 		}
 
-		if (this.dataSenderTask != null) {
-			this.dataSenderTask.cancel();
+		for (BukkitTask task : this.tasks) {
+			task.cancel();
 		}
 
 		final int rate = Config.MAIN.getConfig().getInt("server-data-upload-rate", 10) * 20;
 		final int serverId = Config.MAIN.getConfig().getInt("server-id");
-		if (rate <= 0 || serverId <= 0) {
-			this.dataSenderTask = null;
-		} else {
-			this.dataSenderTask = new ServerDataSender().runTaskTimer(this, rate, rate);
+		if (rate > 0 && serverId > 0) {
+			this.tasks.add(new ServerDataSender().runTaskTimer(this, rate, rate));
 		}
+
+		final int rate2 = Config.MAIN.getConfig().getInt("user-sync.poll-interval", 0) * 20;
+		if (rate > 0) {
+			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new UserSyncTask(), rate2, rate2));
+		}
+
+		this.tasks.trimToSize();
 	}
 
 	@Override
