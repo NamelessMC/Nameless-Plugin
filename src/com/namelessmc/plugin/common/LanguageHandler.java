@@ -151,7 +151,7 @@ public class LanguageHandler {
 	}
 
 	public Component getComponent(final Term term) {
-		return MiniMessage.get().parse(getMessage(term)); // TODO cache?
+		return MiniMessage.miniMessage().parse(getMessage(term)); // TODO cache?
 	}
 
 	public void updateFiles() throws IOException {

@@ -14,11 +14,11 @@ public abstract class CommandSender {
 	public abstract String getName();
 
 	public void sendMessage(final String message) {
-		this.adventure().sendMessage(MiniMessage.get().parse(message));
+		this.adventure().sendMessage(MiniMessage.miniMessage().parse(message));
 	}
 
 	public void sendMessage(final String message, final String... placeholders) {
-		this.adventure().sendMessage(MiniMessage.get().parse(message, placeholders));
+		this.adventure().sendMessage(MiniMessage.miniMessage().parse(message, placeholders));
 	}
 
 	public abstract Audience adventure();
