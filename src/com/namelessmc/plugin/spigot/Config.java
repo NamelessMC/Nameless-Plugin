@@ -6,25 +6,25 @@ import java.io.IOException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import xyz.derkades.derkutils.FileUtils;
 
 public enum Config {
 
-	MAIN("config.yml", true, false),
-	COMMANDS("commands.yml", true, false),
+	MAIN("config.yml", false),
+	COMMANDS("commands.yml", false),
 
 	;
 
-	private String fileName;
-	private boolean copyFromJar;
-	private boolean autoSave;
+	private final @NotNull String fileName;
+	private final boolean autoSave;
 
-	private FileConfiguration configuration;
-	private File file;
+	private @Nullable FileConfiguration configuration;
+	private final @NotNull File file;
 
-	Config(final String fileName, final boolean copyFromJar, final boolean autoSave){
+	Config(final @NotNull String fileName, final boolean autoSave){
 		this.fileName = fileName;
-		this.copyFromJar = copyFromJar;
 		this.autoSave = autoSave;
 
 		final File dataFolder = NamelessPlugin.getInstance().getDataFolder();
@@ -48,7 +48,7 @@ public enum Config {
 		}
 	}
 
-	public FileConfiguration getConfig() {
+	public @NotNull FileConfiguration getConfig() {
 		if (this.configuration == null) {
 			reload();
 		}
@@ -67,11 +67,7 @@ public enum Config {
 	public void reload() {
 		if (!this.file.exists()) {
 			try {
-				if (this.copyFromJar) {
-					FileUtils.copyOutOfJar(Config.class, "/" + this.fileName, this.file);
-				} else {
-					this.file.createNewFile(); //Create blank file
-				}
+				FileUtils.copyOutOfJar(Config.class, "/" + this.fileName, this.file);
 			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}

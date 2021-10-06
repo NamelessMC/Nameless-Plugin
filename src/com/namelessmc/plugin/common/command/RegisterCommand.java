@@ -71,8 +71,6 @@ public class RegisterCommand extends CommonCommand {
 				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS));
 			}
 		});
-
-		return;
 	}
 
 }

@@ -42,7 +42,7 @@ public class ServerDataSender extends BukkitRunnable {
 				data.add("groups", groups);
 			}
 		} catch (final UnsupportedOperationException e) {}
-		
+
 		MaintenanceStatusProvider maintenance = NamelessPlugin.getInstance().getMaintenanceStatusProvider();
 		if (maintenance != null) {
 			data.addProperty("maintenance", maintenance.maintenanceEnabled());

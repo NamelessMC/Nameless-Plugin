@@ -89,9 +89,6 @@ public class LanguageHandler {
 			this.path = path;
 		}
 
-//		public String getPath() {
-//			return this.path;
-//		}
 	}
 
 	/**
@@ -154,43 +151,6 @@ public class LanguageHandler {
 		return MiniMessage.miniMessage().parse(getMessage(term)); // TODO cache?
 	}
 
-
-	/**
-	 * Uses {@link #getMessage()} then replaces placeholders.
-	 * <br><br>
-	 * "Visit {link} {number} times"
-	 * @param placeholders ["link", "https://example.com", "number", 3]
-	 * @return "Visit https://example.com 3 times"
-	 */
-	@Deprecated
-	public String getMessage(final Term term, final Object... placeholders) {
-		if (placeholders.length % 2 != 0) { // False if length is 1, 3, 5, 6, etc.
-			throw new IllegalArgumentException("Placeholder array length must be an even number");
-		}
-
-		Validate.noNullElements(placeholders);
-
-		if (placeholders.length == 0) {
-			return this.getMessage(term);
-		}
-
-		Object key = null;
-		String message = this.getMessage(term);
-
-		for (final Object object : placeholders) {
-			if (key == null) {
-				// 'placeholder' is a key
-				key = object;
-			} else {
-				// Key has been set previously, 'object' must be the placeholder value
-				message = message.replace("{" + key + "}", object.toString());
-				key = null; // Next 'placeholder' is a key
-			}
-		}
-
-		return message;
-	}
-
 	public void updateFiles() throws IOException {
 		final Logger log = NamelessPlugin.getInstance().getLogger();
 
@@ -241,7 +201,7 @@ public class LanguageHandler {
 		final Path file = this.languageDirectory.resolve(languageName + ".yaml");
 
 		if (!Files.isRegularFile(file)) {
-			log.severe("File not found: '" + file.toString() + "'");
+			log.severe("File not found: '" + file + "'");
 			return null;
 		}
 

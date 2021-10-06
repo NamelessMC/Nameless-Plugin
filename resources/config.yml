@@ -52,21 +52,24 @@ language: en_UK
 # EXPERIMENTAL: Use usernames instead of UUIDs to identify players. Not recommended.
 api-usernames: false
 
-# Auto whitelist registered players.
-#
-# When enabled, the plugin will automatically whitelist players that are registered on the website.
-# Warning: Anyone who is not registered on the website will be removed from the whitelist, also
-# if they were added before enabling this option!
-# By default, the plugin will poll the website every 30 seconds to get a list of registered users.
-# You need to fully restart the server after changing this option.
-auto-whitelist-registered:
-  enabled: false
-  # Only whitelist player if their account is verified
-  verified: true
-  # Number of seconds to wait in between updating the whitelist
+user-sync:
+  # Number of seconds in between syncs
   poll-interval: 30
-  # Send log messages when whitelisting or unwhitelisting users
   log: true
-  # List of UUIDs to exlude (never add to or remove from the whitelist)
+  # List of UUIDs to exclude (never add to or remove from the whitelist or ban list)
   exclude: []
- 
+
+  # Auto whitelist registered players.
+  #
+  # When enabled, the plugin will automatically whitelist players that are registered on the website.
+  # Warning: Anyone who is not registered on the website will be removed from the whitelist, also
+  # if they were added before enabling this option!
+  whitelist:
+    enabled: false
+    # Only whitelist verified users
+    verified-only: true
+
+
+  # Ban players who are banned on the website, and pardon players who are not banned on the website.
+  bans:
+    enabled: false

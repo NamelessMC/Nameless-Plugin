@@ -2,3 +2,5 @@
 *.prefs
 *.classpath
 target/
+.idea/
+*.iml

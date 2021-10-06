@@ -18,16 +18,19 @@ public class PlaceholderCacher implements Runnable {
 
 	static final Map<UUID, Integer> CACHED_NOTIFICATION_COUNT = new HashMap<>(); // TODO Remove player when they leave the server?
 
+	@SuppressWarnings("InfiniteLoopStatement")
 	@Override
 	public void run() {
 		try {
 			final int delay = Config.MAIN.getConfig().getInt("placeholders-request-delay", 2000);
 			while (true) {
+				//noinspection BusyWait
 				Thread.sleep(500); // In case no players are online, wait in between checking for online players
 				final Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
 				if (optApi.isPresent()) {
 					final NamelessAPI api = optApi.get();
 					for (final Player player : Bukkit.getOnlinePlayers()) {
+						//noinspection BusyWait
 						Thread.sleep(delay);
 						try {
 							final Optional<NamelessUser> user = NamelessPlugin.getInstance().getApiProvider().useUuids()
