@@ -38,7 +38,7 @@ mvn install
 cd ..
 
 git clone https://github.com/kennytv/Maintenance
-cd Derkutils
+cd Maintenance
 git checkout refs/tags/<check pom.xml for version>
 mvn install
 cd ..
