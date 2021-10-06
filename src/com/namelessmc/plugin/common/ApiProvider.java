@@ -30,9 +30,9 @@ public abstract class ApiProvider {
 			return this.cachedApi;
 		}
 
-		final Optional<ApiLogger> debugLogger = this.getDebug()
-				? Optional.of(new JavaLoggerLogger(this.logger, Level.INFO, "[Nameless-Java-API] "))
-				: Optional.empty();
+		final ApiLogger debugLogger = this.getDebug()
+				? new JavaLoggerLogger(this.logger, Level.INFO, "[Nameless-Java-API] ")
+				: null;
 
 		this.cachedApi = Optional.empty();
 
