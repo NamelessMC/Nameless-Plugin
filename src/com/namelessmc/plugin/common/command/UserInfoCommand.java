@@ -83,7 +83,6 @@ public class UserInfoCommand extends CommonCommand {
 			} catch (final NamelessException e) {
 				sender.sendMessage(e.getMessage());
 				e.printStackTrace();
-				return;
 			}
 		});
 	}

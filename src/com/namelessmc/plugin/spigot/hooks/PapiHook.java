@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.jetbrains.annotations.NotNull;
 
 public class PapiHook extends PlaceholderExpansion {
 
@@ -18,17 +19,17 @@ public class PapiHook extends PlaceholderExpansion {
 	}
 
 	@Override
-	public String getAuthor() {
+	public @NotNull String getAuthor() {
 		return String.join(", ", NamelessPlugin.getInstance().getDescription().getAuthors());
 	}
 
 	@Override
-	public String getIdentifier() {
+	public @NotNull String getIdentifier() {
 		return "nameless";
 	}
 
 	@Override
-	public String getVersion() {
+	public @NotNull String getVersion() {
 		return NamelessPlugin.getInstance().getDescription().getVersion();
 	}
 

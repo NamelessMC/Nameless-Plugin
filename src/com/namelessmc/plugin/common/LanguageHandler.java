@@ -89,9 +89,6 @@ public class LanguageHandler {
 			this.path = path;
 		}
 
-//		public String getPath() {
-//			return this.path;
-//		}
 	}
 
 	/**
@@ -204,7 +201,7 @@ public class LanguageHandler {
 		final Path file = this.languageDirectory.resolve(languageName + ".yaml");
 
 		if (!Files.isRegularFile(file)) {
-			log.severe("File not found: '" + file.toString() + "'");
+			log.severe("File not found: '" + file + "'");
 			return null;
 		}
 

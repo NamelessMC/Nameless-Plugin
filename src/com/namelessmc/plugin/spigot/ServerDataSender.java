@@ -82,6 +82,7 @@ public class ServerDataSender extends BukkitRunnable {
 			} catch (final NoSuchFieldError e) {
 				try {
 					// it's PLAY_ONE_MINUTE in 1.13+ but unlike the name suggests it actually still records ticks played
+					//noinspection JavaReflectionMemberAccess
 					playStat = (Statistic) Statistic.class.getField("PLAY_ONE_MINUTE").get(null);
 				} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException
 						| SecurityException e1) {

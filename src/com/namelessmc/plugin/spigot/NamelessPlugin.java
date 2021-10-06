@@ -13,6 +13,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.namelessmc.java_api.NamelessAPI;
@@ -59,7 +60,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	private MaintenanceStatusProvider maintenanceStatusProvider;
 	@Nullable public MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 	
-	private ArrayList<BukkitTask> tasks = new ArrayList<>(2);
+	private final @NotNull ArrayList<@NotNull BukkitTask> tasks = new ArrayList<>(2);
 
 	@Override
 	public void onLoad() {

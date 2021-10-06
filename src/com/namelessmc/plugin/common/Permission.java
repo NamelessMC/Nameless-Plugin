@@ -1,5 +1,7 @@
 package com.namelessmc.plugin.common;
 
+import org.jetbrains.annotations.NotNull;
+
 public enum Permission {
 
 	COMMAND_GET_NOTIFICATIONS("namelessmc.command.getnotifications"),
@@ -13,14 +15,14 @@ public enum Permission {
 
 	;
 
-	private String permissionString;
+	private final @NotNull String permissionString;
 
-	Permission(final String permissionString){
+	Permission(final @NotNull String permissionString){
 		this.permissionString = permissionString;
 	}
 
 	@Override
-	public String toString() {
+	public @NotNull String toString() {
 		return this.permissionString;
 	}
 

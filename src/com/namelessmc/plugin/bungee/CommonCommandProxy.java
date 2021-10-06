@@ -76,6 +76,7 @@ public class CommonCommandProxy extends Command {
 	public void execute(final CommandSender sender, final String[] args) {
 		if (!(sender instanceof ProxiedPlayer)) {
 			sender.sendMessage(new ComponentBuilder("The bungeecord plugin does not support running commands from the console at this time.").create());
+			return;
 		}
 
 		final BungeeCommandSender sender2 = new BungeeCommandSender((ProxiedPlayer) sender);

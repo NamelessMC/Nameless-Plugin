@@ -7,8 +7,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
-import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -75,7 +75,7 @@ public class UserSyncTask implements Runnable {
 				throw new IllegalStateException("Getting a user uuid should never fail with a network error, it is cached from the listUsers response", e);
 			}
 		}
-		final Set<String> excludes = new HashSet<>(Config.MAIN.getConfig().getStringList("auto-whitelist-registered.log"));
+		final Set<UUID> excludes = Config.MAIN.getConfig().getStringList("auto-whitelist-registered.log").stream().map(UUID::fromString).collect(Collectors.toSet());
 		uuids.removeIf(excludes::contains);
 		return uuids;
 	}
