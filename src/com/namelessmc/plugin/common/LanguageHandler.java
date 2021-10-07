@@ -80,6 +80,7 @@ public class LanguageHandler {
 		COMMAND_USERINFO_OUTPUT_FAIL("command.user-info.output.fail"),
 
 		JOIN_NOTREGISTERED("join-not-registered"),
+		WEBSITE_ANNOUNCEMENT("website-announcement"),
 
 		;
 
@@ -94,7 +95,7 @@ public class LanguageHandler {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 18;
+	private static final int VERSION = 19;
 
 	private static final String[] LANGUAGES_LIST = {
 			"cs_CZ",
@@ -149,6 +150,10 @@ public class LanguageHandler {
 
 	public Component getComponent(final Term term) {
 		return MiniMessage.miniMessage().parse(getMessage(term)); // TODO cache?
+	}
+
+	public Component getComponent(Term term, String... placeholders) {
+		return MiniMessage.miniMessage().parse(getMessage(term), placeholders);
 	}
 
 	public void updateFiles() throws IOException {
