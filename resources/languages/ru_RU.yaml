@@ -83,3 +83,4 @@ player:
     not-registered: Этот игрок не зарегистрирован на сайте.
 join-not-registered: У вас еще нет учетной записи на нашем сайте. Пожалуйста, зарегистрируйтесь,
   используя /register.
+website-announcement: 'объявление на сайте: <content>'
