@@ -57,26 +57,30 @@ public class UserSyncTask implements Runnable {
 		}
 
 		final Set<UUID> uuids = new HashSet<>();
+		final Set<String> excludes = new HashSet<>(Config.MAIN.getConfig().getStringList("auto-whitelist-registered.log"));
 		for (final NamelessUser user : users) {
 			try {
 				if (NamelessPlugin.getInstance().getApiProvider().useUuids()) {
 					final Optional<UUID> optUuid = user.getUniqueId();
 					if (optUuid.isPresent()) {
-						uuids.add(optUuid.get());
+						UUID uuid = optUuid.get();
+						if (!excludes.contains(uuid.toString())) {
+							uuids.add(optUuid.get());
+						}
 					} else {
 						NamelessPlugin.getInstance().getLogger().warning("Website user " + user.getUsername() + " does not have a UUID!");
 					}
 				} else {
 					String name = user.getUsername();
-					UUID offlineUuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
-					uuids.add(offlineUuid);
+					if (!excludes.contains(name)) {
+						UUID offlineUuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
+						uuids.add(offlineUuid);
+					}
 				}
 			} catch (final NamelessException e) {
 				throw new IllegalStateException("Getting a user uuid should never fail with a network error, it is cached from the listUsers response", e);
 			}
 		}
-		final Set<UUID> excludes = Config.MAIN.getConfig().getStringList("auto-whitelist-registered.log").stream().map(UUID::fromString).collect(Collectors.toSet());
-		uuids.removeIf(excludes::contains);
 		return uuids;
 	}
 
