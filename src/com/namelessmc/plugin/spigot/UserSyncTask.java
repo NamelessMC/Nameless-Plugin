@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -39,7 +38,7 @@ public class UserSyncTask implements Runnable {
 	}
 
 	@Nullable
-	private Set<UUID> getUuids(UserFilter... userFilters) {
+	private Set<UUID> getUuids(UserFilter<?>... userFilters) {
 		List<NamelessUser> users;
 		try {
 			final Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();

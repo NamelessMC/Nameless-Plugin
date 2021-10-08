@@ -29,7 +29,7 @@ public class AnnouncementTask implements Runnable {
 					NamelessUser user = NamelessPlugin.getInstance().getApiProvider().useUuids()
 							? api.getUserLazy(name, uuid)
 							: api.getUserLazy(name);
-					List<Announcement> announcements = null;
+					List<Announcement> announcements;
 					try {
 						announcements = api.getAnnouncements(user);
 					} catch (NamelessException e) {
@@ -37,7 +37,7 @@ public class AnnouncementTask implements Runnable {
 						return;
 					}
 					if (filterDisplay != null) {
-						announcements.stream().filter(a -> a.getDisplayPages().contains(filterDisplay)).collect(Collectors.toList());
+						announcements = announcements.stream().filter(a -> a.getDisplayPages().contains(filterDisplay)).collect(Collectors.toList());
 					}
 					if (!announcements.isEmpty()) {
 						Announcement announcement = ListUtils.choice(announcements);

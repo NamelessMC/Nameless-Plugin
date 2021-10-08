@@ -63,9 +63,11 @@ public class UserInfoCommand extends CommonCommand {
 				final String uuid = user.getUniqueId().isPresent() ? user.getUniqueId().get().toString() : getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_UUID_UNKNOWN);
 				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_UUID), "uuid", uuid);
 
-				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP),
-						"groupname", user.getPrimaryGroup().get().getName(),
-						"id", String.valueOf(user.getPrimaryGroup().get().getId()));
+				user.getPrimaryGroup().ifPresent(group -> {
+					sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP),
+							"groupname", group.getName(),
+							"id", String.valueOf(group.getId()));
+				});
 
 				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_USERINFO_OUTPUT_ALL_GROUPS),
 						"groups_names_list", user.getGroups().stream().map(Group::getName).collect(Collectors.joining(", ")));

@@ -13,6 +13,7 @@ import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import com.namelessmc.java_api.logger.ApiLogger;
 import com.namelessmc.java_api.logger.JavaLoggerLogger;
 
+@SuppressWarnings("OptionalAssignedToNull")
 public abstract class ApiProvider {
 
 	private static final String USER_AGENT = "Nameless-Plugin";

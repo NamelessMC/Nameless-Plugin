@@ -41,7 +41,7 @@ public class ServerDataSender extends BukkitRunnable {
 				Arrays.stream(gArray).map(JsonPrimitive::new).forEach(groups::add);
 				data.add("groups", groups);
 			}
-		} catch (final UnsupportedOperationException e) {}
+		} catch (final UnsupportedOperationException ignored) {}
 		
 		MaintenanceStatusProvider maintenance = NamelessPlugin.getInstance().getMaintenanceStatusProvider();
 		if (maintenance != null) {
@@ -54,9 +54,9 @@ public class ServerDataSender extends BukkitRunnable {
 
 		if (uploadPlaceholders) {
 			final JsonObject placeholders = new JsonObject();
-			conf.getStringList("upload-placeholders.global").forEach((key) -> {
-				placeholders.addProperty(key, ChatColor.stripColor(NamelessPlugin.getInstance().getPapiParser().parse(null, "%" + key + "%")));
-			});
+			conf.getStringList("upload-placeholders.global").forEach((key) ->
+				placeholders.addProperty(key, ChatColor.stripColor(NamelessPlugin.getInstance().getPapiParser().parse(null, "%" + key + "%")))
+			);
 			data.add("placeholders", placeholders);
 		}
 
@@ -99,13 +99,13 @@ public class ServerDataSender extends BukkitRunnable {
 					Arrays.stream(gArray).map(JsonPrimitive::new).forEach(groups::add);
 					playerInfo.add("groups", groups);
 				}
-			} catch (final UnsupportedOperationException e) {}
+			} catch (final UnsupportedOperationException ignored) {}
 
 			if (uploadPlaceholders) {
 				final JsonObject placeholders = new JsonObject();
-				conf.getStringList("upload-placeholders.player").forEach((key) -> {
-					placeholders.addProperty(key, ChatColor.stripColor(NamelessPlugin.getInstance().getPapiParser().parse(player, "%" + key + "%")));
-				});
+				conf.getStringList("upload-placeholders.player").forEach((key) ->
+					placeholders.addProperty(key, ChatColor.stripColor(NamelessPlugin.getInstance().getPapiParser().parse(player, "%" + key + "%")))
+				);
 				playerInfo.add("placeholders", placeholders);
 			}
 
@@ -116,7 +116,7 @@ public class ServerDataSender extends BukkitRunnable {
 
 		data.add("players", players);
 
-		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () ->
 			NamelessPlugin.getInstance().getNamelessApi().ifPresent(api -> {
 				try {
 					api.submitServerInfo(data);
@@ -129,8 +129,8 @@ public class ServerDataSender extends BukkitRunnable {
 				} catch (final NamelessException e) {
 					e.printStackTrace();
 				}
-			});
-		});
+			})
+		);
 	}
 
 }
