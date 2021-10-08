@@ -80,3 +80,4 @@ command:
     help-prefix: /{command}
 join-not-registered: Você ainda não tem uma conta em nosso site. Por favor, registre-se
   usando /register.
+website-announcement: 'Anúncio do site: <content>'
