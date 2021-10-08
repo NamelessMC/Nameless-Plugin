@@ -119,8 +119,8 @@ public class UserSyncTask implements Runnable {
 						Set<OfflinePlayer> banned2 = Bukkit.getBannedPlayers();
 						for (UUID unbannedUuid : unbannedUuids) {
 							OfflinePlayer unbannedPlayer = Bukkit.getOfflinePlayer(unbannedUuid);
-							if (banned.contains(unbannedPlayer)) {
-								banned.remove(unbannedPlayer);
+							if (banned2.contains(unbannedPlayer)) {
+								banned2.remove(unbannedPlayer);
 								if (doLog) {
 									logger.info("Removed " + unbannedUuid + " from the ban list");
 								}
@@ -156,17 +156,6 @@ public class UserSyncTask implements Runnable {
 					logger.info("Done, updating bukkit whitelist...");
 				}
 
-				// Remove players who aren't supposed to be whitelisted
-				for (final OfflinePlayer player : Bukkit.getWhitelistedPlayers()) {
-					final UUID uuid = player.getUniqueId();
-					if (!websiteUuids.contains(uuid)) {
-						if (doLog) {
-							logger.info("Removed " + (player.getName() == null ? uuid.toString() : player.getName()) + " from the whitelist.");
-						}
-						player.setWhitelisted(false);
-					}
-				}
-
 				// Whitelist players who are not whitelisted but should be
 				for (final UUID websiteUuid : websiteUuids) {
 					final OfflinePlayer player = Bukkit.getOfflinePlayer(websiteUuid);
@@ -178,6 +167,31 @@ public class UserSyncTask implements Runnable {
 						logger.info("Added " + (player.getName() == null ? websiteUuid.toString() : player.getName()) + " to the whitelist.");
 					}
 				}
+
+				if (doLog) {
+					logger.info("Done, now retrieving a list of banned users so we can remove them from the whitelist...");
+				}
+
+				Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+					Set<UUID> bannedUuids = getUuids(UserFilter.BANNED);
+					if (bannedUuids == null) {
+						return;
+					}
+					Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
+						for (UUID bannedUuid : bannedUuids) {
+							OfflinePlayer player = Bukkit.getOfflinePlayer(bannedUuid);
+							if (player.isWhitelisted()) {
+								player.setWhitelisted(false);
+								if (doLog) {
+									logger.info("Removed " + (player.getName() == null ? bannedUuid.toString() : player.getName()) + " from the whitelist");
+								}
+								if (player.isOnline()) {
+									((Player) player).kickPlayer("You were banned on the website"); // TODO translation
+								}
+							}
+						}
+					});
+				});
 			});
 		});
 	}
