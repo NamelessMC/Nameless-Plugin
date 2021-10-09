@@ -77,3 +77,4 @@ player:
     no-permission: Nemáte oprávnění pro vykonání této akce.
     not-validated: Pro vykonání této akce musí být váš účet musí být ověřen.
     command-banned: Nemůžete spustit tento příkaz, jste zabanováni na webu.
+website-announcement: 'Oznámení na webu: <content>'
