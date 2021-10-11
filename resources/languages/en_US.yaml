@@ -79,3 +79,4 @@ command:
     help-prefix: /{command}
 join-not-registered: You do not have an account on our website yet. Please register
   using /register.
+website-announcement: 'Website announcement: <content>'
