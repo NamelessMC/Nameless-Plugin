@@ -81,3 +81,4 @@ command:
     help-prefix: /{command}
     usage: '/{command} [subcommando] [argumenten..]'
 join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.
+website-announcement: 'Website aankondiging: <content>'
