@@ -71,3 +71,4 @@ command:
     help-prefix: /{command}
     usage: '/{command} [サブコマンド] [引数..]'
 join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。
+website-announcement: 'ウェブサイトのお知らせ: <内容>'
