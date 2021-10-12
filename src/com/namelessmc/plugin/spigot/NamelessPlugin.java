@@ -71,11 +71,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	public void onEnable() {
 		this.apiProvider = new ApiProviderImpl(this.getLogger());
 
-		try {
-			Config.initialize();
-		} catch (final IOException e) {
-			throw new RuntimeException(e);
-		}
+		Config.initialize();
 
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
