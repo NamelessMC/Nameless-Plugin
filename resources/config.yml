@@ -57,6 +57,7 @@ user-sync:
   poll-interval: 30
   log: true
   # List of UUIDs to exclude (never add to or remove from the whitelist or ban list)
+  # These UUIDs must be written with dashes. If you've enabled api-usernames, enter usernames instead.
   exclude: []
 
   # Auto whitelist registered players.
@@ -69,7 +70,15 @@ user-sync:
     # Only whitelist verified users
     verified-only: true
 
-
   # Ban players who are banned on the website, and pardon players who are not banned on the website.
   bans:
     enabled: false
+
+# Periodically send website announcements in chat
+announcements:
+  # Every <interval> minutes a random announcement is chosen (if there are any) and sent to the player
+  # Set to 0 to disable
+  interval: 0
+  # If specified, it will only show announcements with the respective display.
+  # see https://github.com/NamelessMC/Nameless/wiki/v2-API#getannouncements-get
+  # display: Forums

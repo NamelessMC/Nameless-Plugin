@@ -66,11 +66,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	public void onEnable() {
 		this.apiProvider = new ApiProviderImpl(this.getLogger());
 
-		try {
-			Config.initialize();
-		} catch (final IOException e) {
-			throw new RuntimeException(e);
-		}
+		Config.initialize();
 
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
@@ -156,14 +152,19 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		}
 
 		final int rate = Config.MAIN.getConfig().getInt("server-data-upload-rate", 10) * 20;
-		final int serverId = Config.MAIN.getConfig().getInt("server-id");
+		final int serverId = Config.MAIN.getConfig().getInt("server-id", 0);
 		if (rate > 0 && serverId > 0) {
 			this.tasks.add(new ServerDataSender().runTaskTimer(this, rate, rate));
 		}
 
 		final int rate2 = Config.MAIN.getConfig().getInt("user-sync.poll-interval", 0) * 20;
-		if (rate > 0) {
+		if (rate2 > 0) {
 			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new UserSyncTask(), rate2, rate2));
+		}
+
+		int rate3 = Config.MAIN.getConfig().getInt("announcements.interval", 0);
+		if (rate3 > 0) {
+			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new AnnouncementTask(), rate3*60*20L, rate3*60*20L));
 		}
 
 		this.tasks.trimToSize();

@@ -34,7 +34,7 @@ public enum Config {
 		this.file = new File(NamelessPlugin.getInstance().getDataFolder(), this.fileName);
 	}
 
-	public static void initialize() throws IOException {
+	public static void initialize() {
 		final NamelessPlugin plugin = NamelessPlugin.getInstance();
 
 		// Create config directory

@@ -74,3 +74,4 @@ command:
       fail: "An unknown error occured while trying to retrieve player information."
 
 join-not-registered: "You do not have an account on our website yet. Please register using /register."
+website-announcement: "Website announcement: <content>"
