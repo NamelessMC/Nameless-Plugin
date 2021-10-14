@@ -50,7 +50,7 @@ public class AnnouncementTask implements Runnable {
 							}
 							Component message = NamelessPlugin.getInstance().getLanguage()
 									.getComponent(LanguageHandler.Term.WEBSITE_ANNOUNCEMENT, "content", announcementContent);
-							NamelessPlugin.getInstance().adventure().player(player2).sendMessage(message);
+							player2.sendMessage(message);
 						});
 					}
 				}, delay);
