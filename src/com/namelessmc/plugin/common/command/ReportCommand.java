@@ -12,6 +12,8 @@ import com.namelessmc.java_api.exception.ReportUserBannedException;
 import com.namelessmc.java_api.exception.UnableToCreateReportException;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 public class ReportCommand extends CommonCommand {
 
@@ -49,13 +51,24 @@ public class ReportCommand extends CommonCommand {
 				}
 
 				final Optional<NamelessUser> target = api.getUser(targetUsername);
-				if (!target.isPresent()) {
-					sender.sendMessage(getLanguage().getMessage(Term.PLAYER_OTHER_NOTREGISTERED));
-					return;
+				if (target.isPresent()) {
+					user.get().createReport(target.get(), reason);
+					sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
+				} else {
+					if (this.useUuids()) {
+						// this is deprecated but really the best option since it uses the server's cache
+						// if everyone used paper we could use their method which only returns if cached
+						OfflinePlayer player = Bukkit.getOfflinePlayer(targetUsername);
+						if (player.hasPlayedBefore()) {
+							user.get().createReport(player.getUniqueId(), targetUsername, reason);
+							sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
+						} else {
+							sender.sendMessage(getLanguage().getMessage(Term.PLAYER_OTHER_NOTREGISTERED));
+						}
+					} else {
+						sender.sendMessage(getLanguage().getMessage(Term.PLAYER_OTHER_NOTREGISTERED));
+					}
 				}
-
-				user.get().createReport(target.get(), reason);
-				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
 			} catch (final ReportUserBannedException e) {
 				sender.sendMessage(getLanguage().getMessage(Term.PLAYER_SELF_COMMAND_BANNED));
 			} catch (final AlreadyHasOpenReportException e) {
