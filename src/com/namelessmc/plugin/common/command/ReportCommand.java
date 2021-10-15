@@ -56,10 +56,8 @@ public class ReportCommand extends CommonCommand {
 					sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
 				} else {
 					if (this.useUuids()) {
-						// this is deprecated but really the best option since it uses the server's cache
-						// if everyone used paper we could use their method which only returns if cached
-						OfflinePlayer player = Bukkit.getOfflinePlayer(targetUsername);
-						if (player.hasPlayedBefore()) {
+						OfflinePlayer player = Bukkit.getOfflinePlayerIfCached(targetUsername);
+						if (player != null) {
 							user.get().createReport(player.getUniqueId(), targetUsername, reason);
 							sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
 						} else {
