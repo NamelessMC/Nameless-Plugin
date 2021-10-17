@@ -38,14 +38,14 @@ public class UserSyncTask implements Runnable {
 	}
 
 	@Nullable
-	private Set<UUID> getUuids(UserFilter<?>... userFilters) {
+	private Set<UUID> getUuids(boolean doLog, UserFilter<?>... userFilters) {
 		List<NamelessUser> users;
 		try {
 			final Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
 			if (optApi.isPresent()) {
 				users = optApi.get().getRegisteredUsers(UserFilter.BANNED);
 			} else {
-				NamelessPlugin.getInstance().getLogger().warning("Skipped ban sync, it looks like the API is not working properly.");
+				NamelessPlugin.getInstance().getLogger().warning("Skipped sync, it looks like the API is not working properly.");
 				return null;
 			}
 		} catch (final NamelessException e) {
@@ -56,7 +56,7 @@ public class UserSyncTask implements Runnable {
 		}
 
 		final Set<UUID> uuids = new HashSet<>();
-		final Set<String> excludes = new HashSet<>(Config.MAIN.getConfig().getStringList("auto-whitelist-registered.log"));
+		final Set<String> excludes = new HashSet<>(Config.MAIN.getConfig().getStringList("user-sync.exclude"));
 		for (final NamelessUser user : users) {
 			try {
 				if (NamelessPlugin.getInstance().getApiProvider().useUuids()) {
@@ -65,6 +65,8 @@ public class UserSyncTask implements Runnable {
 						UUID uuid = optUuid.get();
 						if (!excludes.contains(uuid.toString())) {
 							uuids.add(optUuid.get());
+						} else if (doLog) {
+							NamelessPlugin.getInstance().getLogger().info("Ignoring user " + optUuid.get());
 						}
 					} else {
 						NamelessPlugin.getInstance().getLogger().warning("Website user " + user.getUsername() + " does not have a UUID!");
@@ -74,6 +76,8 @@ public class UserSyncTask implements Runnable {
 					if (!excludes.contains(name)) {
 						UUID offlineUuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
 						uuids.add(offlineUuid);
+					} else if (doLog) {
+						NamelessPlugin.getInstance().getLogger().info("Ignoring user " + name);
 					}
 				}
 			} catch (final NamelessException e) {
@@ -88,7 +92,7 @@ public class UserSyncTask implements Runnable {
 			logger.info("Starting bans sync, retrieving list of banned users...");
 		}
 		Bukkit.getScheduler().runTaskAsynchronously((NamelessPlugin.getInstance()), () -> {
-			Set<UUID> bannedUuids = getUuids(UserFilter.BANNED);
+			Set<UUID> bannedUuids = getUuids(doLog, UserFilter.BANNED);
 			if (bannedUuids == null) {
 				return;
 			}
@@ -138,13 +142,13 @@ public class UserSyncTask implements Runnable {
 		final boolean verifiedOnly = Config.MAIN.getConfig().getBoolean("user-sync.whitelist.verified-only");
 
 		if (doLog) {
-			logger.info("Starting auto-whitelist");
+			logger.info("Starting auto-whitelist, retrieving list of registered users...");
 		}
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			Set<UUID> websiteUuids = verifiedOnly
-					? getUuids(UserFilter.VERIFIED, UserFilter.UNBANNED)
-					: getUuids(UserFilter.UNBANNED);
+					? getUuids(doLog, UserFilter.VERIFIED, UserFilter.UNBANNED)
+					: getUuids(doLog, UserFilter.UNBANNED);
 
 			if (websiteUuids == null) {
 				return;
@@ -158,12 +162,11 @@ public class UserSyncTask implements Runnable {
 				// Whitelist players who are not whitelisted but should be
 				for (final UUID websiteUuid : websiteUuids) {
 					final OfflinePlayer player = Bukkit.getOfflinePlayer(websiteUuid);
-					if (player.isWhitelisted()) {
-						continue;
-					}
-					player.setWhitelisted(true);
-					if (doLog) {
-						logger.info("Added " + (player.getName() == null ? websiteUuid.toString() : player.getName()) + " to the whitelist.");
+					if (!player.isWhitelisted()) {
+						player.setWhitelisted(true);
+						if (doLog) {
+							logger.info("Added " + (player.getName() == null ? websiteUuid.toString() : player.getName()) + " to the whitelist.");
+						}
 					}
 				}
 
