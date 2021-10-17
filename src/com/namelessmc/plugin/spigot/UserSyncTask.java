@@ -114,7 +114,7 @@ public class UserSyncTask implements Runnable {
 					logger.info("Retrieving list of unbanned players...");
 				}
 				Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-					Set<UUID> unbannedUuids = getUuids(UserFilter.UNBANNED);
+					Set<UUID> unbannedUuids = getUuids(doLog, UserFilter.UNBANNED);
 					if (unbannedUuids == null) {
 						return;
 					}
@@ -175,7 +175,7 @@ public class UserSyncTask implements Runnable {
 				}
 
 				Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-					Set<UUID> bannedUuids = getUuids(UserFilter.BANNED);
+					Set<UUID> bannedUuids = getUuids(doLog, UserFilter.BANNED);
 					if (bannedUuids == null) {
 						return;
 					}
