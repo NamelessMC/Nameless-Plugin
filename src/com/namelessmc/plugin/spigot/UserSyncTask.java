@@ -43,7 +43,7 @@ public class UserSyncTask implements Runnable {
 		try {
 			final Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
 			if (optApi.isPresent()) {
-				users = optApi.get().getRegisteredUsers(UserFilter.BANNED);
+				users = optApi.get().getRegisteredUsers(userFilters);
 			} else {
 				NamelessPlugin.getInstance().getLogger().warning("Skipped sync, it looks like the API is not working properly.");
 				return null;

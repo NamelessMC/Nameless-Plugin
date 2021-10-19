@@ -82,3 +82,4 @@ command:
     description: Obtener información sobre un usuario del sitio web
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /register.
+website-announcement: 'Anuncio de la página web: <content>'
