@@ -5,7 +5,7 @@
 
 	<groupId>com.namelessmc</groupId>
 	<artifactId>plugin</artifactId>
-	<version>2.1.1-beta</version>
+	<version>2.1.1</version>
 
 	<name>Nameless-Plugin</name>
 
