@@ -102,9 +102,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		this.getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerBan(), this);
 
-		// Start saving data files every 15 minutes
-		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveConfig(), 5*60*20, 5*60*20);
-
 		// For reloads
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
@@ -123,16 +120,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			getLogger().severe("*** IMPORTANT ***");
 			getLogger().severe("Your server does not use Mojang UUIDs!");
 			getLogger().severe("This plugin won't work for cracked servers. If you do not intend to run a cracked server and you use BungeeCord, make sure `bungeecord: true` is set in spigot.yml and ip forwarding is enabled in the BungeeCord config file.");
-		}
-	}
-
-	@Override
-	public void onDisable() {
-		// Save all configuration files that require saving
-		for (final Config config : Config.values()) {
-			if (config.autoSave()) {
-				config.save();
-			}
 		}
 	}
 
@@ -247,22 +234,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	public static void log(final Level level, final String message) {
 		NamelessPlugin.getInstance().getLogger().log(level, message);
-	}
-
-	public static class SaveConfig implements Runnable {
-
-		@Override
-		public void run() {
-			final NamelessPlugin plugin = NamelessPlugin.getInstance();
-			plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-				for (final Config config : Config.values()) {
-					if (config.autoSave()) {
-						config.save();
-					}
-				}
-			});
-		}
-
 	}
 
 }
