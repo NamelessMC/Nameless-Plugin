@@ -43,6 +43,9 @@ api-debug-mode: false
 # Send a message to players who don't have a NamelessMC account when they join
 not-registered-join-message: false
 
+# When a player is banned, also ban their website account if they have one.
+auto-ban-on-website: false
+
 # For a list of valid languages, check file names in the 'languages' directory.
 # To help translate the plugin to your language, visit https://translate.namelessmc.com
 # If you want to customize messages for your server you can edit the language files.

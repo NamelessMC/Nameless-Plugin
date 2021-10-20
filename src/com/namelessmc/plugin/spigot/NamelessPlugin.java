@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.logging.Level;
 
+import com.namelessmc.plugin.spigot.event.PlayerBan;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandMap;
@@ -96,10 +97,10 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 		this.initHooks();
 
-		// Connection is successful, move on with registering listeners and commands.
 		this.registerCommands();
 		this.getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerBan(), this);
 
 		// Start saving data files every 15 minutes
 		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new SaveConfig(), 5*60*20, 5*60*20);
