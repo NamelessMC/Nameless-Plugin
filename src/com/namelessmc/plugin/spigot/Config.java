@@ -12,20 +12,17 @@ import xyz.derkades.derkutils.FileUtils;
 
 public enum Config {
 
-	MAIN("config.yml", false),
-	COMMANDS("commands.yml", false),
+	COMMANDS("commands.yml"),
 
 	;
 
 	private final @NotNull String fileName;
-	private final boolean autoSave;
 
 	private @Nullable FileConfiguration configuration;
 	private final @NotNull File file;
 
-	Config(final @NotNull String fileName, final boolean autoSave){
+	Config(final @NotNull String fileName){
 		this.fileName = fileName;
-		this.autoSave = autoSave;
 
 		final File dataFolder = NamelessPlugin.getInstance().getDataFolder();
 		if (!dataFolder.exists()) {
@@ -58,10 +55,6 @@ public enum Config {
 
 	public void setConfig(final FileConfiguration config) {
 		this.configuration = config;
-	}
-
-	public boolean autoSave() {
-		return this.autoSave;
 	}
 
 	public void reload() {

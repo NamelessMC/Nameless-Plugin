@@ -61,7 +61,7 @@ public class ReportCommand extends CommonCommand {
 							user.get().createReport(player.getUniqueId(), targetUsername, reason);
 							sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
 						} else {
-							sender.sendMessage(getLanguage().getMessage(Term.PLAYER_OTHER_NOTREGISTERED));
+							sender.sendMessage(getLanguage().getMessage(Term.PLAYER_OTHER_NOTFOUND));
 						}
 					} else {
 						sender.sendMessage(getLanguage().getMessage(Term.PLAYER_OTHER_NOTREGISTERED));

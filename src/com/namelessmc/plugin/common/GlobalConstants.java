@@ -8,7 +8,6 @@ import com.namelessmc.java_api.NamelessVersion;
 public class GlobalConstants {
 
 	public static final Set<NamelessVersion> SUPPORTED_WEBSITE_VERSIONS = EnumSet.of(
-			NamelessVersion.V2_0_0_PR_11,
 			NamelessVersion.V2_0_0_PR_12
 	);
 

@@ -22,7 +22,7 @@ public class PlaceholderCacher implements Runnable {
 	@Override
 	public void run() {
 		try {
-			final int delay = Config.MAIN.getConfig().getInt("placeholders-request-delay", 2000);
+			final int delay = NamelessPlugin.getInstance().getConfig().getInt("placeholders-request-delay", 2000);
 			while (true) {
 				//noinspection BusyWait
 				Thread.sleep(500); // In case no players are online, wait in between checking for online players

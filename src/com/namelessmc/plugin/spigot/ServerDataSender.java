@@ -22,7 +22,8 @@ public class ServerDataSender extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		final int serverId = Config.MAIN.getConfig().getInt("server-id");
+		final FileConfiguration config = NamelessPlugin.getInstance().getConfig();
+		final int serverId = config.getInt("server-id");
 
 		final JsonObject data = new JsonObject();
 		data.addProperty("tps", 20); // TODO Send real TPS
@@ -48,13 +49,12 @@ public class ServerDataSender extends BukkitRunnable {
 			data.addProperty("maintenance", maintenance.maintenanceEnabled());
 		}
 
-		final FileConfiguration conf = Config.MAIN.getConfig();
-		final boolean uploadPlaceholders = conf.isConfigurationSection("upload-placeholders") &&
-				conf.getBoolean("upload-placeholders.enabled");
+		final boolean uploadPlaceholders = config.isConfigurationSection("upload-placeholders") &&
+				config.getBoolean("upload-placeholders.enabled");
 
 		if (uploadPlaceholders) {
 			final JsonObject placeholders = new JsonObject();
-			conf.getStringList("upload-placeholders.global").forEach((key) ->
+			config.getStringList("upload-placeholders.global").forEach((key) ->
 				placeholders.addProperty(key, ChatColor.stripColor(NamelessPlugin.getInstance().getPapiParser().parse(null, "%" + key + "%")))
 			);
 			data.add("placeholders", placeholders);
@@ -91,7 +91,7 @@ public class ServerDataSender extends BukkitRunnable {
 
 			if (uploadPlaceholders) {
 				final JsonObject placeholders = new JsonObject();
-				conf.getStringList("upload-placeholders.player").forEach((key) ->
+				config.getStringList("upload-placeholders.player").forEach((key) ->
 					placeholders.addProperty(key, ChatColor.stripColor(NamelessPlugin.getInstance().getPapiParser().parse(player, "%" + key + "%")))
 				);
 				playerInfo.add("placeholders", placeholders);
