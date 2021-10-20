@@ -1,18 +1,10 @@
 package com.namelessmc.plugin.bungee;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.concurrent.TimeUnit;
-
 import com.namelessmc.plugin.common.ApiProvider;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
-import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.YamlFileImpl;
-
 import net.kyori.adventure.platform.AudienceProvider;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -20,6 +12,12 @@ import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
 
 public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 
@@ -86,7 +84,7 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 		}
 
 		if (!this.getLanguage().setActiveLanguage(
-				Config.MAIN.getConfig().getString("language", LanguageHandler.DEFAULT_LANGUAGE), YamlFileImpl::new)) {
+				this.config.getString("language", LanguageHandler.DEFAULT_LANGUAGE), YamlFileImpl::new)) {
 			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
 			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
 			this.getLogger().severe("FIX IMMEDIATELY");

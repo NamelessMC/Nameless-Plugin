@@ -12,7 +12,6 @@ import xyz.derkades.derkutils.FileUtils;
 
 public enum Config {
 
-	MAIN("config.yml"),
 	COMMANDS("commands.yml"),
 
 	;

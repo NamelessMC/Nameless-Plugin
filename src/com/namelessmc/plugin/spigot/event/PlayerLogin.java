@@ -27,7 +27,7 @@ public class PlayerLogin implements Listener {
 
 		NamelessPlugin.LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
 
-		final FileConfiguration config = Config.MAIN.getConfig();
+		final FileConfiguration config = NamelessPlugin.getInstance().getConfig();
 
 		if (config.getBoolean("not-registered-join-message")) {
 			Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {

@@ -15,6 +15,7 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.UserFilter;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,13 +25,14 @@ public class UserSyncTask implements Runnable {
 	@Override
 	public void run() {
 		Logger logger = NamelessPlugin.getInstance().getLogger();
-		boolean doLog = Config.MAIN.getConfig().getBoolean("user-sync.log", true);
+		FileConfiguration config = NamelessPlugin.getInstance().getConfig();
+		boolean doLog = config.getBoolean("user-sync.log", true);
 		Runnable runAfter = null;
-		if (Config.MAIN.getConfig().getBoolean("user-sync.whitelist.enabled", false)) {
+		if (config.getBoolean("user-sync.whitelist.enabled", false)) {
 			runAfter = () -> this.syncWhitelist(doLog, logger);
 		}
 
-		if (Config.MAIN.getConfig().getBoolean("user-sync.bans.enabled", false)) {
+		if (config.getBoolean("user-sync.bans.enabled", false)) {
 			syncBans(runAfter, doLog, logger);
 		} else if (runAfter != null) {
 			runAfter.run();
@@ -56,7 +58,7 @@ public class UserSyncTask implements Runnable {
 		}
 
 		final Set<UUID> uuids = new HashSet<>();
-		final Set<String> excludes = new HashSet<>(Config.MAIN.getConfig().getStringList("user-sync.exclude"));
+		final Set<String> excludes = new HashSet<>(NamelessPlugin.getInstance().getConfig().getStringList("user-sync.exclude"));
 		for (final NamelessUser user : users) {
 			try {
 				if (NamelessPlugin.getInstance().getApiProvider().useUuids()) {
@@ -139,7 +141,7 @@ public class UserSyncTask implements Runnable {
 	}
 
 	private void syncWhitelist(boolean doLog, @NotNull Logger logger) {
-		final boolean verifiedOnly = Config.MAIN.getConfig().getBoolean("user-sync.whitelist.verified-only");
+		final boolean verifiedOnly = NamelessPlugin.getInstance().getConfig().getBoolean("user-sync.whitelist.verified-only");
 
 		if (doLog) {
 			logger.info("Starting auto-whitelist, retrieving list of registered users...");

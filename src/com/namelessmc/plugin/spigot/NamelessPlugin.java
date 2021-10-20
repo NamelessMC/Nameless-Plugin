@@ -134,7 +134,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-		if (!this.getLanguage().setActiveLanguage(Config.MAIN.getConfig().getString("language", LanguageHandler.DEFAULT_LANGUAGE), YamlFileImpl::new)) {
+		if (!this.getLanguage().setActiveLanguage(getConfig().getString("language", LanguageHandler.DEFAULT_LANGUAGE), YamlFileImpl::new)) {
 			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
 			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
 			this.getLogger().severe("FIX IMMEDIATELY");
@@ -146,18 +146,18 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			task.cancel();
 		}
 
-		final int rate = Config.MAIN.getConfig().getInt("server-data-upload-rate", 10) * 20;
-		final int serverId = Config.MAIN.getConfig().getInt("server-id", 0);
+		final int rate = getConfig().getInt("server-data-upload-rate", 10) * 20;
+		final int serverId = getConfig().getInt("server-id", 0);
 		if (rate > 0 && serverId > 0) {
 			this.tasks.add(new ServerDataSender().runTaskTimer(this, rate, rate));
 		}
 
-		final int rate2 = Config.MAIN.getConfig().getInt("user-sync.poll-interval", 0) * 20;
+		final int rate2 = getConfig().getInt("user-sync.poll-interval", 0) * 20;
 		if (rate2 > 0) {
 			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new UserSyncTask(), rate2, rate2));
 		}
 
-		int rate3 = Config.MAIN.getConfig().getInt("announcements.interval", 0);
+		int rate3 = getConfig().getInt("announcements.interval", 0);
 		if (rate3 > 0) {
 			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new AnnouncementTask(), rate3*60*20L, rate3*60*20L));
 		}
@@ -218,7 +218,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			this.papiParser = new PapiParserDisabled();
 		}
 
-		if (placeholderPluginInstalled && Config.MAIN.getConfig().getBoolean("enable-placeholders", false)) {
+		if (placeholderPluginInstalled && getConfig().getBoolean("enable-placeholders", false)) {
 			Bukkit.getScheduler().runTaskAsynchronously(this, new PlaceholderCacher());
 		}
 	}
