@@ -1,24 +1,24 @@
 package com.namelessmc.plugin.spigot;
 
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.java_api.UserFilter;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
-
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.java_api.UserFilter;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class UserSyncTask implements Runnable {
 
@@ -142,15 +142,23 @@ public class UserSyncTask implements Runnable {
 
 	private void syncWhitelist(boolean doLog, @NotNull Logger logger) {
 		final boolean verifiedOnly = NamelessPlugin.getInstance().getConfig().getBoolean("user-sync.whitelist.verified-only");
+		final boolean discordLinkedOnly = NamelessPlugin.getInstance().getConfig().getBoolean("user-sync.whitelist.discord-linked-only");
 
 		if (doLog) {
 			logger.info("Starting auto-whitelist, retrieving list of registered users...");
 		}
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-			Set<UUID> websiteUuids = verifiedOnly
-					? getUuids(doLog, UserFilter.VERIFIED, UserFilter.UNBANNED)
-					: getUuids(doLog, UserFilter.UNBANNED);
+			List<UserFilter<?>> filters = new ArrayList<>(3);
+			filters.add(UserFilter.UNBANNED);
+			if (verifiedOnly) {
+				filters.add(UserFilter.VERIFIED);
+			}
+			if (discordLinkedOnly) {
+				filters.add(UserFilter.DISCORD_LINKED);
+			}
+
+			Set<UUID> websiteUuids = getUuids(doLog, filters.toArray(new UserFilter[0]));
 
 			if (websiteUuids == null) {
 				return;
@@ -175,6 +183,7 @@ public class UserSyncTask implements Runnable {
 				if (doLog) {
 					logger.info("Done, now retrieving a list of banned users so we can remove them from the whitelist...");
 				}
+				// TODO also unwhitelist unverified and unlinked users if verifiedOnly or discordLinkedOnly respectively
 
 				Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 					Set<UUID> bannedUuids = getUuids(doLog, UserFilter.BANNED);

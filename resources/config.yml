@@ -71,7 +71,8 @@ user-sync:
   whitelist:
     enabled: false
     # Only whitelist verified users
-    verified-only: true
+    verified-only: false
+    discord-linked-only: false
 
   # Ban players who are banned on the website, and pardon players who are not banned on the website.
   bans:
