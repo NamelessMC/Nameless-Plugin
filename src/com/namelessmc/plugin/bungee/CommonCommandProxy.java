@@ -2,6 +2,7 @@ package com.namelessmc.plugin.bungee;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 import com.namelessmc.plugin.common.LanguageHandler.Term;
@@ -74,17 +75,12 @@ public class CommonCommandProxy extends Command {
 
 	@Override
 	public void execute(final CommandSender sender, final String[] args) {
-		if (!(sender instanceof ProxiedPlayer)) {
-			sender.sendMessage(new ComponentBuilder("The bungeecord plugin does not support running commands from the console at this time.").create());
+		BungeeCommandSender sender2 = new BungeeCommandSender(sender);
+
+		if (!sender.hasPermission(Objects.requireNonNull(this.getPermission()))) {
+			sender2.sendMessage(NamelessPlugin.getInstance().getLanguage().getMessage(Term.COMMAND_NO_PERMISSION));
 			return;
 		}
-
-		final BungeeCommandSender sender2 = new BungeeCommandSender((ProxiedPlayer) sender);
-
-//		if (!sender.hasPermission(Objects.requireNonNull(this.getPermission()))) {
-//			sender2.sendMessage(NamelessPlugin.getInstance().getLanguage().getMessage(Term.COMMAND_NO_PERMISSION));
-//			return;
-//		}
 
 		this.commonCommand.execute(sender2, args, this.usage);
 	}

@@ -9,27 +9,31 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeeCommandSender extends CommandSender {
 
-	private final ProxiedPlayer player;
+	private final net.md_5.bungee.api.CommandSender sender;
 	private final Audience adventure;
 
-	public BungeeCommandSender(final ProxiedPlayer player) {
-		this.player = player;
-		this.adventure = NamelessPlugin.getInstance().adventure().player(player.getUniqueId());
+	public BungeeCommandSender(final net.md_5.bungee.api.CommandSender sender) {
+		this.sender = sender;
+		if (this.isPlayer()) {
+			this.adventure = NamelessPlugin.getInstance().adventure().player(((ProxiedPlayer) sender).getUniqueId());
+		} else {
+			this.adventure = NamelessPlugin.getInstance().adventure().console();
+		}
 	}
 
 	@Override
 	public boolean isPlayer() {
-		return true;
+		return this.sender instanceof ProxiedPlayer;
 	}
 
 	@Override
 	public UUID getUniqueId() {
-		return this.player.getUniqueId();
+		throw new UnsupportedOperationException("Cannot use getUniqueId for console sender");
 	}
 
 	@Override
 	public String getName() {
-		return this.player.getName();
+		throw new UnsupportedOperationException("Cannot use getName for console sender");
 	}
 
 	@Override
