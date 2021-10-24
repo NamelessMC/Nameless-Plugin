@@ -1,1 +1,7 @@
-{}
+player:
+  other:
+    not-validated: Denna spelares konto är inte validerat.
+    not-registered: Denna spelare är inte registrerad på hemsidan.
+    not-found: Denna spelare kunde inte hittas.
+  self:
+    not-validated: Ditt konto måste vara validerat för att utföra detta.
