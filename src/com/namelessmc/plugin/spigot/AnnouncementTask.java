@@ -32,10 +32,11 @@ public class AnnouncementTask implements Runnable {
 						Optional<NamelessUser> optUser = NamelessPlugin.getInstance().getApiProvider().useUuids()
 								? api.getUser(uuid)
 								: api.getUser(name);
-						if (!optUser.isPresent()) {
-							return;
+						if (optUser.isPresent()) {
+							announcements = api.getAnnouncements(optUser.get());
+						} else {
+							announcements = api.getAnnouncements();
 						}
-						announcements = api.getAnnouncements(optUser.get());
 					} catch (NamelessException e) {
 						e.printStackTrace();
 						return;
