@@ -5,3 +5,15 @@ player:
     not-found: Denna spelare kunde inte hittas.
   self:
     not-validated: Ditt konto måste vara validerat för att utföra detta.
+    not-registered: Du måste registrera ett konto för att utföra detta.
+    no-permission: Du har inte tillåtelse att göra detta.
+    command-banned: Du kan inte utföra detta kommando, du är bannlyst från hemsidan.
+command:
+  not-a-player: Du måste vara en spelare för att utföra detta kommando.
+  no-permission: Du har inte tillåtelse att utföra detta kommando.
+  notifications:
+    usage: /{command}
+    description: Visar en lista över notifikationer.
+    output:
+      no-notifications: Du har inte några icke lästa notifikationer.
+      notification: <hover:show_text:"Klicka för att öppna i en webbläsare"><click:open_url:"<url>"><message>
