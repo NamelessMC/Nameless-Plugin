@@ -26,7 +26,7 @@ public abstract class ApiProvider {
 		this.logger = logger;
 	}
 
-	public Optional<NamelessAPI> getNamelessApi() {
+	public synchronized Optional<NamelessAPI> getNamelessApi() {
 		if (this.cachedApi != null) {
 			return this.cachedApi;
 		}
@@ -83,7 +83,7 @@ public abstract class ApiProvider {
 		return this.cachedApi;
 	}
 
-	protected void clearCachedApi() {
+	protected synchronized void clearCachedApi() {
 		this.cachedApi = null;
 	}
 

@@ -2,6 +2,7 @@ package com.namelessmc.plugin.common.command;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
@@ -14,6 +15,7 @@ import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import xyz.derkades.derkutils.bukkit.UUIDFetcher;
 
 public class ReportCommand extends CommonCommand {
 
@@ -44,25 +46,32 @@ public class ReportCommand extends CommonCommand {
 			try {
 				final String targetUsername = args[0];
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-				final Optional<NamelessUser> user = super.useUuids() ? api.getUser(sender.getUniqueId()) : api.getUser(sender.getName());
-				if (!user.isPresent()) {
+				final Optional<NamelessUser> optUser = super.useUuids() ? api.getUser(sender.getUniqueId()) : api.getUser(sender.getName());
+				if (!optUser.isPresent()) {
 					sender.sendMessage(getLanguage().getMessage(Term.PLAYER_SELF_NOTREGISTERED));
 					return;
 				}
 
-				final Optional<NamelessUser> target = api.getUser(targetUsername);
-				if (target.isPresent()) {
-					user.get().createReport(target.get(), reason);
+				NamelessUser user = optUser.get();
+
+				if (this.useUuids()) {
+					OfflinePlayer targetPlayer = Bukkit.getOfflinePlayerIfCached(targetUsername);
+					UUID targetUuid;
+					if (targetPlayer != null) {
+						targetUuid = targetPlayer.getUniqueId();
+					} else {
+						targetUuid = UUIDFetcher.getUUID(targetUsername);
+						if (targetUuid == null) {
+							sender.sendMessage(getLanguage().getMessage(Term.PLAYER_OTHER_NOTFOUND));
+							return;
+						}
+					}
+					user.createReport(targetUuid, targetUsername, reason);
 					sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
 				} else {
-					if (this.useUuids()) {
-						OfflinePlayer player = Bukkit.getOfflinePlayerIfCached(targetUsername);
-						if (player != null) {
-							user.get().createReport(player.getUniqueId(), targetUsername, reason);
-							sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
-						} else {
-							sender.sendMessage(getLanguage().getMessage(Term.PLAYER_OTHER_NOTFOUND));
-						}
+					Optional<NamelessUser> optTargetUser = api.getUser(targetUsername);
+					if (optTargetUser.isPresent()) {
+						user.createReport(optTargetUser.get(), reason);
 					} else {
 						sender.sendMessage(getLanguage().getMessage(Term.PLAYER_OTHER_NOTREGISTERED));
 					}
