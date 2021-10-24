@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public class PlayerBan implements Listener {
 
@@ -27,8 +28,9 @@ public class PlayerBan implements Listener {
 			return;
 		}
 
-		UUID uuid = player.getUniqueId();
-		String name = player.getName();
+		final UUID uuid = player.getUniqueId();
+		final String name = player.getName();
+		final Logger logger = NamelessPlugin.getInstance().getLogger();
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
 			Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
@@ -40,15 +42,16 @@ public class PlayerBan implements Listener {
 							: api.getUser(name);
 					if (optUser.isPresent()) {
 						NamelessUser user = optUser.get();
-						throw new UnsupportedOperationException("Website does not have API to ban player yet");
+						user.banUser();
+						logger.info("Banned " + name + " on the website.");
 					} else {
-						NamelessPlugin.getInstance().getLogger().info(name + " does not have a website account.");
+						logger.info(name + " does not have a website account.");
 					}
 				} catch (NamelessException e) {
-					NamelessPlugin.getInstance().getLogger().warning("An error occured while trying to find " + name + "'s website account: " + e.getMessage());
+					logger.warning("An error occured while trying to find " + name + "'s website account: " + e.getMessage());
 				}
 			} else {
-				NamelessPlugin.getInstance().getLogger().warning("Skipped trying to ban " + name + " on website, API is not working properly.");
+				logger.warning("Skipped trying to ban " + name + " on website, API is not working properly.");
 			};
 		});
 	}
