@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import xyz.derkades.derkutils.ListUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,12 +27,16 @@ public class AnnouncementTask implements Runnable {
 				String name = player.getName();
 				// add delay so requests are spread out a bit
 				Bukkit.getScheduler().runTaskLaterAsynchronously(NamelessPlugin.getInstance(), () -> {
-					NamelessUser user = NamelessPlugin.getInstance().getApiProvider().useUuids()
-							? api.getUserLazy(name, uuid)
-							: api.getUserLazy(name);
 					List<Announcement> announcements;
 					try {
-						announcements = api.getAnnouncements(user);
+						Optional<NamelessUser> optUser = NamelessPlugin.getInstance().getApiProvider().useUuids()
+								? api.getUser(uuid)
+								: api.getUser(name);
+						if (optUser.isPresent()) {
+							announcements = api.getAnnouncements(optUser.get());
+						} else {
+							announcements = api.getAnnouncements();
+						}
 					} catch (NamelessException e) {
 						e.printStackTrace();
 						return;

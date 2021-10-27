@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.spigot;
 
+import com.namelessmc.java_api.FilteredUserListBuilder;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
@@ -12,12 +13,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 public class UserSyncTask implements Runnable {
@@ -40,12 +41,14 @@ public class UserSyncTask implements Runnable {
 	}
 
 	@Nullable
-	private Set<UUID> getUuids(boolean doLog, UserFilter<?>... userFilters) {
+	private Set<UUID> getUuids(boolean doLog, Consumer<FilteredUserListBuilder> builderConfigurator) {
 		List<NamelessUser> users;
 		try {
 			final Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
 			if (optApi.isPresent()) {
-				users = optApi.get().getRegisteredUsers(userFilters);
+				FilteredUserListBuilder builder = optApi.get().getRegisteredUsers();
+				builderConfigurator.accept(builder);
+				users = builder.makeRequest();
 			} else {
 				NamelessPlugin.getInstance().getLogger().warning("Skipped sync, it looks like the API is not working properly.");
 				return null;
@@ -94,7 +97,7 @@ public class UserSyncTask implements Runnable {
 			logger.info("Starting bans sync, retrieving list of banned users...");
 		}
 		Bukkit.getScheduler().runTaskAsynchronously((NamelessPlugin.getInstance()), () -> {
-			Set<UUID> bannedUuids = getUuids(doLog, UserFilter.BANNED);
+			Set<UUID> bannedUuids = getUuids(doLog, b -> b.withFilter(UserFilter.BANNED, true));
 			if (bannedUuids == null) {
 				return;
 			}
@@ -116,7 +119,7 @@ public class UserSyncTask implements Runnable {
 					logger.info("Retrieving list of unbanned players...");
 				}
 				Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-					Set<UUID> unbannedUuids = getUuids(doLog, UserFilter.UNBANNED);
+					Set<UUID> unbannedUuids = getUuids(doLog, b -> b.withFilter(UserFilter.BANNED, false));
 					if (unbannedUuids == null) {
 						return;
 					}
@@ -149,16 +152,15 @@ public class UserSyncTask implements Runnable {
 		}
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-			List<UserFilter<?>> filters = new ArrayList<>(3);
-			filters.add(UserFilter.UNBANNED);
-			if (verifiedOnly) {
-				filters.add(UserFilter.VERIFIED);
-			}
-			if (discordLinkedOnly) {
-				filters.add(UserFilter.DISCORD_LINKED);
-			}
-
-			Set<UUID> websiteUuids = getUuids(doLog, filters.toArray(new UserFilter[0]));
+			Set<UUID> websiteUuids = getUuids(doLog, b -> {
+				b.withFilter(UserFilter.BANNED, false);
+				if (verifiedOnly) {
+					b.withFilter(UserFilter.VERIFIED, true);
+				}
+				if (discordLinkedOnly) {
+					b.withFilter(UserFilter.DISCORD_LINKED, true);
+				}
+			});
 
 			if (websiteUuids == null) {
 				return;
@@ -183,10 +185,18 @@ public class UserSyncTask implements Runnable {
 				if (doLog) {
 					logger.info("Done, now retrieving a list of banned users so we can remove them from the whitelist...");
 				}
-				// TODO also unwhitelist unverified and unlinked users if verifiedOnly or discordLinkedOnly respectively
 
 				Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-					Set<UUID> bannedUuids = getUuids(doLog, UserFilter.BANNED);
+					Set<UUID> bannedUuids = getUuids(doLog, b -> {
+						b.any();
+						b.withFilter(UserFilter.BANNED, true);
+						if (verifiedOnly) {
+							b.withFilter(UserFilter.VERIFIED, false);
+						}
+						if (discordLinkedOnly) {
+							b.withFilter(UserFilter.DISCORD_LINKED, false);
+						}
+					});
 					if (bannedUuids == null) {
 						return;
 					}
