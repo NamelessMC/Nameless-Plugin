@@ -1,14 +1,15 @@
 package com.namelessmc.plugin.common;
 
+import com.namelessmc.java_api.NamelessVersion;
+
 import java.util.EnumSet;
 import java.util.Set;
-
-import com.namelessmc.java_api.NamelessVersion;
 
 public class GlobalConstants {
 
 	public static final Set<NamelessVersion> SUPPORTED_WEBSITE_VERSIONS = EnumSet.of(
-			NamelessVersion.V2_0_0_PR_12
+			NamelessVersion.V2_0_0_PR_12,
+			NamelessVersion.V2_0_0_PR_13
 	);
 
 }
