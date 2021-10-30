@@ -82,3 +82,4 @@ command:
     usage: /{command} [subcommando] [argumenten..]
 join-not-registered: U heeft nog geen account op onze website. Registreer alstublieft
   met /register.
+website-announcement: 'Website aankondigingen: <content>'
