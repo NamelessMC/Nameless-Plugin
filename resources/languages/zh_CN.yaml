@@ -71,3 +71,4 @@ command:
     usage: '/{command} [子命令] [参数...]'
     help-prefix: /{command}
 join-not-registered: 您在我们的网站上没有帐号。请使用 /register 来注册。
+website-announcement: '网站公告: <content>'
