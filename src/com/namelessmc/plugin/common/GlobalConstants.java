@@ -13,6 +13,6 @@ public class GlobalConstants {
 
 	public static final Set<NamelessVersion> DEPRECATED_WEBSITE_VERSIONS = EnumSet.of(
 			NamelessVersion.V2_0_0_PR_12
-	)
+	);
 
 }
