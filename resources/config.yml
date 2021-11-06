@@ -1,9 +1,9 @@
 # Nameless Plugin configuration
 # Something not working? Please see our troubleshooting guide: https://docs.namelessmc.com/en/integrations/plugin-troubleshooting
+# Reload the plugin using /nlpl reload
 
 # For example http(s)://yoursite.com/index.php?route=/api/v2/API_KEY
 # Enable the API and obtain the API URL in StaffCP > Configuration > API
-# After setting this, you need to do a full server restart, because the plugin's reload command won't work.
 api-url: ""
 
 # Enter this if you wish for the plugin to send data about this server
