@@ -1,11 +1,21 @@
 package com.namelessmc.plugin.spigot;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.logging.Level;
-
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.plugin.common.ApiProvider;
+import com.namelessmc.plugin.common.CommonObjectsProvider;
+import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.spigot.event.PlayerBan;
+import com.namelessmc.plugin.spigot.event.PlayerLogin;
+import com.namelessmc.plugin.spigot.event.PlayerQuit;
+import com.namelessmc.plugin.spigot.hooks.PapiHook;
+import com.namelessmc.plugin.spigot.hooks.PapiParser;
+import com.namelessmc.plugin.spigot.hooks.PapiParserDisabled;
+import com.namelessmc.plugin.spigot.hooks.PapiParserEnabled;
+import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
+import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
+import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandMap;
@@ -17,22 +27,14 @@ import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.plugin.common.ApiProvider;
-import com.namelessmc.plugin.common.CommonObjectsProvider;
-import com.namelessmc.plugin.common.LanguageHandler;
-import com.namelessmc.plugin.common.command.AbstractScheduler;
-import com.namelessmc.plugin.spigot.event.PlayerLogin;
-import com.namelessmc.plugin.spigot.event.PlayerQuit;
-import com.namelessmc.plugin.spigot.hooks.PapiHook;
-import com.namelessmc.plugin.spigot.hooks.PapiParser;
-import com.namelessmc.plugin.spigot.hooks.PapiParserDisabled;
-import com.namelessmc.plugin.spigot.hooks.PapiParserEnabled;
-import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
-import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
-import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
-
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.logging.Level;
 
 public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider {
 
@@ -160,6 +162,11 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		int rate3 = getConfig().getInt("announcements.interval", 0);
 		if (rate3 > 0) {
 			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new AnnouncementTask(), rate3*60*20L, rate3*60*20L));
+		}
+
+		int rate4 = getConfig().getInt("websend.command-interval", 0);
+		if (rate4 > 0) {
+			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new WebsendCommandExecutor(), rate3*20L, rate3*20L));
 		}
 
 		this.tasks.trimToSize();

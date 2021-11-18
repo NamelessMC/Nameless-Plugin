@@ -86,3 +86,8 @@ announcements:
   # If specified, it will only show announcements with the respective display.
   # see https://github.com/NamelessMC/Nameless/wiki/v2-API#getannouncements-get
   # display: Forums
+
+# Run commands sent by the Websend module (third party)
+websend:
+  # Interval in seconds to check for new commands. Set to 0 to disable.
+  command-interval: 0
