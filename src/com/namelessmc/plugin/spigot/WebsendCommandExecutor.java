@@ -35,23 +35,10 @@ public class WebsendCommandExecutor implements Runnable {
 							try {
 								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.getCommandLine());
 							} catch (final CommandException e) {
-								// If we don't catch exceptions here, the plugin might never mark commands as executed
-								// which means it can run some commands over and over again (with side effects)
+								// continue executing other commands if one fails
 								e.printStackTrace();
 							}
 						}
-
-						Bukkit.getScheduler().runTaskAsynchronously(inst, () -> {
-							inst.getNamelessApi().ifPresent(api2 -> {
-								try {
-									api2.websend().markCommandsExecuted(serverId, commands);
-								} catch (NamelessException e) {
-									log.severe("Error while marking websend commands as executed.");
-									log.severe("This is bad, websend may run commands multiple times!");
-									e.printStackTrace();
-								}
-							});
-						});
 					});
 				} catch (NamelessException e) {
 					log.severe("Error retrieving websend commands");
