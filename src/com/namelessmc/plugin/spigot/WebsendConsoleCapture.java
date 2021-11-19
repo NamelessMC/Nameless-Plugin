@@ -19,10 +19,10 @@ public class WebsendConsoleCapture {
 
 	void start() {
 		replacedOutStream = new LoggingOutputStream(System.out);
-		System.setErr(new PrintStream(replacedOutStream));
+		System.setOut(new PrintStream(replacedOutStream));
 
 		replacedErrStream = new LoggingOutputStream(System.err);
-		System.setOut(new PrintStream(replacedErrStream));
+		System.setErr(new PrintStream(replacedErrStream));
 	}
 
 	void stop() {
