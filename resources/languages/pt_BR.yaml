@@ -65,7 +65,7 @@ command:
       username: 'Nome de usuário: <username>'
       displayname: 'Nome de exibição: <displayname>'
       uuid: 'UUID: <uuid>'
-      uuid-unknown: desconhecido
+      uuid-unknown: 'UUID: desconhecido'
       primary-group: 'Grupo primário: <groupname>'
       all-groups: 'Todos os grupos: <groups_names_list>'
       registered-date: Registrado em <date>
@@ -81,3 +81,5 @@ command:
 join-not-registered: Você ainda não tem uma conta em nosso site. Por favor, registre-se
   usando /register.
 website-announcement: 'Anúncio do site: <content>'
+user-sync-kick: Você foi banido de nosso servidor após o banimento de uma conta no
+  site.
