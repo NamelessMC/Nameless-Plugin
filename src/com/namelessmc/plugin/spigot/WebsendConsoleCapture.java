@@ -77,7 +77,7 @@ public class WebsendConsoleCapture {
 
 		@Override
 		public void write(int i) {
-			originalStream.print(i);
+			originalStream.write(i);
 
 			if (disabled) {
 				return;
