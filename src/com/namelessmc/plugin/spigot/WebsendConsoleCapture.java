@@ -38,6 +38,10 @@ public class WebsendConsoleCapture {
 	}
 
 	void sendLogLines() {
+		if (this.LOG_LINES.isEmpty()) {
+			return;
+		}
+
 		final List<String> linesToSend;
 		synchronized (LOG_LINES) {
 			// Copy to second array to break console for as little time as possible
