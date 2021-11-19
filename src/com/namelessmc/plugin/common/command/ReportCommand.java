@@ -1,9 +1,5 @@
 package com.namelessmc.plugin.common.command;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.UUID;
-
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
@@ -13,9 +9,11 @@ import com.namelessmc.java_api.exception.ReportUserBannedException;
 import com.namelessmc.java_api.exception.UnableToCreateReportException;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import xyz.derkades.derkutils.bukkit.UUIDFetcher;
+
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.UUID;
 
 public class ReportCommand extends CommonCommand {
 
@@ -26,19 +24,19 @@ public class ReportCommand extends CommonCommand {
 	@Override
 	public void execute(final CommandSender sender, final String[] args, final String usage) {
 		if (args.length < 2) {
-			sender.sendMessage(usage);
+			sender.sendLegacyMessage(usage);
 			return;
 		}
 
 		if (!sender.isPlayer()) {
-			sender.sendMessage(getLanguage().getMessage(Term.COMMAND_NOTAPLAYER));
+			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
 			return;
 		}
 
 		getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
 			if (!optApi.isPresent()) {
-				sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
+				sender.sendMessage(this.getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
 				return;
 			}
 			final NamelessAPI api = optApi.get();
@@ -48,7 +46,7 @@ public class ReportCommand extends CommonCommand {
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 				final Optional<NamelessUser> optUser = super.useUuids() ? api.getUser(sender.getUniqueId()) : api.getUser(sender.getName());
 				if (!optUser.isPresent()) {
-					sender.sendMessage(getLanguage().getMessage(Term.PLAYER_SELF_NOTREGISTERED));
+					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOTREGISTERED));
 					return;
 				}
 
@@ -62,7 +60,7 @@ public class ReportCommand extends CommonCommand {
 					} else {
 						targetUuid = UUIDFetcher.getUUID(targetUsername);
 						if (targetUuid == null) {
-							sender.sendMessage(getLanguage().getMessage(Term.PLAYER_OTHER_NOTFOUND));
+							sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOTFOUND));
 							return;
 						}
 					}
@@ -73,19 +71,19 @@ public class ReportCommand extends CommonCommand {
 					if (optTargetUser.isPresent()) {
 						user.createReport(optTargetUser.get(), reason);
 					} else {
-						sender.sendMessage(getLanguage().getMessage(Term.PLAYER_OTHER_NOTREGISTERED));
+						sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOTREGISTERED));
 					}
 				}
 			} catch (final ReportUserBannedException e) {
-				sender.sendMessage(getLanguage().getMessage(Term.PLAYER_SELF_COMMAND_BANNED));
+				sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_COMMAND_BANNED));
 			} catch (final AlreadyHasOpenReportException e) {
-				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN));
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN));
 			} catch (final UnableToCreateReportException e) {
-				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
 			} catch (final CannotReportSelfException e) {
-				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF));
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF));
 			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
 				e.printStackTrace();
 			}
 		});

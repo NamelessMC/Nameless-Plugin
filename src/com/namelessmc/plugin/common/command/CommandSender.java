@@ -1,9 +1,10 @@
 package com.namelessmc.plugin.common.command;
 
-import java.util.UUID;
-
 import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
+import java.util.UUID;
 
 public abstract class CommandSender {
 
@@ -13,12 +14,13 @@ public abstract class CommandSender {
 
 	public abstract String getName();
 
-	public void sendMessage(final String message) {
-		this.adventure().sendMessage(MiniMessage.miniMessage().parse(message));
+	public void sendLegacyMessage(String legacyMessage) {
+		Component c = LegacyComponentSerializer.legacySection().deserialize(legacyMessage);
+		this.sendMessage(c);
 	}
 
-	public void sendMessage(final String message, final String... placeholders) {
-		this.adventure().sendMessage(MiniMessage.miniMessage().parse(message, placeholders));
+	public void sendMessage(final Component component) {
+		this.adventure().sendMessage(component);
 	}
 
 	public abstract Audience adventure();

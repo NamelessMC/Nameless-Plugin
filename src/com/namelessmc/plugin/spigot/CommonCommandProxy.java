@@ -1,15 +1,5 @@
 package com.namelessmc.plugin.spigot;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.function.Supplier;
-
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
 import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.command.CommonCommand;
@@ -18,6 +8,15 @@ import com.namelessmc.plugin.common.command.RegisterCommand;
 import com.namelessmc.plugin.common.command.ReportCommand;
 import com.namelessmc.plugin.common.command.UserInfoCommand;
 import com.namelessmc.plugin.common.command.VerifyCommand;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 public class CommonCommandProxy extends Command {
 
@@ -71,8 +70,8 @@ public class CommonCommandProxy extends Command {
 	private static CommonCommandProxy createCommand(final CommonCommand commonCommand, final String configName, final Term description, final Term usage, final Permission permission) {
 		return new CommonCommandProxy(commonCommand,
 				Config.COMMANDS.getConfig().getString(configName),
-				NamelessPlugin.getInstance().getLanguage().getMessage(description),
-				NamelessPlugin.getInstance().getLanguage().getMessage(usage).replace("{command}", Config.COMMANDS.getConfig().getString(configName)),
+				NamelessPlugin.getInstance().getLanguage().getLegacyMessage(description),
+				NamelessPlugin.getInstance().getLanguage().getLegacyMessage(usage).replace("{command}", Config.COMMANDS.getConfig().getString(configName)),
 				permission,
 				Collections.emptyList());
 	}
@@ -82,7 +81,7 @@ public class CommonCommandProxy extends Command {
 		final SpigotCommandSender sender2 = new SpigotCommandSender(sender);
 
 		if (!sender.hasPermission(Objects.requireNonNull(this.getPermission()))) {
-			sender2.sendMessage(NamelessPlugin.getInstance().getLanguage().getMessage(Term.COMMAND_NO_PERMISSION));
+			sender2.sendMessage(NamelessPlugin.getInstance().getLanguage().getComponent(Term.COMMAND_NO_PERMISSION));
 			return true;
 		}
 

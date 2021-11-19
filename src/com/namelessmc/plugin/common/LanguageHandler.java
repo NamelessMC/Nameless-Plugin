@@ -1,5 +1,14 @@
 package com.namelessmc.plugin.common;
 
+import com.namelessmc.plugin.spigot.Chat;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.Validate;
+import xyz.derkades.derkutils.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -7,16 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.logging.Logger;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.Validate;
-
-import com.namelessmc.plugin.spigot.Chat;
-import com.namelessmc.plugin.spigot.NamelessPlugin;
-
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import xyz.derkades.derkutils.FileUtils;
 
 public class LanguageHandler {
 
@@ -81,6 +80,7 @@ public class LanguageHandler {
 
 		JOIN_NOTREGISTERED("join-not-registered"),
 		WEBSITE_ANNOUNCEMENT("website-announcement"),
+		USER_SYNC_KICK("user-sync-kick"),
 
 		;
 
@@ -139,7 +139,7 @@ public class LanguageHandler {
 		this.languageDirectory = languageDirectory;
 	}
 
-	public String getMessage(final Term term) {
+	public String getRawMessage(final Term term) {
 		String unconverted = this.activeLanguageFile.getString(term.path);
 		if (unconverted == null) {
 			unconverted = this.fallbackLanguageFile.getString(term.path);
@@ -148,12 +148,22 @@ public class LanguageHandler {
 		return Chat.convertColors(unconverted);
 	}
 
-	public Component getComponent(final Term term) {
-		return MiniMessage.miniMessage().parse(getMessage(term)); // TODO cache?
+	public String getLegacyMessage(final Term term) {
+		Component c = getComponent(term);
+		return LegacyComponentSerializer.legacySection().serialize(c);
 	}
 
-	public Component getComponent(Term term, String... placeholders) {
-		return MiniMessage.miniMessage().parse(getMessage(term), placeholders);
+	public String getLegacyMessage(final Term term, final String... placeholders) {
+		Component c = getComponent(term, placeholders);
+		return LegacyComponentSerializer.legacySection().serialize(c);
+	}
+
+	public Component getComponent(final Term term) {
+		return MiniMessage.miniMessage().parse(getRawMessage(term)); // TODO cache?
+	}
+
+	public Component getComponent(final Term term, final String... placeholders) {
+		return MiniMessage.miniMessage().parse(getRawMessage(term), placeholders);
 	}
 
 	public void updateFiles() throws IOException {

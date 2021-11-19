@@ -63,7 +63,7 @@ command:
       username: "Username: <username>"
       displayname: "Display name: <displayname>"
       uuid: "UUID: <uuid>"
-      uuid-unknown: 'unknown'
+      uuid-unknown: 'UUID: unknown'
       primary-group: 'Primary group: <groupname>'
       all-groups: 'All groups: <groups_names_list>'
       registered-date: "Registered on <date>"
@@ -75,3 +75,4 @@ command:
 
 join-not-registered: "You do not have an account on our website yet. Please register using /register."
 website-announcement: "Website announcement: <content>"
+user-sync-kick: "You are banned from our server following a website account ban."
