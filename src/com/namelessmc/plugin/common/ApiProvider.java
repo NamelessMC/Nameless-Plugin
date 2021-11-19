@@ -55,6 +55,7 @@ public abstract class ApiProvider {
 						this.cachedApi = Optional.of(api);
 					} else if (GlobalConstants.DEPRECATED_WEBSITE_VERSIONS.contains(version)) {
 						this.logger.warning("Support for your NamelessMC version (" + version + ") is deprecated, some functionality may be broken. Please upgrade to a newer version of NamelessMC as soon as possible.");
+						this.cachedApi = Optional.of(api);
 					} else {
 						this.logger.severe("Your website runs a version of NamelessMC (" + version + ") that is not supported by this version of the plugin. Note that usually only the newest one or two NamelessMC versions are supported.");
 					}
