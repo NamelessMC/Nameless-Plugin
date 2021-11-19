@@ -64,6 +64,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	@Nullable public MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 	
 	private final @NotNull ArrayList<@NotNull BukkitTask> tasks = new ArrayList<>(2);
+	private WebsendConsoleCapture websendConsoleCapture = null;
 
 	@Override
 	public void onLoad() {
@@ -172,6 +173,19 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		}
 
 		this.tasks.trimToSize();
+
+		if (websendConsoleCapture != null) {
+			websendConsoleCapture.stop();
+			websendConsoleCapture = null;
+		}
+
+		if (getConfig().getBoolean("websend.console-capture.enabled")) {
+			websendConsoleCapture = new WebsendConsoleCapture();
+			websendConsoleCapture.start();
+
+			int rate5 = getConfig().getInt("websend.console-capture.send-interval", 2);
+			this.tasks.add(Bukkit.getScheduler().runTaskTimerAsynchronously(this, websendConsoleCapture::sendLogLines, rate5*20L, rate5*20L));
+		}
 	}
 
 	@Override

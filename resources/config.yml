@@ -91,3 +91,7 @@ announcements:
 websend:
   # Interval in seconds to check for new commands. Set to 0 to disable.
   command-interval: 0
+  # Send console output to website (EXPERIMENTAL!!)
+  console-capture:
+    enabled: false
+    send-interval: 2

@@ -17,7 +17,7 @@ public class WebsendConsoleCapture {
 	private @Nullable LoggingOutputStream replacedOutStream = null;
 	private @Nullable LoggingOutputStream replacedErrStream = null;
 
-	public void start() {
+	void start() {
 		replacedOutStream = new LoggingOutputStream(System.out);
 		System.setErr(new PrintStream(replacedOutStream));
 
@@ -25,7 +25,7 @@ public class WebsendConsoleCapture {
 		System.setOut(new PrintStream(replacedErrStream));
 	}
 
-	public void stop() {
+	void stop() {
 		// When this plugin is disabled, our output stream may still be stored by something.
 		// As far as I know there's no way to prevent this. As a hacky workaround, remove all
 		// functionality from our custom output stream and make it pass through only.
@@ -37,7 +37,7 @@ public class WebsendConsoleCapture {
 		}
 	}
 
-	private void sendLogLines() {
+	void sendLogLines() {
 		final List<String> linesToSend;
 		synchronized (LOG_LINES) {
 			// Copy to second array to break console for as little time as possible
