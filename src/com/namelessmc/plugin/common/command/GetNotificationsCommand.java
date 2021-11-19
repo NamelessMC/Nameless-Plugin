@@ -1,14 +1,14 @@
 package com.namelessmc.plugin.common.command;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.Notification;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+
+import java.util.List;
+import java.util.Optional;
 
 public class GetNotificationsCommand extends CommonCommand {
 
@@ -19,19 +19,19 @@ public class GetNotificationsCommand extends CommonCommand {
 	@Override
 	public void execute(final CommandSender sender, final String[] args, final String usage) {
 		if (args.length != 0) {
-			sender.sendMessage(usage);
+			sender.sendLegacyMessage(usage);
 			return;
 		}
 
 		if (!sender.isPlayer()) {
-			sender.sendMessage(getLanguage().getMessage(Term.COMMAND_NOTAPLAYER));
+			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
 			return;
 		}
 
 		getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
 			if (!optApi.isPresent()) {
-				sender.sendMessage(this.getLanguage().getMessage(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
 				return;
 			}
 			final NamelessAPI api = optApi.get();
@@ -40,7 +40,7 @@ public class GetNotificationsCommand extends CommonCommand {
 				final Optional<NamelessUser> optional = super.useUuids() ? api.getUser(sender.getUniqueId()) : api.getUser(sender.getName());
 
 				if (!optional.isPresent()) {
-					sender.sendMessage(getLanguage().getMessage(Term.PLAYER_SELF_NOTREGISTERED));
+					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOTREGISTERED));
 					return;
 				}
 
@@ -51,19 +51,19 @@ public class GetNotificationsCommand extends CommonCommand {
 				notifications.sort((n1, n2) -> n2.getType().ordinal() - n1.getType().ordinal());
 
 				if (notifications.size() == 0) {
-					sender.sendMessage(getLanguage().getMessage(Term.COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS));
+					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS));
 					return;
 				}
 
 				getScheduler().runSync(() -> {
 					notifications.forEach((notification) -> {
-						sender.sendMessage(getLanguage().getMessage(Term.COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION),
+						sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION,
 								"url", notification.getUrl(),
-								"message", notification.getMessage());
+								"message", notification.getMessage()));
 					});
 				});
 			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getMessage(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
 				e.printStackTrace();
 			}
 		});

@@ -5,6 +5,7 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.UserFilter;
+import com.namelessmc.plugin.common.LanguageHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -111,7 +112,9 @@ public class UserSyncTask implements Runnable {
 							logger.info("Added " + bannedUuid + " to the ban list");
 						}
 						if (bannedPlayer.isOnline()) {
-							((Player) bannedPlayer).kickPlayer("You were banned on the website"); // TODO translation
+							String message = NamelessPlugin.getInstance().getLanguage()
+									.getLegacyMessage(LanguageHandler.Term.USER_SYNC_KICK);
+							((Player) bannedPlayer).kickPlayer(message);
 						}
 					}
 				}
@@ -209,7 +212,9 @@ public class UserSyncTask implements Runnable {
 									logger.info("Removed " + (player.getName() == null ? bannedUuid.toString() : player.getName()) + " from the whitelist");
 								}
 								if (player.isOnline()) {
-									((Player) player).kickPlayer("You were banned on the website"); // TODO translation
+									String message = NamelessPlugin.getInstance().getLanguage()
+											.getLegacyMessage(LanguageHandler.Term.USER_SYNC_KICK);
+									((Player) player).kickPlayer(message);
 								}
 							}
 						}
