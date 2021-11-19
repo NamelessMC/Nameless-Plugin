@@ -9,6 +9,8 @@ import com.namelessmc.java_api.exception.ReportUserBannedException;
 import com.namelessmc.java_api.exception.UnableToCreateReportException;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import xyz.derkades.derkutils.bukkit.UUIDFetcher;
 
 import java.util.Arrays;
@@ -65,7 +67,7 @@ public class ReportCommand extends CommonCommand {
 						}
 					}
 					user.createReport(targetUuid, targetUsername, reason);
-					sender.sendMessage(getLanguage().getMessage(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
+					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
 				} else {
 					Optional<NamelessUser> optTargetUser = api.getUser(targetUsername);
 					if (optTargetUser.isPresent()) {
