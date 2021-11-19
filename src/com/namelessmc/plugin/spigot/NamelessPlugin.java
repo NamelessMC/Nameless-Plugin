@@ -168,7 +168,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 		int rate4 = getConfig().getInt("websend.command-interval", 0);
 		if (rate4 > 0) {
-			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new WebsendCommandExecutor(), rate3*20L, rate3*20L));
+			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new WebsendCommandExecutor(), rate4*20L, rate4*20L));
 		}
 
 		this.tasks.trimToSize();
