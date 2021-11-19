@@ -72,6 +72,8 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	@Override
 	public void onEnable() {
+		super.saveDefaultConfig();
+
 		this.apiProvider = new ApiProviderImpl(this.getLogger());
 
 		Config.initialize();
