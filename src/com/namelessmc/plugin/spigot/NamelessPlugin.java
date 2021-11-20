@@ -64,7 +64,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	@Nullable public MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 	
 	private final @NotNull ArrayList<@NotNull BukkitTask> tasks = new ArrayList<>(2);
-	private WebsendConsoleCapture websendConsoleCapture = null;
+	private @Nullable Websend websend;
 
 	@Override
 	public void onLoad() {
@@ -113,7 +113,11 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		}
 
 		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
+	}
 
+	@Override
+	public void onDisable() {
+		websend.stop();
 	}
 
 	private void checkUuids() {
@@ -131,6 +135,8 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	public void reload() {
 		NamelessPlugin.instance.reloadConfig();
 		this.apiProvider.loadConfiguration(getConfig());
+		Bukkit.getScheduler().runTaskAsynchronously(this, () -> apiProvider.getNamelessApi());
+
 		for (final Config config : Config.values()) {
 			config.reload();
 		}
@@ -167,25 +173,12 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new AnnouncementTask(), rate3*60*20L, rate3*60*20L));
 		}
 
-		int rate4 = getConfig().getInt("websend.command-interval", 0);
-		if (rate4 > 0) {
-			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new WebsendCommandExecutor(), rate4*20L, rate4*20L));
-		}
-
 		this.tasks.trimToSize();
 
-		if (websendConsoleCapture != null) {
-			websendConsoleCapture.stop();
-			websendConsoleCapture = null;
+		if (websend != null) {
+			websend.stop();
 		}
-
-		if (getConfig().getBoolean("websend.console-capture.enabled")) {
-			websendConsoleCapture = new WebsendConsoleCapture();
-			websendConsoleCapture.start();
-
-			int rate5 = getConfig().getInt("websend.console-capture.send-interval", 2);
-			this.tasks.add(Bukkit.getScheduler().runTaskTimerAsynchronously(this, websendConsoleCapture::sendLogLines, rate5*20L, rate5*20L));
-		}
+		websend = new Websend(this); // this will do nothing if websend options are disabled
 	}
 
 	@Override
