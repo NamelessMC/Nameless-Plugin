@@ -45,7 +45,7 @@ command:
       displayname: 'Weergavenaam: <displayname>'
       'yes': Ja
       'no': Nee
-      uuid-unknown: onbekend
+      uuid-unknown: 'UUID: onbekend'
       registered-date: Geregistreerd op <date>
       validated: 'Account gevalideerd: <validated>'
       banned: 'Verbannen: <banned>'
