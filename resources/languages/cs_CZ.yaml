@@ -58,7 +58,7 @@ command:
       'yes': ano
       'no': ne
       fail: Při získávání informací o hráči se vyskytla neznámá chyba.
-      uuid-unknown: neznámé
+      uuid-unknown: 'UUID: neznámé'
       primary-group: 'Hlavní skupina: <groupname>'
       all-groups: 'Všechny skupiny: <groups_names_list>'
   subcommands:
@@ -78,3 +78,4 @@ player:
     not-validated: Pro vykonání této akce musí být váš účet musí být ověřen.
     command-banned: Nemůžete spustit tento příkaz, jste zabanováni na webu.
 website-announcement: 'Oznámení na webu: <content>'
+user-sync-kick: Jste zabanováni z tohoto serveru kvůli banu na webu.

@@ -61,6 +61,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	@Nullable public MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 
 	private final @NotNull ArrayList<@NotNull BukkitTask> tasks = new ArrayList<>(2);
+	private @Nullable Websend websend;
 
 	@Override
 	public void onLoad() {
@@ -107,7 +108,11 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		}
 
 		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
+	}
 
+	@Override
+	public void onDisable() {
+		websend.stop();
 	}
 
 	private void checkUuids() {
@@ -125,6 +130,8 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	public void reload() {
 		NamelessPlugin.instance.reloadConfig();
 		this.apiProvider.loadConfiguration(getConfig());
+		Bukkit.getScheduler().runTaskAsynchronously(this, () -> apiProvider.getNamelessApi());
+
 		for (final Config config : Config.values()) {
 			config.reload();
 		}
@@ -161,12 +168,12 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new AnnouncementTask(), rate3*60*20L, rate3*60*20L));
 		}
 
-		int rate4 = getConfig().getInt("websend.command-interval", 0);
-		if (rate4 > 0) {
-			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new WebsendCommandExecutor(), rate3*20L, rate3*20L));
-		}
-
 		this.tasks.trimToSize();
+
+		if (websend != null) {
+			websend.stop();
+		}
+		websend = new Websend(this); // this will do nothing if websend options are disabled
 	}
 
 	@Override

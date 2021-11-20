@@ -89,5 +89,11 @@ announcements:
 
 # Run commands sent by the Websend module (third party)
 websend:
-  # Interval in seconds to check for new commands. Set to 0 to disable.
-  command-interval: 0
+  # Poll the Websend module for commands to execute
+  command-executor:
+    enabled: false
+    interval: 2
+  # Send console output to the Websend module
+  console-capture:
+    enabled: false
+    send-interval: 2

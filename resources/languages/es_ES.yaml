@@ -76,10 +76,12 @@ command:
       'no': no
       fail: Se produjo un error desconocido al intentar obtener la información del
         jugador.
-      uuid-unknown: desconocido
+      uuid-unknown: 'UUID: desconocido'
       primary-group: 'Grupo principal: <groupname>'
       all-groups: 'Todos los grupos: <groups_names_list>'
     description: Obtener información sobre un usuario del sitio web
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /register.
 website-announcement: 'Anuncio de la página web: <content>'
+user-sync-kick: Usted ha sido expulsado de nuestro servidor a raíz de un baneo de
+  la cuenta del sitio web.
