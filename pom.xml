@@ -45,6 +45,10 @@
 
 					<relocations>
 						<relocation>
+							<pattern>com.google.common</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.guava</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>com.namelessmc.java_api</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.nameless_api</shadedPattern>
 						</relocation>

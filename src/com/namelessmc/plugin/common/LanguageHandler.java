@@ -5,8 +5,6 @@ import com.namelessmc.plugin.spigot.NamelessPlugin;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.Validate;
 import xyz.derkades.derkutils.FileUtils;
 
 import java.io.File;
@@ -14,6 +12,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
@@ -97,35 +98,36 @@ public class LanguageHandler {
 	 */
 	private static final int VERSION = 20;
 
-	private static final String[] LANGUAGES_LIST = {
-			"cs_CZ",
-			"de_DE",
-			"el_GR",
-			"en_UK",
-			"en_US",
-			"es_419",
-			"es_ES",
-			"fr_FR",
-			"he_IL",
-			"hr_HR",
-			"hu_HU",
-			"it_IT",
-			"ja_JP",
-			"ko_KR",
-			"lt_LT",
-			"nb_NO",
-			"nl_NL_form",
-			"nl_NL",
-			"pl_PL",
-			"pt_BR",
-			"ro_RO",
-			"ru_RU",
-			"sk_SK",
-			"sv_SE",
-			"tr_TR",
-			"vi_VN",
-			"zh_CN",
-	};
+	private static final Set<String> LANGUAGES = new HashSet<>();
+	static {
+		LANGUAGES.add("cs_CZ");
+		LANGUAGES.add("de_DE");
+		LANGUAGES.add("el_GR");
+		LANGUAGES.add("en_UK");
+		LANGUAGES.add("en_US");
+		LANGUAGES.add("es_419");
+		LANGUAGES.add("es_ES");
+		LANGUAGES.add("fr_FR");
+		LANGUAGES.add("he_IL");
+		LANGUAGES.add("hr_HR");
+		LANGUAGES.add("hu_HU");
+		LANGUAGES.add("it_IT");
+		LANGUAGES.add("ja_JP");
+		LANGUAGES.add("ko_KR");
+		LANGUAGES.add("lt_LT");
+		LANGUAGES.add("nb_NO");
+		LANGUAGES.add("nl_NL_form");
+		LANGUAGES.add("nl_NL");
+		LANGUAGES.add("pl_PL");
+		LANGUAGES.add("pt_BR");
+		LANGUAGES.add("ro_RO");
+		LANGUAGES.add("ru_RU");
+		LANGUAGES.add("sk_SK");
+		LANGUAGES.add("sv_SE");
+		LANGUAGES.add("tr_TR");
+		LANGUAGES.add("vi_VN");
+		LANGUAGES.add("zh_CN");
+}
 
 	public static final String DEFAULT_LANGUAGE = "en_UK";
 
@@ -144,7 +146,7 @@ public class LanguageHandler {
 		if (unconverted == null) {
 			unconverted = this.fallbackLanguageFile.getString(term.path);
 		}
-		Validate.notNull(unconverted, "Message '" + term.path + "' missing from language file. This is a bug, adding it to the language file is usually not the correct solution.");
+		Objects.requireNonNull(unconverted, "Message '" + term.path + "' missing from language file. This is a bug, adding it to the language file is usually not the correct solution.");
 		return Chat.convertColors(unconverted);
 	}
 
@@ -191,7 +193,7 @@ public class LanguageHandler {
 
 		log.info("Installing language files");
 
-		for (final String languageName : LANGUAGES_LIST) {
+		for (final String languageName : LANGUAGES) {
 			final String languagePathInJar = "/languages/" + languageName + ".yaml";
 			final Path dest = this.languageDirectory.resolve(languageName + ".yaml");
 			FileUtils.copyOutOfJar(LanguageHandler.class, languagePathInJar, dest);
@@ -207,8 +209,7 @@ public class LanguageHandler {
 
 	private AbstractYamlFile readLanguageFile(final String languageName, final Function<Path, AbstractYamlFile> fileReader) {
 		final Logger log = NamelessPlugin.getInstance().getLogger();
-
-		if (!ArrayUtils.contains(LANGUAGES_LIST, languageName)) {
+		if (!LANGUAGES.contains(languageName)) {
 			log.severe("Language '" + languageName + "' not known.");
 			return null;
 		}

@@ -21,7 +21,7 @@ command:
       'yes': да
       'no': нет
       fail: Произошла неизвестная ошибка при попытке получить информацию об игроке.
-      uuid-unknown: неизвестно
+      uuid-unknown: 'UUID: неизвестен'
       banned: 'Забанен: <banned>'
       primary-group: 'Основная группа: <groupname>'
       all-groups: 'Все группы: <groups_names_list>'
@@ -84,3 +84,5 @@ player:
 join-not-registered: У вас еще нет учетной записи на нашем сайте. Пожалуйста, зарегистрируйтесь,
   используя /register.
 website-announcement: 'объявление на сайте: <content>'
+user-sync-kick: Вы заблокированы на этом сервере так как вы заблокированы на нашем
+  сайте.
