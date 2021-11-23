@@ -15,7 +15,7 @@ import com.namelessmc.plugin.spigot.hooks.PapiParserEnabled;
 import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
 import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
