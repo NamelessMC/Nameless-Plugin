@@ -1,12 +1,9 @@
 player:
   other:
     not-found: "This player could not be found."
-    not-validated: "This player's account is not validated."
     not-registered: "This player is not registered on the website."
   self:
-    not-validated: "Your account must be validated to perform this action."
     not-registered: "You must register for an account to perform this action."
-    no-permission: "You don't have permission to perform this action."
     command-banned: "You cannot run this command, you are banned from the website."
 
 command:
