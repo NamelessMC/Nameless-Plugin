@@ -15,7 +15,6 @@ import com.namelessmc.plugin.spigot.hooks.PapiParserEnabled;
 import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
 import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
-import net.milkbowl.vault.permission.Permission;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -53,9 +52,9 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	private LanguageHandler language;
 	@Override public LanguageHandler getLanguage() { return this.language; }
 
-	private net.milkbowl.vault.permission.Permission permissions;
-	public net.milkbowl.vault.permission.Permission getPermissions() { return this.permissions; }
-
+	private Permission permissions;
+	public Permission getPermissions() { return this.permissions; }
+	
 	private PapiParser papiParser;
 	public PapiParser getPapiParser() { return this.papiParser; }
 
