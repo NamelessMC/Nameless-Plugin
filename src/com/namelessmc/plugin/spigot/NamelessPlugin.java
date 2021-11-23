@@ -16,6 +16,9 @@ import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
 import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 import net.milkbowl.vault.permission.Permission;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandMap;
@@ -108,6 +111,8 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		}
 
 		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
+
+		initBstats();
 	}
 
 	@Override
@@ -241,6 +246,54 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 				this.maintenanceStatusProvider = new KennyMaintenance();
 			}
 		}
+	}
+
+	private void initBstats() {
+		Metrics metrics = new Metrics(this, 13396);
+
+		metrics.addCustomChart(new SimplePie("server_data_sender_enabled", () ->
+				getConfig().getInt("server-id") > 0 &&
+						getConfig().getInt("server-data-upload-rate") == 1
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("upload_placeholders_enabled", () ->
+				getConfig().getBoolean("upload-placeholders.enabled")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("language", () ->
+				getConfig().getString("language")));
+
+		metrics.addCustomChart(new SimplePie("auto_ban_on_website", () ->
+				getConfig().getBoolean("auto-ban-on-website")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("not_registered_join_message", () ->
+				getConfig().getBoolean("not-registered-join-message")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("api_usernames_enabled", () ->
+				getConfig().getBoolean("api-usernames")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("user_sync_whitelist_enabled", () ->
+				getConfig().getBoolean("user-sync.whitelist.enabled")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("user_sync_bans_enabled", () ->
+				getConfig().getBoolean("user-sync.bans.enabled")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("announcements_enabled", () ->
+				getConfig().getInt("announcements.interval") > 0
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("websend_command_executor_enabled", () ->
+				getConfig().getBoolean("websend.command-executor.enabled")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("websend_console_capture_enabled", () ->
+				getConfig().getBoolean("websend.console-capture.enabled")
+						? "Enabled" : "Disabled"));
 	}
 
 	public static void log(final Level level, final String message) {
