@@ -41,7 +41,7 @@ command:
       displayname: '表示名: <displayname>'
       'no': いいえ
       'yes': はい
-      uuid-unknown: 不明
+      uuid-unknown: 'UUID: 不明'
       registered-date: 登録日 <date>
       primary-group: 'プライマリーグループ: <groupname>'
       all-groups: '全てのグループ: <groups_names_list>'
@@ -72,3 +72,4 @@ command:
     usage: '/{command} [サブコマンド] [引数..]'
 join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。
 website-announcement: 'ウェブサイトのお知らせ: <内容>'
+user-sync-kick: ウェブサイトのアカウントBANによって、私たちのサーバーからBANされています。
