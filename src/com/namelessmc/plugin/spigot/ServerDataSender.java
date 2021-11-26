@@ -1,7 +1,12 @@
 package com.namelessmc.plugin.spigot;
 
-import java.util.Arrays;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.namelessmc.java_api.ApiError;
+import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
@@ -9,14 +14,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.namelessmc.java_api.ApiError;
-import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
-
-import net.md_5.bungee.api.ChatColor;
+import java.net.SocketTimeoutException;
+import java.util.Arrays;
 
 public class ServerDataSender extends BukkitRunnable {
 
@@ -127,7 +126,11 @@ public class ServerDataSender extends BukkitRunnable {
 						e.printStackTrace();
 					}
 				} catch (final NamelessException e) {
-					e.printStackTrace();
+					if (e.getCause() instanceof SocketTimeoutException) {
+						NamelessPlugin.getInstance().getLogger().warning("Connection timed out while sending server data to NamelessMC. Was your webserver down, or is your network connection unstable?");
+					} else {
+						e.printStackTrace();
+					}
 				}
 			})
 		);
