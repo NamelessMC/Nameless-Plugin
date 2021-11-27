@@ -37,7 +37,7 @@ command:
       banned: '是否被封禁: <banned>'
       'yes': 是
       'no': 否
-      uuid-unknown: 未知
+      uuid-unknown: 'UUID: 未知'
       primary-group: 主要群组：<groupname>
       all-groups: 全部群组：<groups_names_list>
     usage: '/{command} [用户名]'
@@ -72,3 +72,4 @@ command:
     help-prefix: /{command}
 join-not-registered: 您在我们的网站上没有帐号。请使用 /register 来注册。
 website-announcement: '网站公告: <content>'
+user-sync-kick: 您因为网站账号被封禁而被在服务器上一并封禁。
