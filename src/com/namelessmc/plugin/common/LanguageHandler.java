@@ -23,11 +23,8 @@ public class LanguageHandler {
 	public enum Term {
 
 		PLAYER_OTHER_NOTFOUND("player.other.not-found"),
-		PLAYER_OTHER_NOTVALIDATED("player.other.not-validated"),
 		PLAYER_OTHER_NOTREGISTERED("player.other.not-registered"),
-		PLAYER_SELF_NOTVALIDATED("player.self.not-validated"),
 		PLAYER_SELF_NOTREGISTERED("player.self.not-registered"),
-		PLAYER_SELF_NO_PERMISSION_GENERIC("player.self.no-permission"),
 		PLAYER_SELF_COMMAND_BANNED("player.self.command-banned"),
 
 		COMMAND_NOTAPLAYER("command.not-a-player"),
