@@ -5,6 +5,7 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.CannotSendEmailException;
 import com.namelessmc.java_api.exception.InvalidUsernameException;
+import com.namelessmc.java_api.exception.UsernameAlreadyExistsException;
 import com.namelessmc.java_api.exception.UuidAlreadyExistsException;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
@@ -52,8 +53,6 @@ public class RegisterCommand extends CommonCommand {
 				// TODO all these API errors should be converted to thrown exceptions in the java api
 				if (e.getError() == ApiError.EMAIL_ALREADY_EXISTS) {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED));
-				} else if (e.getError() == ApiError.USERNAME_ALREADY_EXISTS) {
-					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS));
 				} else if (e.getError() == ApiError.INVALID_EMAIL_ADDRESS) {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID));
 				} else {
@@ -67,7 +66,7 @@ public class RegisterCommand extends CommonCommand {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEINVALID));
 			} catch (final CannotSendEmailException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_CANNOTSENDEMAIL));
-			} catch (final UuidAlreadyExistsException e) {
+			} catch (final UuidAlreadyExistsException | UsernameAlreadyExistsException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS));
 			}
 		});
