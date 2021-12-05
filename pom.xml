@@ -45,6 +45,10 @@
 
 					<relocations>
 						<relocation>
+							<pattern>org.bstats</pattern>
+							<shadedPattern>xyz.derkades.serverselectorx.lib.bstats</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>com.google.gson</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.gson</shadedPattern>
 						</relocation>
