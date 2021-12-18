@@ -8,13 +8,12 @@ command:
         email-invalid: عنوان البريد الإلكتروني المقدم غير صالح.
         username-invalid: اسم المستخدم المقدم غير صالح.
         cannot-send-email: غير قادر على إرسال البريد الإلكتروني للتسجيل ، يرجى الاتصال
-          بالمسؤول لتفعيل حسابك.
+  بالمسؤول لتفعيل حسابك.
       success:
         email: يرجى التحقق من صندوق الوارد الخاص بك لإكمال التسجيل.
-        link: '<hover: show_text: "انقر للفتح في مستعرض ويب"> <click: open_url: "<url>">
-          الرجاء إكمال التسجيل بالانتقال إلى <url>.'
+        link: '<hover:show_text:"انقر للفتح في مستعرض ويب"> <click:open_url:"<url>">الرجاء إكمال التسجيل بالانتقال إلى<url>.'
     description: قم بإنشاء حساب موقع
-    usage: /{الامر} <البريد الإلكتروني>
+    usage: /{command} <البريد الإلكتروني>
   report:
     description: الإبلاغ عن لاعب
     output:
@@ -24,9 +23,9 @@ command:
         report-self: لا يمكنك الإبلاغ عن نفسك.
         generic: حدث خطأ أثناء محاولة الإبلاغ عن هذا اللاعب. يرجى إبلاغ مسؤول الخادم
           عن هذه المشكلة.
-    usage: /{الامر} <الاسم/uuid> <السبب>
+    usage: /{command} <الاسم/uuid> <السبب>
   validate:
-    usage: /{الامر} <الرمز>
+    usage: /{command} <الرمز>
     output:
       success: تم التحقق من صحة حسابك.
       fail:
@@ -36,7 +35,7 @@ command:
           بشكل صحيح وحاول مرة أخرى.
     description: يتحقق من صحة حساب موقع المستخدم باستخدام الرمز المحدد.
   user-info:
-    usage: / {الامر} [اسم المستخدم]
+    usage: /{command} [اسم المستخدم]
     description: استرجاع معلومات حول مستخدم الموقع
     output:
       displayname: 'اسم العرض: <displayname>'
@@ -55,12 +54,11 @@ command:
   no-permission: ليس لديك إذن بتنفيذ هذا الأمر.
   notifications:
     output:
-      notification: '<hover: show_text: "انقر للفتح في مستعرض ويب"> <click: open_url:
-        "<url>"> <message>'
+      notification: '<hover:show_text:"انقر للفتح في مستعرض ويب"> <click:open_url:"<url>"><message>'
       no-notifications: ليس لديك أي إشعارات غير مقروءة.
       fail: حدث خطأ أثناء محاولة استرداد قائمة الإشعارات. يرجى إبلاغ مسؤول الخادم
         عن هذه المشكلة.
-    usage: /{الامر}
+    usage: /{command}
     description: يعرض قائمة إشعارات موقع الويب.
 join-not-registered: ليس لديك حساب على موقعنا حتى الآن. الرجاء التسجيل باستخدام /register.
 website-announcement: 'إعلان الموقع: <content>'
