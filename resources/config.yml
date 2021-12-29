@@ -72,6 +72,8 @@ user-sync:
     enabled: false
     # Only whitelist verified users
     verified-only: false
+    # Only whitelist users with a linked Discord account
+    # https://github.com/NamelessMC/Nameless-Link/wiki/Setup
     discord-linked-only: false
 
   # Ban players who are banned on the website, and pardon players who are not banned on the website.
