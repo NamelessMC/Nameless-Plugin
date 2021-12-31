@@ -99,7 +99,7 @@ public class Websend {
 		}
 
 		NamelessPlugin.getInstance().getNamelessApi().ifPresent(api -> {
-			int serverId = NamelessPlugin.getInstance().getConfig().getInt("server-id");
+			int serverId = NamelessPlugin.getInstance().getConfig().getInt("server-data-sender.server-id");
 			if (serverId <= 0) {
 				NamelessPlugin.getInstance().getLogger().warning("server-id is not configured");
 				return;

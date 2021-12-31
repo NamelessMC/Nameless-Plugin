@@ -167,9 +167,8 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			task.cancel();
 		}
 
-		final int rate = getConfig().getInt("server-data-upload-rate", 10) * 20;
-		final int serverId = getConfig().getInt("server-id", 0);
-		if (rate > 0 && serverId > 0) {
+		if (getConfig().getBoolean("server-data-sender.enabled")) {
+			final int rate = getConfig().getInt("server-data-sender.interval") * 20;
 			this.tasks.add(new ServerDataSender().runTaskTimer(this, rate, rate));
 		}
 

@@ -17,26 +17,24 @@ api:
   # at your own risk!
   usernames: false
 
-# Enter this if you wish for the plugin to send data about this server
-# and its players to the website. This is required for many features like placeholder uploading,
-# group synchronization, username synchronization, online status, ...
-# You can find this in StaffCP > Integrations > Minecraft > Minecraft Servers
-server-id: 0
-
-# This feature sends information about the server and online players to
-# your NamelessMC website. This value is in seconds. Increase to lower
-# the frequency that data is sent. Decrease to send data more frequently.
-# Setting this too low can cause lag. Set to 0 to disable.
-server-data-upload-rate: 10
-
-# You can add PlaceholderAPI placeholders here, they will be sent to the website to be used by NamelessMC or modules.
-# Requires entering server-id above.
-upload-placeholders:
+# The server data sender sends data about this server to the website, periodically. It is essential for many
+# features to work like group sync, username sync and placeholders.
+# Note that currently the website doesn't use the plugin for server status and player list yet, even though
+# the plugin sends this information. You'll need to configure server pinging separately on the website.
+server-data-sender:
   enabled: false
-  # global placeholders to send to the website (list of placeholder names without %%). Currently not used by the website.
-  global: []
-  # player-specific placeholders to send to the website (list of placeholder names without %%)
-  player: []
+  # Find your server id in StaffCP > Integrations > Minecraft > Minecraft Servers
+  # Create a server if you haven't already
+  server-id: 0
+  # Interval in seconds. Reasonable values are 2-30 seconds.
+  interval: 10
+  # Send PlaceholderAPI placeholders, to be used by NamelessMC (leaderboards, profile pages) or modules.
+  placeholders:
+    enabled: false
+    # global placeholders to send to the website (list of placeholder names without %%). Not currently used by the website.
+    global: []
+    # player-specific placeholders to send to the website (list of placeholder names without %%)
+    player: []
 
 # Enable retrieving PlaceholderAPI placeholders (NOT the same as sending placeholders to the website!)
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders#nameless-plugin
@@ -98,6 +96,8 @@ announcements:
   # display: Forums
 
 # Run commands sent by the Websend module (third party)
+# For this to work you must also configure the server id in the 'server-data-sender' section. However, websend
+# is unrelated to the server data sender and the server data sender doesn't have to be enabled.
 websend:
   # Poll the Websend module for commands to execute
   command-executor:
