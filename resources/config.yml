@@ -2,9 +2,20 @@
 # Something not working? Please see our troubleshooting guide: https://docs.namelessmc.com/en/integrations/plugin-troubleshooting
 # Reload the plugin using /nlpl reload
 
-# For example http(s)://yoursite.com/index.php?route=/api/v2/API_KEY
-# Enable the API and obtain the API URL in StaffCP > Configuration > API
-api-url: ""
+api:
+  # For example http(s)://yoursite.com/index.php?route=/api/v2/API_KEY
+  # Enable the API and obtain the API URL in StaffCP > Configuration > API
+  url: ""
+  # Print detailed information about website requests and responses
+  debug: false
+  # Maximum time in milliseconds to wait for a response from the website
+  # Set to 10 seconds for slower webservers. Sensible values are 3s-15s.
+  timeout: 5000
+  # Use usernames instead of UUIDs to identify players. This allows some parts of the plugin to work for
+  # offline mode / "cracked" servers. Do not enable this if your server is in online mode or your server is connected
+  # to a proxy (bungeecord/velocity) that is in online mode. No support will be given with this option enabled, use
+  # at your own risk!
+  usernames: false
 
 # Enter this if you wish for the plugin to send data about this server
 # and its players to the website. This is required for many features like placeholder uploading,
@@ -36,8 +47,6 @@ enable-placeholders: false
 # network usage.
 placeholders-request-delay: 2000
 
-# Turn on debug mode for the underlying NamelessMC Java API
-api-debug-mode: false
 # Show single line error messages instead of full stacktraces.
 # Can be helpful to reduce console spam while your webserver is broken.
 single-line-exceptons: false
@@ -53,9 +62,6 @@ auto-ban-on-website: false
 # If you want to customize messages for your server you can edit the language files.
 # WARNING: The language file will be replaced with the default when new messages are added in a plugin update
 language: en_UK
-
-# EXPERIMENTAL: Use usernames instead of UUIDs to identify players. Not recommended.
-api-usernames: false
 
 user-sync:
   # Number of seconds in between syncs

@@ -47,6 +47,7 @@ public abstract class ApiProvider {
 						.apiUrl(this.getApiUrl())
 						.userAgent(USER_AGENT)
 						.withCustomDebugLogger(debugLogger)
+						.withTimeoutMillis(this.getTimeout())
 						.build();
 
 				final Website info = api.getWebsite();
@@ -96,6 +97,8 @@ public abstract class ApiProvider {
 	protected abstract String getApiUrl();
 
 	protected abstract boolean getDebug();
+
+	protected abstract int getTimeout();
 
 	public abstract boolean useUuids();
 

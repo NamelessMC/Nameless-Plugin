@@ -145,6 +145,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		NamelessPlugin.instance.reloadConfig();
 		this.apiProvider.loadConfiguration(getConfig());
 		Bukkit.getScheduler().runTaskAsynchronously(this, () -> apiProvider.getNamelessApi());
+		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptons"));
 
 		for (final Config config : Config.values()) {
 			config.reload();
@@ -161,8 +162,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			this.getLogger().severe("In config.yml, set 'language' to '" + LanguageHandler.DEFAULT_LANGUAGE + "' or any other supported language.");
 			throw new RuntimeException("Failed to load language file");
 		}
-
-		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptons"));
 
 		for (BukkitTask task : this.tasks) {
 			task.cancel();
