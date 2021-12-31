@@ -3,6 +3,7 @@ package com.namelessmc.plugin.spigot;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.plugin.common.ApiProvider;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
+import com.namelessmc.plugin.common.ExceptionLogger;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.spigot.event.PlayerBan;
@@ -61,6 +62,9 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	
 	private PapiParser papiParser;
 	public PapiParser getPapiParser() { return this.papiParser; }
+
+	private ExceptionLogger exceptionLogger;
+	public @NotNull ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
 	
 	@Nullable
 	private MaintenanceStatusProvider maintenanceStatusProvider;
@@ -157,6 +161,8 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			this.getLogger().severe("In config.yml, set 'language' to '" + LanguageHandler.DEFAULT_LANGUAGE + "' or any other supported language.");
 			throw new RuntimeException("Failed to load language file");
 		}
+
+		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptons"));
 
 		for (BukkitTask task : this.tasks) {
 			task.cancel();

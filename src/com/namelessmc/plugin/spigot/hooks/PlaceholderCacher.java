@@ -41,13 +41,13 @@ public class PlaceholderCacher implements Runnable {
 							final int notificationCount = user.get().getNotificationCount();
 							CACHED_NOTIFICATION_COUNT.put(player.getUniqueId(), notificationCount);
 						} catch (final NamelessException e) {
-							e.printStackTrace();
+							NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 						}
 					}
 				}
 			}
 		} catch (final InterruptedException e) {
-			e.printStackTrace();
+			NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 		}
 	}
 

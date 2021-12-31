@@ -47,16 +47,15 @@ public class VerifyCommand extends CommonCommand {
 				final String code = args[0];
 				user.get().verifyMinecraft(code);
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_SUCCESS));
-			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC));
-				e.printStackTrace();
 			} catch (final InvalidValidateCodeException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE));
 			} catch (final AccountAlreadyActivatedException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_ALREADYVALIDATED));
+			} catch (final NamelessException e) {
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC));
+				getExceptionLogger().logException(e);
 			}
 		});
 	}
-
 
 }

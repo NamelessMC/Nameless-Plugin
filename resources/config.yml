@@ -27,7 +27,6 @@ upload-placeholders:
   # player-specific placeholders to send to the website (list of placeholder names without %%)
   player: []
 
-
 # Enable retrieving PlaceholderAPI placeholders (NOT the same as sending placeholders to the website!)
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders#nameless-plugin
 enable-placeholders: false
@@ -39,6 +38,9 @@ placeholders-request-delay: 2000
 
 # Turn on debug mode for the underlying NamelessMC Java API
 api-debug-mode: false
+# Show single line error messages instead of full stacktraces.
+# Can be helpful to reduce console spam while your webserver is broken.
+single-line-exceptons: false
 
 # Send a message to players who don't have a NamelessMC account when they join
 not-registered-join-message: false

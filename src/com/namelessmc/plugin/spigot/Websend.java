@@ -107,7 +107,7 @@ public class Websend {
 			try {
 				api.websend().sendConsoleLog(serverId, linesToSend);
 			} catch (NamelessException e) {
-				e.printStackTrace();
+				NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 			}
 		});
 	}
@@ -136,13 +136,13 @@ public class Websend {
 								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.getCommandLine());
 							} catch (final CommandException e) {
 								// continue executing other commands if one fails
-								e.printStackTrace();
+								NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 							}
 						}
 					});
 				} catch (NamelessException e) {
 					log.severe("Error retrieving websend commands");
-					e.printStackTrace();
+					NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 				}
 			});
 		});

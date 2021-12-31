@@ -14,4 +14,6 @@ public interface CommonObjectsProvider {
 
 	AudienceProvider adventure();
 
+	ExceptionLogger getExceptionLogger();
+
 }

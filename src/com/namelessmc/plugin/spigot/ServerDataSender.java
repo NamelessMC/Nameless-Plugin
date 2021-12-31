@@ -78,14 +78,14 @@ public class ServerDataSender extends BukkitRunnable {
 			Statistic playStat;
 			try {
 				playStat = Statistic.PLAY_ONE_TICK;
-			} catch (final NoSuchFieldError e) {
+			} catch (final NoSuchFieldError ignored) {
 				try {
 					// it's PLAY_ONE_MINUTE in 1.13+ but unlike the name suggests it actually still records ticks played
 					//noinspection JavaReflectionMemberAccess
 					playStat = (Statistic) Statistic.class.getField("PLAY_ONE_MINUTE").get(null);
 				} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException
-						| SecurityException e1) {
-					e1.printStackTrace();
+						| SecurityException e) {
+					NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 					return;
 				}
 			}
@@ -123,13 +123,13 @@ public class ServerDataSender extends BukkitRunnable {
 					if (e.getError() == ApiError.INVALID_SERVER_ID) {
 						NamelessPlugin.getInstance().getLogger().warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
 					} else {
-						e.printStackTrace();
+						NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 					}
 				} catch (final NamelessException e) {
 					if (e.getCause() instanceof SocketTimeoutException) {
 						NamelessPlugin.getInstance().getLogger().warning("Connection timed out while sending server data to NamelessMC. Was your webserver down, or is your network connection unstable?");
 					} else {
-						e.printStackTrace();
+						NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 					}
 				}
 			})

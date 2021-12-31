@@ -2,6 +2,7 @@ package com.namelessmc.plugin.bungee;
 
 import com.namelessmc.plugin.common.ApiProvider;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
+import com.namelessmc.plugin.common.ExceptionLogger;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.spigot.YamlFileImpl;
@@ -22,13 +23,23 @@ import java.util.concurrent.TimeUnit;
 public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 
 	private static NamelessPlugin instance;
+	public static NamelessPlugin getInstance() { return instance; }
 
 	private Configuration config;
-	private ScheduledTask dataSenderTask;
+	public Configuration getConfig() { return this.config; }
+
+	private BungeeAudiences adventure;
+	@Override public AudienceProvider adventure() { return this.adventure; }
+
+	private LanguageHandler language;
+	@Override public LanguageHandler getLanguage() { return this.language; }
 
 	private ApiProviderImpl apiProvider;
-	private LanguageHandler language;
-	private BungeeAudiences adventure;
+	@Override public ApiProvider getApiProvider() { return this.apiProvider; }
+
+	@Override public ExceptionLogger getExceptionLogger() { return new ExceptionLogger(this.getLogger(), false); } // TODO configurable
+
+	private ScheduledTask dataSenderTask;
 
 	@Override
 	public void onEnable() {
@@ -102,29 +113,6 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 		} else {
 			this.dataSenderTask = getProxy().getScheduler().schedule(this, new ServerDataSender(), rate, rate, TimeUnit.SECONDS);
 		}
-	}
-
-	@Override
-	public ApiProvider getApiProvider() {
-		return this.apiProvider;
-	}
-
-	@Override
-	public LanguageHandler getLanguage() {
-		return this.language;
-	}
-
-	@Override
-	public AudienceProvider adventure() {
-		return this.adventure;
-	}
-
-	public Configuration getConfig() {
-		return this.config;
-	}
-
-	public static NamelessPlugin getInstance() {
-		return instance;
 	}
 
 }

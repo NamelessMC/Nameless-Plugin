@@ -78,7 +78,7 @@ public class ReportCommand extends CommonCommand {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF));
 			} catch (final NamelessException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
-				e.printStackTrace();
+				getExceptionLogger().logException(e);
 			}
 		});
 	}
