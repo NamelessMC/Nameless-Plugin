@@ -3,9 +3,9 @@
 # Reload the plugin using /nlpl reload
 
 api:
-  # For example http(s)://yoursite.com/index.php?route=/api/v2/API_KEY
-  # Enable the API and obtain the API URL in StaffCP > Configuration > API
+  # Enable the API and obtain the API URL and API key in StaffCP > Configuration > API
   url: ""
+  key: ""
   # Print detailed information about website requests and responses
   debug: false
   # Maximum time in milliseconds to wait for a response from the website
