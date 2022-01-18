@@ -9,11 +9,7 @@ import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.spigot.event.PlayerBan;
 import com.namelessmc.plugin.spigot.event.PlayerLogin;
 import com.namelessmc.plugin.spigot.event.PlayerQuit;
-import com.namelessmc.plugin.spigot.hooks.PapiHook;
-import com.namelessmc.plugin.spigot.hooks.PapiParser;
-import com.namelessmc.plugin.spigot.hooks.PapiParserDisabled;
-import com.namelessmc.plugin.spigot.hooks.PapiParserEnabled;
-import com.namelessmc.plugin.spigot.hooks.PlaceholderCacher;
+import com.namelessmc.plugin.spigot.hooks.*;
 import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -33,11 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 
 public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider {
@@ -47,7 +39,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	private static NamelessPlugin instance;
 	public static NamelessPlugin getInstance() { return instance; }
 
-	private ApiProviderImpl apiProvider;
+	private ApiProvider apiProvider;
 	@Override public ApiProvider getApiProvider() { return this.apiProvider; }
 	public Optional<NamelessAPI> getNamelessApi() { return this.apiProvider.getNamelessApi(); }
 	
@@ -84,10 +76,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	@Override
 	public void onEnable() {
 		super.saveDefaultConfig();
-
-		this.apiProvider = new ApiProviderImpl(this.getLogger());
-
-		Config.initialize();
 
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
@@ -152,13 +140,20 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	public void reload() {
 		NamelessPlugin.instance.reloadConfig();
-		Bukkit.getScheduler().runTaskAsynchronously(this, () -> apiProvider.getNamelessApi());
-		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptons"));
-		this.apiProvider.loadConfiguration(getConfig(), exceptionLogger);
+		Config.reloadAll();
 
-		for (final Config config : Config.values()) {
-			config.reload();
-		}
+		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptons"));
+		this.apiProvider = new ApiProvider(
+				this.getLogger(),
+				this.exceptionLogger,
+				getConfig().getString("api.url"),
+				getConfig().getString("api.key"),
+				getConfig().getBoolean("api.debug", false),
+				getConfig().getBoolean("api.usernames", false),
+				getConfig().getInt("api.timeout", 5000),
+				getConfig().getBoolean("api.bypass-version-check"));
+		Bukkit.getScheduler().runTaskAsynchronously(this, () -> apiProvider.getNamelessApi());
+
 		try {
 			this.getLanguage().updateFiles();
 		} catch (final IOException e) {

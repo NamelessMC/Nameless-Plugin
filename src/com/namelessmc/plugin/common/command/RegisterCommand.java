@@ -41,9 +41,9 @@ public class RegisterCommand extends CommonCommand {
 
 			try {
 				final Optional<String> link =
-						super.useUuids() ?
-						api.registerUser(sender.getName(), args[0], sender.getUniqueId()) :
-						api.registerUser(sender.getName(), args[0]);
+						this.getApiProvider().useUsernames()
+								? api.registerUser(sender.getName(), args[0])
+								: api.registerUser(sender.getName(), args[0], sender.getUniqueId());
 				if (link.isPresent()) {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK, "url", link.get()));
 				} else {

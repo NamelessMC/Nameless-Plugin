@@ -34,7 +34,7 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 	private LanguageHandler language;
 	@Override public LanguageHandler getLanguage() { return this.language; }
 
-	private ApiProviderImpl apiProvider;
+	private ApiProvider apiProvider;
 	@Override public ApiProvider getApiProvider() { return this.apiProvider; }
 
 	@Override public ExceptionLogger getExceptionLogger() { return new ExceptionLogger(this.getLogger(), false); } // TODO configurable
@@ -53,8 +53,6 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-
-		this.apiProvider = new ApiProviderImpl(this.getLogger());
 	}
 
 	@Override
@@ -86,7 +84,15 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 
 		this.config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile.toFile());
 
-		this.apiProvider.loadConfiguration(this.config, this.getExceptionLogger());
+		this.apiProvider = new ApiProvider(
+				this.getLogger(),
+				this.getExceptionLogger(),
+				getConfig().getString("api.url"),
+				getConfig().getString("api.key"),
+				getConfig().getBoolean("api.debug", false),
+				getConfig().getBoolean("api.usernames", false),
+				getConfig().getInt("api.timeout", 5000),
+				getConfig().getBoolean("api.bypass-version-check"));
 
 		try {
 			this.getLanguage().updateFiles();

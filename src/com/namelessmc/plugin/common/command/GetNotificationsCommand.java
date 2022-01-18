@@ -6,6 +6,7 @@ import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.Notification;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +38,7 @@ public class GetNotificationsCommand extends CommonCommand {
 			final NamelessAPI api = optApi.get();
 
 			try {
-				final Optional<NamelessUser> optional = super.useUuids() ? api.getUser(sender.getUniqueId()) : api.getUser(sender.getName());
+				final Optional<NamelessUser> optional = NamelessPlugin.getInstance().getApiProvider().userFromPlayer(api, sender.getUniqueId(),sender.getName());
 
 				if (!optional.isPresent()) {
 					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOTREGISTERED));

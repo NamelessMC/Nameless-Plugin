@@ -47,8 +47,7 @@ public class PlaceholderCacher implements Listener {
 
 	private void updateCache(NamelessAPI api, Player player) {
 		try {
-			final Optional<NamelessUser> user = NamelessPlugin.getInstance().getApiProvider().useUuids()
-					? api.getUser(player.getUniqueId()) : api.getUser(player.getName());
+			final Optional<NamelessUser> user = NamelessPlugin.getInstance().getApiProvider().userFromPlayer(api, player);
 			if (!user.isPresent()) {
 				return;
 			}

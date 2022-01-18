@@ -9,6 +9,7 @@ import com.namelessmc.java_api.exception.ReportUserBannedException;
 import com.namelessmc.java_api.exception.UnableToCreateReportException;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
 import xyz.derkades.derkutils.bukkit.UUIDFetcher;
 
 import java.util.Arrays;
@@ -44,7 +45,7 @@ public class ReportCommand extends CommonCommand {
 			try {
 				final String targetUsername = args[0];
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-				final Optional<NamelessUser> optUser = super.useUuids() ? api.getUser(sender.getUniqueId()) : api.getUser(sender.getName());
+				final Optional<NamelessUser> optUser = NamelessPlugin.getInstance().getApiProvider().userFromPlayer(api, sender.getUniqueId(),sender.getName());
 				if (!optUser.isPresent()) {
 					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOTREGISTERED));
 					return;
@@ -52,20 +53,20 @@ public class ReportCommand extends CommonCommand {
 
 				NamelessUser user = optUser.get();
 
-				if (this.useUuids()) {
+				if (this.getApiProvider().useUsernames()) {
+					Optional<NamelessUser> optTargetUser = api.getUser(targetUsername);
+					if (optTargetUser.isPresent()) {
+						user.createReport(optTargetUser.get(), reason);
+					} else {
+						sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOTREGISTERED));
+					}
+				} else {
 					UUID targetUuid = UUIDFetcher.getUUID(targetUsername);
 					if (targetUuid == null) {
 						sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOTFOUND));
 					} else {
 						user.createReport(targetUuid, targetUsername, reason);
 						sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
-					}
-				} else {
-					Optional<NamelessUser> optTargetUser = api.getUser(targetUsername);
-					if (optTargetUser.isPresent()) {
-						user.createReport(optTargetUser.get(), reason);
-					} else {
-						sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOTREGISTERED));
 					}
 				}
 			} catch (final ReportUserBannedException e) {
