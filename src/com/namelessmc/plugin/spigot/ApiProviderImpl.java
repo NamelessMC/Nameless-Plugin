@@ -15,6 +15,7 @@ public class ApiProviderImpl extends ApiProvider {
 	private boolean debug;
 	private boolean uuid;
 	private int timeout;
+	private boolean bypassVersionCheck;
 
 	public ApiProviderImpl(final @NotNull Logger logger) {
 		super(logger);
@@ -28,6 +29,7 @@ public class ApiProviderImpl extends ApiProvider {
 		this.debug = config.getBoolean("api.debug", false);
 		this.uuid = !config.getBoolean("api.usernames", false);
 		this.timeout = config.getInt("api.timeout", 5000);
+		this.bypassVersionCheck = config.getBoolean("api.bypass-version-check");
 		this.clearCachedApi();
 	}
 
@@ -54,6 +56,11 @@ public class ApiProviderImpl extends ApiProvider {
 	@Override
 	protected int getTimeout() {
 		return this.timeout;
+	}
+
+	@Override
+	protected boolean bypassVersionCheck() {
+		return this.bypassVersionCheck;
 	}
 
 }

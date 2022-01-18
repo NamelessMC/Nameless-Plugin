@@ -18,6 +18,7 @@ public class ApiProviderImpl extends ApiProvider {
 	private @Nullable String apiKey;
 	private boolean debug;
 	private int timeout;
+	private boolean bypassVersionCheck;
 
 	public void loadConfiguration(final @NotNull Configuration config, final @NotNull ExceptionLogger exceptionLogger) {
 		super.exceptionLogger = exceptionLogger;
@@ -26,6 +27,7 @@ public class ApiProviderImpl extends ApiProvider {
 		this.apiKey = config.getString("api.key");
 		this.debug = config.getBoolean("api.debug-mode", false);
 		this.timeout = config.getInt("api.timeout", 5000);
+		this.bypassVersionCheck = config.getBoolean("api.bypass-version-check");
 	}
 
 	@Override
@@ -51,6 +53,11 @@ public class ApiProviderImpl extends ApiProvider {
 	@Override
 	protected int getTimeout() {
 		return this.timeout;
+	}
+
+	@Override
+	protected boolean bypassVersionCheck() {
+		return this.bypassVersionCheck;
 	}
 
 }

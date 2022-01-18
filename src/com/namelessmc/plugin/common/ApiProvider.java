@@ -66,7 +66,10 @@ public abstract class ApiProvider {
 					final Website info = api.getWebsite();
 					try {
 						NamelessVersion version = info.getParsedVersion();
-						if (GlobalConstants.SUPPORTED_WEBSITE_VERSIONS.contains(version)) {
+						if (this.bypassVersionCheck()) {
+							this.logger.warning("Bypassing version checks, use at your own risk!");
+							this.cachedApi = Optional.of(api);
+						} else if (GlobalConstants.SUPPORTED_WEBSITE_VERSIONS.contains(version)) {
 							this.cachedApi = Optional.of(api);
 						} else if (GlobalConstants.DEPRECATED_WEBSITE_VERSIONS.contains(version)) {
 							this.logger.warning("Support for your NamelessMC version (" + version + ") is deprecated, some functionality may be broken. Please upgrade to a newer version of NamelessMC as soon as possible.");
@@ -114,5 +117,7 @@ public abstract class ApiProvider {
 	protected abstract int getTimeout();
 
 	public abstract boolean useUuids();
+
+	protected abstract boolean bypassVersionCheck();
 
 }
