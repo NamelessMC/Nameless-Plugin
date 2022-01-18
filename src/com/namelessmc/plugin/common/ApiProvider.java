@@ -4,11 +4,12 @@ import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import com.namelessmc.java_api.logger.ApiLogger;
 import com.namelessmc.java_api.logger.JavaLoggerLogger;
-import com.namelessmc.plugin.bungee.NamelessPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,13 +21,17 @@ public abstract class ApiProvider {
 
 	private Optional<NamelessAPI> cachedApi; // null if not cached
 
-	private final Logger logger;
+	protected @Nullable ExceptionLogger exceptionLogger; // this is initialized by subclass loadConfiguration()
 
-	public ApiProvider(final Logger logger) {
+	private final @NotNull Logger logger;
+
+	public ApiProvider(final @NotNull Logger logger) {
 		this.logger = logger;
 	}
 
 	public synchronized Optional<NamelessAPI> getNamelessApi() {
+		Objects.requireNonNull(exceptionLogger, "Exception logger not initialized before API was requested. This is a bug.");
+
 		if (this.cachedApi != null) {
 			return this.cachedApi;
 		}
@@ -86,7 +91,7 @@ public abstract class ApiProvider {
 			// own, so we don't want to break the plugin until the administrator reloads.
 			if (this.getDebug()) {
 				this.logger.warning("Debug is enabled, printing full error message:");
-				NamelessPlugin.getInstance().getExceptionLogger().logException(e);
+				exceptionLogger.logException(e);
 			}
 
 			this.cachedApi = null;

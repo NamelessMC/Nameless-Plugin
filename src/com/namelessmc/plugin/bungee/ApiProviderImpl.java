@@ -1,7 +1,9 @@
 package com.namelessmc.plugin.bungee;
 
 import com.namelessmc.plugin.common.ApiProvider;
+import com.namelessmc.plugin.common.ExceptionLogger;
 import net.md_5.bungee.config.Configuration;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.logging.Logger;
@@ -17,7 +19,9 @@ public class ApiProviderImpl extends ApiProvider {
 	private boolean debug;
 	private int timeout;
 
-	public void loadConfiguration(final Configuration config) {
+	public void loadConfiguration(final @NotNull Configuration config, final @NotNull ExceptionLogger exceptionLogger) {
+		super.exceptionLogger = exceptionLogger;
+
 		this.apiUrl = config.getString("api.url");
 		this.apiKey = config.getString("api.key");
 		this.debug = config.getBoolean("api.debug-mode", false);

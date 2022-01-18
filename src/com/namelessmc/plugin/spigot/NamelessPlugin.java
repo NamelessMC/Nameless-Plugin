@@ -152,9 +152,9 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	public void reload() {
 		NamelessPlugin.instance.reloadConfig();
-		this.apiProvider.loadConfiguration(getConfig());
 		Bukkit.getScheduler().runTaskAsynchronously(this, () -> apiProvider.getNamelessApi());
 		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptons"));
+		this.apiProvider.loadConfiguration(getConfig(), exceptionLogger);
 
 		for (final Config config : Config.values()) {
 			config.reload();

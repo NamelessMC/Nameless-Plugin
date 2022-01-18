@@ -86,7 +86,7 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 
 		this.config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile.toFile());
 
-		this.apiProvider.loadConfiguration(this.config);
+		this.apiProvider.loadConfiguration(this.config, this.getExceptionLogger());
 
 		try {
 			this.getLanguage().updateFiles();

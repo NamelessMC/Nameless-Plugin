@@ -1,7 +1,9 @@
 package com.namelessmc.plugin.spigot;
 
 import com.namelessmc.plugin.common.ApiProvider;
+import com.namelessmc.plugin.common.ExceptionLogger;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.logging.Logger;
@@ -14,11 +16,13 @@ public class ApiProviderImpl extends ApiProvider {
 	private boolean uuid;
 	private int timeout;
 
-	public ApiProviderImpl(final Logger logger) {
+	public ApiProviderImpl(final @NotNull Logger logger) {
 		super(logger);
 	}
 
-	void loadConfiguration(final FileConfiguration config) {
+	void loadConfiguration(final @NotNull FileConfiguration config, final @NotNull ExceptionLogger exceptionLogger) {
+		super.exceptionLogger = exceptionLogger;
+
 		this.apiUrl = config.getString("api.url");
 		this.apiKey = config.getString("api.key");
 		this.debug = config.getBoolean("api.debug", false);
