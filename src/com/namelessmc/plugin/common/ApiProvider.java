@@ -1,14 +1,10 @@
 package com.namelessmc.plugin.common;
 
-import com.namelessmc.java_api.ApiError;
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessVersion;
-import com.namelessmc.java_api.Website;
+import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import com.namelessmc.java_api.logger.ApiLogger;
 import com.namelessmc.java_api.logger.JavaLoggerLogger;
-import com.namelessmc.plugin.bungee.NamelessPlugin;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 import java.net.MalformedURLException;
 import java.util.Optional;

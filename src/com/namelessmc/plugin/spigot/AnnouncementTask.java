@@ -38,7 +38,7 @@ public class AnnouncementTask implements Runnable {
 							announcements = api.getAnnouncements();
 						}
 					} catch (NamelessException e) {
-						com.namelessmc.plugin.bungee.NamelessPlugin.getInstance().getExceptionLogger().logException(e);
+						NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 						return;
 					}
 					if (filterDisplay != null) {
@@ -54,7 +54,7 @@ public class AnnouncementTask implements Runnable {
 								return;
 							}
 							Component message = NamelessPlugin.getInstance().getLanguage()
-									.getComponent(LanguageHandler.Term.WEBSITE_ANNOUNCEMENT, "message", announcementContent);
+									.getComponent(LanguageHandler.Term.WEBSITE_ANNOUNCEMENT, "message", announcementMessage);
 							player2.sendMessage(message);
 						});
 					}
