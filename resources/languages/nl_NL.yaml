@@ -81,4 +81,5 @@ command:
     help-prefix: /{command}
     usage: '/{command} [subcommando] [argumenten..]'
 join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.
-website-announcement: 'Website aankondiging: <content>'
+website-announcement: 'Website aankondiging: <message>'
+user-sync-kick: Je bent verbannen van onze server als gevolg van een website ban.
