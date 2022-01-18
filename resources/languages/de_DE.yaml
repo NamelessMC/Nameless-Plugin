@@ -74,7 +74,7 @@ command:
       banned: 'Gebannt: <banned>'
       'yes': Ja
       'no': Nein
-      uuid-unknown: Unbekannt
+      uuid-unknown: 'UUID: Unbekannt'
       fail: Beim Versuch, Spielerinformationen abzurufen, ist ein unbekannter Fehler
         aufgetreten.
       primary-group: 'Primäre Gruppe: <groupname>'
@@ -87,3 +87,5 @@ command:
 join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
   Dich mit /register.
 website-announcement: 'Webseiten-Ankündigung: <content>'
+user-sync-kick: Sie werden von unserem Server gesperrt, nachdem Sie ein Website-Konto
+  gesperrt haben.

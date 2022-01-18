@@ -4,7 +4,9 @@ import java.util.Optional;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
+import com.namelessmc.plugin.common.ExceptionLogger;
 import com.namelessmc.plugin.common.LanguageHandler;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class CommonCommand {
 
@@ -14,17 +16,19 @@ public abstract class CommonCommand {
 		this.provider = provider;
 	}
 
-	protected AbstractScheduler getScheduler() {
+	protected @NotNull AbstractScheduler getScheduler() {
 		return this.provider.getScheduler();
 	}
 
-	protected LanguageHandler getLanguage() {
+	protected @NotNull LanguageHandler getLanguage() {
 		return this.provider.getLanguage();
 	}
 
-	protected Optional<NamelessAPI> getApi(){
+	protected @NotNull Optional<NamelessAPI> getApi(){
 		return this.provider.getApiProvider().getNamelessApi();
 	}
+
+	protected @NotNull ExceptionLogger getExceptionLogger() { return this.provider.getExceptionLogger(); }
 
 	protected boolean useUuids() {
 		return this.provider.getApiProvider().useUuids();

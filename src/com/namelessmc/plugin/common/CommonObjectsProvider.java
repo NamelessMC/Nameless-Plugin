@@ -10,4 +10,6 @@ public interface CommonObjectsProvider {
 
 	ApiProvider getApiProvider();
 
+	ExceptionLogger getExceptionLogger();
+
 }

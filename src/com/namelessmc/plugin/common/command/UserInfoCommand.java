@@ -91,7 +91,7 @@ public class UserInfoCommand extends CommonCommand {
 						"banned", banned));
 			} catch (final NamelessException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_FAIL));
-				e.printStackTrace();
+				getExceptionLogger().logException(e);
 			}
 		});
 	}

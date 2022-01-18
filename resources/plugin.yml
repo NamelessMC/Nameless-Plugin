@@ -10,4 +10,5 @@ softdepend: [Vault, PlaceholderAPI, Maintenance]
 commands:
   namelessplugin:
     description: NamelessMC plugin command (/nlpl also works)
+    usage: /<command> rl/reload
     aliases: [namelessmcplugin, nlmcpl, nlpl]

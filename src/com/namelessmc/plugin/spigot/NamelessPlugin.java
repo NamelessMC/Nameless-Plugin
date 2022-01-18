@@ -3,6 +3,7 @@ package com.namelessmc.plugin.spigot;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.plugin.common.ApiProvider;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
+import com.namelessmc.plugin.common.ExceptionLogger;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.spigot.event.PlayerBan;
@@ -54,13 +55,18 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	private Permission permissions;
 	public Permission getPermissions() { return this.permissions; }
-	
+
 	private PapiParser papiParser;
 	public PapiParser getPapiParser() { return this.papiParser; }
 
-	@Nullable
-	private MaintenanceStatusProvider maintenanceStatusProvider;
-	@Nullable public MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
+	private ExceptionLogger exceptionLogger;
+	public @NotNull ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
+
+	private @Nullable MaintenanceStatusProvider maintenanceStatusProvider;
+	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
+
+	private @Nullable PlaceholderCacher placeholderCacher;
+	public @Nullable PlaceholderCacher getPlaceholderCacher() { return this.placeholderCacher; }
 
 	private final @NotNull ArrayList<@NotNull BukkitTask> tasks = new ArrayList<>(2);
 	private @Nullable Websend websend;
@@ -97,7 +103,8 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 		reload();
 
-		this.initHooks();
+		initPapi();
+		initMaintenance();
 
 		this.registerCommands();
 		this.getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
@@ -116,7 +123,12 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	@Override
 	public void onDisable() {
-		websend.stop();
+		if (websend != null) {
+			websend.stop();
+		}
+		if (placeholderCacher != null) {
+			placeholderCacher.stop();
+		}
 	}
 
 	private void checkUuids() {
@@ -135,6 +147,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		NamelessPlugin.instance.reloadConfig();
 		this.apiProvider.loadConfiguration(getConfig());
 		Bukkit.getScheduler().runTaskAsynchronously(this, () -> apiProvider.getNamelessApi());
+		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptons"));
 
 		for (final Config config : Config.values()) {
 			config.reload();
@@ -156,9 +169,8 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			task.cancel();
 		}
 
-		final int rate = getConfig().getInt("server-data-upload-rate", 10) * 20;
-		final int serverId = getConfig().getInt("server-id", 0);
-		if (rate > 0 && serverId > 0) {
+		if (getConfig().getBoolean("server-data-sender.enabled")) {
+			final int rate = getConfig().getInt("server-data-sender.interval") * 20;
 			this.tasks.add(new ServerDataSender().runTaskTimer(this, rate, rate));
 		}
 
@@ -173,6 +185,15 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		}
 
 		this.tasks.trimToSize();
+
+		if (placeholderCacher != null) {
+			placeholderCacher.stop();
+		}
+
+		if (getConfig().getBoolean("retrieve-placeholders.enabled", false)) {
+			int interval = getConfig().getInt("retrieve-placeholders.interval", 30) * 20;
+			this.placeholderCacher = new PlaceholderCacher(this, interval);
+		}
 
 		if (websend != null) {
 			websend.stop();
@@ -215,26 +236,14 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		}
 	}
 
-	private void initHooks() {
-		initPapi();
-		initMaintenance();
-	}
-
 	private void initPapi() {
-		boolean placeholderPluginInstalled = false;
-
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			final PapiHook placeholders = new PapiHook();
 			placeholders.register();
-			placeholderPluginInstalled = true;
 
 			this.papiParser = new PapiParserEnabled();
 		} else {
 			this.papiParser = new PapiParserDisabled();
-		}
-
-		if (placeholderPluginInstalled && getConfig().getBoolean("enable-placeholders", false)) {
-			Bukkit.getScheduler().runTaskAsynchronously(this, new PlaceholderCacher());
 		}
 	}
 

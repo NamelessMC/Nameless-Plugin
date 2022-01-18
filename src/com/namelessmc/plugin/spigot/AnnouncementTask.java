@@ -38,7 +38,7 @@ public class AnnouncementTask implements Runnable {
 							announcements = api.getAnnouncements();
 						}
 					} catch (NamelessException e) {
-						e.printStackTrace();
+						com.namelessmc.plugin.bungee.NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 						return;
 					}
 					if (filterDisplay != null) {
@@ -46,7 +46,7 @@ public class AnnouncementTask implements Runnable {
 					}
 					if (!announcements.isEmpty()) {
 						Announcement announcement = ListUtils.choice(announcements);
-						String announcementContent = announcement.getContent();
+						String announcementMessage = announcement.getMessage();
 						Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
 							Player player2 = Bukkit.getPlayer(uuid);
 							if (player2 == null) {
@@ -54,7 +54,7 @@ public class AnnouncementTask implements Runnable {
 								return;
 							}
 							Component message = NamelessPlugin.getInstance().getLanguage()
-									.getComponent(LanguageHandler.Term.WEBSITE_ANNOUNCEMENT, "content", announcementContent);
+									.getComponent(LanguageHandler.Term.WEBSITE_ANNOUNCEMENT, "message", announcementContent);
 							player2.sendMessage(message);
 						});
 					}

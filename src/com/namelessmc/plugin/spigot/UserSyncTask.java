@@ -57,7 +57,7 @@ public class UserSyncTask implements Runnable {
 		} catch (final NamelessException e) {
 			NamelessPlugin.getInstance().getLogger().warning(
 					"An error occured while getting a list of registered users from the website for the bans sync feature.");
-			e.printStackTrace();
+			NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 			return null;
 		}
 

@@ -8,6 +8,7 @@ import com.namelessmc.java_api.Website;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import com.namelessmc.java_api.logger.ApiLogger;
 import com.namelessmc.java_api.logger.JavaLoggerLogger;
+import com.namelessmc.plugin.bungee.NamelessPlugin;
 
 import java.net.MalformedURLException;
 import java.util.Optional;
@@ -46,6 +47,7 @@ public abstract class ApiProvider {
 						.apiUrl(this.getApiUrl())
 						.userAgent(USER_AGENT)
 						.withCustomDebugLogger(debugLogger)
+						.withTimeoutMillis(this.getTimeout())
 						.build();
 
 				final Website info = api.getWebsite();
@@ -78,7 +80,7 @@ public abstract class ApiProvider {
 			// own, so we don't want to break the plugin until the administrator reloads.
 			if (this.getDebug()) {
 				this.logger.warning("Debug is enabled, printing full error message:");
-				e.printStackTrace();
+				NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 			}
 
 			this.cachedApi = null;
@@ -95,6 +97,8 @@ public abstract class ApiProvider {
 	protected abstract String getApiUrl();
 
 	protected abstract boolean getDebug();
+
+	protected abstract int getTimeout();
 
 	public abstract boolean useUuids();
 

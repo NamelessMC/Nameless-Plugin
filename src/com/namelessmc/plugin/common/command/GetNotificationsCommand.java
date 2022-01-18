@@ -64,7 +64,7 @@ public class GetNotificationsCommand extends CommonCommand {
 				});
 			} catch (final NamelessException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
-				e.printStackTrace();
+				getExceptionLogger().logException(e);
 			}
 		});
 	}

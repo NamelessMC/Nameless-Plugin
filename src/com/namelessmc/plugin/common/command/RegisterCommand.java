@@ -57,11 +57,11 @@ public class RegisterCommand extends CommonCommand {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID));
 				} else {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));
-					e.printStackTrace();
+					getExceptionLogger().logException(e);
 				}
 			} catch (final NamelessException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));
-				e.printStackTrace();
+				getExceptionLogger().logException(e);
 			} catch (final InvalidUsernameException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEINVALID));
 			} catch (final CannotSendEmailException e) {

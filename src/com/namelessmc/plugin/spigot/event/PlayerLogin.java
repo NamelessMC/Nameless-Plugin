@@ -42,7 +42,7 @@ public class PlayerLogin implements Listener {
 							});
 						}
 					} catch (final NamelessException e) {
-						e.printStackTrace();
+						NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 					}
 				} else {
 					NamelessPlugin.getInstance().getLogger().warning("Not sending join message, API is not working properly.");
