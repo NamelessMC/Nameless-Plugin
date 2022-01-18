@@ -38,7 +38,7 @@ public class AnnouncementTask implements Runnable {
 							announcements = api.getAnnouncements();
 						}
 					} catch (NamelessException e) {
-						com.namelessmc.plugin.bungee.NamelessPlugin.getInstance().getExceptionLogger().logException(e);
+						NamelessPlugin.getInstance().getExceptionLogger().logException(e);
 						return;
 					}
 					if (filterDisplay != null) {
