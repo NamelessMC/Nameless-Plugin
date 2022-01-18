@@ -66,9 +66,12 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	private ExceptionLogger exceptionLogger;
 	public @NotNull ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
 	
-	@Nullable
-	private MaintenanceStatusProvider maintenanceStatusProvider;
-	@Nullable public MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
+
+	private @Nullable MaintenanceStatusProvider maintenanceStatusProvider;
+	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
+
+	private @Nullable PlaceholderCacher placeholderCacher;
+	public @Nullable PlaceholderCacher getPlaceholderCacher() { return this.placeholderCacher; }
 	
 	private final @NotNull ArrayList<@NotNull BukkitTask> tasks = new ArrayList<>(2);
 	private @Nullable Websend websend;
@@ -107,7 +110,8 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 		reload();
 
-		this.initHooks();
+		initPapi();
+		initMaintenance();
 
 		this.registerCommands();
 		this.getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
@@ -126,7 +130,12 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	@Override
 	public void onDisable() {
-		websend.stop();
+		if (websend != null) {
+			websend.stop();
+		}
+		if (placeholderCacher != null) {
+			placeholderCacher.stop();
+		}
 	}
 
 	private void checkUuids() {
@@ -184,6 +193,15 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 		this.tasks.trimToSize();
 
+		if (placeholderCacher != null) {
+			placeholderCacher.stop();
+		}
+
+		if (getConfig().getBoolean("retrieve-placeholders.enabled", false)) {
+			int interval = getConfig().getInt("retrieve-placeholders.interval", 30) * 20;
+			this.placeholderCacher = new PlaceholderCacher(this, interval);
+		}
+
 		if (websend != null) {
 			websend.stop();
 		}
@@ -224,27 +242,15 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			e.printStackTrace();
 		}
 	}
-
-	private void initHooks() {
-		initPapi();
-		initMaintenance();
-	}
 	
 	private void initPapi() {
-		boolean placeholderPluginInstalled = false;
-
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			final PapiHook placeholders = new PapiHook();
 			placeholders.register();
-			placeholderPluginInstalled = true;
 
 			this.papiParser = new PapiParserEnabled();
 		} else {
 			this.papiParser = new PapiParserDisabled();
-		}
-
-		if (placeholderPluginInstalled && getConfig().getBoolean("enable-placeholders", false)) {
-			Bukkit.getScheduler().runTaskAsynchronously(this, new PlaceholderCacher());
 		}
 	}
 	

@@ -36,9 +36,14 @@ server-data-sender:
     # player-specific placeholders to send to the website (list of placeholder names without %%)
     player: []
 
-# Enable retrieving PlaceholderAPI placeholders (NOT the same as sending placeholders to the website!)
+# Retrieving user info from NamelessMC and make it available as PlaceholderAPI placeholders.
+# NOT the same as sending placeholders to the website, which can be configured above!
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders#nameless-plugin
-enable-placeholders: false
+retrieve-placeholders:
+  enabled: false
+  # Update interval in seconds
+  interval: 30
+
 
 # Number of milliseconds in between notifications request
 # Lower number means more frequent updates of placeholders, but higher
