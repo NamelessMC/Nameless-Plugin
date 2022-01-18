@@ -108,7 +108,7 @@ websend:
   command-executor:
     enabled: false
     interval: 2
-  # Send console output to the Websend module
+  # EXPERIMENTAL: Send console output to the Websend module
   console-capture:
     enabled: false
     send-interval: 2
