@@ -1,10 +1,10 @@
 package com.namelessmc.plugin.bungee;
 
-import java.util.logging.Logger;
-
 import com.namelessmc.plugin.common.ApiProvider;
-
 import net.md_5.bungee.config.Configuration;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.logging.Logger;
 
 public class ApiProviderImpl extends ApiProvider {
 
@@ -12,19 +12,26 @@ public class ApiProviderImpl extends ApiProvider {
 		super(logger);
 	}
 
-	private String apiUrl;
+	private @Nullable String apiUrl;
+	private @Nullable String apiKey;
 	private boolean debug;
 	private int timeout;
 
 	public void loadConfiguration(final Configuration config) {
 		this.apiUrl = config.getString("api.url");
+		this.apiKey = config.getString("api.key");
 		this.debug = config.getBoolean("api.debug-mode", false);
 		this.timeout = config.getInt("api.timeout", 5000);
 	}
 
 	@Override
-	protected String getApiUrl() {
+	protected @Nullable String getApiUrl() {
 		return this.apiUrl;
+	}
+
+	@Override
+	protected @Nullable String getApiKey() {
+		return this.apiKey;
 	}
 
 	@Override

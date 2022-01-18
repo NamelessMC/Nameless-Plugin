@@ -35,7 +35,9 @@ public class AnnouncementTask implements Runnable {
 						if (optUser.isPresent()) {
 							announcements = api.getAnnouncements(optUser.get());
 						} else {
-							announcements = api.getAnnouncements();
+							// TODO uncomment when the java api has this method again
+//							announcements = api.getAnnouncements();
+							throw new UnsupportedOperationException("Getting announcements for guests is temporarily unsupported");
 						}
 					} catch (NamelessException e) {
 						NamelessPlugin.getInstance().getExceptionLogger().logException(e);
