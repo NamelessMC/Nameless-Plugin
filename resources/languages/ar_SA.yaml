@@ -7,10 +7,12 @@ command:
         email-used: عنوان البريد الإلكتروني هذا مستخدم بالفعل لحساب مستخدم مختلف.
         email-invalid: عنوان البريد الإلكتروني المقدم غير صالح.
         username-invalid: اسم المستخدم المقدم غير صالح.
-        cannot-send-email: غير قادر على إرسال البريد الإلكتروني للتسجيل ، يرجى الاتصال بالمسؤول لتفعيل حسابك.
+        cannot-send-email: غير قادر على إرسال البريد الإلكتروني للتسجيل ، يرجى الاتصال
+          بالمسؤول لتفعيل حسابك.
       success:
         email: يرجى التحقق من صندوق الوارد الخاص بك لإكمال التسجيل.
-        link: '<hover:show_text:"انقر للفتح في مستعرض ويب"> <click:open_url:"<url>">الرجاء إكمال التسجيل بالانتقال إلى<url>.'
+        link: '<hover:show_text:"انقر للفتح في مستعرض ويب"> <click:open_url:"<url>">الرجاء
+          إكمال التسجيل بالانتقال إلى<url>.'
     description: قم بإنشاء حساب موقع
     usage: /{command} <البريد الإلكتروني>
   report:
@@ -60,7 +62,7 @@ command:
     usage: /{command}
     description: يعرض قائمة إشعارات موقع الويب.
 join-not-registered: ليس لديك حساب على موقعنا حتى الآن. الرجاء التسجيل باستخدام /register.
-website-announcement: 'إعلان الموقع: <content>'
+website-announcement: 'إعلان الموقع: <message>'
 user-sync-kick: أنت محظور من خادمنا بعد حظر حساب على الموقع.
 player:
   other:
