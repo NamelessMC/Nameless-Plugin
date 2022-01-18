@@ -71,5 +71,5 @@ command:
       fail: "An unknown error occured while trying to retrieve player information."
 
 join-not-registered: "You do not have an account on our website yet. Please register using /register."
-website-announcement: "Website announcement: <content>"
+website-announcement: "Website announcement: <message>"
 user-sync-kick: "You are banned from our server following a website account ban."
