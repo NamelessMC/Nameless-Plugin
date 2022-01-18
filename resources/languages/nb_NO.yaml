@@ -74,6 +74,6 @@ command:
       primary-group: 'Primærgruppe: <groupname>'
     description: Hent informasjon om en nettsidebruker
   not-a-player: Du må være en spiller for å utføre denne kommandoen.
-website-announcement: 'Nettsidekunngjøring: <content>'
+website-announcement: 'Nettsidekunngjøring: <message>'
 join-not-registered: Du har ikke en konto på nettsiden vår enda. Vennligst registrer
   deg med /register.
