@@ -5,8 +5,10 @@ import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import com.namelessmc.java_api.logger.ApiLogger;
 import com.namelessmc.java_api.logger.JavaLoggerLogger;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,34 +38,42 @@ public abstract class ApiProvider {
 		this.cachedApi = Optional.empty();
 
 		try {
-			if (this.getApiUrl().isEmpty()) {
+			if (this.getApiUrl() == null || this.getApiUrl().isEmpty()) {
 				this.logger.severe("You have not entered an API URL in the config. Please get your site's API URL from StaffCP > Configuration > API and reload the plugin.");
+			} else if (this.getApiKey() == null || this.getApiKey().isEmpty()) {
+				this.logger.severe("You have not entered an API key in the config. Please get your site's API key from StaffCP > Configuration > API and reload the plugin.");
 			} else {
-				final NamelessAPI api = NamelessAPI.builder()
-						.apiUrl(this.getApiUrl())
-						.userAgent(USER_AGENT)
-						.withCustomDebugLogger(debugLogger)
-						.withTimeoutMillis(this.getTimeout())
-						.build();
-
-				final Website info = api.getWebsite();
+				URL url = null;
 				try {
-					NamelessVersion version = info.getParsedVersion();
-					if (GlobalConstants.SUPPORTED_WEBSITE_VERSIONS.contains(version)) {
-						this.cachedApi = Optional.of(api);
-					} else if (GlobalConstants.DEPRECATED_WEBSITE_VERSIONS.contains(version)) {
-						this.logger.warning("Support for your NamelessMC version (" + version + ") is deprecated, some functionality may be broken. Please upgrade to a newer version of NamelessMC as soon as possible.");
-						this.cachedApi = Optional.of(api);
-					} else {
-						this.logger.severe("Your website runs a version of NamelessMC (" + version + ") that is not supported by this version of the plugin. Note that usually only the newest one or two NamelessMC versions are supported.");
+					url = new URL(this.getApiUrl());
+				} catch (MalformedURLException e){
+					this.logger.severe("You have entered an invalid API URL or not entered one at all. Please get an up-to-date API URL from StaffCP > Configuration > API and reload the plugin.");
+					this.logger.severe("Error message: '" + e.getMessage() + "'");
+				}
+
+				if (url != null) {
+					final NamelessAPI api = NamelessAPI.builder(url, this.getApiKey())
+							.userAgent(USER_AGENT)
+							.withCustomDebugLogger(debugLogger)
+							.withTimeoutMillis(this.getTimeout())
+							.build();
+
+					final Website info = api.getWebsite();
+					try {
+						NamelessVersion version = info.getParsedVersion();
+						if (GlobalConstants.SUPPORTED_WEBSITE_VERSIONS.contains(version)) {
+							this.cachedApi = Optional.of(api);
+						} else if (GlobalConstants.DEPRECATED_WEBSITE_VERSIONS.contains(version)) {
+							this.logger.warning("Support for your NamelessMC version (" + version + ") is deprecated, some functionality may be broken. Please upgrade to a newer version of NamelessMC as soon as possible.");
+							this.cachedApi = Optional.of(api);
+						} else {
+							this.logger.severe("Your website runs a version of NamelessMC (" + version + ") that is not supported by this version of the plugin. Note that usually only the newest one or two NamelessMC versions are supported.");
+						}
+					} catch (final UnknownNamelessVersionException e) {
+						this.logger.severe("The plugin doesn't recognize the NamelessMC version you are using. Ensure you are running a recent version of the plugin and NamelessMC v2.");
 					}
-				} catch (final UnknownNamelessVersionException e) {
-					this.logger.severe("The plugin doesn't recognize the NamelessMC version you are using. Ensure you are running a recent version of the plugin and NamelessMC v2.");
 				}
 			}
-		} catch (final MalformedURLException e) {
-			this.logger.severe("You have entered an invalid API URL or not entered one at all. Please get an up-to-date API URL from StaffCP > Configuration > API and reload the plugin.");
-			this.logger.severe("Error message: '" + e.getMessage() + "'");
 		} catch (final ApiError e) {
 			if (e.getError() == ApiError.INVALID_API_KEY) {
 				this.logger.severe("You have entered an invalid API key. Please get an up-to-date API URL from StaffCP > Configuration > API and reload the plugin.");
@@ -90,7 +100,9 @@ public abstract class ApiProvider {
 		this.cachedApi = null;
 	}
 
-	protected abstract String getApiUrl();
+	protected abstract @Nullable String getApiUrl();
+
+	protected abstract @Nullable String getApiKey();
 
 	protected abstract boolean getDebug();
 
