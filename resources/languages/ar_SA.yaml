@@ -14,7 +14,7 @@ command:
         link: '<hover:show_text:"انقر للفتح في مستعرض ويب"> <click:open_url:"<url>">الرجاء
           إكمال التسجيل بالانتقال إلى<url>.'
     description: قم بإنشاء حساب موقع
-    usage: /{command} <البريد الإلكتروني>
+    usage: /{command} <email>
   report:
     description: الإبلاغ عن لاعب
     output:
