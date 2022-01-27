@@ -1,10 +1,6 @@
 package com.namelessmc.plugin.spigot;
 
-import com.namelessmc.java_api.FilteredUserListBuilder;
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.java_api.UserFilter;
+import com.namelessmc.java_api.*;
 import com.namelessmc.plugin.common.LanguageHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -14,11 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
@@ -65,7 +57,15 @@ public class UserSyncTask implements Runnable {
 		final Set<String> excludes = new HashSet<>(NamelessPlugin.getInstance().getConfig().getStringList("user-sync.exclude"));
 		for (final NamelessUser user : users) {
 			try {
-				if (NamelessPlugin.getInstance().getApiProvider().useUuids()) {
+				if (NamelessPlugin.getInstance().getApiProvider().useUsernames()) {
+					String name = user.getUsername();
+					if (!excludes.contains(name)) {
+						UUID offlineUuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
+						uuids.add(offlineUuid);
+					} else if (doLog) {
+						NamelessPlugin.getInstance().getLogger().info("Ignoring user " + name);
+					}
+				} else {
 					final Optional<UUID> optUuid = user.getUniqueId();
 					if (optUuid.isPresent()) {
 						UUID uuid = optUuid.get();
@@ -76,14 +76,6 @@ public class UserSyncTask implements Runnable {
 						}
 					} else {
 						NamelessPlugin.getInstance().getLogger().warning("Website user " + user.getUsername() + " does not have a UUID!");
-					}
-				} else {
-					String name = user.getUsername();
-					if (!excludes.contains(name)) {
-						UUID offlineUuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
-						uuids.add(offlineUuid);
-					} else if (doLog) {
-						NamelessPlugin.getInstance().getLogger().info("Ignoring user " + name);
 					}
 				}
 			} catch (final NamelessException e) {

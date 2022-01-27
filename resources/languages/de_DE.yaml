@@ -86,6 +86,6 @@ command:
     help-prefix: /{Befehl}
 join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
   Dich mit /register.
-website-announcement: 'Webseiten-Ankündigung: <content>'
+website-announcement: 'Webseiten-Ankündigung: <message>'
 user-sync-kick: Sie werden von unserem Server gesperrt, nachdem Sie ein Website-Konto
   gesperrt haben.

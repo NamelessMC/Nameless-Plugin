@@ -1,14 +1,13 @@
 package com.namelessmc.plugin.spigot;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.derkades.derkutils.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 public enum Config {
 
@@ -31,7 +30,7 @@ public enum Config {
 		this.file = new File(NamelessPlugin.getInstance().getDataFolder(), this.fileName);
 	}
 
-	public static void initialize() {
+	public static void reloadAll() {
 		final NamelessPlugin plugin = NamelessPlugin.getInstance();
 
 		// Create config directory
@@ -67,16 +66,6 @@ public enum Config {
 		}
 
 		this.configuration = YamlConfiguration.loadConfiguration(this.file);
-	}
-
-	public void save() {
-		if (this.configuration != null) {
-			try {
-				this.configuration.save(this.file);
-			} catch (final IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
 	}
 
 }

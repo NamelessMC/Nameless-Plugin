@@ -73,7 +73,7 @@ command:
       'no': nej
       fail: Ett okänt fel inträffade när du försökte hämta spelarinformation.
       username: 'Användarnamn: <username>'
-website-announcement: 'Meddelande från webbplatsen: <content>'
+website-announcement: 'Meddelande från webbplatsen: <message>'
 user-sync-kick: Du är bannlyst från vår server efter att ha bannlysts från ert konto
   på webbplatsen.
 join-not-registered: Du har ännu inget konto på vår webbplats. Registrera dig med

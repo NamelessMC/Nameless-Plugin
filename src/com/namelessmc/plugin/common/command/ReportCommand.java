@@ -11,6 +11,7 @@ import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
 import xyz.derkades.derkutils.bukkit.UUIDFetcher;
 
 import java.util.Arrays;
@@ -37,7 +38,7 @@ public class ReportCommand extends CommonCommand {
 
 		getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
-			if (!optApi.isPresent()) {
+			if (optApi.isEmpty()) {
 				sender.sendMessage(this.getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
 				return;
 			}
@@ -46,15 +47,22 @@ public class ReportCommand extends CommonCommand {
 			try {
 				final String targetUsername = args[0];
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-				final Optional<NamelessUser> optUser = super.useUuids() ? api.getUser(sender.getUniqueId()) : api.getUser(sender.getName());
-				if (!optUser.isPresent()) {
+				final Optional<NamelessUser> optUser = NamelessPlugin.getInstance().getApiProvider().userFromPlayer(api, sender.getUniqueId(),sender.getName());
+				if (optUser.isEmpty()) {
 					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOTREGISTERED));
 					return;
 				}
 
 				NamelessUser user = optUser.get();
 
-				if (this.useUuids()) {
+				if (this.getApiProvider().useUsernames()) {
+					Optional<NamelessUser> optTargetUser = api.getUser(targetUsername);
+					if (optTargetUser.isPresent()) {
+						user.createReport(optTargetUser.get(), reason);
+					} else {
+						sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOTREGISTERED));
+					}
+				} else {
 					OfflinePlayer targetPlayer = Bukkit.getOfflinePlayerIfCached(targetUsername);
 					UUID targetUuid;
 					if (targetPlayer != null) {
@@ -68,13 +76,6 @@ public class ReportCommand extends CommonCommand {
 					}
 					user.createReport(targetUuid, targetUsername, reason);
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
-				} else {
-					Optional<NamelessUser> optTargetUser = api.getUser(targetUsername);
-					if (optTargetUser.isPresent()) {
-						user.createReport(optTargetUser.get(), reason);
-					} else {
-						sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOTREGISTERED));
-					}
 				}
 			} catch (final ReportUserBannedException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_COMMAND_BANNED));

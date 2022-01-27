@@ -37,9 +37,7 @@ public class PlayerBan implements Listener {
 			if (optApi.isPresent()) {
 				NamelessAPI api = optApi.get();
 				try {
-					Optional<NamelessUser> optUser = NamelessPlugin.getInstance().getApiProvider().useUuids()
-							? api.getUser(uuid)
-							: api.getUser(name);
+					Optional<NamelessUser> optUser = NamelessPlugin.getInstance().getApiProvider().userFromPlayer(api, uuid, name);
 					if (optUser.isPresent()) {
 						NamelessUser user = optUser.get();
 						user.banUser();

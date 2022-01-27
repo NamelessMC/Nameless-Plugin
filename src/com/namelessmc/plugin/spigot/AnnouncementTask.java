@@ -3,6 +3,7 @@ package com.namelessmc.plugin.spigot;
 import com.namelessmc.java_api.Announcement;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.plugin.common.ApiProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -19,7 +20,8 @@ public class AnnouncementTask implements Runnable {
 
 	@Override
 	public void run() {
-		NamelessPlugin.getInstance().getNamelessApi().ifPresent(api -> {
+		ApiProvider apiProvider = NamelessPlugin.getInstance().getApiProvider();
+		apiProvider.getNamelessApi().ifPresent(api -> {
 			@Nullable String filterDisplay = NamelessPlugin.getInstance().getConfig().getString("announcements.display");
 			int delay = 0;
 			for (Player player : Bukkit.getOnlinePlayers()) {
@@ -29,9 +31,7 @@ public class AnnouncementTask implements Runnable {
 				Bukkit.getScheduler().runTaskLaterAsynchronously(NamelessPlugin.getInstance(), () -> {
 					List<Announcement> announcements;
 					try {
-						Optional<NamelessUser> optUser = NamelessPlugin.getInstance().getApiProvider().useUuids()
-								? api.getUser(uuid)
-								: api.getUser(name);
+						Optional<NamelessUser> optUser = apiProvider.userFromPlayer(api, uuid, name);
 						if (optUser.isPresent()) {
 							announcements = api.getAnnouncements(optUser.get());
 						} else {

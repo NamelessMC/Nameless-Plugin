@@ -83,6 +83,6 @@ player:
     not-registered: Этот игрок не зарегистрирован на сайте.
 join-not-registered: У вас еще нет учетной записи на нашем сайте. Пожалуйста, зарегистрируйтесь,
   используя /register.
-website-announcement: 'объявление на сайте: <content>'
+website-announcement: 'объявление на сайте: <message>'
 user-sync-kick: Вы заблокированы на этом сервере так как вы заблокированы на нашем
   сайте.
