@@ -12,7 +12,7 @@ command:
   user-info:
     output:
       uuid: 'UUID: <uuid>'
-      uuid-unknown: Bilinmiyor
+      uuid-unknown: 'UUD: bilinmiyor'
       fail: Oyuncu bilgilerini almaya çalışırken bilinmeyen bir hata oluştu.
       displayname: 'Görünen ad: <displayname>'
       username: 'Kullanıcı Adı: <username>'
@@ -22,6 +22,7 @@ command:
       'yes': evet
       'no': hayır
       primary-group: 'Birincil grup: <groupname>'
+      all-groups: 'Tüm gruplar: <groups_names_list>'
     description: Bir web sitesi kullanıcısı hakkında bilgi alın
     usage: '/{command} [kullanıcı adı]'
   no-permission: Bu komutu yürütme izniniz yok.
@@ -39,7 +40,8 @@ command:
     output:
       success:
         email: Kaydı tamamlamak için lütfen gelen kutunuzu kontrol edin.
-        link: Kaydı tamamlamak için lütfen <link> adresini ziyaret edin.
+        link: <hover:show_text:"Tarayıcıda açmak için tıkla"><click:open_url:"<url>">Lütfen
+          kayıt sürecini tamamlamak için <url> adresine gidiniz.
       fail:
         already-exists: Zaten bir hesabınız var.
         email-used: Bu e-posta adresi zaten farklı bir kullanıcı hesabı için kullanılıyor.
@@ -77,3 +79,5 @@ player:
     command-banned: Bu komutu çalıştıramazsınız, siteden yasaklanırsınız.
 join-not-registered: Henüz web sitemizde bir hesabınız yok. Lütfen / register kullanarak
   kaydolun.
+website-announcement: 'Site duyurusu: <message>'
+user-sync-kick: Bu sunucuda uzaklaştırılmışsınız.
