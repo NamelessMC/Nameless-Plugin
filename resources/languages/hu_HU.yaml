@@ -12,7 +12,8 @@ command:
           aktiválásához vegye fel a kapcsolatot az adminisztrátorral.
       success:
         email: A regisztráció befejezéséhez ellenőrizze a beérkező leveleket.
-        link: A regisztráció befejezéséhez látogasson el a (z) <link> oldalra.
+        link: <hover:show_text:"Böngésző megnyitása."><click:open_url:"<url>">A regisztráció
+          befejezéséhez látogasson el a (z) <link> oldalra.
     usage: '/{command} <email>'
     description: Hozzon létre egy webhelyfiókot
   report:
@@ -78,3 +79,4 @@ player:
     command-banned: Nem futtathatja ezt a parancsot, mert ki van tiltva a webhelyről.
 join-not-registered: Még nincs fiókja a weboldalunkon. Kérjük, regisztráljon a / register
   segítségével.
+website-announcement: 'Weboldal közlemények: <message>'
