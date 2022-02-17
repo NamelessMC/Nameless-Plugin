@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.spigot;
 
+import com.google.common.collect.Streams;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -9,13 +10,17 @@ import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Statistic;
+import org.bukkit.advancement.Advancement;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.stream.StreamSupport;
 
 public class ServerDataSender extends BukkitRunnable {
 
@@ -77,6 +82,13 @@ public class ServerDataSender extends BukkitRunnable {
 			// it's PLAY_ONE_MINUTE in 1.13+ but unlike the name suggests it actually still records ticks played
 			Statistic playStat = Statistic.PLAY_ONE_MINUTE;
 			playerInfo.addProperty("playtime", player.getStatistic(playStat) / 120);
+			JsonArray completedAdvancements = new JsonArray();
+			Streams.stream(Bukkit.advancementIterator())
+					.filter(a -> player.getAdvancementProgress(a).isDone())
+					.map(Advancement::getKey)
+					.map(NamespacedKey::toString)
+					.forEach(completedAdvancements::add);
+			playerInfo.add("completed_advancements", completedAdvancements);
 
 			try {
 				if (permissions != null) {
