@@ -72,6 +72,7 @@ public class LanguageHandler {
 		COMMAND_USERINFO_OUTPUT_REGISTERDATE("command.user-info.output.registered-date"),
 		COMMAND_USERINFO_OUTPUT_VALIDATED("command.user-info.output.validated"),
 		COMMAND_USERINFO_OUTPUT_BANNED("command.user-info.output.banned"),
+		COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD("command.user-info.output.custom-field"),
 		COMMAND_USERINFO_OUTPUT_YES("command.user-info.output.yes"),
 		COMMAND_USERINFO_OUTPUT_NO("command.user-info.output.no"),
 		COMMAND_USERINFO_OUTPUT_FAIL("command.user-info.output.fail"),

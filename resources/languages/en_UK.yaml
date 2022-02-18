@@ -66,6 +66,7 @@ command:
       registered-date: "Registered on <date>"
       validated: "Account validated: <validated>"
       banned: "Banned: <banned>"
+      custom-field: "Custom field '<name>': <value>"
       'yes': "yes"
       'no': "no"
       fail: "An unknown error occured while trying to retrieve player information."
