@@ -61,6 +61,7 @@ command:
       uuid-unknown: 'UUID: neznámé'
       primary-group: 'Hlavní skupina: <groupname>'
       all-groups: 'Všechny skupiny: <groups_names_list>'
+      custom-field: "Vlastní pole '<název>': <hodnota>"
   subcommands:
     usage: '/{command} [podpříkaz] [argumenty..]'
     help-prefix: /{command}
