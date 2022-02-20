@@ -79,6 +79,7 @@ command:
       uuid-unknown: 'UUID: desconocido'
       primary-group: 'Grupo principal: <groupname>'
       all-groups: 'Todos los grupos: <groups_names_list>'
+      custom-field: "Campo personalizado '<name>': <value>"
     description: Obtener información sobre un usuario del sitio web
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /register.
