@@ -2,8 +2,6 @@ package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.java_api.exception.AccountAlreadyActivatedException;
 import com.namelessmc.java_api.exception.InvalidValidateCodeException;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
@@ -38,19 +36,11 @@ public class VerifyCommand extends CommonCommand {
 			final NamelessAPI api = optApi.get();
 
 			try {
-				final Optional<NamelessUser> user = NamelessPlugin.getInstance().getApiProvider().userFromPlayer(api, sender.getUniqueId(),sender.getName());
-				if (!user.isPresent()) {
-					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOTREGISTERED));
-					return;
-				}
-
 				final String code = args[0];
-				user.get().verifyMinecraft(code);
+				api.verifyMinecraft(code, sender.getUniqueId(), sender.getName());
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_SUCCESS));
 			} catch (final InvalidValidateCodeException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE));
-			} catch (final AccountAlreadyActivatedException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_ALREADYVALIDATED));
 			} catch (final NamelessException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC));
 				getExceptionLogger().logException(e);
