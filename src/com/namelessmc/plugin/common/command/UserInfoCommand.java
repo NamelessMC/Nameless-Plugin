@@ -1,12 +1,8 @@
 package com.namelessmc.plugin.common.command;
 
-import com.namelessmc.java_api.Group;
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.java_api.*;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
-import net.kyori.adventure.text.Component;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -89,6 +85,11 @@ public class UserInfoCommand extends CommonCommand {
 				final String banned = user.isBanned() ? yes : no;
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_BANNED,
 						"banned", banned));
+
+				for (CustomProfileFieldValue customField : user.getProfileFields()) {
+					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD,
+							"name", customField.getField().getName(), "value", customField.getValue()));
+				}
 			} catch (final NamelessException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_FAIL));
 				getExceptionLogger().logException(e);

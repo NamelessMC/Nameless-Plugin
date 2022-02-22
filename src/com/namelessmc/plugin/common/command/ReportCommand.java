@@ -6,7 +6,6 @@ import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.AlreadyHasOpenReportException;
 import com.namelessmc.java_api.exception.CannotReportSelfException;
 import com.namelessmc.java_api.exception.ReportUserBannedException;
-import com.namelessmc.java_api.exception.UnableToCreateReportException;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
 import org.bukkit.Bukkit;
@@ -53,10 +52,10 @@ public class ReportCommand extends CommonCommand {
 					return;
 				}
 
-				NamelessUser user = optUser.get();
+				final NamelessUser user = optUser.get();
 
 				if (this.getApiProvider().useUsernames()) {
-					Optional<NamelessUser> optTargetUser = api.getUser(targetUsername);
+					final Optional<NamelessUser> optTargetUser = api.getUser(targetUsername);
 					if (optTargetUser.isPresent()) {
 						user.createReport(optTargetUser.get(), reason);
 					} else {
@@ -81,8 +80,6 @@ public class ReportCommand extends CommonCommand {
 				sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_COMMAND_BANNED));
 			} catch (final AlreadyHasOpenReportException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN));
-			} catch (final UnableToCreateReportException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
 			} catch (final CannotReportSelfException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF));
 			} catch (final NamelessException e) {
