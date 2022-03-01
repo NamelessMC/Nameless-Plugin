@@ -4,6 +4,8 @@ import com.namelessmc.plugin.spigot.Chat;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import xyz.derkades.derkutils.FileUtils;
 
@@ -159,11 +161,15 @@ public class LanguageHandler {
 	}
 
 	public Component getComponent(final Term term) {
-		return MiniMessage.miniMessage().parse(getRawMessage(term)); // TODO cache?
+		return MiniMessage.miniMessage().deserialize(getRawMessage(term)); // TODO cache?
 	}
 
 	public Component getComponent(final Term term, final String... placeholders) {
-		return MiniMessage.miniMessage().parse(getRawMessage(term), placeholders);
+		TagResolver[] resolvers = new TagResolver[placeholders.length / 2];
+		for (int i = 0; i < placeholders.length; i+=2) {
+			resolvers[i / 2] = Placeholder.parsed(placeholders[i], placeholders[i+1]);
+		}
+		return MiniMessage.miniMessage().deserialize(getRawMessage(term), resolvers);
 	}
 
 	public void updateFiles() throws IOException {
