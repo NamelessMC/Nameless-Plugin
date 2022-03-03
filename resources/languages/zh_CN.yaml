@@ -40,6 +40,7 @@ command:
       uuid-unknown: 'UUID: 未知'
       primary-group: 主要群组：<groupname>
       all-groups: 全部群组：<groups_names_list>
+      custom-field: "自定义字段 '<name>': <value>"
     usage: '/{command} [用户名]'
     description: 获得一个网站用户的信息
   not-a-player: 您必须是一个玩家才能执行此指令。
