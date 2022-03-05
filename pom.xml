@@ -108,7 +108,7 @@
 		<dependency>
 			<groupId>io.papermc.paper</groupId>
 			<artifactId>paper-api</artifactId>
-			<version>1.18-R0.1-SNAPSHOT</version>
+			<version>1.18.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -143,7 +143,8 @@
 		<dependency>
 			<groupId>net.kyori</groupId>
 			<artifactId>adventure-text-minimessage</artifactId>
-			<version>4.10.0</version>
+			<version>4.10.0</version>  <!-- Same version that's included in Paper 1.18 -->
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
