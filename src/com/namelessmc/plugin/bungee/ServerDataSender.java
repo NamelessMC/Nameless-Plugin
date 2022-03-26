@@ -13,7 +13,6 @@ public class ServerDataSender implements Runnable {
 		final int serverId = NamelessPlugin.getInstance().getConfig().getInt("server-id");
 
 		final JsonObject data = new JsonObject();
-		data.addProperty("tps", 20); // TODO Send real TPS
 		data.addProperty("time", System.currentTimeMillis());
 		data.addProperty("free-memory", Runtime.getRuntime().freeMemory());
 		data.addProperty("max-memory", Runtime.getRuntime().maxMemory());
