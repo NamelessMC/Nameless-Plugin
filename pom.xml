@@ -89,6 +89,10 @@
 							<shadedPattern>com.namelessmc.plugin.lib.slf4j</shadedPattern>
 						</relocation>
 						<relocation>
+							<pattern>org.yaml.snakeyaml</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.snakeyaml</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>xyz.derkades.derkutils</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.derkutils</shadedPattern>
 						</relocation>
@@ -187,6 +191,19 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.velocitypowered</groupId>
+			<artifactId>velocity-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.30</version>
+		</dependency>
+
 	</dependencies>
 
 	<repositories>
@@ -209,6 +226,11 @@
 		<repository>
 			<id>bungeecord-repo</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+
+		<repository>
+			<id>velocity</id>
+			<url>https://nexus.velocitypowered.com/repository/maven-public/</url>
 		</repository>
 
 	</repositories>

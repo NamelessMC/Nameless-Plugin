@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public abstract class CommonCommand {
 
@@ -71,14 +72,18 @@ public abstract class CommonCommand {
 
 	public abstract void execute(CommandSender sender, String[] args);
 
-	public static List<CommonCommand> getCommands(CommonObjectsProvider provider) {
+	public static List<CommonCommand> getEnabledCommands(CommonObjectsProvider provider) {
 		List<CommonCommand> list = new ArrayList<>();
 		list.add(new GetNotificationsCommand(provider));
 		list.add(new RegisterCommand(provider));
 		list.add(new ReportCommand(provider));
 		list.add(new UserInfoCommand(provider));
 		list.add(new VerifyCommand(provider));
-		return Collections.unmodifiableList(list);
+		return Collections.unmodifiableList(
+				list.stream()
+						.filter(command -> command.getActualName() != null)
+						.collect(Collectors.toList())
+		);
 	}
 
 }

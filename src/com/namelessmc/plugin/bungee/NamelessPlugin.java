@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
@@ -139,12 +138,8 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 	private void registerCommands() {
 		this.getProxy().getPluginManager().unregisterCommands(this);
 
-		List<CommonCommand> commands = CommonCommand.getCommands(this);
-		commands.forEach(command -> {
+		CommonCommand.getEnabledCommands(this).forEach(command -> {
 			final String name = command.getActualName();
-			if (name == null) {
-				return; // Command is disabled;
-			}
 			final String permission = command.getPermission().toString();
 
 			Command bungeeCommand = new Command(name, permission) {

@@ -249,24 +249,26 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		for (Command registeredCommand : this.registeredCommands) {
 			ReflectionUtil.unregisterCommand(registeredCommand);
 		}
+		registeredCommands.clear();
 
 		org.bukkit.command.PluginCommand pluginCommand = this.getServer().getPluginCommand("namelessplugin");
 		pluginCommand.setExecutor(new PluginCommand());
 		this.registeredCommands.add(pluginCommand);
 
-		List<CommonCommand> commands = CommonCommand.getCommands(this);
-		commands.forEach(command -> {
+		CommonCommand.getEnabledCommands(this).forEach(command -> {
 			final String name = command.getActualName();
-			if (name == null) {
-				return; // Command is disabled;
-			}
 			final String permission = command.getPermission().toString();
 
 			// TODO description
 			Command spigotCommand = new Command(name) {
 				@Override
-				public boolean execute(final CommandSender sender, final String commandLabel, final String[] args) {
-					command.execute(new SpigotCommandSender(sender), args);
+				public boolean execute(final CommandSender nativeSender, final String commandLabel, final String[] args) {
+					SpigotCommandSender sender = new SpigotCommandSender(nativeSender);
+					if (!nativeSender.hasPermission(permission)) {
+						sender.adventure().sendMessage(NamelessPlugin.this.getLanguage().getComponent(LanguageHandler.Term.COMMAND_NO_PERMISSION));
+						return true;
+					}
+					command.execute(sender, args);
 					return true;
 				}
 			};
