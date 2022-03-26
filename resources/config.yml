@@ -2,6 +2,7 @@
 # Something not working? Please see our troubleshooting guide: https://docs.namelessmc.com/en/integrations/plugin-troubleshooting
 # Reload the plugin using /nlpl reload
 
+# Supported platforms: all
 api:
   # Enable the API and obtain the API URL and API key in StaffCP > Configuration > API
   url: ""
@@ -17,6 +18,7 @@ api:
   # at your own risk!
   usernames: false
 
+# Supported platforms: Spigot, BungeeCord (limited)
 # The server data sender sends data about this server to the website, periodically. It is essential for many
 # features to work like group sync, username sync and placeholders.
 # Note that currently the website doesn't use the plugin for server status and player list yet, even though
@@ -36,6 +38,7 @@ server-data-sender:
     # player-specific placeholders to send to the website (list of placeholder names without %%)
     player: []
 
+# Supported platforms: Spigot
 # Retrieving user info from NamelessMC and make it available as PlaceholderAPI placeholders.
 # NOT the same as sending placeholders to the website, which can be configured above!
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders#nameless-plugin
@@ -44,28 +47,27 @@ retrieve-placeholders:
   # Update interval in seconds
   interval: 30
 
-
-# Number of milliseconds in between notifications request
-# Lower number means more frequent updates of placeholders, but higher
-# network usage.
-placeholders-request-delay: 2000
-
+# Supported platforms: all
 # Show single line error messages instead of full stacktraces.
 # Can be helpful to reduce console spam while your webserver is broken.
 single-line-exceptons: false
 
+# Supported platforms: Spigot
 # Send a message to players who don't have a NamelessMC account when they join
 not-registered-join-message: false
 
+# Supported platforms: Spigot
 # When a player is banned, also ban their website account if they have one.
 auto-ban-on-website: false
 
+# Supported platforms: all
 # For a list of valid languages, check file names in the 'languages' directory.
 # To help translate the plugin to your language, visit https://translate.namelessmc.com
 # If you want to customize messages for your server you can edit the language files.
 # WARNING: The language file will be replaced with the default when new messages are added in a plugin update
 language: en_UK
 
+# Supported platforms: Spigot
 user-sync:
   # Number of seconds in between syncs
   poll-interval: 30
@@ -91,6 +93,7 @@ user-sync:
   bans:
     enabled: false
 
+# Supported platforms: Spigot
 # Periodically send website announcements in chat
 announcements:
   # Every <interval> minutes a random announcement is chosen (if there are any) and sent to the player
@@ -100,6 +103,7 @@ announcements:
   # see https://github.com/NamelessMC/Nameless/wiki/v2-API#getannouncements-get
   # display: Forums
 
+# Supported platforms: Spigot
 # Run commands sent by the Websend module (third party)
 # For this to work you must also configure the server id in the 'server-data-sender' section. However, websend
 # is unrelated to the server data sender and the server data sender doesn't have to be enabled.
