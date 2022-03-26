@@ -142,7 +142,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		NamelessPlugin.instance.reloadConfig();
 		Config.reloadAll();
 
-		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptons"));
+		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptions"));
 		this.apiProvider = new ApiProvider(
 				this.getLogger(),
 				this.exceptionLogger,
