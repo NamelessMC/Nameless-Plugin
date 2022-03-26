@@ -89,43 +89,4 @@ public class CommonCommandProxy extends Command {
 		return true;
 	}
 
-//	private final String usageMessage;
-//	private final Permission permission;
-//
-//	protected Command(final String name, final Term description, final Term usage, final Permission permission) {
-//		super(Config.COMMANDS.getConfig().getString(name),
-//				NamelessPlugin.getInstance().getLanguageHandler().getMessage(description),
-//				NamelessPlugin.getInstance().getLanguageHandler().getMessage(usage, "command", Config.COMMANDS.getConfig().getString(name)),
-//				Collections.emptyList());
-//		this.usageMessage = NamelessPlugin.getInstance().getLanguageHandler().getMessage(usage, "command", Config.COMMANDS.getConfig().getString(name));
-//		this.permission = permission;
-//	}
-//
-//	@Override
-//	public NamelessPlugin getPlugin() {
-//		return NamelessPlugin.getInstance();
-//	}
-//
-//	public String getUsageWithoutSlash() {
-//		return this.usageMessage;
-//	}
-//
-//	@Override
-//	public boolean execute(final CommandSender sender, final String label, final String[] args) {
-//		if (!this.permission.hasPermission(sender)) {
-//			NamelessPlugin.getInstance().getLanguageHandler().send(Term.COMMAND_NO_PERMISSION, sender);
-//			return true;
-//		}
-//
-//		final boolean success = execute(sender, args);
-//
-//		if (!success) {
-//			sender.sendMessage(this.getUsage());
-//		}
-//
-//		return success;
-//	}
-//
-//	public abstract boolean execute(CommandSender sender, String[] args);
-
 }
