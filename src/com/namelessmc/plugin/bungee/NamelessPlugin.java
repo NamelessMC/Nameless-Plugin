@@ -1,12 +1,12 @@
 package com.namelessmc.plugin.bungee;
 
-import com.namelessmc.plugin.common.ApiProvider;
-import com.namelessmc.plugin.common.CommonObjectsProvider;
-import com.namelessmc.plugin.common.ExceptionLogger;
-import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
+import com.namelessmc.plugin.common.command.CommonCommand;
 import net.kyori.adventure.platform.AudienceProvider;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.config.Configuration;
@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
@@ -26,6 +27,9 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 
 	private Configuration config;
 	public Configuration getConfig() { return this.config; }
+
+	private AbstractYamlFile commandsConfig;
+	@Override public AbstractYamlFile getCommandsConfig() { return this.commandsConfig; }
 
 	private BungeeAudiences adventure;
 	@Override public AudienceProvider adventure() { return this.adventure; }
@@ -72,20 +76,25 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 		};
 	}
 
-	public void reload() throws IOException {
-		final Path dataFolder = getDataFolder().toPath();
-		Files.createDirectories(dataFolder);
-		final Path configFile = dataFolder.resolve("config.yml");
-
-		if (!Files.isRegularFile(configFile)) {
-			try (InputStream in = getResourceAsStream("config.yml")) {
-				Files.copy(in, configFile);
+	private Configuration copyFromJarAndLoad(Path dataFolder, String name) throws IOException {
+		Path path = dataFolder.resolve(name);
+		if (!Files.isRegularFile(path)) {
+			try (InputStream in = getResourceAsStream(name)) {
+				Files.copy(in, path);
 			}
 		}
 
-		this.config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile.toFile());
+		return ConfigurationProvider.getProvider(YamlConfiguration.class).load(path.toFile());
+	}
 
-		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptons"));
+	public void reload() throws IOException {
+		final Path dataFolder = getDataFolder().toPath();
+		Files.createDirectories(dataFolder);
+
+		this.config = copyFromJarAndLoad(dataFolder, "config.yml");
+		this.commandsConfig = new YamlFileImpl(copyFromJarAndLoad(dataFolder, "commands.yml"));
+
+		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptions"));
 
 		this.apiProvider = new ApiProvider(
 				this.getLogger(),
@@ -123,6 +132,31 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 		if (rate >= 0 && serverId >= 0) {
 			this.dataSenderTask = getProxy().getScheduler().schedule(this, new ServerDataSender(), rate, rate, TimeUnit.SECONDS);
 		}
+
+		this.registerCommands();
+	}
+
+	private void registerCommands() {
+		this.getProxy().getPluginManager().unregisterCommands(this);
+
+		List<CommonCommand> commands = CommonCommand.getCommands(this);
+		commands.forEach(command -> {
+			final String name = command.getActualName();
+			if (name == null) {
+				return; // Command is disabled;
+			}
+			final String permission = command.getPermission().toString();
+
+			Command bungeeCommand = new Command(name, permission) {
+				@Override
+				public void execute(final CommandSender commandSender, final String[] args) {
+					final BungeeCommandSender bungeeCommandSender = new BungeeCommandSender(commandSender);
+					command.execute(bungeeCommandSender, args);
+				}
+			};
+
+			this.getProxy().getPluginManager().registerCommand(this, bungeeCommand);
+		});
 	}
 
 }

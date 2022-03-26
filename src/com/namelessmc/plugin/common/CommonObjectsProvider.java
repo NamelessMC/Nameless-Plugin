@@ -16,4 +16,6 @@ public interface CommonObjectsProvider {
 
 	ExceptionLogger getExceptionLogger();
 
+	AbstractYamlFile getCommandsConfig();
+
 }

@@ -3,6 +3,8 @@ package com.namelessmc.plugin.common.command;
 import com.namelessmc.java_api.*;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.common.Permission;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -10,12 +12,15 @@ import java.util.stream.Collectors;
 
 public class UserInfoCommand extends CommonCommand {
 
-	public UserInfoCommand(final CommonObjectsProvider provider) {
-		super(provider);
+	public UserInfoCommand(final @NotNull CommonObjectsProvider provider) {
+		super(provider,
+				"user-info",
+				Term.COMMAND_USERINFO_USAGE,
+				Permission.COMMAND_USER_INFO);
 	}
 
 	@Override
-	public void execute(final CommandSender sender, final String[] args, final String usage) {
+	public void execute(final CommandSender sender, final String[] args) {
 		if (args.length == 0) {
 			if (!sender.isPlayer()) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
@@ -23,12 +28,12 @@ public class UserInfoCommand extends CommonCommand {
 			}
 
 			// Player itself as first argument
-			execute(sender, new String[] { sender.getName() }, usage);
+			execute(sender, new String[] { sender.getName() });
 			return;
 		}
 
 		if (args.length != 1) {
-			sender.sendLegacyMessage(usage);
+			sender.sendMessage(this.getUsage());
 			return;
 		}
 

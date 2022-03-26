@@ -5,5 +5,5 @@
 get-notifications: 'notifications'
 register: 'register'
 report: 'report'
-user-info: 'info'
+user-info: 'webinfo'
 verify: 'verify'

@@ -11,7 +11,7 @@ command:
   no-permission: "You don't have permission to execute this command."
 
   notifications:
-    usage: "/{command}"
+    usage: "/<command>"
     description: "Displays a list of website notifications."
     output:
       no-notifications: "You do not have any unread notifications."
@@ -19,7 +19,7 @@ command:
       fail: "An error occured while trying to retrieve a list of notifications. Please notify the server administrator about this issue."
 
   register:
-    usage: "/{command} <email>"
+    usage: "/<command> \<email>"
     description: "Create a website account"
     output:
       success:
@@ -34,7 +34,7 @@ command:
         cannot-send-email: "Unable to send registration email, please contact an admin to activate your account."
 
   report:
-    usage: "/{command} <name/uuid> <reason>"
+    usage: "/<command> \<name/uuid> \<reason>"
     description: "Report a player"
     output:
       success: "Thank you for reporting this player."
@@ -44,7 +44,7 @@ command:
         report-self: "You cannot report yourself."
 
   validate:
-    usage: "/{command} <code>"
+    usage: "/<command> \<code>"
     description: "Validates the user's website account using the given code."
     output:
       success: "Your account has been validated."
@@ -54,7 +54,7 @@ command:
         generic: "An unknown error occured while trying to submit a validation code."
 
   user-info:
-    usage: "/{command} [username]"
+    usage: "/<command> [username]"
     description: "Retrieve information about a website user"
     output:
       username: "Username: <username>"

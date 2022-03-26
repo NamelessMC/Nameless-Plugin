@@ -1,11 +1,9 @@
 package com.namelessmc.plugin.spigot;
 
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.plugin.common.ApiProvider;
-import com.namelessmc.plugin.common.CommonObjectsProvider;
-import com.namelessmc.plugin.common.ExceptionLogger;
-import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
+import com.namelessmc.plugin.common.command.CommonCommand;
 import com.namelessmc.plugin.spigot.event.PlayerBan;
 import com.namelessmc.plugin.spigot.event.PlayerLogin;
 import com.namelessmc.plugin.spigot.event.PlayerQuit;
@@ -18,7 +16,9 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandMap;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -26,9 +26,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
+import java.io.InputStream;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -49,6 +53,9 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	private BukkitAudiences adventure;
 	@Override public BukkitAudiences adventure() {return adventure; }
 
+	private AbstractYamlFile commandsConfig;
+	@Override public AbstractYamlFile getCommandsConfig() { return this.commandsConfig; }
+
 	private Permission permissions;
 	public Permission getPermissions() { return this.permissions; }
 	
@@ -57,7 +64,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	private ExceptionLogger exceptionLogger;
 	public @NotNull ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
-	
 
 	private @Nullable MaintenanceStatusProvider maintenanceStatusProvider;
 	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
@@ -66,6 +72,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	public @Nullable PlaceholderCacher getPlaceholderCacher() { return this.placeholderCacher; }
 	
 	private final @NotNull ArrayList<@NotNull BukkitTask> tasks = new ArrayList<>(2);
+	private final @NotNull ArrayList<@NotNull Command> registeredCommands = new ArrayList<>();
 	private @Nullable Websend websend;
 
 	@Override
@@ -75,8 +82,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	@Override
 	public void onEnable() {
-		super.saveDefaultConfig();
-
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
 			if (permissionProvider == null) {
@@ -138,9 +143,29 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		}
 	}
 
+	private YamlConfiguration copyFromJarAndLoad(Path dataFolder, String name) throws IOException {
+		Path path = dataFolder.resolve(name);
+		if (!Files.isRegularFile(path)) {
+			try (InputStream in = this.getClass().getClassLoader().getResourceAsStream(name)) {
+				Files.copy(in, path);
+			}
+		}
+
+		try (Reader reader = Files.newBufferedReader(path)) {
+			return YamlConfiguration.loadConfiguration(reader);
+		}
+	}
+
 	public void reload() {
+		super.saveDefaultConfig();
 		NamelessPlugin.instance.reloadConfig();
-		Config.reloadAll();
+
+		Path dataFolder = this.getDataFolder().toPath();
+		try {
+			commandsConfig = new YamlFileImpl(copyFromJarAndLoad(dataFolder, "commands.yaml"));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
 		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptions"));
 		this.apiProvider = new ApiProvider(
@@ -220,22 +245,59 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		};
 	}
 
+//	private void registerCommands() {
+//		List<CommonCommand> commands = CommonCommand.getCommands(this);
+//		commands.forEach(command -> {
+//			if (!this.commandsConfig.contains(command.getConfigName())) {
+//				return;
+//			}
+//
+//			final String name = this.commandsConfig.getString(command.getConfigName());
+//			final String permission = command.getPermission().toString();
+//
+//			Command bungeeCommand = new Command(name, permission) {
+//				@Override
+//				public void execute(final CommandSender commandSender, final String[] args) {
+//					final BungeeCommandSender bungeeCommandSender = new BungeeCommandSender(commandSender);
+//					command.execute(bungeeCommandSender, args);
+//				}
+//			};
+//
+//			this.getProxy().getPluginManager().registerCommand(this, bungeeCommand);
+//		});
+//	}
+
 	private void registerCommands() {
-		this.getServer().getPluginCommand("namelessplugin").setExecutor(new PluginCommand());
-
-		try {
-			final Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-			field.setAccessible(true);
-			final CommandMap map = (CommandMap) field.get(Bukkit.getServer());
-
-			for (final String name : CommonCommandProxy.COMMAND_SUPPLIERS.keySet()) {
-				if (Config.COMMANDS.getConfig().contains(name)) {
-					map.register(this.getName(), CommonCommandProxy.COMMAND_SUPPLIERS.get(name).get());
-				}
-			}
-		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-			e.printStackTrace();
+		for (Command registeredCommand : this.registeredCommands) {
+			ReflectionUtil.unregisterCommand(registeredCommand);
 		}
+
+		org.bukkit.command.PluginCommand pluginCommand = this.getServer().getPluginCommand("namelessplugin");
+		pluginCommand.setExecutor(new PluginCommand());
+		this.registeredCommands.add(pluginCommand);
+
+		List<CommonCommand> commands = CommonCommand.getCommands(this);
+		commands.forEach(command -> {
+			final String name = command.getActualName();
+			if (name == null) {
+				return; // Command is disabled;
+			}
+			final String permission = command.getPermission().toString();
+
+			// TODO description
+			Command spigotCommand = new Command(name) {
+				@Override
+				public boolean execute(final CommandSender sender, final String commandLabel, final String[] args) {
+					command.execute(new SpigotCommandSender(sender), args);
+					return true;
+				}
+			};
+
+			ReflectionUtil.registerCommand(name, spigotCommand);
+			this.registeredCommands.add(spigotCommand);
+		});
+
+		this.registeredCommands.trimToSize();
 	}
 	
 	private void initPapi() {

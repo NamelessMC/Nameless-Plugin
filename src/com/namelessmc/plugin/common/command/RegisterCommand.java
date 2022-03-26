@@ -9,20 +9,24 @@ import com.namelessmc.java_api.exception.UsernameAlreadyExistsException;
 import com.namelessmc.java_api.exception.UuidAlreadyExistsException;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
-import com.namelessmc.plugin.spigot.NamelessPlugin;
+import com.namelessmc.plugin.common.Permission;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public class RegisterCommand extends CommonCommand {
 
-	public RegisterCommand(final CommonObjectsProvider provider) {
-		super(provider);
+	public RegisterCommand(final @NotNull CommonObjectsProvider provider) {
+		super(provider,
+				"register",
+				Term.COMMAND_REGISTER_USAGE,
+				Permission.COMMAND_REGISTER);
 	}
 
 	@Override
-	public void execute(final CommandSender sender, final String[] args, final String usage) {
+	public void execute(final CommandSender sender, final String[] args) {
 		if (args.length != 1) {
-			sender.sendLegacyMessage(usage);
+			sender.sendMessage(this.getUsage());
 			return;
 		}
 
@@ -31,7 +35,7 @@ public class RegisterCommand extends CommonCommand {
 			return;
 		}
 
-		NamelessPlugin.getInstance().getServer().getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+		this.getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
 			if (!optApi.isPresent()) {
 				sender.sendMessage(this.getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));

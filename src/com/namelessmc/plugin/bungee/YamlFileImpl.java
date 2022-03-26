@@ -1,18 +1,19 @@
 package com.namelessmc.plugin.bungee;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
 import com.namelessmc.plugin.common.AbstractYamlFile;
-
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.nio.file.Path;
 
 public class YamlFileImpl extends AbstractYamlFile {
 
-	private final Configuration config;
+	private final @NotNull Configuration config;
 
+	@Deprecated
 	public YamlFileImpl(final Path path) {
 		try {
 			this.config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(path.toFile());
@@ -23,9 +24,18 @@ public class YamlFileImpl extends AbstractYamlFile {
 		}
 	}
 
+	public YamlFileImpl(final @NotNull Configuration config) {
+		this.config = config;
+	}
+
 	@Override
 	public String getString(final String path) {
 		return this.config.getString(path);
+	}
+
+	@Override
+	public boolean isString(String path) {
+		return this.config.contains(path);
 	}
 
 }

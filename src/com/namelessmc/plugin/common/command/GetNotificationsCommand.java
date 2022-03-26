@@ -6,21 +6,26 @@ import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.Notification;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
 
 public class GetNotificationsCommand extends CommonCommand {
 
-	public GetNotificationsCommand(final CommonObjectsProvider provider) {
-		super(provider);
+	public GetNotificationsCommand(final @NotNull CommonObjectsProvider provider) {
+		super(provider,
+				"get-notifications",
+				Term.COMMAND_NOTIFICATIONS_USAGE,
+				Permission.COMMAND_GET_NOTIFICATIONS);
 	}
 
 	@Override
-	public void execute(final CommandSender sender, final String[] args, final String usage) {
+	public void execute(final CommandSender sender, final String[] args) {
 		if (args.length != 0) {
-			sender.sendLegacyMessage(usage);
+			sender.sendMessage(this.getUsage());
 			return;
 		}
 
