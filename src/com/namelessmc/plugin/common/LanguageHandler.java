@@ -125,7 +125,7 @@ public class LanguageHandler {
 		LANGUAGES.add("tr_TR");
 		LANGUAGES.add("vi_VN");
 		LANGUAGES.add("zh_CN");
-}
+	}
 
 	public static final String DEFAULT_LANGUAGE = "en_UK";
 
