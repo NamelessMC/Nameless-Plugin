@@ -39,8 +39,8 @@ cd ..
 
 git clone https://github.com/kennytv/Maintenance
 cd Maintenance
-git checkout refs/tags/3.0.7
-mvn install
+git checkout refs/tags/4.0.0
+./gradlew publishToMavenLocal
 cd ..
 
 git clone https://github.com/NamelessMC/Nameless-Java-API

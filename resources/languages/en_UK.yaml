@@ -11,22 +11,22 @@ command:
   no-permission: "You don't have permission to execute this command."
 
   notifications:
-    usage: "/{command}"
+    usage: "/<command>"
     description: "Displays a list of website notifications."
     output:
       no-notifications: "You do not have any unread notifications."
       notification: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\"><message>"
-      fail: "An error occured while trying to retrieve a list of notifications. Please notify the server administrator about this issue."
+      fail: "An error occurred while trying to retrieve a list of notifications. Please notify the server administrator about this issue."
 
   register:
-    usage: "/{command} <email>"
+    usage: "/<command> \\<email>"
     description: "Create a website account"
     output:
       success:
         email: "Please check your inbox to complete registration."
         link: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\">Please complete registration by going to <url>."
       fail:
-        generic: "An error occured while trying to register. Please notify the server administrator about this issue."
+        generic: "An error occurred while trying to register. Please notify the server administrator about this issue."
         already-exists: "You already have an account."
         email-used: "This email address is already used for a different user account."
         email-invalid: "The provided email address is invalid."
@@ -34,27 +34,27 @@ command:
         cannot-send-email: "Unable to send registration email, please contact an admin to activate your account."
 
   report:
-    usage: "/{command} <name/uuid> <reason>"
+    usage: "/<command> \\<name/uuid> \\<reason>"
     description: "Report a player"
     output:
       success: "Thank you for reporting this player."
       fail:
-        generic: "An error occured while trying to report this player. Please notify the server administrator about this issue."
+        generic: "An error occurred while trying to report this player. Please notify the server administrator about this issue."
         already-open: "You cannot report this player, you already have an open report for them."
         report-self: "You cannot report yourself."
 
   validate:
-    usage: "/{command} <code>"
+    usage: "/<command> \\<code>"
     description: "Validates the user's website account using the given code."
     output:
       success: "Your account has been validated."
       fail:
         invalid-code: "Your validation code is incorrect. Please check if you copied it correctly and try again."
         already-validated: "Your account is already validated."
-        generic: "An unknown error occured while trying to submit a validation code."
+        generic: "An unknown error occurred while trying to submit a validation code."
 
   user-info:
-    usage: "/{command} [username]"
+    usage: "/<command> [username]"
     description: "Retrieve information about a website user"
     output:
       username: "Username: <username>"
@@ -69,7 +69,7 @@ command:
       custom-field: "Custom field '<name>': <value>"
       'yes': "yes"
       'no': "no"
-      fail: "An unknown error occured while trying to retrieve player information."
+      fail: "An unknown error occurred while trying to retrieve player information."
 
 join-not-registered: "You do not have an account on our website yet. Please register using /register."
 website-announcement: "Website announcement: <message>"

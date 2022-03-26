@@ -1,4 +1,0 @@
-name: NamelessMC
-main: com.namelessmc.plugin.bungee.NamelessPlugin
-version: '@project.version@'
-author: Derkades

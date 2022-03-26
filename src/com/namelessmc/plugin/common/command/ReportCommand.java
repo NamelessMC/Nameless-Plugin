@@ -8,9 +8,11 @@ import com.namelessmc.java_api.exception.CannotReportSelfException;
 import com.namelessmc.java_api.exception.ReportUserBannedException;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.common.Permission;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import com.namelessmc.plugin.spigot.NamelessPlugin;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.UUIDFetcher;
 
 import java.util.Arrays;
@@ -19,14 +21,17 @@ import java.util.UUID;
 
 public class ReportCommand extends CommonCommand {
 
-	public ReportCommand(final CommonObjectsProvider provider) {
-		super(provider);
+	public ReportCommand(final @NotNull CommonObjectsProvider provider) {
+		super(provider,
+				"report",
+				Term.COMMAND_REPORT_USAGE,
+				Permission.COMMAND_REPORT);
 	}
 
 	@Override
-	public void execute(final CommandSender sender, final String[] args, final String usage) {
+	public void execute(final CommandSender sender, final String[] args) {
 		if (args.length < 2) {
-			sender.sendLegacyMessage(usage);
+			sender.sendMessage(this.getUsage());
 			return;
 		}
 

@@ -90,13 +90,10 @@ public class ApiProvider {
 						if (this.bypassVersionCheck) {
 							this.logger.warning("Bypassing version checks, use at your own risk!");
 							this.cachedApi = Optional.of(api);
-						} else if (GlobalConstants.SUPPORTED_WEBSITE_VERSIONS.contains(version)) {
-							this.cachedApi = Optional.of(api);
-						} else if (GlobalConstants.DEPRECATED_WEBSITE_VERSIONS.contains(version)) {
-							this.logger.warning("Support for your NamelessMC version (" + version + ") is deprecated, some functionality may be broken. Please upgrade to a newer version of NamelessMC as soon as possible.");
+						} else if (NamelessVersion.isSupportedByJavaApi(version)) {
 							this.cachedApi = Optional.of(api);
 						} else {
-							this.logger.severe("Your website runs a version of NamelessMC (" + version + ") that is not supported by this version of the plugin. Note that usually only the newest one or two NamelessMC versions are supported.");
+							this.logger.severe("Your website runs a version of NamelessMC (" + version + ") that is not supported by this version of the plugin. Please update your NamelessMC website and/or the plugin.");
 						}
 					} catch (final UnknownNamelessVersionException e) {
 						this.logger.severe("The plugin doesn't recognize the NamelessMC version you are using. Ensure you are running a recent version of the plugin and NamelessMC v2.");

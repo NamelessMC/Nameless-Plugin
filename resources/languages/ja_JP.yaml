@@ -48,6 +48,7 @@ command:
       banned: 'Ban: <banned>'
       fail: プレイヤー情報を取得しようとした際に不明なエラーが発生しました。
       validated: 'アカウント認証: <validated>'
+      custom-field: "カスタムフィールド '<name>': <value>"
     description: ウェブサイトユーザーに関する情報を取得
   validate:
     usage: '/{command} <コード>'
@@ -71,5 +72,5 @@ command:
     help-prefix: /{command}
     usage: '/{command} [サブコマンド] [引数..]'
 join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。
-website-announcement: 'ウェブサイトのお知らせ: <内容>'
+website-announcement: 'ウェブサイトのお知らせ: <message>'
 user-sync-kick: ウェブサイトのアカウントBANによって、私たちのサーバーからBANされています。

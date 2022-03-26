@@ -1,11 +1,8 @@
 package com.namelessmc.plugin.spigot.hooks.maintenance;
 
-import eu.kennytv.maintenance.api.IMaintenance;
-import eu.kennytv.maintenance.api.spigot.MaintenanceSpigotAPI;
+import eu.kennytv.maintenance.api.MaintenanceProvider;
 
 public class KennyMaintenance implements MaintenanceStatusProvider {
-	
-	private final IMaintenance api = MaintenanceSpigotAPI.getAPI();
 	
 	public KennyMaintenance() {
 	
@@ -13,7 +10,7 @@ public class KennyMaintenance implements MaintenanceStatusProvider {
 
 	@Override
 	public boolean maintenanceEnabled() {
-		return api.isMaintenance();
+		return MaintenanceProvider.get().isMaintenance();
 	}
 	
 }

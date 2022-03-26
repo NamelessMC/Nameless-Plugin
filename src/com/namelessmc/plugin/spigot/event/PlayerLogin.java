@@ -14,7 +14,6 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
-import com.namelessmc.plugin.spigot.Config;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 
 import net.kyori.adventure.text.Component;

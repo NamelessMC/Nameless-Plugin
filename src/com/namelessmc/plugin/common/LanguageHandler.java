@@ -1,15 +1,13 @@
 package com.namelessmc.plugin.common;
 
-import com.namelessmc.plugin.spigot.Chat;
-import com.namelessmc.plugin.spigot.NamelessPlugin;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -96,7 +94,7 @@ public class LanguageHandler {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 20;
+	private static final int VERSION = 21;
 
 	private static final Set<String> LANGUAGES = new HashSet<>();
 	static {
@@ -135,19 +133,22 @@ public class LanguageHandler {
 
 	private AbstractYamlFile fallbackLanguageFile = null;
 	private AbstractYamlFile activeLanguageFile = null;
-	private final Path languageDirectory;
+	private final @NotNull Path languageDirectory;
+	private final @NotNull Logger logger;
 
-	public LanguageHandler(final Path languageDirectory) {
+	public LanguageHandler(final @NotNull Logger logger,
+						   final @NotNull Path languageDirectory) {
+		this.logger = logger;
 		this.languageDirectory = languageDirectory;
 	}
 
 	public String getRawMessage(final Term term) {
-		String unconverted = this.activeLanguageFile.getString(term.path);
-		if (unconverted == null) {
-			unconverted = this.fallbackLanguageFile.getString(term.path);
+		String message = this.activeLanguageFile.getString(term.path);
+		if (message == null) {
+			message = this.fallbackLanguageFile.getString(term.path);
 		}
-		Objects.requireNonNull(unconverted, "Message '" + term.path + "' missing from language file. This is a bug, adding it to the language file is usually not the correct solution.");
-		return Chat.convertColors(unconverted);
+		return Objects.requireNonNull(message,
+				"Message '" + term.path + "' missing from base language file. This is a bug, please report it.");
 	}
 
 	public String getLegacyMessage(final Term term) {
@@ -173,8 +174,6 @@ public class LanguageHandler {
 	}
 
 	public void updateFiles() throws IOException {
-		final Logger log = NamelessPlugin.getInstance().getLogger();
-
 		Files.createDirectories(this.languageDirectory);
 
 		final Path versionFile = this.languageDirectory.resolve(VERSION_FILE_NAME);
@@ -182,20 +181,20 @@ public class LanguageHandler {
 		if (Files.exists(versionFile)) {
 			final String versionContent = new String(Files.readAllBytes(versionFile), StandardCharsets.UTF_8);
 			if (versionContent.equals(String.valueOf(VERSION))) {
-				log.info("Language files up to date");
+				this.logger.info("Language files up to date");
 				return;
 			} else {
-				log.warning("Language files are outdated!");
-				log.info("Making backup of old languages directory");
-				final File dest = new File(NamelessPlugin.getInstance().getDataFolder(), "oldlanguages-" + System.currentTimeMillis());
-				Files.move(this.languageDirectory, dest.toPath());
+				this.logger.warning("Language files are outdated!");
+				this.logger.info("Making backup of old languages directory");
+				Path dest = this.languageDirectory.getParent().resolve("oldlanguages-" + System.currentTimeMillis());
+				Files.move(this.languageDirectory, dest);
 				Files.createDirectory(this.languageDirectory);
 			}
 		} else {
-			log.warning("Languages appear to not be installed yet.");
+			this.logger.info("Languages appear to not be installed yet.");
 		}
 
-		log.info("Installing language files");
+		this.logger.info("Installing language files");
 
 		for (final String languageName : LANGUAGES) {
 			final String languagePathInJar = "/languages/" + languageName + ".yaml";
@@ -203,25 +202,24 @@ public class LanguageHandler {
 			FileUtils.copyOutOfJar(LanguageHandler.class, languagePathInJar, dest);
 		}
 
-		log.info("Creating version file");
+		this.logger.info("Creating version file");
 
 		final byte[] bytes = String.valueOf(VERSION).getBytes(StandardCharsets.UTF_8);
 		Files.write(versionFile, bytes);
 
-		log.info("Done");
+		this.logger.info("Done");
 	}
 
 	private AbstractYamlFile readLanguageFile(final String languageName, final Function<Path, AbstractYamlFile> fileReader) {
-		final Logger log = NamelessPlugin.getInstance().getLogger();
 		if (!LANGUAGES.contains(languageName)) {
-			log.severe("Language '" + languageName + "' not known.");
+			this.logger.severe("Language '" + languageName + "' not known.");
 			return null;
 		}
 
 		final Path file = this.languageDirectory.resolve(languageName + ".yaml");
 
 		if (!Files.isRegularFile(file)) {
-			log.severe("File not found: '" + file + "'");
+			this.logger.severe("File not found: '" + file + "'");
 			return null;
 		}
 
