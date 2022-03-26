@@ -245,28 +245,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		};
 	}
 
-//	private void registerCommands() {
-//		List<CommonCommand> commands = CommonCommand.getCommands(this);
-//		commands.forEach(command -> {
-//			if (!this.commandsConfig.contains(command.getConfigName())) {
-//				return;
-//			}
-//
-//			final String name = this.commandsConfig.getString(command.getConfigName());
-//			final String permission = command.getPermission().toString();
-//
-//			Command bungeeCommand = new Command(name, permission) {
-//				@Override
-//				public void execute(final CommandSender commandSender, final String[] args) {
-//					final BungeeCommandSender bungeeCommandSender = new BungeeCommandSender(commandSender);
-//					command.execute(bungeeCommandSender, args);
-//				}
-//			};
-//
-//			this.getProxy().getPluginManager().registerCommand(this, bungeeCommand);
-//		});
-//	}
-
 	private void registerCommands() {
 		for (Command registeredCommand : this.registeredCommands) {
 			ReflectionUtil.unregisterCommand(registeredCommand);

@@ -1,7 +1,5 @@
 package com.namelessmc.plugin.common;
 
-import com.namelessmc.plugin.spigot.Chat;
-import com.namelessmc.plugin.spigot.NamelessPlugin;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -10,7 +8,6 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -97,7 +94,7 @@ public class LanguageHandler {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 20;
+	private static final int VERSION = 21;
 
 	private static final Set<String> LANGUAGES = new HashSet<>();
 	static {
@@ -146,12 +143,12 @@ public class LanguageHandler {
 	}
 
 	public String getRawMessage(final Term term) {
-		String unconverted = this.activeLanguageFile.getString(term.path);
-		if (unconverted == null) {
-			unconverted = this.fallbackLanguageFile.getString(term.path);
+		String message = this.activeLanguageFile.getString(term.path);
+		if (message == null) {
+			message = this.fallbackLanguageFile.getString(term.path);
 		}
-		Objects.requireNonNull(unconverted, "Message '" + term.path + "' missing from language file. This is a bug, adding it to the language file is usually not the correct solution.");
-		return Chat.convertColors(unconverted);
+		return Objects.requireNonNull(message,
+				"Message '" + term.path + "' missing from base language file. This is a bug, please report it.");
 	}
 
 	public String getLegacyMessage(final Term term) {
@@ -189,12 +186,12 @@ public class LanguageHandler {
 			} else {
 				this.logger.warning("Language files are outdated!");
 				this.logger.info("Making backup of old languages directory");
-				final File dest = new File(NamelessPlugin.getInstance().getDataFolder(), "oldlanguages-" + System.currentTimeMillis());
-				Files.move(this.languageDirectory, dest.toPath());
+				Path dest = this.languageDirectory.getParent().resolve("oldlanguages-" + System.currentTimeMillis());
+				Files.move(this.languageDirectory, dest);
 				Files.createDirectory(this.languageDirectory);
 			}
 		} else {
-			this.logger.warning("Languages appear to not be installed yet.");
+			this.logger.info("Languages appear to not be installed yet.");
 		}
 
 		this.logger.info("Installing language files");
