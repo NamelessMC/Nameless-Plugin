@@ -7,6 +7,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.FileUtils;
 
 import java.io.File;
@@ -135,9 +136,12 @@ public class LanguageHandler {
 
 	private AbstractYamlFile fallbackLanguageFile = null;
 	private AbstractYamlFile activeLanguageFile = null;
-	private final Path languageDirectory;
+	private final @NotNull Path languageDirectory;
+	private final @NotNull Logger logger;
 
-	public LanguageHandler(final Path languageDirectory) {
+	public LanguageHandler(final @NotNull Logger logger,
+						   final @NotNull Path languageDirectory) {
+		this.logger = logger;
 		this.languageDirectory = languageDirectory;
 	}
 
@@ -173,8 +177,6 @@ public class LanguageHandler {
 	}
 
 	public void updateFiles() throws IOException {
-		final Logger log = NamelessPlugin.getInstance().getLogger();
-
 		Files.createDirectories(this.languageDirectory);
 
 		final Path versionFile = this.languageDirectory.resolve(VERSION_FILE_NAME);
@@ -182,20 +184,20 @@ public class LanguageHandler {
 		if (Files.exists(versionFile)) {
 			final String versionContent = new String(Files.readAllBytes(versionFile), StandardCharsets.UTF_8);
 			if (versionContent.equals(String.valueOf(VERSION))) {
-				log.info("Language files up to date");
+				this.logger.info("Language files up to date");
 				return;
 			} else {
-				log.warning("Language files are outdated!");
-				log.info("Making backup of old languages directory");
+				this.logger.warning("Language files are outdated!");
+				this.logger.info("Making backup of old languages directory");
 				final File dest = new File(NamelessPlugin.getInstance().getDataFolder(), "oldlanguages-" + System.currentTimeMillis());
 				Files.move(this.languageDirectory, dest.toPath());
 				Files.createDirectory(this.languageDirectory);
 			}
 		} else {
-			log.warning("Languages appear to not be installed yet.");
+			this.logger.warning("Languages appear to not be installed yet.");
 		}
 
-		log.info("Installing language files");
+		this.logger.info("Installing language files");
 
 		for (final String languageName : LANGUAGES) {
 			final String languagePathInJar = "/languages/" + languageName + ".yaml";
@@ -203,25 +205,24 @@ public class LanguageHandler {
 			FileUtils.copyOutOfJar(LanguageHandler.class, languagePathInJar, dest);
 		}
 
-		log.info("Creating version file");
+		this.logger.info("Creating version file");
 
 		final byte[] bytes = String.valueOf(VERSION).getBytes(StandardCharsets.UTF_8);
 		Files.write(versionFile, bytes);
 
-		log.info("Done");
+		this.logger.info("Done");
 	}
 
 	private AbstractYamlFile readLanguageFile(final String languageName, final Function<Path, AbstractYamlFile> fileReader) {
-		final Logger log = NamelessPlugin.getInstance().getLogger();
 		if (!LANGUAGES.contains(languageName)) {
-			log.severe("Language '" + languageName + "' not known.");
+			this.logger.severe("Language '" + languageName + "' not known.");
 			return null;
 		}
 
 		final Path file = this.languageDirectory.resolve(languageName + ".yaml");
 
 		if (!Files.isRegularFile(file)) {
-			log.severe("File not found: '" + file + "'");
+			this.logger.severe("File not found: '" + file + "'");
 			return null;
 		}
 

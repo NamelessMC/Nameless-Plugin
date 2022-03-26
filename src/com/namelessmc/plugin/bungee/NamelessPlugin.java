@@ -5,7 +5,6 @@ import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.ExceptionLogger;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
-import com.namelessmc.plugin.spigot.YamlFileImpl;
 import net.kyori.adventure.platform.AudienceProvider;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -37,7 +36,8 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 	private ApiProvider apiProvider;
 	@Override public ApiProvider getApiProvider() { return this.apiProvider; }
 
-	@Override public ExceptionLogger getExceptionLogger() { return new ExceptionLogger(this.getLogger(), false); } // TODO configurable
+	private ExceptionLogger exceptionLogger;
+	@Override public ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
 
 	private ScheduledTask dataSenderTask;
 
@@ -46,7 +46,7 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 		instance = this;
 
 		this.adventure = BungeeAudiences.create(this);
-		this.language = new LanguageHandler(getDataFolder().toPath().resolve("languages"));
+		this.language = new LanguageHandler(this.getLogger(), getDataFolder().toPath().resolve("languages"));
 
 		try {
 			reload();
@@ -74,6 +74,7 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 
 	public void reload() throws IOException {
 		final Path dataFolder = getDataFolder().toPath();
+		Files.createDirectories(dataFolder);
 		final Path configFile = dataFolder.resolve("config.yml");
 
 		if (!Files.isRegularFile(configFile)) {
@@ -83,6 +84,8 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 		}
 
 		this.config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile.toFile());
+
+		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptons"));
 
 		this.apiProvider = new ApiProvider(
 				this.getLogger(),
@@ -110,13 +113,14 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 			throw new RuntimeException("Failed to load language file");
 		}
 
-		this.dataSenderTask.cancel();
+		if (this.dataSenderTask != null) {
+			this.dataSenderTask.cancel();
+			this.dataSenderTask = null;
+		}
 
 		final int rate = this.getConfig().getInt("server-data-upload-rate", 10);
 		final int serverId = getConfig().getInt("server-id");
-		if (rate < 0 || serverId < 0) {
-			this.dataSenderTask = null;
-		} else {
+		if (rate >= 0 && serverId >= 0) {
 			this.dataSenderTask = getProxy().getScheduler().schedule(this, new ServerDataSender(), rate, rate, TimeUnit.SECONDS);
 		}
 	}

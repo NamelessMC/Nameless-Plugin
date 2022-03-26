@@ -47,7 +47,7 @@ retrieve-placeholders:
   # Update interval in seconds
   interval: 30
 
-# Supported platforms: all
+# Supported platforms: Spigot
 # Show single line error messages instead of full stacktraces.
 # Can be helpful to reduce console spam while your webserver is broken.
 single-line-exceptons: false

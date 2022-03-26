@@ -94,7 +94,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 		adventure = BukkitAudiences.create(this);
 
-		this.language = new LanguageHandler(getDataFolder().toPath().resolve("languages"));
+		this.language = new LanguageHandler(this.getLogger(), getDataFolder().toPath().resolve("languages"));
 
 		reload();
 
