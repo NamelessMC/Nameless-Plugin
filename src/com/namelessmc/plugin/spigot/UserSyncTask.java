@@ -141,19 +141,23 @@ public class UserSyncTask implements Runnable {
 	private void syncWhitelist(boolean doLog, @NotNull Logger logger) {
 		final boolean verifiedOnly = NamelessPlugin.getInstance().getConfig().getBoolean("user-sync.whitelist.verified-only");
 		final boolean discordLinkedOnly = NamelessPlugin.getInstance().getConfig().getBoolean("user-sync.whitelist.discord-linked-only");
+		final int groupIdOnly = NamelessPlugin.getInstance().getConfig().getInt("user-sync.whitelist.only-with-group");
 
 		if (doLog) {
 			logger.info("Starting auto-whitelist, retrieving list of registered users...");
 		}
 
 		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-			Set<UUID> websiteUuids = getUuids(doLog, b -> {
+			final Set<UUID> websiteUuids = getUuids(doLog, b -> {
 				b.withFilter(UserFilter.BANNED, false);
 				if (verifiedOnly) {
 					b.withFilter(UserFilter.VERIFIED, true);
 				}
 				if (discordLinkedOnly) {
 					b.withFilter(UserFilter.DISCORD_LINKED, true);
+				}
+				if (groupIdOnly >= 0) {
+					b.withFilter(UserFilter.GROUP_ID, groupIdOnly);
 				}
 			});
 
@@ -178,30 +182,24 @@ public class UserSyncTask implements Runnable {
 				}
 
 				if (doLog) {
-					logger.info("Done, now retrieving a list of banned users so we can remove them from the whitelist...");
+					logger.info("Done, now retrieving a list of all users to un-whitelist users who shouldn't be whitelisted...");
 				}
 
 				Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
-					Set<UUID> bannedUuids = getUuids(doLog, b -> {
-						b.any();
-						b.withFilter(UserFilter.BANNED, true);
-						if (verifiedOnly) {
-							b.withFilter(UserFilter.VERIFIED, false);
-						}
-						if (discordLinkedOnly) {
-							b.withFilter(UserFilter.DISCORD_LINKED, false);
-						}
-					});
-					if (bannedUuids == null) {
+					final Set<UUID> allUuids = getUuids(doLog, b -> {});
+
+					if (allUuids == null) {
 						return;
 					}
+					allUuids.removeAll(websiteUuids);
+
 					Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
-						for (UUID bannedUuid : bannedUuids) {
-							OfflinePlayer player = Bukkit.getOfflinePlayer(bannedUuid);
+						for (UUID toRemove : allUuids) {
+							OfflinePlayer player = Bukkit.getOfflinePlayer(toRemove);
 							if (player.isWhitelisted()) {
 								player.setWhitelisted(false);
 								if (doLog) {
-									logger.info("Removed " + (player.getName() == null ? bannedUuid.toString() : player.getName()) + " from the whitelist");
+									logger.info("Removed " + (player.getName() == null ? toRemove.toString() : player.getName()) + " from the whitelist");
 								}
 								if (player.isOnline()) {
 									String message = NamelessPlugin.getInstance().getLanguage()
