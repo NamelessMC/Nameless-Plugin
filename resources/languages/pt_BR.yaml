@@ -32,8 +32,8 @@ command:
         already-exists: Você já possui uma conta.
         email-used: Este endereço de email já está em uso em uma conta de usuário
           diferente.
-        generic: Ocorreu um erro ao tentar registrar. Notifique o administrador do
-          servidor sobre este problema.
+        generic: Ocorreu um erro ao tentar se registrar. Por favor, notifique o administrador
+          do servidor sobre este problema.
         email-invalid: O endereço de email fornecido é inválido.
         username-invalid: O nome de usuário fornecido é inválido.
         cannot-send-email: Não foi possível enviar o email de registro, entre em contato
@@ -44,8 +44,8 @@ command:
     output:
       success: Obrigado por denunciar este jogador.
       fail:
-        generic: Ocorreu um erro ao tentar denunciar este jogador. Notifique o administrador
-          do servidor sobre este problema.
+        generic: Ocorreu um erro ao tentar denunciar este jogador. Por favor, notifique
+          o administrador do servidor sobre este problema.
         already-open: Você não pode denunciar este jogador, você já tem uma denuncia
           aberta para ele.
         report-self: Você não pode denunciar a si mesmo.
