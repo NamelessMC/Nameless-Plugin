@@ -61,9 +61,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	private ExceptionLogger exceptionLogger;
 	public @NotNull ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
 
-	private BukkitAudiences adventure;
-	public BukkitAudiences adventure() { return adventure; }
-
 	private final AbstractScheduler scheduler = new AbstractScheduler() {
 		@Override
 		public void runAsync(final Runnable runnable) {
