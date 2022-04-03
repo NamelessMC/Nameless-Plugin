@@ -31,9 +31,6 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 	private AbstractYamlFile commandsConfig;
 	@Override public AbstractYamlFile getCommandsConfig() { return this.commandsConfig; }
 
-	private BungeeAudiences adventure;
-	@Override public AudienceProvider adventure() { return this.adventure; }
-
 	private LanguageHandler language;
 	@Override public LanguageHandler getLanguage() { return this.language; }
 
@@ -42,6 +39,9 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 
 	private ExceptionLogger exceptionLogger;
 	@Override public ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
+
+	private BungeeAudiences adventure;
+	public AudienceProvider adventure() { return this.adventure; }
 
 	private final @NotNull AbstractScheduler scheduler = new AbstractScheduler() {
 		@Override

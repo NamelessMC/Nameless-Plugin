@@ -49,9 +49,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	
 	private LanguageHandler language;
 	@Override public LanguageHandler getLanguage() { return this.language; }
-	
-	private BukkitAudiences adventure;
-	@Override public BukkitAudiences adventure() {return adventure; }
 
 	private AbstractYamlFile commandsConfig;
 	@Override public AbstractYamlFile getCommandsConfig() { return this.commandsConfig; }
@@ -64,6 +61,9 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 	private ExceptionLogger exceptionLogger;
 	public @NotNull ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
+
+	private BukkitAudiences adventure;
+	public BukkitAudiences adventure() { return adventure; }
 
 	private final AbstractScheduler scheduler = new AbstractScheduler() {
 		@Override

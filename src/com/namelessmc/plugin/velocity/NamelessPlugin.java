@@ -11,7 +11,6 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
-import net.kyori.adventure.platform.AudienceProvider;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
@@ -40,9 +39,6 @@ public class NamelessPlugin implements CommonObjectsProvider {
 
 	private ApiProvider apiProvider;
 	@Override public ApiProvider getApiProvider() { return this.apiProvider; }
-
-	private AudienceProvider adventure;
-	@Override public AudienceProvider adventure() { return this.adventure; }
 
 	private ExceptionLogger exceptionLogger;
 	@Override public ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
