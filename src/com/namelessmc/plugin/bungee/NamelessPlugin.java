@@ -3,6 +3,8 @@ package com.namelessmc.plugin.bungee;
 import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.command.CommonCommand;
+import com.namelessmc.plugin.common.logger.AbstractLogger;
+import com.namelessmc.plugin.common.logger.JulLogger;
 import net.kyori.adventure.platform.AudienceProvider;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.CommandSender;
@@ -31,14 +33,14 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 	private AbstractYamlFile commandsConfig;
 	@Override public AbstractYamlFile getCommandsConfig() { return this.commandsConfig; }
 
+	private AbstractLogger commonLogger;
+	@Override public AbstractLogger getCommonLogger() { return this.commonLogger; }
+
 	private LanguageHandler language;
 	@Override public LanguageHandler getLanguage() { return this.language; }
 
 	private ApiProvider apiProvider;
 	@Override public ApiProvider getApiProvider() { return this.apiProvider; }
-
-	private ExceptionLogger exceptionLogger;
-	@Override public ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
 
 	private BungeeAudiences adventure;
 	public AudienceProvider adventure() { return this.adventure; }
@@ -90,11 +92,10 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 		this.config = copyFromJarAndLoad(dataFolder, "config.yml");
 		this.commandsConfig = new YamlFileImpl(copyFromJarAndLoad(dataFolder, "commands.yml"));
 
-		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptions"));
+		this.commonLogger = new JulLogger(this.getConfig().getBoolean("single-line-exceptions"), this.getLogger());
 
 		this.apiProvider = new ApiProvider(
-				this.getLogger(),
-				this.getExceptionLogger(),
+				this.commonLogger,
 				getConfig().getString("api.url"),
 				getConfig().getString("api.key"),
 				getConfig().getBoolean("api.debug", false),

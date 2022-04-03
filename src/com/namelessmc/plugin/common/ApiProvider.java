@@ -2,8 +2,7 @@ package com.namelessmc.plugin.common;
 
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
-import com.namelessmc.java_api.logger.ApiLogger;
-import com.namelessmc.java_api.logger.JavaLoggerLogger;
+import com.namelessmc.plugin.common.logger.AbstractLogger;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,8 +12,6 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @SuppressWarnings("OptionalAssignedToNull")
 public class ApiProvider {
@@ -23,8 +20,7 @@ public class ApiProvider {
 
 	private Optional<NamelessAPI> cachedApi; // null if not cached
 
-	private final @NotNull Logger logger;
-	private final @NotNull ExceptionLogger exceptionLogger;
+	private final @NotNull AbstractLogger logger;
 	private final @Nullable String apiUrl;
 	private final @Nullable String apiKey;
 	private final boolean debug;
@@ -32,8 +28,7 @@ public class ApiProvider {
 	private final int timeout;
 	private final boolean bypassVersionCheck;
 
-	public ApiProvider(final @NotNull Logger logger,
-					   final @NotNull ExceptionLogger exceptionLogger,
+	public ApiProvider(final @NotNull AbstractLogger logger,
 					   final @Nullable String apiUrl,
 					   final @Nullable String apiKey,
 					   final boolean debug,
@@ -41,7 +36,6 @@ public class ApiProvider {
 					   final int timeout,
 					   final boolean bypassVersionCheck) {
 		this.logger = logger;
-		this.exceptionLogger = exceptionLogger;
 		this.apiUrl = apiUrl;
 		this.apiKey = apiKey;
 		this.debug = debug;
@@ -55,15 +49,11 @@ public class ApiProvider {
 	}
 
 	public synchronized Optional<NamelessAPI> getNamelessApi() {
-		Objects.requireNonNull(exceptionLogger, "Exception logger not initialized before API was requested. This is a bug.");
+		Objects.requireNonNull(logger, "Exception logger not initialized before API was requested. This is a bug.");
 
 		if (this.cachedApi != null) {
 			return this.cachedApi;
 		}
-
-		final ApiLogger debugLogger = this.debug
-				? new JavaLoggerLogger(this.logger, Level.INFO, "[Nameless-Java-API] ")
-				: null;
 
 		this.cachedApi = Optional.empty();
 
@@ -84,7 +74,7 @@ public class ApiProvider {
 				if (url != null) {
 					final NamelessAPI api = NamelessAPI.builder(url, this.apiKey)
 							.userAgent(USER_AGENT)
-							.withCustomDebugLogger(debugLogger)
+							.withCustomDebugLogger(this.debug ? this.logger.getApiLogger() : null)
 							.withTimeoutMillis(this.timeout)
 							.build();
 
@@ -116,7 +106,7 @@ public class ApiProvider {
 			// own, so we don't want to break the plugin until the administrator reloads.
 			if (this.debug) {
 				this.logger.warning("Debug is enabled, printing full error message:");
-				exceptionLogger.logException(e);
+				this.logger.logException(e);
 			}
 
 			this.cachedApi = null;

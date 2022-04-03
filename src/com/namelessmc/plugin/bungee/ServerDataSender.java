@@ -40,10 +40,10 @@ public class ServerDataSender implements Runnable {
 					if (e.getError() == ApiError.INVALID_SERVER_ID) {
 						NamelessPlugin.getInstance().getLogger().warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
 					} else {
-						NamelessPlugin.getInstance().getExceptionLogger().logException(e);
+						NamelessPlugin.getInstance().getCommonLogger().logException(e);
 					}
 				} catch (final NamelessException e) {
-					NamelessPlugin.getInstance().getExceptionLogger().logException(e);
+					NamelessPlugin.getInstance().getCommonLogger().logException(e);
 				}
 			})
 		);

@@ -97,7 +97,7 @@ public class UserInfoCommand extends CommonCommand {
 				}
 			} catch (final NamelessException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_FAIL));
-				getExceptionLogger().logException(e);
+				getLogger().logException(e);
 			}
 		});
 	}

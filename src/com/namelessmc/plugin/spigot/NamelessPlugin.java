@@ -4,6 +4,8 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.command.CommonCommand;
+import com.namelessmc.plugin.common.logger.AbstractLogger;
+import com.namelessmc.plugin.common.logger.JulLogger;
 import com.namelessmc.plugin.spigot.event.PlayerBan;
 import com.namelessmc.plugin.spigot.event.PlayerLogin;
 import com.namelessmc.plugin.spigot.event.PlayerQuit;
@@ -53,14 +55,14 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	private AbstractYamlFile commandsConfig;
 	@Override public AbstractYamlFile getCommandsConfig() { return this.commandsConfig; }
 
+	private AbstractLogger commonLogger;
+	@Override public AbstractLogger getCommonLogger() { return this.commonLogger; }
+
 	private Permission permissions;
 	public Permission getPermissions() { return this.permissions; }
 	
 	private PapiParser papiParser;
 	public PapiParser getPapiParser() { return this.papiParser; }
-
-	private ExceptionLogger exceptionLogger;
-	public @NotNull ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
 
 	private BukkitAudiences adventure;
 	public BukkitAudiences adventure() { return adventure; }
@@ -179,11 +181,10 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		this.commonLogger = new JulLogger(this.getConfig().getBoolean("single-line-exceptions"), this.getLogger());
 
-		this.exceptionLogger = new ExceptionLogger(this.getLogger(), this.getConfig().getBoolean("single-line-exceptions"));
 		this.apiProvider = new ApiProvider(
-				this.getLogger(),
-				this.exceptionLogger,
+				this.commonLogger,
 				getConfig().getString("api.url"),
 				getConfig().getString("api.key"),
 				getConfig().getBoolean("api.debug", false),

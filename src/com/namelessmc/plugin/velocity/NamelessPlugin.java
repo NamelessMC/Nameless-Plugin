@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.command.CommonCommand;
+import com.namelessmc.plugin.common.logger.AbstractLogger;
+import com.namelessmc.plugin.common.logger.Slf4jLogger;
 import com.velocitypowered.api.command.Command;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.event.Subscribe;
@@ -40,11 +42,11 @@ public class NamelessPlugin implements CommonObjectsProvider {
 	private ApiProvider apiProvider;
 	@Override public ApiProvider getApiProvider() { return this.apiProvider; }
 
-	private ExceptionLogger exceptionLogger;
-	@Override public ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
-
 	private AbstractYamlFile commandsConfig;
 	@Override public AbstractYamlFile getCommandsConfig() { return this.commandsConfig; }
+
+	private AbstractLogger commonLogger;
+	@Override public AbstractLogger getCommonLogger() { return this.commonLogger; }
 
 	private final @NotNull Yaml yaml = new Yaml();
 	private MappingNode mainConfig;
@@ -102,6 +104,19 @@ public class NamelessPlugin implements CommonObjectsProvider {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+
+		// TODO configurable singleLineExceptions
+		this.commonLogger = new Slf4jLogger(false, this.logger);
+
+		// TODO initialize ApiProvider
+
+		try {
+			this.getLanguage().updateFiles();
+		} catch (final IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		// TODO set active language
 
 		this.registerCommands();
 	}

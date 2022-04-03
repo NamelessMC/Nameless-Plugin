@@ -64,7 +64,7 @@ public class RegisterCommand extends CommonCommand {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFTUSED));
 			} catch (final NamelessException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));
-				getExceptionLogger().logException(e);
+				getLogger().logException(e);
 			}
 		});
 	}

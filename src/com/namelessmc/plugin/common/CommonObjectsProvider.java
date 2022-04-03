@@ -1,6 +1,7 @@
 package com.namelessmc.plugin.common;
 
 import com.namelessmc.plugin.common.command.AbstractScheduler;
+import com.namelessmc.plugin.common.logger.AbstractLogger;
 
 public interface CommonObjectsProvider {
 
@@ -10,8 +11,8 @@ public interface CommonObjectsProvider {
 
 	ApiProvider getApiProvider();
 
-	ExceptionLogger getExceptionLogger();
-
 	AbstractYamlFile getCommandsConfig();
+
+	AbstractLogger getCommonLogger();
 
 }
