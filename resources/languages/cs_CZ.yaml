@@ -18,6 +18,7 @@ command:
         username-invalid: Zadané uživatelské jméno je neplatné.
         cannot-send-email: Nepodařilo se odeslat registrační e-mail, kontaktuj prosím
           správce, aby aktivoval tvůj účet.
+        username-used: Vaše uživatelské jméno je již používáno.
       success:
         email: Zkontrolujte svou e-mailovou schránku pro dokončení registrace.
         link: <hover:show_text:"Klikněte pro otevření ve webovém prohlížeči"><click:open_url:"<url>">Dokončete
