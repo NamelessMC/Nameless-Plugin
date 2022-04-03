@@ -32,7 +32,7 @@ import java.util.ArrayList;
 		authors = {"Derkades"})
 public class NamelessPlugin implements CommonObjectsProvider {
 
-	private AbstractScheduler scheduler;
+	private final AbstractScheduler scheduler;
 	@Override public AbstractScheduler getScheduler() { return this.scheduler; }
 
 	private LanguageHandler language;
@@ -66,6 +66,19 @@ public class NamelessPlugin implements CommonObjectsProvider {
 		this.server = server;
 		this.logger = logger;
 		this.dataDirectory = dataDirectory;
+
+		this.scheduler = new AbstractScheduler() {
+			@Override
+			public void runAsync(final Runnable runnable) {
+				NamelessPlugin.this.server.getScheduler().buildTask(NamelessPlugin.this, runnable).schedule();
+			}
+
+			@Override
+			public void runSync(final Runnable runnable) {
+				// Velocity has no "main thread", we can just run it in the current thread
+				runnable.run();
+			}
+		};
 	}
 
 	@Subscribe
