@@ -12,7 +12,7 @@ player:
 command:
   not-a-player: Dit commando kan alleen als speler uitgevoerd worden.
   notifications:
-    usage: '/{command}'
+    usage: '/<command>'
     output:
       no-notifications: Je hebt geen ongelezen meldingen.
       click-to-open: Klik om te openen in een webbrowser
@@ -21,7 +21,7 @@ command:
       notification: <hover:show_text:"Klik om in een web browser te openen"><click:open_url:"<url>"><message>
     description: Laat een lijst van website meldingen zien.
   register:
-    usage: '/{command} <e-mail>'
+    usage: '/<command> \<e-mail>'
     output:
       success:
         email: Controleer uw inbox om de registratie te voltooien.
@@ -38,7 +38,7 @@ command:
           op met een administrator om je account te activeren.
     description: Maak een website account
   user-info:
-    usage: '/{command} [gebruikersnaam]'
+    usage: '/<command> [gebruikersnaam]'
     output:
       username: 'Gebruikersnaam: <username>'
       uuid: 'UUID: <uuid>'
@@ -53,6 +53,7 @@ command:
         op te halen.
       primary-group: 'Hoofdgroep: <groupname>'
       all-groups: 'Alle groepen: <groups_names_list>'
+      custom-field: "Custom veld: '<name>': <value>"
     description: Informatie opvragen over een websitegebruiker
   no-permission: Je hebt geen toestemming om dit commando uit te voeren.
   report:
@@ -65,9 +66,9 @@ command:
         already-open: Je kan niet deze speler rapporteren, er staat al een rapport
           open.
         report-self: Je kunt jezelf niet rapporteren.
-    usage: '/{command} <name/uuid> <reason>'
+    usage: '/<command> \<naam/uuid> \<reden>'
   validate:
-    usage: '/{command} <code>'
+    usage: '/<command> \<code>'
     output:
       success: Je account is gevalideerd.
       fail:

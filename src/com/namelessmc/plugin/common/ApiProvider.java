@@ -48,6 +48,10 @@ public class ApiProvider {
 		this.usernames = usernames;
 		this.timeout = timeout;
 		this.bypassVersionCheck = bypassVersionCheck;
+
+		if (this.usernames) {
+			this.logger.warning("Username mode is enabled. This is NOT supported. If you do not run a cracked server, disable this option!");
+		}
 	}
 
 	public synchronized Optional<NamelessAPI> getNamelessApi() {

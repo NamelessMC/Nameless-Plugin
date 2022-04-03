@@ -61,6 +61,22 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	private ExceptionLogger exceptionLogger;
 	public @NotNull ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
 
+	private BukkitAudiences adventure;
+	public BukkitAudiences adventure() { return adventure; }
+
+	private final AbstractScheduler scheduler = new AbstractScheduler() {
+		@Override
+		public void runAsync(final Runnable runnable) {
+			Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.this, runnable);
+		}
+
+		@Override
+		public void runSync(final Runnable runnable) {
+			Bukkit.getScheduler().runTask(NamelessPlugin.this, runnable);
+		}
+	};
+	@Override public AbstractScheduler getScheduler() { return this.scheduler; }
+
 	private @Nullable MaintenanceStatusProvider maintenanceStatusProvider;
 	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 
@@ -220,23 +236,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			websend.stop();
 		}
 		websend = new Websend(this); // this will do nothing if websend options are disabled
-	}
-
-	@Override
-	public AbstractScheduler getScheduler() {
-		return new AbstractScheduler() {
-
-			@Override
-			public void runAsync(final Runnable runnable) {
-				Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.this, runnable);
-			}
-
-			@Override
-			public void runSync(final Runnable runnable) {
-				Bukkit.getScheduler().runTask(NamelessPlugin.this, runnable);
-			}
-
-		};
 	}
 
 	private void registerCommands() {

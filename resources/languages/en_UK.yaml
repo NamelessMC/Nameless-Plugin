@@ -27,8 +27,9 @@ command:
         link: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\">Please complete registration by going to <url>."
       fail:
         generic: "An error occurred while trying to register. Please notify the server administrator about this issue."
-        already-exists: "You already have an account."
+        username-used: "Your username is already used."
         email-used: "This email address is already used for a different user account."
+        minercaft-used: "Your Minecraft account is already linked to a different website user."
         email-invalid: "The provided email address is invalid."
         username-invalid: "The provided username is invalid."
         cannot-send-email: "Unable to send registration email, please contact an admin to activate your account."
