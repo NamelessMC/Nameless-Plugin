@@ -41,8 +41,9 @@ public class LanguageHandler {
 		COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL("command.register.output.success.email"),
 		COMMAND_REGISTER_OUTPUT_SUCCESS_LINK("command.register.output.success.link"),
 		COMMAND_REGISTER_OUTPUT_FAIL_GENERIC("command.register.output.fail.generic"),
-		COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS("command.register.output.fail.already-exists"),
+		COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEUSED("command.register.output.fail.username-used"),
 		COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED("command.register.output.fail.email-used"),
+		COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFTUSED("command.register.output.fail.minecraft-used"),
 		COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID("command.register.output.fail.email-invalid"),
 		COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEINVALID("command.register.output.fail.username-invalid"),
 		COMMAND_REGISTER_OUTPUT_FAIL_CANNOTSENDEMAIL("command.register.output.fail.cannot-send-email"),
@@ -94,7 +95,7 @@ public class LanguageHandler {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 21;
+	private static final int VERSION = 22;
 
 	private static final Set<String> LANGUAGES = new HashSet<>();
 	static {

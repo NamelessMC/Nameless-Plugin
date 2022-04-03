@@ -1,12 +1,10 @@
 package com.namelessmc.plugin.common.command;
 
-import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.exception.CannotSendEmailException;
-import com.namelessmc.java_api.exception.InvalidUsernameException;
-import com.namelessmc.java_api.exception.UsernameAlreadyExistsException;
-import com.namelessmc.java_api.exception.UuidAlreadyExistsException;
+import com.namelessmc.java_api.exception.*;
+import com.namelessmc.java_api.integrations.IntegrationData;
+import com.namelessmc.java_api.integrations.MinecraftIntegrationData;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.common.Permission;
@@ -37,41 +35,36 @@ public class RegisterCommand extends CommonCommand {
 
 		this.getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
-			if (!optApi.isPresent()) {
+			if (optApi.isEmpty()) {
 				sender.sendMessage(this.getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));
 				return;
 			}
+
 			final NamelessAPI api = optApi.get();
 
 			try {
-				final Optional<String> link =
-						this.getApiProvider().useUsernames()
-								? api.registerUser(sender.getName(), args[0])
-								: api.registerUser(sender.getName(), args[0], sender.getUniqueId());
+				IntegrationData integrationData = new MinecraftIntegrationData(sender.getUniqueId(), sender.getName());
+				Optional<String> link = api.registerUser(sender.getName(), args[0], integrationData);
 				if (link.isPresent()) {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK, "url", link.get()));
 				} else {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL));
 				}
-			} catch (final ApiError e) {
-				// TODO all these API errors should be converted to thrown exceptions in the java api
-				if (e.getError() == ApiError.EMAIL_ALREADY_EXISTS) {
-					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED));
-				} else if (e.getError() == ApiError.INVALID_EMAIL_ADDRESS) {
-					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID));
-				} else {
-					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));
-					getExceptionLogger().logException(e);
-				}
-			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));
-				getExceptionLogger().logException(e);
 			} catch (final InvalidUsernameException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEINVALID));
 			} catch (final CannotSendEmailException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_CANNOTSENDEMAIL));
-			} catch (final UuidAlreadyExistsException | UsernameAlreadyExistsException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_ALREADYEXISTS));
+			} catch (final UsernameAlreadyExistsException e) {
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_USERNAMEUSED));
+			} catch (final InvalidEmailAddressException e) {
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAILINVALID));
+			} catch (final EmailAlreadyUsedException e) {
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAILUSED));
+			} catch (final IntegrationIdAlreadyExistsException | IntegrationUsernameAlreadyExistsException e) {
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFTUSED));
+			} catch (final NamelessException e) {
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));
+				getExceptionLogger().logException(e);
 			}
 		});
 	}
