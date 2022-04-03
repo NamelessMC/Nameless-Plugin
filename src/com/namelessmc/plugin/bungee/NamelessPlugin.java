@@ -12,6 +12,7 @@ import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +43,19 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 	private ExceptionLogger exceptionLogger;
 	@Override public ExceptionLogger getExceptionLogger() { return this.exceptionLogger; }
 
+	private final @NotNull AbstractScheduler scheduler = new AbstractScheduler() {
+		@Override
+		public void runAsync(final Runnable runnable) {
+			runnable.run();
+		}
+
+		@Override
+		public void runSync(final Runnable runnable) {
+			runnable.run();
+		}
+	};
+	@Override public AbstractScheduler getScheduler() { return this.scheduler; }
+
 	private ScheduledTask dataSenderTask;
 
 	@Override
@@ -56,23 +70,6 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	@Override
-	public AbstractScheduler getScheduler() {
-		return new AbstractScheduler() {
-
-			@Override
-			public void runAsync(final Runnable runnable) {
-				runnable.run();
-			}
-
-			@Override
-			public void runSync(final Runnable runnable) {
-				runnable.run();
-			}
-
-		};
 	}
 
 	private Configuration copyFromJarAndLoad(Path dataFolder, String name) throws IOException {
