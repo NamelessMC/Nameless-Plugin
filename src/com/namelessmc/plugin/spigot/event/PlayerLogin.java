@@ -1,7 +1,12 @@
 package com.namelessmc.plugin.spigot.event;
 
-import java.util.Optional;
-
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.common.logger.AbstractLogger;
+import com.namelessmc.plugin.spigot.NamelessPlugin;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -10,18 +15,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.plugin.common.LanguageHandler.Term;
-import com.namelessmc.plugin.spigot.NamelessPlugin;
-
-import net.kyori.adventure.text.Component;
+import java.util.Optional;
 
 public class PlayerLogin implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(final PlayerJoinEvent event) {
+		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
 		final Player player = event.getPlayer();
 
 		NamelessPlugin.LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
@@ -41,10 +41,10 @@ public class PlayerLogin implements Listener {
 							});
 						}
 					} catch (final NamelessException e) {
-						NamelessPlugin.getInstance().getExceptionLogger().logException(e);
+						logger.logException(e);
 					}
 				} else {
-					NamelessPlugin.getInstance().getLogger().warning("Not sending join message, API is not working properly.");
+					logger.warning("Not sending join message, API is not working properly.");
 				}
 			});
 		}

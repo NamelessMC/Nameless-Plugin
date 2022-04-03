@@ -2,6 +2,7 @@ package com.namelessmc.plugin.spigot;
 
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.modules.websend.WebsendCommand;
+import com.namelessmc.plugin.common.logger.AbstractLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,16 +29,17 @@ public class Websend {
 		@Override
 		public void publish(LogRecord logRecord) {
 			Objects.requireNonNull(logLines); // satisfy IDE
+			final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
 			synchronized (logLines) {
 				String message = logRecord.getMessage();
 				if (message.length() > MESSAGE_LENGTH_LIMIT) {
-					NamelessPlugin.getInstance().getLogger().warning("Websend: not sending the previous log message, it is too long.");
+					logger.warning("Websend: not sending the previous log message, it is too long.");
 					return;
 				}
 				String[] lines = message.split("\\r?\\n");
 				for (String line : lines) {
 					if (line.length() > LINE_LENGTH_LIMIT) {
-						NamelessPlugin.getInstance().getLogger().warning("Websend: skipped a line in the previous log message, it is too long.");
+						logger.warning("Websend: skipped a line in the previous log message, it is too long.");
 						continue;
 					}
 					logLines.add(line);
@@ -99,26 +101,27 @@ public class Websend {
 		}
 
 		NamelessPlugin.getInstance().getNamelessApi().ifPresent(api -> {
+			final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
 			int serverId = NamelessPlugin.getInstance().getConfig().getInt("server-data-sender.server-id");
 			if (serverId <= 0) {
-				NamelessPlugin.getInstance().getLogger().warning("server-id is not configured");
+				logger.warning("server-id is not configured");
 				return;
 			}
 			try {
 				api.websend().sendConsoleLog(serverId, linesToSend);
 			} catch (NamelessException e) {
-				NamelessPlugin.getInstance().getExceptionLogger().logException(e);
+				logger.logException(e);
 			}
 		});
 	}
 
 	private void executeCommands() {
-		NamelessPlugin inst = NamelessPlugin.getInstance();
-		FileConfiguration config = inst.getConfig();
-		Logger log = inst.getLogger();
+		final NamelessPlugin inst = NamelessPlugin.getInstance();
+		final FileConfiguration config = inst.getConfig();
+		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
 		final int serverId = config.getInt("server-data-sender.server-id");
 		if (serverId <= 0) {
-			log.warning("Websend is enabled but 'server-data-sender.server-id' in config.yml is not set properly.");
+			logger.warning("Websend is enabled but 'server-data-sender.server-id' in config.yml is not set properly.");
 			return;
 		}
 
@@ -136,13 +139,13 @@ public class Websend {
 								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.getCommandLine());
 							} catch (final CommandException e) {
 								// continue executing other commands if one fails
-								NamelessPlugin.getInstance().getExceptionLogger().logException(e);
+								logger.logException(e);
 							}
 						}
 					});
 				} catch (NamelessException e) {
-					log.severe("Error retrieving websend commands");
-					NamelessPlugin.getInstance().getExceptionLogger().logException(e);
+					logger.severe("Error retrieving websend commands");
+					logger.logException(e);
 				}
 			});
 		});

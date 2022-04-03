@@ -2,6 +2,7 @@ package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -68,7 +69,7 @@ public abstract class CommonCommand {
 		return this.getApiProvider().getNamelessApi();
 	}
 
-	protected @NotNull ExceptionLogger getExceptionLogger() { return this.provider.getExceptionLogger(); }
+	protected @NotNull AbstractLogger getLogger() { return this.provider.getCommonLogger(); }
 
 	public abstract void execute(CommandSender sender, String[] args);
 

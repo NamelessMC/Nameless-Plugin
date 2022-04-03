@@ -54,7 +54,7 @@ public class PlaceholderCacher implements Listener {
 			final int notificationCount = user.get().getNotificationCount();
 			CACHED_NOTIFICATION_COUNT.put(player.getUniqueId(), notificationCount);
 		} catch (final NamelessException e) {
-			NamelessPlugin.getInstance().getExceptionLogger().logException(e);
+			NamelessPlugin.getInstance().getCommonLogger().logException(e);
 		}
 	}
 

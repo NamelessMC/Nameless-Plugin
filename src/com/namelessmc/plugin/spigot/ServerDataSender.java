@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.plugin.common.logger.AbstractLogger;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -26,6 +27,7 @@ public class ServerDataSender extends BukkitRunnable {
 
 	@Override
 	public void run() {
+		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
 		final FileConfiguration config = NamelessPlugin.getInstance().getConfig();
 		final int serverId = config.getInt("server-data-sender.server-id");
 
@@ -120,15 +122,15 @@ public class ServerDataSender extends BukkitRunnable {
 					api.submitServerInfo(data);
 				} catch (final ApiError e) {
 					if (e.getError() == ApiError.INVALID_SERVER_ID) {
-						NamelessPlugin.getInstance().getLogger().warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
+						logger.warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
 					} else {
-						NamelessPlugin.getInstance().getExceptionLogger().logException(e);
+						logger.logException(e);
 					}
 				} catch (final NamelessException e) {
 					if (e.getCause() instanceof SocketTimeoutException) {
-						NamelessPlugin.getInstance().getLogger().warning("Connection timed out while sending server data to NamelessMC. Was your webserver down, or is your network connection unstable?");
+						logger.warning("Connection timed out while sending server data to NamelessMC. Was your webserver down, or is your network connection unstable?");
 					} else {
-						NamelessPlugin.getInstance().getExceptionLogger().logException(e);
+						logger.logException(e);
 					}
 				}
 			})
