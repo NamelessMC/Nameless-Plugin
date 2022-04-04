@@ -35,7 +35,7 @@ public class AnnouncementTask implements Runnable {
 					try {
 						Optional<NamelessUser> optUser = apiProvider.userFromPlayer(api, uuid, name);
 						if (optUser.isPresent()) {
-							announcements = api.getAnnouncements(optUser.get());
+							announcements = optUser.get().getAnnouncements();
 						} else {
 							announcements = api.getAnnouncements();
 						}
