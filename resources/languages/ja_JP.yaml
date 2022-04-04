@@ -11,7 +11,7 @@ player:
 command:
   not-a-player: このコマンドを実行するにはプレイヤーでなければなりません。
   notifications:
-    usage: '/{command}'
+    usage: '/<command>'
     output:
       no-notifications: 未読通知はありません。
       click-to-open: クリックするとウェブブラウザで開きます
@@ -19,7 +19,7 @@ command:
       notification: <hover:show_text:"クリックしてウェブブラウザで開く"><click:open_url:"<url>"><message>
     description: ウェブサイトの通知一覧を表示します。
   register:
-    usage: '/{command} <メールアドレス>'
+    usage: '/<command> \<username> \<email>'
     output:
       success:
         email: メールボックスを確認して登録を完了させてください。
@@ -31,10 +31,12 @@ command:
         email-invalid: メールアドレスは無効です。
         username-invalid: ユーザー名は無効です。
         cannot-send-email: 登録メールが送信されない場合は、管理者に連絡してアカウントを有効化してください。
+        username-used: ユーザー名はすでに使用されています。
+        minercaft-used: あなたのMinecraftアカウントはすでに別のウェブサイトのユーザーとリンクしています。
     description: ウェブサイトアカウントを作成
   no-permission: このコマンドを実行する権限がありません。
   user-info:
-    usage: '/{command} [ユーザー名]'
+    usage: '/<command> [username]'
     output:
       uuid: 'UUID: <uuid>'
       username: 'ユーザー名: <username>'
@@ -51,7 +53,7 @@ command:
       custom-field: "カスタムフィールド '<name>': <value>"
     description: ウェブサイトユーザーに関する情報を取得
   validate:
-    usage: '/{command} <コード>'
+    usage: '/<command> \<code>'
     output:
       fail:
         generic: 認証コードを送信しようとした際に不明なエラーが発生しました。
@@ -60,7 +62,7 @@ command:
       success: アカウントは認証されました。
     description: コードを使用して、ユーザーのウェブサイトアカウントを認証します。
   report:
-    usage: '/{command} <ユーザー名/uuid> <理由>'
+    usage: '/<command> \<name/uuid> \<reason>'
     output:
       success: プレイヤーを報告していただきありがとうございます。
       fail:
