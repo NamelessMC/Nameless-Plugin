@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.FileUtils;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ConfigurationHandler {
@@ -34,13 +35,14 @@ public class ConfigurationHandler {
 	}
 
 	private void load() throws IOException {
+		Files.createDirectories(this.dataDirectory);
 		this.mainConfig = copyFromJarAndLoad("config.yaml");
 		this.commandsConfig = copyFromJarAndLoad("commands.yaml");
 	}
 
 	private Configuration copyFromJarAndLoad(final @NotNull String name) throws IOException {
 		Path path = this.dataDirectory.resolve(name);
-		FileUtils.copyOutOfJar(this.getClass(), name, path);
+		FileUtils.copyOutOfJar(ConfigurationHandler.class, name, path);
 		return ConfigurationProvider.getProvider(YamlConfiguration.class).load(path.toFile());
 	}
 

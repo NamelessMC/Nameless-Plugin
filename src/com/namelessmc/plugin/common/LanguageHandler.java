@@ -213,7 +213,7 @@ public class LanguageHandler {
 		this.logger.info("Installing language files");
 
 		for (final String languageName : LANGUAGES) {
-			final String languagePathInJar = "/languages/" + languageName + ".yaml";
+			final String languagePathInJar = "languages/" + languageName + ".yaml";
 			final Path dest = this.languageDirectory.resolve(languageName + ".yaml");
 			FileUtils.copyOutOfJar(LanguageHandler.class, languagePathInJar, dest);
 		}

@@ -125,7 +125,7 @@ public class Websend {
 		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
 		final int serverId = config.getInt("server-data-sender.server-id");
 		if (serverId <= 0) {
-			logger.warning("Websend is enabled but 'server-data-sender.server-id' in config.yml is not set properly.");
+			logger.warning("Websend is enabled but 'server-data-sender.server-id' in config.yaml is not set properly.");
 			return;
 		}
 

@@ -16,7 +16,7 @@ The official Minecraft plugin for NamelessMC v2. For compiled files see the [spi
 ## Installation
 1. Install the plugin jar file in the `plugins` folder
 2. Restart the server
-3. Modify `config.yml`: enter API URL and server id.
+3. Modify `config.yaml`: enter API URL and server id.
 4. Run `/nlpl reload`
 
 ## Translations
