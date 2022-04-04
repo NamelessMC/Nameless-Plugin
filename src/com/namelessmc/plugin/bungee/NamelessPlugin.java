@@ -1,6 +1,9 @@
 package com.namelessmc.plugin.bungee;
 
-import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.ApiProvider;
+import com.namelessmc.plugin.common.CommonObjectsProvider;
+import com.namelessmc.plugin.common.ConfigurationHandler;
+import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
@@ -12,13 +15,8 @@ import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
@@ -27,11 +25,8 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 	private static NamelessPlugin instance;
 	public static NamelessPlugin getInstance() { return instance; }
 
-	private Configuration config;
-	public Configuration getConfig() { return this.config; }
-
-	private AbstractYamlFile commandsConfig;
-	@Override public AbstractYamlFile getCommandsConfig() { return this.commandsConfig; }
+	private ConfigurationHandler configuration;
+	@Override public ConfigurationHandler getConfiguration() { return this.configuration; }
 
 	private AbstractLogger commonLogger;
 	@Override public AbstractLogger getCommonLogger() { return this.commonLogger; }
@@ -56,7 +51,7 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 			runnable.run();
 		}
 	};
-	@Override public AbstractScheduler getScheduler() { return this.scheduler; }
+	@Override public @NotNull AbstractScheduler getScheduler() { return this.scheduler; }
 
 	private ScheduledTask dataSenderTask;
 
@@ -65,67 +60,26 @@ public class NamelessPlugin extends Plugin implements CommonObjectsProvider {
 		instance = this;
 
 		this.adventure = BungeeAudiences.create(this);
-		this.language = new LanguageHandler(this.getLogger(), getDataFolder().toPath().resolve("languages"));
 
-		try {
-			reload();
-		} catch (final IOException e) {
-			throw new RuntimeException(e);
-		}
+		reload();
 	}
 
-	private Configuration copyFromJarAndLoad(Path dataFolder, String name) throws IOException {
-		Path path = dataFolder.resolve(name);
-		if (!Files.isRegularFile(path)) {
-			try (InputStream in = getResourceAsStream(name)) {
-				Files.copy(in, path);
-			}
-		}
+	public void reload() {
+		final Path dataDirectory = getDataFolder().toPath();
 
-		return ConfigurationProvider.getProvider(YamlConfiguration.class).load(path.toFile());
-	}
-
-	public void reload() throws IOException {
-		final Path dataFolder = getDataFolder().toPath();
-		Files.createDirectories(dataFolder);
-
-		this.config = copyFromJarAndLoad(dataFolder, "config.yml");
-		this.commandsConfig = new YamlFileImpl(copyFromJarAndLoad(dataFolder, "commands.yml"));
-
-		this.commonLogger = new JulLogger(this.getConfig().getBoolean("single-line-exceptions"), this.getLogger());
-
-		this.apiProvider = new ApiProvider(
-				this.commonLogger,
-				getConfig().getString("api.url"),
-				getConfig().getString("api.key"),
-				getConfig().getBoolean("api.debug", false),
-				getConfig().getBoolean("api.usernames", false),
-				getConfig().getInt("api.timeout", 5000),
-				getConfig().getBoolean("api.bypass-version-check"));
-
-		try {
-			this.getLanguage().updateFiles();
-		} catch (final IOException e) {
-			throw new RuntimeException(e);
-		}
-
-		if (!this.getLanguage().setActiveLanguage(
-				this.config.getString("language", LanguageHandler.DEFAULT_LANGUAGE), YamlFileImpl::new)) {
-			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
-			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
-			this.getLogger().severe("FIX IMMEDIATELY");
-			this.getLogger().severe("In config.yml, set 'language' to '" + LanguageHandler.DEFAULT_LANGUAGE
-					+ "' or any other supported language.");
-			throw new RuntimeException("Failed to load language file");
-		}
+		this.configuration = new ConfigurationHandler(dataDirectory);
+		this.commonLogger = new JulLogger(this, this.getLogger());
+		this.language = new LanguageHandler(this, getDataFolder().toPath());
+		this.apiProvider = new ApiProvider(this);
 
 		if (this.dataSenderTask != null) {
 			this.dataSenderTask.cancel();
 			this.dataSenderTask = null;
 		}
 
-		final int rate = this.getConfig().getInt("server-data-upload-rate", 10);
-		final int serverId = getConfig().getInt("server-id");
+		final Configuration config = this.getConfiguration().getMainConfig();
+		final int rate = config.getInt("server-data-upload-rate", 10);
+		final int serverId = config.getInt("server-id");
 		if (rate >= 0 && serverId > 0) {
 			this.dataSenderTask = getProxy().getScheduler().schedule(this, new ServerDataSender(), rate, rate, TimeUnit.SECONDS);
 		}

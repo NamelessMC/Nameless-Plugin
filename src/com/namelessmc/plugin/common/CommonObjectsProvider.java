@@ -11,7 +11,7 @@ public interface CommonObjectsProvider {
 
 	ApiProvider getApiProvider();
 
-	AbstractYamlFile getCommandsConfig();
+	ConfigurationHandler getConfiguration();
 
 	AbstractLogger getCommonLogger();
 

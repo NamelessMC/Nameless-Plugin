@@ -7,8 +7,8 @@ import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
 import net.kyori.adventure.text.Component;
+import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,7 +26,7 @@ public class PlayerLogin implements Listener {
 
 		NamelessPlugin.LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
 
-		final FileConfiguration config = NamelessPlugin.getInstance().getConfig();
+		final Configuration config = NamelessPlugin.getInstance().getConfiguration().getMainConfig();
 
 		if (config.getBoolean("not-registered-join-message")) {
 			Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {

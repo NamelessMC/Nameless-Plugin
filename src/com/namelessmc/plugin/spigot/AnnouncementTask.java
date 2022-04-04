@@ -6,6 +6,7 @@ import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.common.ApiProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
 import net.kyori.adventure.text.Component;
+import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
@@ -20,9 +21,10 @@ public class AnnouncementTask implements Runnable {
 
 	@Override
 	public void run() {
-		ApiProvider apiProvider = NamelessPlugin.getInstance().getApiProvider();
+		final Configuration config = NamelessPlugin.getInstance().getConfiguration().getMainConfig();
+		final ApiProvider apiProvider = NamelessPlugin.getInstance().getApiProvider();
 		apiProvider.getNamelessApi().ifPresent(api -> {
-			@Nullable String filterDisplay = NamelessPlugin.getInstance().getConfig().getString("announcements.display");
+			@Nullable String filterDisplay = config.getString("announcements.display");
 			int delay = 0;
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				UUID uuid = player.getUniqueId();

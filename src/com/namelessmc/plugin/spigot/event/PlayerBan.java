@@ -4,6 +4,7 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.spigot.NamelessPlugin;
+import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,13 +19,15 @@ import java.util.logging.Logger;
 public class PlayerBan implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void onBan(PlayerKickEvent event) {
-		Player player = event.getPlayer();
+	public void onBan(final PlayerKickEvent event) {
+		final Player player = event.getPlayer();
 		if (!player.isBanned()) {
 			return;
 		}
 
-		if (!NamelessPlugin.getInstance().getConfig().getBoolean("auto-ban-on-website", false)) {
+		final Configuration config = NamelessPlugin.getInstance().getConfiguration().getMainConfig();
+
+		if (!config.getBoolean("auto-ban-on-website", false)) {
 			return;
 		}
 

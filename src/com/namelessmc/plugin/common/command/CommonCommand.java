@@ -4,6 +4,7 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.adventure.text.Component;
+import net.md_5.bungee.config.Configuration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,8 +30,9 @@ public abstract class CommonCommand {
 		this.configName = configName;
 		this.usageTerm = usageTerm;
 		this.permission = permission;
-		this.actualName = this.provider.getCommandsConfig().isString(this.getConfigName())
-				? this.provider.getCommandsConfig().getString(this.getConfigName())
+		final Configuration config = provider.getConfiguration().getCommandsConfig();
+		this.actualName = config.contains(this.getConfigName())
+				? config.getString(this.getConfigName())
 				: null;
 	}
 

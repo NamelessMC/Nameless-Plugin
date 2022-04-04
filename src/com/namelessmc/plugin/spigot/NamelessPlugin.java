@@ -1,7 +1,10 @@
 package com.namelessmc.plugin.spigot;
 
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.ApiProvider;
+import com.namelessmc.plugin.common.CommonObjectsProvider;
+import com.namelessmc.plugin.common.ConfigurationHandler;
+import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
@@ -13,6 +16,7 @@ import com.namelessmc.plugin.spigot.hooks.*;
 import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.md_5.bungee.config.Configuration;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -20,7 +24,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -30,10 +33,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.logging.Level;
@@ -52,8 +51,8 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	private LanguageHandler language;
 	@Override public LanguageHandler getLanguage() { return this.language; }
 
-	private AbstractYamlFile commandsConfig;
-	@Override public AbstractYamlFile getCommandsConfig() { return this.commandsConfig; }
+	private ConfigurationHandler configuration;
+	@Override public ConfigurationHandler getConfiguration() { return this.configuration; }
 
 	private AbstractLogger commonLogger;
 	@Override public AbstractLogger getCommonLogger() { return this.commonLogger; }
@@ -114,8 +113,6 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 
 		adventure = BukkitAudiences.create(this);
 
-		this.language = new LanguageHandler(this.getLogger(), getDataFolder().toPath().resolve("languages"));
-
 		reload();
 
 		initPapi();
@@ -146,6 +143,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		}
 	}
 
+	// TODO make this work for all platforms
 	private void checkUuids() {
 		@SuppressWarnings("deprecation")
 		final OfflinePlayer notch = Bukkit.getOfflinePlayer("Notch");
@@ -158,69 +156,30 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		}
 	}
 
-	private YamlConfiguration copyFromJarAndLoad(Path dataFolder, String name) throws IOException {
-		Path path = dataFolder.resolve(name);
-		if (!Files.isRegularFile(path)) {
-			try (InputStream in = this.getClass().getClassLoader().getResourceAsStream(name)) {
-				Files.copy(in, path);
-			}
-		}
-
-		try (Reader reader = Files.newBufferedReader(path)) {
-			return YamlConfiguration.loadConfiguration(reader);
-		}
-	}
-
 	public void reload() {
-		super.saveDefaultConfig();
-		NamelessPlugin.instance.reloadConfig();
+		Path dataDirectory = this.getDataFolder().toPath();
 
-		Path dataFolder = this.getDataFolder().toPath();
-		try {
-			commandsConfig = new YamlFileImpl(copyFromJarAndLoad(dataFolder, "commands.yaml"));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		this.commonLogger = new JulLogger(this.getConfig().getBoolean("single-line-exceptions"), this.getLogger());
-
-		this.apiProvider = new ApiProvider(
-				this.commonLogger,
-				getConfig().getString("api.url"),
-				getConfig().getString("api.key"),
-				getConfig().getBoolean("api.debug", false),
-				getConfig().getBoolean("api.usernames", false),
-				getConfig().getInt("api.timeout", 5000),
-				getConfig().getBoolean("api.bypass-version-check"));
-		Bukkit.getScheduler().runTaskAsynchronously(this, () -> apiProvider.getNamelessApi());
-
-		try {
-			this.getLanguage().updateFiles();
-		} catch (final IOException e) {
-			throw new RuntimeException(e);
-		}
-		if (!this.getLanguage().setActiveLanguage(getConfig().getString("language", LanguageHandler.DEFAULT_LANGUAGE), YamlFileImpl::new)) {
-			this.getLogger().severe("LANGUAGE FILE FAILED TO LOAD");
-			this.getLogger().severe("THIS IS BAD NEWS, THE PLUGIN WILL BREAK");
-			this.getLogger().severe("FIX IMMEDIATELY");
-			this.getLogger().severe("In config.yml, set 'language' to '" + LanguageHandler.DEFAULT_LANGUAGE + "' or any other supported language.");
-			throw new RuntimeException("Failed to load language file");
-		}
+		this.configuration = new ConfigurationHandler(dataDirectory);
+		this.commonLogger = new JulLogger(this, this.getLogger());
+		this.language = new LanguageHandler(this, dataDirectory);
+		this.apiProvider = new ApiProvider(this);
 
 		for (BukkitTask task : this.tasks) {
 			task.cancel();
 		}
 
-		if (getConfig().getBoolean("server-data-sender.enabled")) {
-			final int rate = getConfig().getInt("server-data-sender.interval") * 20;
+		Configuration config = this.getConfiguration().getMainConfig();
+		if (config.getBoolean("server-data-sender.enabled")) {
+			final int rate = config.getInt("server-data-sender.interval") * 20;
 			this.tasks.add(new ServerDataSender().runTaskTimer(this, rate, rate));
 		}
 
-		final int rate2 = getConfig().getInt("user-sync.poll-interval", 0) * 20;
+		final int rate2 = config.getInt("user-sync.poll-interval", 0) * 20;
 		if (rate2 > 0) {
 			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new UserSyncTask(), rate2, rate2));
 		}
 
-		int rate3 = getConfig().getInt("announcements.interval", 0);
+		int rate3 = config.getInt("announcements.interval", 0);
 		if (rate3 > 0) {
 			this.tasks.add(Bukkit.getScheduler().runTaskTimer(this, new AnnouncementTask(), rate3*60*20L, rate3*60*20L));
 		}
@@ -231,15 +190,15 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			placeholderCacher.stop();
 		}
 
-		if (getConfig().getBoolean("retrieve-placeholders.enabled", false)) {
-			int interval = getConfig().getInt("retrieve-placeholders.interval", 30) * 20;
+		if (config.getBoolean("retrieve-placeholders.enabled", false)) {
+			int interval = config.getInt("retrieve-placeholders.interval", 30) * 20;
 			this.placeholderCacher = new PlaceholderCacher(this, interval);
 		}
 
 		if (websend != null) {
 			websend.stop();
 		}
-		websend = new Websend(this); // this will do nothing if websend options are disabled
+		websend = new Websend(); // this will do nothing if websend options are disabled
 	}
 
 	private void registerCommands() {
@@ -253,7 +212,7 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 		this.registeredCommands.add(pluginCommand);
 
 		CommonCommand.getEnabledCommands(this).forEach(command -> {
-			final String name = command.getActualName();
+			final String name = Objects.requireNonNull(command.getActualName(), "Only enabled commands are returned");
 			final String permission = command.getPermission().toString();
 
 			// TODO description
@@ -298,50 +257,52 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 	}
 
 	private void initBstats() {
+		// TODO make this cross-platform
 		Metrics metrics = new Metrics(this, 13396);
 
+		Configuration config = this.getConfiguration().getMainConfig();
 		metrics.addCustomChart(new SimplePie("server_data_sender_enabled", () ->
-				getConfig().getInt("server-id") > 0 &&
-						getConfig().getInt("server-data-upload-rate") == 1
+				config.getInt("server-id") > 0 &&
+						config.getInt("server-data-upload-rate") == 1
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("upload_placeholders_enabled", () ->
-				getConfig().getBoolean("upload-placeholders.enabled")
+				config.getBoolean("upload-placeholders.enabled")
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("language", () ->
-				getConfig().getString("language")));
+				config.getString("language")));
 
 		metrics.addCustomChart(new SimplePie("auto_ban_on_website", () ->
-				getConfig().getBoolean("auto-ban-on-website")
+				config.getBoolean("auto-ban-on-website")
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("not_registered_join_message", () ->
-				getConfig().getBoolean("not-registered-join-message")
+				config.getBoolean("not-registered-join-message")
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("api_usernames_enabled", () ->
-				getConfig().getBoolean("api-usernames")
+				config.getBoolean("api-usernames")
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("user_sync_whitelist_enabled", () ->
-				getConfig().getBoolean("user-sync.whitelist.enabled")
+				config.getBoolean("user-sync.whitelist.enabled")
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("user_sync_bans_enabled", () ->
-				getConfig().getBoolean("user-sync.bans.enabled")
+				config.getBoolean("user-sync.bans.enabled")
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("announcements_enabled", () ->
-				getConfig().getInt("announcements.interval") > 0
+				config.getInt("announcements.interval") > 0
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("websend_command_executor_enabled", () ->
-				getConfig().getBoolean("websend.command-executor.enabled")
+				config.getBoolean("websend.command-executor.enabled")
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("websend_console_capture_enabled", () ->
-				getConfig().getBoolean("websend.console-capture.enabled")
+				config.getBoolean("websend.console-capture.enabled")
 						? "Enabled" : "Disabled"));
 	}
 

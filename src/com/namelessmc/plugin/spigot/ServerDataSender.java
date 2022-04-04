@@ -8,10 +8,10 @@ import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -23,7 +23,7 @@ public class ServerDataSender extends BukkitRunnable {
 	@Override
 	public void run() {
 		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
-		final FileConfiguration config = NamelessPlugin.getInstance().getConfig();
+		final Configuration config = NamelessPlugin.getInstance().getConfiguration().getMainConfig();
 		final int serverId = config.getInt("server-data-sender.server-id");
 
 		final JsonObject data = new JsonObject();

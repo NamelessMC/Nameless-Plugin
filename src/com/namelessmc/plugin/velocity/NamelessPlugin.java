@@ -1,7 +1,10 @@
 package com.namelessmc.plugin.velocity;
 
 import com.google.inject.Inject;
-import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.ApiProvider;
+import com.namelessmc.plugin.common.CommonObjectsProvider;
+import com.namelessmc.plugin.common.ConfigurationHandler;
+import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
@@ -13,15 +16,11 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import net.md_5.bungee.config.Configuration;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.MappingNode;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
@@ -42,14 +41,14 @@ public class NamelessPlugin implements CommonObjectsProvider {
 	private ApiProvider apiProvider;
 	@Override public ApiProvider getApiProvider() { return this.apiProvider; }
 
-	private AbstractYamlFile commandsConfig;
-	@Override public AbstractYamlFile getCommandsConfig() { return this.commandsConfig; }
+	private ConfigurationHandler configuration;
+	@Override public ConfigurationHandler getConfiguration() { return this.configuration; }
 
 	private AbstractLogger commonLogger;
 	@Override public AbstractLogger getCommonLogger() { return this.commonLogger; }
 
 	private final @NotNull Yaml yaml = new Yaml();
-	private MappingNode mainConfig;
+	private Configuration mainConfig;
 
 	private final ArrayList<String> registeredCommands = new ArrayList<>();
 
@@ -84,39 +83,11 @@ public class NamelessPlugin implements CommonObjectsProvider {
 		this.reload();
 	}
 
-	private MappingNode copyFromJarAndLoad(String name) throws IOException {
-		Path path = this.dataDirectory.resolve(name);
-		if (!Files.isRegularFile(path)) {
-			try (InputStream in = this.getClass().getClassLoader().getResourceAsStream(name)) {
-				Files.copy(in, path);
-			}
-		}
-
-		try (Reader reader = Files.newBufferedReader(path)) {
-			return (MappingNode) yaml.compose(reader);
-		}
-	}
-
 	private void reload() {
-		try {
-			this.mainConfig = copyFromJarAndLoad("config.yml");
-			this.commandsConfig = new YamlFileImpl(copyFromJarAndLoad("commands.yml"));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-
-		// TODO configurable singleLineExceptions
-		this.commonLogger = new Slf4jLogger(false, this.logger);
-
-		// TODO initialize ApiProvider
-
-		try {
-			this.getLanguage().updateFiles();
-		} catch (final IOException e) {
-			throw new RuntimeException(e);
-		}
-
-		// TODO set active language
+		this.configuration = new ConfigurationHandler(this.dataDirectory);
+		this.commonLogger = new Slf4jLogger(this, this.logger);
+		this.apiProvider = new ApiProvider(this);
+		this.language = new LanguageHandler(this, this.dataDirectory);
 
 		this.registerCommands();
 	}

@@ -4,13 +4,18 @@ import com.google.gson.JsonObject;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
 
+import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.config.Configuration;
 
 public class ServerDataSender implements Runnable {
 
 	@Override
 	public void run() {
-		final int serverId = NamelessPlugin.getInstance().getConfig().getInt("server-id");
+		final Configuration config = NamelessPlugin.getInstance().getConfiguration().getMainConfig();
+		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
+
+		final int serverId = config.getInt("server-id");
 
 		final JsonObject data = new JsonObject();
 		data.addProperty("time", System.currentTimeMillis());
@@ -38,12 +43,12 @@ public class ServerDataSender implements Runnable {
 					api.submitServerInfo(data);
 				} catch (final ApiError e) {
 					if (e.getError() == ApiError.INVALID_SERVER_ID) {
-						NamelessPlugin.getInstance().getLogger().warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
+						logger.warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
 					} else {
-						NamelessPlugin.getInstance().getCommonLogger().logException(e);
+						logger.logException(e);
 					}
 				} catch (final NamelessException e) {
-					NamelessPlugin.getInstance().getCommonLogger().logException(e);
+					logger.logException(e);
 				}
 			})
 		);

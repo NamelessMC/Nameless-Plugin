@@ -3,9 +3,9 @@ package com.namelessmc.plugin.spigot;
 import com.namelessmc.java_api.*;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
+import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,8 +18,8 @@ public class UserSyncTask implements Runnable {
 
 	@Override
 	public void run() {
-		FileConfiguration config = NamelessPlugin.getInstance().getConfig();
-		boolean doLog = config.getBoolean("user-sync.log", true);
+		final Configuration config = NamelessPlugin.getInstance().getConfiguration().getMainConfig();
+		final boolean doLog = config.getBoolean("user-sync.log", true);
 		Runnable runAfter = null;
 		if (config.getBoolean("user-sync.whitelist.enabled", false)) {
 			runAfter = () -> this.syncWhitelist(doLog);
@@ -35,6 +35,7 @@ public class UserSyncTask implements Runnable {
 	@Nullable
 	private Set<UUID> getUuids(final boolean doLog,
 							   final @NotNull Consumer<@NotNull FilteredUserListBuilder> builderConfigurator) {
+		final Configuration config = NamelessPlugin.getInstance().getConfiguration().getMainConfig();
 		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
 
 		List<NamelessUser> users;
@@ -55,7 +56,7 @@ public class UserSyncTask implements Runnable {
 		}
 
 		final Set<UUID> uuids = new HashSet<>();
-		final Set<String> excludes = new HashSet<>(NamelessPlugin.getInstance().getConfig().getStringList("user-sync.exclude"));
+		final Set<String> excludes = new HashSet<>(config.getStringList("user-sync.exclude"));
 		for (final NamelessUser user : users) {
 			try {
 				if (NamelessPlugin.getInstance().getApiProvider().useUsernames()) {
@@ -143,11 +144,12 @@ public class UserSyncTask implements Runnable {
 	}
 
 	private void syncWhitelist(final boolean doLog) {
+		final Configuration config = NamelessPlugin.getInstance().getConfiguration().getMainConfig();
 		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
 
-		final boolean verifiedOnly = NamelessPlugin.getInstance().getConfig().getBoolean("user-sync.whitelist.verified-only");
-		final boolean discordLinkedOnly = NamelessPlugin.getInstance().getConfig().getBoolean("user-sync.whitelist.discord-linked-only");
-		final int groupIdOnly = NamelessPlugin.getInstance().getConfig().getInt("user-sync.whitelist.only-with-group");
+		final boolean verifiedOnly = config.getBoolean("user-sync.whitelist.verified-only");
+		final boolean discordLinkedOnly = config.getBoolean("user-sync.whitelist.discord-linked-only");
+		final int groupIdOnly = config.getInt("user-sync.whitelist.only-with-group");
 
 		if (doLog) {
 			logger.info("Starting auto-whitelist, retrieving list of registered users...");

@@ -3,12 +3,14 @@ package com.namelessmc.plugin.common;
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
+import net.md_5.bungee.config.Configuration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,27 +27,24 @@ public class ApiProvider {
 	private final @Nullable String apiKey;
 	private final boolean debug;
 	private final boolean usernames;
-	private final int timeout;
+	private final Duration timeout;
 	private final boolean bypassVersionCheck;
 
-	public ApiProvider(final @NotNull AbstractLogger logger,
-					   final @Nullable String apiUrl,
-					   final @Nullable String apiKey,
-					   final boolean debug,
-					   final boolean usernames,
-					   final int timeout,
-					   final boolean bypassVersionCheck) {
-		this.logger = logger;
-		this.apiUrl = apiUrl;
-		this.apiKey = apiKey;
-		this.debug = debug;
-		this.usernames = usernames;
-		this.timeout = timeout;
-		this.bypassVersionCheck = bypassVersionCheck;
+	public ApiProvider(final @NotNull CommonObjectsProvider commonObjectsProvider) {
+		this.logger = commonObjectsProvider.getCommonLogger();
+		Configuration config = commonObjectsProvider.getConfiguration().getMainConfig();
+		this.apiUrl = config.getString("api.url");
+		this.apiKey = config.getString("api.key");
+		this.debug = config.getBoolean("api.debug", false);
+		this.usernames = config.getBoolean("api.usernames", false);
+		this.timeout = Duration.ofMillis(config.getInt("api.timeout", 5000));
+		this.bypassVersionCheck = config.getBoolean("api.bypass-version-check", false);
 
 		if (this.usernames) {
 			this.logger.warning("Username mode is enabled. This is NOT supported. If you do not run a cracked server, disable this option!");
 		}
+
+		commonObjectsProvider.getScheduler().runAsync(this::getNamelessApi);
 	}
 
 	public synchronized Optional<NamelessAPI> getNamelessApi() {
@@ -75,7 +74,7 @@ public class ApiProvider {
 					final NamelessAPI api = NamelessAPI.builder(url, this.apiKey)
 							.userAgent(USER_AGENT)
 							.withCustomDebugLogger(this.debug ? this.logger.getApiLogger() : null)
-							.withTimeoutMillis(this.timeout)
+							.withTimeout(this.timeout)
 							.build();
 
 					final Website info = api.getWebsite();

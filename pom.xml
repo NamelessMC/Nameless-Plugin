@@ -45,10 +45,6 @@
 
 					<relocations>
 						<relocation>
-							<pattern>org.bstats</pattern>
-							<shadedPattern>xyz.derkades.serverselectorx.lib.bstats</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>com.google.gson</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.gson</shadedPattern>
 						</relocation>
@@ -61,6 +57,10 @@
 							<shadedPattern>com.namelessmc.plugin.lib.nameless_api</shadedPattern>
 						</relocation>
 						<relocation>
+							<pattern>net.md_5.bungee.config</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.bungee-config</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>net.kyori</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.kyori</shadedPattern>
 						</relocation>
@@ -71,6 +71,10 @@
 						<relocation>
 							<pattern>org.apache.commons.io</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.commons_io</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.bstats</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.bstats</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.checkerframework</pattern>
@@ -87,10 +91,6 @@
 						<relocation>
 							<pattern>org.slf4j</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.slf4j</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.yaml.snakeyaml</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.snakeyaml</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>xyz.derkades.derkutils</pattern>
@@ -198,9 +198,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.yaml</groupId>
-			<artifactId>snakeyaml</artifactId>
-			<version>1.30</version>
+			<groupId>net.md-5</groupId>
+			<artifactId>bungeecord-config</artifactId>
+			<version>1.16-R0.4</version>
 		</dependency>
 
 	</dependencies>

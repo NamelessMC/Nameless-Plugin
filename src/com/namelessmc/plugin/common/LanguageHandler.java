@@ -1,22 +1,25 @@
 package com.namelessmc.plugin.common;
 
+import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.FileUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.logging.Logger;
 
 public class LanguageHandler {
 
@@ -128,19 +131,31 @@ public class LanguageHandler {
 		LANGUAGES.add("zh_CN");
 	}
 
-	public static final String DEFAULT_LANGUAGE = "en_UK";
-
+	private static final String DEFAULT_LANGUAGE = "en_UK";
 	private static final String VERSION_FILE_NAME = ".VERSION_DO_NOT_DELETE.dat";
+	private static final ConfigurationProvider CONFIGURATION_PROVIDER =
+			ConfigurationProvider.getProvider(YamlConfiguration.class);
 
-	private AbstractYamlFile fallbackLanguageFile = null;
-	private AbstractYamlFile activeLanguageFile = null;
+	private Configuration fallbackLanguageFile = null;
+	private Configuration activeLanguageFile = null;
+	private final @NotNull Path pluginDirectory;
 	private final @NotNull Path languageDirectory;
-	private final @NotNull Logger logger;
+	private final @NotNull AbstractLogger logger;
 
-	public LanguageHandler(final @NotNull Logger logger,
-						   final @NotNull Path languageDirectory) {
-		this.logger = logger;
-		this.languageDirectory = languageDirectory;
+	public LanguageHandler(final @NotNull CommonObjectsProvider commonObjectsProvider,
+						   final @NotNull Path pluginDirectory) {
+		this.logger = commonObjectsProvider.getCommonLogger();
+		this.pluginDirectory = pluginDirectory;
+		this.languageDirectory = pluginDirectory.resolve("languages");
+
+		final String languageCode = commonObjectsProvider.getConfiguration().getMainConfig()
+				.getString("language", DEFAULT_LANGUAGE);
+		try {
+			this.updateFiles();
+			this.setActiveLanguage(languageCode);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public String getRawMessage(final Term term) {
@@ -174,20 +189,20 @@ public class LanguageHandler {
 		return MiniMessage.miniMessage().deserialize(getRawMessage(term), resolvers);
 	}
 
-	public void updateFiles() throws IOException {
+	private void updateFiles() throws IOException {
 		Files.createDirectories(this.languageDirectory);
 
 		final Path versionFile = this.languageDirectory.resolve(VERSION_FILE_NAME);
 
 		if (Files.exists(versionFile)) {
-			final String versionContent = new String(Files.readAllBytes(versionFile), StandardCharsets.UTF_8);
+			final String versionContent = Files.readString(versionFile);
 			if (versionContent.equals(String.valueOf(VERSION))) {
 				this.logger.info("Language files up to date");
 				return;
 			} else {
 				this.logger.warning("Language files are outdated!");
 				this.logger.info("Making backup of old languages directory");
-				Path dest = this.languageDirectory.getParent().resolve("oldlanguages-" + System.currentTimeMillis());
+				Path dest = this.pluginDirectory.resolve("languages-backup-" + System.currentTimeMillis());
 				Files.move(this.languageDirectory, dest);
 				Files.createDirectory(this.languageDirectory);
 			}
@@ -211,7 +226,7 @@ public class LanguageHandler {
 		this.logger.info("Done");
 	}
 
-	private AbstractYamlFile readLanguageFile(final String languageName, final Function<Path, AbstractYamlFile> fileReader) {
+	private Configuration readLanguageFile(final @NotNull String languageName) throws IOException {
 		if (!LANGUAGES.contains(languageName)) {
 			this.logger.severe("Language '" + languageName + "' not known.");
 			return null;
@@ -219,22 +234,18 @@ public class LanguageHandler {
 
 		final Path file = this.languageDirectory.resolve(languageName + ".yaml");
 
-		if (!Files.isRegularFile(file)) {
-			this.logger.severe("File not found: '" + file + "'");
-			return null;
+		try (final InputStream in = Files.newInputStream(file)) {
+			return CONFIGURATION_PROVIDER.load(in);
 		}
-
-		return fileReader.apply(file);
 	}
 
-	public boolean setActiveLanguage(final String languageName, final Function<Path, AbstractYamlFile> fileReader) {
-		this.activeLanguageFile = readLanguageFile(languageName, fileReader);
-		if (languageName.equals(DEFAULT_LANGUAGE)) {
+	private void setActiveLanguage(final @NotNull String languageCode) throws IOException {
+		this.activeLanguageFile = readLanguageFile(languageCode);
+		if (languageCode.equals(DEFAULT_LANGUAGE)) {
 			this.fallbackLanguageFile = this.activeLanguageFile;
 		} else {
-			this.fallbackLanguageFile = readLanguageFile(DEFAULT_LANGUAGE, fileReader);
+			this.fallbackLanguageFile = readLanguageFile(DEFAULT_LANGUAGE);
 		}
-		return this.activeLanguageFile != null && this.fallbackLanguageFile != null;
 	}
 
 }

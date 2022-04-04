@@ -1,6 +1,7 @@
 package com.namelessmc.plugin.common.logger;
 
 import com.namelessmc.java_api.logger.ApiLogger;
+import com.namelessmc.plugin.common.CommonObjectsProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
@@ -8,10 +9,11 @@ import java.util.function.Supplier;
 public abstract class AbstractLogger {
 
 	private final boolean singleLineExceptions;
-	private ApiLogger apiLogger = new ApiLoggerImpl();
+	private final @NotNull ApiLogger apiLogger = new ApiLoggerImpl();
 
-	AbstractLogger(boolean singleLineExceptions) {
-		this.singleLineExceptions = singleLineExceptions;
+	AbstractLogger(final @NotNull CommonObjectsProvider commonObjectsProvider) {
+		this.singleLineExceptions = commonObjectsProvider.getConfiguration().getMainConfig()
+				.getBoolean("single-line-exceptions", false);
 	}
 
 	public @NotNull ApiLogger getApiLogger() {
