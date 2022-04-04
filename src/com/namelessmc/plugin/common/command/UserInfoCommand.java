@@ -7,7 +7,6 @@ import com.namelessmc.plugin.common.Permission;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class UserInfoCommand extends CommonCommand {
@@ -61,13 +60,6 @@ public class UserInfoCommand extends CommonCommand {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_USERNAME, "username", user.getUsername()));
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_DISPLAYNAME, "displayname", user.getDisplayName()));
 
-				Optional<UUID> uuid = user.getUniqueId();
-				if (uuid.isPresent()) {
-					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_UUID, "uuid", uuid.toString()));
-				} else {
-					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_UUID_UNKNOWN));
-				}
-
 				user.getPrimaryGroup().ifPresent(group -> {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP,
 							"groupname", group.getName(),
@@ -96,6 +88,8 @@ public class UserInfoCommand extends CommonCommand {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD,
 							"name", customField.getField().getName(), "value", customField.getValue()));
 				}
+
+				// TODO Integrations
 			} catch (final NamelessException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_FAIL));
 				getLogger().logException(e);

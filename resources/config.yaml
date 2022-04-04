@@ -85,9 +85,6 @@ user-sync:
     enabled: false
     # Only whitelist verified users
     verified-only: false
-    # Only whitelist users with a linked Discord account
-    # https://github.com/NamelessMC/Nameless-Link/wiki/Setup
-    discord-linked-only: false
     # Enter a group id here to only whitelist users with that group
     only-with-group: -1
 

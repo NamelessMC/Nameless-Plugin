@@ -69,8 +69,6 @@ public class LanguageHandler {
 		COMMAND_USERINFO_DESCRIPTION("command.user-info.description"),
 		COMMAND_USERINFO_OUTPUT_USERNAME("command.user-info.output.username"),
 		COMMAND_USERINFO_OUTPUT_DISPLAYNAME("command.user-info.output.displayname"),
-		COMMAND_USERINFO_OUTPUT_UUID("command.user-info.output.uuid"),
-		COMMAND_USERINFO_OUTPUT_UUID_UNKNOWN("command.user-info.output.uuid-unknown"),
 		COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP("command.user-info.output.primary-group"),
 		COMMAND_USERINFO_OUTPUT_ALL_GROUPS("command.user-info.output.all-groups"),
 		COMMAND_USERINFO_OUTPUT_REGISTERDATE("command.user-info.output.registered-date"),

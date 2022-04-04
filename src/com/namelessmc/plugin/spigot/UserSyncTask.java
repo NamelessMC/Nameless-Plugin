@@ -1,6 +1,9 @@
 package com.namelessmc.plugin.spigot;
 
 import com.namelessmc.java_api.*;
+import com.namelessmc.java_api.integrations.DetailedIntegrationData;
+import com.namelessmc.java_api.integrations.DetailedMinecraftIntegrationData;
+import com.namelessmc.java_api.integrations.StandardIntegrationTypes;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.config.Configuration;
@@ -43,6 +46,7 @@ public class UserSyncTask implements Runnable {
 			final Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
 			if (optApi.isPresent()) {
 				FilteredUserListBuilder builder = optApi.get().getRegisteredUsers();
+				builder.withFilter(UserFilter.INTEGRATION, StandardIntegrationTypes.MINECRAFT);
 				builderConfigurator.accept(builder);
 				users = builder.makeRequest();
 			} else {
@@ -68,16 +72,16 @@ public class UserSyncTask implements Runnable {
 						logger.info("Ignoring user " + name);
 					}
 				} else {
-					final Optional<UUID> optUuid = user.getUniqueId();
-					if (optUuid.isPresent()) {
-						UUID uuid = optUuid.get();
-						if (!excludes.contains(uuid.toString())) {
-							uuids.add(optUuid.get());
-						} else if (doLog) {
-							logger.info("Ignoring user " + optUuid.get());
-						}
-					} else {
-						logger.warning("Website user " + user.getUsername() + " does not have a UUID!");
+					Map<String, DetailedIntegrationData> integrations = user.getIntegrations();
+					DetailedIntegrationData minecraftIntegration = integrations.get(StandardIntegrationTypes.MINECRAFT);
+					if (minecraftIntegration == null) {
+						throw new IllegalStateException("User does not have Minecraft integration even though we specifically requested users with Minecraft integration only");
+					}
+					final UUID uuid = ((DetailedMinecraftIntegrationData) minecraftIntegration).getUniqueId();
+					if (!excludes.contains(uuid.toString())) {
+						uuids.add(uuid);
+					} else if (doLog) {
+						logger.info("Ignoring user " + uuid);
 					}
 				}
 			} catch (final NamelessException e) {
@@ -148,7 +152,6 @@ public class UserSyncTask implements Runnable {
 		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
 
 		final boolean verifiedOnly = config.getBoolean("user-sync.whitelist.verified-only");
-		final boolean discordLinkedOnly = config.getBoolean("user-sync.whitelist.discord-linked-only");
 		final int groupIdOnly = config.getInt("user-sync.whitelist.only-with-group");
 
 		if (doLog) {
@@ -160,9 +163,6 @@ public class UserSyncTask implements Runnable {
 				b.withFilter(UserFilter.BANNED, false);
 				if (verifiedOnly) {
 					b.withFilter(UserFilter.VERIFIED, true);
-				}
-				if (discordLinkedOnly) {
-					b.withFilter(UserFilter.DISCORD_LINKED, true);
 				}
 				if (groupIdOnly >= 0) {
 					b.withFilter(UserFilter.GROUP_ID, groupIdOnly);
