@@ -16,6 +16,7 @@ public class UserInfoCommand extends CommonCommand {
 		super(provider,
 				"user-info",
 				Term.COMMAND_USERINFO_USAGE,
+				Term.COMMAND_USERINFO_DESCRIPTION,
 				Permission.COMMAND_USER_INFO);
 	}
 

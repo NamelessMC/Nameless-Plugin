@@ -23,6 +23,7 @@ public class ReportCommand extends CommonCommand {
 		super(provider,
 				"report",
 				Term.COMMAND_REPORT_USAGE,
+				Term.COMMAND_REPORT_DESCRIPTION,
 				Permission.COMMAND_REPORT);
 	}
 

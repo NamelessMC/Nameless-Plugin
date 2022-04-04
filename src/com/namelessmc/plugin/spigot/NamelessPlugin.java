@@ -16,6 +16,7 @@ import com.namelessmc.plugin.spigot.hooks.*;
 import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.config.Configuration;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
@@ -215,8 +216,10 @@ public class NamelessPlugin extends JavaPlugin implements CommonObjectsProvider 
 			final String name = Objects.requireNonNull(command.getActualName(), "Only enabled commands are returned");
 			final String permission = command.getPermission().toString();
 
-			// TODO description
-			Command spigotCommand = new Command(name) {
+			final LegacyComponentSerializer ser = LegacyComponentSerializer.legacySection();
+			final String usage = ser.serialize(command.getUsage());
+			final String description = ser.serialize(command.getDescription());
+			Command spigotCommand = new Command(name, usage, description, Collections.emptyList()) {
 				@Override
 				public boolean execute(final CommandSender nativeSender, final String commandLabel, final String[] args) {
 					SpigotCommandSender sender = new SpigotCommandSender(nativeSender);

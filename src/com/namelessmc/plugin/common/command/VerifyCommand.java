@@ -16,6 +16,7 @@ public class VerifyCommand extends CommonCommand {
 		super(provider,
 				"verify",
 				Term.COMMAND_VALIDATE_USAGE,
+				Term.COMMAND_VALIDATE_DESCRIPTION,
 				Permission.COMMAND_VERIFY);
 	}
 

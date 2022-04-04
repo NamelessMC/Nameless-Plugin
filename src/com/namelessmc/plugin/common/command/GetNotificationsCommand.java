@@ -19,6 +19,7 @@ public class GetNotificationsCommand extends CommonCommand {
 		super(provider,
 				"get-notifications",
 				Term.COMMAND_NOTIFICATIONS_USAGE,
+				Term.COMMAND_NOTIFICATIONS_DESCRIPTION,
 				Permission.COMMAND_GET_NOTIFICATIONS);
 	}
 

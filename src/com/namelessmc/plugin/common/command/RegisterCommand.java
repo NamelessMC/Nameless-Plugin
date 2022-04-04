@@ -19,6 +19,7 @@ public class RegisterCommand extends CommonCommand {
 		super(provider,
 				"register",
 				Term.COMMAND_REGISTER_USAGE,
+				Term.COMMAND_REGISTER_DESCRIPTION,
 				Permission.COMMAND_REGISTER);
 	}
 
