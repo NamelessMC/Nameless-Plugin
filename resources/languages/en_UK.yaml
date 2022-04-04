@@ -19,7 +19,7 @@ command:
       fail: "An error occurred while trying to retrieve a list of notifications. Please notify the server administrator about this issue."
 
   register:
-    usage: "/<command> \\<email>"
+    usage: "/<command> \\<username> \\<email>"
     description: "Create a website account"
     output:
       success:

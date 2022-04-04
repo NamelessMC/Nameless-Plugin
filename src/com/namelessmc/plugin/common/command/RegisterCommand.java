@@ -8,6 +8,7 @@ import com.namelessmc.java_api.integrations.MinecraftIntegrationData;
 import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.common.Permission;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -23,15 +24,13 @@ public class RegisterCommand extends CommonCommand {
 
 	@Override
 	public void execute(final CommandSender sender, final String[] args) {
-		if (args.length != 1) {
+		if (args.length != 2) {
 			sender.sendMessage(this.getUsage());
 			return;
 		}
 
-		if (!sender.isPlayer()) {
-			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
-			return;
-		}
+		final String username = args[0];
+		final String email = args[1];
 
 		this.getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
@@ -43,8 +42,14 @@ public class RegisterCommand extends CommonCommand {
 			final NamelessAPI api = optApi.get();
 
 			try {
-				IntegrationData integrationData = new MinecraftIntegrationData(sender.getUniqueId(), sender.getName());
-				Optional<String> link = api.registerUser(sender.getName(), args[0], integrationData);
+				Optional<String> link;
+				if (sender instanceof ProxiedPlayer) {
+					IntegrationData integrationData = new MinecraftIntegrationData(sender.getUniqueId(), sender.getName());
+					link = api.registerUser(username, email, integrationData);
+				} else {
+					link = api.registerUser(username, email);
+				}
+
 				if (link.isPresent()) {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK, "url", link.get()));
 				} else {

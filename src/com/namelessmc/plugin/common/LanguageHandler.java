@@ -98,7 +98,7 @@ public class LanguageHandler {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 22;
+	private static final int VERSION = 23;
 
 	private static final Set<String> LANGUAGES = new HashSet<>();
 	static {
