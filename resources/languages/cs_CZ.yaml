@@ -24,7 +24,7 @@ command:
         email: Zkontrolujte svou e-mailovou schránku pro dokončení registrace.
         link: <hover:show_text:"Klikněte pro otevření ve webovém prohlížeči"><click:open_url:"<url>">Dokončete
           registraci na adrese <url>.
-    usage: '/<command> \<e-mail>'
+    usage: '/<command> \<uživatelské jméno> \<e-mail>'
     description: Vytvořit účet na webu
   report:
     output:
