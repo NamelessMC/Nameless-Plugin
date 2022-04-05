@@ -1,6 +1,6 @@
 package com.namelessmc.plugin.common.logger;
 
-import com.namelessmc.plugin.common.CommonObjectsProvider;
+import com.namelessmc.plugin.common.ConfigurationHandler;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -10,9 +10,9 @@ public class Slf4jLogger extends AbstractLogger {
 
 	private final @NotNull Logger logger;
 
-	public Slf4jLogger(final @NotNull CommonObjectsProvider commonObjectsProvider,
+	public Slf4jLogger(final @NotNull ConfigurationHandler config,
 					   final @NotNull Logger logger) {
-		super(commonObjectsProvider);
+		super(config);
 		this.logger = logger;
 	}
 

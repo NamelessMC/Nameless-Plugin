@@ -1,21 +1,22 @@
 package com.namelessmc.plugin.spigot;
 
-import java.util.UUID;
-
-import org.bukkit.entity.Player;
-
 import com.namelessmc.plugin.common.command.CommandSender;
-
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.UUID;
 
 public class SpigotCommandSender extends CommandSender {
 
 	private final org.bukkit.command.CommandSender sender;
-	private final Audience adventure;
+	private final Audience audience;
 
-	public SpigotCommandSender(final org.bukkit.command.CommandSender sender) {
+	public SpigotCommandSender(final @NotNull BukkitAudiences audiences,
+							   final @NotNull org.bukkit.command.CommandSender sender) {
 		this.sender = sender;
-		this.adventure = NamelessPlugin.getInstance().adventure().sender(sender);
+		this.audience = audiences.sender(sender);
 	}
 
 	@Override
@@ -34,8 +35,8 @@ public class SpigotCommandSender extends CommandSender {
 	}
 
 	@Override
-	public Audience adventure() {
-		return this.adventure;
+	public Audience audience() {
+		return this.audience;
 	}
 
 }

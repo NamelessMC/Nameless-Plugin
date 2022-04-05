@@ -29,7 +29,8 @@ server-data-sender:
   # Create a server if you haven't already
   server-id: 0
   # Interval in seconds. Reasonable values are 2-30 seconds.
-  interval: 10
+  # TODO no longer in seconds but ISO 8601
+  interval: 'PT10S'
   # Send PlaceholderAPI placeholders, to be used by NamelessMC (leaderboards, profile pages) or modules.
   placeholders:
     enabled: false
@@ -44,8 +45,7 @@ server-data-sender:
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders#nameless-plugin
 retrieve-placeholders:
   enabled: false
-  # Update interval in seconds
-  interval: 30
+  interval: 'DT30S'
 
 # Supported platforms: Spigot
 # Show single line error messages instead of full stacktraces.
@@ -69,6 +69,7 @@ language: en_UK
 
 # Supported platforms: Spigot
 user-sync:
+  enabled: false
   # Number of seconds in between syncs
   poll-interval: 30
   log: true
@@ -95,9 +96,9 @@ user-sync:
 # Supported platforms: Spigot
 # Periodically send website announcements in chat
 announcements:
-  # Every <interval> minutes a random announcement is chosen (if there are any) and sent to the player
-  # Set to 0 to disable
-  interval: 0
+  enabled: false
+  # Every <interval> a random announcement is chosen (if there are any) and sent to the player
+  interval: 'PT10M'
   # If specified, it will only show announcements with the respective display.
   # see https://github.com/NamelessMC/Nameless/wiki/v2-API#getannouncements-get
   # display: Forums

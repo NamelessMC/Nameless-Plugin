@@ -5,6 +5,9 @@ import com.namelessmc.java_api.integrations.DetailedIntegrationData;
 import com.namelessmc.java_api.integrations.DetailedMinecraftIntegrationData;
 import com.namelessmc.java_api.integrations.StandardIntegrationTypes;
 import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.common.Reloadable;
+import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
@@ -14,14 +17,36 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class UserSyncTask implements Runnable {
+public class UserSyncTask implements Runnable, Reloadable {
+
+	private final @NotNull NamelessPlugin plugin;
+	private @Nullable AbstractScheduledTask task;
+
+	UserSyncTask(final @NotNull NamelessPlugin plugin) {
+		this.plugin = plugin;
+	}
+
+	@Override
+	public void reload() {
+		if (task != null) {
+			task.cancel();
+			task = null;
+		}
+
+		final Configuration config = this.plugin.config().getMainConfig();
+		if (config.getBoolean("user-sync.enabled")) {
+			Duration interval = Duration.parse(config.getString("user-sync.poll-interval"));
+			this.task = this.plugin.scheduler().runTimer(this, interval);
+		}
+	}
 
 	@Override
 	public void run() {
-		final Configuration config = NamelessPlugin.getInstance().getConfiguration().getMainConfig();
+		final Configuration config = this.plugin.config().getMainConfig();
 		final boolean doLog = config.getBoolean("user-sync.log", true);
 		Runnable runAfter = null;
 		if (config.getBoolean("user-sync.whitelist.enabled", false)) {
@@ -38,12 +63,12 @@ public class UserSyncTask implements Runnable {
 	@Nullable
 	private Set<UUID> getUuids(final boolean doLog,
 							   final @NotNull Consumer<@NotNull FilteredUserListBuilder> builderConfigurator) {
-		final Configuration config = NamelessPlugin.getInstance().getConfiguration().getMainConfig();
-		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
+		final Configuration config = this.plugin.config().getMainConfig();
+		final AbstractLogger logger = this.plugin.logger();
 
 		List<NamelessUser> users;
 		try {
-			final Optional<NamelessAPI> optApi = NamelessPlugin.getInstance().getNamelessApi();
+			final Optional<NamelessAPI> optApi = this.plugin.api().getNamelessApi();
 			if (optApi.isPresent()) {
 				FilteredUserListBuilder builder = optApi.get().getRegisteredUsers();
 				builder.withFilter(UserFilter.INTEGRATION, StandardIntegrationTypes.MINECRAFT);
@@ -63,7 +88,7 @@ public class UserSyncTask implements Runnable {
 		final Set<String> excludes = new HashSet<>(config.getStringList("user-sync.exclude"));
 		for (final NamelessUser user : users) {
 			try {
-				if (NamelessPlugin.getInstance().getApiProvider().useUsernames()) {
+				if (this.plugin.api().useUsernames()) {
 					String name = user.getUsername();
 					if (!excludes.contains(name)) {
 						UUID offlineUuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
@@ -93,17 +118,17 @@ public class UserSyncTask implements Runnable {
 
 	private void syncBans(final @Nullable Runnable onComplete,
 						  final boolean doLog) {
-		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
+		final AbstractLogger logger = this.plugin.logger();
 
 		if (doLog) {
 			logger.info("Starting bans sync, retrieving list of banned users...");
 		}
-		Bukkit.getScheduler().runTaskAsynchronously((NamelessPlugin.getInstance()), () -> {
+		this.plugin.scheduler().runAsync(() -> {
 			Set<UUID> bannedUuids = getUuids(doLog, b -> b.withFilter(UserFilter.BANNED, true));
 			if (bannedUuids == null) {
 				return;
 			}
-			Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
+			this.plugin.scheduler().runSync(() -> {
 				Set<OfflinePlayer> banned = Bukkit.getBannedPlayers();
 				for (UUID bannedUuid : bannedUuids) {
 					OfflinePlayer bannedPlayer = Bukkit.getOfflinePlayer(bannedUuid);
@@ -113,7 +138,7 @@ public class UserSyncTask implements Runnable {
 							logger.info("Added " + bannedUuid + " to the ban list");
 						}
 						if (bannedPlayer.isOnline()) {
-							String message = NamelessPlugin.getInstance().getLanguage()
+							String message = this.plugin.language()
 									.getLegacyMessage(LanguageHandler.Term.USER_SYNC_KICK);
 							((Player) bannedPlayer).kickPlayer(message);
 						}
@@ -122,12 +147,12 @@ public class UserSyncTask implements Runnable {
 				if (doLog) {
 					logger.info("Retrieving list of unbanned players...");
 				}
-				Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+				this.plugin.scheduler().runAsync(() -> {
 					Set<UUID> unbannedUuids = getUuids(doLog, b -> b.withFilter(UserFilter.BANNED, false));
 					if (unbannedUuids == null) {
 						return;
 					}
-					Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
+					this.plugin.scheduler().runSync(() -> {
 						Set<OfflinePlayer> banned2 = Bukkit.getBannedPlayers();
 						for (UUID unbannedUuid : unbannedUuids) {
 							OfflinePlayer unbannedPlayer = Bukkit.getOfflinePlayer(unbannedUuid);
@@ -148,8 +173,8 @@ public class UserSyncTask implements Runnable {
 	}
 
 	private void syncWhitelist(final boolean doLog) {
-		final Configuration config = NamelessPlugin.getInstance().getConfiguration().getMainConfig();
-		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
+		final Configuration config = this.plugin.config().getMainConfig();
+		final AbstractLogger logger = this.plugin.logger();
 
 		final boolean verifiedOnly = config.getBoolean("user-sync.whitelist.verified-only");
 		final int groupIdOnly = config.getInt("user-sync.whitelist.only-with-group");
@@ -158,7 +183,7 @@ public class UserSyncTask implements Runnable {
 			logger.info("Starting auto-whitelist, retrieving list of registered users...");
 		}
 
-		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+		this.plugin.scheduler().runAsync(() -> {
 			final Set<UUID> websiteUuids = getUuids(doLog, b -> {
 				b.withFilter(UserFilter.BANNED, false);
 				if (verifiedOnly) {
@@ -173,7 +198,7 @@ public class UserSyncTask implements Runnable {
 				return;
 			}
 
-			Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
+			this.plugin.scheduler().runSync(() -> {
 				if (doLog) {
 					logger.info("Done, updating bukkit whitelist...");
 				}
@@ -193,7 +218,7 @@ public class UserSyncTask implements Runnable {
 					logger.info("Done, now retrieving a list of all users to un-whitelist users who shouldn't be whitelisted...");
 				}
 
-				Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () -> {
+				this.plugin.scheduler().runAsync(() -> {
 					final Set<UUID> allUuids = getUuids(doLog, b -> {});
 
 					if (allUuids == null) {
@@ -201,7 +226,7 @@ public class UserSyncTask implements Runnable {
 					}
 					allUuids.removeAll(websiteUuids);
 
-					Bukkit.getScheduler().runTask(NamelessPlugin.getInstance(), () -> {
+					this.plugin.scheduler().runSync(() -> {
 						for (UUID toRemove : allUuids) {
 							OfflinePlayer player = Bukkit.getOfflinePlayer(toRemove);
 							if (player.isWhitelisted()) {
@@ -210,7 +235,7 @@ public class UserSyncTask implements Runnable {
 									logger.info("Removed " + (player.getName() == null ? toRemove.toString() : player.getName()) + " from the whitelist");
 								}
 								if (player.isOnline()) {
-									String message = NamelessPlugin.getInstance().getLanguage()
+									String message = this.plugin.language()
 											.getLegacyMessage(LanguageHandler.Term.USER_SYNC_KICK);
 									((Player) player).kickPlayer(message);
 								}

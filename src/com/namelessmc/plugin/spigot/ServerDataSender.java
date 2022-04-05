@@ -5,6 +5,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.common.Reloadable;
+import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 import net.md_5.bungee.api.ChatColor;
@@ -13,17 +16,44 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.SocketTimeoutException;
+import java.time.Duration;
 import java.util.Arrays;
 
-public class ServerDataSender extends BukkitRunnable {
+public class ServerDataSender implements Runnable, Reloadable {
+
+	private final @NotNull NamelessPluginSpigot spigotPlugin;
+	private final @NotNull NamelessPlugin plugin;
+
+	private @Nullable AbstractScheduledTask task;
+
+	ServerDataSender(final @NotNull NamelessPluginSpigot spigotPlugin,
+					 final @NotNull NamelessPlugin plugin) {
+		this.spigotPlugin = spigotPlugin;
+		this.plugin = plugin;
+	}
+
+	@Override
+	public void reload() {
+		if (task != null) {
+			task.cancel();
+			task = null;
+		}
+
+		Configuration config = this.plugin.config().getMainConfig();
+		if (config.getBoolean("server-data-sender.enabled")) {
+			Duration interval = Duration.parse(config.getString("server-data-sender.interval"));
+			this.task = this.plugin.scheduler().runTimer(this, interval);
+		}
+	}
 
 	@Override
 	public void run() {
-		final AbstractLogger logger = NamelessPlugin.getInstance().getCommonLogger();
-		final Configuration config = NamelessPlugin.getInstance().getConfiguration().getMainConfig();
+		final AbstractLogger logger = this.plugin.logger();
+		final Configuration config = this.plugin.config().getMainConfig();
 		final int serverId = config.getInt("server-data-sender.server-id");
 
 		final JsonObject data = new JsonObject();
@@ -34,7 +64,7 @@ public class ServerDataSender extends BukkitRunnable {
 		data.addProperty("allocated-memory", Runtime.getRuntime().totalMemory());
 		data.addProperty("server-id", serverId);
 
-		final net.milkbowl.vault.permission.Permission permissions = NamelessPlugin.getInstance().getPermissions();
+		final net.milkbowl.vault.permission.Permission permissions = this.spigotPlugin.getPermissions();
 
 		try {
 			if (permissions != null) {
@@ -45,7 +75,7 @@ public class ServerDataSender extends BukkitRunnable {
 			}
 		} catch (final UnsupportedOperationException ignored) {}
 		
-		MaintenanceStatusProvider maintenance = NamelessPlugin.getInstance().getMaintenanceStatusProvider();
+		MaintenanceStatusProvider maintenance = this.spigotPlugin.getMaintenanceStatusProvider();
 		if (maintenance != null) {
 			data.addProperty("maintenance", maintenance.maintenanceEnabled());
 		}
@@ -55,7 +85,7 @@ public class ServerDataSender extends BukkitRunnable {
 		if (uploadPlaceholders) {
 			final JsonObject placeholders = new JsonObject();
 			config.getStringList("server-data-sender.placeholders.global").forEach((key) ->
-				placeholders.addProperty(key, ChatColor.stripColor(NamelessPlugin.getInstance().getPapiParser().parse(null, "%" + key + "%")))
+				placeholders.addProperty(key, ChatColor.stripColor(this.spigotPlugin.getPapiParser().parse(null, "%" + key + "%")))
 			);
 			data.add("placeholders", placeholders);
 		}
@@ -104,20 +134,20 @@ public class ServerDataSender extends BukkitRunnable {
 			if (uploadPlaceholders) {
 				final JsonObject placeholders = new JsonObject();
 				config.getStringList("server-data-sender.placeholders.player").forEach((key) ->
-					placeholders.addProperty(key, ChatColor.stripColor(NamelessPlugin.getInstance().getPapiParser().parse(player, "%" + key + "%")))
+					placeholders.addProperty(key, ChatColor.stripColor(this.spigotPlugin.getPapiParser().parse(player, "%" + key + "%")))
 				);
 				playerInfo.add("placeholders", placeholders);
 			}
 
-			playerInfo.addProperty("login-time", NamelessPlugin.LOGIN_TIME.get(player.getUniqueId()));
+			playerInfo.addProperty("login-time", NamelessPluginSpigot.LOGIN_TIME.get(player.getUniqueId()));
 
 			players.add(player.getUniqueId().toString().replace("-", ""), playerInfo);
 		}
 
 		data.add("players", players);
 
-		Bukkit.getScheduler().runTaskAsynchronously(NamelessPlugin.getInstance(), () ->
-			NamelessPlugin.getInstance().getNamelessApi().ifPresent(api -> {
+		this.plugin.scheduler().runAsync(() -> {
+			this.plugin.api().getNamelessApi().ifPresent(api -> {
 				try {
 					api.submitServerInfo(data);
 				} catch (final ApiError e) {
@@ -133,8 +163,8 @@ public class ServerDataSender extends BukkitRunnable {
 						logger.logException(e);
 					}
 				}
-			})
-		);
+			});
+		});
 	}
 
 }

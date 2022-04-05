@@ -3,8 +3,8 @@ package com.namelessmc.plugin.common.command;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.InvalidValidateCodeException;
-import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,8 +12,8 @@ import java.util.Optional;
 
 public class VerifyCommand extends CommonCommand {
 
-	public VerifyCommand(final @NotNull CommonObjectsProvider provider) {
-		super(provider,
+	public VerifyCommand(final @NotNull NamelessPlugin plugin) {
+		super(plugin,
 				"verify",
 				Term.COMMAND_VALIDATE_USAGE,
 				Term.COMMAND_VALIDATE_DESCRIPTION,
@@ -34,7 +34,7 @@ public class VerifyCommand extends CommonCommand {
 
 		this.getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
-			if (!optApi.isPresent()) {
+			if (optApi.isEmpty()) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
 				return;
 			}

@@ -14,9 +14,9 @@ public abstract class CommandSender {
 	public abstract String getName();
 
 	public void sendMessage(final Component component) {
-		this.adventure().sendMessage(component);
+		this.audience().sendMessage(component);
 	}
 
-	public abstract Audience adventure();
+	public abstract Audience audience();
 
 }

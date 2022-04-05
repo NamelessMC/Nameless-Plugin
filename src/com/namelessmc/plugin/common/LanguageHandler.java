@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class LanguageHandler {
+public class LanguageHandler implements Reloadable {
 
 	public enum Term {
 
@@ -136,17 +136,24 @@ public class LanguageHandler {
 
 	private Configuration fallbackLanguageFile = null;
 	private Configuration activeLanguageFile = null;
-	private final @NotNull Path pluginDirectory;
+
+	private final @NotNull Path dataDirectory;
 	private final @NotNull Path languageDirectory;
+	private final @NotNull ConfigurationHandler config;
 	private final @NotNull AbstractLogger logger;
 
-	public LanguageHandler(final @NotNull CommonObjectsProvider commonObjectsProvider,
-						   final @NotNull Path pluginDirectory) {
-		this.logger = commonObjectsProvider.getCommonLogger();
-		this.pluginDirectory = pluginDirectory;
-		this.languageDirectory = pluginDirectory.resolve("languages");
+	public LanguageHandler(final @NotNull Path dataDirectory,
+						   final @NotNull ConfigurationHandler config,
+						   final @NotNull AbstractLogger logger) {
+		this.dataDirectory = dataDirectory;
+		this.languageDirectory = dataDirectory.resolve("languages");
+		this.config = config;
+		this.logger = logger;
+	}
 
-		final String languageCode = commonObjectsProvider.getConfiguration().getMainConfig()
+	@Override
+	public void reload() {
+		final String languageCode = this.config.getMainConfig()
 				.getString("language", DEFAULT_LANGUAGE);
 		try {
 			this.updateFiles();
@@ -200,7 +207,7 @@ public class LanguageHandler {
 			} else {
 				this.logger.warning("Language files are outdated!");
 				this.logger.info("Making backup of old languages directory");
-				Path dest = this.pluginDirectory.resolve("languages-backup-" + System.currentTimeMillis());
+				Path dest = this.dataDirectory.resolve("languages-backup-" + System.currentTimeMillis());
 				Files.move(this.languageDirectory, dest);
 				Files.createDirectory(this.languageDirectory);
 			}

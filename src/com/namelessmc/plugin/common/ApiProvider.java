@@ -2,11 +2,11 @@ package com.namelessmc.plugin.common;
 
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
+import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.config.Configuration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,23 +16,34 @@ import java.util.Optional;
 import java.util.UUID;
 
 @SuppressWarnings("OptionalAssignedToNull")
-public class ApiProvider {
+public class ApiProvider implements Reloadable {
 
 	private static final String USER_AGENT = "Nameless-Plugin";
 
 	private Optional<NamelessAPI> cachedApi; // null if not cached
 
+	private final @NotNull AbstractScheduler scheduler;
 	private final @NotNull AbstractLogger logger;
-	private final @Nullable String apiUrl;
-	private final @Nullable String apiKey;
-	private final boolean debug;
-	private final boolean usernames;
-	private final Duration timeout;
-	private final boolean bypassVersionCheck;
+	private final @NotNull ConfigurationHandler config;
 
-	public ApiProvider(final @NotNull CommonObjectsProvider commonObjectsProvider) {
-		this.logger = commonObjectsProvider.getCommonLogger();
-		Configuration config = commonObjectsProvider.getConfiguration().getMainConfig();
+	private String apiUrl;
+	private String apiKey;
+	private boolean debug;
+	private boolean usernames;
+	private Duration timeout;
+	private boolean bypassVersionCheck;
+
+	public ApiProvider(final @NotNull AbstractScheduler scheduler,
+					   final @NotNull AbstractLogger logger,
+					   final @NotNull ConfigurationHandler config) {
+		this.scheduler = scheduler;
+		this.logger = logger;
+		this.config = config;
+	}
+
+	@Override
+	public void reload() {
+		final Configuration config = this.config.getMainConfig();
 		this.apiUrl = config.getString("api.url");
 		this.apiKey = config.getString("api.key");
 		this.debug = config.getBoolean("api.debug", false);
@@ -44,7 +55,7 @@ public class ApiProvider {
 			this.logger.warning("Username mode is enabled. This is NOT supported. If you do not run a cracked server, disable this option!");
 		}
 
-		commonObjectsProvider.getScheduler().runAsync(this::getNamelessApi);
+		scheduler.runAsync(this::getNamelessApi);
 	}
 
 	public synchronized Optional<NamelessAPI> getNamelessApi() {

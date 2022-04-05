@@ -5,8 +5,8 @@ import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.*;
 import com.namelessmc.java_api.integrations.IntegrationData;
 import com.namelessmc.java_api.integrations.MinecraftIntegrationData;
-import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
@@ -15,8 +15,8 @@ import java.util.Optional;
 
 public class RegisterCommand extends CommonCommand {
 
-	public RegisterCommand(final @NotNull CommonObjectsProvider provider) {
-		super(provider,
+	public RegisterCommand(final @NotNull NamelessPlugin plugin) {
+		super(plugin,
 				"register",
 				Term.COMMAND_REGISTER_USAGE,
 				Term.COMMAND_REGISTER_DESCRIPTION,

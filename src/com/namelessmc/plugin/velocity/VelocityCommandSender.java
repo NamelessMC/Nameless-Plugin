@@ -12,7 +12,7 @@ public class VelocityCommandSender extends CommandSender {
 
 	private final @NotNull CommandSource source;
 
-	public VelocityCommandSender(final @NotNull CommandSource source) {
+	VelocityCommandSender(final @NotNull CommandSource source) {
 		this.source = source;
 	}
 
@@ -40,7 +40,7 @@ public class VelocityCommandSender extends CommandSender {
 	}
 
 	@Override
-	public Audience adventure() {
+	public Audience audience() {
 		return this.source;
 	}
 

@@ -1,6 +1,6 @@
 package com.namelessmc.plugin.common.logger;
 
-import com.namelessmc.plugin.common.CommonObjectsProvider;
+import com.namelessmc.plugin.common.ConfigurationHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
@@ -10,9 +10,9 @@ public class JulLogger extends AbstractLogger {
 
 	private final @NotNull Logger logger;
 
-	public JulLogger(final @NotNull CommonObjectsProvider commonObjectsProvider,
+	public JulLogger(final @NotNull ConfigurationHandler config,
 					 final @NotNull Logger logger) {
-		super(commonObjectsProvider);
+		super(config);
 		this.logger = logger;
 	}
 

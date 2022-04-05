@@ -1,8 +1,8 @@
 package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.*;
-import com.namelessmc.plugin.common.CommonObjectsProvider;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 
 public class UserInfoCommand extends CommonCommand {
 
-	public UserInfoCommand(final @NotNull CommonObjectsProvider provider) {
-		super(provider,
+	public UserInfoCommand(final @NotNull NamelessPlugin plugin) {
+		super(plugin,
 				"user-info",
 				Term.COMMAND_USERINFO_USAGE,
 				Term.COMMAND_USERINFO_DESCRIPTION,

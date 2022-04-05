@@ -2,6 +2,7 @@ package com.namelessmc.plugin.sponge;
 
 import com.namelessmc.plugin.common.command.CommandSender;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
@@ -13,9 +14,10 @@ public class SpongeCommandSender extends CommandSender {
 	private final @NotNull CommandSource commandSource;
 	private final @NotNull Audience audience;
 
-	public SpongeCommandSender(final @NotNull CommandSource commandSource) {
+	public SpongeCommandSender(final @NotNull SpongeAudiences audiences,
+							   final @NotNull CommandSource commandSource) {
 		this.commandSource = commandSource;
-		this.audience = NamelessPlugin.getInstance().adventure().receiver(commandSource);
+		this.audience = audiences.receiver(commandSource);
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class SpongeCommandSender extends CommandSender {
 	}
 
 	@Override
-	public Audience adventure() {
+	public Audience audience() {
 		return this.audience;
 	}
 }
