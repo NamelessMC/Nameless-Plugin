@@ -15,7 +15,7 @@ import java.nio.file.Path;
 
 @Plugin(id = "nameless-plugin",
 		name = "Nameless Plugin",
-		version = "@project.version@",
+		version = "${project.version}",
 		url = "https://plugin.namelessmc.com/",
 		description = "Integration with NamelessMC websites",
 		authors = {"Derkades"})

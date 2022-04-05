@@ -45,6 +45,10 @@
 
 					<relocations>
 						<relocation>
+							<pattern>com.github.mizosoft.methanol</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.methanol</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>com.google.gson</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.gson</shadedPattern>
 						</relocation>
