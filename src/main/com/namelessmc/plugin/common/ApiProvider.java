@@ -92,7 +92,7 @@ public class ApiProvider implements Reloadable {
 				try {
 					url = new URL(this.apiUrl);
 				} catch (MalformedURLException e){
-					this.logger.severe("You have entered an invalid API URL or not entered one at all. Please get an up-to-date API URL from StaffCP > Configuration > API and reload the plugin.");
+					this.logger.severe("You have entered an invalid API URL. Please get an up-to-date API URL from StaffCP > Configuration > API and reload the plugin.");
 					this.logger.severe("Error message: '" + e.getMessage() + "'");
 				}
 
@@ -110,6 +110,7 @@ public class ApiProvider implements Reloadable {
 							this.logger.warning("Bypassing version checks, use at your own risk!");
 							this.cachedApi = Optional.of(api);
 						} else if (NamelessVersion.isSupportedByJavaApi(version)) {
+							this.logger.info("Website connection appears to be working.");
 							this.cachedApi = Optional.of(api);
 						} else {
 							this.logger.severe("Your website runs a version of NamelessMC (" + version + ") that is not supported by this version of the plugin. Please update your NamelessMC website and/or the plugin.");
