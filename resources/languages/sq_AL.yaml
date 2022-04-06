@@ -1,1 +1,27 @@
-{}
+player:
+  self:
+    command-banned: Ti nuk mund ta ekzekutosh këtë komandë, je i ndaluar nga faqja
+      e internetit.
+    not-registered: Ti duhet të regjistrohesh për një llogari te faqja e internetit
+      që të performosh këtë aksion.
+  other:
+    not-registered: Ky lojtari nuk është regjistruar te faqja e internetit.
+    not-found: Ky lojtari nuk gjëndet.
+command:
+  not-a-player: Ti duhet të jesh një lojtar ta exekutosh këtë komandë.
+  no-permission: Ti nuk ke të drejtëta exzekutosh këtë komandë.
+  notifications:
+    usage: /<komandë>
+    output:
+      notification: <hover:show_text:"Shtyp ta hapësh në browserin e internetit"><click:open_url:"<url>"><message>
+      no-notifications: Nuk ke njoftime të palexuara.
+      fail: Një error ndodhi kur por merrja një list njoftimesh. Ju lutem njoftoni
+        administratorin e serverit.
+    description: Tregon një list e njoftimeve të faqes në internet.
+  plugin:
+    usage: /<komandë> \ <reload|rl>
+    description: Komanda administrative për shtojcën "NamelessMC"
+    output:
+      reload-successful: Shtojca u ringarkua me sukses.
+  register:
+    usage: /<komandë> \<emri-në-lojë> \<emaili>
