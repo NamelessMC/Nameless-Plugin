@@ -64,11 +64,21 @@ command:
       primary-group: 'Hlavní skupina: <groupname>'
       all-groups: 'Všechny skupiny: <groups_names_list>'
       custom-field: "Vlastní pole '<name>': <value>"
+      integrations:
+        identifier: 'Identifikátor: <identifier>'
+        header: 'Integrace:'
+        username: 'Uživatelské jméno: <username>'
+        linked-date: 'Datum propojení: <linked_date>'
   subcommands:
     usage: '/{command} [podpříkaz] [argumenty..]'
     help-prefix: /{command}
   not-a-player: Pro vykonání této akce musíte být hráčem.
   no-permission: Nemáte oprávnění pro vykonání tohoto příkazu.
+  plugin:
+    usage: /<command> \<reload|rl>
+    description: Administrativní příkazy pro plugin NamelessMC
+    output:
+      reload-successful: Plugin úspěšně znovu načten.
 join-not-registered: Ještě nemáte na našem webu účet. Zaregistrujte se pomocí /register.
 player:
   other:
