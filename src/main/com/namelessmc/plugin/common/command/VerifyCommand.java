@@ -3,6 +3,8 @@ package com.namelessmc.plugin.common.command;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.InvalidValidateCodeException;
+import com.namelessmc.java_api.integrations.IntegrationData;
+import com.namelessmc.java_api.integrations.MinecraftIntegrationData;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
@@ -42,7 +44,8 @@ public class VerifyCommand extends CommonCommand {
 
 			try {
 				final String code = args[0];
-				api.verifyMinecraft(code, sender.getUniqueId(), sender.getName());
+				final IntegrationData integrationData = new MinecraftIntegrationData(sender.getUniqueId(), sender.getName());
+				api.verifyIntegration(integrationData, code);
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_SUCCESS));
 			} catch (final InvalidValidateCodeException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE));
