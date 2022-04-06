@@ -2,8 +2,13 @@ package com.namelessmc.plugin.common;
 
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
+import net.md_5.bungee.config.Configuration;
+import org.bstats.MetricsBase;
+import org.bstats.charts.SimplePie;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +72,72 @@ public class NamelessPlugin {
 	public <T extends Reloadable> T registerReloadable(T reloadable) {
 		this.reloadables.add(reloadable);
 		return reloadable;
+	}
+
+	private @Nullable MetricsBase extractMetricsBase(Object metrics, Class<?> metricsClass) {
+		try {
+			Field baseField = metricsClass.getDeclaredField("metricsBase");
+			baseField.setAccessible(true);
+			MetricsBase base = (MetricsBase) baseField.get(metrics);
+			return base;
+		} catch (NoSuchFieldException | IllegalAccessException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public <T> void registerCustomCharts(final @NotNull T platformMetrics,
+										 final @NotNull Class<T> platformMetricsClass) {
+		final MetricsBase metrics = extractMetricsBase(platformMetrics, platformMetricsClass);
+
+		if (metrics == null) {
+			this.logger.warning("Failed to extract MetricsBase, not adding custom charts.");
+			return;
+		}
+
+		Configuration config = this.config().getMainConfig();
+		metrics.addCustomChart(new SimplePie("server_data_sender_enabled", () ->
+				config.getInt("server-id") > 0
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("upload_placeholders_enabled", () ->
+				config.getBoolean("upload-placeholders.enabled")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("language", () ->
+				config.getString("language")));
+
+		metrics.addCustomChart(new SimplePie("auto_ban_on_website", () ->
+				config.getBoolean("auto-ban-on-website")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("not_registered_join_message", () ->
+				config.getBoolean("not-registered-join-message")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("api_usernames_enabled", () ->
+				config.getBoolean("api-usernames")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("user_sync_whitelist_enabled", () ->
+				config.getBoolean("user-sync.whitelist.enabled")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("user_sync_bans_enabled", () ->
+				config.getBoolean("user-sync.bans.enabled")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("announcements_enabled", () ->
+				config.getInt("announcements.interval") > 0
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("websend_command_executor_enabled", () ->
+				config.getBoolean("websend.command-executor.enabled")
+						? "Enabled" : "Disabled"));
+
+		metrics.addCustomChart(new SimplePie("websend_console_capture_enabled", () ->
+				config.getBoolean("websend.console-capture.enabled")
+						? "Enabled" : "Disabled"));
 	}
 
 }

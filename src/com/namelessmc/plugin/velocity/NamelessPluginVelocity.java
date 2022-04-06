@@ -8,6 +8,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import org.bstats.velocity.Metrics;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
@@ -21,12 +22,15 @@ import java.nio.file.Path;
 		authors = {"Derkades"})
 public class NamelessPluginVelocity {
 
+	private final @NotNull Metrics.Factory metricsFactory;
 	private final @NotNull NamelessPlugin plugin;
 
 	@Inject
 	public NamelessPluginVelocity(final @NotNull ProxyServer server,
 								  final @NotNull Logger logger,
-								  final @NotNull @DataDirectory Path dataDirectory) {
+								  final @NotNull @DataDirectory Path dataDirectory,
+								  final @NotNull Metrics.Factory metricsFactory) {
+		this.metricsFactory = metricsFactory;
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new VelocityScheduler(this, server.getScheduler()),
@@ -37,6 +41,9 @@ public class NamelessPluginVelocity {
 	@Subscribe
 	public void onProxyInitialization(ProxyInitializeEvent event) {
 		this.plugin.reload();
+
+		final Metrics metrics = metricsFactory.make(this, 14863);
+		this.plugin.registerCustomCharts(metrics, Metrics.class);
 	}
 
 }

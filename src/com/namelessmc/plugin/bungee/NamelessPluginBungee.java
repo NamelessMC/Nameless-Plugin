@@ -4,6 +4,7 @@ import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.plugin.Plugin;
+import org.bstats.bungeecord.Metrics;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
@@ -30,6 +31,9 @@ public class NamelessPluginBungee extends Plugin {
 	public void onEnable() {
 		this.adventure = BungeeAudiences.create(this);
 		this.plugin.reload();
+
+		Metrics metrics = new Metrics(this, 14864);
+		this.plugin.registerCustomCharts(metrics, Metrics.class);
 	}
 
 }

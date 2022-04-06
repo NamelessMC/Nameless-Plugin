@@ -9,22 +9,18 @@ import com.namelessmc.plugin.spigot.hooks.*;
 import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import net.md_5.bungee.config.Configuration;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
-import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -44,11 +40,8 @@ public class NamelessPluginSpigot extends JavaPlugin {
 
 	private @Nullable MaintenanceStatusProvider maintenanceStatusProvider;
 	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
-	
-	private final @NotNull ArrayList<@NotNull BukkitTask> tasks = new ArrayList<>(2);
 
 	private final @NotNull NamelessPlugin plugin;
-	private @Nullable Websend websend;
 
 	public NamelessPluginSpigot() {
 		final Path dataDirectory = this.getDataFolder().toPath();
@@ -85,8 +78,11 @@ public class NamelessPluginSpigot extends JavaPlugin {
 
 		adventure = BukkitAudiences.create(this);
 
+		this.plugin.reload();
+
 		initPapi();
 		initMaintenance();
+		initMetrics();
 
 		this.getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
@@ -98,8 +94,6 @@ public class NamelessPluginSpigot extends JavaPlugin {
 		}
 
 		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
-
-		initBstats();
 	}
 
 	// TODO make this work for all platforms
@@ -135,54 +129,9 @@ public class NamelessPluginSpigot extends JavaPlugin {
 		}
 	}
 
-	private void initBstats() {
-		// TODO make this cross-platform
+	private void initMetrics() {
 		Metrics metrics = new Metrics(this, 13396);
-
-		Configuration config = this.plugin.config().getMainConfig();
-		metrics.addCustomChart(new SimplePie("server_data_sender_enabled", () ->
-				config.getInt("server-id") > 0 &&
-						config.getInt("server-data-upload-rate") == 1
-						? "Enabled" : "Disabled"));
-
-		metrics.addCustomChart(new SimplePie("upload_placeholders_enabled", () ->
-				config.getBoolean("upload-placeholders.enabled")
-						? "Enabled" : "Disabled"));
-
-		metrics.addCustomChart(new SimplePie("language", () ->
-				config.getString("language")));
-
-		metrics.addCustomChart(new SimplePie("auto_ban_on_website", () ->
-				config.getBoolean("auto-ban-on-website")
-						? "Enabled" : "Disabled"));
-
-		metrics.addCustomChart(new SimplePie("not_registered_join_message", () ->
-				config.getBoolean("not-registered-join-message")
-						? "Enabled" : "Disabled"));
-
-		metrics.addCustomChart(new SimplePie("api_usernames_enabled", () ->
-				config.getBoolean("api-usernames")
-						? "Enabled" : "Disabled"));
-
-		metrics.addCustomChart(new SimplePie("user_sync_whitelist_enabled", () ->
-				config.getBoolean("user-sync.whitelist.enabled")
-						? "Enabled" : "Disabled"));
-
-		metrics.addCustomChart(new SimplePie("user_sync_bans_enabled", () ->
-				config.getBoolean("user-sync.bans.enabled")
-						? "Enabled" : "Disabled"));
-
-		metrics.addCustomChart(new SimplePie("announcements_enabled", () ->
-				config.getInt("announcements.interval") > 0
-						? "Enabled" : "Disabled"));
-
-		metrics.addCustomChart(new SimplePie("websend_command_executor_enabled", () ->
-				config.getBoolean("websend.command-executor.enabled")
-						? "Enabled" : "Disabled"));
-
-		metrics.addCustomChart(new SimplePie("websend_console_capture_enabled", () ->
-				config.getBoolean("websend.console-capture.enabled")
-						? "Enabled" : "Disabled"));
+		this.plugin.registerCustomCharts(metrics, Metrics.class);
 	}
 
 }
