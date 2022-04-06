@@ -8,7 +8,6 @@ import com.namelessmc.java_api.integrations.MinecraftIntegrationData;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -44,7 +43,7 @@ public class RegisterCommand extends CommonCommand {
 
 			try {
 				Optional<String> link;
-				if (sender instanceof ProxiedPlayer) {
+				if (sender.isPlayer()) {
 					IntegrationData integrationData = new MinecraftIntegrationData(sender.getUniqueId(), sender.getName());
 					link = api.registerUser(username, email, integrationData);
 				} else {
