@@ -1,7 +1,7 @@
 package com.namelessmc.plugin.sponge;
 
 import com.google.inject.Inject;
-import com.namelessmc.plugin.NamelessConstants;
+import com.namelessmc.plugin.MavenConstants;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.Slf4jLogger;
 import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
@@ -15,7 +15,10 @@ import org.spongepowered.api.plugin.Plugin;
 
 import java.nio.file.Path;
 
-@Plugin(id="nameless-plugin", name=NamelessConstants.PROJECT_NAME, version=NamelessConstants.PROJECT_VERSION, description="")
+@Plugin(id = "nameless-plugin",
+		name = MavenConstants.PROJECT_NAME,
+		version = MavenConstants.PROJECT_VERSION,
+		description = "Integration with NamelessMC websites")
 public class NamelessPluginSponge {
 
 	private final @NotNull NamelessPlugin plugin;

@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.spigot.hooks;
 
+import com.namelessmc.plugin.MavenConstants;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +24,7 @@ public class PapiHook extends PlaceholderExpansion {
 
 	@Override
 	public @NotNull String getAuthor() {
-		return String.join("Derkades");
+		return "Derkades";
 	}
 
 	@Override
@@ -33,7 +34,7 @@ public class PapiHook extends PlaceholderExpansion {
 
 	@Override
 	public @NotNull String getVersion() {
-		return "@project.version%";
+		return MavenConstants.PROJECT_VERSION;
 	}
 
     @Override

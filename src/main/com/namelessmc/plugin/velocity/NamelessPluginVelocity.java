@@ -1,7 +1,7 @@
 package com.namelessmc.plugin.velocity;
 
 import com.google.inject.Inject;
-import com.namelessmc.plugin.NamelessConstants;
+import com.namelessmc.plugin.MavenConstants;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.Slf4jLogger;
 import com.velocitypowered.api.event.Subscribe;
@@ -16,8 +16,8 @@ import org.slf4j.Logger;
 import java.nio.file.Path;
 
 @Plugin(id = "nameless-plugin",
-		name = NamelessConstants.PROJECT_NAME,
-		version = NamelessConstants.PROJECT_VERSION,
+		name = MavenConstants.PROJECT_NAME,
+		version = MavenConstants.PROJECT_VERSION,
 		url = "https://plugin.namelessmc.com/",
 		description = "Integration with NamelessMC websites",
 		authors = {"Derkades"})
