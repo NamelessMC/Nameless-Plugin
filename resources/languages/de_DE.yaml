@@ -83,7 +83,7 @@ command:
     description: Informationen zu einem Website-Benutzer abrufen
   subcommands:
     usage: '/{command} [Unterbefehl] [Argumente ..]'
-    help-prefix: /{Befehl}
+    help-prefix: /<command>
 join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
   Dich mit /register.
 website-announcement: 'Webseiten-Ankündigung: <message>'

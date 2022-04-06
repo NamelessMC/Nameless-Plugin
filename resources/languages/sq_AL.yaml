@@ -11,7 +11,7 @@ command:
   not-a-player: Ti duhet të jesh një lojtar ta exekutosh këtë komandë.
   no-permission: Ti nuk ke të drejtëta exzekutosh këtë komandë.
   notifications:
-    usage: /<komandë>
+    usage: /<command>
     output:
       notification: <hover:show_text:"Shtyp ta hapësh në browserin e internetit"><click:open_url:"<url>"><message>
       no-notifications: Nuk ke njoftime të palexuara.
@@ -19,9 +19,9 @@ command:
         administratorin e serverit.
     description: Tregon një list e njoftimeve të faqes në internet.
   plugin:
-    usage: /<komandë> \ <reload|rl>
+    usage: /<command> \<reload|rl>
     description: Komanda administrative për shtojcën "NamelessMC"
     output:
       reload-successful: Shtojca u ringarkua me sukses.
   register:
-    usage: /<komandë> \<emri-në-lojë> \<emaili>
+    usage: /<command> \<emri-në-lojë> \<emaili>
