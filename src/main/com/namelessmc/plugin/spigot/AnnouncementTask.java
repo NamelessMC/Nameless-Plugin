@@ -1,8 +1,12 @@
-package com.namelessmc.plugin.common;
+package com.namelessmc.plugin.spigot;
 
 import com.namelessmc.java_api.Announcement;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.plugin.common.ApiProvider;
+import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;

@@ -18,7 +18,7 @@ public class NamelessPluginCommand extends CommonCommand {
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
 		if (args.length == 1 && (args[0].equals("reload") || args[0].equals("rl"))) {
 			this.getPlugin().reload();
 			sender.sendMessage(this.getLanguage().getComponent(LanguageHandler.Term.COMMAND_PLUGIN_OUTPUT_RELOAD_SUCCESSFUL));

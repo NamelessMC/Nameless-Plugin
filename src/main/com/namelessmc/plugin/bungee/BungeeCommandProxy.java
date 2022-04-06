@@ -33,7 +33,8 @@ public class BungeeCommandProxy implements Reloadable {
 			Command bungeeCommand = new Command(name, permission) {
 				@Override
 				public void execute(final CommandSender commandSender, final String[] args) {
-					final BungeeCommandSender bungeeCommandSender = new BungeeCommandSender(bungeePlugin.adventure(), commandSender);
+					final BungeeCommandSender bungeeCommandSender =
+							new BungeeCommandSender(plugin.audiences(), commandSender);
 					command.execute(bungeeCommandSender, args);
 				}
 			};

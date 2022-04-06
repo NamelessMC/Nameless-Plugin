@@ -18,14 +18,11 @@ import java.util.Objects;
 public class SpigotCommandProxy implements Reloadable {
 
 	private final @NotNull NamelessPlugin plugin;
-	private final @NotNull NamelessPluginSpigot spigotPlugin;
 
 	private final @NotNull ArrayList<@NotNull Command> registeredCommands = new ArrayList<>();
 
-	SpigotCommandProxy(final @NotNull NamelessPlugin plugin,
-					   final @NotNull NamelessPluginSpigot spigotPlugin) {
+	SpigotCommandProxy(final @NotNull NamelessPlugin plugin) {
 		this.plugin = plugin;
-		this.spigotPlugin = spigotPlugin;
 	}
 
 	@Override
@@ -46,7 +43,7 @@ public class SpigotCommandProxy implements Reloadable {
 			Command spigotCommand = new Command(name, usage, description, Collections.emptyList()) {
 				@Override
 				public boolean execute(final CommandSender nativeSender, final String commandLabel, final String[] args) {
-					SpigotCommandSender sender = new SpigotCommandSender(spigotPlugin.adventure(), nativeSender);
+					SpigotCommandSender sender = new SpigotCommandSender(plugin.audiences(), nativeSender);
 					if (!nativeSender.hasPermission(permission)) {
 						sender.sendMessage(noPermissionMessage);
 						return true;

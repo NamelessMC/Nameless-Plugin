@@ -84,7 +84,7 @@ public abstract class CommonCommand {
 
 	protected @NotNull AbstractLogger getLogger() { return this.plugin.logger(); }
 
-	public abstract void execute(CommandSender sender, String[] args);
+	public abstract void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args);
 
 	public static List<CommonCommand> getEnabledCommands(final @NotNull NamelessPlugin plugin) {
 		List<CommonCommand> list = new ArrayList<>();

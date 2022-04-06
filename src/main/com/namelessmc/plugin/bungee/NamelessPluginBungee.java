@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.bungee;
 
+import com.namelessmc.plugin.common.AudienceProviderAudienceProvider;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
@@ -11,9 +12,6 @@ import java.nio.file.Path;
 
 public class NamelessPluginBungee extends Plugin {
 
-	private BungeeAudiences adventure;
-	public BungeeAudiences adventure() { return this.adventure; }
-
 	private final @NotNull NamelessPlugin plugin;
 
 	public NamelessPluginBungee() {
@@ -21,7 +19,8 @@ public class NamelessPluginBungee extends Plugin {
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new BungeeScheduler(this),
-				config -> new JulLogger(config, this.getLogger())
+				config -> new JulLogger(config, this.getLogger()),
+				new AudienceProviderAudienceProvider(BungeeAudiences.create(this))
 		);
 		this.plugin.registerReloadable(new BungeeCommandProxy(this, this.plugin));
 		this.plugin.registerReloadable(new ServerDataSender(this.plugin));
@@ -29,7 +28,6 @@ public class NamelessPluginBungee extends Plugin {
 
 	@Override
 	public void onEnable() {
-		this.adventure = BungeeAudiences.create(this);
 		this.plugin.reload();
 
 		Metrics metrics = new Metrics(this, 14864);

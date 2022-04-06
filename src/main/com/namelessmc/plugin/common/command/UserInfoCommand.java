@@ -23,7 +23,7 @@ public class UserInfoCommand extends CommonCommand {
 	}
 
 	@Override
-	public void execute(final CommandSender sender, final String[] args) {
+	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
 		if (args.length == 0) {
 			if (!sender.isPlayer()) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));

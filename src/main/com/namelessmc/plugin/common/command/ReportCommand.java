@@ -27,7 +27,7 @@ public class ReportCommand extends CommonCommand {
 	}
 
 	@Override
-	public void execute(final CommandSender sender, final String[] args) {
+	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
 		if (args.length < 2) {
 			sender.sendMessage(this.getUsage());
 			return;

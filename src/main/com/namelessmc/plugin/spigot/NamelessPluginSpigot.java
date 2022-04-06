@@ -1,6 +1,6 @@
 package com.namelessmc.plugin.spigot;
 
-import com.namelessmc.plugin.common.AnnouncementTask;
+import com.namelessmc.plugin.common.AudienceProviderAudienceProvider;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
 import com.namelessmc.plugin.spigot.event.PlayerBan;
@@ -36,9 +36,6 @@ public class NamelessPluginSpigot extends JavaPlugin {
 	private PapiParser papiParser;
 	public PapiParser getPapiParser() { return this.papiParser; }
 
-	private BukkitAudiences adventure;
-	public BukkitAudiences adventure() { return adventure; }
-
 	private @Nullable MaintenanceStatusProvider maintenanceStatusProvider;
 	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 
@@ -49,9 +46,10 @@ public class NamelessPluginSpigot extends JavaPlugin {
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new SpigotScheduler(this),
-				config -> new JulLogger(config, this.getLogger())
+				config -> new JulLogger(config, this.getLogger()),
+				new AudienceProviderAudienceProvider(BukkitAudiences.create(this))
 		);
-		this.plugin.registerReloadable(new SpigotCommandProxy(this.plugin, this));
+		this.plugin.registerReloadable(new SpigotCommandProxy(this.plugin));
 		this.plugin.registerReloadable(new ServerDataSender(this, this.plugin));
 		this.plugin.registerReloadable(new UserSyncTask(this.plugin));
 		this.plugin.registerReloadable(new AnnouncementTask(this.plugin));
@@ -76,8 +74,6 @@ public class NamelessPluginSpigot extends JavaPlugin {
 		} else {
 			this.plugin.logger().warning("Vault was not found. Group sync will not work.");
 		}
-
-		adventure = BukkitAudiences.create(this);
 
 		this.plugin.reload();
 

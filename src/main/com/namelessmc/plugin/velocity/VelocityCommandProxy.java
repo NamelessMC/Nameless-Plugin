@@ -34,7 +34,7 @@ public class VelocityCommandProxy implements Reloadable {
 			Command velocityCommand = new SimpleCommand() {
 				@Override
 				public void execute(Invocation invocation) {
-					command.execute(new VelocityCommandSender(invocation.source()), invocation.arguments());
+					command.execute(new VelocityCommandSender(plugin.audiences(), invocation.source()), invocation.arguments());
 				}
 
 				@Override
