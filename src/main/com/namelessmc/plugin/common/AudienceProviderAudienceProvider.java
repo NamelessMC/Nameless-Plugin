@@ -19,12 +19,12 @@ public class AudienceProviderAudienceProvider extends AbstractAudienceProvider {
 
 	@Override
 	public Audience console() {
-		return this.audienceProvider.all();
+		return this.audienceProvider.console();
 	}
 
 	@Override
 	public Audience all() {
-		return this.audienceProvider.console();
+		return this.audienceProvider.all();
 	}
 
 	@Override
