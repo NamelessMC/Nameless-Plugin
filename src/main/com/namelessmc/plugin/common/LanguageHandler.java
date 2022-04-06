@@ -142,8 +142,9 @@ public class LanguageHandler implements Reloadable {
 	private static final ConfigurationProvider CONFIGURATION_PROVIDER =
 			ConfigurationProvider.getProvider(YamlConfiguration.class);
 
-	private Configuration fallbackLanguageFile = null;
-	private Configuration activeLanguageFile = null;
+	private String activeLanguageCode;
+	private Configuration fallbackLanguageFile;
+	private Configuration activeLanguageFile;
 
 	private final @NotNull Path dataDirectory;
 	private final @NotNull Path languageDirectory;
@@ -159,13 +160,16 @@ public class LanguageHandler implements Reloadable {
 		this.logger = logger;
 	}
 
+	public String getActiveLanguageCode() {
+		return this.activeLanguageCode;
+	}
+
 	@Override
 	public void reload() {
-		final String languageCode = this.config.getMainConfig()
-				.getString("language", DEFAULT_LANGUAGE);
 		try {
 			this.updateFiles();
-			this.setActiveLanguage(languageCode);
+			this.setActiveLanguage(this.config.getMainConfig()
+					.getString("language", DEFAULT_LANGUAGE));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -253,6 +257,7 @@ public class LanguageHandler implements Reloadable {
 	}
 
 	private void setActiveLanguage(final @NotNull String languageCode) throws IOException {
+		this.activeLanguageCode = languageCode;
 		this.activeLanguageFile = readLanguageFile(languageCode);
 		if (languageCode.equals(DEFAULT_LANGUAGE)) {
 			this.fallbackLanguageFile = this.activeLanguageFile;

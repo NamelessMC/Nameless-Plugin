@@ -58,6 +58,21 @@ public class ApiProvider implements Reloadable {
 		scheduler.runAsync(this::getNamelessApi);
 	}
 
+	// For bStats
+	public String isApiWorkingMetric() {
+		if (this.cachedApi == null) {
+			// In theory the API should always be cached, but in case it's not we
+			// do not want to force load it because that would affect server performance.
+			return "Unknown";
+		}
+
+		if (this.cachedApi.isPresent()) {
+			return "Working";
+		} else {
+			return "Not working";
+		}
+	}
+
 	public synchronized Optional<NamelessAPI> getNamelessApi() {
 		Objects.requireNonNull(logger, "Exception logger not initialized before API was requested. This is a bug.");
 

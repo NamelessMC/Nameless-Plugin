@@ -96,6 +96,10 @@ public class NamelessPlugin {
 		}
 
 		Configuration config = this.config().getMainConfig();
+		
+		metrics.addCustomChart(new SimplePie("api_working", () ->
+				this.api().isApiWorkingMetric()));
+
 		metrics.addCustomChart(new SimplePie("server_data_sender_enabled", () ->
 				config.getInt("server-id") > 0
 						? "Enabled" : "Disabled"));
@@ -105,7 +109,7 @@ public class NamelessPlugin {
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("language", () ->
-				config.getString("language")));
+				this.language().getActiveLanguageCode()));
 
 		metrics.addCustomChart(new SimplePie("auto_ban_on_website", () ->
 				config.getBoolean("auto-ban-on-website")
