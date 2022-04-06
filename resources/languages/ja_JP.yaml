@@ -19,7 +19,7 @@ command:
       notification: <hover:show_text:"クリックしてウェブブラウザで開く"><click:open_url:"<url>"><message>
     description: ウェブサイトの通知一覧を表示します。
   register:
-    usage: '/<command> \<username> \<email>'
+    usage: '/<command> \<ユーザー名> \<メールアドレス>'
     output:
       success:
         email: メールボックスを確認して登録を完了させてください。
@@ -36,7 +36,7 @@ command:
     description: ウェブサイトアカウントを作成
   no-permission: このコマンドを実行する権限がありません。
   user-info:
-    usage: '/<command> [username]'
+    usage: '/<command> [ユーザー名]'
     output:
       uuid: 'UUID: <uuid>'
       username: 'ユーザー名: <username>'
@@ -51,9 +51,14 @@ command:
       fail: プレイヤー情報を取得しようとした際に不明なエラーが発生しました。
       validated: 'アカウント認証: <validated>'
       custom-field: "カスタムフィールド '<name>': <value>"
+      integrations:
+        identifier: '識別子: <identifier>'
+        username: 'ユーザー名: <username>'
+        header: '連携:'
+        linked-date: '連携した日付: <linked_date>'
     description: ウェブサイトユーザーに関する情報を取得
   validate:
-    usage: '/<command> \<code>'
+    usage: '/<command> \<コード>'
     output:
       fail:
         generic: 認証コードを送信しようとした際に不明なエラーが発生しました。
@@ -62,7 +67,7 @@ command:
       success: アカウントは認証されました。
     description: コードを使用して、ユーザーのウェブサイトアカウントを認証します。
   report:
-    usage: '/<command> \<name/uuid> \<reason>'
+    usage: '/<command> \<ユーザー名/uuid> \<理由>'
     output:
       success: プレイヤーを報告していただきありがとうございます。
       fail:
@@ -73,6 +78,11 @@ command:
   subcommands:
     help-prefix: /{command}
     usage: '/{command} [サブコマンド] [引数..]'
+  plugin:
+    description: NamelessMCプラグイン用管理コマンド
+    output:
+      reload-successful: プラグインのリロードが正常に行われました。
+    usage: /<command> \<reload|rl>
 join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。
 website-announcement: 'ウェブサイトのお知らせ: <message>'
 user-sync-kick: ウェブサイトのアカウントBANによって、私たちのサーバーからBANされています。
