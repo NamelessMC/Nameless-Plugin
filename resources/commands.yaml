@@ -1,6 +1,10 @@
 # This is a config file for commands.
-# You need to reload/restart your server after you edit this file.
 # Comment/remove a command to disable it
+
+# Spigot (Paper)
+#   -> The '/nlpl reload' command will only partly reload commands, a full restart is recommended.
+# BungeeCord (Waterfall), Velocity, Sponge
+#   -> Run '/nlpl reload' to reload
 
 get-notifications: 'notifications'
 register: 'register'
