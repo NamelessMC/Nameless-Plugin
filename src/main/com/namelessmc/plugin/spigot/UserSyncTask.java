@@ -1,8 +1,6 @@
 package com.namelessmc.plugin.spigot;
 
 import com.namelessmc.java_api.*;
-import com.namelessmc.java_api.integrations.DetailedIntegrationData;
-import com.namelessmc.java_api.integrations.DetailedMinecraftIntegrationData;
 import com.namelessmc.java_api.integrations.StandardIntegrationTypes;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
@@ -97,12 +95,8 @@ public class UserSyncTask implements Runnable, Reloadable {
 						logger.info("Ignoring user " + name);
 					}
 				} else {
-					Map<String, DetailedIntegrationData> integrations = user.getIntegrations();
-					DetailedIntegrationData minecraftIntegration = integrations.get(StandardIntegrationTypes.MINECRAFT);
-					if (minecraftIntegration == null) {
-						throw new IllegalStateException("User does not have Minecraft integration even though we specifically requested users with Minecraft integration only");
-					}
-					final UUID uuid = ((DetailedMinecraftIntegrationData) minecraftIntegration).getUniqueId();
+					UUID uuid = user.getMinecraftUuid().orElseThrow(
+							() -> new IllegalStateException("User does not have UUID even though we specifically requested users with Minecraft integration"));
 					if (!excludes.contains(uuid.toString())) {
 						uuids.add(uuid);
 					} else if (doLog) {
