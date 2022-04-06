@@ -3,7 +3,6 @@ package com.namelessmc.plugin.velocity;
 import com.namelessmc.plugin.common.command.CommandSender;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
-import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -13,6 +12,7 @@ public class VelocityCommandSender extends CommandSender {
 	private final @NotNull CommandSource source;
 
 	VelocityCommandSender(final @NotNull CommandSource source) {
+		super(source);
 		this.source = source;
 	}
 
@@ -37,11 +37,6 @@ public class VelocityCommandSender extends CommandSender {
 		} else {
 			throw new UnsupportedOperationException("getName() is only supported for player sources");
 		}
-	}
-
-	@Override
-	public Audience audience() {
-		return this.source;
 	}
 
 }

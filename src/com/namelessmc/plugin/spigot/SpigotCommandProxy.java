@@ -48,7 +48,7 @@ public class SpigotCommandProxy implements Reloadable {
 				public boolean execute(final CommandSender nativeSender, final String commandLabel, final String[] args) {
 					SpigotCommandSender sender = new SpigotCommandSender(spigotPlugin.adventure(), nativeSender);
 					if (!nativeSender.hasPermission(permission)) {
-						sender.audience().sendMessage(noPermissionMessage);
+						sender.sendMessage(noPermissionMessage);
 						return true;
 					}
 					command.execute(sender, args);
