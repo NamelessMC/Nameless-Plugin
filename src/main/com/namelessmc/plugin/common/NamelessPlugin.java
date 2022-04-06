@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 public class NamelessPlugin {
 
-	private final @NotNull AbstractAudienceProvider audienceProvider;
+
 	private final @NotNull AbstractScheduler scheduler;
 	private final @NotNull ConfigurationHandler configuration;
 	private final @NotNull AbstractLogger logger;
@@ -25,12 +25,12 @@ public class NamelessPlugin {
 
 	private final @NotNull List<Reloadable> reloadables = new ArrayList<>();
 
+	private AbstractAudienceProvider audienceProvider;
+
 	public NamelessPlugin(final @NotNull Path dataDirectory,
 						  final @NotNull AbstractScheduler scheduler,
-						  final @NotNull Function<ConfigurationHandler, AbstractLogger> loggerInstantiator,
-						  final @NotNull AbstractAudienceProvider audienceProvider) {
+						  final @NotNull Function<ConfigurationHandler, AbstractLogger> loggerInstantiator) {
 		this.scheduler = scheduler;
-		this.audienceProvider = audienceProvider;
 
 		this.configuration = this.registerReloadable(
 				new ConfigurationHandler(dataDirectory)
@@ -68,6 +68,10 @@ public class NamelessPlugin {
 
 	public AbstractAudienceProvider audiences() {
 		return this.audienceProvider;
+	}
+
+	public void setAudienceProvider(final @NotNull AbstractAudienceProvider audienceProvider) {
+		this.audienceProvider = audienceProvider;
 	}
 
 	public void reload() {

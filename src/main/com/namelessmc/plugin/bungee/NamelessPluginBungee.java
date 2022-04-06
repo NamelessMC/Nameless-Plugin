@@ -19,8 +19,7 @@ public class NamelessPluginBungee extends Plugin {
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new BungeeScheduler(this),
-				config -> new JulLogger(config, this.getLogger()),
-				new AudienceProviderAudienceProvider(BungeeAudiences.create(this))
+				config -> new JulLogger(config, this.getLogger())
 		);
 		this.plugin.registerReloadable(new BungeeCommandProxy(this, this.plugin));
 		this.plugin.registerReloadable(new ServerDataSender(this.plugin));
@@ -28,6 +27,7 @@ public class NamelessPluginBungee extends Plugin {
 
 	@Override
 	public void onEnable() {
+		this.plugin.setAudienceProvider(new AudienceProviderAudienceProvider(BungeeAudiences.create(this)));
 		this.plugin.reload();
 
 		Metrics metrics = new Metrics(this, 14864);

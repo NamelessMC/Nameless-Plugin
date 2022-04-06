@@ -46,8 +46,7 @@ public class NamelessPluginSpigot extends JavaPlugin {
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new SpigotScheduler(this),
-				config -> new JulLogger(config, this.getLogger()),
-				new AudienceProviderAudienceProvider(BukkitAudiences.create(this))
+				config -> new JulLogger(config, this.getLogger())
 		);
 		this.plugin.registerReloadable(new SpigotCommandProxy(this.plugin));
 		this.plugin.registerReloadable(new ServerDataSender(this, this.plugin));
@@ -60,6 +59,8 @@ public class NamelessPluginSpigot extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		this.plugin.setAudienceProvider(new AudienceProviderAudienceProvider(BukkitAudiences.create(this)));
+
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
 			if (permissionProvider == null) {
