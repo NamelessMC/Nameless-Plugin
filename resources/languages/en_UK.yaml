@@ -1,3 +1,6 @@
+error:
+  website-username-not-exist: "No website user exists with this username"
+
 player:
   other:
     not-found: "This player could not be found."

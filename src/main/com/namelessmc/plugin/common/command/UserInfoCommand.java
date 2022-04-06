@@ -54,7 +54,7 @@ public class UserInfoCommand extends CommonCommand {
 				targetOptional = api.getUser(args[0]);
 
 				if (targetOptional.isEmpty()) {
-					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
+					sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_USERNAME_NOT_EXIST));
 					return;
 				}
 

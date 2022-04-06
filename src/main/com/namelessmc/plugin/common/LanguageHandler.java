@@ -25,6 +25,8 @@ public class LanguageHandler implements Reloadable {
 
 	public enum Term {
 
+		ERROR_WEBSITE_USERNAME_NOT_EXIST("error.website-username-not-exist"),
+
 		PLAYER_OTHER_NOTFOUND("player.other.not-found"),
 		PLAYER_OTHER_NOTREGISTERED("player.other.not-registered"),
 		PLAYER_SELF_NOTREGISTERED("player.self.not-registered"),
@@ -104,7 +106,7 @@ public class LanguageHandler implements Reloadable {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 24;
+	private static final int VERSION = 25;
 
 	private static final Set<String> LANGUAGES = new HashSet<>();
 	static {
