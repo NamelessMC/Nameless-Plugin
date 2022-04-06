@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.spigot;
 
+import com.namelessmc.plugin.common.AnnouncementTask;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
 import com.namelessmc.plugin.spigot.event.PlayerBan;

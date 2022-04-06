@@ -16,18 +16,21 @@ import java.util.function.Function;
 
 public class NamelessPlugin {
 
-	private final AbstractScheduler scheduler;
-	private final ConfigurationHandler configuration;
-	private final AbstractLogger logger;
-	private final ApiProvider api;
-	private final LanguageHandler language;
+	private final @NotNull AbstractAudienceProvider audienceProvider;
+	private final @NotNull AbstractScheduler scheduler;
+	private final @NotNull ConfigurationHandler configuration;
+	private final @NotNull AbstractLogger logger;
+	private final @NotNull ApiProvider api;
+	private final @NotNull LanguageHandler language;
 
-	private final List<Reloadable> reloadables = new ArrayList<>();
+	private final @NotNull List<Reloadable> reloadables = new ArrayList<>();
 
 	public NamelessPlugin(final @NotNull Path dataDirectory,
 						  final @NotNull AbstractScheduler scheduler,
-						  final @NotNull Function<ConfigurationHandler, AbstractLogger> loggerInstantiator) {
+						  final @NotNull Function<ConfigurationHandler, AbstractLogger> loggerInstantiator,
+						  final @NotNull AbstractAudienceProvider audienceProvider) {
 		this.scheduler = scheduler;
+		this.audienceProvider = audienceProvider;
 
 		this.configuration = this.registerReloadable(
 				new ConfigurationHandler(dataDirectory)
@@ -63,6 +66,10 @@ public class NamelessPlugin {
 		return this.scheduler;
 	}
 
+	public AbstractAudienceProvider audiences() {
+		return this.audienceProvider;
+	}
+
 	public void reload() {
 		for (Reloadable reloadable : reloadables) {
 			reloadable.reload();
@@ -96,7 +103,7 @@ public class NamelessPlugin {
 		}
 
 		Configuration config = this.config().getMainConfig();
-		
+
 		metrics.addCustomChart(new SimplePie("api_working", () ->
 				this.api().isApiWorkingMetric()));
 

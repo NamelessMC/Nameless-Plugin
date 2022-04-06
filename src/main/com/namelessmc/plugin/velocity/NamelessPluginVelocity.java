@@ -35,7 +35,8 @@ public class NamelessPluginVelocity {
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new VelocityScheduler(this, server.getScheduler()),
-				config -> new Slf4jLogger(config, logger));
+				config -> new Slf4jLogger(config, logger)
+		);
 		this.plugin.registerReloadable(new VelocityCommandProxy(this.plugin, server));
 	}
 
