@@ -53,7 +53,7 @@ public abstract class AbstractLogger implements Reloadable {
 
 		@Override
 		public void log(String string) {
-			AbstractLogger.this.info("[Nameless-Java-API Debug]" + string);
+			AbstractLogger.this.info("[Nameless-Java-API Debug] " + string);
 		}
 
 	}

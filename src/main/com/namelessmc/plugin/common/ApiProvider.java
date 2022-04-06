@@ -84,8 +84,8 @@ public class ApiProvider implements Reloadable {
 				if (url != null) {
 					final NamelessAPI api = NamelessAPI.builder(url, this.apiKey)
 							.userAgent(USER_AGENT)
-							.withCustomDebugLogger(this.debug ? this.logger.getApiLogger() : null)
-							.withTimeout(this.timeout)
+							.customDebugLogger(this.debug ? this.logger.getApiLogger() : null)
+							.timeout(this.timeout)
 							.build();
 
 					final Website info = api.getWebsite();
