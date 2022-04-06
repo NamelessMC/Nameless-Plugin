@@ -21,7 +21,7 @@ command:
       notification: <hover:show_text:"Klik om in een web browser te openen"><click:open_url:"<url>"><message>
     description: Laat een lijst van website meldingen zien.
   register:
-    usage: '/<command> \<e-mail>'
+    usage: '/<command> \<gebruikersnaam> \<e-mailadres>'
     output:
       success:
         email: Controleer uw inbox om de registratie te voltooien.
@@ -57,6 +57,11 @@ command:
       primary-group: 'Hoofdgroep: <groupname>'
       all-groups: 'Alle groepen: <groups_names_list>'
       custom-field: "Custom veld: '<name>': <value>"
+      integrations:
+        identifier: 'Identificator: <identifier>'
+        linked-date: 'Datum gelinkt: <linked_date>'
+        header: 'Integraties:'
+        username: 'Gebruikersnaam: <username>'
     description: Informatie opvragen over een websitegebruiker
   no-permission: Je hebt geen toestemming om dit commando uit te voeren.
   report:
@@ -84,6 +89,11 @@ command:
   subcommands:
     help-prefix: /{command}
     usage: '/{command} [subcommando] [argumenten..]'
+  plugin:
+    usage: \<command> \<reload|rl>
+    description: Administratieve commando's voor de NamelessMC plugin
+    output:
+      reload-successful: Plugin succesvol herladen.
 join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.
 website-announcement: 'Website aankondiging: <message>'
 user-sync-kick: Je bent verbannen van onze server als gevolg van een website ban.
