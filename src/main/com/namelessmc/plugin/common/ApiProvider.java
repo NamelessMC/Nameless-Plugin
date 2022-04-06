@@ -55,6 +55,8 @@ public class ApiProvider implements Reloadable {
 			this.logger.warning("Username mode is enabled. This is NOT supported. If you do not run a cracked server, disable this option!");
 		}
 
+		this.cachedApi = null;
+
 		scheduler.runAsync(this::getNamelessApi);
 	}
 
