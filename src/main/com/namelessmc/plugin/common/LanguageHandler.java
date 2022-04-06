@@ -81,6 +81,10 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD("command.user-info.output.custom-field"),
 		COMMAND_USERINFO_OUTPUT_YES("command.user-info.output.yes"),
 		COMMAND_USERINFO_OUTPUT_NO("command.user-info.output.no"),
+		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_HEADER("command.user-info.output.integrations.header"),
+		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_IDENTIFIER("command.user-info.output.integrations.identifier"),
+		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME("command.user-info.output.integrations.username"),
+		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE("command.user-info.output.integrations.linked-date"),
 		COMMAND_USERINFO_OUTPUT_FAIL("command.user-info.output.fail"),
 
 		JOIN_NOTREGISTERED("join-not-registered"),
@@ -100,7 +104,7 @@ public class LanguageHandler implements Reloadable {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 23;
+	private static final int VERSION = 24;
 
 	private static final Set<String> LANGUAGES = new HashSet<>();
 	static {

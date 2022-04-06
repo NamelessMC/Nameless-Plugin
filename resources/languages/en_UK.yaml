@@ -76,6 +76,11 @@ command:
       custom-field: "Custom field '<name>': <value>"
       'yes': "yes"
       'no': "no"
+      integrations:
+        header: "Integrations:"
+        identifier: "Identifier: <identifier>"
+        username: "Username: <username>"
+        linked-date: "Linked date: <linked_date>"
       fail: "An unknown error occurred while trying to retrieve player information."
 
 join-not-registered: "You do not have an account on our website yet. Please register using /register."

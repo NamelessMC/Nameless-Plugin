@@ -1,11 +1,14 @@
 package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.*;
+import com.namelessmc.java_api.integrations.DetailedIntegrationData;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -73,6 +76,7 @@ public class UserInfoCommand extends CommonCommand {
 						"date", user.getRegisteredDate().toString())); // TODO Format nicely (add option in config for date format)
 
 				// TODO support formatting for yes/no somehow
+				// TODO Components as placeholder values, possible?
 				final String yes = getLanguage().getRawMessage(Term.COMMAND_USERINFO_OUTPUT_YES);
 				final String no = getLanguage().getRawMessage(Term.COMMAND_USERINFO_OUTPUT_NO);
 
@@ -89,7 +93,21 @@ public class UserInfoCommand extends CommonCommand {
 							"name", customField.getField().getName(), "value", customField.getValue()));
 				}
 
-				// TODO Integrations
+				Map<String, DetailedIntegrationData> integrations = user.getIntegrations();
+				if (!integrations.isEmpty()) {
+					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_HEADER));
+					integrations.forEach((name, data) -> {
+						sender.sendMessage(Component.text("  " + name));
+						final Component indent = Component.text("    ");
+						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_IDENTIFIER,
+								"identifier", data.getIdentifier())));
+						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME,
+								"username", data.getIdentifier())));
+						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE,
+								"linked_date", data.getLinkedDate().toString())));  // TODO Format nicely (add option in config for date format)
+						// TODO add verified with yes/no placeholders
+					});
+				}
 			} catch (final NamelessException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_FAIL));
 				getLogger().logException(e);
