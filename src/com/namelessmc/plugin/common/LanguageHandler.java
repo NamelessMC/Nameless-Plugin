@@ -39,6 +39,10 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION("command.notifications.output.notification"),
 		COMMAND_NOTIFICATIONS_OUTPUT_FAIL("command.notifications.output.fail"),
 
+		COMMAND_PLUGIN_USAGE("command.plugin.usage"),
+		COMMAND_PLUGIN_DESCRIPTION("command.plugin.description"),
+		COMMAND_PLUGIN_OUTPUT_RELOAD_SUCCESSFUL("command.plugin.output.reload-successful"),
+
 		COMMAND_REGISTER_USAGE("command.register.usage"),
 		COMMAND_REGISTER_DESCRIPTION("command.register.description"),
 		COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL("command.register.output.success.email"),

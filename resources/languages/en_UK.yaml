@@ -18,6 +18,12 @@ command:
       notification: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\"><message>"
       fail: "An error occurred while trying to retrieve a list of notifications. Please notify the server administrator about this issue."
 
+  plugin:
+    usage: "/<command> \<reload|rl>"
+    description: "Administrative commands for the NamelessMC plugin"
+    output:
+      reload-successful: "Plugin reloaded successfully."
+
   register:
     usage: "/<command> \\<username> \\<email>"
     description: "Create a website account"

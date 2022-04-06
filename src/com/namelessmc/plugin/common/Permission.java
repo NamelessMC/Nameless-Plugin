@@ -11,7 +11,7 @@ public enum Permission {
 	COMMAND_USER_INFO("namelessmc.command.userinfo"),
 	COMMAND_VERIFY("namelessmc.command.verify"),
 
-	COMMAND_NAMELESS("namelessmc.command.nameless"),
+	COMMAND_PLUGIN("namelessmc.command.nameless"),
 
 	;
 

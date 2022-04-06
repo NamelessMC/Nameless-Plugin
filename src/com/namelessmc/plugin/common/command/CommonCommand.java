@@ -62,6 +62,10 @@ public abstract class CommonCommand {
 		return this.permission;
 	}
 
+	protected @NotNull NamelessPlugin getPlugin() {
+		return this.plugin;
+	}
+
 	protected @NotNull AbstractScheduler getScheduler() {
 		return this.plugin.scheduler();
 	}
@@ -83,9 +87,9 @@ public abstract class CommonCommand {
 	public abstract void execute(CommandSender sender, String[] args);
 
 	public static List<CommonCommand> getEnabledCommands(final @NotNull NamelessPlugin plugin) {
-		// TODO Reload command
 		List<CommonCommand> list = new ArrayList<>();
 		list.add(new GetNotificationsCommand(plugin));
+		list.add(new NamelessPluginCommand(plugin));
 		list.add(new RegisterCommand(plugin));
 		list.add(new ReportCommand(plugin));
 		list.add(new UserInfoCommand(plugin));
