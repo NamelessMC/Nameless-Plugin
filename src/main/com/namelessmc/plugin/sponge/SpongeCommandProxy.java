@@ -44,7 +44,8 @@ public class SpongeCommandProxy implements Reloadable {
 
 			CommandCallable spongeCommand = new CommandCallable() {
 				@Override
-				public CommandResult process(CommandSource source, String arguments) throws CommandException {
+				public @NotNull CommandResult process(final CommandSource source,
+													  final String arguments) {
 					String[] args = arguments.split(" ");
 					NamelessCommandSender sender = new SpongeCommandSender(plugin.audiences(), source);
 					command.execute(sender, args);
@@ -52,27 +53,29 @@ public class SpongeCommandProxy implements Reloadable {
 				}
 
 				@Override
-				public List<String> getSuggestions(CommandSource source, String arguments, @Nullable Location<World> targetPosition) throws CommandException {
+				public List<String> getSuggestions(final CommandSource source,
+												   final String arguments,
+												   final @Nullable Location<World> targetPosition) {
 					return Collections.emptyList();
 				}
 
 				@Override
-				public boolean testPermission(CommandSource source) {
+				public boolean testPermission(final CommandSource source) {
 					return source.hasPermission(permission);
 				}
 
 				@Override
-				public Optional<Text> getShortDescription(CommandSource source) {
+				public Optional<Text> getShortDescription(final CommandSource source) {
 					return Optional.of(description);
 				}
 
 				@Override
-				public Optional<Text> getHelp(CommandSource source) {
+				public Optional<Text> getHelp(final CommandSource source) {
 					return Optional.empty();
 				}
 
 				@Override
-				public Text getUsage(CommandSource source) {
+				public Text getUsage(final CommandSource source) {
 					return usage;
 				}
 			};

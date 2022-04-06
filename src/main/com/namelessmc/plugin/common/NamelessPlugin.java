@@ -85,8 +85,7 @@ public class NamelessPlugin {
 		try {
 			Field baseField = metricsClass.getDeclaredField("metricsBase");
 			baseField.setAccessible(true);
-			MetricsBase base = (MetricsBase) baseField.get(metrics);
-			return base;
+			return (MetricsBase) baseField.get(metrics);
 		} catch (NoSuchFieldException | IllegalAccessException e) {
 			e.printStackTrace();
 			return null;

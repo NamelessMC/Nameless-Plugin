@@ -13,7 +13,7 @@ public class SpigotCommandSender extends NamelessCommandSender {
 		super(
 				audiences,
 				sender instanceof Player ? ((Player) sender).getUniqueId() : null,
-				sender instanceof Player ? ((Player) sender).getName() : null
+				sender instanceof Player ? sender.getName() : null
 		);
 	}
 

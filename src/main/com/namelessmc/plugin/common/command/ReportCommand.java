@@ -40,7 +40,7 @@ public class ReportCommand extends CommonCommand {
 
 		getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
-			if (!optApi.isPresent()) {
+			if (optApi.isEmpty()) {
 				sender.sendMessage(this.getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
 				return;
 			}
@@ -50,7 +50,7 @@ public class ReportCommand extends CommonCommand {
 				final String targetUsername = args[0];
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 				final Optional<NamelessUser> optUser = this.getApiProvider().userFromPlayer(api, sender.getUniqueId(),sender.getName());
-				if (!optUser.isPresent()) {
+				if (optUser.isEmpty()) {
 					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOTREGISTERED));
 					return;
 				}

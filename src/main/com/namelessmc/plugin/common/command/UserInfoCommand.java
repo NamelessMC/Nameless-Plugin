@@ -42,7 +42,7 @@ public class UserInfoCommand extends CommonCommand {
 
 		getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
-			if (!optApi.isPresent()) {
+			if (optApi.isEmpty()) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_FAIL));
 				return;
 			}
@@ -53,7 +53,7 @@ public class UserInfoCommand extends CommonCommand {
 			try {
 				targetOptional = api.getUser(args[0]);
 
-				if (!targetOptional.isPresent()) {
+				if (targetOptional.isEmpty()) {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
 					return;
 				}

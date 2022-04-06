@@ -28,7 +28,7 @@ public class AudienceProviderAudienceProvider extends AbstractAudienceProvider {
 	}
 
 	@Override
-	public Audience player(UUID uuid) {
+	public Audience player(final @NotNull UUID uuid) {
 		return this.audienceProvider.player(uuid);
 	}
 

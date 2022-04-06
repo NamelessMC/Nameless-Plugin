@@ -12,7 +12,7 @@ public class BungeeCommandSender extends NamelessCommandSender {
 		super(
 				audiences,
 				sender instanceof ProxiedPlayer ? ((ProxiedPlayer) sender).getUniqueId() : null,
-				sender instanceof ProxiedPlayer ? ((ProxiedPlayer) sender).getName() : null
+				sender instanceof ProxiedPlayer ? sender.getName() : null
 		);
 	}
 

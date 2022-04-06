@@ -36,7 +36,7 @@ public class GetNotificationsCommand extends CommonCommand {
 
 		getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
-			if (!optApi.isPresent()) {
+			if (optApi.isEmpty()) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
 				return;
 			}
@@ -45,7 +45,7 @@ public class GetNotificationsCommand extends CommonCommand {
 			try {
 				final Optional<NamelessUser> optional = this.getApiProvider().userFromPlayer(api, sender.getUniqueId(),sender.getName());
 
-				if (!optional.isPresent()) {
+				if (optional.isEmpty()) {
 					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOTREGISTERED));
 					return;
 				}

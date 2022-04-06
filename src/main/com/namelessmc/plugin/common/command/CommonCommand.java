@@ -1,7 +1,10 @@
 package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.ApiProvider;
+import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.config.Configuration;
@@ -9,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -94,11 +96,9 @@ public abstract class CommonCommand {
 		list.add(new ReportCommand(plugin));
 		list.add(new UserInfoCommand(plugin));
 		list.add(new VerifyCommand(plugin));
-		return Collections.unmodifiableList(
-				list.stream()
-						.filter(command -> command.getActualName() != null)
-						.collect(Collectors.toList())
-		);
+		return list.stream()
+				.filter(command -> command.getActualName() != null)
+				.collect(Collectors.toUnmodifiableList());
 	}
 
 }
