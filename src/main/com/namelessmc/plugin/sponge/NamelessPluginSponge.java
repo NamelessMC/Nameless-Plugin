@@ -1,27 +1,25 @@
 package com.namelessmc.plugin.sponge;
 
 import com.google.inject.Inject;
+import com.namelessmc.plugin.NamelessConstants;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.Slf4jLogger;
 import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
 import org.bstats.sponge.Metrics;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-import org.spongepowered.api.command.CommandMapping;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 
-@Plugin(id="nameless-plugin", name="Nameless Plugin", version="test", description="test")
+@Plugin(id="nameless-plugin", name=NamelessConstants.PROJECT_NAME, version=NamelessConstants.PROJECT_VERSION, description="")
 public class NamelessPluginSponge {
 
 	private final @NotNull NamelessPlugin plugin;
 	private final SpongeAudiences adventure;
-	private final ArrayList<CommandMapping> registeredCommands = new ArrayList<>();
 	private final @NotNull Metrics.Factory metricsFactory;
 
 	@Inject

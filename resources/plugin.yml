@@ -1,7 +1,6 @@
-name: NamelessMC
+name: '@project.name@'
 main: com.namelessmc.plugin.spigot.NamelessPluginSpigot
 author: Derkades
-authors: [Derkades, Samerton, IsS127]
 website: https://plugin.namelessmc.com/
 version: '@project.version@'
 api-version: 1.13
