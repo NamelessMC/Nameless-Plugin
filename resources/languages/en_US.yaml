@@ -12,23 +12,23 @@ command:
   not-a-player: You must be a player to perform this command.
   no-permission: You don't have permission to execute this command.
   notifications:
-    usage: '/{command}'
+    usage: '/<command>'
     description: Displays a list of website notifications.
     output:
       no-notifications: You do not have any unread notifications.
       click-to-open: Click to open in a web browser
-      fail: An error occured while trying to retrieve a list of notifications. Please
+      fail: An error occurred while trying to retrieve a list of notifications. Please
         notify the server administrator about this issue.
       notification: <hover:show_text:"Click to open in a web browser"><click:open_url:"<url>"><message>
   register:
-    usage: '/{command} <email>'
+    usage: '/<command> \<username> \<email>'
     output:
       success:
         email: Please check your inbox to complete registration.
         link: <hover:show_text:"Click to open in a web browser"><click:open_url:"<url>">Please
           complete registration by going to <url>.
       fail:
-        generic: An error occured while trying to register. Please notify the server
+        generic: An error occurred while trying to register. Please notify the server
           administrator about this issue.
         already-exists: You already have an account.
         email-used: This email address is already used for a different user account.
@@ -36,20 +36,23 @@ command:
         email-invalid: The provided email address is invalid.
         cannot-send-email: Unable to send registration email, please contact an admin
           to activate your account.
+        username-used: Your username is already used.
+        minercaft-used: Your Minecraft account is already linked to a different website
+          user.
     description: Create a website account
   report:
-    usage: '/{command} <name/uuid> <reason>'
+    usage: '/<command> \<name/uuid> \<reason>'
     description: Report a player
     output:
       success: Thank you for reporting this player.
       fail:
         already-open: You cannot report this player, you already have an open report
           for them.
-        generic: An error occured while trying to report this player. Please notify
+        generic: An error occurred while trying to report this player. Please notify
           the server administrator about this issue.
         report-self: You cannot report yourself.
   validate:
-    usage: '/{command} <code>'
+    usage: '/<command> \<code>'
     description: Validates the user's website account using the given code.
     output:
       success: Your account has been validated.
@@ -57,9 +60,9 @@ command:
         invalid-code: Your validation code is incorrect. Please check if you copied
           it correctly and try again.
         already-validated: Your account is already validated.
-        generic: An unknown error occured while trying to submit a validation code.
+        generic: An unknown error occurred while trying to submit a validation code.
   user-info:
-    usage: '/{command} [username]'
+    usage: '/<command> [username]'
     output:
       username: 'Username: <username>'
       displayname: 'Display name: <displayname>'
@@ -70,13 +73,24 @@ command:
       banned: 'Banned: <banned>'
       'yes': yes
       'no': no
-      fail: An unknown error occured while trying to retrieve player information.
+      fail: An unknown error occurred while trying to retrieve player information.
       primary-group: 'Primary group: <groupname>'
       all-groups: 'All groups: <groups_names_list>'
+      custom-field: "Custom field '<name>': <value>"
+      integrations:
+        header: 'Integrations:'
+        identifier: 'Identifier: <identifier>'
+        username: 'Username: <username>'
+        linked-date: 'Linked date: <linked_date>'
     description: Retrieve information about a website user
   subcommands:
     usage: '/{command} [subcommand] [arguments..]'
     help-prefix: /{command}
+  plugin:
+    usage: /<command> \<reload|rl>
+    description: Administrative commands for the NamelessMC plugin
+    output:
+      reload-successful: Plugin reloaded successfully.
 join-not-registered: You do not have an account on our website yet. Please register
   using /register.
 website-announcement: 'Website announcement: <message>'
