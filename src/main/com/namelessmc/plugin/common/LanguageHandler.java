@@ -131,6 +131,7 @@ public class LanguageHandler implements Reloadable {
 		LANGUAGES.add("ro_RO");
 		LANGUAGES.add("ru_RU");
 		LANGUAGES.add("sk_SK");
+		LANGUAGES.add("sq_AL");
 		LANGUAGES.add("sv_SE");
 		LANGUAGES.add("tr_TR");
 		LANGUAGES.add("vi_VN");
