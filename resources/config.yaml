@@ -64,7 +64,6 @@ auto-ban-on-website: false
 # For a list of valid languages, check file names in the 'languages' directory.
 # To help translate the plugin to your language, visit https://translate.namelessmc.com
 # If you want to customize messages for your server you can edit the language files.
-# WARNING: The language file will be replaced with the default when new messages are added in a plugin update
 language: en_UK
 
 # Supported platforms: Spigot
