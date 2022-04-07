@@ -25,3 +25,70 @@ command:
       reload-successful: Shtojca u ringarkua me sukses.
   register:
     usage: /<command> \<emri-në-lojë> \<emaili>
+    description: Krijo një llogari te faqja e internetit
+    output:
+      success:
+        link: <hover:show_text:"Kliko për të hapur në një browser-in"><click:open_url:"<url>">Ju
+          lutemi, plotësoni regjistrimin duke shkuar te <url>.
+        email: Ju lutemi kontrolloni email-in tuaj për të përfunduar regjistrimin.
+      fail:
+        username-used: Emri i llogarisë është i përdorur.
+        generic: Një error ndodhi kur po regjistroheshe. Ju lutem kontaktoni administratorin
+          a server-it.
+        username-invalid: Emri i llogarisë është invalide.
+        email-used: Kjo adresa e email-it është përdorur për një llogari tjetër.
+        email-invalid: Adresa e email-it është invalide.
+        minercaft-used: Llogaria jote "Minecraft" është lidhur me një tjetër llogari
+          te faqja e internetit.
+        cannot-send-email: Nuk mund ta nisnim email-in për regjistrim, ju lutem contaktoni
+          administratorin a server-it.
+  report:
+    output:
+      fail:
+        generic: Një error ndodhi kur po raportoje këtë lojtar, you lutem kontaktoni
+          administratorin e server-it.
+        already-open: Ti nuk mund ta raportosh këtë lojtarin, ti e keraportuar njëherë.
+        report-self: Ti nuk mund ta raportosh veten.
+      success: Faleminderit që raportuat këtë lojtarin.
+    usage: /<komandë> \<emri/uuid> \<arsye>
+    description: Raporto një lojtar
+  validate:
+    usage: /<komandë> \<kodi>
+    description: Validon llogarinë e faqes së internetit të përdoruesit duke përdorur
+      kodin e dhënë.
+    output:
+      success: Llogaria jote është validuar.
+      fail:
+        invalid-code: Kodi juaj i validimit është gabim. Ju lutem shini nëse e keni
+          copjuar korrekt the provoni përsëri.
+        already-validated: Llogaria juaj është vërtetuar tashmë.
+        generic: Një error i panjohur ndodhi kur po provoja të paraqesja kodin e validimit.
+  user-info:
+    output:
+      username: 'Emri i lojtarit: <username>'
+      displayname: 'Emri i shfaqur: <displayname>'
+      uuid: 'UUID-ja: <uuid>'
+      uuid-unknown: 'UUID-ja: e panjohur'
+      primary-group: 'Grupi primar: <groupname>'
+      custom-field: "Fushë zakon '<name>': <value>"
+      'yes': po
+      'no': jo
+      all-groups: 'Gjithë grupet: <groups_names_list>'
+      registered-date: Regjistruar në <date>
+      validated: 'Llogaria e validuar: <validated>'
+      banned: 'I ndaluar: <banned>'
+      integrations:
+        header: 'Integrimet:'
+        identifier: 'Indentifikuesi: <indentifier>'
+        username: 'Emri: <username>'
+        linked-date: 'Data e lidhjes: <linked_date>'
+      fail: Një error i panjohur ndodhi kur provova të marr informacion të përdoruesit.
+    description: Merr informacion për një përdorues të faqes së internetit
+    usage: /<komandë> [emri-i-lojtarit]
+user-sync-kick: Ju jeni përjashtuar nga serveri ynë pas një ndalimi të llogarisë në
+  faqen e internetit.
+website-announcement: 'Njoftim nga faqja e internetit: <message>'
+error:
+  website-username-not-exist: Nuk ka lojtar me këtë emër te faqja e internetit
+join-not-registered: Ti nuk ke një llogari te faqja jonë e internetit. Ju lutem regjistrohuni
+  me /register.
