@@ -92,3 +92,5 @@ player:
     command-banned: Nemůžete spustit tento příkaz, jste zabanováni na webu.
 website-announcement: 'Oznámení na webu: <message>'
 user-sync-kick: Jste zabanováni z tohoto serveru kvůli banu na webu.
+error:
+  website-username-not-exist: Na webu neexistuje žádný uživatel s tímto jménem
