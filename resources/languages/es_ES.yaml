@@ -83,9 +83,22 @@ command:
       primary-group: 'Grupo principal: <groupname>'
       all-groups: 'Todos los grupos: <groups_names_list>'
       custom-field: "Campo personalizado '<name>': <value>"
+      integrations:
+        username: 'Nombre de usuario: <username>'
+        linked-date: 'Fecha vinculada: <linked_date>'
+        header: 'Integraciones:'
+        identifier: 'Identificador: <identifier>'
     description: Obtener información sobre un usuario del sitio web
+  plugin:
+    output:
+      reload-successful: El plugin se ha recargado con éxito.
+    description: Comandos administrativos para el plugin NamelessMC
+    usage: /<command> \<reload|rl>
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /register.
 website-announcement: 'Anuncio de la página web: <message>'
 user-sync-kick: Usted ha sido expulsado de nuestro servidor a raíz de un baneo de
   la cuenta del sitio web.
+error:
+  website-username-not-exist: No existe ningún usuario en el sitio web con este nombre
+    de usuario
