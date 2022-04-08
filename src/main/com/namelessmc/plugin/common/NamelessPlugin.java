@@ -16,12 +16,12 @@ import java.util.function.Function;
 
 public class NamelessPlugin {
 
-
 	private final @NotNull AbstractScheduler scheduler;
 	private final @NotNull ConfigurationHandler configuration;
 	private final @NotNull AbstractLogger logger;
 	private final @NotNull ApiProvider api;
 	private final @NotNull LanguageHandler language;
+	private final @NotNull DateFormatter dateFormatter;
 
 	private final @NotNull List<Reloadable> reloadables = new ArrayList<>();
 
@@ -44,6 +44,7 @@ public class NamelessPlugin {
 		this.language = this.registerReloadable(
 				new LanguageHandler(dataDirectory, this.configuration, this.logger)
 		);
+		this.dateFormatter = new DateFormatter(this.configuration);
 	}
 
 	public ConfigurationHandler config() {
@@ -60,6 +61,10 @@ public class NamelessPlugin {
 
 	public LanguageHandler language() {
 		return this.language;
+	}
+
+	public DateFormatter dateFormatter() {
+		return this.dateFormatter;
 	}
 
 	public AbstractScheduler scheduler() {

@@ -2,8 +2,8 @@ package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.integrations.DetailedIntegrationData;
-import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.common.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.jetbrains.annotations.NotNull;
@@ -73,7 +73,7 @@ public class UserInfoCommand extends CommonCommand {
 						"groups_names_list", user.getGroups().stream().map(Group::getName).collect(Collectors.joining(", "))));
 
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_REGISTER_DATE,
-						"date", user.getRegisteredDate().toString())); // TODO Format nicely (add option in config for date format)
+						"date", this.getPlugin().dateFormatter().format(user.getRegisteredDate())));
 
 				final Component yes = getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_YES);
 				final Component no = getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_NO);
@@ -100,7 +100,7 @@ public class UserInfoCommand extends CommonCommand {
 						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME,
 								"username", data.getIdentifier())));
 						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE,
-								"linked_date", data.getLinkedDate().toString()))); // TODO also use date format here
+								"linked_date", this.getPlugin().dateFormatter().format(data.getLinkedDate()))));
 						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE,
 								Placeholder.component("is_verified", data.isVerified() ? yes : no))));
 					});
