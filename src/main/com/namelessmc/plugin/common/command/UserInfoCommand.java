@@ -25,7 +25,7 @@ public class UserInfoCommand extends CommonCommand {
 	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
 		if (args.length == 0) {
 			if (sender instanceof NamelessConsole) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOT_A_PLAYER));
 				return;
 			}
 
@@ -60,7 +60,7 @@ public class UserInfoCommand extends CommonCommand {
 				final NamelessUser user = targetOptional.get();
 
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_USERNAME, "username", user.getUsername()));
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_DISPLAYNAME, "displayname", user.getDisplayName()));
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_DISPLAY_NAME, "displayname", user.getDisplayName()));
 
 				user.getPrimaryGroup().ifPresent(group -> {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP,
@@ -71,7 +71,7 @@ public class UserInfoCommand extends CommonCommand {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_ALL_GROUPS,
 						"groups_names_list", user.getGroups().stream().map(Group::getName).collect(Collectors.joining(", "))));
 
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_REGISTERDATE,
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_REGISTER_DATE,
 						"date", user.getRegisteredDate().toString())); // TODO Format nicely (add option in config for date format)
 
 				// TODO support formatting for yes/no somehow

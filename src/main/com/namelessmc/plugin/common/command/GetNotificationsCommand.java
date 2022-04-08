@@ -29,7 +29,7 @@ public class GetNotificationsCommand extends CommonCommand {
 		}
 
 		if (sender instanceof NamelessConsole) {
-			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
+			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOT_A_PLAYER));
 			return;
 		}
 
@@ -45,7 +45,7 @@ public class GetNotificationsCommand extends CommonCommand {
 				final Optional<NamelessUser> optional = this.getApiProvider().userFromPlayer(api, (NamelessPlayer) sender);
 
 				if (optional.isEmpty()) {
-					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOTREGISTERED));
+					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOT_REGISTERED));
 					return;
 				}
 

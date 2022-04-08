@@ -33,7 +33,7 @@ public class ReportCommand extends CommonCommand {
 		}
 
 		if (sender instanceof NamelessConsole) {
-			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
+			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOT_A_PLAYER));
 			return;
 		}
 
@@ -50,7 +50,7 @@ public class ReportCommand extends CommonCommand {
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 				final Optional<NamelessUser> optUser = this.getApiProvider().userFromPlayer(api, (NamelessPlayer) sender);
 				if (optUser.isEmpty()) {
-					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOTREGISTERED));
+					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOT_REGISTERED));
 					return;
 				}
 
@@ -61,12 +61,12 @@ public class ReportCommand extends CommonCommand {
 					if (optTargetUser.isPresent()) {
 						user.createReport(optTargetUser.get(), reason);
 					} else {
-						sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOTREGISTERED));
+						sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOT_REGISTERED));
 					}
 				} else {
 					UUID targetUuid = UUIDFetcher.getUUID(targetUsername);
 					if (targetUuid == null) {
-						sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOTFOUND));
+						sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOT_FOUND));
 					} else {
 						user.createReport(targetUuid, targetUsername, reason);
 						sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_SUCCESS));

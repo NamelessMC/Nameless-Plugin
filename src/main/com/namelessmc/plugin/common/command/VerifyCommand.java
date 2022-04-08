@@ -29,7 +29,7 @@ public class VerifyCommand extends CommonCommand {
 		}
 
 		if (sender instanceof NamelessConsole) {
-			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
+			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOT_A_PLAYER));
 			return;
 		}
 
@@ -48,7 +48,7 @@ public class VerifyCommand extends CommonCommand {
 				api.verifyIntegration(integrationData, code);
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_SUCCESS));
 			} catch (final InvalidValidateCodeException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_INVALIDCODE));
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_INVALID_CODE));
 			} catch (final NamelessException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC));
 				getLogger().logException(e);
