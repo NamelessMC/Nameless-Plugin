@@ -84,6 +84,7 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_IDENTIFIER("command.user-info.output.integrations.identifier"),
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME("command.user-info.output.integrations.username"),
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE("command.user-info.output.integrations.linked-date"),
+		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_VERIFIED("command.user-info.output.integrations.verified"),
 
 		JOIN_NOT_REGISTERED("join-not-registered"),
 		WEBSITE_ANNOUNCEMENT("website-announcement"),

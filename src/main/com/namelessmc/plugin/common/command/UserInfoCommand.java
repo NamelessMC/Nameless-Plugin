@@ -5,6 +5,7 @@ import com.namelessmc.java_api.integrations.DetailedIntegrationData;
 import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -42,7 +43,7 @@ public class UserInfoCommand extends CommonCommand {
 		getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
 			if (optApi.isEmpty()) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_FAIL));
+				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
 				return;
 			}
 			final NamelessAPI api = optApi.get();
@@ -74,18 +75,14 @@ public class UserInfoCommand extends CommonCommand {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_REGISTER_DATE,
 						"date", user.getRegisteredDate().toString())); // TODO Format nicely (add option in config for date format)
 
-				// TODO support formatting for yes/no somehow
-				// TODO Components as placeholder values, possible?
-				final String yes = getLanguage().getRawMessage(Term.COMMAND_USERINFO_OUTPUT_YES);
-				final String no = getLanguage().getRawMessage(Term.COMMAND_USERINFO_OUTPUT_NO);
+				final Component yes = getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_YES);
+				final Component no = getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_NO);
 
-				final String validated = user.isVerified() ? yes : no;
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_VALIDATED,
-						"validated", validated));
+						Placeholder.component("validated", user.isVerified() ? yes : no)));
 
-				final String banned = user.isBanned() ? yes : no;
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_BANNED,
-						"banned", banned));
+						Placeholder.component("banned", user.isBanned() ? yes : no)));
 
 				for (CustomProfileFieldValue customField : user.getProfileFields()) {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD,
@@ -103,12 +100,13 @@ public class UserInfoCommand extends CommonCommand {
 						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME,
 								"username", data.getIdentifier())));
 						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE,
-								"linked_date", data.getLinkedDate().toString())));  // TODO Format nicely (add option in config for date format)
-						// TODO add verified with yes/no placeholders
+								"linked_date", data.getLinkedDate().toString()))); // TODO also use date format here
+						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE,
+								Placeholder.component("is_verified", data.isVerified() ? yes : no))));
 					});
 				}
 			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_FAIL));
+				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
 				getLogger().logException(e);
 			}
 		});

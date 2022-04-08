@@ -81,6 +81,7 @@ command:
         identifier: "Identifier: <identifier>"
         username: "Username: <username>"
         linked-date: "Linked date: <linked_date>"
+        verified: "Verified: <is_verified>"
 
 join-not-registered: "You do not have an account on our website yet. Please register using /register."
 website-announcement: "Website announcement: <message>"
