@@ -110,7 +110,7 @@ public class SpigotDataSender extends AbstractDataSender {
 		this.registerPlayerInfoProvider((json, player) -> {
 			final Player bukkitPlayer = Bukkit.getPlayer(player.getUniqueId());
 			json.addProperty("playtime", bukkitPlayer.getStatistic(finalPlayStat) / 120);
-			json.addProperty("ip", bukkitPlayer.getAddress().getHostName());
+			json.addProperty("ip", bukkitPlayer.getAddress().toString());
 			json.addProperty("login-time", NamelessPluginSpigot.LOGIN_TIME.get(player.getUniqueId()));
 		});
 
