@@ -39,6 +39,7 @@ public class NamelessPluginSponge {
 		);
 		this.plugin.setAudienceProvider(new SpongeAudienceProvider(audiences, game.getServer()));
 		this.plugin.registerReloadable(new SpongeCommandProxy(this.plugin));
+		this.plugin.registerReloadable(new SpongeDataSender(this.plugin));
 	}
 
 	@Listener

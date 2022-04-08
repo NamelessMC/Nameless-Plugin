@@ -39,6 +39,7 @@ public class NamelessPluginVelocity {
 		);
 		this.plugin.setAudienceProvider(new VelocityAudienceProvider(server));
 		this.plugin.registerReloadable(new VelocityCommandProxy(this.plugin, server));
+		this.plugin.registerReloadable(new VelocityDataSender(this.plugin));
 	}
 
 	@Subscribe
