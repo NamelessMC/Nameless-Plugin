@@ -1,6 +1,7 @@
 package com.namelessmc.plugin.spigot;
 
 import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.NamelessCommandSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.CommonCommand;
@@ -8,6 +9,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 
@@ -42,9 +44,14 @@ public class SpigotCommandProxy implements Reloadable {
 			final Component noPermissionMessage = this.plugin.language().getComponent(LanguageHandler.Term.COMMAND_NO_PERMISSION);
 			Command spigotCommand = new Command(name, usage, description, Collections.emptyList()) {
 				@Override
-				public boolean execute(final CommandSender nativeSender, final String commandLabel, final String[] args) {
-					SpigotCommandSender sender = new SpigotCommandSender(plugin.audiences(), nativeSender);
-					if (!nativeSender.hasPermission(permission)) {
+				public boolean execute(final CommandSender spigotSender, final String commandLabel, final String[] args) {
+					final NamelessCommandSender sender;
+					if (spigotSender instanceof Player) {
+						sender = plugin.audiences().player(((Player) spigotSender).getUniqueId());
+					} else {
+						sender = plugin.audiences().console();
+					}
+					if (!spigotSender.hasPermission(permission)) {
 						sender.sendMessage(noPermissionMessage);
 						return true;
 					}

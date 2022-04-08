@@ -1,10 +1,13 @@
 package com.namelessmc.plugin.bungee;
 
+import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.NamelessCommandSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
@@ -32,10 +35,20 @@ public class BungeeCommandProxy implements Reloadable {
 
 			Command bungeeCommand = new Command(name, permission) {
 				@Override
-				public void execute(final CommandSender commandSender, final String[] args) {
-					final BungeeCommandSender bungeeCommandSender =
-							new BungeeCommandSender(plugin.audiences(), commandSender);
-					command.execute(bungeeCommandSender, args);
+				public void execute(final CommandSender bungeeSender, final String[] args) {
+					final NamelessCommandSender sender;
+					if (bungeeSender instanceof ProxiedPlayer) {
+						sender = plugin.audiences().player(((ProxiedPlayer) bungeeSender).getUniqueId());
+					} else {
+						sender = plugin.audiences().console();
+					}
+
+					if (!bungeeSender.hasPermission(permission)) {
+						sender.sendMessage(plugin.language().getComponent(LanguageHandler.Term.COMMAND_NO_PERMISSION));
+						return;
+					}
+
+					command.execute(sender, args);
 				}
 			};
 

@@ -6,9 +6,8 @@ import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.AlreadyHasOpenReportException;
 import com.namelessmc.java_api.exception.CannotReportSelfException;
 import com.namelessmc.java_api.exception.ReportUserBannedException;
+import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
-import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.Permission;
 import org.jetbrains.annotations.NotNull;
 import xyz.derkades.derkutils.bukkit.UUIDFetcher;
 
@@ -33,7 +32,7 @@ public class ReportCommand extends CommonCommand {
 			return;
 		}
 
-		if (!sender.isPlayer()) {
+		if (sender instanceof NamelessConsole) {
 			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
 			return;
 		}
@@ -49,7 +48,7 @@ public class ReportCommand extends CommonCommand {
 			try {
 				final String targetUsername = args[0];
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-				final Optional<NamelessUser> optUser = this.getApiProvider().userFromPlayer(api, sender.getUniqueId(),sender.getName());
+				final Optional<NamelessUser> optUser = this.getApiProvider().userFromPlayer(api, (NamelessPlayer) sender);
 				if (optUser.isEmpty()) {
 					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOTREGISTERED));
 					return;

@@ -1,6 +1,7 @@
 package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.NamelessCommandSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import org.jetbrains.annotations.NotNull;

@@ -6,6 +6,8 @@ import com.namelessmc.java_api.exception.*;
 import com.namelessmc.java_api.integrations.IntegrationData;
 import com.namelessmc.java_api.integrations.MinecraftIntegrationData;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.common.NamelessCommandSender;
+import com.namelessmc.plugin.common.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import org.jetbrains.annotations.NotNull;
@@ -43,8 +45,9 @@ public class RegisterCommand extends CommonCommand {
 
 			try {
 				Optional<String> link;
-				if (sender.isPlayer()) {
-					IntegrationData integrationData = new MinecraftIntegrationData(sender.getUniqueId(), sender.getName());
+				if (sender instanceof NamelessPlayer) {
+					final NamelessPlayer player = (NamelessPlayer) sender;
+					IntegrationData integrationData = new MinecraftIntegrationData(player.getUniqueId(), player.getUsername());
 					link = api.registerUser(username, email, integrationData);
 				} else {
 					link = api.registerUser(username, email);

@@ -5,7 +5,6 @@ import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.config.Configuration;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.MalformedURLException;
@@ -148,8 +147,8 @@ public class ApiProvider implements Reloadable {
 		return usernames;
 	}
 
-	public Optional<NamelessUser> userFromPlayer(@NotNull NamelessAPI api, @NotNull Player player) throws NamelessException {
-		return this.useUsernames() ? api.getUser(player.getName()) : api.getUser(player.getUniqueId());
+	public Optional<NamelessUser> userFromPlayer(@NotNull NamelessAPI api, @NotNull NamelessPlayer player) throws NamelessException {
+		return this.useUsernames() ? api.getUser(player.getUsername()) : api.getUser(player.getUniqueId());
 	}
 
 	public Optional<NamelessUser> userFromPlayer(@NotNull NamelessAPI api, @NotNull UUID uuid, @NotNull String name) throws NamelessException {

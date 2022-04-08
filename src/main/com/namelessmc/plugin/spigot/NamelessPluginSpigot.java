@@ -1,6 +1,5 @@
 package com.namelessmc.plugin.spigot;
 
-import com.namelessmc.plugin.common.AudienceProviderAudienceProvider;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
 import com.namelessmc.plugin.spigot.event.PlayerBan;
@@ -9,7 +8,6 @@ import com.namelessmc.plugin.spigot.event.PlayerQuit;
 import com.namelessmc.plugin.spigot.hooks.*;
 import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -49,7 +47,7 @@ public class NamelessPluginSpigot extends JavaPlugin {
 				config -> new JulLogger(config, this.getLogger())
 		);
 		this.plugin.registerReloadable(new SpigotCommandProxy(this.plugin));
-		this.plugin.registerReloadable(new ServerDataSender(this, this.plugin));
+		this.plugin.registerReloadable(new SpigotDataSender(this.plugin, this));
 		this.plugin.registerReloadable(new UserSyncTask(this.plugin));
 		this.plugin.registerReloadable(new AnnouncementTask(this.plugin));
 		PapiHook.cacher = this.plugin.registerReloadable(
@@ -59,7 +57,7 @@ public class NamelessPluginSpigot extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		this.plugin.setAudienceProvider(new AudienceProviderAudienceProvider(BukkitAudiences.create(this)));
+		this.plugin.setAudienceProvider(new SpigotAudienceProvider(this));
 
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);

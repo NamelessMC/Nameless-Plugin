@@ -4,9 +4,8 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.Notification;
+import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
-import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.Permission;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class GetNotificationsCommand extends CommonCommand {
 			return;
 		}
 
-		if (!sender.isPlayer()) {
+		if (sender instanceof NamelessConsole) {
 			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
 			return;
 		}
@@ -43,7 +42,7 @@ public class GetNotificationsCommand extends CommonCommand {
 			final NamelessAPI api = optApi.get();
 
 			try {
-				final Optional<NamelessUser> optional = this.getApiProvider().userFromPlayer(api, sender.getUniqueId(),sender.getName());
+				final Optional<NamelessUser> optional = this.getApiProvider().userFromPlayer(api, (NamelessPlayer) sender);
 
 				if (optional.isEmpty()) {
 					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOTREGISTERED));

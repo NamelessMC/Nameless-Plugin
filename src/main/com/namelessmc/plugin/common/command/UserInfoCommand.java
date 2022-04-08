@@ -2,9 +2,8 @@ package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.integrations.DetailedIntegrationData;
+import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
-import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.Permission;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,13 +24,13 @@ public class UserInfoCommand extends CommonCommand {
 	@Override
 	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
 		if (args.length == 0) {
-			if (!sender.isPlayer()) {
+			if (sender instanceof NamelessConsole) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTAPLAYER));
 				return;
 			}
 
 			// Player itself as first argument
-			execute(sender, new String[] { sender.getName() });
+			execute(sender, new String[] { ((NamelessPlayer) sender).getUsername() });
 			return;
 		}
 

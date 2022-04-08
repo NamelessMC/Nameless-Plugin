@@ -1,10 +1,7 @@
 package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.plugin.common.ApiProvider;
-import com.namelessmc.plugin.common.LanguageHandler;
-import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.Permission;
+import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.config.Configuration;

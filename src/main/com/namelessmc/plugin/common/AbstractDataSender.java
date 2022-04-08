@@ -1,27 +1,33 @@
-package com.namelessmc.plugin.bungee;
+package com.namelessmc.plugin.common;
 
 import com.google.gson.JsonObject;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.config.Configuration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ServerDataSender implements Runnable, Reloadable {
+public abstract class AbstractDataSender implements Runnable, Reloadable {
 
 	private final @NotNull NamelessPlugin plugin;
-	private @Nullable AbstractScheduledTask dataSenderTask;
+	private final @NotNull List<InfoProvider> globalInfoProviders = new ArrayList<>();
+	private final @NotNull List<PlayerInfoProvider> playerInfoProviders = new ArrayList<>();
 
-	ServerDataSender(final @NotNull NamelessPlugin plugin) {
+	private @Nullable AbstractScheduledTask dataSenderTask;
+	private int serverId;
+
+	protected AbstractDataSender(final @NotNull NamelessPlugin plugin) {
 		this.plugin = plugin;
+	}
+
+	public boolean isEnabled() {
+		return this.dataSenderTask != null; // for bStats
 	}
 
 	@Override
@@ -33,8 +39,8 @@ public class ServerDataSender implements Runnable, Reloadable {
 
 		final Configuration config = this.plugin.config().getMainConfig();
 
-		final int serverId = config.getInt("server-data-sender.server-id");
-		if (serverId > 0) {
+		this.serverId = config.getInt("server-data-sender.server-id");
+		if (this.serverId > 0) {
 			final String intervalStr = config.getString("server-data-sender.interval");
 			Duration interval = Duration.parse(intervalStr);
 			this.dataSenderTask = this.plugin.scheduler().runTimer(this, interval);
@@ -43,33 +49,36 @@ public class ServerDataSender implements Runnable, Reloadable {
 
 	@Override
 	public void run() {
-		final Configuration config = this.plugin.config().getMainConfig();
-		final AbstractLogger logger = this.plugin.logger();
-
-		final int serverId = config.getInt("server-id");
-
 		final JsonObject data = new JsonObject();
+		data.addProperty("server-id", this.serverId);
+
 		data.addProperty("time", System.currentTimeMillis());
 		data.addProperty("free-memory", Runtime.getRuntime().freeMemory());
 		data.addProperty("max-memory", Runtime.getRuntime().maxMemory());
 		data.addProperty("allocated-memory", Runtime.getRuntime().totalMemory());
-		data.addProperty("server-id", serverId);
+
+		for (InfoProvider infoProvider : this.globalInfoProviders) {
+			infoProvider.addInfoToJson(data);
+		}
 
 		final JsonObject players = new JsonObject();
 
-		for (final ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-			final JsonObject playerInfo = new JsonObject();
+		for (final NamelessPlayer player : this.plugin.audiences().onlinePlayers()) {
+			JsonObject playerJson = new JsonObject();
+			playerJson.addProperty("name", player.getUsername());
 
-			playerInfo.addProperty("name", player.getName());
-			playerInfo.addProperty("address", player.getSocketAddress().toString());
+			for (PlayerInfoProvider infoProvider : this.playerInfoProviders) {
+				infoProvider.addInfoToJson(playerJson, player);
+			}
 
-			players.add(player.getUniqueId().toString().replace("-", ""), playerInfo);
+			players.add(player.getUniqueId().toString(), playerJson);
 		}
 
 		data.add("players", players);
 
-		this.plugin.scheduler().runAsync(() ->
+		this.plugin.scheduler().runAsync(() -> {
 			this.plugin.api().getNamelessApi().ifPresent((api) -> {
+				final AbstractLogger logger = this.plugin.logger();
 				try {
 					api.submitServerInfo(data);
 				} catch (final ApiError e) {
@@ -81,8 +90,30 @@ public class ServerDataSender implements Runnable, Reloadable {
 				} catch (final NamelessException e) {
 					logger.logException(e);
 				}
-			})
-		);
+			});
+		});
+	}
+
+	protected void registerGlobalInfoProvider(InfoProvider globalInfoProvider) {
+		this.globalInfoProviders.add(globalInfoProvider);
+	}
+
+	protected void registerPlayerInfoProvider(PlayerInfoProvider playerInfoProvider) {
+		this.playerInfoProviders.add(playerInfoProvider);
+	}
+
+	@FunctionalInterface
+	public interface InfoProvider {
+
+		void addInfoToJson(final @NotNull JsonObject json);
+
+	}
+
+	@FunctionalInterface
+	public interface PlayerInfoProvider {
+
+		void addInfoToJson(final @NotNull JsonObject json, final @NotNull NamelessPlayer player);
+
 	}
 
 }

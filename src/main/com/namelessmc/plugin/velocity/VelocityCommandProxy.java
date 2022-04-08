@@ -1,10 +1,11 @@
 package com.namelessmc.plugin.velocity;
 
-import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.Reloadable;
+import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import com.velocitypowered.api.command.Command;
+import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,8 +34,16 @@ public class VelocityCommandProxy implements Reloadable {
 			final String permission = command.getPermission().toString();
 			Command velocityCommand = new SimpleCommand() {
 				@Override
-				public void execute(Invocation invocation) {
-					command.execute(new VelocityCommandSender(plugin.audiences(), invocation.source()), invocation.arguments());
+				public void execute(final Invocation invocation) {
+					final CommandSource source = invocation.source();
+					final NamelessCommandSender namelessSender;
+					if (source instanceof Player) {
+						final Player player = (Player) source;
+						namelessSender = new NamelessPlayer(source, player.getUniqueId(), player.getUsername());
+					} else {
+						namelessSender = new NamelessConsole(source);
+					}
+					command.execute(namelessSender, invocation.arguments());
 				}
 
 				@Override

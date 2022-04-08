@@ -72,9 +72,9 @@ public class PlaceholderCacher implements Listener, Reloadable {
 		}
 	}
 
-	private void updateCache(NamelessAPI api, Player player) {
+	private void updateCache(final @NotNull NamelessAPI api, final @NotNull Player player) {
 		try {
-			final Optional<NamelessUser> user = this.plugin.api().userFromPlayer(api, player);
+			final Optional<NamelessUser> user = this.plugin.api().userFromPlayer(api, player.getUniqueId(), player.getName());
 			if (user.isEmpty()) {
 				return;
 			}
@@ -86,7 +86,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void onJoin(PlayerQuitEvent event) {
+	public void onJoin(final PlayerQuitEvent event) {
 		this.cachedNotificationCount.remove(event.getPlayer().getUniqueId());
 
 		final Optional<NamelessAPI> optApi = this.plugin.api().getNamelessApi();
@@ -94,7 +94,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void onQuit(PlayerQuitEvent event) {
+	public void onQuit(final PlayerQuitEvent event) {
 		this.cachedNotificationCount.remove(event.getPlayer().getUniqueId());
 	}
 
@@ -103,7 +103,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 		HandlerList.unregisterAll(this);
 	}
 
-	public int getNotificationCount(@NotNull OfflinePlayer player) {
+	public int getNotificationCount(final @NotNull OfflinePlayer player) {
 		Integer count = this.cachedNotificationCount.get(player.getUniqueId());
 		return count != null ? count : -1;
 	}

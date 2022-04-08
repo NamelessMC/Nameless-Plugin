@@ -2,13 +2,13 @@ package com.namelessmc.plugin.sponge;
 
 import com.google.inject.Inject;
 import com.namelessmc.plugin.MavenConstants;
-import com.namelessmc.plugin.common.AudienceProviderAudienceProvider;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.Slf4jLogger;
 import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
 import org.bstats.sponge.Metrics;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
+import org.spongepowered.api.Game;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
@@ -29,14 +29,15 @@ public class NamelessPluginSponge {
 	public NamelessPluginSponge(final @NotNull SpongeAudiences audiences,
 								final @NotNull @ConfigDir(sharedRoot = false) Path dataDirectory,
 								final @NotNull Logger logger,
-								final @NotNull Metrics.Factory metricsFactory) {
+								final @NotNull Metrics.Factory metricsFactory,
+								final @NotNull Game game) {
 		this.metricsFactory = metricsFactory;
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new SpongeScheduler(this),
 				config -> new Slf4jLogger(config, logger)
 		);
-		this.plugin.setAudienceProvider(new AudienceProviderAudienceProvider(audiences));
+		this.plugin.setAudienceProvider(new SpongeAudienceProvider(audiences, game.getServer()));
 		this.plugin.registerReloadable(new SpongeCommandProxy(this.plugin));
 	}
 
