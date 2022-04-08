@@ -1,5 +1,6 @@
 error:
   website-username-not-exist: "No website user exists with this username"
+  website-connection: "An error occurred while trying to connect to the website."
 
 player:
   other:
@@ -19,7 +20,6 @@ command:
     output:
       no-notifications: "You do not have any unread notifications."
       notification: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\"><message>"
-      fail: "An error occurred while trying to retrieve a list of notifications. Please notify the server administrator about this issue."
 
   plugin:
     usage: "/<command> \\<reload|rl>"
@@ -35,7 +35,6 @@ command:
         email: "Please check your inbox to complete registration."
         link: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\">Please complete registration by going to <url>."
       fail:
-        generic: "An error occurred while trying to register. Please notify the server administrator about this issue."
         username-used: "Your username is already used."
         email-used: "This email address is already used for a different user account."
         minercaft-used: "Your Minecraft account is already linked to a different website user."
@@ -49,7 +48,6 @@ command:
     output:
       success: "Thank you for reporting this player."
       fail:
-        generic: "An error occurred while trying to report this player. Please notify the server administrator about this issue."
         already-open: "You cannot report this player, you already have an open report for them."
         report-self: "You cannot report yourself."
 
@@ -61,7 +59,6 @@ command:
       fail:
         invalid-code: "Your validation code is incorrect. Please check if you copied it correctly and try again."
         already-validated: "Your account is already validated."
-        generic: "An unknown error occurred while trying to submit a validation code."
 
   user-info:
     usage: "/<command> [username]"
@@ -84,7 +81,6 @@ command:
         identifier: "Identifier: <identifier>"
         username: "Username: <username>"
         linked-date: "Linked date: <linked_date>"
-      fail: "An unknown error occurred while trying to retrieve player information."
 
 join-not-registered: "You do not have an account on our website yet. Please register using /register."
 website-announcement: "Website announcement: <message>"

@@ -36,7 +36,7 @@ public class GetNotificationsCommand extends CommonCommand {
 		getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
 			if (optApi.isEmpty()) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
+				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
 				return;
 			}
 			final NamelessAPI api = optApi.get();
@@ -68,7 +68,7 @@ public class GetNotificationsCommand extends CommonCommand {
 					});
 				});
 			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
+				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
 				getLogger().logException(e);
 			}
 		});

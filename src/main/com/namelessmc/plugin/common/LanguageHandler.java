@@ -26,6 +26,7 @@ public class LanguageHandler implements Reloadable {
 	public enum Term {
 
 		ERROR_WEBSITE_USERNAME_NOT_EXIST("error.website-username-not-exist"),
+		ERROR_WEBSITE_CONNECTION("error.website-connection"),
 
 		PLAYER_OTHER_NOT_FOUND("player.other.not-found"),
 		PLAYER_OTHER_NOT_REGISTERED("player.other.not-registered"),
@@ -39,7 +40,6 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_NOTIFICATIONS_DESCRIPTION("command.notifications.description"),
 		COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS("command.notifications.output.no-notifications"),
 		COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION("command.notifications.output.notification"),
-		COMMAND_NOTIFICATIONS_OUTPUT_FAIL("command.notifications.output.fail"),
 
 		COMMAND_PLUGIN_USAGE("command.plugin.usage"),
 		COMMAND_PLUGIN_DESCRIPTION("command.plugin.description"),
@@ -49,7 +49,6 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_REGISTER_DESCRIPTION("command.register.description"),
 		COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL("command.register.output.success.email"),
 		COMMAND_REGISTER_OUTPUT_SUCCESS_LINK("command.register.output.success.link"),
-		COMMAND_REGISTER_OUTPUT_FAIL_GENERIC("command.register.output.fail.generic"),
 		COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_USED("command.register.output.fail.username-used"),
 		COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_USED("command.register.output.fail.email-used"),
 		COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED("command.register.output.fail.minecraft-used"),
@@ -60,7 +59,6 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_REPORT_USAGE("command.report.usage"),
 		COMMAND_REPORT_DESCRIPTION("command.report.description"),
 		COMMAND_REPORT_OUTPUT_SUCCESS("command.report.output.success"),
-		COMMAND_REPORT_OUTPUT_FAIL_GENERIC("command.report.output.fail.generic"),
 		COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN("command.report.output.fail.already-open"),
 		COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF("command.report.output.fail.report-self"),
 
@@ -69,7 +67,6 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_VALIDATE_OUTPUT_SUCCESS("command.validate.output.success"),
 		COMMAND_VALIDATE_OUTPUT_FAIL_INVALID_CODE("command.validate.output.fail.invalid-code"),
 		COMMAND_VALIDATE_OUTPUT_FAIL_ALREADY_VALIDATED("command.validate.output.fail.already-validated"),
-		COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC("command.validate.output.fail.generic"),
 
 		COMMAND_USERINFO_USAGE("command.user-info.usage"),
 		COMMAND_USERINFO_DESCRIPTION("command.user-info.description"),
@@ -87,7 +84,6 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_IDENTIFIER("command.user-info.output.integrations.identifier"),
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME("command.user-info.output.integrations.username"),
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE("command.user-info.output.integrations.linked-date"),
-		COMMAND_USERINFO_OUTPUT_FAIL("command.user-info.output.fail"),
 
 		JOIN_NOT_REGISTERED("join-not-registered"),
 		WEBSITE_ANNOUNCEMENT("website-announcement"),
@@ -206,6 +202,10 @@ public class LanguageHandler implements Reloadable {
 		for (int i = 0; i < placeholders.length; i+=2) {
 			resolvers[i / 2] = Placeholder.parsed(placeholders[i], placeholders[i+1]);
 		}
+		return MiniMessage.miniMessage().deserialize(getRawMessage(term), resolvers);
+	}
+
+	public Component getComponent(final Term term, TagResolver... resolvers) {
 		return MiniMessage.miniMessage().deserialize(getRawMessage(term), resolvers);
 	}
 

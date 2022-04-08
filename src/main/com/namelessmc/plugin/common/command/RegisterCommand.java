@@ -37,7 +37,7 @@ public class RegisterCommand extends CommonCommand {
 		this.getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
 			if (optApi.isEmpty()) {
-				sender.sendMessage(this.getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));
+				sender.sendMessage(this.getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
 				return;
 			}
 
@@ -71,7 +71,7 @@ public class RegisterCommand extends CommonCommand {
 			} catch (final IntegrationIdAlreadyExistsException | IntegrationUsernameAlreadyExistsException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED));
 			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_GENERIC));
+				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
 				getLogger().logException(e);
 			}
 		});

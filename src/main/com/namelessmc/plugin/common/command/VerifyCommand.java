@@ -36,7 +36,7 @@ public class VerifyCommand extends CommonCommand {
 		this.getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
 			if (optApi.isEmpty()) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_FAIL));
+				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
 				return;
 			}
 			final NamelessAPI api = optApi.get();
@@ -50,7 +50,7 @@ public class VerifyCommand extends CommonCommand {
 			} catch (final InvalidValidateCodeException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_INVALID_CODE));
 			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_GENERIC));
+				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
 				getLogger().logException(e);
 			}
 		});

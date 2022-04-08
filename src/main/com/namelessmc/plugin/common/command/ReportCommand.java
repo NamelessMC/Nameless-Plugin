@@ -40,7 +40,7 @@ public class ReportCommand extends CommonCommand {
 		getScheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.getApi();
 			if (optApi.isEmpty()) {
-				sender.sendMessage(this.getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
+				sender.sendMessage(this.getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
 				return;
 			}
 			final NamelessAPI api = optApi.get();
@@ -79,7 +79,7 @@ public class ReportCommand extends CommonCommand {
 			} catch (final CannotReportSelfException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF));
 			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_FAIL_GENERIC));
+				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
 				getLogger().logException(e);
 			}
 		});
