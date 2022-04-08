@@ -86,3 +86,5 @@ command:
 join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。
 website-announcement: 'ウェブサイトのお知らせ: <message>'
 user-sync-kick: ウェブサイトのアカウントBANによって、私たちのサーバーからBANされています。
+error:
+  website-username-not-exist: このユーザー名のウェブサイトユーザーが存在しません
