@@ -6,14 +6,12 @@ import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.AlreadyHasOpenReportException;
 import com.namelessmc.java_api.exception.CannotReportSelfException;
 import com.namelessmc.java_api.exception.ReportUserBannedException;
-import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
+import com.namelessmc.plugin.common.*;
 import org.jetbrains.annotations.NotNull;
-import xyz.derkades.derkutils.bukkit.UUIDFetcher;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.UUID;
 
 public class ReportCommand extends CommonCommand {
 
@@ -47,31 +45,22 @@ public class ReportCommand extends CommonCommand {
 
 			try {
 				final String targetUsername = args[0];
+				final NamelessPlayer target = this.getPlugin().audiences().playerByUsername(targetUsername);
+				if (target == null) {
+					sender.sendMessage(getLanguage().getComponent(Term.ERROR_USERNAME_NOT_ONLINE));
+					return;
+				}
+
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-				final Optional<NamelessUser> optUser = this.getApiProvider().userFromPlayer(api, (NamelessPlayer) sender);
+				final Optional<NamelessUser> optUser = api.getUser(((NamelessPlayer) sender).getUniqueId());
 				if (optUser.isEmpty()) {
 					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOT_REGISTERED));
 					return;
 				}
 
 				final NamelessUser user = optUser.get();
-
-				if (this.getApiProvider().useUsernames()) {
-					final Optional<NamelessUser> optTargetUser = api.getUser(targetUsername);
-					if (optTargetUser.isPresent()) {
-						user.createReport(optTargetUser.get(), reason);
-					} else {
-						sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOT_REGISTERED));
-					}
-				} else {
-					UUID targetUuid = UUIDFetcher.getUUID(targetUsername);
-					if (targetUuid == null) {
-						sender.sendMessage(getLanguage().getComponent(Term.PLAYER_OTHER_NOT_FOUND));
-					} else {
-						user.createReport(targetUuid, targetUsername, reason);
-						sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
-					}
-				}
+				user.createReport(target.getUniqueId(), target.getUsername(), reason);
+				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
 			} catch (final ReportUserBannedException e) {
 				sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_COMMAND_BANNED));
 			} catch (final AlreadyHasOpenReportException e) {
