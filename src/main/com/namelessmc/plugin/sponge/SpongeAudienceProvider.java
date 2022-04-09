@@ -36,14 +36,22 @@ public class SpongeAudienceProvider extends AbstractAudienceProvider {
 		return this.audiences.all();
 	}
 
-	@Override
-	public @Nullable NamelessPlayer player(@NotNull UUID uuid) {
-		final Optional<Player> optional = this.server.getPlayer(uuid);
-		if (optional.isPresent()) {
-			final Player player = optional.get();
+	private @Nullable NamelessPlayer spongeToNamelessPlayer(final Optional<Player> optionalPlayer) {
+		if (optionalPlayer.isPresent()) {
+			final Player player = optionalPlayer.get();
 			return new NamelessPlayer(this.audiences.player(player), player.getUniqueId(), player.getName());
 		}
 		return null;
+	}
+
+	@Override
+	public @Nullable NamelessPlayer player(@NotNull UUID uuid) {
+		return spongeToNamelessPlayer(this.server.getPlayer(uuid));
+	}
+
+	@Override
+	public @Nullable NamelessPlayer playerByUsername(@NotNull String username) {
+		return spongeToNamelessPlayer(this.server.getPlayer(username));
 	}
 
 	@Override

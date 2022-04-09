@@ -53,13 +53,12 @@ public class AnnouncementTask implements Runnable, Reloadable {
 			Duration delay = Duration.ZERO;
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				UUID uuid = player.getUniqueId();
-				String name = player.getName();
 				// add delay so requests are spread out a bit
 				this.plugin.scheduler().runDelayed(() -> {
 					this.plugin.scheduler().runAsync(() -> {
 						List<Announcement> announcements;
 						try {
-							Optional<NamelessUser> optUser = apiProvider.userFromPlayer(api, uuid, name);
+							Optional<NamelessUser> optUser = api.getUser(uuid);
 							if (optUser.isPresent()) {
 								announcements = optUser.get().getAnnouncements();
 							} else {

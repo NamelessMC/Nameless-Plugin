@@ -33,13 +33,20 @@ public class BungeeAudienceProvider extends AbstractAudienceProvider {
 		return audiences.all();
 	}
 
+	public @Nullable NamelessPlayer bungeeToNamelessPlayer(final ProxiedPlayer bungeePlayer) {
+		return bungeePlayer == null
+				? null
+				: new NamelessPlayer(this.audiences.player(bungeePlayer), bungeePlayer.getUniqueId(), bungeePlayer.getName());
+	}
+
 	@Override
 	public @Nullable NamelessPlayer player(@NotNull UUID uuid) {
-		final ProxiedPlayer player = ProxyServer.getInstance().getPlayer(uuid);
-		if (player == null) {
-			return null;
-		}
-		return new NamelessPlayer(this.audiences.player(player), player.getUniqueId(), player.getName());
+		return bungeeToNamelessPlayer(ProxyServer.getInstance().getPlayer(uuid));
+	}
+
+	@Override
+	public @Nullable NamelessPlayer playerByUsername(@NotNull String username) {
+		return bungeeToNamelessPlayer(ProxyServer.getInstance().getPlayer(username));
 	}
 
 	@Override

@@ -27,21 +27,30 @@ public class VelocityAudienceProvider extends AbstractAudienceProvider {
 
 	@Override
 	public @NotNull Audience broadcast() {
-		List<Audience> everyone = new ArrayList<>();
-		everyone.addAll(server.getAllPlayers());
+		final Collection<Player> players = server.getAllPlayers();
+		final List<Audience> everyone = new ArrayList<>(players.size() + 1);
+		everyone.addAll(players);
 		everyone.add(server.getConsoleCommandSource());
 		return Audience.audience(everyone);
 	}
 
-	@Override
-	public @Nullable NamelessPlayer player(final @NotNull UUID uuid) {
-		final Optional<Player> optionalPlayer = server.getPlayer(uuid);
+	private @Nullable NamelessPlayer velocityToNamelessPlayer(final Optional<Player> optionalPlayer) {
 		if (optionalPlayer.isEmpty()) {
 			return null;
 		}
 
 		Player player = optionalPlayer.get();
 		return new NamelessPlayer(player, player.getUniqueId(), player.getUsername());
+	}
+
+	@Override
+	public @Nullable NamelessPlayer player(final @NotNull UUID uuid) {
+		return velocityToNamelessPlayer(server.getPlayer(uuid));
+	}
+
+	@Override
+	public @Nullable NamelessPlayer playerByUsername(@NotNull String username) {
+		return velocityToNamelessPlayer(server.getPlayer(username));
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class GetNotificationsCommand extends CommonCommand {
 			final NamelessAPI api = optApi.get();
 
 			try {
-				final Optional<NamelessUser> optional = this.getApiProvider().userFromPlayer(api, (NamelessPlayer) sender);
+				final Optional<NamelessUser> optional = api.getUser(((NamelessPlayer) sender).getUniqueId());
 
 				if (optional.isEmpty()) {
 					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOT_REGISTERED));

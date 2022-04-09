@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.Consumer;
@@ -86,22 +85,12 @@ public class UserSyncTask implements Runnable, Reloadable {
 		final Set<String> excludes = new HashSet<>(config.getStringList("user-sync.exclude"));
 		for (final NamelessUser user : users) {
 			try {
-				if (this.plugin.api().useUsernames()) {
-					String name = user.getUsername();
-					if (!excludes.contains(name)) {
-						UUID offlineUuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
-						uuids.add(offlineUuid);
-					} else if (doLog) {
-						logger.info("Ignoring user " + name);
-					}
-				} else {
-					UUID uuid = user.getMinecraftUuid().orElseThrow(
-							() -> new IllegalStateException("User does not have UUID even though we specifically requested users with Minecraft integration"));
-					if (!excludes.contains(uuid.toString())) {
-						uuids.add(uuid);
-					} else if (doLog) {
-						logger.info("Ignoring user " + uuid);
-					}
+				UUID uuid = user.getMinecraftUuid().orElseThrow(
+						() -> new IllegalStateException("User does not have UUID even though we specifically requested users with Minecraft integration"));
+				if (!excludes.contains(uuid.toString())) {
+					uuids.add(uuid);
+				} else if (doLog) {
+					logger.info("Ignoring user " + uuid);
 				}
 			} catch (final NamelessException e) {
 				throw new IllegalStateException("Getting a user uuid should never fail with a network error, it is cached from the listUsers response", e);

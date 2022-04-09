@@ -74,7 +74,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 
 	private void updateCache(final @NotNull NamelessAPI api, final @NotNull Player player) {
 		try {
-			final Optional<NamelessUser> user = this.plugin.api().userFromPlayer(api, player.getUniqueId(), player.getName());
+			final Optional<NamelessUser> user = api.getUser(player.getUniqueId());
 			if (user.isEmpty()) {
 				return;
 			}

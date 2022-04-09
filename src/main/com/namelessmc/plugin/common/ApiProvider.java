@@ -12,7 +12,6 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 
 @SuppressWarnings("OptionalAssignedToNull")
 public class ApiProvider implements Reloadable {
@@ -28,7 +27,6 @@ public class ApiProvider implements Reloadable {
 	private String apiUrl;
 	private String apiKey;
 	private boolean debug;
-	private boolean usernames;
 	private Duration timeout;
 	private boolean bypassVersionCheck;
 
@@ -46,13 +44,8 @@ public class ApiProvider implements Reloadable {
 		this.apiUrl = config.getString("api.url");
 		this.apiKey = config.getString("api.key");
 		this.debug = config.getBoolean("api.debug", false);
-		this.usernames = config.getBoolean("api.usernames", false);
 		this.timeout = Duration.ofMillis(config.getInt("api.timeout", 5000));
 		this.bypassVersionCheck = config.getBoolean("api.bypass-version-check", false);
-
-		if (this.usernames) {
-			this.logger.warning("Username mode is enabled. This is NOT supported. If you do not run a cracked server, disable this option!");
-		}
 
 		this.cachedApi = null;
 
@@ -141,18 +134,6 @@ public class ApiProvider implements Reloadable {
 		}
 
 		return this.cachedApi;
-	}
-
-	public boolean useUsernames() {
-		return usernames;
-	}
-
-	public Optional<NamelessUser> userFromPlayer(@NotNull NamelessAPI api, @NotNull NamelessPlayer player) throws NamelessException {
-		return this.useUsernames() ? api.getUser(player.getUsername()) : api.getUser(player.getUniqueId());
-	}
-
-	public Optional<NamelessUser> userFromPlayer(@NotNull NamelessAPI api, @NotNull UUID uuid, @NotNull String name) throws NamelessException {
-		return this.useUsernames() ? api.getUser(name) : api.getUser(uuid);
 	}
 
 }

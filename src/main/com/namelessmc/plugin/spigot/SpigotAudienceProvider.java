@@ -32,13 +32,20 @@ public class SpigotAudienceProvider extends AbstractAudienceProvider {
 		return audiences.all();
 	}
 
+	public @Nullable NamelessPlayer bukkitToNamelessPlayer(final Player bukkitPlayer) {
+		return bukkitPlayer == null
+				? null
+				: new NamelessPlayer(this.audiences.player(bukkitPlayer), bukkitPlayer.getUniqueId(), bukkitPlayer.getName());
+	}
+
 	@Override
 	public @Nullable NamelessPlayer player(@NotNull UUID uuid) {
-		final Player bukkitPlayer = Bukkit.getPlayer(uuid);
-		if (bukkitPlayer == null) {
-			return null;
-		}
-		return new NamelessPlayer(this.audiences.player(uuid), uuid, bukkitPlayer.getName());
+		return bukkitToNamelessPlayer(Bukkit.getPlayer(uuid));
+	}
+
+	@Override
+	public @Nullable NamelessPlayer playerByUsername(@NotNull String username) {
+		return bukkitToNamelessPlayer(Bukkit.getPlayerExact(username));
 	}
 
 	@Override
