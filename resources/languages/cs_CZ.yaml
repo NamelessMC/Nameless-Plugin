@@ -69,6 +69,7 @@ command:
         header: 'Integrace:'
         username: 'Uživatelské jméno: <username>'
         linked-date: 'Datum propojení: <linked_date>'
+        verified: 'Ověřen: <is_verified>'
   subcommands:
     usage: '/{command} [podpříkaz] [argumenty..]'
     help-prefix: /{command}
@@ -94,3 +95,5 @@ website-announcement: 'Oznámení na webu: <message>'
 user-sync-kick: Jste zabanováni z tohoto serveru kvůli banu na webu.
 error:
   website-username-not-exist: Na webu neexistuje žádný uživatel s tímto jménem
+  website-connection: Při připojování se k webu se vyskytla chyba.
+  username-not-online: Zadané uživatelské jméno je neplatné nebo hráč není online.
