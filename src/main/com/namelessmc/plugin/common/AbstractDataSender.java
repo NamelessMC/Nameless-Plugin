@@ -5,6 +5,7 @@ import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
+import com.namelessmc.plugin.spigot.NamelessPluginSpigot;
 import net.md_5.bungee.config.Configuration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -66,6 +67,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		for (final NamelessPlayer player : this.plugin.audiences().onlinePlayers()) {
 			JsonObject playerJson = new JsonObject();
 			playerJson.addProperty("name", player.getUsername());
+			data.addProperty("login-time", plugin.getLoginTime(player));
 
 			for (PlayerInfoProvider infoProvider : this.playerInfoProviders) {
 				infoProvider.addInfoToJson(playerJson, player);

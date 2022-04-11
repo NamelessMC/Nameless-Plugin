@@ -1,7 +1,5 @@
 package com.namelessmc.plugin.spigot.event;
 
-import com.namelessmc.plugin.spigot.NamelessPluginSpigot;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -14,11 +12,7 @@ public class PlayerLogin implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(final PlayerJoinEvent event) {
 //		final AbstractLogger logger = NamelessPluginSpigot.getInstance().getCommonLogger();
-		final Player player = event.getPlayer();
-//
-		NamelessPluginSpigot.LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
 	}
-		//
 //		final Configuration config = NamelessPluginSpigot.getInstance().getConfiguration().getMainConfig();
 //
 //		if (config.getBoolean("not-registered-join-message")) {

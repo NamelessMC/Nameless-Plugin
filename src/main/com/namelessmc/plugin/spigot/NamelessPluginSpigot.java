@@ -4,7 +4,6 @@ import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
 import com.namelessmc.plugin.spigot.event.PlayerBan;
 import com.namelessmc.plugin.spigot.event.PlayerLogin;
-import com.namelessmc.plugin.spigot.event.PlayerQuit;
 import com.namelessmc.plugin.spigot.hooks.*;
 import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
@@ -13,6 +12,10 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,13 +23,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class NamelessPluginSpigot extends JavaPlugin {
-
-	public static final Map<UUID, Long> LOGIN_TIME = new HashMap<>();
 
 	private Permission permissions;
 	public Permission getPermissions() { return this.permissions; }
@@ -81,13 +79,19 @@ public class NamelessPluginSpigot extends JavaPlugin {
 		initMetrics();
 
 		this.getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
-		this.getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerBan(), this);
 
-		// For reloads
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			LOGIN_TIME.put(player.getUniqueId(), System.currentTimeMillis());
-		}
+		this.getServer().getPluginManager().registerEvents(new Listener() {
+			@EventHandler
+			public void onJoin(final PlayerJoinEvent event) {
+				final Player player = event.getPlayer();
+				plugin.onJoin(plugin.audiences().player(player.getUniqueId()));
+			}
+			@EventHandler
+			public void onQuit(final PlayerQuitEvent event) {
+				plugin.onQuit(event.getPlayer().getUniqueId());
+			}
+		}, this);
 
 		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
 	}
