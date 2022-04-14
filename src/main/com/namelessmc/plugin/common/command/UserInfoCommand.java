@@ -90,12 +90,12 @@ public class UserInfoCommand extends CommonCommand {
 				if (!integrations.isEmpty()) {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_HEADER));
 					integrations.forEach((name, data) -> {
-						sender.sendMessage(Component.text("  " + name));
+						sender.sendMessage(Component.text("  " + name + ":"));
 						final Component indent = Component.text("    ");
 						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_IDENTIFIER,
 								"identifier", data.getIdentifier())));
 						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME,
-								"username", data.getIdentifier())));
+								"username", data.getUsername())));
 						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE,
 								"linked_date", this.getPlugin().dateFormatter().format(data.getLinkedDate()))));
 						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_VERIFIED,
