@@ -71,7 +71,7 @@ command:
       uuid-unknown: 'UUID: unknown'
       primary-group: 'Primary group: <groupname>'
       all-groups: 'All groups: <groups_names_list>'
-      registered-date: "Registered on <date>"
+      registered-date: "Registered on: <date>"
       validated: "Account validated: <validated>"
       banned: "Banned: <banned>"
       custom-field: "Custom field '<name>': <value>"
