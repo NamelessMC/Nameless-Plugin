@@ -101,7 +101,7 @@ public class UserInfoCommand extends CommonCommand {
 								"username", data.getIdentifier())));
 						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE,
 								"linked_date", this.getPlugin().dateFormatter().format(data.getLinkedDate()))));
-						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE,
+						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_VERIFIED,
 								Placeholder.component("is_verified", data.isVerified() ? yes : no))));
 					});
 				}
