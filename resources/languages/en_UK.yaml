@@ -11,6 +11,12 @@ player:
     not-registered: "You must register for an account to perform this action."
     command-banned: "You cannot run this command, you are banned from the website."
 
+boolean:
+  yes_positive: "<green>Yes</green>"
+  yes_negative: "<red>No</red>"
+  no_positive: "<green>No</green>"
+  no_negative: "<red>No</red>"
+
 command:
   not-a-player: "You must be a player to perform this command."
   no-permission: "You don't have permission to execute this command."
@@ -75,8 +81,6 @@ command:
       validated: "Account validated: <validated>"
       banned: "Banned: <banned>"
       custom-field: "Custom field '<name>': <value>"
-      'yes': "yes"
-      'no': "no"
       integrations:
         header: "Integrations:"
         identifier: "Identifier: <identifier>"

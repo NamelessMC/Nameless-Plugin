@@ -75,14 +75,11 @@ public class UserInfoCommand extends CommonCommand {
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_REGISTER_DATE,
 						"date", this.getPlugin().dateFormatter().format(user.getRegisteredDate())));
 
-				final Component yes = getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_YES);
-				final Component no = getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_NO);
-
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_VALIDATED,
-						Placeholder.component("validated", user.isVerified() ? yes : no)));
+						Placeholder.component("validated", getLanguage().getBooleanText(user.isVerified(), true))));
 
 				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_BANNED,
-						Placeholder.component("banned", user.isBanned() ? yes : no)));
+						Placeholder.component("banned", getLanguage().getBooleanText(user.isBanned(), false))));
 
 				for (CustomProfileFieldValue customField : user.getProfileFields()) {
 					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD,
@@ -102,7 +99,7 @@ public class UserInfoCommand extends CommonCommand {
 						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE,
 								"linked_date", this.getPlugin().dateFormatter().format(data.getLinkedDate()))));
 						sender.sendMessage(indent.append(getLanguage().getComponent(Term.COMMAND_USERINFO_OUTPUT_INTEGRATIONS_VERIFIED,
-								Placeholder.component("is_verified", data.isVerified() ? yes : no))));
+								Placeholder.component("is_verified", getLanguage().getBooleanText(data.isVerified(), true)))));
 					});
 				}
 			} catch (final NamelessException e) {

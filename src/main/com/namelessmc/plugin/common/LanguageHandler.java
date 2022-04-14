@@ -34,6 +34,11 @@ public class LanguageHandler implements Reloadable {
 		PLAYER_SELF_NOT_REGISTERED("player.self.not-registered"),
 		PLAYER_SELF_COMMAND_BANNED("player.self.command-banned"),
 
+		BOOLEAN_YES_POSTIVE("boolean.yes-positive"),
+		BOOLEAN_YES_NEGATIVE("boolean.yes-negative"),
+		BOOLEAN_NO_POSTIVE("boolean.no-positive"),
+		BOOLEAN_NO_NEGATIVE("boolean.no-negative"),
+
 		COMMAND_NOT_A_PLAYER("command.not-a-player"),
 		COMMAND_NO_PERMISSION("command.no-permission"),
 
@@ -79,8 +84,6 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_USERINFO_OUTPUT_VALIDATED("command.user-info.output.validated"),
 		COMMAND_USERINFO_OUTPUT_BANNED("command.user-info.output.banned"),
 		COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD("command.user-info.output.custom-field"),
-		COMMAND_USERINFO_OUTPUT_YES("command.user-info.output.yes"),
-		COMMAND_USERINFO_OUTPUT_NO("command.user-info.output.no"),
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_HEADER("command.user-info.output.integrations.header"),
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_IDENTIFIER("command.user-info.output.integrations.identifier"),
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME("command.user-info.output.integrations.username"),
@@ -104,7 +107,7 @@ public class LanguageHandler implements Reloadable {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 25;
+	private static final int VERSION = 26;
 
 	private static final Set<String> LANGUAGES = new HashSet<>();
 	static {
@@ -209,6 +212,22 @@ public class LanguageHandler implements Reloadable {
 
 	public Component getComponent(final Term term, TagResolver... resolvers) {
 		return MiniMessage.miniMessage().deserialize(getRawMessage(term), resolvers);
+	}
+
+	public Component getBooleanText(final boolean isYes, final boolean yesIsPositive) {
+		if (isYes) {
+			if (yesIsPositive) {
+				return getComponent(Term.BOOLEAN_YES_POSTIVE);
+			} else {
+				return getComponent(Term.BOOLEAN_YES_NEGATIVE);
+			}
+		} else {
+			if (yesIsPositive) {
+				return getComponent(Term.BOOLEAN_NO_NEGATIVE);
+			} else {
+				return getComponent(Term.BOOLEAN_NO_POSTIVE);
+			}
+		}
 	}
 
 	private void updateFiles() throws IOException {
