@@ -20,11 +20,17 @@ import java.util.Objects;
 
 public class SpigotDataSender extends AbstractDataSender {
 
+	private final @NotNull NamelessPluginSpigot spigotPlugin;
+
 	protected SpigotDataSender(final @NotNull NamelessPlugin plugin,
 							   final @NotNull NamelessPluginSpigot spigotPlugin) {
 		super(plugin);
+		this.spigotPlugin = spigotPlugin;
+	}
 
-		final Configuration config = plugin.config().getMainConfig();
+	@Override
+	protected void registerCustomProviders() {
+		final Configuration config = this.getPlugin().config().getMainConfig();
 
 		// TPS TODO Send real TPS
 		this.registerGlobalInfoProvider(json ->
@@ -100,7 +106,7 @@ public class SpigotDataSender extends AbstractDataSender {
 				//noinspection JavaReflectionMemberAccess
 				playStat = (Statistic) Statistic.class.getField("PLAY_ONE_MINUTE").get(null);
 			} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException
-					| SecurityException e) {
+					 | SecurityException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -112,7 +118,6 @@ public class SpigotDataSender extends AbstractDataSender {
 			json.addProperty("playtime", bukkitPlayer.getStatistic(finalPlayStat) / 120);
 			json.addProperty("ip", bukkitPlayer.getAddress().toString());
 		});
-
 	}
 
 }

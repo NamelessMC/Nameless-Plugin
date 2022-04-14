@@ -10,4 +10,7 @@ public class VelocityDataSender extends AbstractDataSender {
 		super(plugin);
 	}
 
+	@Override
+	protected void registerCustomProviders() {}
+
 }

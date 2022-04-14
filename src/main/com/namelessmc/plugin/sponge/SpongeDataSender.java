@@ -10,4 +10,7 @@ public class SpongeDataSender extends AbstractDataSender {
 		super(plugin);
 	}
 
+	@Override
+	protected void registerCustomProviders() {}
+
 }

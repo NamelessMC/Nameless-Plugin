@@ -5,7 +5,6 @@ import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
-import com.namelessmc.plugin.spigot.NamelessPluginSpigot;
 import net.md_5.bungee.config.Configuration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,14 +16,17 @@ import java.util.List;
 public abstract class AbstractDataSender implements Runnable, Reloadable {
 
 	private final @NotNull NamelessPlugin plugin;
-	private final @NotNull List<InfoProvider> globalInfoProviders = new ArrayList<>();
-	private final @NotNull List<PlayerInfoProvider> playerInfoProviders = new ArrayList<>();
-
 	private @Nullable AbstractScheduledTask dataSenderTask;
+	private List<InfoProvider> globalInfoProviders;
+	private List<PlayerInfoProvider> playerInfoProviders;
 	private int serverId;
 
 	protected AbstractDataSender(final @NotNull NamelessPlugin plugin) {
 		this.plugin = plugin;
+	}
+
+	protected @NotNull NamelessPlugin getPlugin() {
+		return this.plugin;
 	}
 
 	public boolean isEnabled() {
@@ -34,6 +36,8 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 	@Override
 	public void reload() {
 		if (this.dataSenderTask != null) {
+			this.playerInfoProviders = null;
+			this.globalInfoProviders = null;
 			this.dataSenderTask.cancel();
 			this.dataSenderTask = null;
 		}
@@ -41,22 +45,26 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		final Configuration config = this.plugin.config().getMainConfig();
 
 		this.serverId = config.getInt("server-data-sender.server-id");
-		if (this.serverId > 0) {
-			final String intervalStr = config.getString("server-data-sender.interval");
-			Duration interval = Duration.parse(intervalStr);
-			this.dataSenderTask = this.plugin.scheduler().runTimer(this, interval);
+		if (this.serverId <= 0) {
+			return;
 		}
+
+		final String intervalStr = config.getString("server-data-sender.interval");
+		Duration interval = Duration.parse(intervalStr);
+		this.dataSenderTask = this.plugin.scheduler().runTimer(this, interval);
+
+		this.globalInfoProviders = new ArrayList<>();
+		this.playerInfoProviders = new ArrayList<>();
+		this.registerBaseProviders();
+		this.registerCustomProviders();
 	}
 
-	@Override
-	public void run() {
+	private @NotNull JsonObject buildJsonBody() {
 		final JsonObject data = new JsonObject();
 		data.addProperty("server-id", this.serverId);
 
 		data.addProperty("time", System.currentTimeMillis());
-		data.addProperty("free-memory", Runtime.getRuntime().freeMemory());
-		data.addProperty("max-memory", Runtime.getRuntime().maxMemory());
-		data.addProperty("allocated-memory", Runtime.getRuntime().totalMemory());
+
 
 		for (InfoProvider infoProvider : this.globalInfoProviders) {
 			infoProvider.addInfoToJson(data);
@@ -67,7 +75,6 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		for (final NamelessPlayer player : this.plugin.audiences().onlinePlayers()) {
 			JsonObject playerJson = new JsonObject();
 			playerJson.addProperty("name", player.getUsername());
-			data.addProperty("login-time", plugin.getLoginTime(player));
 
 			for (PlayerInfoProvider infoProvider : this.playerInfoProviders) {
 				infoProvider.addInfoToJson(playerJson, player);
@@ -77,6 +84,12 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		}
 
 		data.add("players", players);
+		return data;
+	}
+
+	@Override
+	public void run() {
+		final JsonObject data = buildJsonBody();
 
 		this.plugin.scheduler().runAsync(() -> {
 			this.plugin.api().getNamelessApi().ifPresent((api) -> {
@@ -102,6 +115,19 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 
 	protected void registerPlayerInfoProvider(PlayerInfoProvider playerInfoProvider) {
 		this.playerInfoProviders.add(playerInfoProvider);
+	}
+
+	protected abstract void registerCustomProviders();
+
+	private void registerBaseProviders() {
+		this.registerGlobalInfoProvider(json -> {
+			json.addProperty("free-memory", Runtime.getRuntime().freeMemory());
+			json.addProperty("max-memory", Runtime.getRuntime().maxMemory());
+			json.addProperty("allocated-memory", Runtime.getRuntime().totalMemory());
+		});
+
+		this.registerPlayerInfoProvider((json, player) ->
+				json.addProperty("login-time", plugin.getLoginTime(player)));
 	}
 
 	@FunctionalInterface

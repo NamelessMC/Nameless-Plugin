@@ -10,7 +10,10 @@ public class BungeeDataSender extends AbstractDataSender {
 
 	public BungeeDataSender(final @NotNull NamelessPlugin plugin) {
 		super(plugin);
+	}
 
+	@Override
+	protected void registerCustomProviders() {
 		this.registerPlayerInfoProvider((json, player) -> {
 			final ProxiedPlayer bungeePlayer = ProxyServer.getInstance().getPlayer(player.getUniqueId());
 			if (bungeePlayer == null) {
