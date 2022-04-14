@@ -180,9 +180,10 @@ public class LanguageHandler implements Reloadable {
 	}
 
 	public String getRawMessage(final Term term) {
-		String message = this.activeLanguageFile.getString(term.path);
+		String message = this.activeLanguageFile.getString(term.path, null);
 		if (message == null) {
-			message = this.fallbackLanguageFile.getString(term.path);
+			this.logger.warning("Message '" + term.path + "' missing from language file, using EnglishUK as fallback. Please help translate: https://translate.namelessmc.com");
+			message = this.fallbackLanguageFile.getString(term.path, null);
 		}
 		return Objects.requireNonNull(message,
 				"Message '" + term.path + "' missing from base language file. This is a bug, please report it.");
