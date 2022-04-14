@@ -44,7 +44,8 @@ public class NamelessPlugin {
 		this.language = this.registerReloadable(
 				new LanguageHandler(dataDirectory, this.configuration, this.logger)
 		);
-		this.dateFormatter = new DateFormatter(this.configuration);
+		this.dateFormatter = this.registerReloadable(
+				new DateFormatter(this.configuration));
 
 		this.registerReloadable(() -> {
 			// If the plugin is loaded when the server is already started (e.g. using /reload on bukkit), add
