@@ -13,7 +13,7 @@ player:
 
 boolean:
   yes_positive: "<green>Yes</green>"
-  yes_negative: "<red>No</red>"
+  yes_negative: "<red>Yes</red>"
   no_positive: "<green>No</green>"
   no_negative: "<red>No</red>"
 
