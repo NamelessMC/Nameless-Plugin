@@ -4,9 +4,6 @@ error:
   username-not-online: "The provided username is invalid or the player is not online."
 
 player:
-  other:
-    not-found: "This player could not be found."
-    not-registered: "This player is not registered on the website."
   self:
     not-registered: "You must register for an account to perform this action."
     command-banned: "You cannot run this command, you are banned from the website."

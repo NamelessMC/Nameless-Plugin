@@ -29,8 +29,6 @@ public class LanguageHandler implements Reloadable {
 		ERROR_WEBSITE_CONNECTION("error.website-connection"),
 		ERROR_USERNAME_NOT_ONLINE("error.username-not-online"),
 
-		PLAYER_OTHER_NOT_FOUND("player.other.not-found"),
-		PLAYER_OTHER_NOT_REGISTERED("player.other.not-registered"),
 		PLAYER_SELF_NOT_REGISTERED("player.self.not-registered"),
 		PLAYER_SELF_COMMAND_BANNED("player.self.command-banned"),
 
