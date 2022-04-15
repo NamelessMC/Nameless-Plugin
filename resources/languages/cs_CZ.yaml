@@ -54,7 +54,7 @@ command:
       username: 'Uživatelské jméno: <username>'
       displayname: 'Zobrazované jméno: <displayname>'
       uuid: 'UUID: <uuid>'
-      registered-date: Zaregistrován <date>
+      registered-date: 'Zaregistrován: <date>'
       validated: 'Účet ověřen: <validated>'
       banned: 'Zablokován: <banned>'
       'yes': ano
@@ -97,3 +97,8 @@ error:
   website-username-not-exist: Na webu neexistuje žádný uživatel s tímto jménem
   website-connection: Při připojování se k webu se vyskytla chyba.
   username-not-online: Zadané uživatelské jméno je neplatné nebo hráč není online.
+boolean:
+  yes_positive: <green>Ano</green>
+  yes_negative: <red>Ne</red>
+  no_positive: <green>Ne</green>
+  no_negative: <red>Ne</red>
