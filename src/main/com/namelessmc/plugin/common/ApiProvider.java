@@ -2,6 +2,7 @@ package com.namelessmc.plugin.common;
 
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
+import com.namelessmc.plugin.MavenConstants;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.config.Configuration;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @SuppressWarnings("OptionalAssignedToNull")
 public class ApiProvider implements Reloadable {
 
-	private static final String USER_AGENT = "Nameless-Plugin";
+	private static final String USER_AGENT = "Nameless-Plugin/"	 + MavenConstants.PROJECT_VERSION;
 
 	private Optional<NamelessAPI> cachedApi; // null if not cached
 
