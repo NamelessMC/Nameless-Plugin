@@ -9,6 +9,7 @@ import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -36,6 +37,8 @@ public class NamelessPluginSpigot extends JavaPlugin {
 	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 
 	private final @NotNull NamelessPlugin plugin;
+
+	private @Nullable Boolean usesMojangUuids;
 
 	public NamelessPluginSpigot() {
 		final Path dataDirectory = this.getDataFolder().toPath();
@@ -96,13 +99,11 @@ public class NamelessPluginSpigot extends JavaPlugin {
 		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
 	}
 
-	// TODO make this work for all platforms
 	private void checkUuids() {
 		@SuppressWarnings("deprecation")
 		final OfflinePlayer notch = Bukkit.getOfflinePlayer("Notch");
-		if (notch.getUniqueId().toString().equals("069a79f4-44e9-4726-a5be-fca90e38aaf5")) {
-			getLogger().info("UUIDs are working properly.");
-		} else {
+		this.usesMojangUuids = notch.getUniqueId().toString().equals("069a79f4-44e9-4726-a5be-fca90e38aaf5");
+		if (!usesMojangUuids) {
 			getLogger().severe("*** IMPORTANT ***");
 			getLogger().severe("Your server does not use Mojang UUIDs!");
 			getLogger().severe("This plugin won't work for cracked servers. If you do not intend to run a cracked server and you use BungeeCord, make sure `bungeecord: true` is set in spigot.yml and ip forwarding is enabled in the BungeeCord config file.");
@@ -143,6 +144,10 @@ public class NamelessPluginSpigot extends JavaPlugin {
 	private void initMetrics() {
 		Metrics metrics = new Metrics(this, 13396);
 		this.plugin.registerCustomCharts(metrics, Metrics.class);
+
+		metrics.addCustomChart(new SimplePie("mojang_uuids", () ->
+				this.usesMojangUuids == null ? "Unknown" : (
+						this.usesMojangUuids ? "Yes" : "No")));
 	}
 
 }
