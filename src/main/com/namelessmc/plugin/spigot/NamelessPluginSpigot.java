@@ -121,12 +121,23 @@ public class NamelessPluginSpigot extends JavaPlugin {
 	}
 	
 	private void initMaintenance() {
-		if (Bukkit.getPluginManager().isPluginEnabled("Maintenance")) {
-			Plugin plugin = Bukkit.getPluginManager().getPlugin("Maintenance");
-			if (plugin.getDescription().getAuthors().contains("kennytv")) {
-				this.maintenanceStatusProvider = new KennyMaintenance();
-			}
+		if (!Bukkit.getPluginManager().isPluginEnabled("Maintenance")) {
+			return;
 		}
+
+		Plugin plugin = Bukkit.getPluginManager().getPlugin("Maintenance");
+		if (!plugin.getDescription().getAuthors().contains("kennytv")) {
+			return;
+		}
+
+		final String version = plugin.getDescription().getVersion();
+		if (!version.startsWith("4")) {
+			this.plugin.logger().warning("Ignoring unsupported KennyTV Maintenance version: " +
+					version);
+			return;
+		}
+
+		this.maintenanceStatusProvider = new KennyMaintenance();
 	}
 
 	private void initMetrics() {
