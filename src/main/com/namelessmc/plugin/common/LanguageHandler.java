@@ -239,15 +239,14 @@ public class LanguageHandler implements Reloadable {
 		if (Files.exists(versionFile)) {
 			final String versionContent = Files.readString(versionFile);
 			if (versionContent.equals(String.valueOf(VERSION))) {
-				this.logger.info("Language files up to date");
 				return;
-			} else {
-				this.logger.warning("Language files are outdated!");
-				this.logger.info("Making backup of old languages directory");
-				Path dest = this.dataDirectory.resolve("languages-backup-" + System.currentTimeMillis());
-				Files.move(this.languageDirectory, dest);
-				Files.createDirectory(this.languageDirectory);
 			}
+
+			this.logger.warning("Language files are outdated!");
+			this.logger.info("Making backup of old languages directory");
+			Path dest = this.dataDirectory.resolve("languages-backup-" + System.currentTimeMillis());
+			Files.move(this.languageDirectory, dest);
+			Files.createDirectory(this.languageDirectory);
 		} else {
 			this.logger.info("Languages appear to not be installed yet.");
 		}
