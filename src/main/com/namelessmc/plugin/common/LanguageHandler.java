@@ -32,9 +32,9 @@ public class LanguageHandler implements Reloadable {
 		PLAYER_SELF_NOT_REGISTERED("player.self.not-registered"),
 		PLAYER_SELF_COMMAND_BANNED("player.self.command-banned"),
 
-		BOOLEAN_YES_POSTIVE("boolean.yes-positive"),
+		BOOLEAN_YES_POSITIVE("boolean.yes-positive"),
 		BOOLEAN_YES_NEGATIVE("boolean.yes-negative"),
-		BOOLEAN_NO_POSTIVE("boolean.no-positive"),
+		BOOLEAN_NO_POSITIVE("boolean.no-positive"),
 		BOOLEAN_NO_NEGATIVE("boolean.no-negative"),
 
 		COMMAND_NOT_A_PLAYER("command.not-a-player"),
@@ -216,7 +216,7 @@ public class LanguageHandler implements Reloadable {
 	public Component getBooleanText(final boolean isYes, final boolean yesIsPositive) {
 		if (isYes) {
 			if (yesIsPositive) {
-				return getComponent(Term.BOOLEAN_YES_POSTIVE);
+				return getComponent(Term.BOOLEAN_YES_POSITIVE);
 			} else {
 				return getComponent(Term.BOOLEAN_YES_NEGATIVE);
 			}
@@ -224,7 +224,7 @@ public class LanguageHandler implements Reloadable {
 			if (yesIsPositive) {
 				return getComponent(Term.BOOLEAN_NO_NEGATIVE);
 			} else {
-				return getComponent(Term.BOOLEAN_NO_POSTIVE);
+				return getComponent(Term.BOOLEAN_NO_POSITIVE);
 			}
 		}
 	}
