@@ -49,7 +49,7 @@ command:
       'yes': Ja
       'no': Nee
       uuid-unknown: 'UUID: onbekend'
-      registered-date: Geregistreerd op <date>
+      registered-date: 'Geregistreerd op: <date>'
       validated: 'Account gevalideerd: <validated>'
       banned: 'Verbannen: <banned>'
       fail: Er is een onbekende fout opgetreden tijdens een poging om spelersinformatie
@@ -62,6 +62,7 @@ command:
         linked-date: 'Datum gelinkt: <linked_date>'
         header: 'Integraties:'
         username: 'Gebruikersnaam: <username>'
+        verified: 'Geverifieerd: <is_verified>'
     description: Informatie opvragen over een websitegebruiker
   no-permission: Je hebt geen toestemming om dit commando uit te voeren.
   report:
@@ -97,3 +98,13 @@ command:
 join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.
 website-announcement: 'Website aankondiging: <message>'
 user-sync-kick: Je bent verbannen van onze server als gevolg van een website ban.
+error:
+  website-username-not-exist: Er bestaat geen website gebruiker met deze gebruikersnaam
+  website-connection: Een fout is opgetreden tijdens het verbinden met de website.
+  username-not-online: De opgegeven gebruikersnaam is niet geldig of de speler is
+    niet online.
+boolean:
+  yes_positive: <green>Ja</green>
+  yes_negative: <red>Ja</red>
+  no_negative: <red>Nee</red>
+  no_positive: <green>Nee</green>
