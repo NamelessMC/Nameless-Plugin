@@ -23,7 +23,7 @@ command:
     description: "Displays a list of website notifications."
     output:
       no-notifications: "You do not have any unread notifications."
-      notification: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\"><message>"
+      notification: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\"><message></click></hover>"
 
   plugin:
     usage: "/<command> \\<reload|rl>"
@@ -37,7 +37,7 @@ command:
     output:
       success:
         email: "Please check your inbox to complete registration."
-        link: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\">Please complete registration by going to <url>."
+        link: "Please complete registration by going to <hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\"><url></click></hover>."
       fail:
         username-used: "Your username is already used."
         email-used: "This email address is already used for a different user account."
