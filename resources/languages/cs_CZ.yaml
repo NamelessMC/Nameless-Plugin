@@ -5,7 +5,7 @@ command:
         správcům serveru.
       no-notifications: Nemáte žádná nepřečtená oznámení.
       click-to-open: Klikněte pro otevření ve webovém prohlížeči
-      notification: <hover:show_text:"Klikněte pro otevření ve webovém prohlížeči"><click:open_url:"<url>"><message>
+      notification: <hover:show_text:"Klikněte pro otevření ve webovém prohlížeči"><click:open_url:"<url>"><message></click></hover>
     usage: '/<command>'
     description: Zobrazí seznam webových oznámení.
   register:
@@ -22,8 +22,8 @@ command:
         minercaft-used: Váš Minecraft účet je již propojen s jiným uživatelem na webu.
       success:
         email: Zkontrolujte svou e-mailovou schránku pro dokončení registrace.
-        link: <hover:show_text:"Klikněte pro otevření ve webovém prohlížeči"><click:open_url:"<url>">Dokončete
-          registraci na adrese <url>.
+        link: 'Dokončete prosím registraci navštívením tohoto odkazu: <hover:show_text:"Klikněte
+          pro otevření ve webovém prohlížeči"><click:open_url:"<url>"><url></click></hover>.'
     usage: '/<command> \<uživatelské jméno> \<e-mail>'
     description: Vytvořit účet na webu
   report:
@@ -99,6 +99,6 @@ error:
   username-not-online: Zadané uživatelské jméno je neplatné nebo hráč není online.
 boolean:
   yes_positive: <green>Ano</green>
-  yes_negative: <red>Ne</red>
+  yes_negative: <red>Ano</red>
   no_positive: <green>Ne</green>
   no_negative: <red>Ne</red>
