@@ -9,10 +9,10 @@ player:
     command-banned: "You cannot run this command, you are banned from the website."
 
 boolean:
-  yes_positive: "<green>Yes</green>"
-  yes_negative: "<red>Yes</red>"
-  no_positive: "<green>No</green>"
-  no_negative: "<red>No</red>"
+  yes-positive: "<green>Yes</green>"
+  yes-negative: "<red>Yes</red>"
+  no-positive: "<green>No</green>"
+  no-negative: "<red>No</red>"
 
 command:
   not-a-player: "You must be a player to perform this command."
