@@ -14,8 +14,8 @@ command:
     usage: '/<command> \<nombre de usuario> \<correo electrónico>'
     output:
       success:
-        link: <hover:show_text:"Haga clic para abrir en un navegador web"><click:open_url:"<url>">Por
-          favor, complete el registro en <url>.
+        link: Por favor, complete el registro yendo a <hover:show_text:"Haga clic
+          para abrir en un navegador web"><click:open_url:"<url>"><url></click></hover>.
         email: Por favor, compruebe su bandeja de entrada para completar el registro.
       fail:
         already-exists: Usted ya tiene una cuenta.
@@ -40,7 +40,7 @@ command:
       click-to-open: Haga clic para abrir en un navegador web
       fail: Se produjo un error al intentar recuperar una lista de notificaciones.
         Por favor, notifique al administrador del servidor sobre este problema.
-      notification: <hover:show_text:"Clic para abrir en un navegador web"><click:open_url:"<url>"><message>
+      notification: <hover:show_text:"Clic para abrir en un navegador web"><click:open_url:"<url>"><message></click></hover>
   report:
     description: Reporta a un jugador
     output:
@@ -72,7 +72,7 @@ command:
       username: 'Nombre de usuario: <username>'
       displayname: 'Nombre para mostrar: <displayname>'
       uuid: 'UUID: <uuid>'
-      registered-date: Registrado el <date>
+      registered-date: 'Registrado el: <date>'
       validated: 'Cuenta validada: <validated>'
       banned: 'Expulsado: <banned>'
       'yes': sí
@@ -88,6 +88,7 @@ command:
         linked-date: 'Fecha vinculada: <linked_date>'
         header: 'Integraciones:'
         identifier: 'Identificador: <identifier>'
+        verified: 'Verificado: <is_verified>'
     description: Obtener información sobre un usuario del sitio web
   plugin:
     output:
@@ -102,3 +103,11 @@ user-sync-kick: Usted ha sido expulsado de nuestro servidor a raíz de un baneo 
 error:
   website-username-not-exist: No existe ningún usuario en el sitio web con este nombre
     de usuario
+  username-not-online: El nombre de usuario proporcionado no es válido o el jugador
+    no está conectado.
+  website-connection: Se ha producido un error al intentar conectarse al sitio web.
+boolean:
+  yes-negative: <red>Sí</red>
+  no-negative: <red>No</red>
+  yes-positive: <green>Sí</green>
+  no-positive: <green>No</green>
