@@ -18,7 +18,7 @@ command:
       click-to-open: Clique para abrir em um navegador da web
       fail: Ocorreu um erro ao tentar recuperar uma lista de notificações. Notifique
         o administrador do servidor sobre este problema.
-      notification: <hover:show_text:"Clique para abrir em um navegador da web"><click:open_url:"<url>"><message>
+      notification: <hover:show_text:"Clique para abrir em um navegador da web"><click:open_url:"<url>"><message></click></hover>
     description: Exiber uma lista de notificações do site.
   register:
     usage: '/{command} <email>'
@@ -26,8 +26,8 @@ command:
     output:
       success:
         email: Verifique sua caixa de entrada para concluir o registro.
-        link: <hover:show_text:"Clique para abrir em um navegador da web"><click:open_url:"<url>">Conclua
-          o registro acessando <url>.
+        link: Por favor, complete o cadastro acessando <hover:show_text:"Clique para
+          abrir em um navegador da web"><click:open_url:"<url>"><url></click></hover>.
       fail:
         already-exists: Você já possui uma conta.
         email-used: Este endereço de email já está em uso em uma conta de usuário
@@ -38,6 +38,9 @@ command:
         username-invalid: O nome de usuário fornecido é inválido.
         cannot-send-email: Não foi possível enviar o email de registro, entre em contato
           com um administrador para ativar sua conta.
+        username-used: Seu nome de usuário já está sendo usado.
+        minercaft-used: Sua conta do Minecraft já está vinculada a um usuário de um
+          site diferente.
   report:
     usage: '/{command} <nome/uuid> <motivo>'
     description: Denunciar um jogador
@@ -68,18 +71,32 @@ command:
       uuid-unknown: 'UUID: desconhecido'
       primary-group: 'Grupo primário: <groupname>'
       all-groups: 'Todos os grupos: <groups_names_list>'
-      registered-date: Registrado em <date>
+      registered-date: 'Registrado em: <date>'
       validated: 'Conta validada: <validated>'
       banned: 'Banido: <banned>'
       'yes': sim
       'no': não
       fail: Ocorreu um erro desconhecido ao tentar recuperar as informações do jogador.
+      integrations:
+        header: 'Integrações:'
     description: Recuperar informações sobre um usuário do site
   subcommands:
     usage: '/{command} [subcomando] [argumentos..]'
     help-prefix: /{command}
+  plugin:
+    output:
+      reload-successful: Plugin recarregado com sucesso.
 join-not-registered: Você ainda não tem uma conta em nosso site. Por favor, registre-se
   usando /register.
 website-announcement: 'Anúncio do site: <message>'
 user-sync-kick: Você foi banido de nosso servidor após o banimento de uma conta no
   site.
+boolean:
+  yes_negative: <red>Sim</red>
+  no_positive: <green>Não</green>
+  no_negative: <red>Não</red>
+  yes_positive: <green>Sim</green>
+error:
+  website-connection: Ocorreu um erro ao tentar se conectar ao site.
+  username-not-online: O nome de usuário fornecido é inválido ou o jogador não está
+    online.
