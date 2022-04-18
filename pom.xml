@@ -245,6 +245,12 @@
 			<version>4.1.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>net.kyori</groupId>
+			<artifactId>event-api</artifactId>
+			<version>5.0.0-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 
 	<repositories>
@@ -278,6 +284,11 @@
 			<id>sponge-repo</id>
 			<name>Sponge Maven Repository</name>
 			<url>https://repo.spongepowered.org/repository/maven-public/</url>
+		</repository>
+
+		<repository> <!-- for net.kyori.event development builds -->
+			<id>sonatype-oss-snapshots1</id>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
 		</repository>
 
 	</repositories>
