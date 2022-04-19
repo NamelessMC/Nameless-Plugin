@@ -26,31 +26,30 @@ The official Minecraft plugin for NamelessMC v2. For compiled files see the [spi
 
 ## Compiling
 
-Requirements: Maven, JDK 8, git (any JDK >8 will also work as long as your server doesn't use a lower JDK version)
+Requirements: Maven, Git, JDK 8, JDK 11, JDK 17
 
-`apt install maven openjdk-8-jdk git`
+On Debian/Ubuntu: `apt install maven git openjdk-8-jdk openjdk-11-jdk openjdk-17-jdk`
 
 ```sh
 git clone https://github.com/Derkades/Derkutils
 cd Derkutils
 git checkout legacy # important!
-mvn clean install
+mvn clean install # Uses JDK 8
 cd ..
 
 git clone https://github.com/NamelessMC/Nameless-Java-API
 cd Nameless-Java-API
-mvn clean install
+mvn clean install # Uses JDK 11
 cd ..
 
 git clone https://github.com/NamelessMC/Nameless-Plugin
 cd Nameless-Plugin
-mvn clean package shade:shade
-cd target
-# find jar file here
+mvn clean package # Uses JDK 11 and 17
+# find jar in {bungeecord,paper,spigot,sponge7,velocity}/target/*
 ```
 
 ## Discord
-[<img src="https://discordapp.com/api/guilds/246705793066467328/widget.png?style=shield">](https://discord.gg/J6QsVaP)
+[![discord](https://discord.com/api/guilds/246705793066467328/widget.png?style=shield)](https://discord.gg/nameless)
 
 ## v1
 The legacy NamelessPlugin for v1 is available for download [on spigot](https://www.spigotmc.org/resources/official-namelessplugin.42698/). The source is available in the v1-Pre-1.1 branch.
