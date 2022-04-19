@@ -88,8 +88,8 @@
             <artifactId>plugin-bukkit-base</artifactId>
             <exclusions>
                 <exclusion>
-                    <groupId>org.spigotmc</groupId>
-                    <artifactId>spigot-api</artifactId>
+                    <groupId>org.bukkit</groupId>
+                    <artifactId>bukkit</artifactId>
                 </exclusion>
                 <!-- Paper ships with adventure -->
                 <exclusion>
