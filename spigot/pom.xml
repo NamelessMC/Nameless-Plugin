@@ -40,12 +40,20 @@
 							<shadedPattern>com.namelessmc.plugin.lib.errorprone</shadedPattern>
 						</relocation>
 						<relocation>
+							<pattern>com.google.j2objc</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.j2objc</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>com.google.gson</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.gson</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>com.namelessmc.java_api</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.nameless-api</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>javax.annotation</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.javax-annotation</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>net.kyori.adventure</pattern>

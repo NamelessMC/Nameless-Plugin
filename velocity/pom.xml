@@ -25,18 +25,6 @@
 							<shadedPattern>com.namelessmc.plugin.lib.methanol</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>com.google.common</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.google-common</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>com.google.errorprone</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.errorprone</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>com.google.gson</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.gson</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>com.namelessmc.java_api</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.nameless-api</shadedPattern>
 						</relocation>
@@ -55,10 +43,6 @@
 						<relocation>
 							<pattern>org.checkerframework</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.intellij.lang.annotations</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.intellij-annotations</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.jetbrains.annotations</pattern>
@@ -111,6 +95,18 @@
 			<groupId>org.bstats</groupId>
 			<artifactId>bstats-velocity</artifactId>
 			<version>3.0.0</version>
+		</dependency>
+		<!-- Velocity already includes Gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Velocity already includes Guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<scope>provided</scope>
 		</dependency>
     </dependencies>
 
