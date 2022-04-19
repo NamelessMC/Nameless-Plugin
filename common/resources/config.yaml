@@ -23,8 +23,7 @@ server-data-sender:
   # Find your server id in StaffCP > Integrations > Minecraft > Minecraft Servers
   # Create a server if you haven't already
   server-id: 0
-  # Interval in seconds. Reasonable values are 2-30 seconds.
-  # TODO no longer in seconds but ISO 8601
+  # Duration between sending data https://en.wikipedia.org/wiki/ISO_8601#Durations
   interval: 'PT10S'
   # Send PlaceholderAPI placeholders, to be used by NamelessMC (leaderboards, profile pages) or modules.
   placeholders:
@@ -40,7 +39,8 @@ server-data-sender:
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders#nameless-plugin
 retrieve-placeholders:
   enabled: false
-  interval: 'DT30S'
+  # Duration between retrieving placeholders https://en.wikipedia.org/wiki/ISO_8601#Durations
+  interval: 'PT30S'
 
 # Supported platforms: Spigot
 # Show single line error messages instead of full stacktraces.
