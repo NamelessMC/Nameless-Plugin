@@ -11,10 +11,10 @@ import java.util.concurrent.TimeUnit;
 
 public class VelocityScheduler extends AbstractScheduler {
 
-	private final @NotNull NamelessPluginVelocity plugin;
+	private final @NotNull VelocityNamelessPlugin plugin;
 	private final @NotNull Scheduler scheduler;
 
-	VelocityScheduler(final @NotNull NamelessPluginVelocity plugin,
+	VelocityScheduler(final @NotNull VelocityNamelessPlugin plugin,
 					  final @NotNull Scheduler scheduler) {
 		this.plugin = plugin;
 		this.scheduler = scheduler;

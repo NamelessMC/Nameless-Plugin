@@ -11,9 +11,9 @@ import java.util.concurrent.TimeUnit;
 
 public class BungeeScheduler extends AbstractScheduler {
 
-	private final @NotNull NamelessPluginBungee plugin;
+	private final @NotNull BungeeNamelessPlugin plugin;
 
-	BungeeScheduler(final @NotNull NamelessPluginBungee plugin) {
+	BungeeScheduler(final @NotNull BungeeNamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 

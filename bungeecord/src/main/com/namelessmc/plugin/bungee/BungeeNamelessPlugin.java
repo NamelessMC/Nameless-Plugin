@@ -8,11 +8,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 
-public class NamelessPluginBungee extends Plugin {
+public class BungeeNamelessPlugin extends Plugin {
 
 	private final @NotNull NamelessPlugin plugin;
 
-	public NamelessPluginBungee() {
+	public BungeeNamelessPlugin() {
 		Path dataDirectory = this.getDataFolder().toPath();
 		this.plugin = new NamelessPlugin(
 				dataDirectory,

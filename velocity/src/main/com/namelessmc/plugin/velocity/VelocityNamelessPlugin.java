@@ -14,19 +14,19 @@ import org.slf4j.Logger;
 
 import java.nio.file.Path;
 
-@Plugin(id = "nameless-plugin",
-		name = MavenConstants.PROJECT_NAME,
+@Plugin(id = "namelessmc",
+		name = "NamelessMC",
 		version = MavenConstants.PROJECT_VERSION,
 		url = "https://plugin.namelessmc.com/",
 		description = "Integration with NamelessMC websites",
 		authors = {"Derkades"})
-public class NamelessPluginVelocity {
+public class VelocityNamelessPlugin {
 
 	private final @NotNull Metrics.Factory metricsFactory;
 	private final @NotNull NamelessPlugin plugin;
 
 	@Inject
-	public NamelessPluginVelocity(final @NotNull ProxyServer server,
+	public VelocityNamelessPlugin(final @NotNull ProxyServer server,
 								  final @NotNull Logger logger,
 								  final @NotNull @DataDirectory Path dataDirectory,
 								  final @NotNull Metrics.Factory metricsFactory) {

@@ -15,8 +15,8 @@ import org.spongepowered.api.plugin.Plugin;
 
 import java.nio.file.Path;
 
-@Plugin(id = "nameless-plugin",
-		name = MavenConstants.PROJECT_NAME,
+@Plugin(id = "namelessmc",
+		name = "NamelessMC",
 		version = MavenConstants.PROJECT_VERSION,
 		description = "Integration with NamelessMC websites")
 public class NamelessPluginSponge {

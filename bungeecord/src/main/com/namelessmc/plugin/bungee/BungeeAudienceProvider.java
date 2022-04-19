@@ -18,7 +18,7 @@ public class BungeeAudienceProvider extends AbstractAudienceProvider {
 
 	private final @NotNull BungeeAudiences audiences;
 
-	BungeeAudienceProvider(final @NotNull NamelessPluginBungee bungeePlugin) {
+	BungeeAudienceProvider(final @NotNull BungeeNamelessPlugin bungeePlugin) {
 		this.audiences = BungeeAudiences.create(bungeePlugin);
 	}
 

@@ -14,10 +14,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class BungeeCommandProxy implements Reloadable {
 
-	private final @NotNull NamelessPluginBungee bungeePlugin;
+	private final @NotNull BungeeNamelessPlugin bungeePlugin;
 	private final @NotNull NamelessPlugin plugin;
 
-	BungeeCommandProxy(final @NotNull NamelessPluginBungee bungeePlugin,
+	BungeeCommandProxy(final @NotNull BungeeNamelessPlugin bungeePlugin,
 					   final @NotNull NamelessPlugin plugin) {
 		this.bungeePlugin = bungeePlugin;
 		this.plugin = plugin;

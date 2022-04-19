@@ -1,5 +1,5 @@
-name: '@project.name@'
-main: com.namelessmc.plugin.paper.NamelessPluginPaper
+name: NamelessMC
+main: com.namelessmc.plugin.paper.PaperNamelessPlugin
 author: Derkades
 website: https://plugin.namelessmc.com/
 version: '@project.version@'
