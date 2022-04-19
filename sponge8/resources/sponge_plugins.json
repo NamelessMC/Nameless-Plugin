@@ -1,0 +1,35 @@
+{
+  "loader": {
+    "name": "java_plain",
+    "version": "1.0"
+  },
+  "license": "MIT",
+  "global": {
+    "version": "@project.version@",
+    "links": {
+      "homepage": "https://namelessmc.com",
+      "source": "https://github.com/NamelessMC/Nameless-Plugin/",
+      "issues": "https://github.com/NamelessMC/Nameless-Plugin/issues"
+    },
+    "contributors": [
+      {
+        "name": "Derkades",
+        "description": "Lead Developer"
+      }
+    ],
+    "dependencies": [
+      {
+        "id": "spongeapi",
+        "version": "8.0.0"
+      }
+    ]
+  },
+  "plugins": [
+    {
+      "id": "namelessmc",
+      "name": "NamelessMC",
+      "entrypoint": "com.namelessmc.plugin.sponge8.NamelessPluginSponge",
+      "description": "Integration with NamelessMC websites"
+    }
+  ]
+}

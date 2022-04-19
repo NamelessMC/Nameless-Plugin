@@ -5,6 +5,7 @@ import com.namelessmc.plugin.common.MavenConstants;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
+import com.velocitypowered.api.event.proxy.ProxyReloadEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
@@ -43,11 +44,16 @@ public class VelocityNamelessPlugin {
 	}
 
 	@Subscribe
-	public void onProxyInitialization(ProxyInitializeEvent event) {
+	public void onProxyInitialization(final ProxyInitializeEvent event) {
 		this.plugin.reload();
 
 		final Metrics metrics = metricsFactory.make(this, 14863);
 		this.plugin.registerCustomCharts(metrics, Metrics.class);
+	}
+
+	@Subscribe
+	public void onReload(final ProxyReloadEvent event) {
+		this.plugin.reload();
 	}
 
 }

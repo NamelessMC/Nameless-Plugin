@@ -1,0 +1,147 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.namelessmc</groupId>
+	<artifactId>plugin-sponge8</artifactId>
+    <name>Nameless-Plugin-SpongeAPI8</name>
+
+    <parent>
+        <groupId>com.namelessmc</groupId>
+        <artifactId>plugin</artifactId>
+        <version>3.0.0-beta</version>
+    </parent>
+
+    <build>
+        <sourceDirectory>src/main</sourceDirectory>
+
+		<resources>
+			<resource>
+				<directory>resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<configuration>
+					<relocations>
+						<relocation>
+							<pattern>com.github.mizosoft.methanol</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.methanol</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>com.google.errorprone</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.errorprone</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>com.google.j2objc</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.j2objc</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>com.namelessmc.java_api</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.nameless-api</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>javax.annotation</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.javax-annotation</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>net.kyori.adventure</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.adventure</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>net.kyori.examination</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.examination</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>net.kyori.event</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.event</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>net.md_5.bungee.config</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.bungee-config</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.bstats</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.bstats</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.checkerframework</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.intellij.lang.annotations</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.intellij-annotations</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.jetbrains.annotations</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>xyz.derkades.derkutils</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.derkutils</shadedPattern>
+						</relocation>
+					</relocations>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+    </build>
+
+    <dependencies>
+		<dependency>
+			<groupId>com.namelessmc</groupId>
+			<artifactId>plugin-common</artifactId>
+			<version>3.0.0-beta</version>
+		</dependency>
+		<dependency>
+			<groupId>org.spongepowered</groupId>
+			<artifactId>spongeapi</artifactId>
+			<version>8.0.0</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.bstats</groupId>
+			<artifactId>bstats-sponge</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.kyori</groupId>
+			<artifactId>adventure-platform-spongeapi</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<!-- Sponge already includes Gson 2.8 -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Sponge already includes Guava 21.0 -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<scope>provided</scope>
+		</dependency>
+    </dependencies>
+
+	<repositories>
+		<repository>
+			<id>sponge-repo</id>
+			<name>Sponge Maven Repository</name>
+			<url>https://repo.spongepowered.org/repository/maven-public/</url>
+		</repository>
+	</repositories>
+
+</project>
