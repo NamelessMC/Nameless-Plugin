@@ -26,15 +26,15 @@ The official Minecraft plugin for NamelessMC v2. For compiled files see the [spi
 
 ## Compiling
 
-Requirements: Maven, Git, JDK 8, JDK 11, JDK 17
+Requirements: Maven, Git, JDK 11, JDK 17
 
-On Debian/Ubuntu: `apt install maven git openjdk-8-jdk openjdk-11-jdk openjdk-17-jdk`
+On Debian/Ubuntu: `apt install maven git openjdk-11-jdk openjdk-17-jdk`
 
 ```sh
 git clone https://github.com/Derkades/Derkutils
 cd Derkutils
-git checkout legacy # important!
-mvn clean install # Uses JDK 8
+git checkout spigot-1.13 # important!
+mvn clean install # Uses JDK 11
 cd ..
 
 git clone https://github.com/NamelessMC/Nameless-Java-API
