@@ -2,6 +2,7 @@ package com.namelessmc.plugin.bungee;
 
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bstats.bungeecord.Metrics;
 import org.jetbrains.annotations.NotNull;
@@ -30,6 +31,8 @@ public class BungeeNamelessPlugin extends Plugin {
 
 		Metrics metrics = new Metrics(this, 14864);
 		this.plugin.registerCustomCharts(metrics, Metrics.class);
+
+		ProxyServer.getInstance().getPluginManager().registerListener(this, new BungeeEventProxy(this.plugin));
 	}
 
 }
