@@ -4,14 +4,15 @@ import com.google.gson.JsonObject;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
+import com.namelessmc.plugin.common.event.ServerJoinEvent;
+import com.namelessmc.plugin.common.event.ServerQuitEvent;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.config.Configuration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public abstract class AbstractDataSender implements Runnable, Reloadable {
 
@@ -21,8 +22,27 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 	private List<PlayerInfoProvider> playerInfoProviders;
 	private int serverId;
 
+	private final @NotNull Map<UUID, Long> playerLoginTime = new HashMap<>();
+
 	protected AbstractDataSender(final @NotNull NamelessPlugin plugin) {
 		this.plugin = plugin;
+
+		this.startLoginTimeTracking();
+	}
+
+	private void startLoginTimeTracking() {
+		this.plugin.registerReloadable(() -> {
+			// If the plugin is loaded when the server is already started (e.g. using /reload on bukkit), add
+			// players manually because the join event is never called for them.
+			for (final NamelessPlayer player : this.plugin.audiences().onlinePlayers()) {
+				playerLoginTime.put(player.getUniqueId(), System.currentTimeMillis());
+			}
+		});
+
+		this.plugin.events().subscribe(ServerJoinEvent.class, event ->
+				playerLoginTime.put(event.getPlayer().getUniqueId(), System.currentTimeMillis()));
+		this.plugin.events().subscribe(ServerQuitEvent.class, event ->
+				playerLoginTime.remove(event.getUniqueId()));
 	}
 
 	protected @NotNull NamelessPlugin getPlugin() {
@@ -67,7 +87,11 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 
 
 		for (InfoProvider infoProvider : this.globalInfoProviders) {
-			infoProvider.addInfoToJson(data);
+			try {
+				infoProvider.addInfoToJson(data);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 		final JsonObject players = new JsonObject();
@@ -77,7 +101,11 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			playerJson.addProperty("name", player.getUsername());
 
 			for (PlayerInfoProvider infoProvider : this.playerInfoProviders) {
-				infoProvider.addInfoToJson(playerJson, player);
+				try {
+					infoProvider.addInfoToJson(playerJson, player);
+				} catch (final Exception e) {
+					e.printStackTrace();
+				}
 			}
 
 			players.add(player.getUniqueId().toString(), playerJson);
@@ -127,7 +155,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		});
 
 		this.registerPlayerInfoProvider((json, player) ->
-				json.addProperty("login-time", plugin.getLoginTime(player)));
+				json.addProperty("login-time", this.playerLoginTime.get(player.getUniqueId())));
 	}
 
 	@FunctionalInterface

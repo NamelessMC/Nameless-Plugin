@@ -26,7 +26,6 @@ public class NamelessPlugin {
 	private final @NotNull EventBus<AbstractEvent> eventBus;
 
 	private final @NotNull List<Reloadable> reloadables = new ArrayList<>();
-	public final @NotNull Map<UUID, Long> playerLoginTime = new HashMap<>();
 
 	private AbstractAudienceProvider audienceProvider;
 
@@ -49,14 +48,6 @@ public class NamelessPlugin {
 		);
 		this.dateFormatter = this.registerReloadable(
 				new DateFormatter(this.configuration));
-
-		this.registerReloadable(() -> {
-			// If the plugin is loaded when the server is already started (e.g. using /reload on bukkit), add
-			// players manually because the join event is never called for them.
-			for (final NamelessPlayer player : this.audiences().onlinePlayers()) {
-				playerLoginTime.put(player.getUniqueId(), System.currentTimeMillis());
-			}
-		});
 
 		this.eventBus = EventBus.create(AbstractEvent.class);
 	}
@@ -89,6 +80,10 @@ public class NamelessPlugin {
 		return this.audienceProvider;
 	}
 
+	public @NotNull EventBus<AbstractEvent> events() {
+		return this.eventBus;
+	}
+
 	public void setAudienceProvider(final @NotNull AbstractAudienceProvider audienceProvider) {
 		this.audienceProvider = audienceProvider;
 	}
@@ -102,18 +97,6 @@ public class NamelessPlugin {
 	public <T extends Reloadable> T registerReloadable(T reloadable) {
 		this.reloadables.add(reloadable);
 		return reloadable;
-	}
-
-	public void onJoin(final @NotNull NamelessPlayer player) {
-		this.playerLoginTime.put(player.getUniqueId(), System.currentTimeMillis());
-	}
-
-	public void onQuit(final @NotNull UUID uuid) {
-		this.playerLoginTime.remove(uuid);
-	}
-
-	public long getLoginTime(final @NotNull NamelessPlayer player) {
-		return this.playerLoginTime.get(player);
 	}
 
 	private @Nullable MetricsBase extractMetricsBase(Object metrics, Class<?> metricsClass) {

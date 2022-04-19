@@ -12,11 +12,6 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -83,18 +78,7 @@ public class NamelessPluginSpigot extends JavaPlugin {
 
 		this.getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerBan(), this);
-
-		this.getServer().getPluginManager().registerEvents(new Listener() {
-			@EventHandler
-			public void onJoin(final PlayerJoinEvent event) {
-				final Player player = event.getPlayer();
-				plugin.onJoin(plugin.audiences().player(player.getUniqueId()));
-			}
-			@EventHandler
-			public void onQuit(final PlayerQuitEvent event) {
-				plugin.onQuit(event.getPlayer().getUniqueId());
-			}
-		}, this);
+		this.getServer().getPluginManager().registerEvents(new SpigotEventProxy(this.plugin), this);
 
 		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
 	}
