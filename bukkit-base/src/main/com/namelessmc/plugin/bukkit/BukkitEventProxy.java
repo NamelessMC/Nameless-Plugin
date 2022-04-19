@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot;
+package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.plugin.common.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
@@ -13,11 +13,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class SpigotEventProxy implements Listener {
+public class BukkitEventProxy implements Listener {
 
 	private final @NotNull NamelessPlugin plugin;
 
-	SpigotEventProxy(final @NotNull NamelessPlugin plugin) {
+	BukkitEventProxy(final @NotNull NamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 

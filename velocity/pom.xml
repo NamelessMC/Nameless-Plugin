@@ -114,11 +114,4 @@
 		</dependency>
     </dependencies>
 
-	<repositories>
-		<repository>
-			<id>velocity</id>
-			<url>https://nexus.velocitypowered.com/repository/maven-public/</url>
-		</repository>
-	</repositories>
-
 </project>

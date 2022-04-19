@@ -100,7 +100,13 @@
     <dependencies>
 		<dependency>
 			<groupId>com.namelessmc</groupId>
-			<artifactId>plugin-common</artifactId>
+			<artifactId>plugin-bukkit-base</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.bukkit</groupId>
+					<artifactId>bukkit</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
@@ -118,29 +124,6 @@
 			<artifactId>adventure-platform-bukkit</artifactId>
 			<version>4.1.0</version>
 		</dependency>
-		<dependency>
-			<groupId>me.clip</groupId>
-			<artifactId>placeholderapi</artifactId>
-			<version>2.11.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.github.MilkBowl</groupId>
-			<artifactId>VaultAPI</artifactId>
-			<version>1.7.1</version>
-			<scope>provided</scope>
-		</dependency>
     </dependencies>
-
-	<repositories>
-		<repository>
-			<id>spigot-repo</id>
-			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-		</repository>
-		<repository>
-			<id>placeholderapi</id>
-			<url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
-		</repository>
-	</repositories>
 
 </project>

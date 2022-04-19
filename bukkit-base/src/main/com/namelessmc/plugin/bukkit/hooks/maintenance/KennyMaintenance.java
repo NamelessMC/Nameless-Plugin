@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot.hooks.maintenance;
+package com.namelessmc.plugin.bukkit.hooks.maintenance;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

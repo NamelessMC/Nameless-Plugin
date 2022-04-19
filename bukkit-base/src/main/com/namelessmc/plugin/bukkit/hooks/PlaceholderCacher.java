@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot.hooks;
+package com.namelessmc.plugin.bukkit.hooks;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
@@ -6,7 +6,7 @@ import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
-import com.namelessmc.plugin.spigot.NamelessPluginSpigot;
+import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -28,13 +28,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class PlaceholderCacher implements Listener, Reloadable {
 
 
-	private final @NotNull NamelessPluginSpigot spigotPlugin;
+	private final @NotNull BukkitNamelessPlugin spigotPlugin;
 	private final @NotNull NamelessPlugin plugin;
 	private AbstractScheduledTask task;
 	private AtomicBoolean isRunning;
 	private Map<UUID, Integer> cachedNotificationCount;
 
-	public PlaceholderCacher(final @NotNull NamelessPluginSpigot spigotPlugin,
+	public PlaceholderCacher(final @NotNull BukkitNamelessPlugin spigotPlugin,
 							 final @NotNull NamelessPlugin plugin) {
 		this.spigotPlugin = spigotPlugin;
 		this.plugin = plugin;

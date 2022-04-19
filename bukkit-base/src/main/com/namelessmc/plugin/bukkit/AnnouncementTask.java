@@ -1,14 +1,11 @@
-package com.namelessmc.plugin.spigot;
+package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.java_api.Announcement;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.plugin.common.ApiProvider;
-import com.namelessmc.plugin.common.LanguageHandler;
-import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.Reloadable;
+import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -76,16 +73,13 @@ public class AnnouncementTask implements Runnable, Reloadable {
 							Announcement announcement = ListUtils.choice(announcements);
 							String announcementMessage = announcement.getMessage();
 							this.plugin.scheduler().runSync(() -> {
-								Player player2 = Bukkit.getPlayer(uuid);
+								NamelessPlayer player2 = this.plugin.audiences().player(uuid);
 								if (player2 == null) {
 									// Player left
 									return;
 								}
-
-								final String message = LegacyComponentSerializer.legacySection().serialize(
-										this.plugin.language().getComponent(
-												LanguageHandler.Term.WEBSITE_ANNOUNCEMENT,
-												"message", announcementMessage));
+								final Component message = this.plugin.language().getComponent(
+										LanguageHandler.Term.WEBSITE_ANNOUNCEMENT, "message", announcementMessage);
 								player2.sendMessage(message);
 							});
 						}

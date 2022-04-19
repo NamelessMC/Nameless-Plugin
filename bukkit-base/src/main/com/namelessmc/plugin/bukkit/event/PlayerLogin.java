@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot.event;
+package com.namelessmc.plugin.bukkit.event;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot;
+package com.namelessmc.plugin.bukkit;
 
 public class Websend {
 

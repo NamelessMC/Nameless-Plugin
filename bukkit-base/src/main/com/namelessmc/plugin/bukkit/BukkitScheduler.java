@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot;
+package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
@@ -8,11 +8,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 
-public class SpigotScheduler extends AbstractScheduler {
+public class BukkitScheduler extends AbstractScheduler {
 
-	private final @NotNull NamelessPluginSpigot plugin;
+	private final @NotNull BukkitNamelessPlugin plugin;
 
-	SpigotScheduler(final @NotNull NamelessPluginSpigot plugin) {
+	BukkitScheduler(final @NotNull BukkitNamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 

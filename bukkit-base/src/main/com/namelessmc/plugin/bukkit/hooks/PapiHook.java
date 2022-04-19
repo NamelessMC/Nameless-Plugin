@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot.hooks;
+package com.namelessmc.plugin.bukkit.hooks;
 
 import com.namelessmc.plugin.common.MavenConstants;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;

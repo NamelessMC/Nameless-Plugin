@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot;
+package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessCommandSender;
@@ -6,7 +6,7 @@ import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,13 +17,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-public class SpigotCommandProxy implements Reloadable {
+public class BukkitCommandProxy implements Reloadable {
 
 	private final @NotNull NamelessPlugin plugin;
 
 	private final @NotNull ArrayList<@NotNull Command> registeredCommands = new ArrayList<>();
 
-	SpigotCommandProxy(final @NotNull NamelessPlugin plugin) {
+	BukkitCommandProxy(final @NotNull NamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -38,7 +38,7 @@ public class SpigotCommandProxy implements Reloadable {
 			final String name = Objects.requireNonNull(command.getActualName(), "Only enabled commands are returned");
 			final String permission = command.getPermission().toString();
 
-			final LegacyComponentSerializer ser = LegacyComponentSerializer.legacySection();
+			final PlainTextComponentSerializer ser = PlainTextComponentSerializer.plainText();
 			final String usage = ser.serialize(command.getUsage());
 			final String description = ser.serialize(command.getDescription());
 			final Component noPermissionMessage = this.plugin.language().getComponent(LanguageHandler.Term.COMMAND_NO_PERMISSION);

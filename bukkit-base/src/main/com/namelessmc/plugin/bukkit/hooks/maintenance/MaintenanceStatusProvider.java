@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot.hooks.maintenance;
+package com.namelessmc.plugin.bukkit.hooks.maintenance;
 
 public interface MaintenanceStatusProvider {
 

@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot;
+package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.integrations.StandardIntegrationTypes;
@@ -7,7 +7,6 @@ import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -22,10 +21,12 @@ import java.util.function.Consumer;
 public class UserSyncTask implements Runnable, Reloadable {
 
 	private final @NotNull NamelessPlugin plugin;
+	private final @NotNull BukkitNamelessPlugin bukkitPlugin;
 	private @Nullable AbstractScheduledTask task;
 
-	UserSyncTask(final @NotNull NamelessPlugin plugin) {
+	UserSyncTask(final @NotNull NamelessPlugin plugin, final @NotNull BukkitNamelessPlugin bukkitPlugin) {
 		this.plugin = plugin;
+		this.bukkitPlugin = bukkitPlugin;
 	}
 
 	@Override
@@ -122,9 +123,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 							logger.info("Added " + bannedUuid + " to the ban list");
 						}
 						if (bannedPlayer.isOnline()) {
-							final String message = LegacyComponentSerializer.legacySection().serialize(
-									this.plugin.language().getComponent(LanguageHandler.Term.USER_SYNC_KICK));
-							((Player) bannedPlayer).kickPlayer(message);
+							this.bukkitPlugin.kickPlayer((Player) bannedPlayer, LanguageHandler.Term.USER_SYNC_KICK);
 						}
 					}
 				}
@@ -219,9 +218,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 									logger.info("Removed " + (player.getName() == null ? toRemove.toString() : player.getName()) + " from the whitelist");
 								}
 								if (player.isOnline()) {
-									final String message = LegacyComponentSerializer.legacySection().serialize(
-											this.plugin.language().getComponent(LanguageHandler.Term.USER_SYNC_KICK));
-									((Player) player).kickPlayer(message);
+									this.bukkitPlugin.kickPlayer((Player) player, LanguageHandler.Term.USER_SYNC_KICK);
 								}
 							}
 						}

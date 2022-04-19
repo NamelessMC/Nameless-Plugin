@@ -1,42 +1,40 @@
-package com.namelessmc.plugin.spigot;
+package com.namelessmc.plugin.paper;
 
-import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import com.namelessmc.plugin.common.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.NamelessConsole;
 import com.namelessmc.plugin.common.NamelessPlayer;
 import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class SpigotAudienceProvider extends AbstractAudienceProvider {
-
-	private final @NotNull BukkitAudiences audiences;
-
-	SpigotAudienceProvider(final @NotNull BukkitNamelessPlugin spigotPlugin) {
-		this.audiences = BukkitAudiences.create(spigotPlugin);
-	}
+public class PaperAudienceProvider extends AbstractAudienceProvider {
 
 	@Override
 	public @NotNull NamelessConsole console() {
-		return new NamelessConsole(audiences.console());
+		return new NamelessConsole(Bukkit.getConsoleSender());
 	}
 
 	@Override
 	public @NotNull Audience broadcast() {
-		return audiences.all();
+		final Collection<? extends Player> bukkitPlayers = Bukkit.getOnlinePlayers();
+		final List<Audience> audiences = new ArrayList<>(bukkitPlayers.size() + 1);
+		audiences.addAll(bukkitPlayers);
+		audiences.add(Bukkit.getConsoleSender());
+		return Audience.audience(audiences);
 	}
 
 	public @Nullable NamelessPlayer bukkitToNamelessPlayer(final Player bukkitPlayer) {
 		return bukkitPlayer == null
 				? null
-				: new NamelessPlayer(this.audiences.player(bukkitPlayer), bukkitPlayer.getUniqueId(), bukkitPlayer.getName());
+				: new NamelessPlayer(bukkitPlayer, bukkitPlayer.getUniqueId(), bukkitPlayer.getName());
 	}
 
 	@Override
@@ -52,7 +50,7 @@ public class SpigotAudienceProvider extends AbstractAudienceProvider {
 	@Override
 	public @NotNull Collection<@NotNull NamelessPlayer> onlinePlayers() {
 		return Bukkit.getOnlinePlayers().stream()
-				.map(p -> new NamelessPlayer(this.audiences.player(p), p.getUniqueId(), p.getName()))
+				.map(p -> new NamelessPlayer(p, p.getUniqueId(), p.getName()))
 				.collect(Collectors.toUnmodifiableList());
 	}
 }

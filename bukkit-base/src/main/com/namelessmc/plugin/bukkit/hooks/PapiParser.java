@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.spigot.hooks;
+package com.namelessmc.plugin.bukkit.hooks;
 
 import org.bukkit.entity.Player;
 

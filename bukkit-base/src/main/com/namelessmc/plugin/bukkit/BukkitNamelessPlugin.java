@@ -1,17 +1,19 @@
-package com.namelessmc.plugin.spigot;
+package com.namelessmc.plugin.bukkit;
 
+import com.namelessmc.plugin.bukkit.event.PlayerBan;
+import com.namelessmc.plugin.bukkit.event.PlayerLogin;
+import com.namelessmc.plugin.bukkit.hooks.*;
+import com.namelessmc.plugin.bukkit.hooks.maintenance.KennyMaintenance;
+import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
+import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
-import com.namelessmc.plugin.spigot.event.PlayerBan;
-import com.namelessmc.plugin.spigot.event.PlayerLogin;
-import com.namelessmc.plugin.spigot.hooks.*;
-import com.namelessmc.plugin.spigot.hooks.maintenance.KennyMaintenance;
-import com.namelessmc.plugin.spigot.hooks.maintenance.MaintenanceStatusProvider;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 
-public class NamelessPluginSpigot extends JavaPlugin {
+public abstract class BukkitNamelessPlugin extends JavaPlugin {
 
 	private Permission permissions;
 	public Permission getPermissions() { return this.permissions; }
@@ -31,20 +33,20 @@ public class NamelessPluginSpigot extends JavaPlugin {
 	private @Nullable MaintenanceStatusProvider maintenanceStatusProvider;
 	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 
-	private final @NotNull NamelessPlugin plugin;
+	protected final @NotNull NamelessPlugin plugin;
 
 	private @Nullable Boolean usesMojangUuids;
 
-	public NamelessPluginSpigot() {
+	public BukkitNamelessPlugin() {
 		final Path dataDirectory = this.getDataFolder().toPath();
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
-				new SpigotScheduler(this),
+				new BukkitScheduler(this),
 				config -> new JulLogger(config, this.getLogger())
 		);
-		this.plugin.registerReloadable(new SpigotCommandProxy(this.plugin));
-		this.plugin.registerReloadable(new SpigotDataSender(this.plugin, this));
-		this.plugin.registerReloadable(new UserSyncTask(this.plugin));
+		this.plugin.registerReloadable(new BukkitCommandProxy(this.plugin));
+		this.plugin.registerReloadable(new BukkitDataSender(this.plugin, this));
+		this.plugin.registerReloadable(new UserSyncTask(this.plugin, this));
 		this.plugin.registerReloadable(new AnnouncementTask(this.plugin));
 		PapiHook.cacher = this.plugin.registerReloadable(
 				new PlaceholderCacher(this, this.plugin)
@@ -53,7 +55,7 @@ public class NamelessPluginSpigot extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		this.plugin.setAudienceProvider(new SpigotAudienceProvider(this));
+		this.configureAudiences();
 
 		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
 			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
@@ -78,10 +80,14 @@ public class NamelessPluginSpigot extends JavaPlugin {
 
 		this.getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerBan(), this);
-		this.getServer().getPluginManager().registerEvents(new SpigotEventProxy(this.plugin), this);
+		this.getServer().getPluginManager().registerEvents(new BukkitEventProxy(this.plugin), this);
 
 		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
 	}
+
+	protected abstract void configureAudiences();
+
+	public abstract void kickPlayer(final @NotNull Player player, final @NotNull LanguageHandler.Term term);
 
 	private void checkUuids() {
 		@SuppressWarnings("deprecation")

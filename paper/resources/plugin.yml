@@ -1,0 +1,7 @@
+name: '@project.name@'
+main: com.namelessmc.plugin.paper.NamelessPluginPaper
+author: Derkades
+website: https://plugin.namelessmc.com/
+version: '@project.version@'
+api-version: 1.18
+softdepend: [Vault, PlaceholderAPI, Maintenance]
