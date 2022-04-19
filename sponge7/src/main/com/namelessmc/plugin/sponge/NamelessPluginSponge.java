@@ -8,6 +8,7 @@ import org.bstats.sponge.Metrics;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
@@ -39,6 +40,7 @@ public class NamelessPluginSponge {
 		this.plugin.setAudienceProvider(new SpongeAudienceProvider(audiences, game.getServer()));
 		this.plugin.registerReloadable(new SpongeCommandProxy(this.plugin));
 		this.plugin.registerReloadable(new SpongeDataSender(this.plugin));
+		Sponge.getEventManager().registerListeners(this, new SpongeEventProxy(this.plugin));
 	}
 
 	@Listener
