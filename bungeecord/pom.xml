@@ -34,7 +34,7 @@
 						</relocation>
 						<relocation>
 							<pattern>com.google.common</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.google-common</shadedPattern>
+							<shadedPattern>com.namelessmc.plugin.lib.guava</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>com.google.errorprone</pattern>
