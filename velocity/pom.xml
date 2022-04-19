@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>plugin-velocity</artifactId>
-    <name>Nameless-Plugin Velocity</name>
+    <name>Nameless-Plugin-Velocity</name>
 
     <parent>
         <groupId>com.namelessmc</groupId>
