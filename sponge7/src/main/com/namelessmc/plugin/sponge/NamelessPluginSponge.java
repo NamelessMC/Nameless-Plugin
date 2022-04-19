@@ -11,6 +11,7 @@ import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 
@@ -44,11 +45,16 @@ public class NamelessPluginSponge {
 	}
 
 	@Listener
-	public void onServerStart(GameStartedServerEvent event) {
+	public void onServerStart(final GameStartedServerEvent event) {
 		this.plugin.reload();
 
 		Metrics metrics = this.metricsFactory.make(14865);
 		this.plugin.registerCustomCharts(metrics, Metrics.class);
+	}
+
+	@Listener
+	public void reload(final GameReloadEvent event) {
+		this.plugin.reload();
 	}
 
 }
