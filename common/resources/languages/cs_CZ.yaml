@@ -102,3 +102,9 @@ boolean:
   yes_negative: <red>Ano</red>
   no_positive: <green>Ne</green>
   no_negative: <red>Ne</red>
+  no-positive: <green>Ne</green>
+  no-negative: <red>Ne</red>
+  yes-positive: <green>Ano</green>
+  yes-negative: <red>Ano</red>
+join-notifications: Pokud máte webová oznámení, zadejte prosím /<notifications_command>
+  pro více informací.
