@@ -10,15 +10,15 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.PluginManager;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class BungeeCommandProxy implements Reloadable {
 
-	private final @NotNull BungeeNamelessPlugin bungeePlugin;
-	private final @NotNull NamelessPlugin plugin;
+	private final @NonNull BungeeNamelessPlugin bungeePlugin;
+	private final @NonNull NamelessPlugin plugin;
 
-	BungeeCommandProxy(final @NotNull BungeeNamelessPlugin bungeePlugin,
-					   final @NotNull NamelessPlugin plugin) {
+	BungeeCommandProxy(final @NonNull BungeeNamelessPlugin bungeePlugin,
+					   final @NonNull NamelessPlugin plugin) {
 		this.bungeePlugin = bungeePlugin;
 		this.plugin = plugin;
 	}

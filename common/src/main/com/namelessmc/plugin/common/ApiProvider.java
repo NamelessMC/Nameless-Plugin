@@ -5,7 +5,7 @@ import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.config.Configuration;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,9 +20,9 @@ public class ApiProvider implements Reloadable {
 
 	private Optional<NamelessAPI> cachedApi; // null if not cached
 
-	private final @NotNull AbstractScheduler scheduler;
-	private final @NotNull AbstractLogger logger;
-	private final @NotNull ConfigurationHandler config;
+	private final @NonNull AbstractScheduler scheduler;
+	private final @NonNull AbstractLogger logger;
+	private final @NonNull ConfigurationHandler config;
 
 	private String apiUrl;
 	private String apiKey;
@@ -30,9 +30,9 @@ public class ApiProvider implements Reloadable {
 	private Duration timeout;
 	private boolean bypassVersionCheck;
 
-	public ApiProvider(final @NotNull AbstractScheduler scheduler,
-					   final @NotNull AbstractLogger logger,
-					   final @NotNull ConfigurationHandler config) {
+	public ApiProvider(final @NonNull AbstractScheduler scheduler,
+					   final @NonNull AbstractLogger logger,
+					   final @NonNull ConfigurationHandler config) {
 		this.scheduler = scheduler;
 		this.logger = logger;
 		this.config = config;

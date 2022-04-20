@@ -8,23 +8,23 @@ import com.namelessmc.plugin.common.event.ServerJoinEvent;
 import com.namelessmc.plugin.common.event.ServerQuitEvent;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.config.Configuration;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.time.Duration;
 import java.util.*;
 
 public abstract class AbstractDataSender implements Runnable, Reloadable {
 
-	private final @NotNull NamelessPlugin plugin;
+	private final @NonNull NamelessPlugin plugin;
 	private @Nullable AbstractScheduledTask dataSenderTask;
 	private List<InfoProvider> globalInfoProviders;
 	private List<PlayerInfoProvider> playerInfoProviders;
 	private int serverId;
 
-	private final @NotNull Map<UUID, Long> playerLoginTime = new HashMap<>();
+	private final @NonNull Map<UUID, Long> playerLoginTime = new HashMap<>();
 
-	protected AbstractDataSender(final @NotNull NamelessPlugin plugin) {
+	protected AbstractDataSender(final @NonNull NamelessPlugin plugin) {
 		this.plugin = plugin;
 
 		this.startLoginTimeTracking();
@@ -45,7 +45,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 				playerLoginTime.remove(event.uuid()));
 	}
 
-	protected @NotNull NamelessPlugin getPlugin() {
+	protected @NonNull NamelessPlugin getPlugin() {
 		return this.plugin;
 	}
 
@@ -79,7 +79,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		this.registerCustomProviders();
 	}
 
-	private @NotNull JsonObject buildJsonBody() {
+	private @NonNull JsonObject buildJsonBody() {
 		final JsonObject data = new JsonObject();
 		data.addProperty("server-id", this.serverId);
 
@@ -161,14 +161,14 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 	@FunctionalInterface
 	public interface InfoProvider {
 
-		void addInfoToJson(final @NotNull JsonObject json);
+		void addInfoToJson(final @NonNull JsonObject json);
 
 	}
 
 	@FunctionalInterface
 	public interface PlayerInfoProvider {
 
-		void addInfoToJson(final @NotNull JsonObject json, final @NotNull NamelessPlayer player);
+		void addInfoToJson(final @NonNull JsonObject json, final @NonNull NamelessPlayer player);
 
 	}
 

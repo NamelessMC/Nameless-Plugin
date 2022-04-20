@@ -4,37 +4,37 @@ import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.velocitypowered.api.scheduler.ScheduledTask;
 import com.velocitypowered.api.scheduler.Scheduler;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class VelocityScheduler extends AbstractScheduler {
 
-	private final @NotNull VelocityNamelessPlugin plugin;
-	private final @NotNull Scheduler scheduler;
+	private final @NonNull VelocityNamelessPlugin plugin;
+	private final @NonNull Scheduler scheduler;
 
-	VelocityScheduler(final @NotNull VelocityNamelessPlugin plugin,
-					  final @NotNull Scheduler scheduler) {
+	VelocityScheduler(final @NonNull VelocityNamelessPlugin plugin,
+					  final @NonNull Scheduler scheduler) {
 		this.plugin = plugin;
 		this.scheduler = scheduler;
 	}
 
 	@Override
-	public void runAsync(final @NotNull Runnable runnable) {
+	public void runAsync(final @NonNull Runnable runnable) {
 		this.scheduler
 				.buildTask(this.plugin, runnable)
 				.schedule();
 	}
 
 	@Override
-	public void runSync(final @NotNull Runnable runnable) {
+	public void runSync(final @NonNull Runnable runnable) {
 		// Velocity has no "main thread", we can just run it in the current thread
 		runnable.run();
 	}
 
 	@Override
-	public @NotNull VelocityScheduledTask runTimer(@NotNull Runnable runnable, @NotNull Duration interval) {
+	public @NonNull VelocityScheduledTask runTimer(@NonNull Runnable runnable, @NonNull Duration interval) {
 		final ScheduledTask task = this.scheduler
 				.buildTask(this.plugin, runnable)
 				.delay(interval.toNanos(), TimeUnit.NANOSECONDS)
@@ -44,7 +44,7 @@ public class VelocityScheduler extends AbstractScheduler {
 	}
 
 	@Override
-	public @NotNull VelocityScheduledTask runDelayed(@NotNull Runnable runnable, @NotNull Duration delay) {
+	public @NonNull VelocityScheduledTask runDelayed(@NonNull Runnable runnable, @NonNull Duration delay) {
 		final ScheduledTask task = this.scheduler
 				.buildTask(this.plugin, runnable)
 				.delay(delay.toNanos(), TimeUnit.NANOSECONDS)
@@ -54,9 +54,9 @@ public class VelocityScheduler extends AbstractScheduler {
 
 	public static class VelocityScheduledTask extends AbstractScheduledTask {
 
-		private final @NotNull ScheduledTask task;
+		private final @NonNull ScheduledTask task;
 
-		private VelocityScheduledTask(final @NotNull ScheduledTask task) {
+		private VelocityScheduledTask(final @NonNull ScheduledTask task) {
 			this.task = task;
 		}
 

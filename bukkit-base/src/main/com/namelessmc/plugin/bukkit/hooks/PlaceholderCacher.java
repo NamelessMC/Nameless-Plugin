@@ -3,10 +3,10 @@ package com.namelessmc.plugin.bukkit.hooks;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
-import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -16,7 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -28,14 +28,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class PlaceholderCacher implements Listener, Reloadable {
 
 
-	private final @NotNull BukkitNamelessPlugin spigotPlugin;
-	private final @NotNull NamelessPlugin plugin;
+	private final @NonNull BukkitNamelessPlugin spigotPlugin;
+	private final @NonNull NamelessPlugin plugin;
 	private AbstractScheduledTask task;
 	private AtomicBoolean isRunning;
 	private Map<UUID, Integer> cachedNotificationCount;
 
-	public PlaceholderCacher(final @NotNull BukkitNamelessPlugin spigotPlugin,
-							 final @NotNull NamelessPlugin plugin) {
+	public PlaceholderCacher(final @NonNull BukkitNamelessPlugin spigotPlugin,
+							 final @NonNull NamelessPlugin plugin) {
 		this.spigotPlugin = spigotPlugin;
 		this.plugin = plugin;
 	}
@@ -72,7 +72,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 		}
 	}
 
-	private void updateCache(final @NotNull NamelessAPI api, final @NotNull Player player) {
+	private void updateCache(final @NonNull NamelessAPI api, final @NonNull Player player) {
 		try {
 			final Optional<NamelessUser> user = api.getUser(player.getUniqueId());
 			if (user.isEmpty()) {
@@ -103,7 +103,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 		HandlerList.unregisterAll(this);
 	}
 
-	public int getNotificationCount(final @NotNull OfflinePlayer player) {
+	public int getNotificationCount(final @NonNull OfflinePlayer player) {
 		Integer count = this.cachedNotificationCount.get(player.getUniqueId());
 		return count != null ? count : -1;
 	}

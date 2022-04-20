@@ -6,27 +6,27 @@ import com.namelessmc.plugin.common.NamelessPlayer;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.kyori.adventure.audience.Audience;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class VelocityAudienceProvider extends AbstractAudienceProvider {
 
-	private final @NotNull ProxyServer server;
+	private final @NonNull ProxyServer server;
 
-	VelocityAudienceProvider(final @NotNull ProxyServer server) {
+	VelocityAudienceProvider(final @NonNull ProxyServer server) {
 		this.server = server;
 	}
 
 	@Override
-	public @NotNull NamelessConsole console() {
+	public @NonNull NamelessConsole console() {
 		return new NamelessConsole(server.getConsoleCommandSource());
 	}
 
 	@Override
-	public @NotNull Audience broadcast() {
+	public @NonNull Audience broadcast() {
 		final Collection<Player> players = server.getAllPlayers();
 		final List<Audience> everyone = new ArrayList<>(players.size() + 1);
 		everyone.addAll(players);
@@ -44,17 +44,17 @@ public class VelocityAudienceProvider extends AbstractAudienceProvider {
 	}
 
 	@Override
-	public @Nullable NamelessPlayer player(final @NotNull UUID uuid) {
+	public @Nullable NamelessPlayer player(final @NonNull UUID uuid) {
 		return velocityToNamelessPlayer(server.getPlayer(uuid));
 	}
 
 	@Override
-	public @Nullable NamelessPlayer playerByUsername(@NotNull String username) {
+	public @Nullable NamelessPlayer playerByUsername(@NonNull String username) {
 		return velocityToNamelessPlayer(server.getPlayer(username));
 	}
 
 	@Override
-	public @NotNull Collection<@NotNull NamelessPlayer> onlinePlayers() {
+	public @NonNull Collection<@NonNull NamelessPlayer> onlinePlayers() {
 		return server.getAllPlayers().stream()
 				.map(p -> new NamelessPlayer(p, p.getUniqueId(), p.getUsername()))
 				.collect(Collectors.toUnmodifiableList());

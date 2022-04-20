@@ -4,16 +4,16 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.Notification;
-import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
-import org.jetbrains.annotations.NotNull;
+import com.namelessmc.plugin.common.*;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.List;
 import java.util.Optional;
 
 public class GetNotificationsCommand extends CommonCommand {
 
-	public GetNotificationsCommand(final @NotNull NamelessPlugin plugin) {
+	public GetNotificationsCommand(final @NonNull NamelessPlugin plugin) {
 		super(plugin,
 				"get-notifications",
 				Term.COMMAND_NOTIFICATIONS_USAGE,
@@ -22,7 +22,7 @@ public class GetNotificationsCommand extends CommonCommand {
 	}
 
 	@Override
-	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
+	public void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args) {
 		if (args.length != 0) {
 			sender.sendMessage(this.usage());
 			return;

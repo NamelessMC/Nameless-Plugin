@@ -7,31 +7,32 @@ import net.kyori.event.EventBus;
 import net.md_5.bungee.config.Configuration;
 import org.bstats.MetricsBase;
 import org.bstats.charts.SimplePie;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.lang.reflect.Field;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class NamelessPlugin {
 
-	private final @NotNull AbstractScheduler scheduler;
-	private final @NotNull ConfigurationHandler configuration;
-	private final @NotNull AbstractLogger logger;
-	private final @NotNull ApiProvider api;
-	private final @NotNull LanguageHandler language;
-	private final @NotNull DateFormatter dateFormatter;
-	private final @NotNull EventBus<AbstractEvent> eventBus;
+	private final @NonNull AbstractScheduler scheduler;
+	private final @NonNull ConfigurationHandler configuration;
+	private final @NonNull AbstractLogger logger;
+	private final @NonNull ApiProvider api;
+	private final @NonNull LanguageHandler language;
+	private final @NonNull DateFormatter dateFormatter;
+	private final @NonNull EventBus<AbstractEvent> eventBus;
 
-	private final @NotNull List<Reloadable> reloadables = new ArrayList<>();
+	private final @NonNull List<Reloadable> reloadables = new ArrayList<>();
 
 	private AbstractAudienceProvider audienceProvider;
 
-	public NamelessPlugin(final @NotNull Path dataDirectory,
-						  final @NotNull AbstractScheduler scheduler,
-						  final @NotNull Function<ConfigurationHandler, AbstractLogger> loggerInstantiator) {
+	public NamelessPlugin(final @NonNull Path dataDirectory,
+						  final @NonNull AbstractScheduler scheduler,
+						  final @NonNull Function<ConfigurationHandler, AbstractLogger> loggerInstantiator) {
 		this.scheduler = scheduler;
 
 		this.configuration = this.registerReloadable(
@@ -83,11 +84,11 @@ public class NamelessPlugin {
 		return this.audienceProvider;
 	}
 
-	public @NotNull EventBus<AbstractEvent> events() {
+	public @NonNull EventBus<AbstractEvent> events() {
 		return this.eventBus;
 	}
 
-	public void setAudienceProvider(final @NotNull AbstractAudienceProvider audienceProvider) {
+	public void setAudienceProvider(final @NonNull AbstractAudienceProvider audienceProvider) {
 		this.audienceProvider = audienceProvider;
 	}
 
@@ -113,8 +114,8 @@ public class NamelessPlugin {
 		}
 	}
 
-	public <T> void registerCustomCharts(final @NotNull T platformMetrics,
-										 final @NotNull Class<T> platformMetricsClass) {
+	public <T> void registerCustomCharts(final @NonNull T platformMetrics,
+										 final @NonNull Class<T> platformMetricsClass) {
 		final MetricsBase metrics = extractMetricsBase(platformMetrics, platformMetricsClass);
 
 		if (metrics == null) {

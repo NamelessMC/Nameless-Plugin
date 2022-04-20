@@ -1,18 +1,18 @@
 package com.namelessmc.plugin.common.event;
 
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.UUID;
 
 public class ServerQuitEvent extends AbstractEvent {
 
-	private final @NotNull UUID uuid;
+	private final @NonNull UUID uuid;
 
-	public ServerQuitEvent(final @NotNull UUID uuid) {
+	public ServerQuitEvent(final @NonNull UUID uuid) {
 		this.uuid = uuid;
 	}
 
-	public @NotNull UUID uuid() {
+	public @NonNull UUID uuid() {
 		return this.uuid;
 	}
 

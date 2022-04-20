@@ -7,18 +7,18 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 
 public class VelocityCommandProxy implements Reloadable {
 
-	private final @NotNull ArrayList<String> registeredCommands = new ArrayList<>();
-	private final @NotNull NamelessPlugin plugin;
-	private final @NotNull ProxyServer server;
+	private final @NonNull ArrayList<String> registeredCommands = new ArrayList<>();
+	private final @NonNull NamelessPlugin plugin;
+	private final @NonNull ProxyServer server;
 
-	VelocityCommandProxy(final @NotNull NamelessPlugin plugin,
-						 final @NotNull ProxyServer server) {
+	VelocityCommandProxy(final @NonNull NamelessPlugin plugin,
+						 final @NonNull ProxyServer server) {
 		this.plugin = plugin;
 		this.server = server;
 	}

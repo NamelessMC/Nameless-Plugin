@@ -5,15 +5,15 @@ import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.InvalidValidateCodeException;
 import com.namelessmc.java_api.integrations.IntegrationData;
 import com.namelessmc.java_api.integrations.MinecraftIntegrationData;
-import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
-import org.jetbrains.annotations.NotNull;
+import com.namelessmc.plugin.common.*;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Optional;
 
 public class VerifyCommand extends CommonCommand {
 
-	public VerifyCommand(final @NotNull NamelessPlugin plugin) {
+	public VerifyCommand(final @NonNull NamelessPlugin plugin) {
 		super(plugin,
 				"verify",
 				Term.COMMAND_VALIDATE_USAGE,
@@ -22,7 +22,7 @@ public class VerifyCommand extends CommonCommand {
 	}
 
 	@Override
-	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
+	public void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args) {
 		if (args.length != 1) {
 			sender.sendMessage(this.usage());
 			return;

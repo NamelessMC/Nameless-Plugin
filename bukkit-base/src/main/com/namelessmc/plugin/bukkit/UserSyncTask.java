@@ -11,8 +11,8 @@ import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.time.Duration;
 import java.util.*;
@@ -20,11 +20,11 @@ import java.util.function.Consumer;
 
 public class UserSyncTask implements Runnable, Reloadable {
 
-	private final @NotNull NamelessPlugin plugin;
-	private final @NotNull BukkitNamelessPlugin bukkitPlugin;
+	private final @NonNull NamelessPlugin plugin;
+	private final @NonNull BukkitNamelessPlugin bukkitPlugin;
 	private @Nullable AbstractScheduledTask task;
 
-	UserSyncTask(final @NotNull NamelessPlugin plugin, final @NotNull BukkitNamelessPlugin bukkitPlugin) {
+	UserSyncTask(final @NonNull NamelessPlugin plugin, final @NonNull BukkitNamelessPlugin bukkitPlugin) {
 		this.plugin = plugin;
 		this.bukkitPlugin = bukkitPlugin;
 	}
@@ -61,7 +61,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 
 	@Nullable
 	private Set<UUID> getUuids(final boolean doLog,
-							   final @NotNull Consumer<@NotNull FilteredUserListBuilder> builderConfigurator) {
+							   final @NonNull Consumer<@NonNull FilteredUserListBuilder> builderConfigurator) {
 		final Configuration config = this.plugin.config().main();
 		final AbstractLogger logger = this.plugin.logger();
 

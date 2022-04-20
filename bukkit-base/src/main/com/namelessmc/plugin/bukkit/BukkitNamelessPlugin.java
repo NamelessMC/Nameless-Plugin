@@ -16,8 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.nio.file.Path;
 
@@ -32,7 +32,7 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 	private @Nullable MaintenanceStatusProvider maintenanceStatusProvider;
 	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 
-	protected final @NotNull NamelessPlugin plugin;
+	protected final @NonNull NamelessPlugin plugin;
 
 	private @Nullable Boolean usesMojangUuids;
 
@@ -85,7 +85,7 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 
 	protected abstract void configureAudiences();
 
-	public abstract void kickPlayer(final @NotNull Player player, final @NotNull LanguageHandler.Term term);
+	public abstract void kickPlayer(final @NonNull Player player, final LanguageHandler.@NonNull Term term);
 
 	private void checkUuids() {
 		@SuppressWarnings("deprecation")

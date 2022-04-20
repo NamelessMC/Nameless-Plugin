@@ -4,7 +4,7 @@ import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import com.namelessmc.plugin.common.LanguageHandler;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class SpigotNamelessPlugin extends BukkitNamelessPlugin {
 
@@ -14,7 +14,8 @@ public class SpigotNamelessPlugin extends BukkitNamelessPlugin {
 	}
 
 	@Override
-	public void kickPlayer(@NotNull Player player, LanguageHandler.@NotNull Term term) {
+	public void kickPlayer(final @NonNull Player player,
+						   final LanguageHandler.@NonNull Term term) {
 		final String legacyMessage = LegacyComponentSerializer.legacySection().serialize(
 				this.plugin.language().get(term));
 		player.kickPlayer(legacyMessage);

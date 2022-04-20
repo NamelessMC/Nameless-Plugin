@@ -10,7 +10,7 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 
 import java.util.ArrayList;
@@ -19,11 +19,11 @@ import java.util.Objects;
 
 public class BukkitCommandProxy implements Reloadable {
 
-	private final @NotNull NamelessPlugin plugin;
+	private final @NonNull NamelessPlugin plugin;
 
-	private final @NotNull ArrayList<@NotNull Command> registeredCommands = new ArrayList<>();
+	private final @NonNull ArrayList<@NonNull Command> registeredCommands = new ArrayList<>();
 
-	BukkitCommandProxy(final @NotNull NamelessPlugin plugin) {
+	BukkitCommandProxy(final @NonNull NamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 

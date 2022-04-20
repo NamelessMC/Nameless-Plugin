@@ -124,6 +124,11 @@
 				<artifactId>guava</artifactId>
 				<version>23.0</version> <!-- This should match Nameless-Java-API (latest) -->
 			</dependency>
+			<dependency>
+				<groupId>org.checkerframework</groupId>
+				<artifactId>checker-qual</artifactId>
+				<version>3.21.4</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

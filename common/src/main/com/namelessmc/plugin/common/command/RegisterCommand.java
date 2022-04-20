@@ -10,13 +10,13 @@ import com.namelessmc.plugin.common.NamelessCommandSender;
 import com.namelessmc.plugin.common.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Optional;
 
 public class RegisterCommand extends CommonCommand {
 
-	public RegisterCommand(final @NotNull NamelessPlugin plugin) {
+	public RegisterCommand(final @NonNull NamelessPlugin plugin) {
 		super(plugin,
 				"register",
 				Term.COMMAND_REGISTER_USAGE,
@@ -25,7 +25,7 @@ public class RegisterCommand extends CommonCommand {
 	}
 
 	@Override
-	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
+	public void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args) {
 		if (args.length != 2) {
 			sender.sendMessage(this.usage());
 			return;

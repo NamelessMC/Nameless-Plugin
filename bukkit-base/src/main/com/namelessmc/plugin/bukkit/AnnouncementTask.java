@@ -9,8 +9,8 @@ import net.kyori.adventure.text.Component;
 import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import xyz.derkades.derkutils.ListUtils;
 
 import java.time.Duration;
@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 
 public class AnnouncementTask implements Runnable, Reloadable {
 
-	private final @NotNull NamelessPlugin plugin;
+	private final @NonNull NamelessPlugin plugin;
 	private @Nullable AbstractScheduledTask task;
 
-	AnnouncementTask(final @NotNull NamelessPlugin plugin) {
+	AnnouncementTask(final @NonNull NamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 

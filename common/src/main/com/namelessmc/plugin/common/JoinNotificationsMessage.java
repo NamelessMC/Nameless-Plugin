@@ -7,8 +7,8 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.event.EventSubscription;
 import net.md_5.bungee.config.Configuration;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -17,11 +17,11 @@ import static com.namelessmc.plugin.common.LanguageHandler.Term.JOIN_NOTIFICATIO
 
 public class JoinNotificationsMessage implements Reloadable {
 
-	private final @NotNull NamelessPlugin plugin;
+	private final @NonNull NamelessPlugin plugin;
 
 	private @Nullable EventSubscription subscription;
 
-	JoinNotificationsMessage(final @NotNull NamelessPlugin plugin) {
+	JoinNotificationsMessage(final @NonNull NamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -42,7 +42,7 @@ public class JoinNotificationsMessage implements Reloadable {
 				onJoin(event.player().uuid()));
 	}
 
-	private void onJoin(final @NotNull UUID uuid) {
+	private void onJoin(final @NonNull UUID uuid) {
 		this.plugin.scheduler().runAsync(() -> {
 			this.plugin.apiProvider().api().ifPresent(api -> {
 				try {

@@ -5,8 +5,8 @@ import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import net.kyori.adventure.text.serializer.spongeapi.SpongeComponentSerializer;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.*;
 import org.spongepowered.api.entity.living.player.Player;
@@ -21,10 +21,10 @@ import java.util.Optional;
 
 public class SpongeCommandProxy implements Reloadable {
 
-	private final @NotNull ArrayList<CommandMapping> registeredCommands = new ArrayList<>();
-	private final @NotNull NamelessPlugin plugin;
+	private final @NonNull ArrayList<CommandMapping> registeredCommands = new ArrayList<>();
+	private final @NonNull NamelessPlugin plugin;
 
-	SpongeCommandProxy(final @NotNull NamelessPlugin plugin) {
+	SpongeCommandProxy(final @NonNull NamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -45,7 +45,7 @@ public class SpongeCommandProxy implements Reloadable {
 
 			CommandCallable spongeCommand = new CommandCallable() {
 				@Override
-				public @NotNull CommandResult process(final CommandSource source,
+				public @NonNull CommandResult process(final CommandSource source,
 													  final String arguments) {
 					String[] args = arguments.split(" ");
 					final NamelessCommandSender namelessCommandSender;

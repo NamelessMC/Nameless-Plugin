@@ -3,7 +3,7 @@ package com.namelessmc.plugin.bukkit.hooks;
 import com.namelessmc.plugin.common.MavenConstants;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class PapiHook extends PlaceholderExpansion {
 
@@ -23,17 +23,17 @@ public class PapiHook extends PlaceholderExpansion {
 	}
 
 	@Override
-	public @NotNull String getAuthor() {
+	public @NonNull String getAuthor() {
 		return "Derkades";
 	}
 
 	@Override
-	public @NotNull String getIdentifier() {
+	public @NonNull String getIdentifier() {
 		return "nameless";
 	}
 
 	@Override
-	public @NotNull String getVersion() {
+	public @NonNull String getVersion() {
 		return MavenConstants.PROJECT_VERSION;
 	}
 

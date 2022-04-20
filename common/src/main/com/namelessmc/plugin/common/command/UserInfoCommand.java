@@ -6,7 +6,7 @@ import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.common.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Map;
 import java.util.Optional;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class UserInfoCommand extends CommonCommand {
 
-	public UserInfoCommand(final @NotNull NamelessPlugin plugin) {
+	public UserInfoCommand(final @NonNull NamelessPlugin plugin) {
 		super(plugin,
 				"user-info",
 				Term.COMMAND_USERINFO_USAGE,
@@ -23,7 +23,7 @@ public class UserInfoCommand extends CommonCommand {
 	}
 
 	@Override
-	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
+	public void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args) {
 		if (args.length == 0) {
 			if (sender instanceof NamelessConsole) {
 				sender.sendMessage(language().get(Term.COMMAND_NOT_A_PLAYER));

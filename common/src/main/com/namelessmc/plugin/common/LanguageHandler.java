@@ -8,7 +8,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import xyz.derkades.derkutils.FileUtils;
 
 import java.io.IOException;
@@ -146,14 +146,14 @@ public class LanguageHandler implements Reloadable {
 	private Configuration fallbackLanguageFile;
 	private Configuration activeLanguageFile;
 
-	private final @NotNull Path dataDirectory;
-	private final @NotNull Path languageDirectory;
-	private final @NotNull ConfigurationHandler config;
-	private final @NotNull AbstractLogger logger;
+	private final @NonNull Path dataDirectory;
+	private final @NonNull Path languageDirectory;
+	private final @NonNull ConfigurationHandler config;
+	private final @NonNull AbstractLogger logger;
 
-	public LanguageHandler(final @NotNull Path dataDirectory,
-						   final @NotNull ConfigurationHandler config,
-						   final @NotNull AbstractLogger logger) {
+	public LanguageHandler(final @NonNull Path dataDirectory,
+						   final @NonNull ConfigurationHandler config,
+						   final @NonNull AbstractLogger logger) {
 		this.dataDirectory = dataDirectory;
 		this.languageDirectory = dataDirectory.resolve("languages");
 		this.config = config;
@@ -253,7 +253,7 @@ public class LanguageHandler implements Reloadable {
 		this.logger.info("Done");
 	}
 
-	private Configuration readLanguageFile(final @NotNull String languageName) throws IOException {
+	private Configuration readLanguageFile(final @NonNull String languageName) throws IOException {
 		if (!LANGUAGES.contains(languageName)) {
 			this.logger.severe("Language '" + languageName + "' not known.");
 			return null;
@@ -266,7 +266,7 @@ public class LanguageHandler implements Reloadable {
 		}
 	}
 
-	private void setActiveLanguage(final @NotNull String languageCode) throws IOException {
+	private void setActiveLanguage(final @NonNull String languageCode) throws IOException {
 		this.activeLanguageCode = languageCode;
 		this.activeLanguageFile = readLanguageFile(languageCode);
 		if (languageCode.equals(DEFAULT_LANGUAGE)) {

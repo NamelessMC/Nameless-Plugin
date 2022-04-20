@@ -3,9 +3,9 @@ package com.namelessmc.plugin.bukkit;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import com.namelessmc.plugin.common.AbstractDataSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import net.md_5.bungee.config.Configuration;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
@@ -13,17 +13,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 public class BukkitDataSender extends AbstractDataSender {
 
-	private final @NotNull BukkitNamelessPlugin spigotPlugin;
+	private final @NonNull BukkitNamelessPlugin spigotPlugin;
 
-	protected BukkitDataSender(final @NotNull NamelessPlugin plugin,
-							   final @NotNull BukkitNamelessPlugin spigotPlugin) {
+	protected BukkitDataSender(final @NonNull NamelessPlugin plugin,
+							   final @NonNull BukkitNamelessPlugin spigotPlugin) {
 		super(plugin);
 		this.spigotPlugin = spigotPlugin;
 	}

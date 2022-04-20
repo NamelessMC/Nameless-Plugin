@@ -8,14 +8,14 @@ import com.namelessmc.java_api.exception.CannotReportSelfException;
 import com.namelessmc.java_api.exception.ReportUserBannedException;
 import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.common.*;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Arrays;
 import java.util.Optional;
 
 public class ReportCommand extends CommonCommand {
 
-	public ReportCommand(final @NotNull NamelessPlugin plugin) {
+	public ReportCommand(final @NonNull NamelessPlugin plugin) {
 		super(plugin,
 				"report",
 				Term.COMMAND_REPORT_USAGE,
@@ -24,7 +24,7 @@ public class ReportCommand extends CommonCommand {
 	}
 
 	@Override
-	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
+	public void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args) {
 		if (args.length < 2) {
 			sender.sendMessage(this.usage());
 			return;

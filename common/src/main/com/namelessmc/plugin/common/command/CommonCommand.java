@@ -5,8 +5,8 @@ import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.config.Configuration;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +15,18 @@ import java.util.stream.Collectors;
 
 public abstract class CommonCommand {
 
-	private final @NotNull NamelessPlugin plugin;
-	private final @NotNull String configName;
-	private final @NotNull LanguageHandler.Term usageTerm;
-	private final @NotNull LanguageHandler.Term descriptionTerm;
-	private final @NotNull Permission permission;
+	private final @NonNull NamelessPlugin plugin;
+	private final @NonNull String configName;
+	private final LanguageHandler.@NonNull Term usageTerm;
+	private final LanguageHandler.@NonNull Term descriptionTerm;
+	private final @NonNull Permission permission;
 	private final @Nullable String actualName;
 
-	public CommonCommand(final @NotNull NamelessPlugin plugin,
-						 final @NotNull String configName,
-						 final @NotNull LanguageHandler.Term usageTerm,
-						 final @NotNull LanguageHandler.Term descriptionTerm,
-						 final @NotNull Permission permission) {
+	public CommonCommand(final @NonNull NamelessPlugin plugin,
+						 final @NonNull String configName,
+						 final LanguageHandler.@NonNull Term usageTerm,
+						 final LanguageHandler.@NonNull Term descriptionTerm,
+						 final @NonNull Permission permission) {
 		this.plugin = plugin;
 		this.configName = configName;
 		this.usageTerm = usageTerm;
@@ -38,7 +38,7 @@ public abstract class CommonCommand {
 				: null;
 	}
 
-	public @NotNull String configName() {
+	public @NonNull String configName() {
 		return this.configName;
 	}
 
@@ -57,35 +57,35 @@ public abstract class CommonCommand {
 		return this.language().get(this.descriptionTerm);
 	}
 
-	public @NotNull Permission permission() {
+	public @NonNull Permission permission() {
 		return this.permission;
 	}
 
-	protected @NotNull NamelessPlugin plugin() {
+	protected @NonNull NamelessPlugin plugin() {
 		return this.plugin;
 	}
 
-	protected @NotNull AbstractScheduler scheduler() {
+	protected @NonNull AbstractScheduler scheduler() {
 		return this.plugin.scheduler();
 	}
 
-	protected @NotNull LanguageHandler language() {
+	protected @NonNull LanguageHandler language() {
 		return this.plugin.language();
 	}
 
-	protected @NotNull ApiProvider apiProvider(){
+	protected @NonNull ApiProvider apiProvider(){
 		return this.plugin.apiProvider();
 	}
 
-	protected @NotNull Optional<NamelessAPI> api(){
+	protected @NonNull Optional<NamelessAPI> api(){
 		return this.apiProvider().api();
 	}
 
-	protected @NotNull AbstractLogger logger() { return this.plugin.logger(); }
+	protected @NonNull AbstractLogger logger() { return this.plugin.logger(); }
 
-	public abstract void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args);
+	public abstract void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args);
 
-	public static List<CommonCommand> enabledCommands(final @NotNull NamelessPlugin plugin) {
+	public static List<CommonCommand> enabledCommands(final @NonNull NamelessPlugin plugin) {
 		List<CommonCommand> list = new ArrayList<>();
 		list.add(new GetNotificationsCommand(plugin));
 		list.add(new NamelessPluginCommand(plugin));

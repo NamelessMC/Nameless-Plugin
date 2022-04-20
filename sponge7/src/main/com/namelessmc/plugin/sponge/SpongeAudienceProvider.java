@@ -5,8 +5,8 @@ import com.namelessmc.plugin.common.NamelessConsole;
 import com.namelessmc.plugin.common.NamelessPlayer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.entity.living.player.Player;
 
@@ -17,22 +17,22 @@ import java.util.stream.Collectors;
 
 public class SpongeAudienceProvider extends AbstractAudienceProvider {
 
-	private final @NotNull SpongeAudiences audiences;
-	private final @NotNull Server server;
+	private final @NonNull SpongeAudiences audiences;
+	private final @NonNull Server server;
 
-	SpongeAudienceProvider(final @NotNull SpongeAudiences audiences,
-						   final @NotNull Server server) {
+	SpongeAudienceProvider(final @NonNull SpongeAudiences audiences,
+						   final @NonNull Server server) {
 		this.audiences = audiences;
 		this.server = server;
 	}
 
 	@Override
-	public @NotNull NamelessConsole console() {
+	public @NonNull NamelessConsole console() {
 		return new NamelessConsole(this.audiences.console());
 	}
 
 	@Override
-	public @NotNull Audience broadcast() {
+	public @NonNull Audience broadcast() {
 		return this.audiences.all();
 	}
 
@@ -45,17 +45,17 @@ public class SpongeAudienceProvider extends AbstractAudienceProvider {
 	}
 
 	@Override
-	public @Nullable NamelessPlayer player(@NotNull UUID uuid) {
+	public @Nullable NamelessPlayer player(@NonNull UUID uuid) {
 		return spongeToNamelessPlayer(this.server.getPlayer(uuid));
 	}
 
 	@Override
-	public @Nullable NamelessPlayer playerByUsername(@NotNull String username) {
+	public @Nullable NamelessPlayer playerByUsername(@NonNull String username) {
 		return spongeToNamelessPlayer(this.server.getPlayer(username));
 	}
 
 	@Override
-	public @NotNull Collection<@NotNull NamelessPlayer> onlinePlayers() {
+	public @NonNull Collection<@NonNull NamelessPlayer> onlinePlayers() {
 		return this.server.getOnlinePlayers().stream()
 				.map(p -> new NamelessPlayer(this.audiences.player(p), p.getUniqueId(), p.getName()))
 				.collect(Collectors.toUnmodifiableList());
