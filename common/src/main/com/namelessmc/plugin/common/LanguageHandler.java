@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -107,37 +106,36 @@ public class LanguageHandler implements Reloadable {
 	 */
 	private static final int VERSION = 26;
 
-	private static final Set<String> LANGUAGES = new HashSet<>();
-	static {
-		LANGUAGES.add("cs_CZ");
-		LANGUAGES.add("de_DE");
-		LANGUAGES.add("el_GR");
-		LANGUAGES.add("en_UK");
-		LANGUAGES.add("en_US");
-		LANGUAGES.add("es_419");
-		LANGUAGES.add("es_ES");
-		LANGUAGES.add("fr_FR");
-		LANGUAGES.add("he_IL");
-		LANGUAGES.add("hr_HR");
-		LANGUAGES.add("hu_HU");
-		LANGUAGES.add("it_IT");
-		LANGUAGES.add("ja_JP");
-		LANGUAGES.add("ko_KR");
-		LANGUAGES.add("lt_LT");
-		LANGUAGES.add("nb_NO");
-		LANGUAGES.add("nl_NL_form");
-		LANGUAGES.add("nl_NL");
-		LANGUAGES.add("pl_PL");
-		LANGUAGES.add("pt_BR");
-		LANGUAGES.add("ro_RO");
-		LANGUAGES.add("ru_RU");
-		LANGUAGES.add("sk_SK");
-		LANGUAGES.add("sq_AL");
-		LANGUAGES.add("sv_SE");
-		LANGUAGES.add("tr_TR");
-		LANGUAGES.add("vi_VN");
-		LANGUAGES.add("zh_CN");
-	}
+	private static final Set<String> LANGUAGES = Set.of(
+			"cs_CZ",
+			"de_DE",
+			"el_GR",
+			"en_UK",
+			"en_US",
+			"es_419",
+			"es_ES",
+			"fr_FR",
+			"he_IL",
+			"hr_HR",
+			"hu_HU",
+			"it_IT",
+			"ja_JP",
+			"ko_KR",
+			"lt_LT",
+			"nb_NO",
+			"nl_NL_form",
+			"nl_NL",
+			"pl_PL",
+			"pt_BR",
+			"ro_RO",
+			"ru_RU",
+			"sk_SK",
+			"sq_AL",
+			"sv_SE",
+			"tr_TR",
+			"vi_VN",
+			"zh_CN"
+	);
 
 	private static final String DEFAULT_LANGUAGE = "en_UK";
 	private static final String VERSION_FILE_NAME = ".VERSION_DO_NOT_DELETE.dat";
