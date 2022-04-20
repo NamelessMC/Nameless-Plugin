@@ -15,9 +15,9 @@ public class NamelessCommandSender implements Audience {
 	}
 
 	@Override
-	public void sendMessage(@NonNull final Identity source,
-							@NonNull final Component message,
-							@NonNull final MessageType type) {
+	public void sendMessage(final @NonNull Identity source,
+							final @NonNull Component message,
+							final @NonNull MessageType type) {
 		this.audience.sendMessage(source, message, type);
 	}
 

@@ -6,6 +6,7 @@ import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.config.Configuration;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,16 +19,16 @@ public class ApiProvider implements Reloadable {
 
 	private static final String USER_AGENT = "Nameless-Plugin/"	 + MavenConstants.PROJECT_VERSION;
 
-	private Optional<NamelessAPI> cachedApi; // null if not cached
-
 	private final @NonNull AbstractScheduler scheduler;
 	private final @NonNull AbstractLogger logger;
 	private final @NonNull ConfigurationHandler config;
 
-	private String apiUrl;
-	private String apiKey;
+	private @Nullable Optional<NamelessAPI> cachedApi; // null if not cached
+
+	private @Nullable String apiUrl;
+	private @Nullable String apiKey;
 	private boolean debug;
-	private Duration timeout;
+	private @Nullable Duration timeout;
 	private boolean bypassVersionCheck;
 
 	public ApiProvider(final @NonNull AbstractScheduler scheduler,
@@ -68,7 +69,8 @@ public class ApiProvider implements Reloadable {
 	}
 
 	public synchronized Optional<NamelessAPI> api() {
-		Objects.requireNonNull(logger, "Exception logger not initialized before API was requested. This is a bug.");
+		Objects.requireNonNull(this.logger, "Exception logger not initialized before API was requested. This is a bug.");
+		Objects.requireNonNull(this.timeout, "API requested before config settings are loaded");
 
 		if (this.cachedApi != null) {
 			return this.cachedApi;
@@ -77,10 +79,8 @@ public class ApiProvider implements Reloadable {
 		this.cachedApi = Optional.empty();
 
 		try {
-			if (this.apiUrl == null || this.apiUrl.isEmpty()) {
-				this.logger.severe("You have not entered an API URL in the config. Please get your site's API URL from StaffCP > Configuration > API and reload the plugin.");
-			} else if (this.apiKey == null || this.apiKey.isEmpty()) {
-				this.logger.severe("You have not entered an API key in the config. Please get your site's API key from StaffCP > Configuration > API and reload the plugin.");
+			if (this.apiUrl == null || this.apiUrl.isEmpty() || this.apiKey == null || this.apiKey.isEmpty()) {
+				this.logger.severe("You have not entered an API URL and API key in the config. Please get your site's API URL and API key from StaffCP > Configuration > API and reload the plugin.");
 			} else {
 				URL url = null;
 				try {

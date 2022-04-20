@@ -253,12 +253,7 @@ public class LanguageHandler implements Reloadable {
 		this.logger.info("Done");
 	}
 
-	private Configuration readLanguageFile(final @NonNull String languageName) throws IOException {
-		if (!LANGUAGES.contains(languageName)) {
-			this.logger.severe("Language '" + languageName + "' not known.");
-			return null;
-		}
-
+	private @NonNull Configuration readLanguageFile(final @NonNull String languageName) throws IOException {
 		final Path file = this.languageDirectory.resolve(languageName + ".yaml");
 
 		try (final InputStream in = Files.newInputStream(file)) {
@@ -267,6 +262,12 @@ public class LanguageHandler implements Reloadable {
 	}
 
 	private void setActiveLanguage(final @NonNull String languageCode) throws IOException {
+		if (!LANGUAGES.contains(languageCode)) {
+			this.logger.severe("Language '" + languageCode + "' not known, using default language.");
+			setActiveLanguage(DEFAULT_LANGUAGE);
+			return;
+		}
+
 		this.activeLanguageCode = languageCode;
 		this.activeLanguageFile = readLanguageFile(languageCode);
 		if (languageCode.equals(DEFAULT_LANGUAGE)) {

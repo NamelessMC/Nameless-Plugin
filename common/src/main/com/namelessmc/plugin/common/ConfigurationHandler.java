@@ -4,28 +4,30 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import xyz.derkades.derkutils.FileUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 public class ConfigurationHandler implements Reloadable {
 
 	private final @NonNull Path dataDirectory;
-	private Configuration mainConfig;
-	private Configuration commandsConfig;
+	private @Nullable Configuration mainConfig;
+	private @Nullable Configuration commandsConfig;
 
 	public ConfigurationHandler(final @NonNull Path dataDirectory) {
 		this.dataDirectory = dataDirectory;
 	}
 
 	public @NonNull Configuration main() {
-		return this.mainConfig;
+		return Objects.requireNonNull(this.mainConfig, "config requested before load");
 	}
 
 	public @NonNull Configuration commands() {
-		return this.commandsConfig;
+		return Objects.requireNonNull(this.commandsConfig, "config requested before load");
 	}
 
 	@Override
