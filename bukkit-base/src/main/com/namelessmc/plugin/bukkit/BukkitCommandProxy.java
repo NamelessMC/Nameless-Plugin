@@ -51,6 +51,7 @@ public class BukkitCommandProxy implements Reloadable {
 					} else {
 						sender = plugin.audiences().console();
 					}
+					Objects.requireNonNull(sender, "Audience is never null");
 					if (!spigotSender.hasPermission(permission)) {
 						sender.sendMessage(noPermissionMessage);
 						return true;

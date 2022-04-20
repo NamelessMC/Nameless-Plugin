@@ -36,6 +36,8 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 
 	private @Nullable Boolean usesMojangUuids;
 
+	private final @NonNull PlaceholderCacher placeholderCacher;
+
 	public BukkitNamelessPlugin() {
 		final Path dataDirectory = this.getDataFolder().toPath();
 		this.plugin = new NamelessPlugin(
@@ -47,7 +49,7 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		this.plugin.registerReloadable(new BukkitDataSender(this.plugin, this));
 		this.plugin.registerReloadable(new UserSyncTask(this.plugin, this));
 		this.plugin.registerReloadable(new AnnouncementTask(this.plugin));
-		PapiHook.cacher = this.plugin.registerReloadable(
+		this.placeholderCacher = this.plugin.registerReloadable(
 				new PlaceholderCacher(this, this.plugin)
 		);
 	}
@@ -100,7 +102,7 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 	
 	private void initPapi() {
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			final PapiHook placeholders = new PapiHook();
+			final PapiHook placeholders = new PapiHook(this.placeholderCacher);
 			placeholders.register();
 
 			this.papiParser = new PapiParserEnabled();

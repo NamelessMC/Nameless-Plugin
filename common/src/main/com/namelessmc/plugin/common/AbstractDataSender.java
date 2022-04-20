@@ -18,8 +18,8 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 
 	private final @NonNull NamelessPlugin plugin;
 	private @Nullable AbstractScheduledTask dataSenderTask;
-	private List<InfoProvider> globalInfoProviders;
-	private List<PlayerInfoProvider> playerInfoProviders;
+	private @Nullable List<@NonNull InfoProvider> globalInfoProviders;
+	private @Nullable List<@NonNull PlayerInfoProvider> playerInfoProviders;
 	private int serverId;
 
 	private final @NonNull Map<UUID, Long> playerLoginTime = new HashMap<>();
@@ -80,6 +80,9 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 	}
 
 	private @NonNull JsonObject buildJsonBody() {
+		Objects.requireNonNull(this.globalInfoProviders, "providers are never null");
+		Objects.requireNonNull(this.playerInfoProviders, "providers are never null");
+
 		final JsonObject data = new JsonObject();
 		data.addProperty("server-id", this.serverId);
 
@@ -138,10 +141,16 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 	}
 
 	protected void registerGlobalInfoProvider(InfoProvider globalInfoProvider) {
+		if (this.globalInfoProviders == null) {
+			throw new IllegalStateException("Cannot register info provider when data sender is disabled");
+		}
 		this.globalInfoProviders.add(globalInfoProvider);
 	}
 
 	protected void registerPlayerInfoProvider(PlayerInfoProvider playerInfoProvider) {
+		if (this.playerInfoProviders == null) {
+			throw new IllegalStateException("Cannot register info provider when data sender is disabled");
+		}
 		this.playerInfoProviders.add(playerInfoProvider);
 	}
 
@@ -154,8 +163,14 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			json.addProperty("allocated-memory", Runtime.getRuntime().totalMemory());
 		});
 
-		this.registerPlayerInfoProvider((json, player) ->
-				json.addProperty("login-time", this.playerLoginTime.get(player.uuid())));
+		this.registerPlayerInfoProvider((json, player) -> {
+			Long loginTime =  this.playerLoginTime.get(player.uuid());
+			if (loginTime == null) {
+				this.plugin.logger().warning("Player " + player.username() + " is missing from login time map");
+				loginTime = System.currentTimeMillis();
+			}
+			json.addProperty("login-time", loginTime);
+		});
 	}
 
 	@FunctionalInterface
