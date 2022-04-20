@@ -47,8 +47,10 @@
 						</path>
 					</annotationProcessorPaths>
 					<annotationProcessors>
-						<!-- Add all the checkers you want to enable here -->
 						<annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+						<annotationProcessor>org.checkerframework.checker.optional.OptionalChecker</annotationProcessor>
+						<annotationProcessor>org.checkerframework.checker.regex.RegexChecker</annotationProcessor>
+						<annotationProcessor>org.checkerframework.checker.formatter.FormatterChecker</annotationProcessor>
 					</annotationProcessors>
 					<compilerArgs>
 					 	<arg>-Awarns</arg>

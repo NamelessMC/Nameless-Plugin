@@ -10,7 +10,6 @@ import xyz.derkades.derkutils.FileUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Objects;
 
 public class ConfigurationHandler implements Reloadable {
 
@@ -23,11 +22,17 @@ public class ConfigurationHandler implements Reloadable {
 	}
 
 	public @NonNull Configuration main() {
-		return Objects.requireNonNull(this.mainConfig, "config requested before load");
+		if (this.mainConfig == null) {
+			throw new IllegalStateException("config requested before load");
+		}
+		return this.mainConfig;
 	}
 
 	public @NonNull Configuration commands() {
-		return Objects.requireNonNull(this.commandsConfig, "config requested before load");
+		if (this.commandsConfig == null) {
+			throw new IllegalStateException("config requested before load");
+		}
+		return this.commandsConfig;
 	}
 
 	@Override

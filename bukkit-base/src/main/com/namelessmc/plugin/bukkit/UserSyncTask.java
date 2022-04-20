@@ -59,9 +59,8 @@ public class UserSyncTask implements Runnable, Reloadable {
 		}
 	}
 
-	@Nullable
-	private Set<UUID> getUuids(final boolean doLog,
-							   final @NonNull Consumer<@NonNull FilteredUserListBuilder> builderConfigurator) {
+	private @Nullable Set<UUID> getUuids(final boolean doLog,
+							             final @NonNull Consumer<@NonNull FilteredUserListBuilder> builderConfigurator) {
 		final Configuration config = this.plugin.config().main();
 		final AbstractLogger logger = this.plugin.logger();
 

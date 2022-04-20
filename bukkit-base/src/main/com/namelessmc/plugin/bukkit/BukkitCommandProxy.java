@@ -15,7 +15,6 @@ import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 public class BukkitCommandProxy implements Reloadable {
 
@@ -29,15 +28,19 @@ public class BukkitCommandProxy implements Reloadable {
 
 	@Override
 	public void reload() {
-		for (Command registeredCommand : this.registeredCommands) {
+		for (final Command registeredCommand : this.registeredCommands) {
 			ReflectionUtil.unregisterCommand(registeredCommand);
 		}
 		registeredCommands.clear();
 
-		CommonCommand.enabledCommands(this.plugin).forEach(command -> {
-			final String name = Objects.requireNonNull(command.actualName(), "Only enabled commands are returned");
-			final String permission = command.permission().toString();
+		CommonCommand.commands(this.plugin).forEach(command -> {
+			final String name = command.actualName();
+			if (name == null) {
+				// Command is disabled
+				return;
+			}
 
+			final String permission = command.permission().toString();
 			final PlainTextComponentSerializer ser = PlainTextComponentSerializer.plainText();
 			final String usage = ser.serialize(command.usage());
 			final String description = ser.serialize(command.description());
@@ -51,7 +54,12 @@ public class BukkitCommandProxy implements Reloadable {
 					} else {
 						sender = plugin.audiences().console();
 					}
-					Objects.requireNonNull(sender, "Audience is never null");
+
+					if (sender == null) {
+						spigotSender.sendMessage("ERROR: Audience is null");
+						return true;
+					}
+
 					if (!spigotSender.hasPermission(permission)) {
 						sender.sendMessage(noPermissionMessage);
 						return true;

@@ -10,7 +10,6 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class VelocityCommandProxy implements Reloadable {
 
@@ -31,7 +30,12 @@ public class VelocityCommandProxy implements Reloadable {
 		}
 		registeredCommands.clear();
 
-		CommonCommand.enabledCommands(this.plugin).forEach(command -> {
+		CommonCommand.commands(this.plugin).forEach(command -> {
+			final String name = command.actualName();
+			if (name == null) {
+				// Command is disabled
+				return;
+			}
 			final String permission = command.permission().toString();
 			Command velocityCommand = new SimpleCommand() {
 				@Override
@@ -52,8 +56,6 @@ public class VelocityCommandProxy implements Reloadable {
 					return invocation.source().hasPermission(permission);
 				}
 			};
-			final String name = Objects.requireNonNull(command.actualName(),
-					"command is enabled so name can't be null");
 			this.server.getCommandManager().register(name, velocityCommand);
 			this.registeredCommands.add(name);
 		});

@@ -29,8 +29,12 @@ public class BungeeCommandProxy implements Reloadable {
 
 		manager.unregisterCommands(this.bungeePlugin);
 
-		CommonCommand.enabledCommands(this.plugin).forEach(command -> {
+		CommonCommand.commands(this.plugin).forEach(command -> {
 			final String name = command.actualName();
+			if (name == null) {
+				// Command is disabled
+				return;
+			}
 			final String permission = command.permission().toString();
 
 			Command bungeeCommand = new Command(name, permission) {

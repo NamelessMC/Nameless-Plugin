@@ -4,6 +4,7 @@ import com.namelessmc.plugin.common.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.event.ServerJoinEvent;
 import com.namelessmc.plugin.common.event.ServerQuitEvent;
+import net.kyori.adventure.audience.Audience;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,8 +26,13 @@ public class BukkitEventProxy implements Listener {
 	@EventHandler
 	public void onJoin(final @NonNull PlayerJoinEvent event) {
 		final Player bukkitPlayer = event.getPlayer();
+		final Audience audience = this.plugin.audiences().player(bukkitPlayer.getUniqueId());
+		if (audience == null) {
+			this.plugin.logger().severe("Skipped join event for " + bukkitPlayer.getName() + ", audience is null");
+			return;
+		}
 		final NamelessPlayer player = new NamelessPlayer(
-				this.plugin.audiences().player(bukkitPlayer.getUniqueId()),
+				audience,
 				bukkitPlayer.getUniqueId(),
 				bukkitPlayer.getName());
 		final ServerJoinEvent event2 = new ServerJoinEvent(player);

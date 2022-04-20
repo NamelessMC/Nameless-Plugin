@@ -11,12 +11,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public abstract class CommonCommand {
 
 	private final @NonNull NamelessPlugin plugin;
-	private final @NonNull String configName;
 	private final LanguageHandler.@NonNull Term usageTerm;
 	private final LanguageHandler.@NonNull Term descriptionTerm;
 	private final @NonNull Permission permission;
@@ -28,18 +26,13 @@ public abstract class CommonCommand {
 						 final LanguageHandler.@NonNull Term descriptionTerm,
 						 final @NonNull Permission permission) {
 		this.plugin = plugin;
-		this.configName = configName;
 		this.usageTerm = usageTerm;
 		this.descriptionTerm = descriptionTerm;
 		this.permission = permission;
 		final Configuration config = plugin.config().commands();
-		this.actualName = config.contains(this.configName())
-				? config.getString(this.configName())
+		this.actualName = config.contains(configName)
+				? config.getString(configName)
 				: null;
-	}
-
-	public @NonNull String configName() {
-		return this.configName;
 	}
 
 	public @Nullable String actualName() {
@@ -85,17 +78,16 @@ public abstract class CommonCommand {
 
 	public abstract void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args);
 
-	public static List<CommonCommand> enabledCommands(final @NonNull NamelessPlugin plugin) {
-		List<CommonCommand> list = new ArrayList<>();
+	public static List<CommonCommand> commands(final @NonNull NamelessPlugin plugin) {
+		ArrayList<CommonCommand> list = new ArrayList<>();
 		list.add(new GetNotificationsCommand(plugin));
 		list.add(new NamelessPluginCommand(plugin));
 		list.add(new RegisterCommand(plugin));
 		list.add(new ReportCommand(plugin));
 		list.add(new UserInfoCommand(plugin));
 		list.add(new VerifyCommand(plugin));
-		return list.stream()
-				.filter(command -> command.actualName() != null)
-				.collect(Collectors.toUnmodifiableList());
+		list.trimToSize();
+		return list;
 	}
 
 }

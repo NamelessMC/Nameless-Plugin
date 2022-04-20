@@ -37,7 +37,13 @@ public class SpongeCommandProxy implements Reloadable {
 		}
 		this.registeredCommands.clear();
 
-		CommonCommand.enabledCommands(this.plugin).forEach(command -> {
+		CommonCommand.commands(this.plugin).forEach(command -> {
+			final String name = command.actualName();
+			if (name == null) {
+				// Command is disabled
+				return;
+			}
+
 			final String permission = command.permission().toString();
 			final SpongeComponentSerializer ser = SpongeComponentSerializer.get();
 			final Text usage = ser.serialize(command.usage());

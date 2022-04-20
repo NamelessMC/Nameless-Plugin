@@ -17,6 +17,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -30,9 +31,9 @@ public class PlaceholderCacher implements Listener, Reloadable {
 
 	private final @NonNull BukkitNamelessPlugin spigotPlugin;
 	private final @NonNull NamelessPlugin plugin;
-	private AbstractScheduledTask task;
-	private AtomicBoolean isRunning;
-	private Map<UUID, Integer> cachedNotificationCount;
+	private @Nullable AbstractScheduledTask task;
+	private @Nullable AtomicBoolean isRunning;
+	private @Nullable Map<UUID, Integer> cachedNotificationCount;
 
 	public PlaceholderCacher(final @NonNull BukkitNamelessPlugin spigotPlugin,
 							 final @NonNull NamelessPlugin plugin) {
@@ -60,6 +61,10 @@ public class PlaceholderCacher implements Listener, Reloadable {
 	}
 
 	private void updateCache() {
+		if (isRunning == null) {
+			throw new IllegalStateException("Placeholder cacher is disabled");
+		}
+
 		if (isRunning.compareAndSet(false, true)) {
 			final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
 			if (optApi.isPresent()) {
@@ -73,6 +78,10 @@ public class PlaceholderCacher implements Listener, Reloadable {
 	}
 
 	private void updateCache(final @NonNull NamelessAPI api, final @NonNull Player player) {
+		if (this.cachedNotificationCount == null) {
+			throw new IllegalStateException("Placeholder cacher is disabled");
+		}
+
 		try {
 			final Optional<NamelessUser> user = api.getUser(player.getUniqueId());
 			if (user.isEmpty()) {
@@ -87,6 +96,11 @@ public class PlaceholderCacher implements Listener, Reloadable {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onJoin(final PlayerQuitEvent event) {
+		if (cachedNotificationCount == null) {
+			this.plugin.logger().severe("On join event called while placeholder cacher disabled");
+			return;
+		}
+
 		this.cachedNotificationCount.remove(event.getPlayer().getUniqueId());
 
 		final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
@@ -95,15 +109,19 @@ public class PlaceholderCacher implements Listener, Reloadable {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onQuit(final PlayerQuitEvent event) {
+		if (cachedNotificationCount == null) {
+			this.plugin.logger().severe("On quit event called while placeholder cacher disabled");
+			return;
+		}
+
 		this.cachedNotificationCount.remove(event.getPlayer().getUniqueId());
 	}
 
-	public void stop() {
-		task.cancel();
-		HandlerList.unregisterAll(this);
-	}
-
 	public int getNotificationCount(final @NonNull OfflinePlayer player) {
+		if (this.cachedNotificationCount == null) {
+			return -1;
+		}
+
 		Integer count = this.cachedNotificationCount.get(player.getUniqueId());
 		return count != null ? count : -1;
 	}
