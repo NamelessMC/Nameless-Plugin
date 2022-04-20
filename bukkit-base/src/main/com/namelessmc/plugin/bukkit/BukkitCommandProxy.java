@@ -34,14 +34,14 @@ public class BukkitCommandProxy implements Reloadable {
 		}
 		registeredCommands.clear();
 
-		CommonCommand.getEnabledCommands(this.plugin).forEach(command -> {
-			final String name = Objects.requireNonNull(command.getActualName(), "Only enabled commands are returned");
-			final String permission = command.getPermission().toString();
+		CommonCommand.enabledCommands(this.plugin).forEach(command -> {
+			final String name = Objects.requireNonNull(command.actualName(), "Only enabled commands are returned");
+			final String permission = command.permission().toString();
 
 			final PlainTextComponentSerializer ser = PlainTextComponentSerializer.plainText();
-			final String usage = ser.serialize(command.getUsage());
-			final String description = ser.serialize(command.getDescription());
-			final Component noPermissionMessage = this.plugin.language().getComponent(LanguageHandler.Term.COMMAND_NO_PERMISSION);
+			final String usage = ser.serialize(command.usage());
+			final String description = ser.serialize(command.description());
+			final Component noPermissionMessage = this.plugin.language().get(LanguageHandler.Term.COMMAND_NO_PERMISSION);
 			Command spigotCommand = new Command(name, usage, description, Collections.emptyList()) {
 				@Override
 				public boolean execute(final CommandSender spigotSender, final String commandLabel, final String[] args) {

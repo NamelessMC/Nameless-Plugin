@@ -63,7 +63,7 @@ public class NamelessPlugin {
 		return this.logger;
 	}
 
-	public ApiProvider api() {
+	public ApiProvider apiProvider() {
 		return this.api;
 	}
 
@@ -122,10 +122,10 @@ public class NamelessPlugin {
 			return;
 		}
 
-		Configuration config = this.config().getMainConfig();
+		Configuration config = this.config().main();
 
 		metrics.addCustomChart(new SimplePie("api_working", () ->
-				this.api().isApiWorkingMetric()));
+				this.apiProvider().isApiWorkingMetric()));
 
 		metrics.addCustomChart(new SimplePie("server_data_sender_enabled", () ->
 				config.getInt("server-id") > 0

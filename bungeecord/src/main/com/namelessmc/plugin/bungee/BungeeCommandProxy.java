@@ -29,9 +29,9 @@ public class BungeeCommandProxy implements Reloadable {
 
 		manager.unregisterCommands(this.bungeePlugin);
 
-		CommonCommand.getEnabledCommands(this.plugin).forEach(command -> {
-			final String name = command.getActualName();
-			final String permission = command.getPermission().toString();
+		CommonCommand.enabledCommands(this.plugin).forEach(command -> {
+			final String name = command.actualName();
+			final String permission = command.permission().toString();
 
 			Command bungeeCommand = new Command(name, permission) {
 				@Override
@@ -44,7 +44,7 @@ public class BungeeCommandProxy implements Reloadable {
 					}
 
 					if (!bungeeSender.hasPermission(permission)) {
-						sender.sendMessage(plugin.language().getComponent(LanguageHandler.Term.COMMAND_NO_PERMISSION));
+						sender.sendMessage(plugin.language().get(LanguageHandler.Term.COMMAND_NO_PERMISSION));
 						return;
 					}
 

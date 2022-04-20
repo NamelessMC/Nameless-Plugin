@@ -49,7 +49,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 			this.cachedNotificationCount = null;
 		}
 
-		final Configuration config = this.plugin.config().getMainConfig();
+		final Configuration config = this.plugin.config().main();
 		if (config.getBoolean("retrieve-placeholders.enabled")) {
 			Bukkit.getPluginManager().registerEvents(this, spigotPlugin);
 			Duration interval = Duration.parse(config.getString("retrieve-placeholders.interval"));
@@ -61,7 +61,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 
 	private void updateCache() {
 		if (isRunning.compareAndSet(false, true)) {
-			final Optional<NamelessAPI> optApi = this.plugin.api().getNamelessApi();
+			final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
 			if (optApi.isPresent()) {
 				final NamelessAPI api = optApi.get();
 				for (final Player player : Bukkit.getOnlinePlayers()) {
@@ -89,7 +89,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 	public void onJoin(final PlayerQuitEvent event) {
 		this.cachedNotificationCount.remove(event.getPlayer().getUniqueId());
 
-		final Optional<NamelessAPI> optApi = this.plugin.api().getNamelessApi();
+		final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
 		optApi.ifPresent(api -> this.plugin.scheduler().runAsync(() -> updateCache(api, event.getPlayer())));
 	}
 

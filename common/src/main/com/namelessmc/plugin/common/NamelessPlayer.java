@@ -18,11 +18,11 @@ public class NamelessPlayer extends NamelessCommandSender {
 		this.username = username;
 	}
 
-	public @NotNull UUID getUniqueId() {
+	public @NotNull UUID uuid() {
 		return this.uuid;
 	}
 
-	public @NotNull String getUsername() {
+	public @NotNull String username() {
 		return this.username;
 	}
 

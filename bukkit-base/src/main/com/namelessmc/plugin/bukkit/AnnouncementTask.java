@@ -35,7 +35,7 @@ public class AnnouncementTask implements Runnable, Reloadable {
 			task = null;
 		}
 
-		Configuration config = this.plugin.config().getMainConfig();
+		Configuration config = this.plugin.config().main();
 		if (config.getBoolean("announcements.enabled")) {
 			Duration interval = Duration.parse(config.getString("announcements.interval"));
 			this.task = this.plugin.scheduler().runTimer(this, interval);
@@ -44,9 +44,9 @@ public class AnnouncementTask implements Runnable, Reloadable {
 
 	@Override
 	public void run() {
-		final Configuration config = this.plugin.config().getMainConfig();
-		final ApiProvider apiProvider = this.plugin.api();
-		apiProvider.getNamelessApi().ifPresent(api -> {
+		final Configuration config = this.plugin.config().main();
+		final ApiProvider apiProvider = this.plugin.apiProvider();
+		apiProvider.api().ifPresent(api -> {
 			@Nullable String filterDisplay = config.getString("announcements.display");
 			Duration delay = Duration.ZERO;
 			for (Player player : Bukkit.getOnlinePlayers()) {
@@ -78,7 +78,7 @@ public class AnnouncementTask implements Runnable, Reloadable {
 									// Player left
 									return;
 								}
-								final Component message = this.plugin.language().getComponent(
+								final Component message = this.plugin.language().get(
 										LanguageHandler.Term.WEBSITE_ANNOUNCEMENT, "message", announcementMessage);
 								player2.sendMessage(message);
 							});

@@ -45,7 +45,7 @@ public abstract class AbstractLogger implements Reloadable {
 
 	@Override
 	public void reload() {
-		this.singleLineExceptions = this.config.getMainConfig()
+		this.singleLineExceptions = this.config.main()
 				.getBoolean("single-line-exceptions", false);
 	}
 

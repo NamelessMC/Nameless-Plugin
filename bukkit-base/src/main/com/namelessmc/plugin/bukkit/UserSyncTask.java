@@ -36,7 +36,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 			task = null;
 		}
 
-		final Configuration config = this.plugin.config().getMainConfig();
+		final Configuration config = this.plugin.config().main();
 		if (config.getBoolean("user-sync.enabled")) {
 			Duration interval = Duration.parse(config.getString("user-sync.poll-interval"));
 			this.task = this.plugin.scheduler().runTimer(this, interval);
@@ -45,7 +45,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 
 	@Override
 	public void run() {
-		final Configuration config = this.plugin.config().getMainConfig();
+		final Configuration config = this.plugin.config().main();
 		final boolean doLog = config.getBoolean("user-sync.log", true);
 		Runnable runAfter = null;
 		if (config.getBoolean("user-sync.whitelist.enabled", false)) {
@@ -62,12 +62,12 @@ public class UserSyncTask implements Runnable, Reloadable {
 	@Nullable
 	private Set<UUID> getUuids(final boolean doLog,
 							   final @NotNull Consumer<@NotNull FilteredUserListBuilder> builderConfigurator) {
-		final Configuration config = this.plugin.config().getMainConfig();
+		final Configuration config = this.plugin.config().main();
 		final AbstractLogger logger = this.plugin.logger();
 
 		List<NamelessUser> users;
 		try {
-			final Optional<NamelessAPI> optApi = this.plugin.api().getNamelessApi();
+			final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
 			if (optApi.isPresent()) {
 				FilteredUserListBuilder builder = optApi.get().getRegisteredUsers();
 				builder.withFilter(UserFilter.INTEGRATION, StandardIntegrationTypes.MINECRAFT);
@@ -156,7 +156,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 	}
 
 	private void syncWhitelist(final boolean doLog) {
-		final Configuration config = this.plugin.config().getMainConfig();
+		final Configuration config = this.plugin.config().main();
 		final AbstractLogger logger = this.plugin.logger();
 
 		final boolean verifiedOnly = config.getBoolean("user-sync.whitelist.verified-only");

@@ -24,28 +24,28 @@ public class GetNotificationsCommand extends CommonCommand {
 	@Override
 	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
 		if (args.length != 0) {
-			sender.sendMessage(this.getUsage());
+			sender.sendMessage(this.usage());
 			return;
 		}
 
 		if (sender instanceof NamelessConsole) {
-			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOT_A_PLAYER));
+			sender.sendMessage(language().get(Term.COMMAND_NOT_A_PLAYER));
 			return;
 		}
 
-		getScheduler().runAsync(() -> {
-			final Optional<NamelessAPI> optApi = this.getApi();
+		scheduler().runAsync(() -> {
+			final Optional<NamelessAPI> optApi = this.api();
 			if (optApi.isEmpty()) {
-				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
+				sender.sendMessage(language().get(Term.ERROR_WEBSITE_CONNECTION));
 				return;
 			}
 			final NamelessAPI api = optApi.get();
 
 			try {
-				final Optional<NamelessUser> optional = api.getUser(((NamelessPlayer) sender).getUniqueId());
+				final Optional<NamelessUser> optional = api.getUser(((NamelessPlayer) sender).uuid());
 
 				if (optional.isEmpty()) {
-					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOT_REGISTERED));
+					sender.sendMessage(language().get(Term.PLAYER_SELF_NOT_REGISTERED));
 					return;
 				}
 
@@ -56,20 +56,20 @@ public class GetNotificationsCommand extends CommonCommand {
 				notifications.sort((n1, n2) -> n2.getType().ordinal() - n1.getType().ordinal());
 
 				if (notifications.size() == 0) {
-					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS));
+					sender.sendMessage(language().get(Term.COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS));
 					return;
 				}
 
-				getScheduler().runSync(() -> {
+				scheduler().runSync(() -> {
 					notifications.forEach((notification) -> {
-						sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION,
+						sender.sendMessage(language().get(Term.COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION,
 								"url", notification.getUrl(),
 								"message", notification.getMessage()));
 					});
 				});
 			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
-				getLogger().logException(e);
+				sender.sendMessage(language().get(Term.ERROR_WEBSITE_CONNECTION));
+				logger().logException(e);
 			}
 		});
 	}

@@ -12,7 +12,7 @@ public class ServerQuitEvent extends AbstractEvent {
 		this.uuid = uuid;
 	}
 
-	public @NotNull UUID getUniqueId() {
+	public @NotNull UUID uuid() {
 		return this.uuid;
 	}
 

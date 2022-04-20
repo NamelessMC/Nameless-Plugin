@@ -27,17 +27,17 @@ public class RegisterCommand extends CommonCommand {
 	@Override
 	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
 		if (args.length != 2) {
-			sender.sendMessage(this.getUsage());
+			sender.sendMessage(this.usage());
 			return;
 		}
 
 		final String username = args[0];
 		final String email = args[1];
 
-		this.getScheduler().runAsync(() -> {
-			final Optional<NamelessAPI> optApi = this.getApi();
+		this.scheduler().runAsync(() -> {
+			final Optional<NamelessAPI> optApi = this.api();
 			if (optApi.isEmpty()) {
-				sender.sendMessage(this.getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
+				sender.sendMessage(this.language().get(Term.ERROR_WEBSITE_CONNECTION));
 				return;
 			}
 
@@ -47,32 +47,32 @@ public class RegisterCommand extends CommonCommand {
 				Optional<String> link;
 				if (sender instanceof NamelessPlayer) {
 					final NamelessPlayer player = (NamelessPlayer) sender;
-					IntegrationData integrationData = new MinecraftIntegrationData(player.getUniqueId(), player.getUsername());
+					IntegrationData integrationData = new MinecraftIntegrationData(player.uuid(), player.username());
 					link = api.registerUser(username, email, integrationData);
 				} else {
 					link = api.registerUser(username, email);
 				}
 
 				if (link.isPresent()) {
-					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK, "url", link.get()));
+					sender.sendMessage(language().get(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK, "url", link.get()));
 				} else {
-					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL));
+					sender.sendMessage(language().get(Term.COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL));
 				}
 			} catch (final InvalidUsernameException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_INVALID));
+				sender.sendMessage(language().get(Term.COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_INVALID));
 			} catch (final CannotSendEmailException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_CANNOT_SEND_EMAIL));
+				sender.sendMessage(language().get(Term.COMMAND_REGISTER_OUTPUT_FAIL_CANNOT_SEND_EMAIL));
 			} catch (final UsernameAlreadyExistsException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_USED));
+				sender.sendMessage(language().get(Term.COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_USED));
 			} catch (final InvalidEmailAddressException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_INVALID));
+				sender.sendMessage(language().get(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_INVALID));
 			} catch (final EmailAlreadyUsedException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_USED));
+				sender.sendMessage(language().get(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_USED));
 			} catch (final IntegrationIdAlreadyExistsException | IntegrationUsernameAlreadyExistsException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED));
+				sender.sendMessage(language().get(Term.COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED));
 			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
-				getLogger().logException(e);
+				sender.sendMessage(language().get(Term.ERROR_WEBSITE_CONNECTION));
+				logger().logException(e);
 			}
 		});
 	}

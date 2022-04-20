@@ -11,7 +11,7 @@ public class ServerJoinEvent extends AbstractEvent {
 		this.player = player;
 	}
 
-	public @NotNull NamelessPlayer getPlayer() {
+	public @NotNull NamelessPlayer player() {
 		return this.player;
 	}
 

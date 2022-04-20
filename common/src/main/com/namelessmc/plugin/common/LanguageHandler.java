@@ -170,14 +170,14 @@ public class LanguageHandler implements Reloadable {
 	public void reload() {
 		try {
 			this.updateFiles();
-			this.setActiveLanguage(this.config.getMainConfig()
+			this.setActiveLanguage(this.config.main()
 					.getString("language", DEFAULT_LANGUAGE));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public String getRawMessage(final Term term) {
+	public String raw(final Term term) {
 		String message = this.activeLanguageFile.getString(term.path, null);
 		if (message == null) {
 			this.logger.warning("Message '" + term.path + "' missing from language file, using EnglishUK as fallback. Please help translate: https://translate.namelessmc.com");
@@ -187,34 +187,34 @@ public class LanguageHandler implements Reloadable {
 				"Message '" + term.path + "' missing from base language file. This is a bug, please report it.");
 	}
 
-	public Component getComponent(final Term term) {
-		return MiniMessage.miniMessage().deserialize(getRawMessage(term)); // TODO cache?
+	public Component get(final Term term) {
+		return MiniMessage.miniMessage().deserialize(raw(term)); // TODO cache?
 	}
 
-	public Component getComponent(final Term term, final String... placeholders) {
+	public Component get(final Term term, final String... placeholders) {
 		TagResolver[] resolvers = new TagResolver[placeholders.length / 2];
 		for (int i = 0; i < placeholders.length; i+=2) {
 			resolvers[i / 2] = Placeholder.parsed(placeholders[i], placeholders[i+1]);
 		}
-		return MiniMessage.miniMessage().deserialize(getRawMessage(term), resolvers);
+		return MiniMessage.miniMessage().deserialize(raw(term), resolvers);
 	}
 
-	public Component getComponent(final Term term, TagResolver... resolvers) {
-		return MiniMessage.miniMessage().deserialize(getRawMessage(term), resolvers);
+	public Component get(final Term term, TagResolver... resolvers) {
+		return MiniMessage.miniMessage().deserialize(raw(term), resolvers);
 	}
 
-	public Component getBooleanText(final boolean isYes, final boolean yesIsPositive) {
+	public Component booleanText(final boolean isYes, final boolean yesIsPositive) {
 		if (isYes) {
 			if (yesIsPositive) {
-				return getComponent(Term.BOOLEAN_YES_POSITIVE);
+				return get(Term.BOOLEAN_YES_POSITIVE);
 			} else {
-				return getComponent(Term.BOOLEAN_YES_NEGATIVE);
+				return get(Term.BOOLEAN_YES_NEGATIVE);
 			}
 		} else {
 			if (yesIsPositive) {
-				return getComponent(Term.BOOLEAN_NO_NEGATIVE);
+				return get(Term.BOOLEAN_NO_NEGATIVE);
 			} else {
-				return getComponent(Term.BOOLEAN_NO_POSITIVE);
+				return get(Term.BOOLEAN_NO_POSITIVE);
 			}
 		}
 	}

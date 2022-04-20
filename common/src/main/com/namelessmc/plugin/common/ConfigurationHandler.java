@@ -20,11 +20,11 @@ public class ConfigurationHandler implements Reloadable {
 		this.dataDirectory = dataDirectory;
 	}
 
-	public @NotNull Configuration getMainConfig() {
+	public @NotNull Configuration main() {
 		return this.mainConfig;
 	}
 
-	public @NotNull Configuration getCommandsConfig() {
+	public @NotNull Configuration commands() {
 		return this.commandsConfig;
 	}
 

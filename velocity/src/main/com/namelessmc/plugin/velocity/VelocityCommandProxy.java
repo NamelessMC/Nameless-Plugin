@@ -30,8 +30,8 @@ public class VelocityCommandProxy implements Reloadable {
 		}
 		registeredCommands.clear();
 
-		CommonCommand.getEnabledCommands(this.plugin).forEach(command -> {
-			final String permission = command.getPermission().toString();
+		CommonCommand.enabledCommands(this.plugin).forEach(command -> {
+			final String permission = command.permission().toString();
 			Command velocityCommand = new SimpleCommand() {
 				@Override
 				public void execute(final Invocation invocation) {
@@ -51,7 +51,7 @@ public class VelocityCommandProxy implements Reloadable {
 					return invocation.source().hasPermission(permission);
 				}
 			};
-			String name = command.getActualName();
+			String name = command.actualName();
 			this.server.getCommandManager().register(name, velocityCommand);
 			this.registeredCommands.add(name);
 		});

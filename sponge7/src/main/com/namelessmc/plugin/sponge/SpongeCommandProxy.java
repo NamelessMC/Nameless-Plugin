@@ -37,11 +37,11 @@ public class SpongeCommandProxy implements Reloadable {
 		}
 		this.registeredCommands.clear();
 
-		CommonCommand.getEnabledCommands(this.plugin).forEach(command -> {
-			final String permission = command.getPermission().toString();
+		CommonCommand.enabledCommands(this.plugin).forEach(command -> {
+			final String permission = command.permission().toString();
 			final SpongeComponentSerializer ser = SpongeComponentSerializer.get();
-			final Text usage = ser.serialize(command.getUsage());
-			final Text description = ser.serialize(command.getDescription());
+			final Text usage = ser.serialize(command.usage());
+			final Text description = ser.serialize(command.description());
 
 			CommandCallable spongeCommand = new CommandCallable() {
 				@Override
@@ -86,10 +86,10 @@ public class SpongeCommandProxy implements Reloadable {
 				}
 			};
 
-			manager.register(this, spongeCommand, command.getActualName()).ifPresentOrElse(
+			manager.register(this, spongeCommand, command.actualName()).ifPresentOrElse(
 					this.registeredCommands::add,
 					() -> {
-						this.plugin.logger().warning("Unable to register command: " + command.getActualName());
+						this.plugin.logger().warning("Unable to register command: " + command.actualName());
 					}
 			);
 		});

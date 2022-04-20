@@ -35,14 +35,14 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			// If the plugin is loaded when the server is already started (e.g. using /reload on bukkit), add
 			// players manually because the join event is never called for them.
 			for (final NamelessPlayer player : this.plugin.audiences().onlinePlayers()) {
-				playerLoginTime.put(player.getUniqueId(), System.currentTimeMillis());
+				playerLoginTime.put(player.uuid(), System.currentTimeMillis());
 			}
 		});
 
 		this.plugin.events().subscribe(ServerJoinEvent.class, event ->
-				playerLoginTime.put(event.getPlayer().getUniqueId(), System.currentTimeMillis()));
+				playerLoginTime.put(event.player().uuid(), System.currentTimeMillis()));
 		this.plugin.events().subscribe(ServerQuitEvent.class, event ->
-				playerLoginTime.remove(event.getUniqueId()));
+				playerLoginTime.remove(event.uuid()));
 	}
 
 	protected @NotNull NamelessPlugin getPlugin() {
@@ -62,7 +62,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			this.dataSenderTask = null;
 		}
 
-		final Configuration config = this.plugin.config().getMainConfig();
+		final Configuration config = this.plugin.config().main();
 
 		this.serverId = config.getInt("server-data-sender.server-id");
 		if (this.serverId <= 0) {
@@ -98,7 +98,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 
 		for (final NamelessPlayer player : this.plugin.audiences().onlinePlayers()) {
 			JsonObject playerJson = new JsonObject();
-			playerJson.addProperty("name", player.getUsername());
+			playerJson.addProperty("name", player.username());
 
 			for (PlayerInfoProvider infoProvider : this.playerInfoProviders) {
 				try {
@@ -108,7 +108,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 				}
 			}
 
-			players.add(player.getUniqueId().toString(), playerJson);
+			players.add(player.uuid().toString(), playerJson);
 		}
 
 		data.add("players", players);
@@ -120,7 +120,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		final JsonObject data = buildJsonBody();
 
 		this.plugin.scheduler().runAsync(() -> {
-			this.plugin.api().getNamelessApi().ifPresent((api) -> {
+			this.plugin.apiProvider().api().ifPresent((api) -> {
 				final AbstractLogger logger = this.plugin.logger();
 				try {
 					api.submitServerInfo(data);
@@ -155,7 +155,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		});
 
 		this.registerPlayerInfoProvider((json, player) ->
-				json.addProperty("login-time", this.playerLoginTime.get(player.getUniqueId())));
+				json.addProperty("login-time", this.playerLoginTime.get(player.uuid())));
 	}
 
 	@FunctionalInterface

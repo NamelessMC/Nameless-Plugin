@@ -15,7 +15,7 @@ public class BungeeDataSender extends AbstractDataSender {
 	@Override
 	protected void registerCustomProviders() {
 		this.registerPlayerInfoProvider((json, player) -> {
-			final ProxiedPlayer bungeePlayer = ProxyServer.getInstance().getPlayer(player.getUniqueId());
+			final ProxiedPlayer bungeePlayer = ProxyServer.getInstance().getPlayer(player.uuid());
 			if (bungeePlayer == null) {
 				return;
 			}

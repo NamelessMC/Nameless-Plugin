@@ -40,7 +40,7 @@ public class ApiProvider implements Reloadable {
 
 	@Override
 	public void reload() {
-		final Configuration config = this.config.getMainConfig();
+		final Configuration config = this.config.main();
 		this.apiUrl = config.getString("api.url");
 		this.apiKey = config.getString("api.key");
 		this.debug = config.getBoolean("api.debug", false);
@@ -49,7 +49,7 @@ public class ApiProvider implements Reloadable {
 
 		this.cachedApi = null;
 
-		scheduler.runAsync(this::getNamelessApi);
+		scheduler.runAsync(this::api);
 	}
 
 	// For bStats
@@ -67,7 +67,7 @@ public class ApiProvider implements Reloadable {
 		}
 	}
 
-	public synchronized Optional<NamelessAPI> getNamelessApi() {
+	public synchronized Optional<NamelessAPI> api() {
 		Objects.requireNonNull(logger, "Exception logger not initialized before API was requested. This is a bug.");
 
 		if (this.cachedApi != null) {

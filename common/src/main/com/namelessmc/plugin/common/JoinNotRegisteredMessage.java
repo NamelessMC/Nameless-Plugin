@@ -32,19 +32,19 @@ public class JoinNotRegisteredMessage implements Reloadable {
 			subscription = null;
 		}
 
-		final Configuration conf = this.plugin.config().getMainConfig();
+		final Configuration conf = this.plugin.config().main();
 
 		if (!conf.getBoolean("not-registered-join-message")) {
 			return;
 		}
 
 		this.subscription = this.plugin.events().subscribe(ServerJoinEvent.class, event ->
-				onJoin(event.getPlayer().getUniqueId()));
+				onJoin(event.player().uuid()));
 	}
 
 	private void onJoin(final @NotNull UUID uuid) {
 		this.plugin.scheduler().runAsync(() -> {
-			this.plugin.api().getNamelessApi().ifPresent(api -> {
+			this.plugin.apiProvider().api().ifPresent(api -> {
 				Optional<NamelessUser> userOptional;
 				try {
 					userOptional = api.getUser(uuid);
@@ -57,7 +57,7 @@ public class JoinNotRegisteredMessage implements Reloadable {
 					this.plugin.scheduler().runSync(() -> {
 						Audience audience = this.plugin.audiences().player(uuid);
 						if (audience != null) {
-							final Component message = this.plugin.language().getComponent(JOIN_NOT_REGISTERED);
+							final Component message = this.plugin.language().get(JOIN_NOT_REGISTERED);
 							audience.sendMessage(message);
 						}
 					});

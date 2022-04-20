@@ -30,7 +30,7 @@ public class BukkitDataSender extends AbstractDataSender {
 
 	@Override
 	protected void registerCustomProviders() {
-		final Configuration config = this.getPlugin().config().getMainConfig();
+		final Configuration config = this.getPlugin().config().main();
 
 		// TPS TODO Send real TPS
 		this.registerGlobalInfoProvider(json ->
@@ -47,7 +47,7 @@ public class BukkitDataSender extends AbstractDataSender {
 					json.add("groups", groups);
 				});
 				this.registerPlayerInfoProvider((json, player) -> {
-					final Player bukkitPlayer = Bukkit.getPlayer(player.getUniqueId());
+					final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
 					final String[] gArray = permissions.getPlayerGroups(bukkitPlayer);
 					final JsonArray groups = new JsonArray(gArray.length);
 					Arrays.stream(gArray).map(JsonPrimitive::new).forEach(groups::add);
@@ -75,7 +75,7 @@ public class BukkitDataSender extends AbstractDataSender {
 				json.add("placeholders", placeholders);
 			});
 			this.registerPlayerInfoProvider((json, player) -> {
-				final Player bukkitPlayer = Bukkit.getPlayer(player.getUniqueId());
+				final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
 				final JsonObject placeholders = new JsonObject();
 				config.getStringList("server-data-sender.placeholders.player").forEach((key) ->
 						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(bukkitPlayer, "%" + key + "%")))
@@ -87,7 +87,7 @@ public class BukkitDataSender extends AbstractDataSender {
 
 		// Location
 		this.registerPlayerInfoProvider((json, player) -> {
-			final Player bukkitPlayer = Bukkit.getPlayer(player.getUniqueId());
+			final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
 			final JsonObject location = new JsonObject();
 			final Location loc = bukkitPlayer.getLocation();
 			location.addProperty("world", loc.getWorld().getName());
@@ -114,7 +114,7 @@ public class BukkitDataSender extends AbstractDataSender {
 
 		// Misc player stats
 		this.registerPlayerInfoProvider((json, player) -> {
-			final Player bukkitPlayer = Bukkit.getPlayer(player.getUniqueId());
+			final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
 			json.addProperty("playtime", bukkitPlayer.getStatistic(finalPlayStat) / 120);
 			json.addProperty("ip", bukkitPlayer.getAddress().toString());
 		});

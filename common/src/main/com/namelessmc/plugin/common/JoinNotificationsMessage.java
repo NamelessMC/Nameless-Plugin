@@ -32,19 +32,19 @@ public class JoinNotificationsMessage implements Reloadable {
 			subscription = null;
 		}
 
-		final Configuration conf = this.plugin.config().getMainConfig();
+		final Configuration conf = this.plugin.config().main();
 
 		if (!conf.getBoolean("join-notifications")) {
 			return;
 		}
 
 		this.subscription = this.plugin.events().subscribe(ServerJoinEvent.class, event ->
-				onJoin(event.getPlayer().getUniqueId()));
+				onJoin(event.player().uuid()));
 	}
 
 	private void onJoin(final @NotNull UUID uuid) {
 		this.plugin.scheduler().runAsync(() -> {
-			this.plugin.api().getNamelessApi().ifPresent(api -> {
+			this.plugin.apiProvider().api().ifPresent(api -> {
 				try {
 					final Optional<NamelessUser> userOptional = api.getUser(uuid);
 					if (userOptional.isEmpty()) {
@@ -58,7 +58,7 @@ public class JoinNotificationsMessage implements Reloadable {
 					}
 
 					this.plugin.scheduler().runSync(() -> {
-						final String notificationsCommand = this.plugin.config().getCommandsConfig()
+						final String notificationsCommand = this.plugin.config().commands()
 								.get("get-notifications", null);
 						if (notificationsCommand == null) {
 							this.plugin.logger().warning("Notifications command must be enabled for join-notifications feature");
@@ -73,7 +73,7 @@ public class JoinNotificationsMessage implements Reloadable {
 						}
 
 						final Component message = this.plugin.language()
-								.getComponent(JOIN_NOTIFICATIONS, "notifications_command", notificationsCommand);
+								.get(JOIN_NOTIFICATIONS, "notifications_command", notificationsCommand);
 						audience.sendMessage(message);
 					});
 
