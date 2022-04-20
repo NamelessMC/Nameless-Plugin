@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class PaperAudienceProvider extends AbstractAudienceProvider {
 
@@ -31,7 +30,8 @@ public class PaperAudienceProvider extends AbstractAudienceProvider {
 		return Audience.audience(audiences);
 	}
 
-	public @Nullable NamelessPlayer bukkitToNamelessPlayer(final Player bukkitPlayer) {
+	@SuppressWarnings("nullness") // Checker framework thinks bukkitPlayer.getName() is nullable
+	public @Nullable NamelessPlayer bukkitToNamelessPlayer(final @Nullable Player bukkitPlayer) {
 		return bukkitPlayer == null
 				? null
 				: new NamelessPlayer(bukkitPlayer, bukkitPlayer.getUniqueId(), bukkitPlayer.getName());
@@ -51,6 +51,6 @@ public class PaperAudienceProvider extends AbstractAudienceProvider {
 	public @NonNull Collection<@NonNull NamelessPlayer> onlinePlayers() {
 		return Bukkit.getOnlinePlayers().stream()
 				.map(p -> new NamelessPlayer(p, p.getUniqueId(), p.getName()))
-				.collect(Collectors.toUnmodifiableList());
+				.toList();
 	}
 }

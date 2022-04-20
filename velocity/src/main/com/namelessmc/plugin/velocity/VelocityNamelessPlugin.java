@@ -28,7 +28,7 @@ public class VelocityNamelessPlugin {
 	@Inject
 	public VelocityNamelessPlugin(final @NonNull ProxyServer server,
 								  final @NonNull Logger logger,
-								  final @NonNull @DataDirectory Path dataDirectory,
+								  final @DataDirectory @NonNull Path dataDirectory,
 								  final Metrics.@NonNull Factory metricsFactory) {
 		this.metricsFactory = metricsFactory;
 		this.plugin = new NamelessPlugin(

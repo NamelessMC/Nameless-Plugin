@@ -28,7 +28,7 @@ public class NamelessPluginSponge {
 
 	@Inject
 	public NamelessPluginSponge(final @NonNull SpongeAudiences audiences,
-								final @NonNull @ConfigDir(sharedRoot = false) Path dataDirectory,
+								final @ConfigDir(sharedRoot = false) @NonNull Path dataDirectory,
 								final @NonNull Logger logger,
 								final Metrics.@NonNull Factory metricsFactory,
 								final @NonNull Game game) {

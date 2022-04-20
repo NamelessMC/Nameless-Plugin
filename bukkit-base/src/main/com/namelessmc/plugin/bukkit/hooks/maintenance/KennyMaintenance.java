@@ -29,7 +29,12 @@ public class KennyMaintenance implements MaintenanceStatusProvider {
 		try {
 			Object instance = instanceGetMethod.invoke(null);
 			Object isMaintenance = isMaintenanceMethod.invoke(instance);
-			return (boolean) isMaintenance;
+			if (isMaintenance instanceof Boolean) {
+				return (boolean) isMaintenance;
+			} else {
+				System.err.println("Unexpected return value from isMaintenance method");
+				return false;
+			}
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 			return false;

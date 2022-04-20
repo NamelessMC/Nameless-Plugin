@@ -10,7 +10,6 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class BungeeEventProxy implements Listener {
@@ -24,7 +23,12 @@ public class BungeeEventProxy implements Listener {
 	@EventHandler
 	public void onJoin(final @NonNull PostLoginEvent event) {
 		final NamelessPlayer player = plugin.audiences().player(event.getPlayer().getUniqueId());
-		final ServerJoinEvent event2 = new ServerJoinEvent(Objects.requireNonNull(player));
+		if (player == null) {
+			this.plugin.logger().severe("Skipped join event for player " + event.getPlayer().getName() +
+					", Audience is null");
+			return;
+		}
+		final ServerJoinEvent event2 = new ServerJoinEvent(player);
 		plugin.events().post(event2);
 	}
 

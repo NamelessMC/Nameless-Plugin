@@ -70,16 +70,14 @@ public class BukkitDataSender extends AbstractDataSender {
 			this.registerGlobalInfoProvider(json -> {
 				final JsonObject placeholders = new JsonObject();
 				config.getStringList("server-data-sender.placeholders.global").forEach((key) ->
-						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(null, "%" + key + "%")))
-				);
+						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(null, "%" + key + "%"))));
 				json.add("placeholders", placeholders);
 			});
 			this.registerPlayerInfoProvider((json, player) -> {
 				final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
 				final JsonObject placeholders = new JsonObject();
 				config.getStringList("server-data-sender.placeholders.player").forEach((key) ->
-						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(bukkitPlayer, "%" + key + "%")))
-				);
+						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(bukkitPlayer, "%" + key + "%"))));
 				json.add("placeholders", placeholders);
 			});
 
