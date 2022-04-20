@@ -19,26 +19,10 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<configuration>
-					<relocations>
-						<relocation>
-							<pattern>com.github.mizosoft.methanol</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.methanol</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>com.namelessmc.java_api</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.nameless-api</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>net.kyori.event</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.event</shadedPattern>
-						</relocation>
+					<relocations combine.children="append">
 						<relocation>
 							<pattern>net.md_5.bungee.config</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.bungee-config</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.bstats</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.bstats</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.checkerframework</pattern>
@@ -47,10 +31,6 @@
 						<relocation>
 							<pattern>org.jetbrains.annotations</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>xyz.derkades.derkutils</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.derkutils</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
@@ -88,13 +68,11 @@
 		<dependency>
 			<groupId>com.velocitypowered</groupId>
 			<artifactId>velocity-api</artifactId>
-			<version>3.1.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bstats</groupId>
 			<artifactId>bstats-velocity</artifactId>
-			<version>3.0.0</version>
 		</dependency>
 		<!-- Velocity already includes Gson -->
 		<dependency>
