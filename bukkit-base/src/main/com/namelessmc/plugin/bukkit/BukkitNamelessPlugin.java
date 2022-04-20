@@ -1,7 +1,6 @@
 package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.plugin.bukkit.event.PlayerBan;
-import com.namelessmc.plugin.bukkit.event.PlayerLogin;
 import com.namelessmc.plugin.bukkit.hooks.*;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
@@ -78,7 +77,6 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		initMaintenance();
 		initMetrics();
 
-		this.getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerBan(), this);
 		this.getServer().getPluginManager().registerEvents(new BukkitEventProxy(this.plugin), this);
 

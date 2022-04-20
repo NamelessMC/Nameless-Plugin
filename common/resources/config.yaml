@@ -51,6 +51,10 @@ single-line-exceptons: false
 # Send a message to players who don't have a NamelessMC account when they join
 not-registered-join-message: false
 
+# Supported platforms: all
+# Send website notifications in chat on join, if there are any
+join-notifications: false
+
 # Supported platforms: Spigot
 # When a player is banned, also ban their website account if they have one.
 auto-ban-on-website: false

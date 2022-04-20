@@ -51,6 +51,7 @@ public class NamelessPlugin {
 
 		this.eventBus = EventBus.create(AbstractEvent.class);
 
+		this.registerReloadable(new JoinNotificationsMessage(this));
 		this.registerReloadable(new JoinNotRegisteredMessage(this));
 	}
 
