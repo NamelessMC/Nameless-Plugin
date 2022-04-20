@@ -33,6 +33,9 @@ command:
         username-invalid: Der angegebene Benutzername ist ungültig.
         cannot-send-email: Die Registrierungs-E-Mail kann nicht gesendet werden, bitte
           kontaktiere einen Admin, um deinen Account zu aktivieren.
+        username-used: Dein Benutzername ist bereits vergeben.
+        minercaft-used: Dein Minecraft-Konto ist bereits mit einem anderen Benutzer
+          der Website verknüpft.
       success:
         email: Bitte überprüfe Deinen Posteingang, um die Registrierung abzuschließen.
         link: '<hover:show_text:"Klicke, um den Link im Browser zu öffnen"><click:open_url:"<url>">Registrierung
@@ -79,13 +82,38 @@ command:
         aufgetreten.
       primary-group: 'Primäre Gruppe: <groupname>'
       all-groups: 'Alle Gruppen: <groups_names_list>'
+      integrations:
+        verified: 'Verifiziert: <is_verified>'
+        identifier: 'Identifikator: <Bezeichner>'
+        username: 'Benutzername: <username>'
+        linked-date: 'Verknüpftes Datum: <linked_date>'
+        header: 'Integrationen:'
+      custom-field: "Benutzerdefinierte Feld '<name>': <value>"
     usage: '/{command} [Benutzername]'
     description: Informationen zu einem Website-Benutzer abrufen
   subcommands:
     usage: '/{command} [Unterbefehl] [Argumente ..]'
     help-prefix: /<command>
+  plugin:
+    usage: /<command> \<reload|rl>
+    output:
+      reload-successful: Das Plugin wurde erfolgreich neu geladen.
+    description: Administrative Befehle für das NamelessMC-Plugin
 join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
   Dich mit /register.
 website-announcement: 'Webseiten-Ankündigung: <message>'
 user-sync-kick: Sie werden von unserem Server gesperrt, nachdem Sie ein Website-Konto
   gesperrt haben.
+error:
+  website-username-not-exist: Es existiert kein Website-Benutzer mit diesem Benutzernamen
+  username-not-online: Der angegebene Benutzername ist ungültig oder der Spieler ist
+    nicht online.
+  website-connection: Beim Versuch, eine Verbindung zur Website herzustellen, ist
+    ein Fehler aufgetreten.
+boolean:
+  yes-positive: <green>Ja</green>
+  yes-negative: <red>Ja</red>
+  no-positive: <green>Nein</green>
+  no-negative: <red>Nein</red>
+join-notifications: Du hast Website-Benachrichtigungen, bitte führe /<notifications_command>
+  für weitere Informationen aus.
