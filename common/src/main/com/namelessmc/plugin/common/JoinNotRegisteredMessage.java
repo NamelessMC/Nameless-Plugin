@@ -15,13 +15,13 @@ import java.util.UUID;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.JOIN_NOT_REGISTERED;
 
-public class NotRegisteredJoinMessage implements Reloadable {
+public class JoinNotRegisteredMessage implements Reloadable {
 
 	private final @NotNull NamelessPlugin plugin;
 
 	private @Nullable EventSubscription subscription;
 
-	NotRegisteredJoinMessage(final @NotNull NamelessPlugin plugin) {
+	JoinNotRegisteredMessage(final @NotNull NamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -38,7 +38,8 @@ public class NotRegisteredJoinMessage implements Reloadable {
 			return;
 		}
 
-		this.subscription = this.plugin.events().subscribe(ServerJoinEvent.class, event -> {});
+		this.subscription = this.plugin.events().subscribe(ServerJoinEvent.class, event ->
+				onJoin(event.getPlayer().getUniqueId()));
 	}
 
 	private void onJoin(final @NotNull UUID uuid) {
