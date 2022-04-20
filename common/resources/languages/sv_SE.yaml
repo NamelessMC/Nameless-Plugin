@@ -47,6 +47,7 @@ command:
         username-invalid: Det angivna användarnamnet är ogiltigt.
         cannot-send-email: Det går inte att skicka ett registreringsmeddelande, kontakta
           en administratör för att aktivera ditt konto.
+        username-used: Ditt användarnamn används redan.
   validate:
     usage: /{command} <kod>
     description: Validerar användarens webbplatskonto med hjälp av den angivna koden.
@@ -73,8 +74,22 @@ command:
       'no': nej
       fail: Ett okänt fel inträffade när du försökte hämta spelarinformation.
       username: 'Användarnamn: <username>'
+  plugin:
+    output:
+      reload-successful: Plugin har laddats om.
+    description: Administrativa kommandon för NamelessMC plugin
 website-announcement: 'Meddelande från webbplatsen: <message>'
 user-sync-kick: Du är bannlyst från vår server efter att ha bannlysts från ert konto
   på webbplatsen.
 join-not-registered: Du har ännu inget konto på vår webbplats. Registrera dig med
   hjälp av /register.
+error:
+  website-username-not-exist: Ingen användare med detta användarnamnet existerar
+  website-connection: Ett fel uppstod när du försökte ansluta till webbplatsen.
+  username-not-online: Det angivna användarnamnet är ogiltigt eller så är spelaren
+    inte online.
+boolean:
+  yes-positive: <green>Ja</green>
+  no-positive: <green>Nej</green>
+  yes-negative: <red>Ja</red>
+  no-negative: <red>Nej</red>
