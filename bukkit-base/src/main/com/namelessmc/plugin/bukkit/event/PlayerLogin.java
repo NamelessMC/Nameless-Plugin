@@ -11,30 +11,7 @@ public class PlayerLogin implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(final PlayerJoinEvent event) {
-//		final AbstractLogger logger = NamelessPluginSpigot.getInstance().getCommonLogger();
 	}
-//		final Configuration config = NamelessPluginSpigot.getInstance().getConfiguration().getMainConfig();
-//
-//		if (config.getBoolean("not-registered-join-message")) {
-//			Bukkit.getScheduler().runTaskAsynchronously(NamelessPluginSpigot.getInstance(), () -> {
-//				final Optional<NamelessAPI> optApi = NamelessPluginSpigot.getInstance().getNamelessApi();
-//				if (optApi.isPresent()) {
-//					try {
-//						final Optional<NamelessUser> user = optApi.get().getUser(player.getUniqueId());
-//						if (!user.isPresent()) {
-//							Bukkit.getScheduler().runTask(NamelessPluginSpigot.getInstance(), () -> {
-//								final Component message = NamelessPluginSpigot.getInstance().getLanguage().getComponent(Term.JOIN_NOTREGISTERED);
-//								NamelessPluginSpigot.getInstance().adventure().player(event.getPlayer()).sendMessage(message);
-//							});
-//						}
-//					} catch (final NamelessException e) {
-//						logger.logException(e);
-//					}
-//				} else {
-//					logger.warning("Not sending join message, API is not working properly.");
-//				}
-//			});
-//		}
 
 		/*if (!config.getBoolean("join-notifications")) {
 			return;

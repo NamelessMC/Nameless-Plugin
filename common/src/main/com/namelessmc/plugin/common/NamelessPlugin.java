@@ -50,6 +50,8 @@ public class NamelessPlugin {
 				new DateFormatter(this.configuration));
 
 		this.eventBus = EventBus.create(AbstractEvent.class);
+
+		this.registerReloadable(new NotRegisteredJoinMessage(this));
 	}
 
 	public ConfigurationHandler config() {
