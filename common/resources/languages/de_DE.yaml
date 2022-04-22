@@ -88,7 +88,7 @@ command:
         username: 'Benutzername: <username>'
         linked-date: 'Verknüpftes Datum: <linked_date>'
         header: 'Integrationen:'
-      custom-field: "Benutzerdefinierte Feld '<name>': <value>"
+      custom-field: "Benutzerdefiniertes Feld '<name>': <value>"
     usage: '/{command} [Benutzername]'
     description: Informationen zu einem Website-Benutzer abrufen
   subcommands:
