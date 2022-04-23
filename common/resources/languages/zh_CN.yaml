@@ -1,19 +1,14 @@
 player:
   other:
-    not-found: 无法找到此玩家。
     not-registered: 此玩家尚未在网站上注册。
-    not-validated: 此玩家的帐号尚未被验证。
   self:
     not-validated: 您的帐号必须在验证后才能执行此操作。
     not-registered: 您必须先注册一个帐号才能执行此操作。
-    no-permission: 您没有执行此操作的权限。
     command-banned: 由于您已经被网站封禁，您无法使用此指令。
 command:
   notifications:
     output:
-      fail: 获得通知信息时出现了一个问题。请将此问题告知服务器管理员。
       no-notifications: 您没有任何未读通知。
-      click-to-open: 点击来在浏览器中打开
       notification: <hover:show_text:"点击以在网页浏览器中打开"><click:open_url:"<url>"><message></click></hover>
     description: 显示网站通知列表。
     usage: '/<command>'
@@ -21,7 +16,6 @@ command:
     output:
       success: 感谢您举报此玩家。
       fail:
-        generic: 试图举报此玩家时发生了一个错误。请将此问题告知服务器管理员。
         already-open: 由于您已经有尚未处理的关于此玩家的举报，您无法举报此玩家。
         report-self: 您不能举报您自己。
     usage: '/<command> \<用户名/uuid> \<原因>'
@@ -29,13 +23,11 @@ command:
   user-info:
     output:
       registered-date: '注册时间: <date>'
-      fail: 试图获取玩家信息时发生了一个未知错误。
       username: '用户名: <username>'
       displayname: '显示名: <displayname>'
       uuid: 'UUID: <uuid>'
       validated: '帐号是否已验证: <validated>'
       banned: '是否被封禁: <banned>'
-      'yes': 是
       'no': 否
       uuid-unknown: 'UUID: 未知'
       primary-group: 主要群组：<groupname>
@@ -59,7 +51,6 @@ command:
         link: 请前往 <hover:show_text:"点击在浏览器中打开"><click:open_url:"<url>"><url></click></hover>
           完成注册.
       fail:
-        generic: 试图注册时出现了一个错误。请将此问题告知服务器管理员。
         already-exists: 您已经有一个帐号了。
         email-used: 此邮箱已被另一个帐号使用了。
         email-invalid: 提供的邮箱地址无效。
@@ -75,10 +66,8 @@ command:
       success: 成功验证了您的帐号。
       fail:
         invalid-code: 您的验证码不正确。请检查您是否正确的拷贝了它，随后再试一次。
-        generic: 试图提交验证码时发生了一个未知错误。
         already-validated: 您的账号已被验证过了。
   subcommands:
-    usage: '/{command} [子命令] [参数...]'
     help-prefix: /{command}
   plugin:
     description: NamelessMC 插件的管理命令
@@ -93,7 +82,5 @@ error:
   website-connection: 在试图连接到网站时发生了错误.
   username-not-online: 提供的玩家用户名无效或不在线.
 boolean:
-  yes_positive: <green>是</green>
   yes_negative: <red>是</red>
-  no_positive: <green>否</green>
   no_negative: <red>否</red>

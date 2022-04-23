@@ -1,12 +1,9 @@
 player:
   other:
-    not-validated: Denna spelares konto är inte validerat.
     not-registered: Denna spelare är inte registrerad på hemsidan.
-    not-found: Denna spelare kunde inte hittas.
   self:
     not-validated: Ditt konto måste vara validerat för att utföra detta.
     not-registered: Du måste registrera ett konto för att utföra detta.
-    no-permission: Du har inte tillåtelse att göra detta.
     command-banned: Du kan inte utföra detta kommando, du är bannlyst från hemsidan.
 command:
   not-a-player: Du måste vara en spelare för att utföra detta kommando.
@@ -17,8 +14,6 @@ command:
     output:
       no-notifications: Du har inte några icke lästa notifikationer.
       notification: <hover:show_text:"Klicka för att öppna i en webbläsare"><click:open_url:"<url>"><message>
-      fail: Ett fel inträffade vid försök att hämta en lista med notfikationer. Vänligen
-        meddela serveradministratören om detta problem.
   report:
     output:
       fail:
@@ -39,8 +34,6 @@ command:
         link: <hover:show_text:"Klicka för att öppna i en webbläsare"><click:open_url:"<url>">Registrera
           dig genom att gå till <url>.
       fail:
-        generic: Ett fel inträffade när du försökte registrera dig. Meddela serveradministratören
-          om detta problem.
         already-exists: Du har redan ett konto.
         email-used: Den här e-postadressen används redan för ett annat användarkonto.
         email-invalid: Den angivna e-postadressen är ogiltig.
@@ -57,7 +50,6 @@ command:
         invalid-code: Din valideringskod är felaktig. Kontrollera om du har kopierat
           koden korrekt och försök igen.
         already-validated: Ditt konto har redan godkänts.
-        generic: Ett okänt fel inträffade när du försökte skicka in en valideringskod.
   user-info:
     usage: /{command} [användarnamn]
     description: Hämta information om en webbplatsanvändare
@@ -70,9 +62,7 @@ command:
       registered-date: Registrerad <datum>
       validated: 'Konto validerat: <validated>'
       banned: 'Bannlyst: <banned>'
-      'yes': ja
       'no': nej
-      fail: Ett okänt fel inträffade när du försökte hämta spelarinformation.
       username: 'Användarnamn: <username>'
   plugin:
     output:

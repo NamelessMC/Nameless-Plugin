@@ -3,10 +3,7 @@ command:
     output:
       fail:
         email-invalid: A megadott e-mail cím érvénytelen.
-        already-exists: Már van fiókja.
         email-used: Ezt az e-mail címet már használják egy másik felhasználói fiókhoz.
-        generic: Hiba történt a regisztráció során. Kérjük, értesítse a szerver rendszergazdáját
-          erről a problémáról.
         username-invalid: A megadott felhasználónév érvénytelen.
         cannot-send-email: Nem sikerült elküldeni a regisztrációs e-mailt, a fiók
           aktiválásához vegye fel a kapcsolatot az adminisztrátorral.
@@ -20,8 +17,6 @@ command:
     description: Játékos jelentése
     output:
       fail:
-        generic: Hiba történt a lejátszó bejelentése közben. Kérjük, értesítse a szerver
-          rendszergazdáját erről a problémáról.
         already-open: Nem jelentheted ezt a játékost, mert már van nyitott jelentésed
           a moderátorok felé.
         report-self: Nem jelentheted saját magad.
@@ -35,17 +30,13 @@ command:
       fail:
         invalid-code: Helytelen az érvényesítési kódod. Kérjük, ellenőrizze, hogy
           helyesen másolta-e, és próbálkozzon újra.
-        generic: Ismeretlen hiba történt egy ellenőrző kód elküldése során.
         already-vaidated: Fiókja már érvényesítve van.
         already-validated: Fiókja már érvényesítve van.
   not-a-player: A parancs végrehajtásához játékosnak kell lenned.
   no-permission: Nincs engedélye a parancs végrehajtására.
   notifications:
     output:
-      click-to-open: Kattintson, hogy megnyissa a webböngészőben
       no-notifications: Nincsenek olvasatlan értesítései.
-      fail: Hiba történt az értesítések listájának lekérése közben. Kérjük, értesítse
-        a szerver rendszergazdáját erről a problémáról.
     usage: '/{command}'
     description: Megjeleníti a webhely értesítéseinek listáját.
   user-info:
@@ -55,9 +46,7 @@ command:
       displayname: 'Megjelenített név: <displayname>'
       uuid-unknown: ismeretlen
       banned: 'Kitiltva: <banned>'
-      'yes': Igen
       'no': Nem
-      fail: Ismeretlen hiba történt a lejátszó adatainak lekérése közben.
       uuid: 'UUID: <uuid>'
       registered-date: 'Regisztráció dátuma: <date>'
       validated: 'Fiók érvényesítve: <validated>'
@@ -65,17 +54,13 @@ command:
       all-groups: 'Összes csoport: <groups_names_list>'
     description: Információk lekérése a webhely felhasználójáról
   subcommands:
-    usage: '/{command} [alparancs] [érvek ..]'
     help-prefix: /{command}
 player:
   other:
-    not-validated: A játékos fiókja nincs beállítva.
     not-registered: Ez a játékos nem regisztrált a weboldalon.
-    not-found: Ez a játékos nem taláható.
   self:
     not-validated: A művelet végrehajtásához fiókját érvényesíteni kell.
     not-registered: A művelet végrehajtásához regisztrálnia kell egy fiókot.
-    no-permission: Nincs engedélye a művelet végrehajtására.
     command-banned: Nem futtathatja ezt a parancsot, mert ki van tiltva a webhelyről.
 join-not-registered: Még nincs fiókja a weboldalunkon. Kérjük, regisztráljon a / register
   segítségével.
