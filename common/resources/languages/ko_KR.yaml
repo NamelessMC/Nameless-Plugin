@@ -7,6 +7,7 @@ command:
   notifications:
     output:
       no-notifications: 새 알림이 없습니다.
+      notification: <hover:show_text:"웹 브라우저에서 열려면 클릭"><click:open_url:"<url>"><message></click></hover>
     usage: /{command}
     description: 웹 사이트의 알림 목록을 불러옵니다.
   register:
@@ -16,6 +17,8 @@ command:
         email-invalid: 유효하지 않은 메일 주소입니다.
         cannot-send-email: 인증 메일을 보낼 수 없습니다. 관리자를 통해 계정을 활성화하십시오.
         username-invalid: 잘못된 아이디입니다.
+        minercaft-used: 이 계정은 이미 다른 웹 사이트 사용자에게 연결되어 있습니다.
+        username-used: 이미 사용중인 닉네임입니다.
       success:
         email: 발송된 인증 메일을 확인하십시오.
         link: '{link}로 접속해 인증을 완료하십시오.'
@@ -25,6 +28,7 @@ command:
     output:
       fail:
         already-open: 이미 신고된 플레이어를 신고할 수 없습니다.
+        report-self: 스스로를 신고할 수 없습니다.
       success: 신고가 접수되었습니다.
     usage: /{command} <닉네임/UUID> <사유>
     description: 플레이어를 신고합니다
@@ -51,5 +55,29 @@ command:
       registered-date: '{date}에 가입함'
       validated: '{validated}에 인증됨'
       banned: '{banned}에 차단됨'
+      integrations:
+        identifier: '식별자: <identifier>'
+        username: '닉네임: <username>'
+        linked-date: '연결 날짜: <linked_date>'
+        header: '통합:'
+        verified: '인증 여부: <is_verified>'
+      custom-field: "커스텀 항목 '<name>': <value>"
   subcommands: {}
+  plugin:
+    output:
+      reload-successful: 플러그인이 다시 로드되었습니다.
+    usage: /<command> \<reload|rl>
+    description: NamelessMC 플러그인 관리자 명령어
 join-not-registered: 웹 사이트 계정이 존재하지 않습니다. /register 로 가입하세요.
+error:
+  website-username-not-exist: 해당 아아디의 웹 사이트 사용자가 없습니다
+  website-connection: 웹 사이트에 연결하는 도중 오류가 발생했습니다.
+  username-not-online: 접속해 있지 않거나 유효하지 않은 닉네임입니다.
+boolean:
+  yes-positive: <green>예</green>
+  yes-negative: <red>예</red>
+  no-positive: <green>아니오</green>
+  no-negative: <red>아니오</red>
+join-notifications: 웹 사이트에서 알림이 왔습니다. /<notifications_command> 명령어로 자세히 확인해보세요.
+website-announcement: '웹 사이트 공지: <message>'
+user-sync-kick: 웹 사이트 계정이 차단되어 이 서버에서 차단되었습니다.
