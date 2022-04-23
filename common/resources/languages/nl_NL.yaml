@@ -1,12 +1,9 @@
 player:
   other:
-    not-found: Deze speler kon niet gevonden worden.
     not-validated: Het account van deze speler is niet gevalideerd.
-    not-registered: Deze speler is niet geregistreerd op de website.
   self:
     not-validated: Je moet een gevalideerd account hebben om deze actie uit te voeren.
     not-registered: Je moet geregistreerd zijn op de website om dit te doen.
-    no-permission: Je hebt onvoldoende rechten om dit te doen.
     command-banned: Je kan deze opdracht niet uitvoeren, je bent verbannen van de
       website.
 command:
@@ -15,7 +12,6 @@ command:
     usage: '/<command>'
     output:
       no-notifications: Je hebt geen ongelezen meldingen.
-      click-to-open: Klik om te openen in een webbrowser
       fail: Er is een fout opgetreden bij het ophalen van meldingen. Gelieve de serverbeheerder
         op de hoogte te brengen van dit probleem.
       notification: <hover:show_text:"Klik om in een web browser te openen"><click:open_url:"<url>"><message></click></hover>
@@ -28,11 +24,8 @@ command:
         link: Om de registratie te voltooien, ga naar <hover:show_text:"Klik om te
           openen in een web browser"><click:open_url:"<url>"><url></click></hover>.
       fail:
-        already-exists: U heeft al een account.
         email-used: Dit e-mailadres wordt al gebruikt door een andere gebruiker.
         email-invalid: Het opgegeven e-mailadres is ongeldig.
-        generic: Er is een fout opgetreden bij het registreren. Breng de serverbeheerder
-          op de hoogte van dit probleem.
         username-invalid: De opgegeven gebruikersnaam is ongeldig.
         cannot-send-email: Kon de registratie e-mail niet verzenden, neem contact
           op met een administrator om je account te activeren.
@@ -46,14 +39,11 @@ command:
       username: 'Gebruikersnaam: <username>'
       uuid: 'UUID: <uuid>'
       displayname: 'Weergavenaam: <displayname>'
-      'yes': Ja
       'no': Nee
       uuid-unknown: 'UUID: onbekend'
       registered-date: 'Geregistreerd op: <date>'
       validated: 'Account gevalideerd: <validated>'
       banned: 'Verbannen: <banned>'
-      fail: Er is een onbekende fout opgetreden tijdens een poging om spelersinformatie
-        op te halen.
       primary-group: 'Hoofdgroep: <groupname>'
       all-groups: 'Alle groepen: <groups_names_list>'
       custom-field: "Custom veld: '<name>': <value>"
@@ -70,8 +60,6 @@ command:
     output:
       success: Bedankt voor het rapporteren van deze speler.
       fail:
-        generic: Er is een fout opgetreden bij het rapporten van deze speler. Gelieve
-          een serverbeheerder op de hoogte te brengen van dit probleem.
         already-open: Je kan niet deze speler rapporteren, er staat al een rapport
           open.
         report-self: Je kunt jezelf niet rapporteren.
@@ -81,14 +69,11 @@ command:
     output:
       success: Je account is gevalideerd.
       fail:
-        generic: Er is een onbekende fout opgetreden bij het verzenden van een validatiecode.
         invalid-code: Jouw validatiecode is onjuist. Controleer of je het correct
           hebt gekopieerd en probeer het opnieuw.
-        already-vaidated: Jouw account is al gevalideerd.
         already-validated: Je account is al gevalideerd.
     description: Valideert het websiteaccount van de gebruiker met de opgegeven code.
   subcommands:
-    help-prefix: /{command}
     usage: '/{command} [subcommando] [argumenten..]'
   plugin:
     usage: \<command> \<reload|rl>
@@ -104,7 +89,5 @@ error:
   username-not-online: De opgegeven gebruikersnaam is niet geldig of de speler is
     niet online.
 boolean:
-  yes_positive: <green>Ja</green>
   yes_negative: <red>Ja</red>
-  no_negative: <red>Nee</red>
   no_positive: <green>Nee</green>

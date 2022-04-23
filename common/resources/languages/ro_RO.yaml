@@ -1,11 +1,8 @@
 player:
   other:
-    not-found: Acest jucător nu a putut fi găsit.
     not-validated: Contul acestui jucător nu a fost validat.
-    not-registered: Acest jucător nu este înregistrat pe site.
   self:
     not-registered: Trebuie să îți înregistrezi un cont pentru a efectua această acțiune.
-    not-validated: Contul tău trebuie să fie validat pentru a efectua această acțiune.
     no-permission: Nu ai permisiunea să efectuezi această acțiune.
     command-banned: Nu poți rula această comandă, ești interzis de pe site.
 command:
@@ -13,7 +10,6 @@ command:
     description: Afișează o listă de notificări ale site-ului.
     output:
       no-notifications: Nu ai nicio notificare necitită.
-      click-to-open: Apasă pentru a deschide într-un browser web
       fail: A apărut o eroare la încercarea de a prelua o listă de notificări. Te
         rog să informezi administratorul despre această problemă.
     usage: '{command}'
@@ -24,8 +20,6 @@ command:
       fail:
         cannot-send-email: Imposibil de trimis email-ul de înregistrare, te rog contactează
           un administrator pentru a-ți activa contul.
-        generic: A apărut o eroare încercând să te înregistrezi. Te rog să informezi
-          administratorul despre această problemă.
         already-exists: Deja ai un cont.
         email-used: Acest email este deja folosit pentru un cont diferit.
         email-invalid: Adresa de email dată este invalidă.
@@ -40,8 +34,6 @@ command:
     description: Raportează un jucător
     output:
       fail:
-        generic: A apărut o eroare încercând să raportezi acest jucător. Te rog să
-          informezi administratorul despre această problemă.
         already-open: Nu poți raporta acest jucător, deja ai un raport deschis pentru
           el.
       success: Îți mulțumim că ai raportat acest jucător.

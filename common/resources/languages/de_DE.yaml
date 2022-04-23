@@ -1,22 +1,15 @@
 player:
   other:
-    not-found: Dieser Spieler konnte nicht gefunden werden.
     not-validated: Das Konto dieses Spielers ist nicht bestätigt.
-    not-registered: Dieser Spieler ist nicht auf der Website registriert.
   self:
     not-validated: Ihr Konto muss bestätigt sein, um diese Aktion ausführen zu können.
-    no-permission: Du hast keine Reche, diese Aktion auszuführen.
     not-registered: Du must ein Konto erstellen, um diese Aktion ausführen zu können.
     command-banned: Du kannst diesen Befehl nicht ausführen, da du von der Website
       gebannt wurdest.
 command:
   notifications:
     output:
-      fail: Beim Versuch, eine Liste mit Benachrichtigungen abzurufen, ist ein Fehler
-        aufgetreten. Bitte benachrichtigen Sie den Serveradministrator über dieses
-        Problem.
       no-notifications: Du hast keine ungelesenen Benachrichtigungen.
-      click-to-open: Klicke hier, um es in einem Webbrowser zu öffnen
       notification: <hover:show_text:"Klicken um in einem Browser zu öffnen"><click:open_url:"<url>"><message>
     usage: '/{command}'
     description: Zeigt eine Liste der Website-Benachrichtigungen an.
@@ -24,8 +17,6 @@ command:
   register:
     output:
       fail:
-        generic: Beim Versuch, sich zu registrieren, ist ein Fehler aufgetreten. Bitte
-          benachrichtigen Sie den Serveradministrator über dieses Problem.
         already-exists: Du hast schon ein Konto.
         email-used: Diese E-Mail-Adresse wird bereits für ein anderes Benutzerkonto
           verwendet.
@@ -51,8 +42,6 @@ command:
       fail:
         already-open: Sie können diesen Spieler nicht melden, Sie haben bereits eine
           offene Meldung für ihn.
-        generic: Beim Versuch, diesen Spieler zu melden, ist ein Fehler aufgetreten.
-          Bitte informieren Sie den Server-Administrator über dieses Problem.
         report-self: Du kannst dich nicht selber melden.
   validate:
     usage: '/{command} <Code>'
@@ -63,8 +52,6 @@ command:
       fail:
         invalid-code: Ihr Bestätigungscode ist falsch. Bitte überprüfe, ob du den
           Code richtig kopiert hast und versuche es erneut.
-        generic: Beim Versuch, einen Bestätigungscode zu senden, ist ein unbekannter
-          Fehler aufgetreten.
         already-vaidated: Ihr Konto ist bereits validiert.
         already-validated: Dein Account ist schon aktiviert.
   user-info:
@@ -75,11 +62,8 @@ command:
       registered-date: Registriert am <date>
       validated: 'Konto validiert: <validiert>'
       banned: 'Gebannt: <banned>'
-      'yes': Ja
       'no': Nein
       uuid-unknown: 'UUID: Unbekannt'
-      fail: Beim Versuch, Spielerinformationen abzurufen, ist ein unbekannter Fehler
-        aufgetreten.
       primary-group: 'Primäre Gruppe: <groupname>'
       all-groups: 'Alle Gruppen: <groups_names_list>'
       integrations:
@@ -92,7 +76,6 @@ command:
     usage: '/{command} [Benutzername]'
     description: Informationen zu einem Website-Benutzer abrufen
   subcommands:
-    usage: '/{command} [Unterbefehl] [Argumente ..]'
     help-prefix: /<command>
   plugin:
     usage: /<command> \<reload|rl>

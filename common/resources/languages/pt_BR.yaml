@@ -1,12 +1,9 @@
 player:
   other:
-    not-found: Este jogador não foi encontrado.
     not-validated: A conta deste jogador não foi validada.
-    not-registered: Este jogador não está registrado no site.
   self:
     not-validated: A sua conta precisa estar validada para realizar essa ação.
     not-registered: Você deve se registrar em uma conta para realizar essa ação.
-    no-permission: Você não tem permissão para realizar essa ação.
     command-banned: Você não pode executar esse comando, você foi banido do site.
 command:
   not-a-player: Você precisa ser um jogador para executar esse comando.
@@ -15,7 +12,6 @@ command:
     usage: '/{command}'
     output:
       no-notifications: Você não tem notificações não lidas.
-      click-to-open: Clique para abrir em um navegador da web
       fail: Ocorreu um erro ao tentar recuperar uma lista de notificações. Notifique
         o administrador do servidor sobre este problema.
       notification: <hover:show_text:"Clique para abrir em um navegador da web"><click:open_url:"<url>"><message></click></hover>
@@ -29,11 +25,8 @@ command:
         link: Por favor, complete o cadastro acessando <hover:show_text:"Clique para
           abrir em um navegador da web"><click:open_url:"<url>"><url></click></hover>.
       fail:
-        already-exists: Você já possui uma conta.
         email-used: Este endereço de email já está em uso em uma conta de usuário
           diferente.
-        generic: Ocorreu um erro ao tentar se registrar. Por favor, notifique o administrador
-          do servidor sobre este problema.
         email-invalid: O endereço de email fornecido é inválido.
         username-invalid: O nome de usuário fornecido é inválido.
         cannot-send-email: Não foi possível enviar o email de registro, entre em contato
@@ -47,8 +40,6 @@ command:
     output:
       success: Obrigado por denunciar este jogador.
       fail:
-        generic: Ocorreu um erro ao tentar denunciar este jogador. Por favor, notifique
-          o administrador do servidor sobre este problema.
         already-open: Você não pode denunciar este jogador, você já tem uma denuncia
           aberta para ele.
         report-self: Você não pode denunciar a si mesmo.
@@ -58,7 +49,6 @@ command:
         already-validated: Sua conta já foi validada.
         invalid-code: O seu código está incorreto. Por favor, verifique se você copiou
           o código correto e tente novamente.
-        generic: Ocorreu um erro desconhecido ao tentar enviar um código de validação.
       success: Sua conta foi validada.
     usage: '/{command} <código>'
     description: Validar a conta do site do usuário usando o código fornecido.
@@ -74,14 +64,11 @@ command:
       registered-date: 'Registrado em: <date>'
       validated: 'Conta validada: <validated>'
       banned: 'Banido: <banned>'
-      'yes': sim
       'no': não
-      fail: Ocorreu um erro desconhecido ao tentar recuperar as informações do jogador.
       integrations:
         header: 'Integrações:'
     description: Recuperar informações sobre um usuário do site
   subcommands:
-    usage: '/{command} [subcomando] [argumentos..]'
     help-prefix: /{command}
   plugin:
     output:
@@ -92,9 +79,7 @@ website-announcement: 'Anúncio do site: <message>'
 user-sync-kick: Você foi banido de nosso servidor após o banimento de uma conta no
   site.
 boolean:
-  yes_negative: <red>Sim</red>
   no_positive: <green>Não</green>
-  no_negative: <red>Não</red>
   yes_positive: <green>Sim</green>
 error:
   website-connection: Ocorreu um erro ao tentar se conectar ao site.
