@@ -56,7 +56,6 @@ command:
 player:
   other: {}
   self:
-    not-validated: Bu eylemi gerçekleştirmek için hesabınızın doğrulanması gerekir.
     not-registered: Bu eylemi gerçekleştirmek için bir hesap açmalısınız.
     command-banned: Bu komutu çalıştıramazsınız, siteden yasaklanırsınız.
 join-not-registered: Henüz web sitemizde bir hesabınız yok. Lütfen / register kullanarak

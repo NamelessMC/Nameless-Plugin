@@ -1,7 +1,6 @@
 player:
   other: {}
   self:
-    no-permission: 実行する権限がありません。
     not-registered: 実行するには、アカウントの登録が必要です。
     command-banned: このコマンドを実行できません。あなたはウェブサイトからBANされています。
 command:

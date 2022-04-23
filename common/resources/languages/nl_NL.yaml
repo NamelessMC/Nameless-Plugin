@@ -1,7 +1,6 @@
 player:
   other: {}
   self:
-    not-validated: Je moet een gevalideerd account hebben om deze actie uit te voeren.
     not-registered: Je moet geregistreerd zijn op de website om dit te doen.
     command-banned: Je kan deze opdracht niet uitvoeren, je bent verbannen van de
       website.
@@ -83,5 +82,4 @@ error:
   website-connection: Een fout is opgetreden tijdens het verbinden met de website.
   username-not-online: De opgegeven gebruikersnaam is niet geldig of de speler is
     niet online.
-boolean:
-  no_positive: <green>Nee</green>
+boolean: {}

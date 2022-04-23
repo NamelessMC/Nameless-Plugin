@@ -79,7 +79,6 @@ error:
   website-connection: Při připojování se k webu se vyskytla chyba.
   username-not-online: Zadané uživatelské jméno je neplatné nebo hráč není online.
 boolean:
-  no_negative: <red>Ne</red>
   no-positive: <green>Ne</green>
   no-negative: <red>Ne</red>
   yes-positive: <green>Ano</green>

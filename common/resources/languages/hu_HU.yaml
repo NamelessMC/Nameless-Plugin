@@ -53,8 +53,7 @@ command:
     description: Információk lekérése a webhely felhasználójáról
   subcommands: {}
 player:
-  other:
-    not-registered: Ez a játékos nem regisztrált a weboldalon.
+  other: {}
   self:
     not-registered: A művelet végrehajtásához regisztrálnia kell egy fiókot.
     command-banned: Nem futtathatja ezt a parancsot, mert ki van tiltva a webhelyről.
