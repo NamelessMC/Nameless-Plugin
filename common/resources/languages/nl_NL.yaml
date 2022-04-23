@@ -1,6 +1,5 @@
 player:
-  other:
-    not-validated: Het account van deze speler is niet gevalideerd.
+  other: {}
   self:
     not-validated: Je moet een gevalideerd account hebben om deze actie uit te voeren.
     not-registered: Je moet geregistreerd zijn op de website om dit te doen.
@@ -12,8 +11,6 @@ command:
     usage: '/<command>'
     output:
       no-notifications: Je hebt geen ongelezen meldingen.
-      fail: Er is een fout opgetreden bij het ophalen van meldingen. Gelieve de serverbeheerder
-        op de hoogte te brengen van dit probleem.
       notification: <hover:show_text:"Klik om in een web browser te openen"><click:open_url:"<url>"><message></click></hover>
     description: Laat een lijst van website meldingen zien.
   register:
@@ -39,7 +36,6 @@ command:
       username: 'Gebruikersnaam: <username>'
       uuid: 'UUID: <uuid>'
       displayname: 'Weergavenaam: <displayname>'
-      'no': Nee
       uuid-unknown: 'UUID: onbekend'
       registered-date: 'Geregistreerd op: <date>'
       validated: 'Account gevalideerd: <validated>'
@@ -73,8 +69,7 @@ command:
           hebt gekopieerd en probeer het opnieuw.
         already-validated: Je account is al gevalideerd.
     description: Valideert het websiteaccount van de gebruiker met de opgegeven code.
-  subcommands:
-    usage: '/{command} [subcommando] [argumenten..]'
+  subcommands: {}
   plugin:
     usage: \<command> \<reload|rl>
     description: Administratieve commando's voor de NamelessMC plugin
@@ -89,5 +84,4 @@ error:
   username-not-online: De opgegeven gebruikersnaam is niet geldig of de speler is
     niet online.
 boolean:
-  yes_negative: <red>Ja</red>
   no_positive: <green>Nee</green>

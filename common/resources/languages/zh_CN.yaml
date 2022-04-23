@@ -1,6 +1,5 @@
 player:
-  other:
-    not-registered: 此玩家尚未在网站上注册。
+  other: {}
   self:
     not-validated: 您的帐号必须在验证后才能执行此操作。
     not-registered: 您必须先注册一个帐号才能执行此操作。
@@ -28,7 +27,6 @@ command:
       uuid: 'UUID: <uuid>'
       validated: '帐号是否已验证: <validated>'
       banned: '是否被封禁: <banned>'
-      'no': 否
       uuid-unknown: 'UUID: 未知'
       primary-group: 主要群组：<groupname>
       all-groups: 全部群组：<groups_names_list>
@@ -51,7 +49,6 @@ command:
         link: 请前往 <hover:show_text:"点击在浏览器中打开"><click:open_url:"<url>"><url></click></hover>
           完成注册.
       fail:
-        already-exists: 您已经有一个帐号了。
         email-used: 此邮箱已被另一个帐号使用了。
         email-invalid: 提供的邮箱地址无效。
         username-invalid: 提供的用户名无效。
@@ -67,8 +64,7 @@ command:
       fail:
         invalid-code: 您的验证码不正确。请检查您是否正确的拷贝了它，随后再试一次。
         already-validated: 您的账号已被验证过了。
-  subcommands:
-    help-prefix: /{command}
+  subcommands: {}
   plugin:
     description: NamelessMC 插件的管理命令
     output:
@@ -82,5 +78,4 @@ error:
   website-connection: 在试图连接到网站时发生了错误.
   username-not-online: 提供的玩家用户名无效或不在线.
 boolean:
-  yes_negative: <red>是</red>
   no_negative: <red>否</red>

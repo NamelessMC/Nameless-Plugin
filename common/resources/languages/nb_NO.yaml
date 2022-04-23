@@ -1,6 +1,5 @@
 player:
-  other:
-    not-registered: Denne spilleren er ikke registrert på nettsiden.
+  other: {}
   self:
     not-validated: Kontoen din må valideres for å utføre denne handlingen.
     not-registered: Du må registrere en konto for å utføre denne handlingen.
@@ -53,7 +52,6 @@ command:
       uuid-unknown: ukjent
       validated: 'Konto validert: <validated>'
       username: 'Brukernavn: <username>'
-      'no': nei
       all-groups: 'Alle grupper: <groups_names_list>'
       registered-date: Registrert <date>
       banned: 'Utestengt: <banned>'

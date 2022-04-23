@@ -1,6 +1,5 @@
 player:
-  other:
-    not-registered: Denna spelare är inte registrerad på hemsidan.
+  other: {}
   self:
     not-validated: Ditt konto måste vara validerat för att utföra detta.
     not-registered: Du måste registrera ett konto för att utföra detta.
@@ -17,8 +16,6 @@ command:
   report:
     output:
       fail:
-        generic: Ett fel inträffade när du försökte anmäla den här spelaren. Vänligen
-          meddela serveradministratören om detta problem.
         already-open: Du kan inte anmäla den här spelaren, eftersom du redan har en
           öppen anmälning om honom.
         report-self: Du kan inte anmäla dig själv.
@@ -34,7 +31,6 @@ command:
         link: <hover:show_text:"Klicka för att öppna i en webbläsare"><click:open_url:"<url>">Registrera
           dig genom att gå till <url>.
       fail:
-        already-exists: Du har redan ett konto.
         email-used: Den här e-postadressen används redan för ett annat användarkonto.
         email-invalid: Den angivna e-postadressen är ogiltig.
         username-invalid: Det angivna användarnamnet är ogiltigt.
@@ -62,7 +58,6 @@ command:
       registered-date: Registrerad <datum>
       validated: 'Konto validerat: <validated>'
       banned: 'Bannlyst: <banned>'
-      'no': nej
       username: 'Användarnamn: <username>'
   plugin:
     output:

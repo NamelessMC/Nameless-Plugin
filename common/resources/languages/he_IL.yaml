@@ -3,7 +3,6 @@ command:
     description: מציג רשימה של התראות באתר.
     output:
       no-notifications: אין לך התראות שלא נקראו.
-      fail: אירעה שגיאה בניסיון לאחזר רשימת התראות. אנא הודע למנהל השרת על בעיה זו.
       notification: '<hover:show_text:"לחץ לפתיחה בדפדפן אינטרנט"><click:open_url:"<url>"<message>'
     usage: '{command}/'
   register:
@@ -49,14 +48,11 @@ command:
       displayname: 'שם תצוגה: <displayname>'
       all-groups: 'כל הקבוצות: <groups_names_list>'
       banned: 'נאסר: <banned>'
-      'no': לא
   not-a-player: אתה צריך להיות השחקן כדי לבצע את הפקודה הזאת.
-  subcommands:
-    help-prefix: /{command}
+  subcommands: {}
   no-permission: אין לך הרשאה לבצע פקודה זו.
 player:
-  other:
-    not-validated: המשתמש של השחקן הוא לא מאומת.
+  other: {}
   self:
     not-validated: אתה צריך לאמת את החשבון שלך כדי לעשות את הפעולה הזאת.
     not-registered: אתה צריך להירשם כדי לעשות את הפעולה הזאת.

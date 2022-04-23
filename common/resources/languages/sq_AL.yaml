@@ -4,8 +4,7 @@ player:
       e internetit.
     not-registered: Ti duhet të regjistrohesh për një llogari te faqja e internetit
       që të performosh këtë aksion.
-  other:
-    not-found: Ky lojtari nuk gjëndet.
+  other: {}
 command:
   not-a-player: Ti duhet të jesh një lojtar ta exekutosh këtë komandë.
   no-permission: Ti nuk ke të drejtëta exzekutosh këtë komandë.
@@ -63,7 +62,6 @@ command:
       uuid-unknown: 'UUID-ja: e panjohur'
       primary-group: 'Grupi primar: <groupname>'
       custom-field: "Fushë zakon '<name>': <value>"
-      'no': jo
       all-groups: 'Gjithë grupet: <groups_names_list>'
       registered-date: Regjistruar në <date>
       validated: 'Llogaria e validuar: <validated>'
