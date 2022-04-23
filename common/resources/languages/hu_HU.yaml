@@ -30,7 +30,6 @@ command:
       fail:
         invalid-code: Helytelen az érvényesítési kódod. Kérjük, ellenőrizze, hogy
           helyesen másolta-e, és próbálkozzon újra.
-        already-vaidated: Fiókja már érvényesítve van.
         already-validated: Fiókja már érvényesítve van.
   not-a-player: A parancs végrehajtásához játékosnak kell lenned.
   no-permission: Nincs engedélye a parancs végrehajtására.
@@ -46,20 +45,17 @@ command:
       displayname: 'Megjelenített név: <displayname>'
       uuid-unknown: ismeretlen
       banned: 'Kitiltva: <banned>'
-      'no': Nem
       uuid: 'UUID: <uuid>'
       registered-date: 'Regisztráció dátuma: <date>'
       validated: 'Fiók érvényesítve: <validated>'
       primary-group: 'Elsődleges csoport: <groupname>'
       all-groups: 'Összes csoport: <groups_names_list>'
     description: Információk lekérése a webhely felhasználójáról
-  subcommands:
-    help-prefix: /{command}
+  subcommands: {}
 player:
   other:
     not-registered: Ez a játékos nem regisztrált a weboldalon.
   self:
-    not-validated: A művelet végrehajtásához fiókját érvényesíteni kell.
     not-registered: A művelet végrehajtásához regisztrálnia kell egy fiókot.
     command-banned: Nem futtathatja ezt a parancsot, mert ki van tiltva a webhelyről.
 join-not-registered: Még nincs fiókja a weboldalunkon. Kérjük, regisztráljon a / register

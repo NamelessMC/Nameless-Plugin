@@ -1,6 +1,5 @@
 player:
-  other:
-    not-validated: This player's account is not validated.
+  other: {}
   self:
     not-validated: Your account must be validated to perform this action.
     not-registered: You must register for an account to perform this action.
@@ -13,8 +12,6 @@ command:
     description: Displays a list of website notifications.
     output:
       no-notifications: You do not have any unread notifications.
-      fail: An error occurred while trying to retrieve a list of notifications. Please
-        notify the server administrator about this issue.
       notification: <hover:show_text:"Click to open in a web browser"><click:open_url:"<url>"><message></click></hover>
   register:
     usage: '/<command> \<username> \<email>'
@@ -24,7 +21,6 @@ command:
         link: Please complete registration by going to <hover:show_text:"Click to
           open in a web browser"><click:open_url:"<url>"><url></click></hover>.
       fail:
-        already-exists: You already have an account.
         email-used: This email address is already used for a different user account.
         username-invalid: The provided username is invalid.
         email-invalid: The provided email address is invalid.
@@ -62,7 +58,6 @@ command:
       registered-date: 'Registered on: <date>'
       validated: 'Account validated: <validated>'
       banned: 'Banned: <banned>'
-      'no': no
       primary-group: 'Primary group: <groupname>'
       all-groups: 'All groups: <groups_names_list>'
       custom-field: "Custom field '<name>': <value>"
@@ -73,8 +68,7 @@ command:
         linked-date: 'Linked date: <linked_date>'
         verified: 'Verified: <is_verified>'
     description: Retrieve information about a website user
-  subcommands:
-    help-prefix: /{command}
+  subcommands: {}
   plugin:
     usage: /<command> \<reload|rl>
     description: Administrative commands for the NamelessMC plugin
@@ -89,5 +83,4 @@ error:
   website-connection: An error occurred while trying to connect to the website.
   username-not-online: The provided username is invalid or the player is not online.
 boolean:
-  no_negative: <red>No</red>
   no_positive: <green>No</green>

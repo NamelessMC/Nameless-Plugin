@@ -1,6 +1,5 @@
 player:
-  other:
-    not-validated: Le compte de ce joueur n'est pas validé.
+  other: {}
   self:
     not-validated: Votre compte doit être validé pour effectuer cette action.
     not-registered: Vous devez créer un compte pour effectuer cette action.
@@ -13,8 +12,6 @@ command:
     usage: '/{command}'
     output:
       no-notifications: Vous n'avez aucune notification non lue.
-      fail: Une erreur s'est produite lors de la tentative de récupération d'une liste
-        de notifications. Veuillez informer l'administrateur du serveur de ce problème.
     description: Affiche une liste de notifications de site Web.
   register:
     usage: '/{command} <email>'
@@ -42,8 +39,6 @@ command:
     output:
       validated: 'Compte validé : <validated>'
       banned: 'Banni : <banned>'
-      fail: Une erreur inconnue s'est produite lors de la tentative d'extraction des
-        informations du joueur.
       username: "Nom d'utilisateur : <username>"
       displayname: 'Nom affiché : <displayname>'
       uuid: 'UUID : <uuid>'
@@ -53,8 +48,7 @@ command:
       all-groups: 'Tous les groupes : <groups_names_list>'
     description: Extrait de l'information à propos d'un utilisateur du site web
     usage: /{command} [pseudo]
-  subcommands:
-    usage: /{command} [sous-commande] [paramètres..]
+  subcommands: {}
   validate:
     usage: /{command} <code>
     description: Valide le compte du joueur sur le site web à partir du code donné.

@@ -17,7 +17,6 @@ command:
       registered-date: 'Kayıt Tarihi : <date>'
       validated: 'Doğrulanmış Hesap: <validated>'
       banned: 'Yasaklı: <banned>'
-      'no': hayır
       primary-group: 'Birincil grup: <groupname>'
       all-groups: 'Tüm gruplar: <groups_names_list>'
     description: Bir web sitesi kullanıcısı hakkında bilgi alın
@@ -27,8 +26,6 @@ command:
     usage: '/{command}'
     output:
       no-notifications: Okunmamış bildiriminiz yok.
-      fail: Bildirim listesini almaya çalışırken bir hata oluştu. Lütfen bu sorunu
-        sunucu yöneticisine bildirin.
       notification: <hover:show_text:"Tarayıcıyı Açmak İçin Tıkla."><click:open_url:"<url>"><message>
     description: Web sitesi bildirimlerinin bir listesini görüntüler.
   register:
@@ -54,12 +51,10 @@ command:
         already-open: Bu oyuncuyu şikayet edemezsiniz, onlar için zaten açık bir raporunuz
           var.
         report-self: Kendi kendini şikayet edemezsin.
-  subcommands:
-    help-prefix: /{command}
+  subcommands: {}
   not-a-player: Bu komutu gerçekleştirmek için oyuncu olmalısınız.
 player:
-  other:
-    not-found: Bu Oyuncu Bulunamadı.
+  other: {}
   self:
     not-validated: Bu eylemi gerçekleştirmek için hesabınızın doğrulanması gerekir.
     not-registered: Bu eylemi gerçekleştirmek için bir hesap açmalısınız.

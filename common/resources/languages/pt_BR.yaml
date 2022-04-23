@@ -1,6 +1,5 @@
 player:
-  other:
-    not-validated: A conta deste jogador não foi validada.
+  other: {}
   self:
     not-validated: A sua conta precisa estar validada para realizar essa ação.
     not-registered: Você deve se registrar em uma conta para realizar essa ação.
@@ -12,8 +11,6 @@ command:
     usage: '/{command}'
     output:
       no-notifications: Você não tem notificações não lidas.
-      fail: Ocorreu um erro ao tentar recuperar uma lista de notificações. Notifique
-        o administrador do servidor sobre este problema.
       notification: <hover:show_text:"Clique para abrir em um navegador da web"><click:open_url:"<url>"><message></click></hover>
     description: Exiber uma lista de notificações do site.
   register:
@@ -64,12 +61,10 @@ command:
       registered-date: 'Registrado em: <date>'
       validated: 'Conta validada: <validated>'
       banned: 'Banido: <banned>'
-      'no': não
       integrations:
         header: 'Integrações:'
     description: Recuperar informações sobre um usuário do site
-  subcommands:
-    help-prefix: /{command}
+  subcommands: {}
   plugin:
     output:
       reload-successful: Plugin recarregado com sucesso.
@@ -79,7 +74,6 @@ website-announcement: 'Anúncio do site: <message>'
 user-sync-kick: Você foi banido de nosso servidor após o banimento de uma conta no
   site.
 boolean:
-  no_positive: <green>Não</green>
   yes_positive: <green>Sim</green>
 error:
   website-connection: Ocorreu um erro ao tentar se conectar ao site.

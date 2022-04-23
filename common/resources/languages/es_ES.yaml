@@ -1,6 +1,5 @@
 player:
-  other:
-    not-found: Este jugador no pudo ser encontrado.
+  other: {}
   self:
     not-validated: Su cuenta debe ser validada para realizar esta acción.
     not-registered: Debe registrarse para realizar esta acción.
@@ -31,8 +30,6 @@ command:
     description: Muestra una lista de notificaciones del sitio web.
     output:
       no-notifications: No tiene ninguna notificación sin leer.
-      fail: Se produjo un error al intentar recuperar una lista de notificaciones.
-        Por favor, notifique al administrador del servidor sobre este problema.
       notification: <hover:show_text:"Clic para abrir en un navegador web"><click:open_url:"<url>"><message></click></hover>
   report:
     description: Reporta a un jugador
@@ -43,8 +40,7 @@ command:
           para él.
         report-self: No puedes denunciarte a ti mismo.
     usage: '/<command> \<nombre/uuid> \<razón>'
-  subcommands:
-    usage: '/{command} [subcomando] [argumentos..]'
+  subcommands: {}
   validate:
     output:
       success: Su cuenta ha sido validada.
@@ -63,7 +59,6 @@ command:
       registered-date: 'Registrado el: <date>'
       validated: 'Cuenta validada: <validated>'
       banned: 'Expulsado: <banned>'
-      'no': no
       uuid-unknown: 'UUID: desconocido'
       primary-group: 'Grupo principal: <groupname>'
       all-groups: 'Todos los grupos: <groups_names_list>'

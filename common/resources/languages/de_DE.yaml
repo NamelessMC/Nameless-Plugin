@@ -1,6 +1,5 @@
 player:
-  other:
-    not-validated: Das Konto dieses Spielers ist nicht bestätigt.
+  other: {}
   self:
     not-validated: Ihr Konto muss bestätigt sein, um diese Aktion ausführen zu können.
     not-registered: Du must ein Konto erstellen, um diese Aktion ausführen zu können.
@@ -17,7 +16,6 @@ command:
   register:
     output:
       fail:
-        already-exists: Du hast schon ein Konto.
         email-used: Diese E-Mail-Adresse wird bereits für ein anderes Benutzerkonto
           verwendet.
         email-invalid: Die angegebene E-Mail-Adresse ist ungültig.
@@ -52,7 +50,6 @@ command:
       fail:
         invalid-code: Ihr Bestätigungscode ist falsch. Bitte überprüfe, ob du den
           Code richtig kopiert hast und versuche es erneut.
-        already-vaidated: Ihr Konto ist bereits validiert.
         already-validated: Dein Account ist schon aktiviert.
   user-info:
     output:
@@ -62,7 +59,6 @@ command:
       registered-date: Registriert am <date>
       validated: 'Konto validiert: <validiert>'
       banned: 'Gebannt: <banned>'
-      'no': Nein
       uuid-unknown: 'UUID: Unbekannt'
       primary-group: 'Primäre Gruppe: <groupname>'
       all-groups: 'Alle Gruppen: <groups_names_list>'
@@ -75,8 +71,7 @@ command:
       custom-field: "Benutzerdefiniertes Feld '<name>': <value>"
     usage: '/{command} [Benutzername]'
     description: Informationen zu einem Website-Benutzer abrufen
-  subcommands:
-    help-prefix: /<command>
+  subcommands: {}
   plugin:
     usage: /<command> \<reload|rl>
     output:

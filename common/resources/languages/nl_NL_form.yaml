@@ -2,8 +2,7 @@ player:
   self:
     not-registered: U heeft een account nodig om deze actie uit te voeren.
     command-banned: U kunt deze opdracht niet uitvoeren, u bent verbannen van de website.
-  other:
-    not-validated: Het account van deze speler is niet gevalideerd.
+  other: {}
 command:
   not-a-player: U moet een speler zijn om dit commando uit te voeren.
   notifications:
@@ -30,7 +29,6 @@ command:
       username: 'Gebruikersnaam: <username>'
       primary-group: 'Hoofdgroep: <groupname>'
       banned: 'Verbannen: <banned>'
-      'no': nee
       all-groups: 'Alle groepen: <groups_names_list>'
       displayname: 'Weergavenaam: <displayname>'
       uuid: 'UUID: <uuid>'
@@ -60,8 +58,7 @@ command:
           de registratie te voltooien, ga alstublieft naar <url>.
         email: Controleer alstublieft uw e-mail inbox om de registratie te voltooien.
     description: Maak een website account
-  subcommands:
-    usage: /{command} [subcommando] [argumenten..]
+  subcommands: {}
 join-not-registered: U heeft nog geen account op onze website. Registreer alstublieft
   met /register.
 website-announcement: 'Website aankondiging: <message>'

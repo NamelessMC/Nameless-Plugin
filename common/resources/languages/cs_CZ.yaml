@@ -8,7 +8,6 @@ command:
   register:
     output:
       fail:
-        already-exists: Již máte účet.
         email-used: Tuto e-mailovou adresu již používá jiný účet.
         email-invalid: Zadaná e-mailová adresa není platná.
         username-invalid: Zadané uživatelské jméno je neplatné.
@@ -35,7 +34,6 @@ command:
       fail:
         invalid-code: Váš ověřovací kód je nesprávný. Zkontrolujte, zda jste jej zkopírovali
           správně a zkuste to znovu.
-        already-vaidated: Váš účet je již ověřen.
         already-validated: Váš účet je již ověřen.
       success: Váš účet byl ověřen.
     usage: '/<command> \<kód>'
@@ -50,7 +48,6 @@ command:
       registered-date: 'Zaregistrován: <date>'
       validated: 'Účet ověřen: <validated>'
       banned: 'Zablokován: <banned>'
-      'no': ne
       uuid-unknown: 'UUID: neznámé'
       primary-group: 'Hlavní skupina: <groupname>'
       all-groups: 'Všechny skupiny: <groups_names_list>'
@@ -61,8 +58,7 @@ command:
         username: 'Uživatelské jméno: <username>'
         linked-date: 'Datum propojení: <linked_date>'
         verified: 'Ověřen: <is_verified>'
-  subcommands:
-    help-prefix: /{command}
+  subcommands: {}
   not-a-player: Pro vykonání této akce musíte být hráčem.
   no-permission: Nemáte oprávnění pro vykonání tohoto příkazu.
   plugin:
@@ -72,11 +68,9 @@ command:
       reload-successful: Plugin úspěšně znovu načten.
 join-not-registered: Ještě nemáte na našem webu účet. Zaregistrujte se pomocí /register.
 player:
-  other:
-    not-validated: Účet tohoto hráče není ověřen.
+  other: {}
   self:
     not-registered: Pro vykonání této akce se musíte zaregistrovat.
-    not-validated: Pro vykonání této akce musí být váš účet musí být ověřen.
     command-banned: Nemůžete spustit tento příkaz, jste zabanováni na webu.
 website-announcement: 'Oznámení na webu: <message>'
 user-sync-kick: Jste zabanováni z tohoto serveru kvůli banu na webu.
@@ -85,7 +79,6 @@ error:
   website-connection: Při připojování se k webu se vyskytla chyba.
   username-not-online: Zadané uživatelské jméno je neplatné nebo hráč není online.
 boolean:
-  yes_negative: <red>Ano</red>
   no_negative: <red>Ne</red>
   no-positive: <green>Ne</green>
   no-negative: <red>Ne</red>

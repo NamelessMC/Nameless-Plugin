@@ -1,9 +1,7 @@
 player:
-  other:
-    not-validated: Účet tohto hráča nie je overený.
+  other: {}
   self:
     command-banned: Tento príkaz nemôžete spustiť, máte ban na webe.
-    not-validated: Váš účet musí byť overený, ak chcete vykonať túto akciu.
     not-registered: Musíte sa zaregistrovať, ak chcete vykonať túto akciu.
 command:
   report:
@@ -25,7 +23,6 @@ command:
     output:
       fail:
         username-invalid: Zadané používateľské meno je neplatné.
-        already-exists: Už máte účet.
         email-invalid: Zadaná e-mailová adresa je neplatná.
         email-used: Táto e-mailová adresa sa už používa pre iný používateľský účet.
         cannot-send-email: Registračný e-mail nie je možné odoslať. Požiadajte správcu
@@ -46,7 +43,6 @@ command:
       uuid-unknown: neznáme
       all-groups: 'Všetky skupiny: <groups_names_list>'
       validated: 'Účet bol overený: <validated>'
-      'no': nie
     usage: /{command} [username]
     description: Načítanie používateľových informácii na webe
   validate:

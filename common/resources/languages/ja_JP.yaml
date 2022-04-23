@@ -1,6 +1,5 @@
 player:
-  other:
-    not-found: このプレイヤーは見つかりませんでした。
+  other: {}
   self:
     no-permission: 実行する権限がありません。
     not-registered: 実行するには、アカウントの登録が必要です。
@@ -11,7 +10,6 @@ command:
     usage: '/<command>'
     output:
       no-notifications: 未読通知はありません。
-      fail: 通知一覧を取得しようとした際にエラーが発生しました。この問題については、サーバー管理者に連絡してください。
       notification: <hover:show_text:"クリックしてウェブブラウザで開く"><click:open_url:"<url>"><message>
     description: ウェブサイトの通知一覧を表示します。
   register:
@@ -21,7 +19,6 @@ command:
         email: メールボックスを確認して登録を完了させてください。
         link: '<hover:show_text:"クリックしてウェブブラウザで開く"><click:open_url:"<url>"><url>にアクセスして登録を完了してください。'
       fail:
-        generic: 登録時にエラーが発生しました。この問題については、サーバー管理者に連絡してください。
         email-used: このメールアドレスはすでに別のユーザーアカウントで使用されています。
         email-invalid: メールアドレスは無効です。
         username-invalid: ユーザー名は無効です。
@@ -36,7 +33,6 @@ command:
       uuid: 'UUID: <uuid>'
       username: 'ユーザー名: <username>'
       displayname: '表示名: <displayname>'
-      'yes': はい
       uuid-unknown: 'UUID: 不明'
       registered-date: 登録日 <date>
       primary-group: 'プライマリーグループ: <groupname>'
@@ -66,8 +62,7 @@ command:
         already-open: プレイヤーを報告することはできません。あなたは既に問題を開いています。
         report-self: 自分自身を報告することはできません。
     description: プレイヤーを報告
-  subcommands:
-    usage: '/{command} [サブコマンド] [引数..]'
+  subcommands: {}
   plugin:
     description: NamelessMCプラグイン用管理コマンド
     output:

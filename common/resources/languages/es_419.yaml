@@ -18,8 +18,6 @@ command:
     output:
       primary-group: 'Grupo principal: <groupname>'
       all-groups: 'Todos los grupos: <groups_names_list>'
-      fail: Se produjo un error desconocido al intentar obtener la información del
-        jugador.
       username: 'Nombre de usuario: <username>'
       displayname: 'Nombre para mostrar: <displayname>'
       uuid: 'UUID: <uuid>'
@@ -29,8 +27,7 @@ command:
       banned: 'Expulsado: <banned>'
     usage: '/{command} [nombre de usuario]'
     description: Obtener información sobre un usuario del sitio web
-  subcommands:
-    help-prefix: /{command}
+  subcommands: {}
   not-a-player: Debes ser un jugador para usar este comando.
   no-permission: No tienes permiso para ejecutar este comando.
   notifications:
@@ -38,8 +35,6 @@ command:
     description: Muestra una lista de notificaciones del sitio web.
     output:
       no-notifications: No tiene ninguna notificación sin leer.
-      fail: Se produjo un error al intentar recuperar una lista de notificaciones.
-        Por favor, notifique al administrador del servidor sobre este problema.
       notification: <hover:show_text:"Click para abrir en un navegador web"><click:open_url:"<url>"><message>
   report:
     output:
@@ -61,7 +56,6 @@ command:
         already-validated: Su cuenta ya está validada.
 player:
   other:
-    not-found: Este jugador no pudo ser encontrado.
     not-registered: Este jugador no está registrado en el sitio web.
   self:
     not-registered: Debe registrarse para realizar esta acción.
