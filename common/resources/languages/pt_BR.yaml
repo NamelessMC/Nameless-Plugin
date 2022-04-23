@@ -1,7 +1,6 @@
 player:
   other: {}
   self:
-    not-validated: A sua conta precisa estar validada para realizar essa ação.
     not-registered: Você deve se registrar em uma conta para realizar essa ação.
     command-banned: Você não pode executar esse comando, você foi banido do site.
 command:
@@ -73,8 +72,7 @@ join-not-registered: Você ainda não tem uma conta em nosso site. Por favor, re
 website-announcement: 'Anúncio do site: <message>'
 user-sync-kick: Você foi banido de nosso servidor após o banimento de uma conta no
   site.
-boolean:
-  yes_positive: <green>Sim</green>
+boolean: {}
 error:
   website-connection: Ocorreu um erro ao tentar se conectar ao site.
   username-not-online: O nome de usuário fornecido é inválido ou o jogador não está

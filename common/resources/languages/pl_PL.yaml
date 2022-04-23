@@ -1,7 +1,6 @@
 player:
   other: {}
   self:
-    no-permission: Nie wystarczajace uprawnienia.
     not-registered: Musisz byc zarejestrowany aby wykonac ta akcje.
     command-banned: Nie możesz użyć tej komendy, jesteś zbanowany/a ze strony.
 command:

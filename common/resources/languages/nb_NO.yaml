@@ -1,7 +1,6 @@
 player:
   other: {}
   self:
-    not-validated: Kontoen din må valideres for å utføre denne handlingen.
     not-registered: Du må registrere en konto for å utføre denne handlingen.
     command-banned: Du kan ikke utføre denne kommandoen, du er utestengt fra nettsiden.
 command:

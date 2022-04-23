@@ -1,7 +1,6 @@
 player:
   other: {}
   self:
-    not-validated: 您的帐号必须在验证后才能执行此操作。
     not-registered: 您必须先注册一个帐号才能执行此操作。
     command-banned: 由于您已经被网站封禁，您无法使用此指令。
 command:
@@ -77,5 +76,4 @@ error:
   website-username-not-exist: 网站中没有此用户名
   website-connection: 在试图连接到网站时发生了错误.
   username-not-online: 提供的玩家用户名无效或不在线.
-boolean:
-  no_negative: <red>否</red>
+boolean: {}

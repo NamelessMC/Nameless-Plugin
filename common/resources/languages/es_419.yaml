@@ -55,8 +55,7 @@ command:
           si lo ha copiado correctamente e inténtelo de nuevo.
         already-validated: Su cuenta ya está validada.
 player:
-  other:
-    not-registered: Este jugador no está registrado en el sitio web.
+  other: {}
   self:
     not-registered: Debe registrarse para realizar esta acción.
     command-banned: No puedes ejecutar este comando, estás expulsado del sitio web.

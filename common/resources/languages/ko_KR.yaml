@@ -1,7 +1,6 @@
 player:
   other: {}
   self:
-    no-permission: 권한이 없습니다.
     command-banned: 사이트에서 차단되어 이 명령을 실행할 수 없습니다.
     not-registered: 이 동작을 수행하려면 등록되어야 합니다.
 command:
@@ -52,6 +51,5 @@ command:
       registered-date: '{date}에 가입함'
       validated: '{validated}에 인증됨'
       banned: '{banned}에 차단됨'
-  subcommands:
-    usage: /{command} [서브 커맨드] [입력값...]
+  subcommands: {}
 join-not-registered: 웹 사이트 계정이 존재하지 않습니다. /register 로 가입하세요.

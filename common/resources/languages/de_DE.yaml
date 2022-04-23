@@ -1,7 +1,6 @@
 player:
   other: {}
   self:
-    not-validated: Ihr Konto muss bestätigt sein, um diese Aktion ausführen zu können.
     not-registered: Du must ein Konto erstellen, um diese Aktion ausführen zu können.
     command-banned: Du kannst diesen Befehl nicht ausführen, da du von der Website
       gebannt wurdest.
