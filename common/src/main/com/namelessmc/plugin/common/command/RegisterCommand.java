@@ -68,7 +68,7 @@ public class RegisterCommand extends CommonCommand {
 				sender.sendMessage(language().get(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_INVALID));
 			} catch (final EmailAlreadyUsedException e) {
 				sender.sendMessage(language().get(Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_USED));
-			} catch (final IntegrationIdAlreadyExistsException | IntegrationUsernameAlreadyExistsException e) {
+			} catch (final IntegrationIdentifierInvalidException | IntegrationUsernameInvalidException e) {
 				sender.sendMessage(language().get(Term.COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED));
 			} catch (final NamelessException e) {
 				sender.sendMessage(language().get(Term.ERROR_WEBSITE_CONNECTION));
