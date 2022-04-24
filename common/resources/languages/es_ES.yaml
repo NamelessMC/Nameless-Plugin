@@ -73,7 +73,7 @@ command:
     output:
       reload-successful: El plugin se ha recargado con éxito.
     description: Comandos administrativos para el plugin NamelessMC
-    usage: /<command> \<reload|rl>
+    usage: /<command> 'reload'/'rl'
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /register.
 website-announcement: 'Anuncio de la página web: <message>'
@@ -90,3 +90,5 @@ boolean:
   no-negative: <red>No</red>
   yes-positive: <green>Sí</green>
   no-positive: <green>No</green>
+join-notifications: Tienes notificaciones del sitio web, por favor, ejecute /<notifications_command>
+  para más información.
