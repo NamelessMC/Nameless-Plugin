@@ -21,6 +21,8 @@ command:
       primary-group: 'Основная группа: <groupname>'
       all-groups: 'Все группы: <groups_names_list>'
       custom-field: "Доп. поле профиля '<name>': <value>"
+      integrations:
+        header: 'Интеграции:'
     usage: '/<command> [ник]'
     description: Получить информацию о пользователе веб-сайта
   not-a-player: Чтобы выполнить эту команду, вы должны быть игроком.
@@ -46,6 +48,9 @@ command:
         username-invalid: Указанное имя пользователя недействительно.
         cannot-send-email: Отправить письмо на ваш Email не удалось. Пожалуйста, свяжитесь
           с администрацией для активации вашего аккаунта.
+        minercaft-used: Ваш Minecraft аккаунт уже привязан к другому пользователю
+          сайта.
+        username-used: Ваш никнейм уже используется.
   report:
     usage: '/<command> \<ник/uuid> \<причина>'
     description: Пожаловаться на игрока
@@ -55,6 +60,10 @@ command:
         already-open: Вы уже отправляли жалобу на этого игрока.
         report-self: Вы не можете отправить заявку на самого себя.
   subcommands: {}
+  plugin:
+    output:
+      reload-successful: Плагин успешно перезапущен.
+    description: Административные комманды для NamelessMC плагина
 player:
   self:
     not-registered: Вы должны зарегистрировать учетную запись, чтобы выполнить это
@@ -67,3 +76,12 @@ join-not-registered: У вас еще нет учетной записи на н
 website-announcement: 'объявление на сайте: <message>'
 user-sync-kick: Вы заблокированы на этом сервере так как вы заблокированы на нашем
   сайте.
+error:
+  website-connection: Произошла ошибка при подключению к сайту.
+  website-username-not-exist: никаких пользователей сайта не существует с этим никнеймом
+  username-not-online: Представленный никнейм неправильный или игрок не в сети.
+boolean:
+  yes-positive: <green>Да</green>
+  yes-negative: <red>Да</red>
+  no-positive: <green>Нет</green>
+  no-negative: <red>Нет</red>
