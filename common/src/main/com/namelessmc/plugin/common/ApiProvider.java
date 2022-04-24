@@ -43,10 +43,10 @@ public class ApiProvider implements Reloadable {
 	@Override
 	public void reload() {
 		final Configuration config = this.config.main();
-		this.apiUrl = config.getString("api.url");
-		this.apiKey = config.getString("api.key");
+		this.apiUrl = config.getString("api.url", null);
+		this.apiKey = config.getString("api.key", null);
 		this.debug = config.getBoolean("api.debug", false);
-		this.timeout = Duration.ofMillis(config.getInt("api.timeout", 5000));
+		this.timeout = Duration.parse(config.getString("api.timeout", null));
 		this.bypassVersionCheck = config.getBoolean("api.bypass-version-check", false);
 
 		this.cachedApi = null;
