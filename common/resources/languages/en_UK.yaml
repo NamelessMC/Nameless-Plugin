@@ -26,7 +26,7 @@ command:
       notification: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\"><message></click></hover>"
 
   plugin:
-    usage: "/<command> \\<reload|rl>"
+    usage: "/<command> 'reload'/'rl'"
     description: "Administrative commands for the NamelessMC plugin"
     output:
       reload-successful: "Plugin reloaded successfully."
