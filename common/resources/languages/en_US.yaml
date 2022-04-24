@@ -69,7 +69,7 @@ command:
     description: Retrieve information about a website user
   subcommands: {}
   plugin:
-    usage: /<command> \<reload|rl>
+    usage: /<command> 'reload'/'rl'
     description: Administrative commands for the NamelessMC plugin
     output:
       reload-successful: Plugin reloaded successfully.
@@ -81,4 +81,10 @@ error:
   website-username-not-exist: No website user exists with this username
   website-connection: An error occurred while trying to connect to the website.
   username-not-online: The provided username is invalid or the player is not online.
-boolean: {}
+boolean:
+  yes-positive: <green>Yes</green>
+  yes-negative: <red>Yes</red>
+  no-positive: <green>No</green>
+  no-negative: <red>No</red>
+join-notifications: You have website notifications, please run /<notifications_command>
+  for more info.
