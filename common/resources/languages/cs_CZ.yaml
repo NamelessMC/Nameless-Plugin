@@ -62,7 +62,7 @@ command:
   not-a-player: Pro vykonání této akce musíte být hráčem.
   no-permission: Nemáte oprávnění pro vykonání tohoto příkazu.
   plugin:
-    usage: /<command> \<reload|rl>
+    usage: /<command> 'reload'/'rl'
     description: Administrativní příkazy pro plugin NamelessMC
     output:
       reload-successful: Plugin úspěšně znovu načten.
