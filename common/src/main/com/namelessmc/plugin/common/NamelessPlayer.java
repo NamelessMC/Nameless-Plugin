@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.common;
 
+import com.namelessmc.java_api.NamelessAPI;
 import net.kyori.adventure.audience.Audience;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -20,6 +21,10 @@ public class NamelessPlayer extends NamelessCommandSender {
 
 	public @NonNull UUID uuid() {
 		return this.uuid;
+	}
+	
+	public @NonNull String websiteUuid() {
+		return NamelessAPI.javaUuidToWebsiteUuid(this.uuid);
 	}
 
 	public @NonNull String username() {
