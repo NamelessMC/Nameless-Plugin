@@ -83,7 +83,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 		}
 
 		try {
-			final Optional<NamelessUser> user = api.getUser(player.getUniqueId());
+			final Optional<NamelessUser> user = api.getUserByMinecraftUuid(player.getUniqueId());
 			if (user.isEmpty()) {
 				return;
 			}

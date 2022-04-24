@@ -46,7 +46,7 @@ public class JoinNotificationsMessage implements Reloadable {
 		this.plugin.scheduler().runAsync(() -> {
 			this.plugin.apiProvider().api().ifPresent(api -> {
 				try {
-					final Optional<NamelessUser> userOptional = api.getUser(uuid);
+					final Optional<NamelessUser> userOptional = api.getUserByMinecraftUuid(uuid);
 					if (userOptional.isEmpty()) {
 						return;
 					}

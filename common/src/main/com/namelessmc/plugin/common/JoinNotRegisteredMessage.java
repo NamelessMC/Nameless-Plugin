@@ -47,7 +47,7 @@ public class JoinNotRegisteredMessage implements Reloadable {
 			this.plugin.apiProvider().api().ifPresent(api -> {
 				Optional<NamelessUser> userOptional;
 				try {
-					userOptional = api.getUser(uuid);
+					userOptional = api.getUserByMinecraftUuid(uuid);
 				} catch (final NamelessException e) {
 					this.plugin.logger().logException(e);
 					return;

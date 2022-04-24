@@ -52,7 +52,7 @@ public class ReportCommand extends CommonCommand {
 				}
 
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-				final Optional<NamelessUser> optUser = api.getUser(((NamelessPlayer) sender).uuid());
+				final Optional<NamelessUser> optUser = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());
 				if (optUser.isEmpty()) {
 					sender.sendMessage(language().get(Term.PLAYER_SELF_NOT_REGISTERED));
 					return;
