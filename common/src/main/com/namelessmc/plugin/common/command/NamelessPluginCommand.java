@@ -1,10 +1,9 @@
 package com.namelessmc.plugin.common.command;
 
-import com.namelessmc.plugin.common.LanguageHandler;
-import com.namelessmc.plugin.common.NamelessCommandSender;
-import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.Permission;
+import com.namelessmc.plugin.common.*;
+import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class NamelessPluginCommand extends CommonCommand {
 
@@ -16,15 +15,35 @@ public class NamelessPluginCommand extends CommonCommand {
 				LanguageHandler.Term.COMMAND_PLUGIN_DESCRIPTION,
 				Permission.COMMAND_PLUGIN
 		);
+
+		if (this.actualName() == null) {
+			plugin.logger().warning("The commands config file is missing the plugin command");
+		}
 	}
 
 	@Override
 	public void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args) {
-		if (args.length == 1 && (args[0].equals("reload") || args[0].equals("rl"))) {
-			this.plugin().reload();
-			sender.sendMessage(this.language().get(LanguageHandler.Term.COMMAND_PLUGIN_OUTPUT_RELOAD_SUCCESSFUL));
-		} else {
-			sender.sendMessage(this.usage());
+		if (args.length == 1) {
+			switch(args[0]) {
+				case "reload":
+				case "rl":
+					this.plugin().reload();
+					sender.sendMessage(this.language().get(LanguageHandler.Term.COMMAND_PLUGIN_OUTPUT_RELOAD_SUCCESSFUL));
+					return;
+				case "last_api_error":
+					final @Nullable Throwable t = this.plugin().apiProvider().getLastException();
+					if (t != null) {
+						t.printStackTrace();
+						if (sender instanceof NamelessPlayer) {
+							sender.sendMessage(Component.text("Last error has been printed to the console"));
+						}
+					} else {
+						sender.sendMessage(Component.text("No error"));
+					}
+					return;
+			}
 		}
+
+		sender.sendMessage(this.usage());
 	}
 }
