@@ -70,7 +70,7 @@ command:
     description: Valideert het websiteaccount van de gebruiker met de opgegeven code.
   subcommands: {}
   plugin:
-    usage: \<command> \<reload|rl>
+    usage: /<command> 'reload'/'rl'
     description: Administratieve commando's voor de NamelessMC plugin
     output:
       reload-successful: Plugin succesvol herladen.
@@ -82,4 +82,10 @@ error:
   website-connection: Een fout is opgetreden tijdens het verbinden met de website.
   username-not-online: De opgegeven gebruikersnaam is niet geldig of de speler is
     niet online.
-boolean: {}
+boolean:
+  yes-positive: <green>Ja</green>
+  yes-negative: <red>Ja</red>
+  no-positive: <green>Nee</green>
+  no-negative: <red>Nee</red>
+join-notifications: Je hebt meldingen op de website, je kan /<notifications_command>
+  uitvoeren om ze te bekijken.
