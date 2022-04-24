@@ -5,14 +5,16 @@ import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
+
 public class NamelessPluginCommand extends CommonCommand {
 
 	public NamelessPluginCommand(final @NonNull NamelessPlugin plugin) {
 		super(
 				plugin,
 				"plugin",
-				LanguageHandler.Term.COMMAND_PLUGIN_USAGE,
-				LanguageHandler.Term.COMMAND_PLUGIN_DESCRIPTION,
+				COMMAND_PLUGIN_USAGE,
+				COMMAND_PLUGIN_DESCRIPTION,
 				Permission.COMMAND_PLUGIN
 		);
 
@@ -28,7 +30,7 @@ public class NamelessPluginCommand extends CommonCommand {
 				case "reload":
 				case "rl":
 					this.plugin().reload();
-					sender.sendMessage(this.language().get(LanguageHandler.Term.COMMAND_PLUGIN_OUTPUT_RELOAD_SUCCESSFUL));
+					sender.sendMessage(this.language().get(COMMAND_PLUGIN_OUTPUT_RELOAD_SUCCESSFUL));
 					return;
 				case "last_api_error":
 					final @Nullable Throwable t = this.plugin().apiProvider().getLastException();

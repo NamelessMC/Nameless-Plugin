@@ -1,6 +1,5 @@
 package com.namelessmc.plugin.bungee;
 
-import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessCommandSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
@@ -12,6 +11,8 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.PluginManager;
 import org.checkerframework.checker.nullness.qual.NonNull;
+
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_NO_PERMISSION;
 
 public class BungeeCommandProxy implements Reloadable {
 
@@ -54,7 +55,7 @@ public class BungeeCommandProxy implements Reloadable {
 					}
 
 					if (!bungeeSender.hasPermission(permission)) {
-						sender.sendMessage(plugin.language().get(LanguageHandler.Term.COMMAND_NO_PERMISSION));
+						sender.sendMessage(plugin.language().get(COMMAND_NO_PERMISSION));
 						return;
 					}
 

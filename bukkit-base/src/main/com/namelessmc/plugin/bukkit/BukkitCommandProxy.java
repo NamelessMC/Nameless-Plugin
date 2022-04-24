@@ -1,6 +1,5 @@
 package com.namelessmc.plugin.bukkit;
 
-import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessCommandSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
@@ -15,6 +14,8 @@ import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_NO_PERMISSION;
 
 public class BukkitCommandProxy implements Reloadable {
 
@@ -44,7 +45,7 @@ public class BukkitCommandProxy implements Reloadable {
 			final PlainTextComponentSerializer ser = PlainTextComponentSerializer.plainText();
 			final String usage = ser.serialize(command.usage());
 			final String description = ser.serialize(command.description());
-			final Component noPermissionMessage = this.plugin.language().get(LanguageHandler.Term.COMMAND_NO_PERMISSION);
+			final Component noPermissionMessage = this.plugin.language().get(COMMAND_NO_PERMISSION);
 			Command spigotCommand = new Command(name, usage, description, Collections.emptyList()) {
 				@Override
 				public boolean execute(final CommandSender spigotSender, final String commandLabel, final String[] args) {

@@ -6,20 +6,21 @@ import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.AlreadyHasOpenReportException;
 import com.namelessmc.java_api.exception.CannotReportSelfException;
 import com.namelessmc.java_api.exception.ReportUserBannedException;
-import com.namelessmc.plugin.common.LanguageHandler.Term;
 import com.namelessmc.plugin.common.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Arrays;
 import java.util.Optional;
 
+import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
+
 public class ReportCommand extends CommonCommand {
 
 	public ReportCommand(final @NonNull NamelessPlugin plugin) {
 		super(plugin,
 				"report",
-				Term.COMMAND_REPORT_USAGE,
-				Term.COMMAND_REPORT_DESCRIPTION,
+				COMMAND_REPORT_USAGE,
+				COMMAND_REPORT_DESCRIPTION,
 				Permission.COMMAND_REPORT);
 	}
 
@@ -31,14 +32,14 @@ public class ReportCommand extends CommonCommand {
 		}
 
 		if (sender instanceof NamelessConsole) {
-			sender.sendMessage(language().get(Term.COMMAND_NOT_A_PLAYER));
+			sender.sendMessage(language().get(COMMAND_NOT_A_PLAYER));
 			return;
 		}
 
 		scheduler().runAsync(() -> {
 			final Optional<NamelessAPI> optApi = this.api();
 			if (optApi.isEmpty()) {
-				sender.sendMessage(this.language().get(Term.ERROR_WEBSITE_CONNECTION));
+				sender.sendMessage(this.language().get(ERROR_WEBSITE_CONNECTION));
 				return;
 			}
 			final NamelessAPI api = optApi.get();
@@ -47,28 +48,28 @@ public class ReportCommand extends CommonCommand {
 				final String targetUsername = args[0];
 				final NamelessPlayer target = this.plugin().audiences().playerByUsername(targetUsername);
 				if (target == null) {
-					sender.sendMessage(language().get(Term.ERROR_USERNAME_NOT_ONLINE));
+					sender.sendMessage(language().get(ERROR_USERNAME_NOT_ONLINE));
 					return;
 				}
 
 				final String reason = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 				final Optional<NamelessUser> optUser = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());
 				if (optUser.isEmpty()) {
-					sender.sendMessage(language().get(Term.PLAYER_SELF_NOT_REGISTERED));
+					sender.sendMessage(language().get(PLAYER_SELF_NOT_REGISTERED));
 					return;
 				}
 
 				final NamelessUser user = optUser.get();
 				user.createReport(target.uuid(), target.username(), reason);
-				sender.sendMessage(language().get(Term.COMMAND_REPORT_OUTPUT_SUCCESS));
+				sender.sendMessage(language().get(COMMAND_REPORT_OUTPUT_SUCCESS));
 			} catch (final ReportUserBannedException e) {
-				sender.sendMessage(language().get(Term.PLAYER_SELF_COMMAND_BANNED));
+				sender.sendMessage(language().get(PLAYER_SELF_COMMAND_BANNED));
 			} catch (final AlreadyHasOpenReportException e) {
-				sender.sendMessage(language().get(Term.COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN));
+				sender.sendMessage(language().get(COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN));
 			} catch (final CannotReportSelfException e) {
-				sender.sendMessage(language().get(Term.COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF));
+				sender.sendMessage(language().get(COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF));
 			} catch (final NamelessException e) {
-				sender.sendMessage(language().get(Term.ERROR_WEBSITE_CONNECTION));
+				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				logger().logException(e);
 			}
 		});

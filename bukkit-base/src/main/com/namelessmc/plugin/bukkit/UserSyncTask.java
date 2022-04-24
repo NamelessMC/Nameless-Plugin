@@ -2,7 +2,6 @@ package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.integrations.StandardIntegrationTypes;
-import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
@@ -17,6 +16,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.Consumer;
+
+import static com.namelessmc.plugin.common.LanguageHandler.Term.USER_SYNC_KICK;
 
 public class UserSyncTask implements Runnable, Reloadable {
 
@@ -122,7 +123,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 							logger.info("Added " + bannedUuid + " to the ban list");
 						}
 						if (bannedPlayer.isOnline()) {
-							this.bukkitPlugin.kickPlayer((Player) bannedPlayer, LanguageHandler.Term.USER_SYNC_KICK);
+							this.bukkitPlugin.kickPlayer((Player) bannedPlayer, USER_SYNC_KICK);
 						}
 					}
 				}
@@ -217,7 +218,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 									logger.info("Removed " + (player.getName() == null ? toRemove.toString() : player.getName()) + " from the whitelist");
 								}
 								if (player.isOnline()) {
-									this.bukkitPlugin.kickPlayer((Player) player, LanguageHandler.Term.USER_SYNC_KICK);
+									this.bukkitPlugin.kickPlayer((Player) player, USER_SYNC_KICK);
 								}
 							}
 						}

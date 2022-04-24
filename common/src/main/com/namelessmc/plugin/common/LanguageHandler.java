@@ -19,6 +19,8 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Set;
 
+import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
+
 public class LanguageHandler implements Reloadable {
 
 	public enum Term {
@@ -204,15 +206,15 @@ public class LanguageHandler implements Reloadable {
 	public Component booleanText(final boolean isYes, final boolean yesIsPositive) {
 		if (isYes) {
 			if (yesIsPositive) {
-				return get(Term.BOOLEAN_YES_POSITIVE);
+				return get(BOOLEAN_YES_POSITIVE);
 			} else {
-				return get(Term.BOOLEAN_YES_NEGATIVE);
+				return get(BOOLEAN_YES_NEGATIVE);
 			}
 		} else {
 			if (yesIsPositive) {
-				return get(Term.BOOLEAN_NO_NEGATIVE);
+				return get(BOOLEAN_NO_NEGATIVE);
 			} else {
-				return get(Term.BOOLEAN_NO_POSITIVE);
+				return get(BOOLEAN_NO_POSITIVE);
 			}
 		}
 	}

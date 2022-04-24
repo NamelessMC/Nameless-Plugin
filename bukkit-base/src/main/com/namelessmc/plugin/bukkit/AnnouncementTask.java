@@ -19,6 +19,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.namelessmc.plugin.common.LanguageHandler.Term.WEBSITE_ANNOUNCEMENT;
+
 public class AnnouncementTask implements Runnable, Reloadable {
 
 	private final @NonNull NamelessPlugin plugin;
@@ -79,7 +81,7 @@ public class AnnouncementTask implements Runnable, Reloadable {
 									return;
 								}
 								final Component message = this.plugin.language().get(
-										LanguageHandler.Term.WEBSITE_ANNOUNCEMENT, "message", announcementMessage);
+										WEBSITE_ANNOUNCEMENT, "message", announcementMessage);
 								player2.sendMessage(message);
 							});
 						}
