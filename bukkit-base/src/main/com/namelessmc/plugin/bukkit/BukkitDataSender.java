@@ -1,13 +1,10 @@
 package com.namelessmc.plugin.bukkit;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import com.namelessmc.plugin.common.AbstractDataSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import net.md_5.bungee.config.Configuration;
-import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -15,16 +12,17 @@ import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 public class BukkitDataSender extends AbstractDataSender {
 
+	private final @NonNull NamelessPlugin plugin;
 	private final @NonNull BukkitNamelessPlugin spigotPlugin;
 
 	protected BukkitDataSender(final @NonNull NamelessPlugin plugin,
 							   final @NonNull BukkitNamelessPlugin spigotPlugin) {
 		super(plugin);
+		this.plugin = plugin;
 		this.spigotPlugin = spigotPlugin;
 	}
 
@@ -37,24 +35,11 @@ public class BukkitDataSender extends AbstractDataSender {
 				json.addProperty("tps", 20));
 
 		// Permissions
-		try {
-			final Permission permissions = spigotPlugin.getPermissions();
-			if (permissions != null) {
-				this.registerGlobalInfoProvider(json -> {
-					final String[] gArray = permissions.getGroups();
-					final JsonArray groups = new JsonArray(gArray.length);
-					Arrays.stream(gArray).map(JsonPrimitive::new).forEach(groups::add);
-					json.add("groups", groups);
-				});
-				this.registerPlayerInfoProvider((json, player) -> {
-					final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
-					final String[] gArray = permissions.getPlayerGroups(bukkitPlayer);
-					final JsonArray groups = new JsonArray(gArray.length);
-					Arrays.stream(gArray).map(JsonPrimitive::new).forEach(groups::add);
-					json.add("groups", groups);
-				});
-			}
-		} catch (final UnsupportedOperationException ignored) {}
+		final VaultPermissions permissions = VaultPermissions.create(plugin);
+		if (permissions != null) {
+			this.registerGlobalInfoProvider(permissions);
+			this.registerPlayerInfoProvider(permissions);
+		}
 
 		// Maintenance
 		MaintenanceStatusProvider maintenance = spigotPlugin.getMaintenanceStatusProvider();

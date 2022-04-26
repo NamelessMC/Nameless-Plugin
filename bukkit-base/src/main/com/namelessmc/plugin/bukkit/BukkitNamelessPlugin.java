@@ -7,14 +7,12 @@ import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
-import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -22,9 +20,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.nio.file.Path;
 
 public abstract class BukkitNamelessPlugin extends JavaPlugin {
-
-	private Permission permissions;
-	public Permission getPermissions() { return this.permissions; }
 	
 	private PapiParser papiParser;
 	public PapiParser getPapiParser() { return this.papiParser; }
@@ -57,21 +52,6 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		this.configureAudiences();
-
-		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
-			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-			if (permissionProvider == null) {
-				this.plugin.logger().warning("No vault compatible permissions plugin was found. Group sync will not work.");
-			} else {
-				this.permissions = permissionProvider.getProvider();
-
-				if (this.permissions == null) {
-					this.plugin.logger().warning("No vault compatible permissions plugin was found. Group sync will not work.");
-				}
-			}
-		} else {
-			this.plugin.logger().warning("Vault was not found. Group sync will not work.");
-		}
 
 		this.plugin.reload();
 
