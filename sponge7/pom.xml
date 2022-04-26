@@ -21,11 +21,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<configuration>
-					<relocations>
-						<relocation>
-							<pattern>com.github.mizosoft.methanol</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.methanol</shadedPattern>
-						</relocation>
+					<relocations combine.children="append">
 						<relocation>
 							<pattern>com.google.errorprone</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.errorprone</shadedPattern>
@@ -33,10 +29,6 @@
 						<relocation>
 							<pattern>com.google.j2objc</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.j2objc</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>com.namelessmc.java_api</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.nameless-api</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>javax.annotation</pattern>
@@ -51,16 +43,8 @@
 							<shadedPattern>com.namelessmc.plugin.lib.examination</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>net.kyori.event</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.event</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>net.md_5.bungee.config</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.bungee-config</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.bstats</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.bstats</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.checkerframework</pattern>
@@ -73,10 +57,6 @@
 						<relocation>
 							<pattern>org.jetbrains.annotations</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>xyz.derkades.derkutils</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.derkutils</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>

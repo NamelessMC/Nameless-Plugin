@@ -1,12 +1,7 @@
 player:
-  other:
-    not-validated: La cuenta de este jugador no está validada.
-    not-found: Este jugador no pudo ser encontrado.
-    not-registered: Este jugador no está registrado en el sitio web.
+  other: {}
   self:
-    not-validated: Su cuenta debe ser validada para realizar esta acción.
     not-registered: Debe registrarse para realizar esta acción.
-    no-permission: No tiene permiso para realizar esta acción.
     command-banned: No puedes ejecutar este comando, estás expulsado del sitio web.
 command:
   register:
@@ -18,12 +13,9 @@ command:
           para abrir en un navegador web"><click:open_url:"<url>"><url></click></hover>.
         email: Por favor, compruebe su bandeja de entrada para completar el registro.
       fail:
-        already-exists: Usted ya tiene una cuenta.
         email-used: Esta dirección de correo electrónico ya se ha utilizado para otra
           cuenta.
         email-invalid: La dirección de correo electrónico proporcionada es inválida.
-        generic: Se produjo un error al tratar de registrarse. Por favor, notifique
-          al administrador del servidor sobre este problema.
         username-invalid: El nombre de usuario proporcionado es inválido.
         cannot-send-email: No se puede enviar el correo electrónico de registro, por
           favor contacte con un administrador para activar su cuenta.
@@ -37,32 +29,23 @@ command:
     description: Muestra una lista de notificaciones del sitio web.
     output:
       no-notifications: No tiene ninguna notificación sin leer.
-      click-to-open: Haga clic para abrir en un navegador web
-      fail: Se produjo un error al intentar recuperar una lista de notificaciones.
-        Por favor, notifique al administrador del servidor sobre este problema.
       notification: <hover:show_text:"Clic para abrir en un navegador web"><click:open_url:"<url>"><message></click></hover>
   report:
     description: Reporta a un jugador
     output:
       success: Gracias por reportar a este jugador.
       fail:
-        generic: Se ha producido un error al intentar informar sobre este jugador.
-          Por favor, notifique al administrador del servidor sobre este problema.
         already-open: No puedes reportar a este jugador, ya tienes un reporte abierto
           para él.
         report-self: No puedes denunciarte a ti mismo.
     usage: '/<command> \<nombre/uuid> \<razón>'
-  subcommands:
-    help-prefix: /{command}
-    usage: '/{command} [subcomando] [argumentos..]'
+  subcommands: {}
   validate:
     output:
       success: Su cuenta ha sido validada.
       fail:
-        generic: Se produjo un error desconocido al intentar enviar un código de validación.
         invalid-code: Su código de validación es incorrecto. Por favor, compruebe
           si lo ha copiado correctamente e inténtelo de nuevo.
-        already-vaidated: Su cuenta ya está validada.
         already-validated: Su cuenta ya está validada.
     usage: '/<command> \<código>'
     description: Valida la cuenta del sitio web del usuario usando el código proporcionado.
@@ -75,10 +58,6 @@ command:
       registered-date: 'Registrado el: <date>'
       validated: 'Cuenta validada: <validated>'
       banned: 'Expulsado: <banned>'
-      'yes': sí
-      'no': no
-      fail: Se ha producido un error desconocido al intentar recuperar la información
-        del jugador.
       uuid-unknown: 'UUID: desconocido'
       primary-group: 'Grupo principal: <groupname>'
       all-groups: 'Todos los grupos: <groups_names_list>'
@@ -94,7 +73,7 @@ command:
     output:
       reload-successful: El plugin se ha recargado con éxito.
     description: Comandos administrativos para el plugin NamelessMC
-    usage: /<command> \<reload|rl>
+    usage: /<command> 'reload'/'rl'
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /register.
 website-announcement: 'Anuncio de la página web: <message>'
@@ -111,3 +90,5 @@ boolean:
   no-negative: <red>No</red>
   yes-positive: <green>Sí</green>
   no-positive: <green>No</green>
+join-notifications: Tienes notificaciones del sitio web, por favor, ejecute /<notifications_command>
+  para más información.

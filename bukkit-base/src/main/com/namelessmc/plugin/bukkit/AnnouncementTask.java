@@ -9,8 +9,8 @@ import net.kyori.adventure.text.Component;
 import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import xyz.derkades.derkutils.ListUtils;
 
 import java.time.Duration;
@@ -19,12 +19,14 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.namelessmc.plugin.common.LanguageHandler.Term.WEBSITE_ANNOUNCEMENT;
+
 public class AnnouncementTask implements Runnable, Reloadable {
 
-	private final @NotNull NamelessPlugin plugin;
+	private final @NonNull NamelessPlugin plugin;
 	private @Nullable AbstractScheduledTask task;
 
-	AnnouncementTask(final @NotNull NamelessPlugin plugin) {
+	AnnouncementTask(final @NonNull NamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -35,7 +37,7 @@ public class AnnouncementTask implements Runnable, Reloadable {
 			task = null;
 		}
 
-		Configuration config = this.plugin.config().getMainConfig();
+		Configuration config = this.plugin.config().main();
 		if (config.getBoolean("announcements.enabled")) {
 			Duration interval = Duration.parse(config.getString("announcements.interval"));
 			this.task = this.plugin.scheduler().runTimer(this, interval);
@@ -44,9 +46,9 @@ public class AnnouncementTask implements Runnable, Reloadable {
 
 	@Override
 	public void run() {
-		final Configuration config = this.plugin.config().getMainConfig();
-		final ApiProvider apiProvider = this.plugin.api();
-		apiProvider.getNamelessApi().ifPresent(api -> {
+		final Configuration config = this.plugin.config().main();
+		final ApiProvider apiProvider = this.plugin.apiProvider();
+		apiProvider.api().ifPresent(api -> {
 			@Nullable String filterDisplay = config.getString("announcements.display");
 			Duration delay = Duration.ZERO;
 			for (Player player : Bukkit.getOnlinePlayers()) {
@@ -56,7 +58,7 @@ public class AnnouncementTask implements Runnable, Reloadable {
 					this.plugin.scheduler().runAsync(() -> {
 						List<Announcement> announcements;
 						try {
-							Optional<NamelessUser> optUser = api.getUser(uuid);
+							Optional<NamelessUser> optUser = api.getUserByMinecraftUuid(uuid);
 							if (optUser.isPresent()) {
 								announcements = optUser.get().getAnnouncements();
 							} else {
@@ -78,8 +80,8 @@ public class AnnouncementTask implements Runnable, Reloadable {
 									// Player left
 									return;
 								}
-								final Component message = this.plugin.language().getComponent(
-										LanguageHandler.Term.WEBSITE_ANNOUNCEMENT, "message", announcementMessage);
+								final Component message = this.plugin.language().get(
+										WEBSITE_ANNOUNCEMENT, "message", announcementMessage);
 								player2.sendMessage(message);
 							});
 						}

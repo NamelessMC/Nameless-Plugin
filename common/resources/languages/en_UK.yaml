@@ -26,7 +26,7 @@ command:
       notification: "<hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\"><message></click></hover>"
 
   plugin:
-    usage: "/<command> \\<reload|rl>"
+    usage: "/<command> 'reload'/'rl'"
     description: "Administrative commands for the NamelessMC plugin"
     output:
       reload-successful: "Plugin reloaded successfully."
@@ -86,5 +86,6 @@ command:
         verified: "Verified: <is_verified>"
 
 join-not-registered: "You do not have an account on our website yet. Please register using /register."
+join-notifications: "You have website notifications, please run /<notifications_command> for more info."
 website-announcement: "Website announcement: <message>"
 user-sync-kick: "You are banned from our server following a website account ban."

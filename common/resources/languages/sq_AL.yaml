@@ -4,9 +4,7 @@ player:
       e internetit.
     not-registered: Ti duhet të regjistrohesh për një llogari te faqja e internetit
       që të performosh këtë aksion.
-  other:
-    not-registered: Ky lojtari nuk është regjistruar te faqja e internetit.
-    not-found: Ky lojtari nuk gjëndet.
+  other: {}
 command:
   not-a-player: Ti duhet të jesh një lojtar ta exekutosh këtë komandë.
   no-permission: Ti nuk ke të drejtëta exzekutosh këtë komandë.
@@ -15,8 +13,6 @@ command:
     output:
       notification: <hover:show_text:"Shtyp ta hapësh në browserin e internetit"><click:open_url:"<url>"><message>
       no-notifications: Nuk ke njoftime të palexuara.
-      fail: Një error ndodhi kur por merrja një list njoftimesh. Ju lutem njoftoni
-        administratorin e serverit.
     description: Tregon një list e njoftimeve të faqes në internet.
   plugin:
     usage: /<command> \<reload|rl>
@@ -33,8 +29,6 @@ command:
         email: Ju lutemi kontrolloni email-in tuaj për të përfunduar regjistrimin.
       fail:
         username-used: Emri i llogarisë është i përdorur.
-        generic: Një error ndodhi kur po regjistroheshe. Ju lutem kontaktoni administratorin
-          a server-it.
         username-invalid: Emri i llogarisë është invalide.
         email-used: Kjo adresa e email-it është përdorur për një llogari tjetër.
         email-invalid: Adresa e email-it është invalide.
@@ -45,8 +39,6 @@ command:
   report:
     output:
       fail:
-        generic: Një error ndodhi kur po raportoje këtë lojtar, you lutem kontaktoni
-          administratorin e server-it.
         already-open: Ti nuk mund ta raportosh këtë lojtarin, ti e keraportuar njëherë.
         report-self: Ti nuk mund ta raportosh veten.
       success: Faleminderit që raportuat këtë lojtarin.
@@ -62,7 +54,6 @@ command:
         invalid-code: Kodi juaj i validimit është gabim. Ju lutem shini nëse e keni
           copjuar korrekt the provoni përsëri.
         already-validated: Llogaria juaj është vërtetuar tashmë.
-        generic: Një error i panjohur ndodhi kur po provoja të paraqesja kodin e validimit.
   user-info:
     output:
       username: 'Emri i lojtarit: <username>'
@@ -71,8 +62,6 @@ command:
       uuid-unknown: 'UUID-ja: e panjohur'
       primary-group: 'Grupi primar: <groupname>'
       custom-field: "Fushë zakon '<name>': <value>"
-      'yes': po
-      'no': jo
       all-groups: 'Gjithë grupet: <groups_names_list>'
       registered-date: Regjistruar në <date>
       validated: 'Llogaria e validuar: <validated>'
@@ -82,7 +71,6 @@ command:
         identifier: 'Indentifikuesi: <indentifier>'
         username: 'Emri: <username>'
         linked-date: 'Data e lidhjes: <linked_date>'
-      fail: Një error i panjohur ndodhi kur provova të marr informacion të përdoruesit.
     description: Merr informacion për një përdorues të faqes së internetit
     usage: /<komandë> [emri-i-lojtarit]
 user-sync-kick: Ju jeni përjashtuar nga serveri ynë pas një ndalimi të llogarisë në

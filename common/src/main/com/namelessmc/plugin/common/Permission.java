@@ -1,6 +1,6 @@
 package com.namelessmc.plugin.common;
 
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public enum Permission {
 
@@ -15,14 +15,14 @@ public enum Permission {
 
 	;
 
-	private final @NotNull String permissionString;
+	private final @NonNull String permissionString;
 
-	Permission(final @NotNull String permissionString){
+	Permission(final @NonNull String permissionString){
 		this.permissionString = permissionString;
 	}
 
 	@Override
-	public @NotNull String toString() {
+	public @NonNull String toString() {
 		return this.permissionString;
 	}
 

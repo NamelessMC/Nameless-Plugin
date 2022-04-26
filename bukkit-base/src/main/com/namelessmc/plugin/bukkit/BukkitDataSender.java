@@ -1,60 +1,45 @@
 package com.namelessmc.plugin.bukkit;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import com.namelessmc.plugin.common.AbstractDataSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import net.md_5.bungee.config.Configuration;
-import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 public class BukkitDataSender extends AbstractDataSender {
 
-	private final @NotNull BukkitNamelessPlugin spigotPlugin;
+	private final @NonNull NamelessPlugin plugin;
+	private final @NonNull BukkitNamelessPlugin spigotPlugin;
 
-	protected BukkitDataSender(final @NotNull NamelessPlugin plugin,
-							   final @NotNull BukkitNamelessPlugin spigotPlugin) {
+	protected BukkitDataSender(final @NonNull NamelessPlugin plugin,
+							   final @NonNull BukkitNamelessPlugin spigotPlugin) {
 		super(plugin);
+		this.plugin = plugin;
 		this.spigotPlugin = spigotPlugin;
 	}
 
 	@Override
 	protected void registerCustomProviders() {
-		final Configuration config = this.getPlugin().config().getMainConfig();
+		final Configuration config = this.getPlugin().config().main();
 
 		// TPS TODO Send real TPS
 		this.registerGlobalInfoProvider(json ->
 				json.addProperty("tps", 20));
 
 		// Permissions
-		try {
-			final Permission permissions = spigotPlugin.getPermissions();
-			if (permissions != null) {
-				this.registerGlobalInfoProvider(json -> {
-					final String[] gArray = permissions.getGroups();
-					final JsonArray groups = new JsonArray(gArray.length);
-					Arrays.stream(gArray).map(JsonPrimitive::new).forEach(groups::add);
-					json.add("groups", groups);
-				});
-				this.registerPlayerInfoProvider((json, player) -> {
-					final Player bukkitPlayer = Bukkit.getPlayer(player.getUniqueId());
-					final String[] gArray = permissions.getPlayerGroups(bukkitPlayer);
-					final JsonArray groups = new JsonArray(gArray.length);
-					Arrays.stream(gArray).map(JsonPrimitive::new).forEach(groups::add);
-					json.add("groups", groups);
-				});
-			}
-		} catch (final UnsupportedOperationException ignored) {}
+		final VaultPermissions permissions = VaultPermissions.create(plugin);
+		if (permissions != null) {
+			this.registerGlobalInfoProvider(permissions);
+			this.registerPlayerInfoProvider(permissions);
+		}
 
 		// Maintenance
 		MaintenanceStatusProvider maintenance = spigotPlugin.getMaintenanceStatusProvider();
@@ -70,16 +55,14 @@ public class BukkitDataSender extends AbstractDataSender {
 			this.registerGlobalInfoProvider(json -> {
 				final JsonObject placeholders = new JsonObject();
 				config.getStringList("server-data-sender.placeholders.global").forEach((key) ->
-						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(null, "%" + key + "%")))
-				);
+						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(null, "%" + key + "%"))));
 				json.add("placeholders", placeholders);
 			});
 			this.registerPlayerInfoProvider((json, player) -> {
-				final Player bukkitPlayer = Bukkit.getPlayer(player.getUniqueId());
+				final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
 				final JsonObject placeholders = new JsonObject();
 				config.getStringList("server-data-sender.placeholders.player").forEach((key) ->
-						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(bukkitPlayer, "%" + key + "%")))
-				);
+						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(bukkitPlayer, "%" + key + "%"))));
 				json.add("placeholders", placeholders);
 			});
 
@@ -87,7 +70,7 @@ public class BukkitDataSender extends AbstractDataSender {
 
 		// Location
 		this.registerPlayerInfoProvider((json, player) -> {
-			final Player bukkitPlayer = Bukkit.getPlayer(player.getUniqueId());
+			final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
 			final JsonObject location = new JsonObject();
 			final Location loc = bukkitPlayer.getLocation();
 			location.addProperty("world", loc.getWorld().getName());
@@ -114,7 +97,7 @@ public class BukkitDataSender extends AbstractDataSender {
 
 		// Misc player stats
 		this.registerPlayerInfoProvider((json, player) -> {
-			final Player bukkitPlayer = Bukkit.getPlayer(player.getUniqueId());
+			final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
 			json.addProperty("playtime", bukkitPlayer.getStatistic(finalPlayStat) / 120);
 			json.addProperty("ip", bukkitPlayer.getAddress().toString());
 		});

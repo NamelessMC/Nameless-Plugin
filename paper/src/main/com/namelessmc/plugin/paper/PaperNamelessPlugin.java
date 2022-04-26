@@ -1,9 +1,9 @@
 package com.namelessmc.plugin.paper;
 
-import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
+import com.namelessmc.plugin.common.LanguageHandler;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class PaperNamelessPlugin extends BukkitNamelessPlugin {
 
@@ -13,8 +13,8 @@ public class PaperNamelessPlugin extends BukkitNamelessPlugin {
 	}
 
 	@Override
-	public void kickPlayer(final @NotNull Player player, final LanguageHandler.@NotNull Term term) {
-		player.kick(this.plugin.language().getComponent(term));
+	public void kickPlayer(final @NonNull Player player, final LanguageHandler.@NonNull Term term) {
+		player.kick(this.plugin.language().get(term));
 	}
 
 }

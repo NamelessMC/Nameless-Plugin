@@ -2,11 +2,11 @@ package com.namelessmc.plugin.velocity;
 
 import com.namelessmc.plugin.common.AbstractDataSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class VelocityDataSender extends AbstractDataSender {
 
-	protected VelocityDataSender(@NotNull NamelessPlugin plugin) {
+	protected VelocityDataSender(final @NonNull NamelessPlugin plugin) {
 		super(plugin);
 	}
 

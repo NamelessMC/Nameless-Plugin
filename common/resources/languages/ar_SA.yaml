@@ -2,8 +2,6 @@ command:
   register:
     output:
       fail:
-        generic: حدث خطأ أثناء محاولة التسجيل. يرجى إبلاغ مسؤول الخادم عن هذه المشكلة.
-        already-exists: لديك حساب بالفعل.
         email-used: عنوان البريد الإلكتروني هذا مستخدم بالفعل لحساب مستخدم مختلف.
         email-invalid: عنوان البريد الإلكتروني المقدم غير صالح.
         username-invalid: اسم المستخدم المقدم غير صالح.
@@ -22,8 +20,6 @@ command:
       fail:
         already-open: لا يمكنك الإبلاغ عن هذا اللاعب ، لديك بالفعل تقرير مفتوح له.
         report-self: لا يمكنك الإبلاغ عن نفسك.
-        generic: حدث خطأ أثناء محاولة الإبلاغ عن هذا اللاعب. يرجى إبلاغ مسؤول الخادم
-          عن هذه المشكلة.
     usage: /{command} <الاسم/uuid> <السبب>
   validate:
     usage: /{command} <الرمز>
@@ -31,7 +27,6 @@ command:
       success: تم التحقق من صحة حسابك.
       fail:
         already-validated: تم التحقق من صحة حسابك بالفعل.
-        generic: حدث خطأ غير معروف أثناء محاولة إرسال رمز التحقق.
         invalid-code: رمز التحقق الخاص بك غير صحيح. يرجى التحقق مما إذا قمت بنسخه
           بشكل صحيح وحاول مرة أخرى.
     description: يتحقق من صحة حساب موقع المستخدم باستخدام الرمز المحدد.
@@ -45,9 +40,6 @@ command:
       registered-date: مسجل في <date>
       validated: 'تم التحقق من صحة الحساب: <validated>'
       banned: 'محظور: <banned>'
-      'yes': نعم
-      'no': لا
-      fail: حدث خطأ غير معروف أثناء محاولة استرداد معلومات اللاعب.
       username: 'اسم المستخدم: <username>'
       primary-group: 'المجموعة الأساسية: <groupname>'
       all-groups: 'كل المجموعات: <groups_names_list>'
@@ -57,17 +49,13 @@ command:
     output:
       notification: '<hover:show_text:"انقر للفتح في مستعرض ويب"> <click:open_url:"<url>"><message>'
       no-notifications: ليس لديك أي إشعارات غير مقروءة.
-      fail: حدث خطأ أثناء محاولة استرداد قائمة الإشعارات. يرجى إبلاغ مسؤول الخادم
-        عن هذه المشكلة.
     usage: /{command}
     description: يعرض قائمة إشعارات موقع الويب.
 join-not-registered: ليس لديك حساب على موقعنا حتى الآن. الرجاء التسجيل باستخدام /register.
 website-announcement: 'إعلان الموقع: <message>'
 user-sync-kick: أنت محظور من خادمنا بعد حظر حساب على الموقع.
 player:
-  other:
-    not-found: لا يمكن العثور على هذا اللاعب.
-    not-registered: هذا اللاعب غير مسجل على الموقع.
+  other: {}
   self:
     not-registered: يجب عليك التسجيل للحصول على حساب لتنفيذ هذا الإجراء.
     command-banned: لا يمكنك تشغيل هذا الأمر ، أنت محظور من الموقع.

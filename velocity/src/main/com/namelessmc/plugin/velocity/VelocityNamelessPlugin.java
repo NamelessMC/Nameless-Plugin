@@ -10,7 +10,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import org.bstats.velocity.Metrics;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
@@ -23,14 +23,14 @@ import java.nio.file.Path;
 		authors = {"Derkades"})
 public class VelocityNamelessPlugin {
 
-	private final @NotNull Metrics.Factory metricsFactory;
-	private final @NotNull NamelessPlugin plugin;
+	private final Metrics.@NonNull Factory metricsFactory;
+	private final @NonNull NamelessPlugin plugin;
 
 	@Inject
-	public VelocityNamelessPlugin(final @NotNull ProxyServer server,
-								  final @NotNull Logger logger,
-								  final @NotNull @DataDirectory Path dataDirectory,
-								  final @NotNull Metrics.Factory metricsFactory) {
+	public VelocityNamelessPlugin(final @NonNull ProxyServer server,
+								  final @NonNull Logger logger,
+								  final @DataDirectory @NonNull Path dataDirectory,
+								  final Metrics.@NonNull Factory metricsFactory) {
 		this.metricsFactory = metricsFactory;
 		this.plugin = new NamelessPlugin(
 				dataDirectory,

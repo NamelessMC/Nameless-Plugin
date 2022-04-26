@@ -3,22 +3,22 @@ package com.namelessmc.plugin.common.logger;
 import com.namelessmc.java_api.logger.ApiLogger;
 import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.Reloadable;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.function.Supplier;
 
 public abstract class AbstractLogger implements Reloadable {
 
-	private final @NotNull ApiLogger apiLogger = new ApiLoggerImpl();
-	private final @NotNull ConfigurationHandler config;
+	private final @NonNull ApiLogger apiLogger = new ApiLoggerImpl();
+	private final @NonNull ConfigurationHandler config;
 	private boolean singleLineExceptions;
 
-	protected AbstractLogger(final @NotNull ConfigurationHandler config) {
+	protected AbstractLogger(final @NonNull ConfigurationHandler config) {
 		this.config = config;
 		this.singleLineExceptions = false;
 	}
 
-	public @NotNull ApiLogger getApiLogger() {
+	public @NonNull ApiLogger getApiLogger() {
 		return this.apiLogger;
 	}
 
@@ -45,7 +45,7 @@ public abstract class AbstractLogger implements Reloadable {
 
 	@Override
 	public void reload() {
-		this.singleLineExceptions = this.config.getMainConfig()
+		this.singleLineExceptions = this.config.main()
 				.getBoolean("single-line-exceptions", false);
 	}
 

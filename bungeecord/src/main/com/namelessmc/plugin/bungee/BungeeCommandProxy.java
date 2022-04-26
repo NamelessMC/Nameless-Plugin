@@ -1,24 +1,26 @@
 package com.namelessmc.plugin.bungee;
 
-import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessCommandSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.PluginManager;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_NO_PERMISSION;
 
 public class BungeeCommandProxy implements Reloadable {
 
-	private final @NotNull BungeeNamelessPlugin bungeePlugin;
-	private final @NotNull NamelessPlugin plugin;
+	private final @NonNull BungeeNamelessPlugin bungeePlugin;
+	private final @NonNull NamelessPlugin plugin;
 
-	BungeeCommandProxy(final @NotNull BungeeNamelessPlugin bungeePlugin,
-					   final @NotNull NamelessPlugin plugin) {
+	BungeeCommandProxy(final @NonNull BungeeNamelessPlugin bungeePlugin,
+					   final @NonNull NamelessPlugin plugin) {
 		this.bungeePlugin = bungeePlugin;
 		this.plugin = plugin;
 	}
@@ -29,13 +31,17 @@ public class BungeeCommandProxy implements Reloadable {
 
 		manager.unregisterCommands(this.bungeePlugin);
 
-		CommonCommand.getEnabledCommands(this.plugin).forEach(command -> {
-			final String name = command.getActualName();
-			final String permission = command.getPermission().toString();
+		CommonCommand.commands(this.plugin).forEach(command -> {
+			final String name = command.actualName();
+			if (name == null) {
+				// Command is disabled
+				return;
+			}
+			final String permission = command.permission().toString();
 
 			Command bungeeCommand = new Command(name, permission) {
 				@Override
-				public void execute(final CommandSender bungeeSender, final String[] args) {
+				public void execute(final @NonNull CommandSender bungeeSender, final String[] args) {
 					final NamelessCommandSender sender;
 					if (bungeeSender instanceof ProxiedPlayer) {
 						sender = plugin.audiences().player(((ProxiedPlayer) bungeeSender).getUniqueId());
@@ -43,8 +49,13 @@ public class BungeeCommandProxy implements Reloadable {
 						sender = plugin.audiences().console();
 					}
 
+					if (sender == null) {
+						bungeeSender.sendMessage(new TextComponent("ERROR: null audience"));
+						return;
+					}
+
 					if (!bungeeSender.hasPermission(permission)) {
-						sender.sendMessage(plugin.language().getComponent(LanguageHandler.Term.COMMAND_NO_PERMISSION));
+						sender.sendMessage(plugin.language().get(COMMAND_NO_PERMISSION));
 						return;
 					}
 

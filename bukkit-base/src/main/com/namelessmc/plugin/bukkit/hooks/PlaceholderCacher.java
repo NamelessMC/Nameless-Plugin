@@ -3,10 +3,10 @@ package com.namelessmc.plugin.bukkit.hooks;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
-import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -16,7 +16,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -28,14 +29,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class PlaceholderCacher implements Listener, Reloadable {
 
 
-	private final @NotNull BukkitNamelessPlugin spigotPlugin;
-	private final @NotNull NamelessPlugin plugin;
-	private AbstractScheduledTask task;
-	private AtomicBoolean isRunning;
-	private Map<UUID, Integer> cachedNotificationCount;
+	private final @NonNull BukkitNamelessPlugin spigotPlugin;
+	private final @NonNull NamelessPlugin plugin;
+	private @Nullable AbstractScheduledTask task;
+	private @Nullable AtomicBoolean isRunning;
+	private @Nullable Map<UUID, Integer> cachedNotificationCount;
 
-	public PlaceholderCacher(final @NotNull BukkitNamelessPlugin spigotPlugin,
-							 final @NotNull NamelessPlugin plugin) {
+	public PlaceholderCacher(final @NonNull BukkitNamelessPlugin spigotPlugin,
+							 final @NonNull NamelessPlugin plugin) {
 		this.spigotPlugin = spigotPlugin;
 		this.plugin = plugin;
 	}
@@ -49,7 +50,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 			this.cachedNotificationCount = null;
 		}
 
-		final Configuration config = this.plugin.config().getMainConfig();
+		final Configuration config = this.plugin.config().main();
 		if (config.getBoolean("retrieve-placeholders.enabled")) {
 			Bukkit.getPluginManager().registerEvents(this, spigotPlugin);
 			Duration interval = Duration.parse(config.getString("retrieve-placeholders.interval"));
@@ -60,8 +61,12 @@ public class PlaceholderCacher implements Listener, Reloadable {
 	}
 
 	private void updateCache() {
+		if (isRunning == null) {
+			throw new IllegalStateException("Placeholder cacher is disabled");
+		}
+
 		if (isRunning.compareAndSet(false, true)) {
-			final Optional<NamelessAPI> optApi = this.plugin.api().getNamelessApi();
+			final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
 			if (optApi.isPresent()) {
 				final NamelessAPI api = optApi.get();
 				for (final Player player : Bukkit.getOnlinePlayers()) {
@@ -72,9 +77,13 @@ public class PlaceholderCacher implements Listener, Reloadable {
 		}
 	}
 
-	private void updateCache(final @NotNull NamelessAPI api, final @NotNull Player player) {
+	private void updateCache(final @NonNull NamelessAPI api, final @NonNull Player player) {
+		if (this.cachedNotificationCount == null) {
+			throw new IllegalStateException("Placeholder cacher is disabled");
+		}
+
 		try {
-			final Optional<NamelessUser> user = api.getUser(player.getUniqueId());
+			final Optional<NamelessUser> user = api.getUserByMinecraftUuid(player.getUniqueId());
 			if (user.isEmpty()) {
 				return;
 			}
@@ -87,23 +96,32 @@ public class PlaceholderCacher implements Listener, Reloadable {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onJoin(final PlayerQuitEvent event) {
+		if (cachedNotificationCount == null) {
+			this.plugin.logger().severe("On join event called while placeholder cacher disabled");
+			return;
+		}
+
 		this.cachedNotificationCount.remove(event.getPlayer().getUniqueId());
 
-		final Optional<NamelessAPI> optApi = this.plugin.api().getNamelessApi();
+		final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
 		optApi.ifPresent(api -> this.plugin.scheduler().runAsync(() -> updateCache(api, event.getPlayer())));
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onQuit(final PlayerQuitEvent event) {
+		if (cachedNotificationCount == null) {
+			this.plugin.logger().severe("On quit event called while placeholder cacher disabled");
+			return;
+		}
+
 		this.cachedNotificationCount.remove(event.getPlayer().getUniqueId());
 	}
 
-	public void stop() {
-		task.cancel();
-		HandlerList.unregisterAll(this);
-	}
+	public int getNotificationCount(final @NonNull OfflinePlayer player) {
+		if (this.cachedNotificationCount == null) {
+			return -1;
+		}
 
-	public int getNotificationCount(final @NotNull OfflinePlayer player) {
 		Integer count = this.cachedNotificationCount.get(player.getUniqueId());
 		return count != null ? count : -1;
 	}

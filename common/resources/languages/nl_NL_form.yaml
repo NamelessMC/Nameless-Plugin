@@ -1,22 +1,14 @@
 player:
   self:
-    not-validated: Uw account moet gevalideerd worden om deze actie te ondernemen.
     not-registered: U heeft een account nodig om deze actie uit te voeren.
-    no-permission: U beschikt niet over de rechten vereist om deze actie uit te voeren.
     command-banned: U kunt deze opdracht niet uitvoeren, u bent verbannen van de website.
-  other:
-    not-found: De speler kon niet worden gevonden.
-    not-validated: Het account van deze speler is niet gevalideerd.
-    not-registered: Deze speler is niet geregistreerd op de website.
+  other: {}
 command:
   not-a-player: U moet een speler zijn om dit commando uit te voeren.
   notifications:
     usage: '/{command}'
     output:
-      click-to-open: Klik om te openen in een webbrowser
       no-notifications: U heeft geen ongelezen berichten.
-      fail: Er is een fout opgetreden bij het ophalen van berichten. Gelieve een serverbeheerder
-        op de hoogte te brengen van dit probleem.
       notification: <hover:show_text:"Klik om te openen in een web browser"><click:open_url:"<url>"><message>
     description: Laat een lijst van websiteberichten zien.
   no-permission: U heeft geen toestemming om dit commando uit te voeren.
@@ -25,8 +17,6 @@ command:
     usage: '/{command} <naam/uuid> <reden>'
     output:
       fail:
-        generic: Er is een fout opgetreden tijdens het rapporteren van deze speler.
-          Neem alstublieft contact op met de server administrator over dit probleem.
         already-open: U kunt deze speler niet rapporteren, u heeft al een open rapport
           over hem.
         report-self: U kunt uzelf niet rapporteren.
@@ -39,10 +29,7 @@ command:
       username: 'Gebruikersnaam: <username>'
       primary-group: 'Hoofdgroep: <groupname>'
       banned: 'Verbannen: <banned>'
-      'yes': ja
-      'no': nee
       all-groups: 'Alle groepen: <groups_names_list>'
-      fail: Er is een onbekend probleem opgetreden bij het ophalen van de speler informatie.
       displayname: 'Weergavenaam: <displayname>'
       uuid: 'UUID: <uuid>'
       uuid-unknown: onbekend
@@ -51,10 +38,7 @@ command:
     output:
       success: Uw account is gevalideerd.
       fail:
-        already-vaidated: Uw account is al gevalideerd.
         already-validated: Uw account is al gevalideerd.
-        generic: Er is een onbekende fout opgetreden bij het verzenden van een validatie
-          code.
         invalid-code: Uw validatie code is ongeldig. Kijkt u alstublieft na of u deze
           correct gekopieerd heeft en probeer het opnieuw.
     usage: /{command} <code>
@@ -67,19 +51,14 @@ command:
         username-invalid: De opgegeven gebruikersnaam is ongeldig.
         cannot-send-email: Kon de registratie e-mail niet verzenden, neem contact
           op met de serverbeheerder.
-        already-exists: U heeft al een account.
         email-used: Dit email adres is al gebruikt voor een ander account.
         email-invalid: Het opgegeven email adres is ongeldig.
-        generic: Er is een fout opgetreden tijdens het registreren. Neem alstublieft
-          contact op met de server administrator over dit probleem.
       success:
         link: <hover:show_text:"Klik om te openen in een web browser"><click:open_url:"<url>">Om
           de registratie te voltooien, ga alstublieft naar <url>.
         email: Controleer alstublieft uw e-mail inbox om de registratie te voltooien.
     description: Maak een website account
-  subcommands:
-    help-prefix: /{command}
-    usage: /{command} [subcommando] [argumenten..]
+  subcommands: {}
 join-not-registered: U heeft nog geen account op onze website. Registreer alstublieft
   met /register.
 website-announcement: 'Website aankondiging: <message>'

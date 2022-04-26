@@ -1,12 +1,7 @@
 player:
-  other:
-    not-validated: Denna spelares konto är inte validerat.
-    not-registered: Denna spelare är inte registrerad på hemsidan.
-    not-found: Denna spelare kunde inte hittas.
+  other: {}
   self:
-    not-validated: Ditt konto måste vara validerat för att utföra detta.
     not-registered: Du måste registrera ett konto för att utföra detta.
-    no-permission: Du har inte tillåtelse att göra detta.
     command-banned: Du kan inte utföra detta kommando, du är bannlyst från hemsidan.
 command:
   not-a-player: Du måste vara en spelare för att utföra detta kommando.
@@ -17,13 +12,9 @@ command:
     output:
       no-notifications: Du har inte några icke lästa notifikationer.
       notification: <hover:show_text:"Klicka för att öppna i en webbläsare"><click:open_url:"<url>"><message>
-      fail: Ett fel inträffade vid försök att hämta en lista med notfikationer. Vänligen
-        meddela serveradministratören om detta problem.
   report:
     output:
       fail:
-        generic: Ett fel inträffade när du försökte anmäla den här spelaren. Vänligen
-          meddela serveradministratören om detta problem.
         already-open: Du kan inte anmäla den här spelaren, eftersom du redan har en
           öppen anmälning om honom.
         report-self: Du kan inte anmäla dig själv.
@@ -39,14 +30,12 @@ command:
         link: <hover:show_text:"Klicka för att öppna i en webbläsare"><click:open_url:"<url>">Registrera
           dig genom att gå till <url>.
       fail:
-        generic: Ett fel inträffade när du försökte registrera dig. Meddela serveradministratören
-          om detta problem.
-        already-exists: Du har redan ett konto.
         email-used: Den här e-postadressen används redan för ett annat användarkonto.
         email-invalid: Den angivna e-postadressen är ogiltig.
         username-invalid: Det angivna användarnamnet är ogiltigt.
         cannot-send-email: Det går inte att skicka ett registreringsmeddelande, kontakta
           en administratör för att aktivera ditt konto.
+        username-used: Ditt användarnamn används redan.
   validate:
     usage: /{command} <kod>
     description: Validerar användarens webbplatskonto med hjälp av den angivna koden.
@@ -56,7 +45,6 @@ command:
         invalid-code: Din valideringskod är felaktig. Kontrollera om du har kopierat
           koden korrekt och försök igen.
         already-validated: Ditt konto har redan godkänts.
-        generic: Ett okänt fel inträffade när du försökte skicka in en valideringskod.
   user-info:
     usage: /{command} [användarnamn]
     description: Hämta information om en webbplatsanvändare
@@ -69,12 +57,23 @@ command:
       registered-date: Registrerad <datum>
       validated: 'Konto validerat: <validated>'
       banned: 'Bannlyst: <banned>'
-      'yes': ja
-      'no': nej
-      fail: Ett okänt fel inträffade när du försökte hämta spelarinformation.
       username: 'Användarnamn: <username>'
+  plugin:
+    output:
+      reload-successful: Plugin har laddats om.
+    description: Administrativa kommandon för NamelessMC plugin
 website-announcement: 'Meddelande från webbplatsen: <message>'
 user-sync-kick: Du är bannlyst från vår server efter att ha bannlysts från ert konto
   på webbplatsen.
 join-not-registered: Du har ännu inget konto på vår webbplats. Registrera dig med
   hjälp av /register.
+error:
+  website-username-not-exist: Ingen användare med detta användarnamnet existerar
+  website-connection: Ett fel uppstod när du försökte ansluta till webbplatsen.
+  username-not-online: Det angivna användarnamnet är ogiltigt eller så är spelaren
+    inte online.
+boolean:
+  yes-positive: <green>Ja</green>
+  no-positive: <green>Nej</green>
+  yes-negative: <red>Ja</red>
+  no-negative: <red>Nej</red>

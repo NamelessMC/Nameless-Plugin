@@ -1,12 +1,7 @@
 player:
-  other:
-    not-found: Denne spilleren kunne ikke bli funnet.
-    not-registered: Denne spilleren er ikke registrert på nettsiden.
-    not-validated: Denne spillerens konto er ikke validert.
+  other: {}
   self:
-    not-validated: Kontoen din må valideres for å utføre denne handlingen.
     not-registered: Du må registrere en konto for å utføre denne handlingen.
-    no-permission: Du har ikke tilgang til å utføre denne handlingen.
     command-banned: Du kan ikke utføre denne kommandoen, du er utestengt fra nettsiden.
 command:
   report:
@@ -15,8 +10,6 @@ command:
     output:
       success: Takk for at du rapporterte denne spilleren.
       fail:
-        generic: En feil oppstod under rapportering av denne spilleren. Vennligst
-          rapporter dette til serveradministratoren.
         already-open: Du kan ikke rapportere denne spillere, fordi en rapport allerede
           er åpen for dem.
         report-self: Du kan ikke rapportere deg selv.
@@ -24,10 +17,7 @@ command:
     usage: /{command}
     output:
       no-notifications: Du har ingen uleste varslinger.
-      click-to-open: Klikk for å åpne i nettleser
       notification: <hover:show_text:"Klikk for å åpne i en nettleser"><click:open_url:"<url>"><message>
-      fail: En feil oppstod mens vi prøvde å hente listen over varslinger. Vennligst
-        rapporter feilen til serveradministratoren.
     description: Viser en liste over alle nettsidevarsler.
   no-permission: Du har ikke tilgang til denne kommandoen.
   register:
@@ -39,10 +29,7 @@ command:
         link: <hover:show_text:"Klikk for å åpne i en nettleser"><click:open_url:"<url>">Vennligst
           fullfør registreringen ved å gå til <url>.
       fail:
-        already-exists: Du har allerede en konto.
         email-used: Denne e-postadressen er allerede i bruk av en annen brukerkonto.
-        generic: En feil oppstod under registrering. Vennligst rapporter dette til
-          en serveradminstrator.
         email-invalid: Den angitte e-postadressen er ugyldig.
         username-invalid: Det angitte brukernavnet er ugyldig.
         cannot-send-email: Kunne ikke sende registreringse-post, vennligst kontakt
@@ -55,7 +42,6 @@ command:
         invalid-code: Valideringskoden var feil. Vennligst sjekk at du kopierte den
           riktig og prøv igjen.
         already-validated: Kontoen din er allerede validert.
-        generic: En ukjent feil oppstod under innsending av valideringskode.
     description: Validerer brukerens nettsidekonto med den oppgitte koden.
   user-info:
     usage: /{command} [brukernavn]
@@ -64,10 +50,7 @@ command:
       uuid: 'UUID: <uuid>'
       uuid-unknown: ukjent
       validated: 'Konto validert: <validated>'
-      fail: En ukjent feil oppstod under henting av brukerinformasjon.
       username: 'Brukernavn: <username>'
-      'yes': ja
-      'no': nei
       all-groups: 'Alle grupper: <groups_names_list>'
       registered-date: Registrert <date>
       banned: 'Utestengt: <banned>'

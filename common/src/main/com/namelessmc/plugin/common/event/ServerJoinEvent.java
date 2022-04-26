@@ -1,17 +1,17 @@
 package com.namelessmc.plugin.common.event;
 
 import com.namelessmc.plugin.common.NamelessPlayer;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class ServerJoinEvent extends AbstractEvent {
 
-	private final @NotNull NamelessPlayer player;
+	private final @NonNull NamelessPlayer player;
 
-	public ServerJoinEvent(final @NotNull NamelessPlayer player) {
+	public ServerJoinEvent(final @NonNull NamelessPlayer player) {
 		this.player = player;
 	}
 
-	public @NotNull NamelessPlayer getPlayer() {
+	public @NonNull NamelessPlayer player() {
 		return this.player;
 	}
 

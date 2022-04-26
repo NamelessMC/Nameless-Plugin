@@ -6,24 +6,23 @@ import com.namelessmc.plugin.common.NamelessPlayer;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class PaperAudienceProvider extends AbstractAudienceProvider {
 
 	@Override
-	public @NotNull NamelessConsole console() {
+	public @NonNull NamelessConsole console() {
 		return new NamelessConsole(Bukkit.getConsoleSender());
 	}
 
 	@Override
-	public @NotNull Audience broadcast() {
+	public @NonNull Audience broadcast() {
 		final Collection<? extends Player> bukkitPlayers = Bukkit.getOnlinePlayers();
 		final List<Audience> audiences = new ArrayList<>(bukkitPlayers.size() + 1);
 		audiences.addAll(bukkitPlayers);
@@ -31,26 +30,27 @@ public class PaperAudienceProvider extends AbstractAudienceProvider {
 		return Audience.audience(audiences);
 	}
 
-	public @Nullable NamelessPlayer bukkitToNamelessPlayer(final Player bukkitPlayer) {
+	@SuppressWarnings("nullness") // Checker framework thinks bukkitPlayer.getName() is nullable
+	public @Nullable NamelessPlayer bukkitToNamelessPlayer(final @Nullable Player bukkitPlayer) {
 		return bukkitPlayer == null
 				? null
 				: new NamelessPlayer(bukkitPlayer, bukkitPlayer.getUniqueId(), bukkitPlayer.getName());
 	}
 
 	@Override
-	public @Nullable NamelessPlayer player(@NotNull UUID uuid) {
+	public @Nullable NamelessPlayer player(@NonNull UUID uuid) {
 		return bukkitToNamelessPlayer(Bukkit.getPlayer(uuid));
 	}
 
 	@Override
-	public @Nullable NamelessPlayer playerByUsername(@NotNull String username) {
+	public @Nullable NamelessPlayer playerByUsername(@NonNull String username) {
 		return bukkitToNamelessPlayer(Bukkit.getPlayerExact(username));
 	}
 
 	@Override
-	public @NotNull Collection<@NotNull NamelessPlayer> onlinePlayers() {
+	public @NonNull Collection<@NonNull NamelessPlayer> onlinePlayers() {
 		return Bukkit.getOnlinePlayers().stream()
 				.map(p -> new NamelessPlayer(p, p.getUniqueId(), p.getName()))
-				.collect(Collectors.toUnmodifiableList());
+				.toList();
 	}
 }

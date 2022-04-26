@@ -1,12 +1,7 @@
 player:
-  other:
-    not-found: This player could not be found.
-    not-validated: This player's account is not validated.
-    not-registered: This player is not registered on the website.
+  other: {}
   self:
-    not-validated: Your account must be validated to perform this action.
     not-registered: You must register for an account to perform this action.
-    no-permission: You don't have permission to perform this action.
     command-banned: You cannot run this command, you are banned from the website.
 command:
   not-a-player: You must be a player to perform this command.
@@ -16,9 +11,6 @@ command:
     description: Displays a list of website notifications.
     output:
       no-notifications: You do not have any unread notifications.
-      click-to-open: Click to open in a web browser
-      fail: An error occurred while trying to retrieve a list of notifications. Please
-        notify the server administrator about this issue.
       notification: <hover:show_text:"Click to open in a web browser"><click:open_url:"<url>"><message></click></hover>
   register:
     usage: '/<command> \<username> \<email>'
@@ -28,9 +20,6 @@ command:
         link: Please complete registration by going to <hover:show_text:"Click to
           open in a web browser"><click:open_url:"<url>"><url></click></hover>.
       fail:
-        generic: An error occurred while trying to register. Please notify the server
-          administrator about this issue.
-        already-exists: You already have an account.
         email-used: This email address is already used for a different user account.
         username-invalid: The provided username is invalid.
         email-invalid: The provided email address is invalid.
@@ -48,8 +37,6 @@ command:
       fail:
         already-open: You cannot report this player, you already have an open report
           for them.
-        generic: An error occurred while trying to report this player. Please notify
-          the server administrator about this issue.
         report-self: You cannot report yourself.
   validate:
     usage: '/<command> \<code>'
@@ -60,7 +47,6 @@ command:
         invalid-code: Your validation code is incorrect. Please check if you copied
           it correctly and try again.
         already-validated: Your account is already validated.
-        generic: An unknown error occurred while trying to submit a validation code.
   user-info:
     usage: '/<command> [username]'
     output:
@@ -71,9 +57,6 @@ command:
       registered-date: 'Registered on: <date>'
       validated: 'Account validated: <validated>'
       banned: 'Banned: <banned>'
-      'yes': yes
-      'no': no
-      fail: An unknown error occurred while trying to retrieve player information.
       primary-group: 'Primary group: <groupname>'
       all-groups: 'All groups: <groups_names_list>'
       custom-field: "Custom field '<name>': <value>"
@@ -84,11 +67,9 @@ command:
         linked-date: 'Linked date: <linked_date>'
         verified: 'Verified: <is_verified>'
     description: Retrieve information about a website user
-  subcommands:
-    usage: '/{command} [subcommand] [arguments..]'
-    help-prefix: /{command}
+  subcommands: {}
   plugin:
-    usage: /<command> \<reload|rl>
+    usage: /<command> 'reload'/'rl'
     description: Administrative commands for the NamelessMC plugin
     output:
       reload-successful: Plugin reloaded successfully.
@@ -101,7 +82,9 @@ error:
   website-connection: An error occurred while trying to connect to the website.
   username-not-online: The provided username is invalid or the player is not online.
 boolean:
-  yes_negative: <red>Yes</red>
-  no_negative: <red>No</red>
-  yes_positive: <green>Yes</green>
-  no_positive: <green>No</green>
+  yes-positive: <green>Yes</green>
+  yes-negative: <red>Yes</red>
+  no-positive: <green>No</green>
+  no-negative: <red>No</red>
+join-notifications: You have website notifications, please run /<notifications_command>
+  for more info.

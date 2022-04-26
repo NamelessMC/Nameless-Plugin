@@ -5,7 +5,7 @@ import com.namelessmc.plugin.common.MavenConstants;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
 import org.bstats.sponge.Metrics;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
@@ -23,15 +23,15 @@ import java.nio.file.Path;
 		description = "Integration with NamelessMC websites")
 public class NamelessPluginSponge {
 
-	private final @NotNull NamelessPlugin plugin;
-	private final @NotNull Metrics.Factory metricsFactory;
+	private final @NonNull NamelessPlugin plugin;
+	private final Metrics.@NonNull Factory metricsFactory;
 
 	@Inject
-	public NamelessPluginSponge(final @NotNull SpongeAudiences audiences,
-								final @NotNull @ConfigDir(sharedRoot = false) Path dataDirectory,
-								final @NotNull Logger logger,
-								final @NotNull Metrics.Factory metricsFactory,
-								final @NotNull Game game) {
+	public NamelessPluginSponge(final @NonNull SpongeAudiences audiences,
+								final @ConfigDir(sharedRoot = false) @NonNull Path dataDirectory,
+								final @NonNull Logger logger,
+								final Metrics.@NonNull Factory metricsFactory,
+								final @NonNull Game game) {
 		this.metricsFactory = metricsFactory;
 		this.plugin = new NamelessPlugin(
 				dataDirectory,

@@ -8,7 +8,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import xyz.derkades.derkutils.FileUtils;
 
 import java.io.IOException;
@@ -16,9 +16,10 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
 
 public class LanguageHandler implements Reloadable {
 
@@ -88,6 +89,7 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_VERIFIED("command.user-info.output.integrations.verified"),
 
 		JOIN_NOT_REGISTERED("join-not-registered"),
+		JOIN_NOTIFICATIONS("join-notifications"),
 		WEBSITE_ANNOUNCEMENT("website-announcement"),
 		USER_SYNC_KICK("user-sync-kick"),
 
@@ -106,37 +108,36 @@ public class LanguageHandler implements Reloadable {
 	 */
 	private static final int VERSION = 26;
 
-	private static final Set<String> LANGUAGES = new HashSet<>();
-	static {
-		LANGUAGES.add("cs_CZ");
-		LANGUAGES.add("de_DE");
-		LANGUAGES.add("el_GR");
-		LANGUAGES.add("en_UK");
-		LANGUAGES.add("en_US");
-		LANGUAGES.add("es_419");
-		LANGUAGES.add("es_ES");
-		LANGUAGES.add("fr_FR");
-		LANGUAGES.add("he_IL");
-		LANGUAGES.add("hr_HR");
-		LANGUAGES.add("hu_HU");
-		LANGUAGES.add("it_IT");
-		LANGUAGES.add("ja_JP");
-		LANGUAGES.add("ko_KR");
-		LANGUAGES.add("lt_LT");
-		LANGUAGES.add("nb_NO");
-		LANGUAGES.add("nl_NL_form");
-		LANGUAGES.add("nl_NL");
-		LANGUAGES.add("pl_PL");
-		LANGUAGES.add("pt_BR");
-		LANGUAGES.add("ro_RO");
-		LANGUAGES.add("ru_RU");
-		LANGUAGES.add("sk_SK");
-		LANGUAGES.add("sq_AL");
-		LANGUAGES.add("sv_SE");
-		LANGUAGES.add("tr_TR");
-		LANGUAGES.add("vi_VN");
-		LANGUAGES.add("zh_CN");
-	}
+	private static final Set<String> LANGUAGES = Set.of(
+			"cs_CZ",
+			"de_DE",
+			"el_GR",
+			"en_UK",
+			"en_US",
+			"es_419",
+			"es_ES",
+			"fr_FR",
+			"he_IL",
+			"hr_HR",
+			"hu_HU",
+			"it_IT",
+			"ja_JP",
+			"ko_KR",
+			"lt_LT",
+			"nb_NO",
+			"nl_NL_form",
+			"nl_NL",
+			"pl_PL",
+			"pt_BR",
+			"ro_RO",
+			"ru_RU",
+			"sk_SK",
+			"sq_AL",
+			"sv_SE",
+			"tr_TR",
+			"vi_VN",
+			"zh_CN"
+	);
 
 	private static final String DEFAULT_LANGUAGE = "en_UK";
 	private static final String VERSION_FILE_NAME = ".VERSION_DO_NOT_DELETE.dat";
@@ -147,14 +148,14 @@ public class LanguageHandler implements Reloadable {
 	private Configuration fallbackLanguageFile;
 	private Configuration activeLanguageFile;
 
-	private final @NotNull Path dataDirectory;
-	private final @NotNull Path languageDirectory;
-	private final @NotNull ConfigurationHandler config;
-	private final @NotNull AbstractLogger logger;
+	private final @NonNull Path dataDirectory;
+	private final @NonNull Path languageDirectory;
+	private final @NonNull ConfigurationHandler config;
+	private final @NonNull AbstractLogger logger;
 
-	public LanguageHandler(final @NotNull Path dataDirectory,
-						   final @NotNull ConfigurationHandler config,
-						   final @NotNull AbstractLogger logger) {
+	public LanguageHandler(final @NonNull Path dataDirectory,
+						   final @NonNull ConfigurationHandler config,
+						   final @NonNull AbstractLogger logger) {
 		this.dataDirectory = dataDirectory;
 		this.languageDirectory = dataDirectory.resolve("languages");
 		this.config = config;
@@ -169,14 +170,14 @@ public class LanguageHandler implements Reloadable {
 	public void reload() {
 		try {
 			this.updateFiles();
-			this.setActiveLanguage(this.config.getMainConfig()
+			this.setActiveLanguage(this.config.main()
 					.getString("language", DEFAULT_LANGUAGE));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public String getRawMessage(final Term term) {
+	public String raw(final Term term) {
 		String message = this.activeLanguageFile.getString(term.path, null);
 		if (message == null) {
 			this.logger.warning("Message '" + term.path + "' missing from language file, using EnglishUK as fallback. Please help translate: https://translate.namelessmc.com");
@@ -186,34 +187,34 @@ public class LanguageHandler implements Reloadable {
 				"Message '" + term.path + "' missing from base language file. This is a bug, please report it.");
 	}
 
-	public Component getComponent(final Term term) {
-		return MiniMessage.miniMessage().deserialize(getRawMessage(term)); // TODO cache?
+	public Component get(final Term term) {
+		return MiniMessage.miniMessage().deserialize(raw(term)); // TODO cache?
 	}
 
-	public Component getComponent(final Term term, final String... placeholders) {
+	public Component get(final Term term, final String... placeholders) {
 		TagResolver[] resolvers = new TagResolver[placeholders.length / 2];
 		for (int i = 0; i < placeholders.length; i+=2) {
 			resolvers[i / 2] = Placeholder.parsed(placeholders[i], placeholders[i+1]);
 		}
-		return MiniMessage.miniMessage().deserialize(getRawMessage(term), resolvers);
+		return MiniMessage.miniMessage().deserialize(raw(term), resolvers);
 	}
 
-	public Component getComponent(final Term term, TagResolver... resolvers) {
-		return MiniMessage.miniMessage().deserialize(getRawMessage(term), resolvers);
+	public Component get(final Term term, TagResolver... resolvers) {
+		return MiniMessage.miniMessage().deserialize(raw(term), resolvers);
 	}
 
-	public Component getBooleanText(final boolean isYes, final boolean yesIsPositive) {
+	public Component booleanText(final boolean isYes, final boolean yesIsPositive) {
 		if (isYes) {
 			if (yesIsPositive) {
-				return getComponent(Term.BOOLEAN_YES_POSITIVE);
+				return get(BOOLEAN_YES_POSITIVE);
 			} else {
-				return getComponent(Term.BOOLEAN_YES_NEGATIVE);
+				return get(BOOLEAN_YES_NEGATIVE);
 			}
 		} else {
 			if (yesIsPositive) {
-				return getComponent(Term.BOOLEAN_NO_NEGATIVE);
+				return get(BOOLEAN_NO_NEGATIVE);
 			} else {
-				return getComponent(Term.BOOLEAN_NO_POSITIVE);
+				return get(BOOLEAN_NO_POSITIVE);
 			}
 		}
 	}
@@ -254,12 +255,7 @@ public class LanguageHandler implements Reloadable {
 		this.logger.info("Done");
 	}
 
-	private Configuration readLanguageFile(final @NotNull String languageName) throws IOException {
-		if (!LANGUAGES.contains(languageName)) {
-			this.logger.severe("Language '" + languageName + "' not known.");
-			return null;
-		}
-
+	private @NonNull Configuration readLanguageFile(final @NonNull String languageName) throws IOException {
 		final Path file = this.languageDirectory.resolve(languageName + ".yaml");
 
 		try (final InputStream in = Files.newInputStream(file)) {
@@ -267,7 +263,13 @@ public class LanguageHandler implements Reloadable {
 		}
 	}
 
-	private void setActiveLanguage(final @NotNull String languageCode) throws IOException {
+	private void setActiveLanguage(final @NonNull String languageCode) throws IOException {
+		if (!LANGUAGES.contains(languageCode)) {
+			this.logger.severe("Language '" + languageCode + "' not known, using default language.");
+			setActiveLanguage(DEFAULT_LANGUAGE);
+			return;
+		}
+
 		this.activeLanguageCode = languageCode;
 		this.activeLanguageFile = readLanguageFile(languageCode);
 		if (languageCode.equals(DEFAULT_LANGUAGE)) {

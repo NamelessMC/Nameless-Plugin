@@ -1,17 +1,17 @@
 package com.namelessmc.plugin.common.logger;
 
 import com.namelessmc.plugin.common.ConfigurationHandler;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 public class JulLogger extends AbstractLogger {
 
-	private final @NotNull Logger logger;
+	private final @NonNull Logger logger;
 
-	public JulLogger(final @NotNull ConfigurationHandler config,
-					 final @NotNull Logger logger) {
+	public JulLogger(final @NonNull ConfigurationHandler config,
+					 final @NonNull Logger logger) {
 		super(config);
 		this.logger = logger;
 	}

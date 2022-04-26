@@ -4,8 +4,6 @@ command:
       fail:
         invalid-code: Ваш проверочный код неверен. Проверьте, правильно ли вы скопировали,
           и попробуйте еще раз.
-        generic: Произошла неизвестная ошибка при попытке отправить код проверки.
-        already-vaidated: Ваша учетная запись уже подтверждена.
         already-validated: Ваш аккаунт уже подтверждён.
       success: Ваша учетная запись была подтверждена.
     usage: '/<command> \<код>'
@@ -18,14 +16,17 @@ command:
       uuid: 'UUID: <uuid>'
       registered-date: Зарегистрировано <date>
       validated: 'Аккаунт подтвержден: <validated>'
-      'yes': да
-      'no': нет
-      fail: Произошла неизвестная ошибка при попытке получить информацию об игроке.
       uuid-unknown: 'UUID: неизвестен'
       banned: 'Забанен: <banned>'
       primary-group: 'Основная группа: <groupname>'
       all-groups: 'Все группы: <groups_names_list>'
       custom-field: "Доп. поле профиля '<name>': <value>"
+      integrations:
+        header: 'Интеграции:'
+        identifier: 'Идентификатор: <identifier>'
+        username: 'Никнейм: <username>'
+        linked-date: 'Дата привязки: <linked_date>'
+        verified: 'Подтверждён: <is_verified>'
     usage: '/<command> [ник]'
     description: Получить информацию о пользователе веб-сайта
   not-a-player: Чтобы выполнить эту команду, вы должны быть игроком.
@@ -34,9 +35,6 @@ command:
     description: Отображает список уведомлений веб-сайта.
     output:
       no-notifications: У вас нет непрочитанных уведомлений.
-      click-to-open: Щелкните, чтобы открыть в веб-браузере
-      fail: Произошла ошибка при попытке получить список уведомлений. Сообщите администратору
-        сервера об этой проблеме.
       notification: <hover:show_text:"Нажмите сюда для открытия в браузере"><click:open_url:"<url>"><message>
     usage: '/<command>'
   register:
@@ -48,42 +46,49 @@ command:
         link: <hover:show_text:"Кликните сюда, для открытия в браузере"><click:open_url:"<url>">Завершите
           регистрацию перейдя по ссылке <url>.
       fail:
-        generic: Произошла ошибка при попытке регистрации. Сообщите администратору
-          сервера об этой проблеме.
-        already-exists: У вас уже есть учетная запись.
         email-used: Этот адрес электронной почты уже используется для другой учетной
           записи пользователя.
         email-invalid: Указанный адрес электронной почты недействителен.
         username-invalid: Указанное имя пользователя недействительно.
         cannot-send-email: Отправить письмо на ваш Email не удалось. Пожалуйста, свяжитесь
           с администрацией для активации вашего аккаунта.
+        minercaft-used: Ваш Minecraft аккаунт уже привязан к другому пользователю
+          сайта.
+        username-used: Ваш никнейм уже используется.
   report:
     usage: '/<command> \<ник/uuid> \<причина>'
     description: Пожаловаться на игрока
     output:
       success: Спасибо, что пожаловались на этого игрока.
       fail:
-        generic: Произошла ошибка во время отправки жалобы. Свяжитесь с администрацией
-          для решения проблемы.
         already-open: Вы уже отправляли жалобу на этого игрока.
         report-self: Вы не можете отправить заявку на самого себя.
-  subcommands:
-    usage: '/{command} [subcommand] [arguments..]'
-    help-prefix: /{command}
+  subcommands: {}
+  plugin:
+    output:
+      reload-successful: Плагин успешно перезапущен.
+    description: Административные комманды для NamelessMC плагина
+    usage: /<command> 'reload'/'rl'
 player:
   self:
     not-registered: Вы должны зарегистрировать учетную запись, чтобы выполнить это
       действие.
-    not-validated: Для выполнения этого действия ваша учетная запись должна быть подтверждена.
-    no-permission: У вас нет разрешения на выполнение этого действия.
     command-banned: Вы не можете выполнять эту команду, поскольку вы заблокированы
       на сайте.
-  other:
-    not-found: Этот игрок не найден.
-    not-validated: Аккаунт этого игрока не подтвержден.
-    not-registered: Этот игрок не зарегистрирован на сайте.
+  other: {}
 join-not-registered: У вас еще нет учетной записи на нашем сайте. Пожалуйста, зарегистрируйтесь,
   используя /register.
 website-announcement: 'объявление на сайте: <message>'
 user-sync-kick: Вы заблокированы на этом сервере так как вы заблокированы на нашем
   сайте.
+error:
+  website-connection: Произошла ошибка при подключению к сайту.
+  website-username-not-exist: Никаких пользователей сайта не существует с этим никнеймом
+  username-not-online: Представленный никнейм неправильный или игрок не в сети.
+boolean:
+  yes-positive: <green>Да</green>
+  yes-negative: <red>Да</red>
+  no-positive: <green>Нет</green>
+  no-negative: <red>Нет</red>
+join-notifications: У вас есть уведомления сайта, напишите /<notifications_command>
+  для больше информации.

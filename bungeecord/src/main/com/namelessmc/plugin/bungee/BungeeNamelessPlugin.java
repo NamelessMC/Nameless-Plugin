@@ -5,13 +5,13 @@ import com.namelessmc.plugin.common.logger.JulLogger;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bstats.bungeecord.Metrics;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.nio.file.Path;
 
 public class BungeeNamelessPlugin extends Plugin {
 
-	private final @NotNull NamelessPlugin plugin;
+	private final @NonNull NamelessPlugin plugin;
 
 	public BungeeNamelessPlugin() {
 		Path dataDirectory = this.getDataFolder().toPath();

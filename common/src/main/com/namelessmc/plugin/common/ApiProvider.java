@@ -5,7 +5,8 @@ import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.config.Configuration;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,21 +19,22 @@ public class ApiProvider implements Reloadable {
 
 	private static final String USER_AGENT = "Nameless-Plugin/"	 + MavenConstants.PROJECT_VERSION;
 
-	private Optional<NamelessAPI> cachedApi; // null if not cached
+	private final @NonNull AbstractScheduler scheduler;
+	private final @NonNull AbstractLogger logger;
+	private final @NonNull ConfigurationHandler config;
 
-	private final @NotNull AbstractScheduler scheduler;
-	private final @NotNull AbstractLogger logger;
-	private final @NotNull ConfigurationHandler config;
+	private @Nullable Optional<NamelessAPI> cachedApi; // null if not cached
+	private @Nullable Throwable lastException = null;
 
-	private String apiUrl;
-	private String apiKey;
+	private @Nullable String apiUrl;
+	private @Nullable String apiKey;
 	private boolean debug;
-	private Duration timeout;
+	private @Nullable Duration timeout;
 	private boolean bypassVersionCheck;
 
-	public ApiProvider(final @NotNull AbstractScheduler scheduler,
-					   final @NotNull AbstractLogger logger,
-					   final @NotNull ConfigurationHandler config) {
+	public ApiProvider(final @NonNull AbstractScheduler scheduler,
+					   final @NonNull AbstractLogger logger,
+					   final @NonNull ConfigurationHandler config) {
 		this.scheduler = scheduler;
 		this.logger = logger;
 		this.config = config;
@@ -40,16 +42,17 @@ public class ApiProvider implements Reloadable {
 
 	@Override
 	public void reload() {
-		final Configuration config = this.config.getMainConfig();
-		this.apiUrl = config.getString("api.url");
-		this.apiKey = config.getString("api.key");
+		final Configuration config = this.config.main();
+		this.apiUrl = config.getString("api.url", null);
+		this.apiKey = config.getString("api.key", null);
 		this.debug = config.getBoolean("api.debug", false);
-		this.timeout = Duration.ofMillis(config.getInt("api.timeout", 5000));
+		this.timeout = Duration.parse(config.getString("api.timeout", null));
 		this.bypassVersionCheck = config.getBoolean("api.bypass-version-check", false);
 
 		this.cachedApi = null;
+		this.lastException = null;
 
-		scheduler.runAsync(this::getNamelessApi);
+		scheduler.runAsync(this::api);
 	}
 
 	// For bStats
@@ -67,20 +70,20 @@ public class ApiProvider implements Reloadable {
 		}
 	}
 
-	public synchronized Optional<NamelessAPI> getNamelessApi() {
-		Objects.requireNonNull(logger, "Exception logger not initialized before API was requested. This is a bug.");
+	public synchronized Optional<NamelessAPI> api() {
+		Objects.requireNonNull(this.logger, "Exception logger not initialized before API was requested. This is a bug.");
+		Objects.requireNonNull(this.timeout, "API requested before config settings are loaded");
 
 		if (this.cachedApi != null) {
 			return this.cachedApi;
 		}
 
 		this.cachedApi = Optional.empty();
+		this.lastException = null;
 
 		try {
-			if (this.apiUrl == null || this.apiUrl.isEmpty()) {
-				this.logger.severe("You have not entered an API URL in the config. Please get your site's API URL from StaffCP > Configuration > API and reload the plugin.");
-			} else if (this.apiKey == null || this.apiKey.isEmpty()) {
-				this.logger.severe("You have not entered an API key in the config. Please get your site's API key from StaffCP > Configuration > API and reload the plugin.");
+			if (this.apiUrl == null || this.apiUrl.isEmpty() || this.apiKey == null || this.apiKey.isEmpty()) {
+				this.logger.severe("You have not entered an API URL and API key in the config. Please get your site's API URL and API key from StaffCP > Configuration > API and reload the plugin.");
 			} else {
 				URL url = null;
 				try {
@@ -115,13 +118,16 @@ public class ApiProvider implements Reloadable {
 				}
 			}
 		} catch (final ApiError e) {
+			this.lastException = e;
 			if (e.getError() == ApiError.INVALID_API_KEY) {
 				this.logger.severe("You have entered an invalid API key. Please get an up-to-date API URL from StaffCP > Configuration > API and reload the plugin.");
 			} else {
 				this.logger.severe("Encountered an unexpected error code " + e.getError() + " while trying to connect to your website. Enable api debug mode in the config file for more details. When you think you've fixed the problem, reload the plugin to attempt connecting again.");
 			}
 		} catch (final NamelessException e) {
-			this.logger.warning("Encountered an error while connecting to the website. This message is expected if your site is down temporarily and can be ignored if the plugin works fine otherwise. If the plugin doesn't work as expected, please enable api-debug-mode in the config and run /nlpl reload to get more information.");
+			final String pluginCommand = this.config.commands().getString("plugin", null);
+			this.lastException = e;
+			this.logger.warning("Encountered an error while connecting to the website. This message is expected if your site is down temporarily and can be ignored if the plugin works fine otherwise. If the plugin doesn't work as expected, run '/" + pluginCommand + " last_api_error' to print the full error message.");
 			// Do not cache so it immediately tries again the next time. These types of errors may fix on their
 			// own, so we don't want to break the plugin until the administrator reloads.
 			if (this.debug) {
@@ -134,6 +140,10 @@ public class ApiProvider implements Reloadable {
 		}
 
 		return this.cachedApi;
+	}
+
+	public @Nullable Throwable getLastException() {
+		return this.lastException;
 	}
 
 }

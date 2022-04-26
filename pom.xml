@@ -35,6 +35,36 @@
 				<configuration>
 					<source>11</source>
 					<target>11</target>
+					<fork>true</fork> <!-- Must fork or else JVM arguments are ignored. -->
+					<compilerArguments>
+						<Xmaxerrs>100</Xmaxerrs>
+						<Xmaxwarns>100</Xmaxwarns>
+					</compilerArguments>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.checkerframework</groupId>
+							<artifactId>checker</artifactId>
+							<version>3.21.4</version>
+						</path>
+					</annotationProcessorPaths>
+					<annotationProcessors>
+						<annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+						<annotationProcessor>org.checkerframework.checker.optional.OptionalChecker</annotationProcessor>
+						<annotationProcessor>org.checkerframework.checker.regex.RegexChecker</annotationProcessor>
+						<annotationProcessor>org.checkerframework.checker.formatter.FormatterChecker</annotationProcessor>
+					</annotationProcessors>
+					<compilerArgs>
+					 	<arg>-Awarns</arg>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+						<arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+						<arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -44,6 +74,29 @@
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<minimizeJar>true</minimizeJar>
+
+					<relocations>
+						<relocation>
+							<pattern>com.github.mizosoft.methanol</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.methanol</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>com.namelessmc.java_api</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.nameless-api</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>net.kyori.event</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.event</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.bstats</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.bstats</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>xyz.derkades.derkutils</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.derkutils</shadedPattern>
+						</relocation>
+					</relocations>
 
 					<filters>
 						<filter>
@@ -63,12 +116,12 @@
 			<dependency>
 				<groupId>com.namelessmc</groupId>
 				<artifactId>plugin-common</artifactId>
-				<version>3.0.0-beta</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.namelessmc</groupId>
 				<artifactId>plugin-bukkit-base</artifactId>
-				<version>3.0.0-beta</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.namelessmc</groupId>
@@ -91,6 +144,21 @@
 				<version>3.0.0</version>
 			</dependency>
 			<dependency>
+				<groupId>org.bstats</groupId>
+				<artifactId>bstats-bukkit</artifactId>
+				<version>3.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.bstats</groupId>
+				<artifactId>bstats-bungeecord</artifactId>
+				<version>3.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.bstats</groupId>
+				<artifactId>bstats-velocity</artifactId>
+				<version>3.0.0</version>
+			</dependency>
+			<dependency>
 				<groupId>net.kyori</groupId>
 				<artifactId>adventure-api</artifactId>
 				<version>4.10.1</version>
@@ -104,6 +172,16 @@
 				<groupId>net.kyori</groupId>
 				<artifactId>adventure-text-minimessage</artifactId>
 				<version>4.10.1</version>
+			</dependency>
+			<dependency>
+				<groupId>net.kyori</groupId>
+				<artifactId>adventure-platform-bukkit</artifactId>
+				<version>4.1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>net.kyori</groupId>
+				<artifactId>adventure-platform-bungeecord</artifactId>
+				<version>4.1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>net.md-5</groupId>
@@ -124,6 +202,46 @@
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>23.0</version> <!-- This should match Nameless-Java-API (latest) -->
+			</dependency>
+			<dependency>
+				<groupId>org.checkerframework</groupId>
+				<artifactId>checker-qual</artifactId>
+				<version>3.21.4</version>
+			</dependency>
+			<dependency>
+				<groupId>com.velocitypowered</groupId>
+				<artifactId>velocity-api</artifactId>
+				<version>3.1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.spigotmc</groupId>
+				<artifactId>spigot-api</artifactId>
+				<version>1.8.8-R0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.bukkit</groupId>
+				<artifactId>bukkit</artifactId>
+				<version>1.8.8-R0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>io.papermc.paper</groupId>
+				<artifactId>paper-api</artifactId>
+				<version>1.18.2-R0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>me.clip</groupId>
+				<artifactId>placeholderapi</artifactId>
+				<version>2.11.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.MilkBowl</groupId>
+				<artifactId>VaultAPI</artifactId>
+				<version>1.7.1</version>
+			</dependency>
+			<dependency>
+				<groupId>net.md-5</groupId>
+				<artifactId>bungeecord-api</artifactId>
+				<version>1.18-R0.1-SNAPSHOT</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

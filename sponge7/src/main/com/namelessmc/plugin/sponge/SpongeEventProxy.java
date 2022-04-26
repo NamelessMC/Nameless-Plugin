@@ -4,24 +4,26 @@ import com.namelessmc.plugin.common.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.event.ServerJoinEvent;
 import com.namelessmc.plugin.common.event.ServerQuitEvent;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 
-import java.util.Objects;
-
 public class SpongeEventProxy {
 
-	private final @NotNull NamelessPlugin plugin;
+	private final @NonNull NamelessPlugin plugin;
 
-	SpongeEventProxy(final @NotNull NamelessPlugin plugin) {
+	SpongeEventProxy(final @NonNull NamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 
 	@Listener
 	public void onJoin(ClientConnectionEvent.Join event) {
-		final NamelessPlayer player = Objects.requireNonNull(
-				plugin.audiences().player(event.getTargetEntity().getUniqueId()));
+		final NamelessPlayer player = plugin.audiences().player(event.getTargetEntity().getUniqueId());
+		if (player == null) {
+			this.plugin.logger().severe("Skipped join event for player " + event.getTargetEntity().getName() +
+					", Audience is null");
+			return;
+		}
 		final ServerJoinEvent event2 = new ServerJoinEvent(player);
 		this.plugin.events().post(event2);
 	}

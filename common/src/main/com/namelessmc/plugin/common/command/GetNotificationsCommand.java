@@ -5,47 +5,48 @@ import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.Notification;
 import com.namelessmc.plugin.common.*;
-import com.namelessmc.plugin.common.LanguageHandler.Term;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
+
 public class GetNotificationsCommand extends CommonCommand {
 
-	public GetNotificationsCommand(final @NotNull NamelessPlugin plugin) {
+	public GetNotificationsCommand(final @NonNull NamelessPlugin plugin) {
 		super(plugin,
 				"get-notifications",
-				Term.COMMAND_NOTIFICATIONS_USAGE,
-				Term.COMMAND_NOTIFICATIONS_DESCRIPTION,
+				COMMAND_NOTIFICATIONS_USAGE,
+				COMMAND_NOTIFICATIONS_DESCRIPTION,
 				Permission.COMMAND_GET_NOTIFICATIONS);
 	}
 
 	@Override
-	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
+	public void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args) {
 		if (args.length != 0) {
-			sender.sendMessage(this.getUsage());
+			sender.sendMessage(this.usage());
 			return;
 		}
 
 		if (sender instanceof NamelessConsole) {
-			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOT_A_PLAYER));
+			sender.sendMessage(language().get(COMMAND_NOT_A_PLAYER));
 			return;
 		}
 
-		getScheduler().runAsync(() -> {
-			final Optional<NamelessAPI> optApi = this.getApi();
+		scheduler().runAsync(() -> {
+			final Optional<NamelessAPI> optApi = this.api();
 			if (optApi.isEmpty()) {
-				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
+				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				return;
 			}
 			final NamelessAPI api = optApi.get();
 
 			try {
-				final Optional<NamelessUser> optional = api.getUser(((NamelessPlayer) sender).getUniqueId());
+				final Optional<NamelessUser> optional = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());
 
 				if (optional.isEmpty()) {
-					sender.sendMessage(getLanguage().getComponent(Term.PLAYER_SELF_NOT_REGISTERED));
+					sender.sendMessage(language().get(PLAYER_SELF_NOT_REGISTERED));
 					return;
 				}
 
@@ -56,20 +57,20 @@ public class GetNotificationsCommand extends CommonCommand {
 				notifications.sort((n1, n2) -> n2.getType().ordinal() - n1.getType().ordinal());
 
 				if (notifications.size() == 0) {
-					sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS));
+					sender.sendMessage(language().get(COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS));
 					return;
 				}
 
-				getScheduler().runSync(() -> {
+				scheduler().runSync(() -> {
 					notifications.forEach((notification) -> {
-						sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION,
+						sender.sendMessage(language().get(COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION,
 								"url", notification.getUrl(),
 								"message", notification.getMessage()));
 					});
 				});
 			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
-				getLogger().logException(e);
+				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
+				logger().logException(e);
 			}
 		});
 	}

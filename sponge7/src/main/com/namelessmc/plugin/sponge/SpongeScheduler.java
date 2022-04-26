@@ -2,7 +2,7 @@ package com.namelessmc.plugin.sponge;
 
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.api.scheduler.Task;
 
 import java.time.Duration;
@@ -10,14 +10,14 @@ import java.util.concurrent.TimeUnit;
 
 public class SpongeScheduler extends AbstractScheduler {
 
-	private final @NotNull NamelessPluginSponge plugin;
+	private final @NonNull NamelessPluginSponge plugin;
 
-	SpongeScheduler(final @NotNull NamelessPluginSponge plugin) {
+	SpongeScheduler(final @NonNull NamelessPluginSponge plugin) {
 		this.plugin = plugin;
 	}
 
 	@Override
-	public void runAsync(@NotNull Runnable runnable) {
+	public void runAsync(@NonNull Runnable runnable) {
 		Task.builder()
 				.execute(runnable)
 				.async()
@@ -25,14 +25,14 @@ public class SpongeScheduler extends AbstractScheduler {
 	}
 
 	@Override
-	public void runSync(@NotNull Runnable runnable) {
+	public void runSync(@NonNull Runnable runnable) {
 		Task.builder()
 				.execute(runnable)
 				.submit(this.plugin);
 	}
 
 	@Override
-	public @NotNull SpongeScheduledTask runTimer(@NotNull Runnable runnable, @NotNull Duration interval) {
+	public @NonNull SpongeScheduledTask runTimer(@NonNull Runnable runnable, @NonNull Duration interval) {
 		final Task task = Task.builder()
 				.execute(runnable)
 				.delay(interval.toNanos(), TimeUnit.NANOSECONDS)
@@ -42,7 +42,7 @@ public class SpongeScheduler extends AbstractScheduler {
 	}
 
 	@Override
-	public @NotNull SpongeScheduledTask runDelayed(@NotNull Runnable runnable, @NotNull Duration delay) {
+	public @NonNull SpongeScheduledTask runDelayed(@NonNull Runnable runnable, @NonNull Duration delay) {
 		final Task task = Task.builder()
 				.execute(runnable)
 				.delay(delay.toNanos(), TimeUnit.NANOSECONDS)
@@ -52,9 +52,9 @@ public class SpongeScheduler extends AbstractScheduler {
 
 	public static class SpongeScheduledTask extends AbstractScheduledTask {
 
-		private final @NotNull Task task;
+		private final @NonNull Task task;
 
-		private SpongeScheduledTask(final @NotNull Task task) {
+		private SpongeScheduledTask(final @NonNull Task task) {
 			this.task = task;
 		}
 

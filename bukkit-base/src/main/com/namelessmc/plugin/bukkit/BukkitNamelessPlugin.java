@@ -1,31 +1,25 @@
 package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.plugin.bukkit.event.PlayerBan;
-import com.namelessmc.plugin.bukkit.event.PlayerLogin;
 import com.namelessmc.plugin.bukkit.hooks.*;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
-import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.nio.file.Path;
 
 public abstract class BukkitNamelessPlugin extends JavaPlugin {
-
-	private Permission permissions;
-	public Permission getPermissions() { return this.permissions; }
 	
 	private PapiParser papiParser;
 	public PapiParser getPapiParser() { return this.papiParser; }
@@ -33,9 +27,11 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 	private @Nullable MaintenanceStatusProvider maintenanceStatusProvider;
 	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 
-	protected final @NotNull NamelessPlugin plugin;
+	protected final @NonNull NamelessPlugin plugin;
 
 	private @Nullable Boolean usesMojangUuids;
+
+	private final @NonNull PlaceholderCacher placeholderCacher;
 
 	public BukkitNamelessPlugin() {
 		final Path dataDirectory = this.getDataFolder().toPath();
@@ -48,7 +44,7 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		this.plugin.registerReloadable(new BukkitDataSender(this.plugin, this));
 		this.plugin.registerReloadable(new UserSyncTask(this.plugin, this));
 		this.plugin.registerReloadable(new AnnouncementTask(this.plugin));
-		PapiHook.cacher = this.plugin.registerReloadable(
+		this.placeholderCacher = this.plugin.registerReloadable(
 				new PlaceholderCacher(this, this.plugin)
 		);
 	}
@@ -57,28 +53,12 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 	public void onEnable() {
 		this.configureAudiences();
 
-		if (this.getServer().getPluginManager().getPlugin("Vault") != null) {
-			final RegisteredServiceProvider<net.milkbowl.vault.permission.Permission> permissionProvider = this.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-			if (permissionProvider == null) {
-				this.plugin.logger().warning("No vault compatible permissions plugin was found. Group sync will not work.");
-			} else {
-				this.permissions = permissionProvider.getProvider();
-
-				if (this.permissions == null) {
-					this.plugin.logger().warning("No vault compatible permissions plugin was found. Group sync will not work.");
-				}
-			}
-		} else {
-			this.plugin.logger().warning("Vault was not found. Group sync will not work.");
-		}
-
 		this.plugin.reload();
 
 		initPapi();
 		initMaintenance();
 		initMetrics();
 
-		this.getServer().getPluginManager().registerEvents(new PlayerLogin(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerBan(), this);
 		this.getServer().getPluginManager().registerEvents(new BukkitEventProxy(this.plugin), this);
 
@@ -87,7 +67,7 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 
 	protected abstract void configureAudiences();
 
-	public abstract void kickPlayer(final @NotNull Player player, final @NotNull LanguageHandler.Term term);
+	public abstract void kickPlayer(final @NonNull Player player, final LanguageHandler.@NonNull Term term);
 
 	private void checkUuids() {
 		@SuppressWarnings("deprecation")
@@ -102,7 +82,7 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 	
 	private void initPapi() {
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			final PapiHook placeholders = new PapiHook();
+			final PapiHook placeholders = new PapiHook(this.placeholderCacher);
 			placeholders.register();
 
 			this.papiParser = new PapiParserEnabled();

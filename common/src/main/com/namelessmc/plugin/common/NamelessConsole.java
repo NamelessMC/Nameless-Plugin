@@ -1,11 +1,11 @@
 package com.namelessmc.plugin.common;
 
 import net.kyori.adventure.audience.Audience;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class NamelessConsole extends NamelessCommandSender {
 
-	public NamelessConsole(final @NotNull Audience audience) {
+	public NamelessConsole(final @NonNull Audience audience) {
 		super(audience);
 	}
 

@@ -2,7 +2,6 @@ package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.integrations.StandardIntegrationTypes;
-import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
@@ -11,20 +10,22 @@ import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.time.Duration;
 import java.util.*;
 import java.util.function.Consumer;
 
+import static com.namelessmc.plugin.common.LanguageHandler.Term.USER_SYNC_KICK;
+
 public class UserSyncTask implements Runnable, Reloadable {
 
-	private final @NotNull NamelessPlugin plugin;
-	private final @NotNull BukkitNamelessPlugin bukkitPlugin;
+	private final @NonNull NamelessPlugin plugin;
+	private final @NonNull BukkitNamelessPlugin bukkitPlugin;
 	private @Nullable AbstractScheduledTask task;
 
-	UserSyncTask(final @NotNull NamelessPlugin plugin, final @NotNull BukkitNamelessPlugin bukkitPlugin) {
+	UserSyncTask(final @NonNull NamelessPlugin plugin, final @NonNull BukkitNamelessPlugin bukkitPlugin) {
 		this.plugin = plugin;
 		this.bukkitPlugin = bukkitPlugin;
 	}
@@ -36,7 +37,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 			task = null;
 		}
 
-		final Configuration config = this.plugin.config().getMainConfig();
+		final Configuration config = this.plugin.config().main();
 		if (config.getBoolean("user-sync.enabled")) {
 			Duration interval = Duration.parse(config.getString("user-sync.poll-interval"));
 			this.task = this.plugin.scheduler().runTimer(this, interval);
@@ -45,7 +46,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 
 	@Override
 	public void run() {
-		final Configuration config = this.plugin.config().getMainConfig();
+		final Configuration config = this.plugin.config().main();
 		final boolean doLog = config.getBoolean("user-sync.log", true);
 		Runnable runAfter = null;
 		if (config.getBoolean("user-sync.whitelist.enabled", false)) {
@@ -59,15 +60,14 @@ public class UserSyncTask implements Runnable, Reloadable {
 		}
 	}
 
-	@Nullable
-	private Set<UUID> getUuids(final boolean doLog,
-							   final @NotNull Consumer<@NotNull FilteredUserListBuilder> builderConfigurator) {
-		final Configuration config = this.plugin.config().getMainConfig();
+	private @Nullable Set<UUID> getUuids(final boolean doLog,
+							             final @NonNull Consumer<@NonNull FilteredUserListBuilder> builderConfigurator) {
+		final Configuration config = this.plugin.config().main();
 		final AbstractLogger logger = this.plugin.logger();
 
 		List<NamelessUser> users;
 		try {
-			final Optional<NamelessAPI> optApi = this.plugin.api().getNamelessApi();
+			final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
 			if (optApi.isPresent()) {
 				FilteredUserListBuilder builder = optApi.get().getRegisteredUsers();
 				builder.withFilter(UserFilter.INTEGRATION, StandardIntegrationTypes.MINECRAFT);
@@ -123,7 +123,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 							logger.info("Added " + bannedUuid + " to the ban list");
 						}
 						if (bannedPlayer.isOnline()) {
-							this.bukkitPlugin.kickPlayer((Player) bannedPlayer, LanguageHandler.Term.USER_SYNC_KICK);
+							this.bukkitPlugin.kickPlayer((Player) bannedPlayer, USER_SYNC_KICK);
 						}
 					}
 				}
@@ -156,7 +156,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 	}
 
 	private void syncWhitelist(final boolean doLog) {
-		final Configuration config = this.plugin.config().getMainConfig();
+		final Configuration config = this.plugin.config().main();
 		final AbstractLogger logger = this.plugin.logger();
 
 		final boolean verifiedOnly = config.getBoolean("user-sync.whitelist.verified-only");
@@ -218,7 +218,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 									logger.info("Removed " + (player.getName() == null ? toRemove.toString() : player.getName()) + " from the whitelist");
 								}
 								if (player.isOnline()) {
-									this.bukkitPlugin.kickPlayer((Player) player, LanguageHandler.Term.USER_SYNC_KICK);
+									this.bukkitPlugin.kickPlayer((Player) player, USER_SYNC_KICK);
 								}
 							}
 						}

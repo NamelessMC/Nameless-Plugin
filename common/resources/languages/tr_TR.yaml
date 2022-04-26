@@ -4,7 +4,6 @@ command:
       fail:
         invalid-code: Doğrulama kodunuz yanlış. Lütfen doğru kopyalayıp kopyalamadığınızı
           kontrol edin ve tekrar deneyin.
-        generic: Doğrulama kodu göndermeye çalışırken bilinmeyen bir hata oluştu.
         already-validated: Hesabınız zaten doğrulandı.
       success: Hesabınız doğrulandı.
     usage: '/{command} <kod>'
@@ -13,14 +12,11 @@ command:
     output:
       uuid: 'UUID: <uuid>'
       uuid-unknown: 'UUD: bilinmiyor'
-      fail: Oyuncu bilgilerini almaya çalışırken bilinmeyen bir hata oluştu.
       displayname: 'Görünen ad: <displayname>'
       username: 'Kullanıcı Adı: <username>'
       registered-date: 'Kayıt Tarihi : <date>'
       validated: 'Doğrulanmış Hesap: <validated>'
       banned: 'Yasaklı: <banned>'
-      'yes': evet
-      'no': hayır
       primary-group: 'Birincil grup: <groupname>'
       all-groups: 'Tüm gruplar: <groups_names_list>'
     description: Bir web sitesi kullanıcısı hakkında bilgi alın
@@ -30,9 +26,6 @@ command:
     usage: '/{command}'
     output:
       no-notifications: Okunmamış bildiriminiz yok.
-      click-to-open: Bir web tarayıcısında açmak için tıklayın
-      fail: Bildirim listesini almaya çalışırken bir hata oluştu. Lütfen bu sorunu
-        sunucu yöneticisine bildirin.
       notification: <hover:show_text:"Tarayıcıyı Açmak İçin Tıkla."><click:open_url:"<url>"><message>
     description: Web sitesi bildirimlerinin bir listesini görüntüler.
   register:
@@ -43,11 +36,8 @@ command:
         link: <hover:show_text:"Tarayıcıda açmak için tıkla"><click:open_url:"<url>">Lütfen
           kayıt sürecini tamamlamak için <url> adresine gidiniz.
       fail:
-        already-exists: Zaten bir hesabınız var.
         email-used: Bu e-posta adresi zaten farklı bir kullanıcı hesabı için kullanılıyor.
         email-invalid: Girdiğiniz e-posta adresi geçersiz.
-        generic: Kaydolmaya çalışırken bir hata oluştu. Lütfen bu sorunu sunucu yöneticisine
-          bildirin.
         username-invalid: Sağlanan kullanıcı adı geçersiz.
         cannot-send-email: Kayıt e-postası gönderilemiyor, hesabınızı etkinleştirmek
           için lütfen bir yöneticiyle iletişime geçin.
@@ -60,22 +50,13 @@ command:
       fail:
         already-open: Bu oyuncuyu şikayet edemezsiniz, onlar için zaten açık bir raporunuz
           var.
-        generic: Bu oyuncu bildirilmeye çalışılırken bir hata oluştu. Lütfen bu sorunu
-          sunucu yöneticisine bildirin.
         report-self: Kendi kendini şikayet edemezsin.
-  subcommands:
-    usage: '/{command} [alt komut] [içerik..]'
-    help-prefix: /{command}
+  subcommands: {}
   not-a-player: Bu komutu gerçekleştirmek için oyuncu olmalısınız.
 player:
-  other:
-    not-validated: Bu oyuncunun hesabı doğrulanmadı.
-    not-found: Bu Oyuncu Bulunamadı.
-    not-registered: Bu oyuncu web sitesinde kayıtlı değil.
+  other: {}
   self:
-    not-validated: Bu eylemi gerçekleştirmek için hesabınızın doğrulanması gerekir.
     not-registered: Bu eylemi gerçekleştirmek için bir hesap açmalısınız.
-    no-permission: Bu eylemi gerçekleştirme izniniz yok.
     command-banned: Bu komutu çalıştıramazsınız, siteden yasaklanırsınız.
 join-not-registered: Henüz web sitemizde bir hesabınız yok. Lütfen / register kullanarak
   kaydolun.

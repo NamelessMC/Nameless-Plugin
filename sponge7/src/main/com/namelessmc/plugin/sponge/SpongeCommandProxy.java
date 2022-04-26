@@ -5,8 +5,8 @@ import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import net.kyori.adventure.text.serializer.spongeapi.SpongeComponentSerializer;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.*;
 import org.spongepowered.api.entity.living.player.Player;
@@ -21,10 +21,10 @@ import java.util.Optional;
 
 public class SpongeCommandProxy implements Reloadable {
 
-	private final @NotNull ArrayList<CommandMapping> registeredCommands = new ArrayList<>();
-	private final @NotNull NamelessPlugin plugin;
+	private final @NonNull ArrayList<CommandMapping> registeredCommands = new ArrayList<>();
+	private final @NonNull NamelessPlugin plugin;
 
-	SpongeCommandProxy(final @NotNull NamelessPlugin plugin) {
+	SpongeCommandProxy(final @NonNull NamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -37,15 +37,21 @@ public class SpongeCommandProxy implements Reloadable {
 		}
 		this.registeredCommands.clear();
 
-		CommonCommand.getEnabledCommands(this.plugin).forEach(command -> {
-			final String permission = command.getPermission().toString();
+		CommonCommand.commands(this.plugin).forEach(command -> {
+			final String name = command.actualName();
+			if (name == null) {
+				// Command is disabled
+				return;
+			}
+
+			final String permission = command.permission().toString();
 			final SpongeComponentSerializer ser = SpongeComponentSerializer.get();
-			final Text usage = ser.serialize(command.getUsage());
-			final Text description = ser.serialize(command.getDescription());
+			final Text usage = ser.serialize(command.usage());
+			final Text description = ser.serialize(command.description());
 
 			CommandCallable spongeCommand = new CommandCallable() {
 				@Override
-				public @NotNull CommandResult process(final CommandSource source,
+				public @NonNull CommandResult process(final CommandSource source,
 													  final String arguments) {
 					String[] args = arguments.split(" ");
 					final NamelessCommandSender namelessCommandSender;
@@ -86,10 +92,10 @@ public class SpongeCommandProxy implements Reloadable {
 				}
 			};
 
-			manager.register(this, spongeCommand, command.getActualName()).ifPresentOrElse(
+			manager.register(this, spongeCommand, command.actualName()).ifPresentOrElse(
 					this.registeredCommands::add,
 					() -> {
-						this.plugin.logger().warning("Unable to register command: " + command.getActualName());
+						this.plugin.logger().warning("Unable to register command: " + command.actualName());
 					}
 			);
 		});

@@ -6,37 +6,38 @@ import com.namelessmc.java_api.exception.InvalidValidateCodeException;
 import com.namelessmc.java_api.integrations.IntegrationData;
 import com.namelessmc.java_api.integrations.MinecraftIntegrationData;
 import com.namelessmc.plugin.common.*;
-import com.namelessmc.plugin.common.LanguageHandler.Term;
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Optional;
 
+import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
+
 public class VerifyCommand extends CommonCommand {
 
-	public VerifyCommand(final @NotNull NamelessPlugin plugin) {
+	public VerifyCommand(final @NonNull NamelessPlugin plugin) {
 		super(plugin,
 				"verify",
-				Term.COMMAND_VALIDATE_USAGE,
-				Term.COMMAND_VALIDATE_DESCRIPTION,
+				COMMAND_VALIDATE_USAGE,
+				COMMAND_VALIDATE_DESCRIPTION,
 				Permission.COMMAND_VERIFY);
 	}
 
 	@Override
-	public void execute(final @NotNull NamelessCommandSender sender, final @NotNull String@NotNull[] args) {
+	public void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args) {
 		if (args.length != 1) {
-			sender.sendMessage(this.getUsage());
+			sender.sendMessage(this.usage());
 			return;
 		}
 
 		if (sender instanceof NamelessConsole) {
-			sender.sendMessage(getLanguage().getComponent(Term.COMMAND_NOT_A_PLAYER));
+			sender.sendMessage(language().get(COMMAND_NOT_A_PLAYER));
 			return;
 		}
 
-		this.getScheduler().runAsync(() -> {
-			final Optional<NamelessAPI> optApi = this.getApi();
+		this.scheduler().runAsync(() -> {
+			final Optional<NamelessAPI> optApi = this.api();
 			if (optApi.isEmpty()) {
-				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
+				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				return;
 			}
 			final NamelessAPI api = optApi.get();
@@ -44,14 +45,14 @@ public class VerifyCommand extends CommonCommand {
 			try {
 				final String code = args[0];
 				final NamelessPlayer player = (NamelessPlayer) sender;
-				final IntegrationData integrationData = new MinecraftIntegrationData(player.getUniqueId(), player.getUsername());
+				final IntegrationData integrationData = new MinecraftIntegrationData(player.uuid(), player.username());
 				api.verifyIntegration(integrationData, code);
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_SUCCESS));
+				sender.sendMessage(language().get(COMMAND_VALIDATE_OUTPUT_SUCCESS));
 			} catch (final InvalidValidateCodeException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.COMMAND_VALIDATE_OUTPUT_FAIL_INVALID_CODE));
+				sender.sendMessage(language().get(COMMAND_VALIDATE_OUTPUT_FAIL_INVALID_CODE));
 			} catch (final NamelessException e) {
-				sender.sendMessage(getLanguage().getComponent(Term.ERROR_WEBSITE_CONNECTION));
-				getLogger().logException(e);
+				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
+				logger().logException(e);
 			}
 		});
 	}

@@ -11,9 +11,10 @@ api:
   debug: false
   # Maximum time in milliseconds to wait for a response from the website
   # Set to 10 seconds for slower webservers. Sensible values are 3s-15s.
-  timeout: 5000
+  # Syntax: https://en.wikipedia.org/wiki/ISO_8601#Durations
+  timeout: 'PT5S'
 
-# Supported platforms: Spigot, BungeeCord (limited)
+# Supported platforms: all, limited: https://docs.namelessmc.com/en/integrations/plugin-data-sender
 # The server data sender sends data about this server to the website, periodically. It is essential for many
 # features to work like group sync, username sync and placeholders.
 # Note that currently the website doesn't use the plugin for server status and player list yet, even though
@@ -47,9 +48,13 @@ retrieve-placeholders:
 # Can be helpful to reduce console spam while your webserver is broken.
 single-line-exceptons: false
 
-# Supported platforms: Spigot
+# Supported platforms: all
 # Send a message to players who don't have a NamelessMC account when they join
 not-registered-join-message: false
+
+# Supported platforms: all
+# Send website notifications in chat on join, if there are any
+join-notifications: false
 
 # Supported platforms: Spigot
 # When a player is banned, also ban their website account if they have one.
