@@ -119,7 +119,7 @@ public class ApiProvider implements Reloadable {
 			}
 		} catch (final ApiError e) {
 			this.lastException = e;
-			if (e.getError() == ApiError.INVALID_API_KEY) {
+			if (e.getError() == ApiError.REQUEST_NOT_AUTHORIZED) {
 				this.logger.severe("You have entered an invalid API key. Please get an up-to-date API URL from StaffCP > Configuration > API and reload the plugin.");
 			} else {
 				this.logger.severe("Encountered an unexpected error code " + e.getError() + " while trying to connect to your website. Enable api debug mode in the config file for more details. When you think you've fixed the problem, reload the plugin to attempt connecting again.");
