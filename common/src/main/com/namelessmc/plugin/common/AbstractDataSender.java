@@ -8,6 +8,7 @@ import com.namelessmc.plugin.common.event.ServerJoinEvent;
 import com.namelessmc.plugin.common.event.ServerQuitEvent;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.config.Configuration;
+import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -30,7 +31,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		this.startLoginTimeTracking();
 	}
 
-	private void startLoginTimeTracking() {
+	private void startLoginTimeTracking(@UnknownInitialization(AbstractDataSender.class) AbstractDataSender this) {
 		this.plugin.registerReloadable(() -> {
 			// If the plugin is loaded when the server is already started (e.g. using /reload on bukkit), add
 			// players manually because the join event is never called for them.
@@ -80,14 +81,14 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 	}
 
 	private @NonNull JsonObject buildJsonBody() {
-		Objects.requireNonNull(this.globalInfoProviders, "providers are never null");
-		Objects.requireNonNull(this.playerInfoProviders, "providers are never null");
+		if (this.globalInfoProviders == null || this.playerInfoProviders == null) {
+			throw new IllegalStateException("Providers are null, is the data sender disabled?");
+		}
 
 		final JsonObject data = new JsonObject();
 		data.addProperty("server-id", this.serverId);
 
 		data.addProperty("time", System.currentTimeMillis());
-
 
 		for (InfoProvider infoProvider : this.globalInfoProviders) {
 			try {

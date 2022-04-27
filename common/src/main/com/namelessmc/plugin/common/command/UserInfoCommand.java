@@ -101,9 +101,13 @@ public class UserInfoCommand extends CommonCommand {
 			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_BANNED,
 					Placeholder.component("banned", language().booleanText(user.isBanned(), false))));
 
-			for (CustomProfileFieldValue customField : user.getProfileFields()) {
+			for (final CustomProfileFieldValue customField : user.getProfileFields()) {
+				String value = customField.getValue();
+				if (value == null) {
+					value = "-";
+				}
 				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD,
-						"name", customField.getField().getName(), "value", customField.getValue()));
+						"name", customField.getField().getName(), "value", value));
 			}
 
 			Map<String, DetailedIntegrationData> integrations = user.getIntegrations();

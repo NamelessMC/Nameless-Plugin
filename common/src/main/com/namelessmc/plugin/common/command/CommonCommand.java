@@ -5,6 +5,7 @@ import com.namelessmc.plugin.common.*;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.config.Configuration;
+import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -35,7 +36,7 @@ public abstract class CommonCommand {
 				: null;
 	}
 
-	public @Nullable String actualName() {
+	public @Nullable String actualName(@UnknownInitialization(CommonCommand.class) CommonCommand this) {
 		return this.actualName;
 	}
 
