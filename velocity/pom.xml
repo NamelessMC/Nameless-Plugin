@@ -43,6 +43,22 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths combine.children="append">
+						<path>
+							<groupId>com.velocitypowered</groupId>
+							<artifactId>velocity-api</artifactId>
+							<version>3.1.1</version> <!-- TODO Somehow grab this version from dependency management -->
+						</path>
+					</annotationProcessorPaths>
+					<annotationProcessors combine.children="append">
+						<annotationProcessor>com.velocitypowered.api.plugin.ap.PluginAnnotationProcessor</annotationProcessor>
+					</annotationProcessors>
+				</configuration>
+			</plugin>
 		</plugins>
     </build>
 
