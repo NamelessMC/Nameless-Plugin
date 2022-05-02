@@ -109,6 +109,7 @@ public class LanguageHandler implements Reloadable {
 	private static final int VERSION = 26;
 
 	private static final Set<String> LANGUAGES = Set.of(
+			"ar_SA",
 			"cs_CZ",
 			"de_DE",
 			"el_GR",
