@@ -48,6 +48,11 @@ mvn clean package # Uses JDK 11 and 17
 # find jar in {bungeecord,paper,spigot,sponge7,velocity}/target/*
 ```
 
+Building the entire project can take quite a long time. During development, you might want to build a single module only:
+```sh
+mvn package -pl velocity -am
+```
+
 ## Discord
 [![discord](https://discord.com/api/guilds/246705793066467328/widget.png?style=shield)](https://discord.gg/nameless)
 
