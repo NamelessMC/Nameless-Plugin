@@ -23,6 +23,7 @@ import java.nio.file.Path;
 public class VelocityNamelessPlugin {
 
 	private final Metrics.@NonNull Factory metricsFactory;
+	private final @NonNull ProxyServer server;
 	private final @NonNull NamelessPlugin plugin;
 
 	@Inject
@@ -30,6 +31,7 @@ public class VelocityNamelessPlugin {
 								  final @NonNull Logger logger,
 								  final @DataDirectory @NonNull Path dataDirectory,
 								  final Metrics.@NonNull Factory metricsFactory) {
+		this.server = server;
 		this.metricsFactory = metricsFactory;
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
@@ -39,12 +41,13 @@ public class VelocityNamelessPlugin {
 		this.plugin.setAudienceProvider(new VelocityAudienceProvider(server));
 		this.plugin.registerReloadable(new VelocityCommandProxy(this.plugin, server));
 		this.plugin.registerReloadable(new VelocityDataSender(this.plugin));
-		server.getEventManager().register(this, new VelocityEventProxy(this.plugin));
 	}
 
 	@Subscribe
 	public void onProxyInitialization(ProxyInitializeEvent event) {
 		this.plugin.reload();
+
+		this.server.getEventManager().register(this, new VelocityEventProxy(this.plugin));
 
 		final Metrics metrics = metricsFactory.make(this, 14863);
 		this.plugin.registerCustomCharts(metrics, Metrics.class);
