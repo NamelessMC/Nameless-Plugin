@@ -14,6 +14,7 @@ import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_NO_PERMISSION;
 
@@ -47,6 +48,7 @@ public class BukkitCommandProxy implements Reloadable {
 			final String description = ser.serialize(command.description());
 			final Component noPermissionMessage = this.plugin.language().get(COMMAND_NO_PERMISSION);
 			Command spigotCommand = new Command(name, usage, description, Collections.emptyList()) {
+
 				@Override
 				public boolean execute(final CommandSender spigotSender, final String commandLabel, final String[] args) {
 					final NamelessCommandSender sender;
@@ -68,6 +70,21 @@ public class BukkitCommandProxy implements Reloadable {
 					command.execute(sender, args);
 					return true;
 				}
+
+				@Override
+				public List<String> tabComplete(final CommandSender spigotSender, final String alias, final String[] args) throws IllegalArgumentException {
+					final NamelessCommandSender sender;
+					if (spigotSender instanceof Player) {
+						sender = plugin.audiences().player(((Player) spigotSender).getUniqueId());
+					} else {
+						sender = plugin.audiences().console();
+					}
+					if (sender == null) {
+						return Collections.singletonList("ERROR: Audience is null");
+					}
+					return command.complete(sender, args);
+				}
+
 			};
 
 			ReflectionUtil.registerCommand(name, spigotCommand);

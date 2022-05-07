@@ -10,6 +10,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +79,10 @@ public abstract class CommonCommand {
 	protected @NonNull AbstractLogger logger() { return this.plugin.logger(); }
 
 	public abstract void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args);
+
+	public List<String> complete(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args) {
+		return Collections.emptyList();
+	}
 
 	public static List<CommonCommand> commands(final @NonNull NamelessPlugin plugin) {
 		ArrayList<CommonCommand> list = new ArrayList<>();

@@ -10,7 +10,10 @@ import com.namelessmc.plugin.common.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
 
@@ -73,6 +76,17 @@ public class ReportCommand extends CommonCommand {
 				logger().logException(e);
 			}
 		});
+	}
+
+	@Override
+	public List<String> complete(@NonNull NamelessCommandSender sender, @NonNull String @NonNull [] args) {
+		if (args.length == 1) {
+			return this.plugin().audiences().onlinePlayers().stream()
+					.map(NamelessPlayer::username)
+					.filter(s -> s.startsWith(args[0]))
+					.collect(Collectors.toList());
+		}
+		return Collections.emptyList();
 	}
 
 }
