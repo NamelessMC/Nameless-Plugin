@@ -87,7 +87,7 @@ public class BukkitCommandProxy implements Reloadable {
 
 			};
 
-			ReflectionUtil.registerCommand(name, spigotCommand);
+			ReflectionUtil.registerCommand("nameless", spigotCommand);
 			this.registeredCommands.add(spigotCommand);
 		});
 
