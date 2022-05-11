@@ -7,9 +7,10 @@
     <name>Nameless-Plugin-Paper</name>
 
     <parent>
+        <relativePath>../pom.xml</relativePath>
         <groupId>com.namelessmc</groupId>
         <artifactId>plugin</artifactId>
-        <version>3.0.0-beta</version>
+        <version>${revision}</version>
     </parent>
 
     <build>
@@ -68,6 +69,7 @@
             <groupId>com.namelessmc</groupId>
             <artifactId>plugin-bukkit-base</artifactId>
             <exclusions>
+                <!-- Paper API dependency replaces Bukkit -->
                 <exclusion>
                     <groupId>org.bukkit</groupId>
                     <artifactId>bukkit</artifactId>

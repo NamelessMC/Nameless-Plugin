@@ -5,11 +5,12 @@
 
 	<groupId>com.namelessmc</groupId>
 	<artifactId>plugin</artifactId>
-	<version>3.0.0-beta</version>
+	<version>${revision}</version>
 	<name>Nameless-Plugin</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<revision>3.0.0-beta</revision>
 	</properties>
 
 	<modules>
@@ -128,12 +129,12 @@
 			<dependency>
 				<groupId>com.namelessmc</groupId>
 				<artifactId>plugin-common</artifactId>
-				<version>${project.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.namelessmc</groupId>
 				<artifactId>plugin-bukkit-base</artifactId>
-				<version>${project.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.namelessmc</groupId>

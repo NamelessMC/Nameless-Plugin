@@ -6,11 +6,12 @@
 	<artifactId>plugin-spigot</artifactId>
     <name>Nameless-Plugin-Spigot</name>
 
-    <parent>
-        <groupId>com.namelessmc</groupId>
-        <artifactId>plugin</artifactId>
-        <version>3.0.0-beta</version>
-    </parent>
+	<parent>
+		<relativePath>../pom.xml</relativePath>
+		<groupId>com.namelessmc</groupId>
+		<artifactId>plugin</artifactId>
+		<version>${revision}</version>
+	</parent>
 
     <build>
         <sourceDirectory>src/main</sourceDirectory>

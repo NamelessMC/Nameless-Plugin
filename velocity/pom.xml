@@ -7,9 +7,10 @@
     <name>Nameless-Plugin-Velocity</name>
 
     <parent>
-        <groupId>com.namelessmc</groupId>
-        <artifactId>plugin</artifactId>
-        <version>3.0.0-beta</version>
+		<relativePath>../pom.xml</relativePath>
+		<groupId>com.namelessmc</groupId>
+		<artifactId>plugin</artifactId>
+		<version>${revision}</version>
     </parent>
 
     <build>
@@ -51,7 +52,7 @@
 						<path>
 							<groupId>com.velocitypowered</groupId>
 							<artifactId>velocity-api</artifactId>
-							<version>3.1.1</version> <!-- TODO Somehow grab this version from dependency management -->
+							<version>3.1.1</version> <!-- TODO 	Somehow grab this version from dependency management -->
 						</path>
 					</annotationProcessorPaths>
 					<annotationProcessors combine.children="append">
