@@ -30,7 +30,7 @@ command:
           abschließen, indem du <url> aufrufst.'
     usage: '/{command} <Mail>'
     description: Erstelle einen Forum-Account
-  no-permission: Du hast keine Rechte, diesen Befehl auszuführen.
+  no-permission: Du hast keine Berechtigung, diesen Befehl auszuführen.
   report:
     usage: '/{command} <Name/UUID> <Grund>'
     description: Einen Spieler melden
@@ -42,8 +42,7 @@ command:
         report-self: Du kannst dich nicht selber melden.
   validate:
     usage: '/{command} <Code>'
-    description: Überprüft das Website-Konto des Benutzers anhand des angegebenen
-      Codes.
+    description: Überprüft das Website-Konto des Benutzers mit dem angegebenen Code.
     output:
       success: Ihr Konto wurde bestätigt.
       fail:
