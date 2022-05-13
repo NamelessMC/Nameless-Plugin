@@ -9,7 +9,7 @@ command:
     output:
       no-notifications: Du hast keine ungelesenen Benachrichtigungen.
       notification: <hover:show_text:"Klicken um in einem Browser zu öffnen"><click:open_url:"<url>"><message>
-    usage: '/{command}'
+    usage: '/<command>'
     description: Zeigt eine Liste der Website-Benachrichtigungen an.
   not-a-player: Du must ein Spieler sein, um diesen Befehl ausführen zu können.
   register:
