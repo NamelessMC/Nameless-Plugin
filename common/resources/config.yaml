@@ -111,8 +111,8 @@ websend:
   # Poll the Websend module for commands to execute
   command-executor:
     enabled: false
-    interval: 2
+    interval: PT5S
   # EXPERIMENTAL: Send console output to the Websend module
   console-capture:
     enabled: false
-    send-interval: 2
+    send-interval: PT2S

@@ -47,6 +47,7 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		this.placeholderCacher = this.plugin.registerReloadable(
 				new PlaceholderCacher(this, this.plugin)
 		);
+		this.plugin.registerReloadable(new Websend(this.plugin));
 	}
 
 	@Override
