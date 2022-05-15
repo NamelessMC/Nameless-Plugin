@@ -11,6 +11,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<revision>3.0.0-beta</revision>
+		<checkerFrameworkVersion>3.22.0</checkerFrameworkVersion>
+		<velocityVersion>3.1.1</velocityVersion>
+		<bStatsVersion>3.0.0</bStatsVersion>
 	</properties>
 
 	<modules>
@@ -44,7 +47,7 @@
 						<path>
 							<groupId>org.checkerframework</groupId>
 							<artifactId>checker</artifactId>
-							<version>3.21.4</version>
+							<version>${checkerFrameworkVersion}</version>
 						</path>
 					</annotationProcessorPaths>
 					<annotationProcessors>
@@ -154,22 +157,22 @@
 			<dependency>
 				<groupId>org.bstats</groupId>
 				<artifactId>bstats-base</artifactId>
-				<version>3.0.0</version>
+				<version>${bStatsVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.bstats</groupId>
 				<artifactId>bstats-bukkit</artifactId>
-				<version>3.0.0</version>
+				<version>${bStatsVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.bstats</groupId>
 				<artifactId>bstats-bungeecord</artifactId>
-				<version>3.0.0</version>
+				<version>${bStatsVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.bstats</groupId>
 				<artifactId>bstats-velocity</artifactId>
-				<version>3.0.0</version>
+				<version>${bStatsVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.kyori</groupId>
@@ -219,12 +222,12 @@
 			<dependency>
 				<groupId>org.checkerframework</groupId>
 				<artifactId>checker-qual</artifactId>
-				<version>3.22.0</version>
+				<version>${checkerFrameworkVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.velocitypowered</groupId>
 				<artifactId>velocity-api</artifactId>
-				<version>3.1.1</version>
+				<version>${velocityVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.spigotmc</groupId>
