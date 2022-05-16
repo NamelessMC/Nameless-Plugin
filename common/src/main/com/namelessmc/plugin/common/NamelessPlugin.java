@@ -129,11 +129,11 @@ public class NamelessPlugin {
 				this.apiProvider().isApiWorkingMetric()));
 
 		metrics.addCustomChart(new SimplePie("server_data_sender_enabled", () ->
-				config.getInt("server-id") > 0
+				config.getBoolean("server-data-sender.enabled", false)
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("upload_placeholders_enabled", () ->
-				config.getBoolean("upload-placeholders.enabled")
+				config.getBoolean("server-data-sender.placeholders.enabled")
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("language", () ->
@@ -147,10 +147,6 @@ public class NamelessPlugin {
 				config.getBoolean("not-registered-join-message")
 						? "Enabled" : "Disabled"));
 
-		metrics.addCustomChart(new SimplePie("api_usernames_enabled", () ->
-				config.getBoolean("api-usernames")
-						? "Enabled" : "Disabled"));
-
 		metrics.addCustomChart(new SimplePie("user_sync_whitelist_enabled", () ->
 				config.getBoolean("user-sync.whitelist.enabled")
 						? "Enabled" : "Disabled"));
@@ -160,7 +156,7 @@ public class NamelessPlugin {
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("announcements_enabled", () ->
-				config.getInt("announcements.interval") > 0
+				config.getBoolean("announcements.enabled")
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("websend_command_executor_enabled", () ->
