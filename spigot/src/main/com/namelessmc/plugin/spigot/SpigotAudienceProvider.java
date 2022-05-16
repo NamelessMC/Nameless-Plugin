@@ -19,8 +19,8 @@ public class SpigotAudienceProvider extends AbstractAudienceProvider {
 
 	private final @NonNull BukkitAudiences audiences;
 
-	SpigotAudienceProvider(final @NonNull BukkitNamelessPlugin spigotPlugin) {
-		this.audiences = BukkitAudiences.create(spigotPlugin);
+	SpigotAudienceProvider(final @NonNull BukkitNamelessPlugin bukkitPlugin) {
+		this.audiences = BukkitAudiences.create(bukkitPlugin);
 	}
 
 	@Override

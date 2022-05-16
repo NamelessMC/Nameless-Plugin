@@ -29,15 +29,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class PlaceholderCacher implements Listener, Reloadable {
 
 
-	private final @NonNull BukkitNamelessPlugin spigotPlugin;
+	private final @NonNull BukkitNamelessPlugin bukkitPlugin;
 	private final @NonNull NamelessPlugin plugin;
 	private @Nullable AbstractScheduledTask task;
 	private @Nullable AtomicBoolean isRunning;
 	private @Nullable Map<UUID, Integer> cachedNotificationCount;
 
-	public PlaceholderCacher(final @NonNull BukkitNamelessPlugin spigotPlugin,
+	public PlaceholderCacher(final @NonNull BukkitNamelessPlugin bukkitPlugin,
 							 final @NonNull NamelessPlugin plugin) {
-		this.spigotPlugin = spigotPlugin;
+		this.bukkitPlugin = bukkitPlugin;
 		this.plugin = plugin;
 	}
 
@@ -52,7 +52,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 
 		final Configuration config = this.plugin.config().main();
 		if (config.getBoolean("retrieve-placeholders.enabled")) {
-			Bukkit.getPluginManager().registerEvents(this, spigotPlugin);
+			Bukkit.getPluginManager().registerEvents(this, this.bukkitPlugin);
 			Duration interval = Duration.parse(config.getString("retrieve-placeholders.interval"));
 			this.task = this.plugin.scheduler().runTimer(this::updateCache, interval);
 			this.isRunning = new AtomicBoolean();

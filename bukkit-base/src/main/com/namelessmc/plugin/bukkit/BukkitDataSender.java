@@ -18,13 +18,13 @@ import java.util.Objects;
 public class BukkitDataSender extends AbstractDataSender {
 
 	private final @NonNull NamelessPlugin plugin;
-	private final @NonNull BukkitNamelessPlugin spigotPlugin;
+	private final @NonNull BukkitNamelessPlugin bukkitPlugin;
 
 	protected BukkitDataSender(final @NonNull NamelessPlugin plugin,
-							   final @NonNull BukkitNamelessPlugin spigotPlugin) {
+							   final @NonNull BukkitNamelessPlugin bukkitPlugin) {
 		super(plugin);
 		this.plugin = plugin;
-		this.spigotPlugin = spigotPlugin;
+		this.bukkitPlugin = bukkitPlugin;
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class BukkitDataSender extends AbstractDataSender {
 		}
 
 		// Maintenance
-		MaintenanceStatusProvider maintenance = spigotPlugin.getMaintenanceStatusProvider();
+		MaintenanceStatusProvider maintenance = this.bukkitPlugin.getMaintenanceStatusProvider();
 		if (maintenance != null) {
 			this.registerGlobalInfoProvider(json ->
 					json.addProperty("maintenance", maintenance.maintenanceEnabled()));
@@ -53,7 +53,7 @@ public class BukkitDataSender extends AbstractDataSender {
 
 		// PlaceholderAPI placeholders
 		if (uploadPlaceholders) {
-			final PapiWrapper papi = this.spigotPlugin.papiWrapper();
+			final PapiWrapper papi = this.bukkitPlugin.papiWrapper();
 			if (papi == null) {
 				this.plugin.logger().warning("Skipped sending placeholders, PlaceholderAPI integration is not working. Is PlaceholderAPI installed?");
 				return;
