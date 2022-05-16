@@ -1,6 +1,7 @@
 package com.namelessmc.plugin.bukkit;
 
 import com.google.gson.JsonObject;
+import com.namelessmc.plugin.bukkit.hooks.PapiWrapper;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import com.namelessmc.plugin.common.AbstractDataSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
@@ -52,17 +53,23 @@ public class BukkitDataSender extends AbstractDataSender {
 
 		// PlaceholderAPI placeholders
 		if (uploadPlaceholders) {
+			final PapiWrapper papi = this.spigotPlugin.papiWrapper();
+			if (papi == null) {
+				this.plugin.logger().warning("Skipped sending placeholders, PlaceholderAPI integration is not working. Is PlaceholderAPI installed?");
+				return;
+			}
+
 			this.registerGlobalInfoProvider(json -> {
 				final JsonObject placeholders = new JsonObject();
 				config.getStringList("server-data-sender.placeholders.global").forEach((key) ->
-						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(null, "%" + key + "%"))));
+						placeholders.addProperty(key, ChatColor.stripColor(papi.parse(null, "%" + key + "%"))));
 				json.add("placeholders", placeholders);
 			});
 			this.registerPlayerInfoProvider((json, player) -> {
 				final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
 				final JsonObject placeholders = new JsonObject();
 				config.getStringList("server-data-sender.placeholders.player").forEach((key) ->
-						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(bukkitPlayer, "%" + key + "%"))));
+						placeholders.addProperty(key, ChatColor.stripColor(papi.parse(bukkitPlayer, "%" + key + "%"))));
 				json.add("placeholders", placeholders);
 			});
 
