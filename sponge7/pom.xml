@@ -54,6 +54,15 @@
 							<pattern>org.jetbrains.annotations</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
 						</relocation>
+						<!-- Sponge does include configurate, but it's v3 and we are using v4 -->
+						<relocation>
+							<pattern>org.spongepowered.configurate</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.configurate</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>io.leangen.geantyref</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.geantyref</shadedPattern>
+						</relocation>
 					</relocations>
 				</configuration>
 				<executions>
@@ -74,9 +83,10 @@
 			<artifactId>plugin-common</artifactId>
 			<version>3.0.0-beta</version>
 			<exclusions>
+				<!-- Configurate is outdated, but we can still use the SnakeYAML lib it pulls in -->
 				<exclusion>
-					<groupId>org.spongepowered</groupId>
-					<artifactId>configurate-yaml</artifactId>
+					<groupId>org.yaml</groupId>
+					<artifactId>snakeyaml</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

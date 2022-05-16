@@ -76,10 +76,6 @@
 							<pattern>io.leangen.geantyref</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.geantyref</shadedPattern>
 						</relocation>
-						<relocation>
-							<pattern>org.yaml.snakeyaml</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.snakeyaml</shadedPattern>
-						</relocation>
 					</relocations>
 				</configuration>
 				<executions>
@@ -99,6 +95,13 @@
 		<dependency>
 			<groupId>com.namelessmc</groupId>
 			<artifactId>plugin-common</artifactId>
+			<exclusions>
+				<!-- BungeeCord already has SnakeYAML for its own configuration library -->
+				<exclusion>
+					<groupId>org.yaml</groupId>
+					<artifactId>snakeyaml</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
