@@ -38,16 +38,24 @@
                 <configuration>
                     <relocations combine.children="append">
                         <relocation>
-                            <pattern>net.md_5.bungee.config</pattern>
-                            <shadedPattern>com.namelessmc.plugin.lib.bungee-config</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>org.checkerframework</pattern>
                             <shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.jetbrains.annotations</pattern>
                             <shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.spongepowered.configurate</pattern>
+                            <shadedPattern>com.namelessmc.plugin.lib.configurate</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>io.leangen.geantyref</pattern>
+                            <shadedPattern>com.namelessmc.plugin.lib.geantyref</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.yaml.snakeyaml</pattern>
+                            <shadedPattern>com.namelessmc.plugin.lib.snakeyaml</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

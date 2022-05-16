@@ -22,10 +22,6 @@
 				<configuration>
 					<relocations combine.children="append">
 						<relocation>
-							<pattern>net.md_5.bungee.config</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.bungee-config</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>org.checkerframework</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
 						</relocation>
@@ -79,6 +75,10 @@
 				<exclusion>
 					<groupId>net.kyori</groupId>
 					<artifactId>adventure-text-minimessage</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.spongepowered</groupId>
+					<artifactId>configurate-yaml</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

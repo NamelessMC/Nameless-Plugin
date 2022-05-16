@@ -6,7 +6,6 @@ import com.namelessmc.plugin.common.event.ServerJoinEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.event.EventSubscription;
-import net.md_5.bungee.config.Configuration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -32,14 +31,10 @@ public class JoinNotificationsMessage implements Reloadable {
 			subscription = null;
 		}
 
-		final Configuration conf = this.plugin.config().main();
-
-		if (!conf.getBoolean("join-notifications")) {
-			return;
+		if (this.plugin.config().main().node("join-notifications").getBoolean()) {
+			this.subscription = this.plugin.events().subscribe(ServerJoinEvent.class, event ->
+					onJoin(event.player().uuid()));
 		}
-
-		this.subscription = this.plugin.events().subscribe(ServerJoinEvent.class, event ->
-				onJoin(event.player().uuid()));
 	}
 
 	private void onJoin(final @NonNull UUID uuid) {
@@ -59,7 +54,7 @@ public class JoinNotificationsMessage implements Reloadable {
 
 					this.plugin.scheduler().runSync(() -> {
 						final String notificationsCommand = this.plugin.config().commands()
-								.get("get-notifications", null);
+								.node("get-notifications").getString();
 						if (notificationsCommand == null) {
 							this.plugin.logger().warning("Notifications command must be enabled for join-notifications feature");
 							return;

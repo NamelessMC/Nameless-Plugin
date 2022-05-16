@@ -1,10 +1,9 @@
 package com.namelessmc.plugin.common;
 
-import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import xyz.derkades.derkutils.FileUtils;
 
 import java.io.IOException;
@@ -14,21 +13,21 @@ import java.nio.file.Path;
 public class ConfigurationHandler implements Reloadable {
 
 	private final @NonNull Path dataDirectory;
-	private @Nullable Configuration mainConfig;
-	private @Nullable Configuration commandsConfig;
+	private @Nullable CommentedConfigurationNode mainConfig;
+	private @Nullable CommentedConfigurationNode commandsConfig;
 
 	public ConfigurationHandler(final @NonNull Path dataDirectory) {
 		this.dataDirectory = dataDirectory;
 	}
 
-	public @NonNull Configuration main() {
+	public @NonNull CommentedConfigurationNode main() {
 		if (this.mainConfig == null) {
 			throw new IllegalStateException("config requested before load");
 		}
 		return this.mainConfig;
 	}
 
-	public @NonNull Configuration commands() {
+	public @NonNull CommentedConfigurationNode commands() {
 		if (this.commandsConfig == null) {
 			throw new IllegalStateException("config requested before load");
 		}
@@ -46,10 +45,10 @@ public class ConfigurationHandler implements Reloadable {
 		}
 	}
 
-	private Configuration copyFromJarAndLoad(final @NonNull String name) throws IOException {
+	private CommentedConfigurationNode copyFromJarAndLoad(final @NonNull String name) throws IOException {
 		Path path = dataDirectory.resolve(name);
 		FileUtils.copyOutOfJar(ConfigurationHandler.class, name, path);
-		return ConfigurationProvider.getProvider(YamlConfiguration.class).load(path.toFile());
+		return YamlConfigurationLoader.builder().path(path).build().load();
 	}
 
 }

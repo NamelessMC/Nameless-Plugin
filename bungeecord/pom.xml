@@ -68,6 +68,18 @@
 							<pattern>org.jetbrains.annotations</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
 						</relocation>
+						<relocation>
+							<pattern>org.spongepowered.configurate</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.configurate</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>io.leangen.geantyref</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.geantyref</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.yaml.snakeyaml</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.snakeyaml</shadedPattern>
+						</relocation>
 					</relocations>
 				</configuration>
 				<executions>
@@ -87,12 +99,6 @@
 		<dependency>
 			<groupId>com.namelessmc</groupId>
 			<artifactId>plugin-common</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>net.md-5</groupId>
-					<artifactId>bungeecord-config</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>

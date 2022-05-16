@@ -8,10 +8,10 @@ import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.event.ServerJoinEvent;
 import com.namelessmc.plugin.common.event.ServerQuitEvent;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
-import net.md_5.bungee.config.Configuration;
 import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 
 import java.time.Duration;
 import java.util.*;
@@ -64,14 +64,14 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			this.dataSenderTask = null;
 		}
 
-		final Configuration config = this.plugin.config().main();
+		final CommentedConfigurationNode config = this.plugin.config().main().node("server-data-sender");
 
-		this.serverId = config.getInt("server-data-sender.server-id");
+		this.serverId = config.node("server-id").getInt();
 		if (this.serverId <= 0) {
 			return;
 		}
 
-		final String intervalStr = config.getString("server-data-sender.interval");
+		final String intervalStr = config.node("interval").getString();
 		Duration interval = Duration.parse(intervalStr);
 		this.dataSenderTask = this.plugin.scheduler().runTimer(this, interval);
 

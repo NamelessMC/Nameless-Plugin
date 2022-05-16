@@ -5,11 +5,11 @@ import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.event.AbstractEvent;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.event.EventBus;
-import net.md_5.bungee.config.Configuration;
 import org.bstats.MetricsBase;
 import org.bstats.charts.SimplePie;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.lang.reflect.Field;
 import java.nio.file.Path;
@@ -126,48 +126,48 @@ public class NamelessPlugin {
 			return;
 		}
 
-		Configuration config = this.config().main();
+		final ConfigurationNode config = this.config().main();
 
 		metrics.addCustomChart(new SimplePie("api_working", () ->
 				this.apiProvider().isApiWorkingMetric()));
 
 		metrics.addCustomChart(new SimplePie("server_data_sender_enabled", () ->
-				config.getBoolean("server-data-sender.enabled", false)
+				config.node("server-data-sender", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("upload_placeholders_enabled", () ->
-				config.getBoolean("server-data-sender.placeholders.enabled")
+				config.node("server-data-sender", "placeholders", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("language", () ->
 				this.language().getActiveLanguageCode()));
 
 		metrics.addCustomChart(new SimplePie("auto_ban_on_website", () ->
-				config.getBoolean("auto-ban-on-website")
+				config.node("auto-ban-on-website").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("not_registered_join_message", () ->
-				config.getBoolean("not-registered-join-message")
+				config.node("not-registered-join-message").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("user_sync_whitelist_enabled", () ->
-				config.getBoolean("user-sync.whitelist.enabled")
+				config.node("user-sync", "whitelist", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("user_sync_bans_enabled", () ->
-				config.getBoolean("user-sync.bans.enabled")
+				config.node("user-sync", "bans", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("announcements_enabled", () ->
-				config.getBoolean("announcements.enabled")
+				config.node("announcements", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("websend_command_executor_enabled", () ->
-				config.getBoolean("websend.command-executor.enabled")
+				config.node("websend", "command-executor", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("websend_console_capture_enabled", () ->
-				config.getBoolean("websend.console-capture.enabled")
+				config.node("websend", "console-capture", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 	}
 

@@ -4,9 +4,9 @@ import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.modules.websend.WebsendCommand;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
-import net.md_5.bungee.config.Configuration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -86,17 +86,17 @@ public class Websend implements Reloadable {
 			commandTask = null;
 		}
 
-		final Configuration config = this.plugin.config().main();
+		final ConfigurationNode config = this.plugin.config().main().node("websend");
 
-		if (config.getBoolean("websend.command-executor.enabled")) {
-			final Duration commandRate = Duration.parse(config.getString("websend.command-executor.interval"));
+		if (config.node("command-executor", "enabled").getBoolean()) {
+			final Duration commandRate = Duration.parse(config.node("command-executor", "interval").getString());
 			this.commandTask = this.plugin.scheduler().runTimer(this::executeCommands, commandRate);
 		}
 
-		if (config.getBoolean("websend.console-capture.enabled")) {
+		if (config.node("console-capture", "enabled").getBoolean()) {
 			Logger.getLogger("").addHandler(ourLogHandler);
 			this.plugin.logger().warning("Websend console capture enabled. This will probably break your server somehow.");
-			final Duration logRate = Duration.parse(config.getString("websend.console-capture.send-interval"));
+			final Duration logRate = Duration.parse(config.node("websend", "console-capture", "send-interval").getString());
 			this.logTask = this.plugin.scheduler().runTimer(this::sendLogLines, logRate);
 		} else {
 			logTask = null;
@@ -117,8 +117,7 @@ public class Websend implements Reloadable {
 			}
 
 			this.plugin.apiProvider().api().ifPresent(api -> {
-				final Configuration config = this.plugin.config().main();
-				int serverId = config.getInt("server-data-sender.server-id");
+				int serverId = this.plugin.config().main().node("server-data-sender", "server-id").getInt(0);
 				if (serverId <= 0) {
 					this.plugin.logger().warning("server-id is not configured");
 					return;
@@ -133,8 +132,7 @@ public class Websend implements Reloadable {
 	}
 
 	private void executeCommands() {
-		final Configuration config = this.plugin.config().main();
-		final int serverId = config.getInt("server-data-sender.server-id");
+		int serverId = this.plugin.config().main().node("server-data-sender", "server-id").getInt(0);
 		if (serverId <= 0) {
 			this.plugin.logger().warning("Websend is enabled but 'server-data-sender.server-id' in config.yaml is not set properly.");
 			return;

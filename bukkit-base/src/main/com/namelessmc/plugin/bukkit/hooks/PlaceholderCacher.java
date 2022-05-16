@@ -7,7 +7,6 @@ import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
-import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -18,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -50,10 +50,10 @@ public class PlaceholderCacher implements Listener, Reloadable {
 			this.cachedNotificationCount = null;
 		}
 
-		final Configuration config = this.plugin.config().main();
-		if (config.getBoolean("retrieve-placeholders.enabled")) {
+		final CommentedConfigurationNode config = this.plugin.config().main().node("retrieve-placeholders");
+		if (config.node("enabled").getBoolean()) {
 			Bukkit.getPluginManager().registerEvents(this, this.bukkitPlugin);
-			Duration interval = Duration.parse(config.getString("retrieve-placeholders.interval"));
+			Duration interval = Duration.parse(config.node("interval").getString());
 			this.task = this.plugin.scheduler().runTimer(this::updateCache, interval);
 			this.isRunning = new AtomicBoolean();
 			this.cachedNotificationCount = new HashMap<>();

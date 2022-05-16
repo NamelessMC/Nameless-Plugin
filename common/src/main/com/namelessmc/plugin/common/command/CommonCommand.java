@@ -1,14 +1,17 @@
 package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.ApiProvider;
+import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.config.Configuration;
 import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,8 +35,8 @@ public abstract class CommonCommand {
 		this.usageTerm = usageTerm;
 		this.descriptionTerm = descriptionTerm;
 		this.permission = permission;
-		final Configuration config = plugin.config().commands();
-		this.actualName = config.contains(configName)
+		final CommentedConfigurationNode config = plugin.config().commands();
+		this.actualName = config.hasChild(configName)
 				? config.getString(configName)
 				: null;
 	}

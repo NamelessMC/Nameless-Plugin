@@ -76,8 +76,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.md-5</groupId>
-			<artifactId>bungeecord-config</artifactId>
+			<groupId>org.spongepowered</groupId>
+			<artifactId>configurate-yaml</artifactId>
 		</dependency>
 
 		<dependency>

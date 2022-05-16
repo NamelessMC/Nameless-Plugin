@@ -6,12 +6,13 @@ import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
-import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.time.Duration;
 import java.util.*;
@@ -37,23 +38,23 @@ public class UserSyncTask implements Runnable, Reloadable {
 			task = null;
 		}
 
-		final Configuration config = this.plugin.config().main();
-		if (config.getBoolean("user-sync.enabled")) {
-			Duration interval = Duration.parse(config.getString("user-sync.poll-interval"));
+		final CommentedConfigurationNode config = this.plugin.config().main().node("user-sync");
+		if (config.node("enabled").getBoolean()) {
+			Duration interval = Duration.parse(config.node("poll-interval").getString());
 			this.task = this.plugin.scheduler().runTimer(this, interval);
 		}
 	}
 
 	@Override
 	public void run() {
-		final Configuration config = this.plugin.config().main();
-		final boolean doLog = config.getBoolean("user-sync.log", true);
+		final CommentedConfigurationNode config = this.plugin.config().main().node("user-sync");
+		final boolean doLog = config.node("log").getBoolean();
 		Runnable runAfter = null;
-		if (config.getBoolean("user-sync.whitelist.enabled", false)) {
+		if (config.node("whitelist", "enabled").getBoolean()) {
 			runAfter = () -> this.syncWhitelist(doLog);
 		}
 
-		if (config.getBoolean("user-sync.bans.enabled", false)) {
+		if (config.node("bans", "enabled").getBoolean()) {
 			syncBans(runAfter, doLog);
 		} else if (runAfter != null) {
 			runAfter.run();
@@ -62,7 +63,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 
 	private @Nullable Set<UUID> getUuids(final boolean doLog,
 							             final @NonNull Consumer<@NonNull FilteredUserListBuilder> builderConfigurator) {
-		final Configuration config = this.plugin.config().main();
+		final CommentedConfigurationNode config = this.plugin.config().main().node("user-sync");
 		final AbstractLogger logger = this.plugin.logger();
 
 		List<NamelessUser> users;
@@ -84,19 +85,23 @@ public class UserSyncTask implements Runnable, Reloadable {
 		}
 
 		final Set<UUID> uuids = new HashSet<>();
-		final Set<String> excludes = new HashSet<>(config.getStringList("user-sync.exclude"));
-		for (final NamelessUser user : users) {
-			try {
-				UUID uuid = user.getMinecraftUuid().orElseThrow(
-						() -> new IllegalStateException("User does not have UUID even though we specifically requested users with Minecraft integration"));
-				if (!excludes.contains(uuid.toString())) {
-					uuids.add(uuid);
-				} else if (doLog) {
-					logger.info("Ignoring user " + uuid);
+		try {
+			final Set<String> excludes = new HashSet<>(config.node("exclude").getList(String.class));
+			for (final NamelessUser user : users) {
+				try {
+					UUID uuid = user.getMinecraftUuid().orElseThrow(
+							() -> new IllegalStateException("User does not have UUID even though we specifically requested users with Minecraft integration"));
+					if (!excludes.contains(uuid.toString())) {
+						uuids.add(uuid);
+					} else if (doLog) {
+						logger.info("Ignoring user " + uuid);
+					}
+				} catch (final NamelessException e) {
+					throw new IllegalStateException("Getting a user uuid should never fail with a network error, it is cached from the listUsers response", e);
 				}
-			} catch (final NamelessException e) {
-				throw new IllegalStateException("Getting a user uuid should never fail with a network error, it is cached from the listUsers response", e);
 			}
+		} catch (SerializationException e) {
+			logger.warning("Ignoring invalid excludes");
 		}
 		return uuids;
 	}
@@ -156,11 +161,11 @@ public class UserSyncTask implements Runnable, Reloadable {
 	}
 
 	private void syncWhitelist(final boolean doLog) {
-		final Configuration config = this.plugin.config().main();
+		final CommentedConfigurationNode config = this.plugin.config().main().node("user-sync", "whitelist");
 		final AbstractLogger logger = this.plugin.logger();
 
-		final boolean verifiedOnly = config.getBoolean("user-sync.whitelist.verified-only");
-		final int groupIdOnly = config.getInt("user-sync.whitelist.only-with-group");
+		final boolean verifiedOnly = config.node("verified-only").getBoolean();
+		final int groupIdOnly = config.node("only-with-group").getInt();
 
 		if (doLog) {
 			logger.info("Starting auto-whitelist, retrieving list of registered users...");

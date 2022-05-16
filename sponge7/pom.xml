@@ -43,10 +43,6 @@
 							<shadedPattern>com.namelessmc.plugin.lib.examination</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>net.md_5.bungee.config</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.bungee-config</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>org.checkerframework</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
 						</relocation>
@@ -77,6 +73,12 @@
 			<groupId>com.namelessmc</groupId>
 			<artifactId>plugin-common</artifactId>
 			<version>3.0.0-beta</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.spongepowered</groupId>
+					<artifactId>configurate-yaml</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.spongepowered</groupId>

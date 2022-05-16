@@ -6,9 +6,9 @@ import com.namelessmc.plugin.common.event.ServerJoinEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.event.EventSubscription;
-import net.md_5.bungee.config.Configuration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -32,14 +32,12 @@ public class JoinNotRegisteredMessage implements Reloadable {
 			subscription = null;
 		}
 
-		final Configuration conf = this.plugin.config().main();
+		final ConfigurationNode conf = this.plugin.config().main();
 
-		if (!conf.getBoolean("not-registered-join-message")) {
-			return;
+		if (conf.node("not-registered-join-message").getBoolean()) {
+			this.subscription = this.plugin.events().subscribe(ServerJoinEvent.class, event ->
+					onJoin(event.player().uuid()));
 		}
-
-		this.subscription = this.plugin.events().subscribe(ServerJoinEvent.class, event ->
-				onJoin(event.player().uuid()));
 	}
 
 	private void onJoin(final @NonNull UUID uuid) {

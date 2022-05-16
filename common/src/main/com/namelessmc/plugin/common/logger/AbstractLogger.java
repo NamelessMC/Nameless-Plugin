@@ -45,14 +45,13 @@ public abstract class AbstractLogger implements Reloadable {
 
 	@Override
 	public void reload() {
-		this.singleLineExceptions = this.config.main()
-				.getBoolean("single-line-exceptions", false);
+		this.singleLineExceptions = this.config.main().node("single-line-exceptions").getBoolean();
 	}
 
 	private class ApiLoggerImpl extends ApiLogger {
 
 		@Override
-		public void log(String string) {
+		public void log(final @NonNull String string) {
 			AbstractLogger.this.info("[Nameless-Java-API Debug] " + string);
 		}
 

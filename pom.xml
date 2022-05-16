@@ -200,9 +200,9 @@
 				<version>4.1.0</version>
 			</dependency>
 			<dependency>
-				<groupId>net.md-5</groupId>
-				<artifactId>bungeecord-config</artifactId>
-				<version>1.16-R0.4</version>
+				<groupId>org.spongepowered</groupId>
+				<artifactId>configurate-yaml</artifactId>
+				<version>4.0.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>

@@ -6,9 +6,9 @@ import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.config.Configuration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 import xyz.derkades.derkutils.ListUtils;
 
 import java.time.Duration;
@@ -34,19 +34,19 @@ public class AnnouncementTask implements Runnable, Reloadable {
 			task = null;
 		}
 
-		final Configuration config = this.plugin.config().main();
-		if (config.getBoolean("announcements.enabled")) {
-			Duration interval = Duration.parse(config.getString("announcements.interval"));
+		final CommentedConfigurationNode config = this.plugin.config().main().node("announcements");
+		if (config.node("enabled").getBoolean()) {
+			Duration interval = Duration.parse(config.node("interval").getString());
 			this.task = this.plugin.scheduler().runTimer(this, interval);
 		}
 	}
 
 	@Override
 	public void run() {
-		final Configuration config = this.plugin.config().main();
+		final CommentedConfigurationNode config = this.plugin.config().main().node("announcements");
 		final ApiProvider apiProvider = this.plugin.apiProvider();
 		apiProvider.api().ifPresent(api -> {
-			@Nullable String filterDisplay = config.getString("announcements.display");
+			final @Nullable String filterDisplay = config.node("display").getString();
 			Duration delay = Duration.ZERO;
 			for (final NamelessPlayer player : this.plugin.audiences().onlinePlayers()) {
 				// add delay so requests are spread out a bit

@@ -4,9 +4,9 @@ import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
-import net.md_5.bungee.config.Configuration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 import xyz.derkades.derkutils.OptionalOptional;
 
 import java.net.MalformedURLException;
@@ -43,12 +43,12 @@ public class ApiProvider implements Reloadable {
 
 	@Override
 	public void reload() {
-		final Configuration config = this.config.main();
-		this.apiUrl = config.getString("api.url", null);
-		this.apiKey = config.getString("api.key", null);
-		this.debug = config.getBoolean("api.debug", false);
-		this.timeout = Duration.parse(config.getString("api.timeout", null));
-		this.bypassVersionCheck = config.getBoolean("api.bypass-version-check", false);
+		final CommentedConfigurationNode config = this.config.main().node("api");
+		this.apiUrl = config.node("url").getString();
+		this.apiKey = config.node("key").getString();
+		this.debug = config.node("debug").getBoolean();
+		this.timeout = Duration.parse(config.node("timeout").getString());
+		this.bypassVersionCheck = config.node("bypass-version-check").getBoolean();
 
 		this.cachedApi = OptionalOptional.unknown();
 		this.lastException = null;
@@ -128,7 +128,7 @@ public class ApiProvider implements Reloadable {
 				this.cachedApi = OptionalOptional.knownEmpty(); // This won't be resolved without reloading, we don't have to retry.
 			} catch (final NamelessException e) {
 				this.lastException = e;
-				final String pluginCommand = this.config.commands().getString("plugin", null);
+				final String pluginCommand = this.config.commands().node("plugin").getString();
 				this.logger.warning("Encountered an error while connecting to the website. This message is expected if your " +
 						"site is down temporarily and can be ignored if the plugin works fine otherwise. If the plugin doesn't work " +
 						"as expected, run '/" + pluginCommand + " last_api_error' to print the full error message.");
