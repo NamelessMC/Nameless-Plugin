@@ -93,7 +93,7 @@ user-sync:
   bans:
     enabled: false
 
-# Supported platforms: Bukkit
+# Supported platforms: all
 # Periodically send website announcements in chat
 announcements:
   enabled: false

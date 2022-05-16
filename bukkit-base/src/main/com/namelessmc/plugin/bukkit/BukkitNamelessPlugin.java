@@ -4,6 +4,7 @@ import com.namelessmc.plugin.bukkit.event.PlayerBan;
 import com.namelessmc.plugin.bukkit.hooks.*;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
+import com.namelessmc.plugin.common.AnnouncementTask;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
@@ -43,7 +44,6 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		this.plugin.registerReloadable(new BukkitCommandProxy(this.plugin));
 		this.plugin.registerReloadable(new BukkitDataSender(this.plugin, this));
 		this.plugin.registerReloadable(new UserSyncTask(this.plugin, this));
-		this.plugin.registerReloadable(new AnnouncementTask(this.plugin));
 		this.placeholderCacher = this.plugin.registerReloadable(
 				new PlaceholderCacher(this, this.plugin)
 		);
