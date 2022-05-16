@@ -20,9 +20,13 @@ public class VelocityAudienceProvider extends AbstractAudienceProvider {
 		this.server = server;
 	}
 
+	private void dispatchCommand(final String command) {
+		this.server.getCommandManager().executeAsync(NamelessCommandSource.instance(), command);
+	}
+
 	@Override
 	public @NonNull NamelessConsole console() {
-		return new NamelessConsole(server.getConsoleCommandSource());
+		return new NamelessConsole(server.getConsoleCommandSource(), this::dispatchCommand);
 	}
 
 	@Override

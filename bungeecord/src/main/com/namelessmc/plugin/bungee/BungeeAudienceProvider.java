@@ -22,10 +22,13 @@ public class BungeeAudienceProvider extends AbstractAudienceProvider {
 		this.audiences = BungeeAudiences.create(bungeePlugin);
 	}
 
+	private void dispatchCommand(final @NonNull String command) {
+		ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), command);
+	}
 
 	@Override
 	public @NonNull NamelessConsole console() {
-		return new NamelessConsole(audiences.console());
+		return new NamelessConsole(audiences.console(), this::dispatchCommand);
 	}
 
 	@Override

@@ -56,6 +56,7 @@ public class NamelessPlugin {
 		this.registerReloadable(new AnnouncementTask(this));
 		this.registerReloadable(new JoinNotificationsMessage(this));
 		this.registerReloadable(new JoinNotRegisteredMessage(this));
+		this.registerReloadable(new Websend(this));
 	}
 
 	public ConfigurationHandler config() {

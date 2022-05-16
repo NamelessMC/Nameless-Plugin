@@ -16,9 +16,13 @@ import java.util.UUID;
 
 public class PaperAudienceProvider extends AbstractAudienceProvider {
 
+	private void dispatchCommand(final @NonNull String command) {
+		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+	}
+
 	@Override
 	public @NonNull NamelessConsole console() {
-		return new NamelessConsole(Bukkit.getConsoleSender());
+		return new NamelessConsole(Bukkit.getConsoleSender(), this::dispatchCommand);
 	}
 
 	@Override

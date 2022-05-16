@@ -1,7 +1,9 @@
 package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.plugin.bukkit.event.PlayerBan;
-import com.namelessmc.plugin.bukkit.hooks.*;
+import com.namelessmc.plugin.bukkit.hooks.PapiHook;
+import com.namelessmc.plugin.bukkit.hooks.PapiWrapper;
+import com.namelessmc.plugin.bukkit.hooks.PlaceholderCacher;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
@@ -46,7 +48,6 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		this.placeholderCacher = this.plugin.registerReloadable(
 				new PlaceholderCacher(this, this.plugin)
 		);
-		this.plugin.registerReloadable(new Websend(this.plugin));
 	}
 
 	@Override

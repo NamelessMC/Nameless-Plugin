@@ -1,13 +1,10 @@
-package com.namelessmc.plugin.bukkit;
+package com.namelessmc.plugin.common;
 
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.modules.websend.WebsendCommand;
-import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.Reloadable;
+import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import net.md_5.bungee.config.Configuration;
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandException;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -143,10 +140,11 @@ public class Websend implements Reloadable {
 					}
 
 					this.plugin.scheduler().runSync(() -> {
+						final NamelessConsole console = this.plugin.audiences().console();
 						for (final WebsendCommand command : commands) {
 							try {
-								Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.getCommandLine());
-							} catch (final CommandException e) {
+								console.dispatchCommand(command.getCommandLine());
+							} catch (final Exception e) {
 								// continue executing other commands if one fails
 								this.plugin.logger().logException(e);
 							}
