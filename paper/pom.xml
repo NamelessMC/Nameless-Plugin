@@ -53,10 +53,6 @@
                             <pattern>io.leangen.geantyref</pattern>
                             <shadedPattern>com.namelessmc.plugin.lib.geantyref</shadedPattern>
                         </relocation>
-                        <relocation>
-                            <pattern>org.yaml.snakeyaml</pattern>
-                            <shadedPattern>com.namelessmc.plugin.lib.snakeyaml</shadedPattern>
-                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -98,6 +94,11 @@
                 <exclusion>
                     <groupId>net.kyori</groupId>
                     <artifactId>adventure-text-serializer-plain</artifactId>
+                </exclusion>
+                <!-- Paper ships with SnakeYAML -->
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
