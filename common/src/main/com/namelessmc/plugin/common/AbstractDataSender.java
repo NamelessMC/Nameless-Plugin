@@ -82,7 +82,10 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 	}
 
 	private @NonNull JsonObject buildJsonBody() {
-		if (this.globalInfoProviders == null || this.playerInfoProviders == null) {
+		final List<InfoProvider> globalInfoProviders = this.globalInfoProviders;
+		final List<PlayerInfoProvider> playerInfoProviders = this.playerInfoProviders;
+
+		if (globalInfoProviders == null || playerInfoProviders == null) {
 			throw new IllegalStateException("Providers are null, is the data sender disabled?");
 		}
 
@@ -91,7 +94,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 
 		data.addProperty("time", System.currentTimeMillis());
 
-		for (InfoProvider infoProvider : this.globalInfoProviders) {
+		for (final InfoProvider infoProvider : globalInfoProviders) {
 			try {
 				infoProvider.addInfoToJson(data);
 			} catch (final Exception e) {
@@ -105,7 +108,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			JsonObject playerJson = new JsonObject();
 			playerJson.addProperty("name", player.username());
 
-			for (PlayerInfoProvider infoProvider : this.playerInfoProviders) {
+			for (PlayerInfoProvider infoProvider : playerInfoProviders) {
 				try {
 					infoProvider.addInfoToJson(playerJson, player);
 				} catch (final Exception e) {

@@ -7,6 +7,7 @@ import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.md_5.bungee.config.Configuration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import xyz.derkades.derkutils.OptionalOptional;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -14,7 +15,6 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
 
-@SuppressWarnings("OptionalAssignedToNull")
 public class ApiProvider implements Reloadable {
 
 	private static final String USER_AGENT = "Nameless-Plugin/"	 + MavenConstants.PROJECT_VERSION;
@@ -23,7 +23,7 @@ public class ApiProvider implements Reloadable {
 	private final @NonNull AbstractLogger logger;
 	private final @NonNull ConfigurationHandler config;
 
-	private @Nullable Optional<NamelessAPI> cachedApi; // null if not cached
+	private @NonNull OptionalOptional<NamelessAPI> cachedApi;
 	private @Nullable Throwable lastException = null;
 
 	private @Nullable String apiUrl;
@@ -38,6 +38,7 @@ public class ApiProvider implements Reloadable {
 		this.scheduler = scheduler;
 		this.logger = logger;
 		this.config = config;
+		this.cachedApi = OptionalOptional.unknown();
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public class ApiProvider implements Reloadable {
 		this.timeout = Duration.parse(config.getString("api.timeout", null));
 		this.bypassVersionCheck = config.getBoolean("api.bypass-version-check", false);
 
-		this.cachedApi = null;
+		this.cachedApi = OptionalOptional.unknown();
 		this.lastException = null;
 
 		scheduler.runAsync(this::api);
@@ -57,13 +58,11 @@ public class ApiProvider implements Reloadable {
 
 	// For bStats
 	public String isApiWorkingMetric() {
-		if (this.cachedApi == null) {
+		if (!this.cachedApi.isKnown()) {
 			// In theory the API should always be cached, but in case it's not we
 			// do not want to force load it because that would affect server performance.
 			return "Unknown";
-		}
-
-		if (this.cachedApi.isPresent()) {
+		} else if (this.cachedApi.isPresent()) {
 			return "Working";
 		} else {
 			return "Not working";
@@ -74,14 +73,14 @@ public class ApiProvider implements Reloadable {
 		Objects.requireNonNull(this.logger, "Exception logger not initialized before API was requested. This is a bug.");
 		Objects.requireNonNull(this.timeout, "API requested before config settings are loaded");
 
-		if (this.cachedApi != null) {
-			return this.cachedApi;
+		if (this.cachedApi.isKnown()) {
+			return this.cachedApi.getValueAsOptional();
 		}
 
 		if (this.apiUrl == null || this.apiUrl.isEmpty() || this.apiKey == null || this.apiKey.isEmpty()) {
 			this.logger.severe("You have not entered an API URL and API key in the config. Please get your site's API URL and " +
 					"API key from StaffCP > Configuration > API and reload the plugin.");
-			this.cachedApi = Optional.empty(); // This won't be resolved without reloading, we don't have to retry.
+			this.cachedApi = OptionalOptional.knownEmpty(); // This won't be resolved without reloading, we don't have to retry.
 		} else {
 			try {
 				URL url = new URL(this.apiUrl);
@@ -95,14 +94,14 @@ public class ApiProvider implements Reloadable {
 				NamelessVersion version = info.getParsedVersion();
 				if (this.bypassVersionCheck) {
 					this.logger.warning("Bypassing version checks, use at your own risk!");
-					this.cachedApi = Optional.of(api); // Cache working API
+					this.cachedApi = OptionalOptional.knownPresent(api); // Cache working API
 				} else if (NamelessVersion.isSupportedByJavaApi(version)) {
 					this.logger.info("Website connection appears to be working.");
-					this.cachedApi = Optional.of(api); // Cache working API
+					this.cachedApi = OptionalOptional.knownPresent(api); // Cache working API
 				} else {
 					this.logger.severe("Your website runs a version of NamelessMC (" + version + ") that is not supported by this " +
 							"version of the plugin. Please update your NamelessMC website and/or the plugin.");
-					this.cachedApi = Optional.empty(); // No need to retry, cache that it's not working
+					this.cachedApi = OptionalOptional.knownEmpty(); // No need to retry, cache that it's not working
 				}
 
 				this.lastException = null;
@@ -111,12 +110,12 @@ public class ApiProvider implements Reloadable {
 				this.logger.severe("You have entered an invalid API URL. Please get an up-to-date API URL from StaffCP > " +
 						"Configuration > API and reload the plugin.");
 				this.logger.severe("Error message: '" + e.getMessage() + "'");
-				this.cachedApi = Optional.empty(); // This won't be resolved without reloading, we don't have to retry.
+				this.cachedApi = OptionalOptional.knownEmpty(); // This won't be resolved without reloading, we don't have to retry.
 			} catch (final UnknownNamelessVersionException e) {
 				this.lastException = e;
 				this.logger.severe("The plugin doesn't recognize the NamelessMC version you are using. Ensure you are running a " +
 						"recent version of the plugin and NamelessMC v2.");
-				this.cachedApi = Optional.empty(); // Probably won't resolve on its own, cache until reload
+				this.cachedApi = OptionalOptional.knownEmpty(); // Probably won't resolve on its own, cache until reload
 			} catch (final ApiError e) {
 				this.lastException = e;
 				if (e.getError() == ApiError.REQUEST_NOT_AUTHORIZED) {
@@ -126,7 +125,7 @@ public class ApiProvider implements Reloadable {
 							"website. Enable api debug mode in the config file for more details. When you think you've fixed the problem, " +
 							"reload the plugin to attempt connecting again.");
 				}
-				this.cachedApi = Optional.empty(); // This won't be resolved without reloading, we don't have to retry.
+				this.cachedApi = OptionalOptional.knownEmpty(); // This won't be resolved without reloading, we don't have to retry.
 			} catch (final NamelessException e) {
 				this.lastException = e;
 				final String pluginCommand = this.config.commands().getString("plugin", null);
@@ -140,11 +139,11 @@ public class ApiProvider implements Reloadable {
 
 				// Do not cache so it immediately tries again the next time. These types of errors may fix on their
 				// own, so we don't want to break the plugin until the administrator reloads.
-				this.cachedApi = null;
+				this.cachedApi = OptionalOptional.unknown();
 			}
 		}
 
-		return this.cachedApi != null ? this.cachedApi : Optional.empty();
+		return this.cachedApi.toOptional();
 	}
 
 	public @Nullable Throwable getLastException() {

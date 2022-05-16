@@ -11,7 +11,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -32,14 +31,24 @@ public class Websend implements Reloadable {
 
 		@Override
 		public void publish(final LogRecord logRecord) {
-			Objects.requireNonNull(logLines); // satisfy IDE
 			synchronized (logLock) {
-				String message = logRecord.getMessage();
+				List<String> logLines = Websend.this.logLines; // local reference to help checker framework
+				if (logLines == null) {
+					throw new IllegalStateException("logLines was set to null without handler being unregistered properly");
+				}
+
+				final String message = logRecord.getMessage();
+				if (message == null) {
+					logLines.add("");
+					return;
+				}
+
 				if (message.length() > MESSAGE_LENGTH_LIMIT) {
 					Websend.this.plugin.logger().warning("Websend: not sending the previous log message, it is too long.");
 					return;
 				}
-				String[] lines = message.split("\\r?\\n");
+
+				final String[] lines = message.split("\\r?\\n");
 				for (String line : lines) {
 					if (line.length() > LINE_LENGTH_LIMIT) {
 						Websend.this.plugin.logger().warning("Websend: skipped a line in the previous log message, it is too long.");
@@ -67,9 +76,9 @@ public class Websend implements Reloadable {
 		// TODO also stop log task when the server shuts down, or everything will break
 		// it's experimental so we don't care for now
 		if (logTask != null) {
-			Logger.getLogger("").removeHandler(ourLogHandler);
 			logTask.cancel();
 			logTask = null;
+			Logger.getLogger("").removeHandler(ourLogHandler);
 		}
 
 		if (commandTask != null) {
@@ -96,11 +105,11 @@ public class Websend implements Reloadable {
 	}
 
 	void sendLogLines() {
-		if (this.logLines == null || this.logLines.isEmpty()) {
-			return;
-		}
-
 		this.plugin.scheduler().runAsync(() ->  {
+			if (this.logLines == null || this.logLines.isEmpty()) {
+				return;
+			}
+
 			final List<String> linesToSend;
 			synchronized (logLock) {
 				linesToSend = new ArrayList<>(logLines);
