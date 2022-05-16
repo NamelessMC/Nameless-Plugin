@@ -1,8 +1,8 @@
 package com.namelessmc.plugin.paper;
 
-import com.namelessmc.plugin.common.AbstractAudienceProvider;
-import com.namelessmc.plugin.common.NamelessConsole;
-import com.namelessmc.plugin.common.NamelessPlayer;
+import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
+import com.namelessmc.plugin.common.audiences.NamelessConsole;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

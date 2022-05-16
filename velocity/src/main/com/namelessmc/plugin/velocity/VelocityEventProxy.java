@@ -1,6 +1,6 @@
 package com.namelessmc.plugin.velocity;
 
-import com.namelessmc.plugin.common.NamelessPlayer;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.event.ServerJoinEvent;
 import com.velocitypowered.api.event.Subscribe;

@@ -2,6 +2,7 @@ package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.config.Configuration;

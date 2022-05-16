@@ -1,6 +1,6 @@
 package com.namelessmc.plugin.bukkit;
 
-import com.namelessmc.plugin.common.NamelessCommandSender;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.CommonCommand;

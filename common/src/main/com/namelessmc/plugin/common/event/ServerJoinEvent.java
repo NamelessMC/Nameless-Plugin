@@ -1,6 +1,6 @@
 package com.namelessmc.plugin.common.event;
 
-import com.namelessmc.plugin.common.NamelessPlayer;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class ServerJoinEvent extends AbstractEvent {

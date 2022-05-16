@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.common;
 
+import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.event.AbstractEvent;
 import com.namelessmc.plugin.common.logger.AbstractLogger;

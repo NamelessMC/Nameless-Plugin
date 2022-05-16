@@ -1,6 +1,9 @@
 package com.namelessmc.plugin.velocity;
 
 import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
+import com.namelessmc.plugin.common.audiences.NamelessConsole;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import com.velocitypowered.api.command.Command;
 import com.velocitypowered.api.command.CommandSource;

@@ -3,6 +3,7 @@ package com.namelessmc.plugin.common;
 import com.namelessmc.java_api.Announcement;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.config.Configuration;

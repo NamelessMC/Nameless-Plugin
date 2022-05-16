@@ -2,8 +2,8 @@ package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.integrations.DetailedIntegrationData;
-import com.namelessmc.plugin.common.NamelessCommandSender;
-import com.namelessmc.plugin.common.NamelessPlayer;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import net.kyori.adventure.text.Component;

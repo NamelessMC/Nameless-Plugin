@@ -3,6 +3,7 @@ package com.namelessmc.plugin.common;
 import com.google.gson.JsonObject;
 import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.event.ServerJoinEvent;
 import com.namelessmc.plugin.common.event.ServerQuitEvent;
