@@ -36,8 +36,12 @@ public class AnnouncementTask implements Runnable, Reloadable {
 
 		final CommentedConfigurationNode config = this.plugin.config().main().node("announcements");
 		if (config.node("enabled").getBoolean()) {
-			Duration interval = Duration.parse(config.node("interval").getString());
-			this.task = this.plugin.scheduler().runTimer(this, interval);
+			final Duration interval = ConfigurationHandler.getDuration(config.node("interval"));
+			if (interval != null) {
+				this.task = this.plugin.scheduler().runTimer(this, interval);
+			} else {
+				this.plugin.logger().warning("Invalid announcements interval");
+			}
 		}
 	}
 

@@ -3,12 +3,15 @@ package com.namelessmc.plugin.common;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import xyz.derkades.derkutils.FileUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.format.DateTimeParseException;
 
 public class ConfigurationHandler implements Reloadable {
 
@@ -49,6 +52,18 @@ public class ConfigurationHandler implements Reloadable {
 		Path path = dataDirectory.resolve(name);
 		FileUtils.copyOutOfJar(ConfigurationHandler.class, name, path);
 		return YamlConfigurationLoader.builder().path(path).build().load();
+	}
+
+	public static @Nullable Duration getDuration(final ConfigurationNode node) {
+		String string = node.getString();
+		if (string == null) {
+			return null;
+		}
+		try {
+			return Duration.parse(string);
+		} catch (final DateTimeParseException e) {
+			return null;
+		}
 	}
 
 }

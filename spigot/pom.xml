@@ -76,6 +76,8 @@
 							<pattern>io.leangen.geantyref</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.geantyref</shadedPattern>
 						</relocation>
+						<!-- Spigot 1.8 does include a compatible SnakeYAML but it's quite old -->
+						<!-- Use our new version, it's very likely that there are bugs in the old version -->
 						<relocation>
 							<pattern>org.yaml.snakeyaml</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.snakeyaml</shadedPattern>

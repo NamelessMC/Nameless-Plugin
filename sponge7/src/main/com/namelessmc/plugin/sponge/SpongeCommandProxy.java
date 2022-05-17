@@ -1,8 +1,8 @@
 package com.namelessmc.plugin.sponge;
 
-import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import net.kyori.adventure.text.serializer.spongeapi.SpongeComponentSerializer;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -51,8 +51,8 @@ public class SpongeCommandProxy implements Reloadable {
 
 			CommandCallable spongeCommand = new CommandCallable() {
 				@Override
-				public @NonNull CommandResult process(final CommandSource source,
-													  final String arguments) {
+				public @NonNull CommandResult process(final @NonNull CommandSource source,
+													  final @NonNull String arguments) {
 					String[] args = arguments.split(" ");
 					final NamelessCommandSender namelessCommandSender;
 					if (source instanceof Player) {
@@ -65,8 +65,8 @@ public class SpongeCommandProxy implements Reloadable {
 				}
 
 				@Override
-				public List<String> getSuggestions(final CommandSource source,
-												   final String arguments,
+				public List<String> getSuggestions(final @NonNull CommandSource source,
+												   final @NonNull String arguments,
 												   final @Nullable Location<World> targetPosition) {
 					return Collections.emptyList();
 				}
@@ -77,17 +77,17 @@ public class SpongeCommandProxy implements Reloadable {
 				}
 
 				@Override
-				public Optional<Text> getShortDescription(final CommandSource source) {
+				public Optional<Text> getShortDescription(final @NonNull CommandSource source) {
 					return Optional.of(description);
 				}
 
 				@Override
-				public Optional<Text> getHelp(final CommandSource source) {
+				public Optional<Text> getHelp(final @NonNull CommandSource source) {
 					return Optional.empty();
 				}
 
 				@Override
-				public Text getUsage(final CommandSource source) {
+				public Text getUsage(final @NonNull CommandSource source) {
 					return usage;
 				}
 			};

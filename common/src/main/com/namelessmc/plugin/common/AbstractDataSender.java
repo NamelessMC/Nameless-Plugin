@@ -71,8 +71,12 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			return;
 		}
 
-		final String intervalStr = config.node("interval").getString();
-		Duration interval = Duration.parse(intervalStr);
+		final Duration interval = ConfigurationHandler.getDuration(config.node("interval"));
+		if (interval == null) {
+			this.plugin.logger().warning("Invalid server data sender interval.");
+			return;
+		}
+
 		this.dataSenderTask = this.plugin.scheduler().runTimer(this, interval);
 
 		this.globalInfoProviders = new ArrayList<>();

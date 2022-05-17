@@ -47,7 +47,14 @@ public class ApiProvider implements Reloadable {
 		this.apiUrl = config.node("url").getString();
 		this.apiKey = config.node("key").getString();
 		this.debug = config.node("debug").getBoolean();
-		this.timeout = Duration.parse(config.node("timeout").getString());
+
+		final Duration timeout = ConfigurationHandler.getDuration(config.node("timeout"));
+		if (timeout != null) {
+			this.timeout = timeout;
+		} else {
+			this.logger.warning("Invalid API timeout, using 10 seconds.");
+			this.timeout = Duration.ofSeconds(10);
+		}
 		this.bypassVersionCheck = config.node("bypass-version-check").getBoolean();
 
 		this.cachedApi = OptionalOptional.unknown();
