@@ -12,37 +12,51 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConfigurationHandler implements Reloadable {
 
+	private static final @NonNull String[] ALL_CONFIG_NAMES = {
+			"commands",
+			"main",
+			"modules",
+	};
+
 	private final @NonNull Path dataDirectory;
-	private @Nullable CommentedConfigurationNode mainConfig;
-	private @Nullable CommentedConfigurationNode commandsConfig;
+	private final @NonNull Map<String, CommentedConfigurationNode> configs = new HashMap<>();
 
 	public ConfigurationHandler(final @NonNull Path dataDirectory) {
 		this.dataDirectory = dataDirectory;
 	}
 
-	public @NonNull CommentedConfigurationNode main() {
-		if (this.mainConfig == null) {
-			throw new IllegalStateException("config requested before load");
-		}
-		return this.mainConfig;
+	public @NonNull CommentedConfigurationNode commands() {
+		return this.getConfig("commands");
 	}
 
-	public @NonNull CommentedConfigurationNode commands() {
-		if (this.commandsConfig == null) {
-			throw new IllegalStateException("config requested before load");
+	public @NonNull CommentedConfigurationNode main() {
+		return this.getConfig("main");
+	}
+
+	public @NonNull CommentedConfigurationNode modules() {
+		return this.getConfig("modules");
+	}
+
+	private @NonNull CommentedConfigurationNode getConfig(final String name) {
+		final CommentedConfigurationNode config = this.configs.get(name);
+		if (config == null) {
+			throw new IllegalStateException(name + " config requested before it was loaded");
 		}
-		return this.commandsConfig;
+		return config;
 	}
 
 	@Override
 	public void reload() {
 		try {
 			Files.createDirectories(dataDirectory);
-			this.mainConfig = copyFromJarAndLoad("config.yaml");
-			this.commandsConfig = copyFromJarAndLoad("commands.yaml");
+			for (final String configName : ALL_CONFIG_NAMES) {
+				this.configs.put(configName, copyFromJarAndLoad(configName + ".yaml"));
+			}
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}

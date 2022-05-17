@@ -102,17 +102,3 @@ announcements:
   # If specified, it will only show announcements with the respective display.
   # see https://github.com/NamelessMC/Nameless/wiki/v2-API#getannouncements-get
   # display: Forums
-
-# Supported platforms: all
-# Run commands sent by the Websend module (third party)
-# For this to work you must also configure the server id in the 'server-data-sender' section. However, websend
-# is unrelated to the server data sender and the server data sender doesn't have to be enabled.
-websend:
-  # Poll the Websend module for commands to execute
-  command-executor:
-    enabled: false
-    interval: PT5S
-  # EXPERIMENTAL (for real, don't use this): Send console output to the Websend module
-  console-capture:
-    enabled: false
-    send-interval: PT2S

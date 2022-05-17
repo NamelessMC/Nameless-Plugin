@@ -86,7 +86,7 @@ public class Websend implements Reloadable {
 			commandTask = null;
 		}
 
-		final ConfigurationNode config = this.plugin.config().main().node("websend");
+		final ConfigurationNode config = this.plugin.config().modules().node("websend");
 
 		if (config.node("command-executor", "enabled").getBoolean()) {
 			final Duration commandRate = Duration.parse(config.node("command-executor", "interval").getString());
@@ -134,7 +134,7 @@ public class Websend implements Reloadable {
 	private void executeCommands() {
 		int serverId = this.plugin.config().main().node("server-data-sender", "server-id").getInt(0);
 		if (serverId <= 0) {
-			this.plugin.logger().warning("Websend is enabled but 'server-data-sender.server-id' in config.yaml is not set properly.");
+			this.plugin.logger().warning("Websend is enabled but 'server-data-sender.server-id' in main.yaml is not set properly.");
 			return;
 		}
 
