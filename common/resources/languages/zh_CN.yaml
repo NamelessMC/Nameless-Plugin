@@ -68,7 +68,7 @@ command:
     description: NamelessMC 插件的管理命令
     output:
       reload-successful: 插件重载成功.
-    usage: /<command> \<reload|rl>
+    usage: /<command> 'reload'/'rl'
 join-not-registered: 您在我们的网站上没有帐号。请使用 /register 来注册。
 website-announcement: '网站公告: <message>'
 user-sync-kick: 您因为网站账号被封禁而被在服务器上一并封禁。
@@ -76,4 +76,9 @@ error:
   website-username-not-exist: 网站中没有此用户名
   website-connection: 在试图连接到网站时发生了错误.
   username-not-online: 提供的玩家用户名无效或不在线.
-boolean: {}
+boolean:
+  yes-positive: <green>是</green>
+  yes-negative: <red>是</red>
+  no-positive: <green>否</green>
+  no-negative: <red>否</red>
+join-notifications: 您收到了网站通知，请运行 /<notifications_command> 了解详情。
