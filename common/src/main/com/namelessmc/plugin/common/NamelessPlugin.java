@@ -25,6 +25,7 @@ public class NamelessPlugin {
 	private final @NonNull ApiProvider api;
 	private final @NonNull LanguageHandler language;
 	private final @NonNull DateFormatter dateFormatter;
+	private final @NonNull UserCache userCache;
 	private final @NonNull EventBus<AbstractEvent> eventBus;
 
 	private final @NonNull List<Reloadable> reloadables = new ArrayList<>();
@@ -51,6 +52,7 @@ public class NamelessPlugin {
 		);
 		this.dateFormatter = this.registerReloadable(
 				new DateFormatter(this.configuration));
+		this.userCache = new UserCache(this);
 
 		this.eventBus = EventBus.create(AbstractEvent.class);
 
@@ -86,6 +88,10 @@ public class NamelessPlugin {
 
 	public AbstractAudienceProvider audiences() {
 		return this.audienceProvider;
+	}
+
+	public UserCache userCache() {
+		return this.userCache;
 	}
 
 	public @NonNull EventBus<AbstractEvent> events() {

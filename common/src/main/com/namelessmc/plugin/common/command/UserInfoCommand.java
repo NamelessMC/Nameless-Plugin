@@ -10,8 +10,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
@@ -130,6 +129,14 @@ public class UserInfoCommand extends CommonCommand {
 			sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 			logger().logException(e);
 		}
+	}
+
+	@Override
+	public List<String> complete(@NonNull NamelessCommandSender sender, @NonNull String @NonNull [] args) {
+		if (args.length == 1) {
+			return this.plugin().userCache().getUsernames().stream().filter(s -> s.startsWith(args[0])).collect(Collectors.toList());
+		}
+		return Collections.emptyList();
 	}
 
 }
