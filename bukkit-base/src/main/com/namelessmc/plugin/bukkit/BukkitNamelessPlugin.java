@@ -40,7 +40,8 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new BukkitScheduler(this),
-				config -> new JulLogger(config, this.getLogger())
+				config -> new JulLogger(config, this.getLogger()),
+				Path.of("logs", "latest.log")
 		);
 		this.plugin.registerReloadable(new BukkitCommandProxy(this.plugin));
 		this.plugin.registerReloadable(new BukkitDataSender(this.plugin, this));

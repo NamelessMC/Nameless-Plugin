@@ -33,7 +33,8 @@ public class NamelessPlugin {
 
 	public NamelessPlugin(final @NonNull Path dataDirectory,
 						  final @NonNull AbstractScheduler scheduler,
-						  final @NonNull Function<ConfigurationHandler, AbstractLogger> loggerInstantiator) {
+						  final @NonNull Function<ConfigurationHandler, AbstractLogger> loggerInstantiator,
+						  final @Nullable Path logPath) {
 		this.scheduler = scheduler;
 
 		this.configuration = this.registerReloadable(
@@ -56,7 +57,7 @@ public class NamelessPlugin {
 		this.registerReloadable(new AnnouncementTask(this));
 		this.registerReloadable(new JoinNotificationsMessage(this));
 		this.registerReloadable(new JoinNotRegisteredMessage(this));
-		this.registerReloadable(new Websend(this));
+		this.registerReloadable(new Websend(this, logPath));
 	}
 
 	public ConfigurationHandler config() {

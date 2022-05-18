@@ -36,7 +36,8 @@ public class NamelessPluginSponge {
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new SpongeScheduler(this),
-				config -> new Slf4jLogger(config, logger)
+				config -> new Slf4jLogger(config, logger),
+				null
 		);
 		this.plugin.setAudienceProvider(new SpongeAudienceProvider(audiences, game.getServer()));
 		this.plugin.registerReloadable(new SpongeCommandProxy(this.plugin));

@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.common;
 
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.modules.websend.WebsendCommand;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
@@ -8,77 +9,40 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
+import java.util.Optional;
 
 public class Websend implements Reloadable {
 
-	private static final int MESSAGE_LENGTH_LIMIT = 2000;
-	private static final int LINE_LENGTH_LIMIT = 500;
+	private static final int SEND_LOG_MAX_BYTES = 20_000;
 
 	private final @NonNull NamelessPlugin plugin;
+	private final @Nullable Path logPath;
 
 	private @Nullable AbstractScheduledTask commandTask;
 	private @Nullable AbstractScheduledTask logTask;
-	private final Object logLock = new Object();
-	private @Nullable List<String> logLines;
+	private int previousLogSize = 0;
 
-	private final Handler ourLogHandler = new Handler() {
 
-		@Override
-		public void publish(final LogRecord logRecord) {
-			synchronized (logLock) {
-				List<String> logLines = Websend.this.logLines; // local reference to help checker framework
-				if (logLines == null) {
-					throw new IllegalStateException("logLines was set to null without handler being unregistered properly");
-				}
-
-				final String message = logRecord.getMessage();
-				if (message == null) {
-					logLines.add("");
-					return;
-				}
-
-				if (message.length() > MESSAGE_LENGTH_LIMIT) {
-					Websend.this.plugin.logger().warning("Websend: not sending the previous log message, it is too long.");
-					return;
-				}
-
-				final String[] lines = message.split("\\r?\\n");
-				for (String line : lines) {
-					if (line.length() > LINE_LENGTH_LIMIT) {
-						Websend.this.plugin.logger().warning("Websend: skipped a line in the previous log message, it is too long.");
-						continue;
-					}
-					logLines.add(line);
-				}
-			}
-		}
-
-		@Override
-		public void flush() {}
-
-		@Override
-		public void close() throws SecurityException {}
-
-	};
-
-	Websend(final @NonNull NamelessPlugin plugin) {
+	Websend(final @NonNull NamelessPlugin plugin,
+			final @Nullable Path logPath) {
 		this.plugin = plugin;
+		this.logPath = logPath;
 	}
 
 	@Override
 	public void reload() {
-		// TODO also stop log task when the server shuts down, or everything will break
-		// it's experimental so we don't care for now
 		if (logTask != null) {
 			logTask.cancel();
 			logTask = null;
-			Logger.getLogger("").removeHandler(ourLogHandler);
 		}
 
 		if (commandTask != null) {
@@ -94,40 +58,100 @@ public class Websend implements Reloadable {
 		}
 
 		if (config.node("console-capture", "enabled").getBoolean()) {
-			Logger.getLogger("").addHandler(ourLogHandler);
-			this.plugin.logger().warning("Websend console capture enabled. This will probably break your server somehow.");
+			this.plugin.logger().warning("Websend console capture enabled. This is an experimental feature!");
 			final Duration logRate = Duration.parse(config.node("websend", "console-capture", "send-interval").getString());
 			this.logTask = this.plugin.scheduler().runTimer(this::sendLogLines, logRate);
 		} else {
 			logTask = null;
-			logLines = null;
 		}
 	}
 
 	void sendLogLines() {
 		this.plugin.scheduler().runAsync(() ->  {
-			if (this.logLines == null || this.logLines.isEmpty()) {
-				return;
-			}
+			try {
+				final Path log = this.logPath;
+				if (log == null) {
+					this.plugin.logger().warning("Not sending logs, capturing logs not supported on your platform.");
+					return;
+				}
 
-			final List<String> linesToSend;
-			synchronized (logLock) {
-				linesToSend = new ArrayList<>(logLines);
-				logLines.clear();
-			}
+				if (!Files.isRegularFile(log)) {
+					this.plugin.logger().warning("Log file does not exist or is not a regular file");
+					return;
+				}
 
-			this.plugin.apiProvider().api().ifPresent(api -> {
+				final long newSizeLong = Files.size(log);
+				if (newSizeLong > Integer.MAX_VALUE) {
+					this.plugin.logger().warning("Log file is too large to read");
+				}
+				final int newSize = (int) newSizeLong;
+				final int diff = newSize - this.previousLogSize;
+
+				final int readStart;
+				final int readSize;
+				if (diff == 0) {
+					// Nothing has been written to the log
+					return;
+				} else if (diff > SEND_LOG_MAX_BYTES) {
+					// A lot of new data has been written to the log
+					// Only read the last bit
+					readStart = newSize - SEND_LOG_MAX_BYTES;
+					readSize = SEND_LOG_MAX_BYTES;
+				} else if (diff > 0) {
+					// Some new data has been written to the log
+					readStart = this.previousLogSize;
+					readSize = diff;
+				} else {
+					// Log file got smaller, this likely means the server has
+					// rotated log files. Read the first part of the log.
+					readStart = Math.min(newSize, SEND_LOG_MAX_BYTES);
+					readSize = readStart;
+				}
+
+				final String logString;
+
+				try (final FileChannel channel = FileChannel.open(logPath)) {
+					final ByteBuffer buffer = ByteBuffer.allocate(readSize);
+					channel.read(new ByteBuffer[]{buffer}, readStart, readSize);
+					logString = StandardCharsets.UTF_8.decode(buffer).toString();
+				}
+
+				final String[] split = logString.split("\n");
+				final List<String> lines = new ArrayList<>(split.length);
+
+				if (readSize == SEND_LOG_MAX_BYTES) {
+					// Log was likely truncated
+					lines.add("[websend: skipped lines]");
+					for (int i = 1; i < split.length; i++) {
+						lines.set(i, split[i]);
+					}
+				} else {
+					for (int i = 0; i < split.length; i++) {
+						lines.set(i, split[i]);
+					}
+				}
+
+				Optional<NamelessAPI> apiOptional = this.plugin.apiProvider().api();
+				if (apiOptional.isEmpty()) {
+					return;
+				}
+
 				int serverId = this.plugin.config().main().node("server-data-sender", "server-id").getInt(0);
 				if (serverId <= 0) {
 					this.plugin.logger().warning("server-id is not configured");
 					return;
 				}
-				try {
-					api.websend().sendConsoleLog(serverId, linesToSend);
-				} catch (NamelessException e) {
-					this.plugin.logger().logException(e);
-				}
-			});
+
+				apiOptional.get().websend().sendConsoleLog(serverId, lines);
+
+				this.previousLogSize = newSize;
+			} catch (IOException e) {
+				this.plugin.logger().warning("Encountered an exception while trying to read the log file");
+				this.plugin.logger().logException(e);
+			} catch (NamelessException e) {
+				this.plugin.logger().warning("Encountered an exception while sending server logs to website");
+				this.plugin.logger().logException(e);
+			}
 		});
 	}
 

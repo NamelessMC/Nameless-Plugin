@@ -18,7 +18,8 @@ public class BungeeNamelessPlugin extends Plugin {
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new BungeeScheduler(this),
-				config -> new JulLogger(config, this.getLogger())
+				config -> new JulLogger(config, this.getLogger()),
+				null
 		);
 		this.plugin.registerReloadable(new BungeeCommandProxy(this, this.plugin));
 		this.plugin.registerReloadable(new BungeeDataSender(this.plugin));
