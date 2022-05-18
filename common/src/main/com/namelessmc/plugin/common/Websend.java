@@ -59,7 +59,7 @@ public class Websend implements Reloadable {
 
 		if (config.node("console-capture", "enabled").getBoolean()) {
 			this.plugin.logger().warning("Websend console capture enabled. This is an experimental feature!");
-			final Duration logRate = Duration.parse(config.node("websend", "console-capture", "send-interval").getString());
+			final Duration logRate = Duration.parse(config.node("console-capture", "send-interval").getString());
 			this.logTask = this.plugin.scheduler().runTimer(this::sendLogLines, logRate);
 		} else {
 			logTask = null;
