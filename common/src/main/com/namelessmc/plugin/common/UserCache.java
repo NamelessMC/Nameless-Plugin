@@ -4,22 +4,32 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.plugin.common.command.AbstractScheduledTask;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class UserCache {
+public class UserCache implements Reloadable {
 
 	private final NamelessPlugin plugin;
 
+	private @Nullable AbstractScheduledTask task;
 	private List<String> usernames = Collections.emptyList();
 
 	UserCache(final NamelessPlugin plugin) {
 		this.plugin = plugin;
+	}
 
-		this.plugin.scheduler().runTimer(this::update, Duration.ofMinutes(1));
+	@Override
+	public void reload() {
+		if (task != null) {
+			task.cancel();
+		}
+
+		task = this.plugin.scheduler().runTimer(this::update, Duration.ofMinutes(1));
 	}
 
 	private void update() {

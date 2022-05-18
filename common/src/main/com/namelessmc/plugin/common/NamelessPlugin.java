@@ -52,7 +52,8 @@ public class NamelessPlugin {
 		);
 		this.dateFormatter = this.registerReloadable(
 				new DateFormatter(this.configuration));
-		this.userCache = new UserCache(this);
+		this.userCache = this.registerReloadable(
+				new UserCache(this));
 
 		this.eventBus = EventBus.create(AbstractEvent.class);
 
