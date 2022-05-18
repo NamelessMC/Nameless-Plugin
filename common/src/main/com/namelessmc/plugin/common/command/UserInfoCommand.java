@@ -59,7 +59,23 @@ public class UserInfoCommand extends CommonCommand {
 						return;
 					}
 					final NamelessAPI api = optApi.get();
-					Optional<NamelessUser> userOptional = api.getUserByUsername(args[0]);
+
+					final Optional<NamelessUser> userOptional;
+					Optional<NamelessUser> userOptional1;
+					if (args[0].contains("#")) {
+						// Likely a discord username
+						userOptional1 = api.getUserByDiscordUsername(args[0]);
+					} else {
+						try {
+							// Maybe a UUID?
+							userOptional1 = api.getUserByMinecraftUuid(UUID.fromString(args[0]));
+						} catch (final IllegalArgumentException e) {
+							// Lookup by username
+							userOptional1 = api.getUserByUsername(args[0]);
+						}
+					}
+					userOptional = userOptional1;
+
 					if (userOptional.isPresent()) {
 						this.scheduler().runSync(() -> printInfoForUser(sender, userOptional.get()));
 					} else {

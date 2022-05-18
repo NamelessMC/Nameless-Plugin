@@ -32,7 +32,6 @@ public class Websend implements Reloadable {
 	private @Nullable AbstractScheduledTask logTask;
 	private int previousLogSize = 0;
 
-
 	Websend(final @NonNull NamelessPlugin plugin,
 			final @Nullable Path logPath) {
 		this.plugin = plugin;
@@ -129,12 +128,12 @@ public class Websend implements Reloadable {
 					lines.addAll(Arrays.asList(split));
 				}
 
-				Optional<NamelessAPI> apiOptional = this.plugin.apiProvider().api();
+				final Optional<NamelessAPI> apiOptional = this.plugin.apiProvider().api();
 				if (apiOptional.isEmpty()) {
 					return;
 				}
 
-				int serverId = this.plugin.config().main().node("server-data-sender", "server-id").getInt(0);
+				final int serverId = this.plugin.config().main().node("server-data-sender", "server-id").getInt(0);
 				if (serverId <= 0) {
 					this.plugin.logger().warning("server-id is not configured");
 					return;
@@ -154,7 +153,7 @@ public class Websend implements Reloadable {
 	}
 
 	private void executeCommands() {
-		int serverId = this.plugin.config().main().node("server-data-sender", "server-id").getInt(0);
+		final int serverId = this.plugin.config().main().node("server-data-sender", "server-id").getInt(0);
 		if (serverId <= 0) {
 			this.plugin.logger().warning("Websend is enabled but 'server-data-sender.server-id' in main.yaml is not set properly.");
 			return;
