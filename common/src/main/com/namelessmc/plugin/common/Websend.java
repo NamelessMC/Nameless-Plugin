@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -122,14 +123,10 @@ public class Websend implements Reloadable {
 
 				if (readSize == SEND_LOG_MAX_BYTES) {
 					// Log was likely truncated
-					lines.add("[websend: skipped lines]");
-					for (int i = 1; i < split.length; i++) {
-						lines.set(i, split[i]);
-					}
+					lines.add(0, "[websend: skipped lines]");
+					lines.addAll(Arrays.asList(split).subList(1, split.length));
 				} else {
-					for (int i = 0; i < split.length; i++) {
-						lines.set(i, split[i]);
-					}
+					lines.addAll(Arrays.asList(split));
 				}
 
 				Optional<NamelessAPI> apiOptional = this.plugin.apiProvider().api();
