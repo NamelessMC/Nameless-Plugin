@@ -60,24 +60,24 @@ public class UserInfoCommand extends CommonCommand {
 					}
 					final NamelessAPI api = optApi.get();
 
-					final Optional<NamelessUser> userOptional;
-					Optional<NamelessUser> userOptional1;
+					Optional<NamelessUser> userOptional;
 					if (args[0].contains("#")) {
 						// Likely a discord username
-						userOptional1 = api.getUserByDiscordUsername(args[0]);
+						userOptional = api.getUserByDiscordUsername(args[0]);
 					} else {
 						try {
 							// Maybe a UUID?
-							userOptional1 = api.getUserByMinecraftUuid(UUID.fromString(args[0]));
+							userOptional = api.getUserByMinecraftUuid(UUID.fromString(args[0]));
 						} catch (final IllegalArgumentException e) {
 							// Lookup by username
-							userOptional1 = api.getUserByUsername(args[0]);
+							userOptional = api.getUserByUsername(args[0]);
 						}
 					}
-					userOptional = userOptional1;
 
 					if (userOptional.isPresent()) {
-						this.scheduler().runSync(() -> printInfoForUser(sender, userOptional.get()));
+						final NamelessUser user = userOptional.get();
+						user.getUsername(); // Force user info to load now, asynchronously
+						this.scheduler().runSync(() -> printInfoForUser(sender, user));
 					} else {
 						sender.sendMessage(language().get(ERROR_WEBSITE_USERNAME_NOT_EXIST));
 					}
