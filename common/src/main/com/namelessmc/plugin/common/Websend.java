@@ -22,7 +22,7 @@ import java.util.Optional;
 
 public class Websend implements Reloadable {
 
-	private static final int SEND_LOG_MAX_BYTES = 20_000;
+	private static final int SEND_LOG_MAX_BYTES = 50_000;
 
 	private final @NonNull NamelessPlugin plugin;
 	private final @Nullable Path logPath;
@@ -111,8 +111,9 @@ public class Websend implements Reloadable {
 				final String logString;
 
 				try (final FileChannel channel = FileChannel.open(logPath)) {
+					channel.position(readStart);
 					final ByteBuffer buffer = ByteBuffer.allocate(readSize);
-					channel.read(new ByteBuffer[]{buffer}, readStart, readSize);
+					channel.read(new ByteBuffer[]{buffer}, 0, readSize);
 					logString = StandardCharsets.UTF_8.decode(buffer).toString();
 				}
 
