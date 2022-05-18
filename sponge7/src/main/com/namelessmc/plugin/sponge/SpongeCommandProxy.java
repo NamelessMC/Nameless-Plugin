@@ -60,6 +60,11 @@ public class SpongeCommandProxy implements Reloadable {
 					} else {
 						namelessCommandSender = plugin.audiences().console();
 					}
+
+					if (namelessCommandSender == null) {
+						source.sendMessage(Text.of("ERROR: Cannot obtain audience for command sender"));
+					}
+
 					command.execute(namelessCommandSender, args);
 					return CommandResult.success();
 				}

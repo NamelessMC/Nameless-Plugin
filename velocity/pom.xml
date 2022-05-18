@@ -29,7 +29,7 @@
 							<pattern>org.jetbrains.annotations</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
 						</relocation>
-						<!-- Velocity does include configurate, but it's v3 and we are using v4 -->
+						<!-- Velocity does include configurate, but it's v3, and we are using v4 -->
 						<relocation>
 							<pattern>org.spongepowered.configurate</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.configurate</shadedPattern>

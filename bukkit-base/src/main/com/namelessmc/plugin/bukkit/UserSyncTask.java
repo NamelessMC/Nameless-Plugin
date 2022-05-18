@@ -2,6 +2,7 @@ package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.integrations.StandardIntegrationTypes;
+import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
@@ -40,7 +41,11 @@ public class UserSyncTask implements Runnable, Reloadable {
 
 		final CommentedConfigurationNode config = this.plugin.config().main().node("user-sync");
 		if (config.node("enabled").getBoolean()) {
-			Duration interval = Duration.parse(config.node("poll-interval").getString());
+			final Duration interval = ConfigurationHandler.getDuration(config.node("poll-interval"));
+			if (interval == null) {
+				this.plugin.logger().warning("User sync poll interval invalid");
+				return;
+			}
 			this.task = this.plugin.scheduler().runTimer(this, interval);
 		}
 	}
@@ -79,7 +84,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 				return null;
 			}
 		} catch (final NamelessException e) {
-			logger.warning("An error occured while getting a list of registered users from the website for the bans sync feature.");
+			logger.warning("An error occurred while getting a list of registered users from the website for the bans sync feature.");
 			logger.logException(e);
 			return null;
 		}

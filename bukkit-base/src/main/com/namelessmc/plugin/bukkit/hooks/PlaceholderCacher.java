@@ -4,6 +4,7 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
+import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
@@ -53,7 +54,11 @@ public class PlaceholderCacher implements Listener, Reloadable {
 		final CommentedConfigurationNode config = this.plugin.config().main().node("retrieve-placeholders");
 		if (config.node("enabled").getBoolean()) {
 			Bukkit.getPluginManager().registerEvents(this, this.bukkitPlugin);
-			Duration interval = Duration.parse(config.node("interval").getString());
+			final Duration interval = ConfigurationHandler.getDuration(config.node("interval"));
+			if (interval == null) {
+				this.plugin.logger().warning("Placeholder cacher interval invalid");
+				return;
+			}
 			this.task = this.plugin.scheduler().runTimer(this::updateCache, interval);
 			this.isRunning = new AtomicBoolean();
 			this.cachedNotificationCount = new HashMap<>();

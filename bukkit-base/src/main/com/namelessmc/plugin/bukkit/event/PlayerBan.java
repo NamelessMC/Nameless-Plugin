@@ -37,7 +37,7 @@ public class PlayerBan implements Listener {
 //						logger.info(name + " does not have a website account.");
 //					}
 //				} catch (NamelessException e) {
-//					logger.warning("An error occured while trying to find " + name + "'s website account: " + e.getMessage());
+//					logger.warning("An error occurred while trying to find " + name + "'s website account: " + e.getMessage());
 //				}
 //			} else {
 //				logger.warning("Skipped trying to ban " + name + " on website, API is not working properly.");

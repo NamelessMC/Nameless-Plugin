@@ -144,7 +144,7 @@ public class ApiProvider implements Reloadable {
 					this.logger.logException(e);
 				}
 
-				// Do not cache so it immediately tries again the next time. These types of errors may fix on their
+				// Do not cache, so it immediately tries again the next time. These types of errors may fix on their
 				// own, so we don't want to break the plugin until the administrator reloads.
 				this.cachedApi = OptionalOptional.unknown();
 			}
