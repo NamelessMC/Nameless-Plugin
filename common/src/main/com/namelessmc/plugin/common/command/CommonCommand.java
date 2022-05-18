@@ -36,9 +36,7 @@ public abstract class CommonCommand {
 		this.descriptionTerm = descriptionTerm;
 		this.permission = permission;
 		final CommentedConfigurationNode config = plugin.config().commands();
-		this.actualName = config.hasChild(configName)
-				? config.getString(configName)
-				: null;
+		this.actualName = config.node(configName).getString();
 	}
 
 	public @Nullable String actualName(@UnknownInitialization(CommonCommand.class) CommonCommand this) {
