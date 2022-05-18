@@ -88,7 +88,6 @@ public class Websend implements Reloadable {
 				final int diff = newSize - this.previousLogSize;
 
 				final int readStart;
-				final int readSize;
 				if (diff == 0) {
 					// Nothing has been written to the log
 					return;
@@ -96,17 +95,17 @@ public class Websend implements Reloadable {
 					// A lot of new data has been written to the log
 					// Only read the last bit
 					readStart = newSize - SEND_LOG_MAX_BYTES;
-					readSize = SEND_LOG_MAX_BYTES;
 				} else if (diff > 0) {
 					// Some new data has been written to the log
 					readStart = this.previousLogSize;
-					readSize = diff;
 				} else {
 					// Log file got smaller, this likely means the server has
-					// rotated log files. Read the first part of the log.
-					readStart = Math.min(newSize, SEND_LOG_MAX_BYTES);
-					readSize = readStart;
+					// rotated log files. Read the log entirely or the last part
+					// if it's too long again.
+					readStart = Math.max(0, newSize - SEND_LOG_MAX_BYTES);
 				}
+
+				final int readSize = newSize - readStart;
 
 				final String logString;
 
