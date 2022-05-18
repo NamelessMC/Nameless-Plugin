@@ -10,4 +10,4 @@ websend:
   # EXPERIMENTAL (for real, don't use this): Send console output to the Websend module
   console-capture:
     enabled: false
-    send-interval: PT2S
+    interval: PT2S
