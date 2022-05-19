@@ -58,7 +58,7 @@ join-notifications: false
 
 # Supported platforms: Bukkit
 # When a player is banned, also ban their website account if they have one.
-auto-ban-on-website: false
+sync-ban-to-website: false
 
 # Supported platforms: all
 # For a list of valid languages, check file names in the 'languages' directory.

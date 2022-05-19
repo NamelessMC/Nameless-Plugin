@@ -1,6 +1,5 @@
 package com.namelessmc.plugin.bukkit;
 
-import com.namelessmc.plugin.bukkit.event.PlayerBan;
 import com.namelessmc.plugin.bukkit.hooks.PapiHook;
 import com.namelessmc.plugin.bukkit.hooks.PapiWrapper;
 import com.namelessmc.plugin.bukkit.hooks.PlaceholderCacher;
@@ -61,7 +60,6 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		initMaintenance();
 		initMetrics();
 
-		this.getServer().getPluginManager().registerEvents(new PlayerBan(), this);
 		this.getServer().getPluginManager().registerEvents(new BukkitEventProxy(this.plugin), this);
 
 		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
