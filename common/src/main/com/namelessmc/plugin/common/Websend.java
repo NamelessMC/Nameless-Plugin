@@ -75,6 +75,18 @@ public class Websend implements Reloadable {
 		}
 	}
 
+	private static String readToString(final Path path, final int start, final int length) throws IOException {
+		try (final FileChannel channel = FileChannel.open(path)) {
+			channel.position(start);
+			final ByteBuffer buffer = ByteBuffer.allocate(length);
+			while (buffer.hasRemaining()) {
+				channel.read(buffer);
+			}
+			buffer.position(0); // Reset position, or resulting string will be empty!
+			return StandardCharsets.UTF_8.decode(buffer).toString();
+		}
+	}
+
 	void sendLogLines() {
 		this.plugin.scheduler().runAsync(() ->  {
 			synchronized (logLock) {
@@ -117,17 +129,7 @@ public class Websend implements Reloadable {
 
 					final int readSize = newSize - readStart;
 
-					final String logString;
-
-					try (final FileChannel channel = FileChannel.open(logPath)) {
-						channel.position(readStart);
-						final ByteBuffer buffer = ByteBuffer.allocate(readSize);
-						while (buffer.hasRemaining()) {
-							channel.read(buffer);
-						}
-						buffer.position(0); // Reset position, or resulting string will be blank!
-						logString = StandardCharsets.UTF_8.decode(buffer).toString();
-					}
+					final String logString = readToString(log, readStart, readSize);
 
 					final String[] split = logString.split("\n");
 					final List<String> lines = new ArrayList<>(split.length);
