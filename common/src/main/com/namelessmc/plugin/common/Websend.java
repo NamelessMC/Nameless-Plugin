@@ -63,11 +63,10 @@ public class Websend implements Reloadable {
 			this.commandTask = this.plugin.scheduler().runTimer(this::executeCommands, interval);
 		}
 
-		if (config.node("console-capture", "enabled").getBoolean()) {
-			this.plugin.logger().warning("Websend console capture enabled. This is an experimental feature!");
-			final Duration interval = ConfigurationHandler.getDuration(config.node("console-capture", "interval"));
+		if (config.node("send-logs", "enabled").getBoolean()) {
+			final Duration interval = ConfigurationHandler.getDuration(config.node("send-logs", "interval"));
 			if (interval == null) {
-				this.plugin.logger().warning("Websend console capture interval invalid");
+				this.plugin.logger().warning("Websend send-logs interval invalid");
 				return;
 			}
 			this.logTask = this.plugin.scheduler().runTimer(this::sendLogLines, interval);
