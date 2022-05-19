@@ -7,7 +7,7 @@ public class NamelessCommandSource implements ConsoleCommandSource {
 
 	private static final NamelessCommandSource INSTANCE = new NamelessCommandSource();
 
-	public static final NamelessCommandSource instance() {
+	public static NamelessCommandSource instance() {
 		return INSTANCE;
 	}
 

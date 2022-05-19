@@ -2,8 +2,8 @@ package com.namelessmc.plugin.sponge;
 
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.event.ServerJoinEvent;
-import com.namelessmc.plugin.common.event.ServerQuitEvent;
+import com.namelessmc.plugin.common.event.NamelessJoinEvent;
+import com.namelessmc.plugin.common.event.NamelessPlayerQuitEvent;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
@@ -24,13 +24,13 @@ public class SpongeEventProxy {
 					", Audience is null");
 			return;
 		}
-		final ServerJoinEvent event2 = new ServerJoinEvent(player);
+		final NamelessJoinEvent event2 = new NamelessJoinEvent(player);
 		this.plugin.events().post(event2);
 	}
 
 	@Listener
 	public void onQuit(ClientConnectionEvent.Disconnect event) {
-		final ServerQuitEvent event2 = new ServerQuitEvent(event.getTargetEntity().getUniqueId());
+		final NamelessPlayerQuitEvent event2 = new NamelessPlayerQuitEvent(event.getTargetEntity().getUniqueId());
 		this.plugin.events().post(event2);
 	}
 

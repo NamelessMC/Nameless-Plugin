@@ -5,8 +5,8 @@ import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
-import com.namelessmc.plugin.common.event.ServerJoinEvent;
-import com.namelessmc.plugin.common.event.ServerQuitEvent;
+import com.namelessmc.plugin.common.event.NamelessJoinEvent;
+import com.namelessmc.plugin.common.event.NamelessPlayerQuitEvent;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -41,9 +41,9 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			}
 		});
 
-		this.plugin.events().subscribe(ServerJoinEvent.class, event ->
+		this.plugin.events().subscribe(NamelessJoinEvent.class, event ->
 				playerLoginTime.put(event.player().uuid(), System.currentTimeMillis()));
-		this.plugin.events().subscribe(ServerQuitEvent.class, event ->
+		this.plugin.events().subscribe(NamelessPlayerQuitEvent.class, event ->
 				playerLoginTime.remove(event.uuid()));
 	}
 

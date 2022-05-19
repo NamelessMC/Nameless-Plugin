@@ -2,7 +2,7 @@ package com.namelessmc.plugin.common;
 
 import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
-import com.namelessmc.plugin.common.event.AbstractEvent;
+import com.namelessmc.plugin.common.event.NamelessEvent;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.event.EventBus;
 import org.bstats.MetricsBase;
@@ -26,7 +26,7 @@ public class NamelessPlugin {
 	private final @NonNull LanguageHandler language;
 	private final @NonNull DateFormatter dateFormatter;
 	private final @NonNull UserCache userCache;
-	private final @NonNull EventBus<AbstractEvent> eventBus;
+	private final @NonNull EventBus<NamelessEvent> eventBus;
 
 	private final @NonNull List<Reloadable> reloadables = new ArrayList<>();
 
@@ -55,7 +55,7 @@ public class NamelessPlugin {
 		this.userCache = this.registerReloadable(
 				new UserCache(this));
 
-		this.eventBus = EventBus.create(AbstractEvent.class);
+		this.eventBus = EventBus.create(NamelessEvent.class);
 
 		this.registerReloadable(new AnnouncementTask(this));
 		this.registerReloadable(new JoinNotificationsMessage(this));
@@ -95,7 +95,7 @@ public class NamelessPlugin {
 		return this.userCache;
 	}
 
-	public @NonNull EventBus<AbstractEvent> events() {
+	public @NonNull EventBus<NamelessEvent> events() {
 		return this.eventBus;
 	}
 

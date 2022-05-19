@@ -2,8 +2,8 @@ package com.namelessmc.plugin.bungee;
 
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.event.ServerJoinEvent;
-import com.namelessmc.plugin.common.event.ServerQuitEvent;
+import com.namelessmc.plugin.common.event.NamelessJoinEvent;
+import com.namelessmc.plugin.common.event.NamelessPlayerQuitEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.ServerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -28,14 +28,14 @@ public class BungeeEventProxy implements Listener {
 					", Audience is null");
 			return;
 		}
-		final ServerJoinEvent event2 = new ServerJoinEvent(player);
+		final NamelessJoinEvent event2 = new NamelessJoinEvent(player);
 		plugin.events().post(event2);
 	}
 
 	@EventHandler
 	public void onQuit(final @NonNull ServerDisconnectEvent event) {
 		final UUID uuid = event.getPlayer().getUniqueId();
-		final ServerQuitEvent event2 = new ServerQuitEvent(uuid);
+		final NamelessPlayerQuitEvent event2 = new NamelessPlayerQuitEvent(uuid);
 		plugin.events().post(event2);
 	}
 

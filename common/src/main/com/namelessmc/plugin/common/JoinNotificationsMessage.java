@@ -2,7 +2,7 @@ package com.namelessmc.plugin.common;
 
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.plugin.common.event.ServerJoinEvent;
+import com.namelessmc.plugin.common.event.NamelessJoinEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.event.EventSubscription;
@@ -32,7 +32,7 @@ public class JoinNotificationsMessage implements Reloadable {
 		}
 
 		if (this.plugin.config().main().node("join-notifications").getBoolean()) {
-			this.subscription = this.plugin.events().subscribe(ServerJoinEvent.class, event ->
+			this.subscription = this.plugin.events().subscribe(NamelessJoinEvent.class, event ->
 					onJoin(event.player().uuid()));
 		}
 	}
