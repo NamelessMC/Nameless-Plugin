@@ -123,7 +123,10 @@ public class Websend implements Reloadable {
 					try (final FileChannel channel = FileChannel.open(logPath)) {
 						channel.position(readStart);
 						final ByteBuffer buffer = ByteBuffer.allocate(readSize);
-						channel.read(new ByteBuffer[]{buffer}, 0, 1);
+						while (buffer.hasRemaining()) {
+							channel.read(buffer);
+						}
+						buffer.position(0); // Reset position, or resulting string will be blank!
 						logString = StandardCharsets.UTF_8.decode(buffer).toString();
 					}
 
