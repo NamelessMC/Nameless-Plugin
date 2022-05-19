@@ -27,26 +27,26 @@ public class BukkitScheduler extends AbstractScheduler {
 	}
 
 	@Override
-	public @NonNull SpigotScheduledTask runTimer(final @NonNull Runnable runnable,
-												 final @NonNull Duration interval) {
+	public @NonNull BukkitScheduler.BukkitScheduledTask runTimer(final @NonNull Runnable runnable,
+																 final @NonNull Duration interval) {
 		long ticks = interval.toMillis() / 50;
 		final BukkitTask task = Bukkit.getScheduler().runTaskTimer(this.plugin, runnable, ticks, ticks);
-		return new SpigotScheduledTask(task);
+		return new BukkitScheduledTask(task);
 	}
 
 	@Override
-	public @NonNull SpigotScheduledTask runDelayed(final @NonNull Runnable runnable,
-												   final @NonNull Duration delay) {
+	public @NonNull BukkitScheduler.BukkitScheduledTask runDelayed(final @NonNull Runnable runnable,
+																   final @NonNull Duration delay) {
 		long ticks = delay.toMillis() / 50;
 		final BukkitTask task = Bukkit.getScheduler().runTaskLater(this.plugin, runnable, ticks);
-		return new SpigotScheduledTask(task);
+		return new BukkitScheduledTask(task);
 	}
 
-	public static class SpigotScheduledTask extends AbstractScheduledTask {
+	public static class BukkitScheduledTask extends AbstractScheduledTask {
 
 		private final @NonNull BukkitTask task;
 
-		private SpigotScheduledTask(final @NonNull BukkitTask task) {
+		private BukkitScheduledTask(final @NonNull BukkitTask task) {
 			this.task = task;
 		}
 
