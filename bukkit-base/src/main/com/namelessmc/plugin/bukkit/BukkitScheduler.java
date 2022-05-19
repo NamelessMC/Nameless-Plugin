@@ -27,7 +27,7 @@ public class BukkitScheduler extends AbstractScheduler {
 	}
 
 	@Override
-	public @NonNull BukkitScheduler.BukkitScheduledTask runTimer(final @NonNull Runnable runnable,
+	public BukkitScheduledTask runTimer(final @NonNull Runnable runnable,
 																 final @NonNull Duration interval) {
 		long ticks = interval.toMillis() / 50;
 		final BukkitTask task = Bukkit.getScheduler().runTaskTimer(this.plugin, runnable, ticks, ticks);
@@ -35,7 +35,7 @@ public class BukkitScheduler extends AbstractScheduler {
 	}
 
 	@Override
-	public @NonNull BukkitScheduler.BukkitScheduledTask runDelayed(final @NonNull Runnable runnable,
+	public BukkitScheduledTask runDelayed(final @NonNull Runnable runnable,
 																   final @NonNull Duration delay) {
 		long ticks = delay.toMillis() / 50;
 		final BukkitTask task = Bukkit.getScheduler().runTaskLater(this.plugin, runnable, ticks);
