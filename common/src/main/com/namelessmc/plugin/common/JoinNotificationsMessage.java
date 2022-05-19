@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.common;
 
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.common.event.NamelessJoinEvent;
@@ -39,43 +40,45 @@ public class JoinNotificationsMessage implements Reloadable {
 
 	private void onJoin(final @NonNull UUID uuid) {
 		this.plugin.scheduler().runAsync(() -> {
-			this.plugin.apiProvider().api().ifPresent(api -> {
-				try {
-					final Optional<NamelessUser> userOptional = api.getUserByMinecraftUuid(uuid);
-					if (userOptional.isEmpty()) {
-						return;
-					}
-
-					final NamelessUser user = userOptional.get();
-					int notifications = user.getNotificationCount();
-					if (notifications == 0) {
-						return;
-					}
-
-					this.plugin.scheduler().runSync(() -> {
-						final String notificationsCommand = this.plugin.config().commands()
-								.node("get-notifications").getString();
-						if (notificationsCommand == null) {
-							this.plugin.logger().warning("Notifications command must be enabled for join-notifications feature");
-							return;
-						}
-
-						final Audience audience = this.plugin.audiences().player(uuid);
-
-						if (audience == null) {
-							this.plugin.logger().warning("Player left before we were able to send notifications message");
-							return;
-						}
-
-						final Component message = this.plugin.language()
-								.get(JOIN_NOTIFICATIONS, "notifications_command", notificationsCommand);
-						audience.sendMessage(message);
-					});
-
-				} catch (final NamelessException e) {
-					this.plugin.logger().logException(e);
+			final NamelessAPI api = this.plugin.apiProvider().api();
+			if (api == null) {
+				return;
+			}
+			try {
+				final Optional<NamelessUser> userOptional = api.getUserByMinecraftUuid(uuid);
+				if (userOptional.isEmpty()) {
+					return;
 				}
-			});
+
+				final NamelessUser user = userOptional.get();
+				int notifications = user.getNotificationCount();
+				if (notifications == 0) {
+					return;
+				}
+
+				this.plugin.scheduler().runSync(() -> {
+					final String notificationsCommand = this.plugin.config().commands()
+							.node("get-notifications").getString();
+					if (notificationsCommand == null) {
+						this.plugin.logger().warning("Notifications command must be enabled for join-notifications feature");
+						return;
+					}
+
+					final Audience audience = this.plugin.audiences().player(uuid);
+
+					if (audience == null) {
+						this.plugin.logger().warning("Player left before we were able to send notifications message");
+						return;
+					}
+
+					final Component message = this.plugin.language()
+							.get(JOIN_NOTIFICATIONS, "notifications_command", notificationsCommand);
+					audience.sendMessage(message);
+				});
+
+			} catch (final NamelessException e) {
+				this.plugin.logger().logException(e);
+			}
 		});
 	}
 }

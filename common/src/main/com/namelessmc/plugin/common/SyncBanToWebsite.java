@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.common;
 
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.common.event.NamelessPlayerBanEvent;
@@ -34,23 +35,27 @@ public class SyncBanToWebsite implements Reloadable {
 			final UUID uuid = event.uuid();
 
 			this.plugin.scheduler().runAsync(() -> {
-				this.plugin.apiProvider().api().ifPresentOrElse(api -> {
-					try {
-						Optional<NamelessUser> userOptional = api.getUserByMinecraftUuid(uuid);
-						if (userOptional.isPresent()) {
-							final NamelessUser user = userOptional.get();
-							if (user.isBanned()) {
-								this.plugin.logger().info("User " + user.getUsername() + " is already banned");
-							} else {
-								user.banUser();
-								this.plugin.logger().info("Banned user on website");
-							}
+				final NamelessAPI api = this.plugin.apiProvider().api();
+				if (api == null) {
+					this.plugin.logger().warning("Skipped trying to ban user, website connection is not working properly.");
+					return;
+				}
+
+				try {
+					Optional<NamelessUser> userOptional = api.getUserByMinecraftUuid(uuid);
+					if (userOptional.isPresent()) {
+						final NamelessUser user = userOptional.get();
+						if (user.isBanned()) {
+							this.plugin.logger().info("User " + user.getUsername() + " is already banned");
+						} else {
+							user.banUser();
+							this.plugin.logger().info("Banned user on website");
 						}
-					} catch (final NamelessException e) {
-						this.plugin.logger().warning("Failed to ban player on website");
-						this.plugin.logger().logException(e);
 					}
-				}, () -> this.plugin.logger().warning("Skipped trying to ban user, website connection is not working properly."));
+				} catch (final NamelessException e) {
+					this.plugin.logger().warning("Failed to ban player on website");
+					this.plugin.logger().logException(e);
+				}
 			});
 		});
 	}

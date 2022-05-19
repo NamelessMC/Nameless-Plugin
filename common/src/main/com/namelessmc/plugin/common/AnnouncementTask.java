@@ -1,6 +1,7 @@
 package com.namelessmc.plugin.common;
 
 import com.namelessmc.java_api.Announcement;
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
@@ -48,48 +49,49 @@ public class AnnouncementTask implements Runnable, Reloadable {
 	@Override
 	public void run() {
 		final CommentedConfigurationNode config = this.plugin.config().main().node("announcements");
-		final ApiProvider apiProvider = this.plugin.apiProvider();
-		apiProvider.api().ifPresent(api -> {
-			final @Nullable String filterDisplay = config.node("display").getString();
-			Duration delay = Duration.ZERO;
-			for (final NamelessPlayer player : this.plugin.audiences().onlinePlayers()) {
-				// add delay so requests are spread out a bit
-				this.plugin.scheduler().runDelayed(() -> {
-					this.plugin.scheduler().runAsync(() -> {
-						List<Announcement> announcements;
-						try {
-							Optional<NamelessUser> optUser = api.getUserByMinecraftUuid(player.uuid());
-							if (optUser.isPresent()) {
-								announcements = optUser.get().getAnnouncements();
-							} else {
-								announcements = api.getAnnouncements();
+		final NamelessAPI api = this.plugin.apiProvider().api();
+		if (api == null) {
+			return;
+		}
+		final @Nullable String filterDisplay = config.node("display").getString();
+		Duration delay = Duration.ZERO;
+		for (final NamelessPlayer player : this.plugin.audiences().onlinePlayers()) {
+			// add delay so requests are spread out a bit
+			this.plugin.scheduler().runDelayed(() -> {
+				this.plugin.scheduler().runAsync(() -> {
+					List<Announcement> announcements;
+					try {
+						Optional<NamelessUser> optUser = api.getUserByMinecraftUuid(player.uuid());
+						if (optUser.isPresent()) {
+							announcements = optUser.get().getAnnouncements();
+						} else {
+							announcements = api.getAnnouncements();
+						}
+					} catch (NamelessException e) {
+						this.plugin.logger().logException(e);
+						return;
+					}
+					if (filterDisplay != null) {
+						announcements = announcements.stream().filter(a -> a.getDisplayPages().contains(filterDisplay)).collect(Collectors.toList());
+					}
+					if (!announcements.isEmpty()) {
+						Announcement announcement = ListUtils.choice(announcements);
+						String announcementMessage = announcement.getMessage();
+						this.plugin.scheduler().runSync(() -> {
+							final NamelessPlayer player2 = this.plugin.audiences().player(player.uuid());
+							if (player2 == null) {
+								// Player left
+								return;
 							}
-						} catch (NamelessException e) {
-							this.plugin.logger().logException(e);
-							return;
-						}
-						if (filterDisplay != null) {
-							announcements = announcements.stream().filter(a -> a.getDisplayPages().contains(filterDisplay)).collect(Collectors.toList());
-						}
-						if (!announcements.isEmpty()) {
-							Announcement announcement = ListUtils.choice(announcements);
-							String announcementMessage = announcement.getMessage();
-							this.plugin.scheduler().runSync(() -> {
-								final NamelessPlayer player2 = this.plugin.audiences().player(player.uuid());
-								if (player2 == null) {
-									// Player left
-									return;
-								}
-								final Component message = this.plugin.language().get(
-										WEBSITE_ANNOUNCEMENT, "message", announcementMessage);
-								player2.sendMessage(message);
-							});
-						}
-					});
-				}, delay);
-				delay = delay.plusMillis(250); // 4 requests per second
-			}
-		});
+							final Component message = this.plugin.language().get(
+									WEBSITE_ANNOUNCEMENT, "message", announcementMessage);
+							player2.sendMessage(message);
+						});
+					}
+				});
+			}, delay);
+			delay = delay.plusMillis(250); // 4 requests per second
+		}
 	}
 
 }

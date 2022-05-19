@@ -31,12 +31,12 @@ public class UserInfoCommand extends CommonCommand {
 			// No username specified, try to find NamelessMC account for this Minecraft player
 			this.scheduler().runAsync(() -> {
 				try {
-					final Optional<NamelessAPI> optApi = this.api();
-					if (optApi.isEmpty()) {
+					final NamelessAPI api = this.apiProvider().api();
+					if (api == null) {
 						sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 						return;
 					}
-					final NamelessAPI api = optApi.get();
+
 					Optional<NamelessUser> userOptional = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());
 					if (userOptional.isPresent()) {
 						this.scheduler().runSync(() -> printInfoForUser(sender, userOptional.get()));
@@ -53,12 +53,11 @@ public class UserInfoCommand extends CommonCommand {
 			// Find NamelessMC user by provided username in command argument
 			this.scheduler().runAsync(() -> {
 				try {
-					final Optional<NamelessAPI> optApi = this.api();
-					if (optApi.isEmpty()) {
+					final NamelessAPI api = this.apiProvider().api();
+					if (api == null) {
 						sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 						return;
 					}
-					final NamelessAPI api = optApi.get();
 
 					Optional<NamelessUser> userOptional;
 					if (args[0].contains("#")) {

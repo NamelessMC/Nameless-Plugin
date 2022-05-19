@@ -38,12 +38,11 @@ public class GetNotificationsCommand extends CommonCommand {
 		}
 
 		scheduler().runAsync(() -> {
-			final Optional<NamelessAPI> optApi = this.api();
-			if (optApi.isEmpty()) {
+			final NamelessAPI api = this.apiProvider().api();
+			if (api == null) {
 				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				return;
 			}
-			final NamelessAPI api = optApi.get();
 
 			try {
 				final Optional<NamelessUser> optional = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());

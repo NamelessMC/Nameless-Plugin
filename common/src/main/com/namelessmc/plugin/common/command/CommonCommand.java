@@ -1,6 +1,5 @@
 package com.namelessmc.plugin.common.command;
 
-import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.plugin.common.ApiProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
@@ -16,7 +15,6 @@ import org.spongepowered.configurate.CommentedConfigurationNode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class CommonCommand {
 
@@ -70,12 +68,8 @@ public abstract class CommonCommand {
 		return this.plugin.language();
 	}
 
-	protected @NonNull ApiProvider apiProvider(){
+	protected @NonNull ApiProvider apiProvider() {
 		return this.plugin.apiProvider();
-	}
-
-	protected @NonNull Optional<NamelessAPI> api(){
-		return this.apiProvider().api();
 	}
 
 	protected @NonNull AbstractLogger logger() { return this.plugin.logger(); }

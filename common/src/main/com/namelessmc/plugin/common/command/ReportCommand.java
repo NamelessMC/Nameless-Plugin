@@ -43,12 +43,11 @@ public class ReportCommand extends CommonCommand {
 		}
 
 		scheduler().runAsync(() -> {
-			final Optional<NamelessAPI> optApi = this.api();
-			if (optApi.isEmpty()) {
-				sender.sendMessage(this.language().get(ERROR_WEBSITE_CONNECTION));
+			final NamelessAPI api = this.apiProvider().api();
+			if (api == null) {
+				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				return;
 			}
-			final NamelessAPI api = optApi.get();
 
 			try {
 				final String targetUsername = args[0];

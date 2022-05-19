@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.common;
 
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.common.event.NamelessJoinEvent;
@@ -42,25 +43,28 @@ public class JoinNotRegisteredMessage implements Reloadable {
 
 	private void onJoin(final @NonNull UUID uuid) {
 		this.plugin.scheduler().runAsync(() -> {
-			this.plugin.apiProvider().api().ifPresent(api -> {
-				Optional<NamelessUser> userOptional;
-				try {
-					userOptional = api.getUserByMinecraftUuid(uuid);
-				} catch (final NamelessException e) {
-					this.plugin.logger().logException(e);
-					return;
-				}
+			final NamelessAPI api = this.plugin.apiProvider().api();
+			if (api == null) {
+				return;
+			}
 
-				if (userOptional.isEmpty()) {
-					this.plugin.scheduler().runSync(() -> {
-						Audience audience = this.plugin.audiences().player(uuid);
-						if (audience != null) {
-							final Component message = this.plugin.language().get(JOIN_NOT_REGISTERED);
-							audience.sendMessage(message);
-						}
-					});
-				}
-			});
+			Optional<NamelessUser> userOptional;
+			try {
+				userOptional = api.getUserByMinecraftUuid(uuid);
+			} catch (final NamelessException e) {
+				this.plugin.logger().logException(e);
+				return;
+			}
+
+			if (userOptional.isEmpty()) {
+				this.plugin.scheduler().runSync(() -> {
+					Audience audience = this.plugin.audiences().player(uuid);
+					if (audience != null) {
+						final Component message = this.plugin.language().get(JOIN_NOT_REGISTERED);
+						audience.sendMessage(message);
+					}
+				});
+			}
 		});
 	}
 

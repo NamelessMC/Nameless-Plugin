@@ -36,13 +36,11 @@ public class RegisterCommand extends CommonCommand {
 		final String email = args[1];
 
 		this.scheduler().runAsync(() -> {
-			final Optional<NamelessAPI> optApi = this.api();
-			if (optApi.isEmpty()) {
-				sender.sendMessage(this.language().get(ERROR_WEBSITE_CONNECTION));
+			final NamelessAPI api = this.apiProvider().api();
+			if (api == null) {
+				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				return;
 			}
-
-			final NamelessAPI api = optApi.get();
 
 			try {
 				Optional<String> link;

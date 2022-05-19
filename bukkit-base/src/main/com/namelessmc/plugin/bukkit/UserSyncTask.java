@@ -71,18 +71,18 @@ public class UserSyncTask implements Runnable, Reloadable {
 		final CommentedConfigurationNode config = this.plugin.config().main().node("user-sync");
 		final AbstractLogger logger = this.plugin.logger();
 
-		List<NamelessUser> users;
+		final List<NamelessUser> users;
 		try {
-			final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
-			if (optApi.isPresent()) {
-				FilteredUserListBuilder builder = optApi.get().getRegisteredUsers();
-				builder.withFilter(UserFilter.INTEGRATION, StandardIntegrationTypes.MINECRAFT);
-				builderConfigurator.accept(builder);
-				users = builder.makeRequest();
-			} else {
+			final NamelessAPI api = this.plugin.apiProvider().api();
+			if (api == null) {
 				logger.warning("Skipped sync, it looks like the API is not working properly.");
 				return null;
 			}
+
+			final FilteredUserListBuilder builder = api.getRegisteredUsers();
+			builder.withFilter(UserFilter.INTEGRATION, StandardIntegrationTypes.MINECRAFT);
+			builderConfigurator.accept(builder);
+			users = builder.makeRequest();
 		} catch (final NamelessException e) {
 			logger.warning("An error occurred while getting a list of registered users from the website for the bans sync feature.");
 			logger.logException(e);
@@ -119,14 +119,14 @@ public class UserSyncTask implements Runnable, Reloadable {
 			logger.info("Starting bans sync, retrieving list of banned users...");
 		}
 		this.plugin.scheduler().runAsync(() -> {
-			Set<UUID> bannedUuids = getUuids(doLog, b -> b.withFilter(UserFilter.BANNED, true));
+			final Set<UUID> bannedUuids = getUuids(doLog, b -> b.withFilter(UserFilter.BANNED, true));
 			if (bannedUuids == null) {
 				return;
 			}
 			this.plugin.scheduler().runSync(() -> {
-				Set<OfflinePlayer> banned = Bukkit.getBannedPlayers();
-				for (UUID bannedUuid : bannedUuids) {
-					OfflinePlayer bannedPlayer = Bukkit.getOfflinePlayer(bannedUuid);
+				final Set<OfflinePlayer> banned = Bukkit.getBannedPlayers();
+				for (final UUID bannedUuid : bannedUuids) {
+					final OfflinePlayer bannedPlayer = Bukkit.getOfflinePlayer(bannedUuid);
 					if (!banned.contains(bannedPlayer)) {
 						banned.add(bannedPlayer);
 						if (doLog) {
@@ -141,14 +141,14 @@ public class UserSyncTask implements Runnable, Reloadable {
 					logger.info("Retrieving list of unbanned players...");
 				}
 				this.plugin.scheduler().runAsync(() -> {
-					Set<UUID> unbannedUuids = getUuids(doLog, b -> b.withFilter(UserFilter.BANNED, false));
+					final Set<UUID> unbannedUuids = getUuids(doLog, b -> b.withFilter(UserFilter.BANNED, false));
 					if (unbannedUuids == null) {
 						return;
 					}
 					this.plugin.scheduler().runSync(() -> {
-						Set<OfflinePlayer> banned2 = Bukkit.getBannedPlayers();
+						final Set<OfflinePlayer> banned2 = Bukkit.getBannedPlayers();
 						for (UUID unbannedUuid : unbannedUuids) {
-							OfflinePlayer unbannedPlayer = Bukkit.getOfflinePlayer(unbannedUuid);
+							final OfflinePlayer unbannedPlayer = Bukkit.getOfflinePlayer(unbannedUuid);
 							if (banned2.contains(unbannedPlayer)) {
 								banned2.remove(unbannedPlayer);
 								if (doLog) {
@@ -220,8 +220,8 @@ public class UserSyncTask implements Runnable, Reloadable {
 					allUuids.removeAll(websiteUuids);
 
 					this.plugin.scheduler().runSync(() -> {
-						for (UUID toRemove : allUuids) {
-							OfflinePlayer player = Bukkit.getOfflinePlayer(toRemove);
+						for (final UUID toRemove : allUuids) {
+							final OfflinePlayer player = Bukkit.getOfflinePlayer(toRemove);
 							if (player.isWhitelisted()) {
 								player.setWhitelisted(false);
 								if (doLog) {

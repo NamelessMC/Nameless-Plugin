@@ -71,9 +71,8 @@ public class PlaceholderCacher implements Listener, Reloadable {
 		}
 
 		if (isRunning.compareAndSet(false, true)) {
-			final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
-			if (optApi.isPresent()) {
-				final NamelessAPI api = optApi.get();
+			final NamelessAPI api = this.plugin.apiProvider().api();
+			if (api != null) {
 				for (final Player player : Bukkit.getOnlinePlayers()) {
 					updateCache(api, player);
 				}
@@ -108,8 +107,12 @@ public class PlaceholderCacher implements Listener, Reloadable {
 
 		this.cachedNotificationCount.remove(event.getPlayer().getUniqueId());
 
-		final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
-		optApi.ifPresent(api -> this.plugin.scheduler().runAsync(() -> updateCache(api, event.getPlayer())));
+		this.plugin.scheduler().runAsync(() -> {
+			final NamelessAPI api = this.plugin.apiProvider().api();
+			if (api != null) {
+				updateCache(api, event.getPlayer());
+			}
+		});
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)

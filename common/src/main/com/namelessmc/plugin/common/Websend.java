@@ -19,7 +19,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class Websend implements Reloadable {
 
@@ -142,8 +141,8 @@ public class Websend implements Reloadable {
 						lines.addAll(Arrays.asList(split));
 					}
 
-					final Optional<NamelessAPI> apiOptional = this.plugin.apiProvider().api();
-					if (apiOptional.isEmpty()) {
+					final NamelessAPI api = this.plugin.apiProvider().api();
+					if (api == null) {
 						return;
 					}
 
@@ -153,7 +152,7 @@ public class Websend implements Reloadable {
 						return;
 					}
 
-					apiOptional.get().websend().sendConsoleLog(serverId, lines);
+					api.websend().sendConsoleLog(serverId, lines);
 
 					this.previousLogSize = newSize;
 				} catch (IOException e) {
@@ -175,31 +174,34 @@ public class Websend implements Reloadable {
 		}
 
 		this.plugin.scheduler().runAsync(() -> {
-			this.plugin.apiProvider().api().ifPresent(api -> {
-				synchronized (commandLock) {
-					try {
-						final List<WebsendCommand> commands = api.websend().getCommands(serverId);
-						if (commands.isEmpty()) {
-							return;
-						}
+			final NamelessAPI api = this.plugin.apiProvider().api();
+			if (api == null) {
+				return;
+			}
 
-						this.plugin.scheduler().runSync(() -> {
-							final NamelessConsole console = this.plugin.audiences().console();
-							for (final WebsendCommand command : commands) {
-								try {
-									console.dispatchCommand(command.getCommandLine());
-								} catch (final Exception e) {
-									// continue executing other commands if one fails
-									this.plugin.logger().logException(e);
-								}
-							}
-						});
-					} catch (NamelessException e) {
-						this.plugin.logger().severe("Error retrieving websend commands");
-						this.plugin.logger().logException(e);
+			synchronized (commandLock) {
+				try {
+					final List<WebsendCommand> commands = api.websend().getCommands(serverId);
+					if (commands.isEmpty()) {
+						return;
 					}
+
+					this.plugin.scheduler().runSync(() -> {
+						final NamelessConsole console = this.plugin.audiences().console();
+						for (final WebsendCommand command : commands) {
+							try {
+								console.dispatchCommand(command.getCommandLine());
+							} catch (final Exception e) {
+								// continue executing other commands if one fails
+								this.plugin.logger().logException(e);
+							}
+						}
+					});
+				} catch (NamelessException e) {
+					this.plugin.logger().severe("Error retrieving websend commands");
+					this.plugin.logger().logException(e);
 				}
-			});
+			}
 		});
 	}
 
