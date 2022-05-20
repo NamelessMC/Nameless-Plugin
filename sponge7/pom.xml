@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>plugin-sponge7</artifactId>
-    <name>Nameless-Plugin-SpongeAPI7</name>
+    <name>Nameless-Plugin-Sponge7</name>
 
 	<parent>
 		<relativePath>../pom.xml</relativePath>
