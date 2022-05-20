@@ -110,6 +110,11 @@
 					<groupId>net.kyori</groupId>
 					<artifactId>adventure-text-minimessage</artifactId>
 				</exclusion>
+				<!-- Sponge 8 includes Configurate v4 -->
+				<exclusion>
+					<groupId>org.spongepowered</groupId>
+					<artifactId>configurate-yaml</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
