@@ -1,25 +1,31 @@
 package com.namelessmc.plugin.sponge;
 
-import com.namelessmc.plugin.common.NamelessCommandSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
+import com.namelessmc.plugin.common.audiences.NamelessConsole;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.CommonCommand;
-import net.kyori.adventure.text.serializer.spongeapi.SpongeComponentSerializer;
+import net.kyori.adventure.text.Component;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.SystemSubject;
+import org.spongepowered.api.command.Command;
+import org.spongepowered.api.command.CommandCause;
+import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.exception.ArgumentParseException;
+import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.manager.CommandManager;
 import org.spongepowered.api.command.manager.CommandMapping;
+import org.spongepowered.api.command.parameter.ArgumentReader;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class SpongeCommandProxy implements Reloadable {
 
@@ -32,70 +38,102 @@ public class SpongeCommandProxy implements Reloadable {
 
 	@Override
 	public void reload() {
-		final CommandManager manager = Sponge.getCommandManager();
+		final CommandManager manager = Sponge.server().commandManager();
 
 		for (CommandMapping mapping : this.registeredCommands) {
-			manager.removeMapping(mapping);
+			manager.knownMappings().remove(mapping);
 		}
 		this.registeredCommands.clear();
 
-		CommonCommand.getEnabledCommands(this.plugin).forEach(command -> {
-			final String permission = command.getPermission().toString();
-			final SpongeComponentSerializer ser = SpongeComponentSerializer.get();
-			final Text usage = ser.serialize(command.getUsage());
-			final Text description = ser.serialize(command.getDescription());
+		CommonCommand.commands(this.plugin).forEach(command -> {
+			if (command == null) {
+				return; // Command is disabled
+			}
 
-			CommandCallable spongeCommand = new CommandCallable() {
-				@Override
-				public @NotNull CommandResult process(final CommandSo source,
-													  final String arguments) {
-					String[] args = arguments.split(" ");
-					final NamelessCommandSender namelessCommandSender;
-					if (source instanceof Player) {
-						namelessCommandSender = plugin.audiences().player(((Player) source).getUniqueId());
-					} else {
-						namelessCommandSender = plugin.audiences().console();
-					}
-					command.execute(namelessCommandSender, args);
-					return CommandResult.success();
-				}
+			final Command spongeCommand = new SpongeCommand(command);
 
-				@Override
-				public List<String> getSuggestions(final CommandSource source,
-												   final String arguments,
-												   final @Nullable Location<World> targetPosition) {
-					return Collections.emptyList();
-				}
-
-				@Override
-				public boolean testPermission(final CommandSource source) {
-					return source.hasPermission(permission);
-				}
-
-				@Override
-				public Optional<Text> getShortDescription(final CommandSource source) {
-					return Optional.of(description);
-				}
-
-				@Override
-				public Optional<Text> getHelp(final CommandSource source) {
-					return Optional.empty();
-				}
-
-				@Override
-				public Text getUsage(final CommandSource source) {
-					return usage;
-				}
-			};
-
-			manager.register(this, spongeCommand, command.getActualName()).ifPresentOrElse(
-					this.registeredCommands::add,
-					() -> {
-						this.plugin.logger().warning("Unable to register command: " + command.getActualName());
-					}
-			);
+//			manager.register(this, spongeCommand, command.actualName()).ifPresentOrElse(
+//					this.registeredCommands::add,
+//					() -> {
+//						this.plugin.logger().warning("Unable to register command: " + command.actualName());
+//					}
+//			);
 		});
 
 		this.registeredCommands.trimToSize();
 	}
+
+	private static class SpongeCommand implements Command.Raw {
+
+		private final CommonCommand command;
+		private final String permission;
+		private final Component usage;
+		private final Component description;
+
+		private SpongeCommand(final CommonCommand command) {
+			this.command = command;
+			this.permission = command.permission().toString();
+			this.usage = command.usage();
+			this.description = command.description();
+		}
+
+		private NamelessCommandSender causeToSender(final CommandCause cause) {
+			if (cause instanceof Player) {
+				final Player player = (Player) cause;
+				return new NamelessPlayer(player, player.uniqueId(), player.name());
+			} else if (cause instanceof SystemSubject) {
+				return new NamelessConsole((SystemSubject) cause, SpongeAudienceProvider::dispatchCommand);
+			} else {
+				throw new UnsupportedOperationException("Unsupported command source");
+			}
+		}
+
+		private String[] argsToArray(final ArgumentReader.Mutable arguments) throws ArgumentParseException {
+			final String[] args = new String[arguments.totalLength()];
+			for (int i = 0; i < args.length; i++) {
+				args[i] = arguments.parseString();
+			}
+			return args;
+		}
+
+		@Override
+		public CommandResult process(final CommandCause cause, final ArgumentReader.Mutable arguments) throws CommandException {
+			this.command.execute(causeToSender(cause), argsToArray(arguments));
+			return CommandResult.success();
+		}
+
+		@Override
+		public List<CommandCompletion> complete(final CommandCause cause, final ArgumentReader.Mutable arguments) throws CommandException {
+			return this.command.complete(causeToSender(cause), argsToArray(arguments)).stream()
+					.map(CommandCompletion::of)
+					.collect(Collectors.toList());
+		}
+
+		@Override
+		public boolean canExecute(final CommandCause cause) {
+			return cause.hasPermission(permission);
+		}
+
+		@Override
+		public Optional<Component> shortDescription(final CommandCause cause) {
+			return Optional.of(description);
+		}
+
+		@Override
+		public Optional<Component> extendedDescription(final CommandCause cause) {
+			return Optional.of(description);
+		}
+
+		@Override
+		public Optional<Component> help(final @NonNull CommandCause cause) {
+			return Raw.super.help(cause);
+		}
+
+		@Override
+		public Component usage(final CommandCause cause) {
+			return usage;
+		}
+
+	}
+
 }

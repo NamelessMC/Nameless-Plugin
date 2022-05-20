@@ -3,14 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.namelessmc</groupId>
 	<artifactId>plugin-sponge8</artifactId>
     <name>Nameless-Plugin-SpongeAPI8</name>
 
     <parent>
         <groupId>com.namelessmc</groupId>
         <artifactId>plugin</artifactId>
-        <version>3.0.0-beta</version>
+		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
     </parent>
 
     <build>
@@ -99,7 +99,6 @@
 		<dependency>
 			<groupId>com.namelessmc</groupId>
 			<artifactId>plugin-common</artifactId>
-			<version>3.0.0-beta</version>
 			<exclusions>
 				<!-- Sponge includes adventure -->
 				<exclusion>
