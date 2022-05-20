@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.sponge;
+package com.namelessmc.plugin.sponge7;
 
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;

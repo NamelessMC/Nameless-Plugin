@@ -1,18 +1,18 @@
-package com.namelessmc.plugin.sponge;
+package com.namelessmc.plugin.sponge9;
 
 import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
-public class Slf4jLogger extends AbstractLogger {
+public class Log4jLogger extends AbstractLogger {
 
-	private final @NonNull Logger logger;
+	private final @NotNull Logger logger;
 
-	public Slf4jLogger(final @NonNull ConfigurationHandler config,
-					   final @NonNull Logger logger) {
+	public Log4jLogger(final @NotNull ConfigurationHandler config,
+					   final @NotNull Logger logger) {
 		super(config);
 		this.logger = logger;
 	}
@@ -34,23 +34,17 @@ public class Slf4jLogger extends AbstractLogger {
 
 	@Override
 	public void info(Supplier<String> stringSupplier) {
-		if (this.logger.isInfoEnabled()) {
-			this.logger.info(stringSupplier.get());
-		}
+		this.logger.info(stringSupplier);
 	}
 
 	@Override
 	public void warning(Supplier<String> stringSupplier) {
-		if (this.logger.isWarnEnabled()) {
-			this.logger.warn(stringSupplier.get());
-		}
+		this.logger.warn(stringSupplier);
 	}
 
 	@Override
 	public void severe(Supplier<String> stringSupplier) {
-		if (this.logger.isErrorEnabled()) {
-			this.logger.error(stringSupplier.get());
-		}
+		this.logger.error(stringSupplier);
 	}
 
 }

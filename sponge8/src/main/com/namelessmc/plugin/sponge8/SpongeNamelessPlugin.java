@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.sponge;
+package com.namelessmc.plugin.sponge8;
 
 import com.google.inject.Inject;
 import com.namelessmc.plugin.common.NamelessPlugin;

@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.sponge;
+package com.namelessmc.plugin.sponge7;
 
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
@@ -10,9 +10,9 @@ import java.util.concurrent.TimeUnit;
 
 public class SpongeScheduler extends AbstractScheduler {
 
-	private final @NonNull SpongeNamelessPlugin plugin;
+	private final SpongeNamelessPlugin plugin;
 
-	SpongeScheduler(final @NonNull SpongeNamelessPlugin plugin) {
+	SpongeScheduler(final SpongeNamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 

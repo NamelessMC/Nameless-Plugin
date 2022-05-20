@@ -1,12 +1,12 @@
-package com.namelessmc.plugin.sponge;
+package com.namelessmc.plugin.sponge8;
 
 import com.namelessmc.plugin.common.AbstractDataSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 public class SpongeDataSender extends AbstractDataSender {
 
-	protected SpongeDataSender(@NonNull NamelessPlugin plugin) {
+	protected SpongeDataSender(@NotNull NamelessPlugin plugin) {
 		super(plugin);
 	}
 

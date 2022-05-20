@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.sponge;
+package com.namelessmc.plugin.sponge9;
 
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
