@@ -42,7 +42,6 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 				config -> new JulLogger(config, this.getLogger()),
 				Path.of("logs", "latest.log")
 		);
-		this.plugin.registerReloadable(new BukkitCommandProxy(this.plugin));
 		this.plugin.registerReloadable(new BukkitDataSender(this.plugin, this));
 		this.plugin.registerReloadable(new UserSyncTask(this.plugin, this));
 		this.placeholderCacher = this.plugin.registerReloadable(
@@ -59,6 +58,8 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		initPapi();
 		initMaintenance();
 		initMetrics();
+
+		BukkitCommandProxy.registerCommands(this.plugin, this);
 
 		this.getServer().getPluginManager().registerEvents(new BukkitEventProxy(this.plugin), this);
 

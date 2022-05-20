@@ -41,7 +41,6 @@ public class VelocityNamelessPlugin {
 				Path.of("logs", "latest.log")
 		);
 		this.plugin.setAudienceProvider(new VelocityAudienceProvider(server));
-		this.plugin.registerReloadable(new VelocityCommandProxy(this.plugin, server));
 		this.plugin.registerReloadable(new VelocityDataSender(this.plugin));
 	}
 
@@ -53,6 +52,8 @@ public class VelocityNamelessPlugin {
 
 		final Metrics metrics = metricsFactory.make(this, 14863);
 		this.plugin.registerCustomCharts(metrics, Metrics.class);
+
+		VelocityCommandProxy.registerCommands(this.plugin, server);
 	}
 
 	@Subscribe

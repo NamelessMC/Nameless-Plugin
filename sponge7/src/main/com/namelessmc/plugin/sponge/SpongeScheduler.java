@@ -10,9 +10,9 @@ import java.util.concurrent.TimeUnit;
 
 public class SpongeScheduler extends AbstractScheduler {
 
-	private final @NonNull NamelessPluginSponge plugin;
+	private final @NonNull SpongeNamelessPlugin plugin;
 
-	SpongeScheduler(final @NonNull NamelessPluginSponge plugin) {
+	SpongeScheduler(final @NonNull SpongeNamelessPlugin plugin) {
 		this.plugin = plugin;
 	}
 

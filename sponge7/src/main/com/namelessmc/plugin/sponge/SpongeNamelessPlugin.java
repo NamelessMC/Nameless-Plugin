@@ -21,13 +21,13 @@ import java.nio.file.Path;
 		name = "NamelessMC",
 		version = MavenConstants.PROJECT_VERSION,
 		description = "Integration with NamelessMC websites")
-public class NamelessPluginSponge {
+public class SpongeNamelessPlugin {
 
 	private final @NonNull NamelessPlugin plugin;
 	private final Metrics.@NonNull Factory metricsFactory;
 
 	@Inject
-	public NamelessPluginSponge(final @NonNull SpongeAudiences audiences,
+	public SpongeNamelessPlugin(final @NonNull SpongeAudiences audiences,
 								final @ConfigDir(sharedRoot = false) @NonNull Path dataDirectory,
 								final @NonNull Logger logger,
 								final Metrics.@NonNull Factory metricsFactory,
@@ -40,7 +40,6 @@ public class NamelessPluginSponge {
 				Path.of("logs", "latest.log")
 		);
 		this.plugin.setAudienceProvider(new SpongeAudienceProvider(audiences, game.getServer()));
-		this.plugin.registerReloadable(new SpongeCommandProxy(this.plugin));
 		this.plugin.registerReloadable(new SpongeDataSender(this.plugin));
 		Sponge.getEventManager().registerListeners(this, new SpongeEventProxy(this.plugin));
 	}
@@ -51,6 +50,8 @@ public class NamelessPluginSponge {
 
 		Metrics metrics = this.metricsFactory.make(14865);
 		this.plugin.registerCustomCharts(metrics, Metrics.class);
+
+		SpongeCommandProxy.registerCommands(this.plugin, this);
 	}
 
 	@Listener

@@ -1,10 +1,7 @@
-# This is a config file for commands.
-# Comment/remove a command to disable it
+# The server needs to be fully restarted for changes to take effect, commands cannot easily be dynamically registered
+# on most platforms and would break for Minecraft 1.13+ anyway.
 
-# Spigot (Paper)
-#   -> The '/nlpl reload' command will only partly reload commands, a full restart is recommended.
-# BungeeCord (Waterfall), Velocity, Sponge
-#   -> Run '/nlpl reload' to reload
+# Commands can be disabled by commenting a line.
 
 get-notifications: 'notifications'
 register: 'register'

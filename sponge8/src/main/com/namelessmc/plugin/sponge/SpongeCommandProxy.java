@@ -1,15 +1,12 @@
 package com.namelessmc.plugin.sponge;
 
 import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.jetbrains.annotations.NotNull;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.SystemSubject;
 import org.spongepowered.api.command.Command;
 import org.spongepowered.api.command.CommandCause;
@@ -17,50 +14,29 @@ import org.spongepowered.api.command.CommandCompletion;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.exception.ArgumentParseException;
 import org.spongepowered.api.command.exception.CommandException;
-import org.spongepowered.api.command.manager.CommandManager;
-import org.spongepowered.api.command.manager.CommandMapping;
 import org.spongepowered.api.command.parameter.ArgumentReader;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
+import org.spongepowered.plugin.PluginContainer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class SpongeCommandProxy implements Reloadable {
+public class SpongeCommandProxy {
 
-	private final @NotNull ArrayList<CommandMapping> registeredCommands = new ArrayList<>();
-	private final @NotNull NamelessPlugin plugin;
-
-	SpongeCommandProxy(final @NotNull NamelessPlugin plugin) {
-		this.plugin = plugin;
-	}
-
-	@Override
-	public void reload() {
-		final CommandManager manager = Sponge.server().commandManager();
-
-		for (CommandMapping mapping : this.registeredCommands) {
-			manager.knownMappings().remove(mapping);
-		}
-		this.registeredCommands.clear();
-
-		CommonCommand.commands(this.plugin).forEach(command -> {
+	static void registerCommands(final RegisterCommandEvent<Command> event,
+								 final NamelessPlugin plugin,
+								 final PluginContainer pluginContainer) {
+		CommonCommand.commands(plugin).forEach(command -> {
 			if (command == null) {
 				return; // Command is disabled
 			}
 
 			final Command spongeCommand = new SpongeCommand(command);
 
-//			manager.register(this, spongeCommand, command.actualName()).ifPresentOrElse(
-//					this.registeredCommands::add,
-//					() -> {
-//						this.plugin.logger().warning("Unable to register command: " + command.actualName());
-//					}
-//			);
+			event.register(pluginContainer, spongeCommand, command.actualName());
 		});
-
-		this.registeredCommands.trimToSize();
 	}
 
 	private static class SpongeCommand implements Command.Raw {

@@ -1,97 +1,111 @@
 package com.namelessmc.plugin.bukkit;
 
-import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.Reloadable;
+import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.bukkit.plugin.Plugin;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_NO_PERMISSION;
 
-public class BukkitCommandProxy implements Reloadable {
+public class BukkitCommandProxy {
 
-	private final @NonNull NamelessPlugin plugin;
-
-	private final @NonNull ArrayList<@NonNull Command> registeredCommands = new ArrayList<>();
-
-	BukkitCommandProxy(final @NonNull NamelessPlugin plugin) {
-		this.plugin = plugin;
-	}
-
-	@Override
-	public void reload() {
-		for (final Command registeredCommand : this.registeredCommands) {
-			ReflectionUtil.unregisterCommand(registeredCommand);
-		}
-		registeredCommands.clear();
-
-		CommonCommand.commands(this.plugin).forEach(command -> {
+	static void registerCommands(final NamelessPlugin plugin,
+								 final BukkitNamelessPlugin bukkitPlugin) {
+		CommonCommand.commands(plugin).forEach(command -> {
 			final String name = command.actualName();
 			if (name == null) {
-				// Command is disabled
-				return;
+				return; // Command is disabled
 			}
 
-			final String permission = command.permission().toString();
 			final PlainTextComponentSerializer ser = PlainTextComponentSerializer.plainText();
-			final String usage = ser.serialize(command.usage());
 			final String description = ser.serialize(command.description());
-			final Component noPermissionMessage = this.plugin.language().get(COMMAND_NO_PERMISSION);
-			Command spigotCommand = new Command(name, usage, description, Collections.emptyList()) {
+			final String usage = ser.serialize(command.usage());
+			final Component noPermissionMessage = plugin.language().get(COMMAND_NO_PERMISSION);
 
-				@Override
-				public boolean execute(final CommandSender spigotSender, final String commandLabel, final String[] args) {
-					final NamelessCommandSender sender;
-					if (spigotSender instanceof Player) {
-						sender = plugin.audiences().player(((Player) spigotSender).getUniqueId());
-					} else {
-						sender = plugin.audiences().console();
-					}
-
-					if (sender == null) {
-						spigotSender.sendMessage("ERROR: Audience is null");
-						return true;
-					}
-
-					if (!spigotSender.hasPermission(permission)) {
-						sender.sendMessage(noPermissionMessage);
-						return true;
-					}
-					command.execute(sender, args);
-					return true;
-				}
-
-				@Override
-				public List<String> tabComplete(final CommandSender spigotSender, final String alias, final String[] args) throws IllegalArgumentException {
-					final NamelessCommandSender sender;
-					if (spigotSender instanceof Player) {
-						sender = plugin.audiences().player(((Player) spigotSender).getUniqueId());
-					} else {
-						sender = plugin.audiences().console();
-					}
-					if (sender == null) {
-						return Collections.singletonList("ERROR: Audience is null");
-					}
-					return command.complete(sender, args);
-				}
-
-			};
+			final Command spigotCommand = new SpigotCommand(bukkitPlugin, plugin.audiences(), command, name, description, usage, noPermissionMessage);
 
 			ReflectionUtil.registerCommand("nameless", spigotCommand);
-			this.registeredCommands.add(spigotCommand);
 		});
+	}
 
-		this.registeredCommands.trimToSize();
+	private static class SpigotCommand extends Command implements PluginIdentifiableCommand {
+
+		private final BukkitNamelessPlugin bukkitPlugin;
+		private final AbstractAudienceProvider audiences;
+		private final CommonCommand command;
+		private final String permission;
+		private final Component noPermissionMessage;
+
+		protected SpigotCommand(final BukkitNamelessPlugin bukkitPlugin,
+								final AbstractAudienceProvider audiences,
+								final CommonCommand command,
+								final String name,
+								final String plainDescription,
+								final String plainUsage,
+								final Component noPermissionMessage) {
+			super(name, plainDescription, plainUsage, Collections.emptyList());
+
+			this.bukkitPlugin = bukkitPlugin;
+			this.audiences = audiences;
+			this.command = command;
+			this.permission = command.permission().toString();
+			this.noPermissionMessage = noPermissionMessage;
+		}
+
+		private @Nullable NamelessCommandSender bukkitToNamelessSender(final CommandSender bukkitCommandSender) {
+			if (bukkitCommandSender instanceof Player) {
+				return this.audiences.player(((Player) bukkitCommandSender).getUniqueId());
+			} else if (bukkitCommandSender instanceof ConsoleCommandSender) {
+				return this.audiences.console();
+			} else {
+				return null;
+			}
+		}
+
+		@Override
+		public boolean execute(final CommandSender bukkitCommandSender, final String commandLabel, final String[] args) {
+			final NamelessCommandSender sender = bukkitToNamelessSender(bukkitCommandSender);
+			if (sender == null) {
+				bukkitCommandSender.sendMessage("ERROR: Audience is null");
+				return true;
+			}
+
+			if (!bukkitCommandSender.hasPermission(this.permission)) {
+				sender.sendMessage(noPermissionMessage);
+				return true;
+			}
+
+			command.execute(sender, args);
+			return true;
+		}
+
+		@Override
+		public List<String> tabComplete(final CommandSender bukkitCommandSender, final String alias, final String[] args) throws IllegalArgumentException {
+			final NamelessCommandSender sender = bukkitToNamelessSender(bukkitCommandSender);
+			if (sender == null) {
+				return Collections.singletonList("ERROR: Audience is null");
+			}
+			return command.complete(sender, args);
+		}
+
+		@Override
+		public Plugin getPlugin() {
+			return this.bukkitPlugin;
+		}
+
 	}
 
 }

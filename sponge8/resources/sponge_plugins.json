@@ -28,7 +28,7 @@
     {
       "id": "namelessmc",
       "name": "NamelessMC",
-      "entrypoint": "com.namelessmc.plugin.sponge8.NamelessPluginSponge",
+      "entrypoint": "com.namelessmc.plugin.sponge8.SpongeNamelessPlugin",
       "description": "Integration with NamelessMC websites"
     }
   ]

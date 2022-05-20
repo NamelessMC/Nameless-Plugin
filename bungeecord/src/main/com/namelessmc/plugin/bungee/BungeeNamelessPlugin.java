@@ -21,7 +21,6 @@ public class BungeeNamelessPlugin extends Plugin {
 				config -> new JulLogger(config, this.getLogger()),
 				Path.of("logs", "latest.log")
 		);
-		this.plugin.registerReloadable(new BungeeCommandProxy(this, this.plugin));
 		this.plugin.registerReloadable(new BungeeDataSender(this.plugin));
 	}
 
@@ -32,6 +31,8 @@ public class BungeeNamelessPlugin extends Plugin {
 
 		Metrics metrics = new Metrics(this, 14864);
 		this.plugin.registerCustomCharts(metrics, Metrics.class);
+
+		BungeeCommandProxy.registerCommands(this.plugin, this);
 
 		ProxyServer.getInstance().getPluginManager().registerListener(this, new BungeeEventProxy(this.plugin));
 	}

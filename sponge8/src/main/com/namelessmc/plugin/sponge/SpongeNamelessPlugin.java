@@ -4,13 +4,13 @@ import com.google.inject.Inject;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import org.apache.logging.log4j.Logger;
 import org.bstats.sponge.Metrics;
-import org.jetbrains.annotations.NotNull;
-import org.spongepowered.api.Game;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.Command;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.lifecycle.RefreshGameEvent;
+import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
 import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
 import org.spongepowered.plugin.PluginContainer;
 import org.spongepowered.plugin.builtin.jvm.Plugin;
@@ -18,27 +18,33 @@ import org.spongepowered.plugin.builtin.jvm.Plugin;
 import java.nio.file.Path;
 
 @Plugin("namelessmc")
-public class NamelessPluginSponge {
+public class SpongeNamelessPlugin {
 
-	private final @NotNull NamelessPlugin plugin;
-	private final @NotNull Metrics.Factory metricsFactory;
+	private final NamelessPlugin plugin;
+	private final PluginContainer container;
+	private final Metrics.Factory metricsFactory;
 
 	@Inject
-	public NamelessPluginSponge(final @NotNull @ConfigDir(sharedRoot = false) Path dataDirectory,
-								final @NotNull Logger logger,
-								final @NotNull Metrics.Factory metricsFactory,
-								final @NotNull PluginContainer plugin) {
+	public SpongeNamelessPlugin(final @ConfigDir(sharedRoot = false) Path dataDirectory,
+								final Logger logger,
+								final Metrics.Factory metricsFactory,
+								final PluginContainer container) {
 		this.metricsFactory = metricsFactory;
+		this.container = container;
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
-				new SpongeScheduler(plugin),
+				new SpongeScheduler(container),
 				config -> new Log4jLogger(config, logger),
 				Path.of("logs", "latest.log")
 		);
 		this.plugin.setAudienceProvider(new SpongeAudienceProvider());
-		this.plugin.registerReloadable(new SpongeCommandProxy(this.plugin));
 		this.plugin.registerReloadable(new SpongeDataSender(this.plugin));
-		Sponge.eventManager().registerListeners(plugin, new SpongeEventProxy(this.plugin));
+		Sponge.eventManager().registerListeners(container, new SpongeEventProxy(this.plugin));
+	}
+
+	@Listener
+	public void registerCommands(final RegisterCommandEvent<Command> event) {
+		SpongeCommandProxy.registerCommands(event, this.plugin, this.container);
 	}
 
 	@Listener
