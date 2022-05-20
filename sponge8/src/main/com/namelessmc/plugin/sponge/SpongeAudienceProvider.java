@@ -4,10 +4,10 @@ import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import net.kyori.adventure.audience.Audience;
-import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 
 import java.util.Collection;
@@ -19,9 +19,17 @@ public class SpongeAudienceProvider extends AbstractAudienceProvider {
 
 	SpongeAudienceProvider() {}
 
+	static void dispatchCommand(String command) {
+		try {
+			Sponge.server().commandManager().process(command);
+		} catch (CommandException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	@Override
 	public @NotNull NamelessConsole console() {
-		throw new NotImplementedException("How to get console sender?");
+		return new NamelessConsole(Sponge.systemSubject(), SpongeAudienceProvider::dispatchCommand);
 	}
 
 	@Override
