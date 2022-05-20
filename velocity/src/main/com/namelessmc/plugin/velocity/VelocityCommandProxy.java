@@ -1,12 +1,15 @@
 package com.namelessmc.plugin.velocity;
 
-import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.common.Reloadable;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import com.velocitypowered.api.command.Command;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
+import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
@@ -43,11 +46,16 @@ public class VelocityCommandProxy implements Reloadable {
 					final CommandSource source = invocation.source();
 					final NamelessCommandSender namelessSender;
 					if (source instanceof Player) {
-						final Player player = (Player) source;
-						namelessSender = new NamelessPlayer(source, player.getUniqueId(), player.getUsername());
+						namelessSender = plugin.audiences().player(((Player) source).getUniqueId());
 					} else {
-						namelessSender = new NamelessConsole(source);
+						namelessSender = plugin.audiences().console();
 					}
+
+					if (namelessSender == null) {
+						source.sendMessage(Component.text("Couldn't obtain audience for your command source"));
+						return;
+					}
+
 					command.execute(namelessSender, invocation.arguments());
 				}
 

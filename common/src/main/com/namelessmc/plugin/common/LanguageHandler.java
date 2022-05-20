@@ -5,17 +5,17 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import xyz.derkades.derkutils.FileUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
@@ -25,68 +25,68 @@ public class LanguageHandler implements Reloadable {
 
 	public enum Term {
 
-		ERROR_WEBSITE_USERNAME_NOT_EXIST("error.website-username-not-exist"),
-		ERROR_WEBSITE_CONNECTION("error.website-connection"),
-		ERROR_USERNAME_NOT_ONLINE("error.username-not-online"),
+		ERROR_WEBSITE_USERNAME_NOT_EXIST("error", "website-username-not-exist"),
+		ERROR_WEBSITE_CONNECTION("error", "website-connection"),
+		ERROR_USERNAME_NOT_ONLINE("error", "username-not-online"),
 
-		PLAYER_SELF_NOT_REGISTERED("player.self.not-registered"),
-		PLAYER_SELF_COMMAND_BANNED("player.self.command-banned"),
+		PLAYER_SELF_NOT_REGISTERED("player", "self.not-registered"),
+		PLAYER_SELF_COMMAND_BANNED("player", "self.command-banned"),
 
-		BOOLEAN_YES_POSITIVE("boolean.yes-positive"),
-		BOOLEAN_YES_NEGATIVE("boolean.yes-negative"),
-		BOOLEAN_NO_POSITIVE("boolean.no-positive"),
-		BOOLEAN_NO_NEGATIVE("boolean.no-negative"),
+		BOOLEAN_YES_POSITIVE("boolean", "yes-positive"),
+		BOOLEAN_YES_NEGATIVE("boolean", "yes-negative"),
+		BOOLEAN_NO_POSITIVE("boolean", "no-positive"),
+		BOOLEAN_NO_NEGATIVE("boolean", "no-negative"),
 
-		COMMAND_NOT_A_PLAYER("command.not-a-player"),
-		COMMAND_NO_PERMISSION("command.no-permission"),
+		COMMAND_NOT_A_PLAYER("command", "not-a-player"),
+		COMMAND_NO_PERMISSION("command", "no-permission"),
 
-		COMMAND_NOTIFICATIONS_USAGE("command.notifications.usage"),
-		COMMAND_NOTIFICATIONS_DESCRIPTION("command.notifications.description"),
-		COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS("command.notifications.output.no-notifications"),
-		COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION("command.notifications.output.notification"),
+		COMMAND_NOTIFICATIONS_USAGE("command", "notifications", "usage"),
+		COMMAND_NOTIFICATIONS_DESCRIPTION("command", "notifications", "description"),
+		COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS("command", "notifications", "output", "no-notifications"),
+		COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION("command", "notifications", "output", "notification"),
 
-		COMMAND_PLUGIN_USAGE("command.plugin.usage"),
-		COMMAND_PLUGIN_DESCRIPTION("command.plugin.description"),
-		COMMAND_PLUGIN_OUTPUT_RELOAD_SUCCESSFUL("command.plugin.output.reload-successful"),
+		COMMAND_PLUGIN_USAGE("command", "plugin", "usage"),
+		COMMAND_PLUGIN_DESCRIPTION("command", "plugin", "description"),
+		COMMAND_PLUGIN_OUTPUT_RELOAD_SUCCESSFUL("command", "plugin", "output", "reload-successful"),
 
-		COMMAND_REGISTER_USAGE("command.register.usage"),
-		COMMAND_REGISTER_DESCRIPTION("command.register.description"),
-		COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL("command.register.output.success.email"),
-		COMMAND_REGISTER_OUTPUT_SUCCESS_LINK("command.register.output.success.link"),
-		COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_USED("command.register.output.fail.username-used"),
-		COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_USED("command.register.output.fail.email-used"),
-		COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED("command.register.output.fail.minecraft-used"),
-		COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_INVALID("command.register.output.fail.email-invalid"),
-		COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_INVALID("command.register.output.fail.username-invalid"),
-		COMMAND_REGISTER_OUTPUT_FAIL_CANNOT_SEND_EMAIL("command.register.output.fail.cannot-send-email"),
+		COMMAND_REGISTER_USAGE("command", "register", "usage"),
+		COMMAND_REGISTER_DESCRIPTION("command", "register", "description"),
+		COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL("command", "register", "output", "success", "email"),
+		COMMAND_REGISTER_OUTPUT_SUCCESS_LINK("command", "register", "output", "success", "link"),
+		COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_USED("command", "register", "output", "fail", "username-used"),
+		COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_USED("command", "register", "output", "fail", "email-used"),
+		COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED("command", "register", "output", "fail", "minecraft-used"),
+		COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_INVALID("command", "register", "output", "fail", "email-invalid"),
+		COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_INVALID("command", "register", "output", "fail", "username-invalid"),
+		COMMAND_REGISTER_OUTPUT_FAIL_CANNOT_SEND_EMAIL("command", "register", "output", "fail", "cannot-send-email"),
 
-		COMMAND_REPORT_USAGE("command.report.usage"),
-		COMMAND_REPORT_DESCRIPTION("command.report.description"),
-		COMMAND_REPORT_OUTPUT_SUCCESS("command.report.output.success"),
-		COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN("command.report.output.fail.already-open"),
-		COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF("command.report.output.fail.report-self"),
+		COMMAND_REPORT_USAGE("command", "report", "usage"),
+		COMMAND_REPORT_DESCRIPTION("command", "report", "description"),
+		COMMAND_REPORT_OUTPUT_SUCCESS("command", "report", "output", "success"),
+		COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN("command", "report", "output", "fail", "already-open"),
+		COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF("command", "report", "output", "fail", "report-self"),
 
-		COMMAND_VALIDATE_USAGE("command.validate.usage"),
-		COMMAND_VALIDATE_DESCRIPTION("command.validate.description"),
-		COMMAND_VALIDATE_OUTPUT_SUCCESS("command.validate.output.success"),
-		COMMAND_VALIDATE_OUTPUT_FAIL_INVALID_CODE("command.validate.output.fail.invalid-code"),
-		COMMAND_VALIDATE_OUTPUT_FAIL_ALREADY_VALIDATED("command.validate.output.fail.already-validated"),
+		COMMAND_VALIDATE_USAGE("command", "validate", "usage"),
+		COMMAND_VALIDATE_DESCRIPTION("command", "validate", "description"),
+		COMMAND_VALIDATE_OUTPUT_SUCCESS("command", "validate", "output", "success"),
+		COMMAND_VALIDATE_OUTPUT_FAIL_INVALID_CODE("command", "validate", "output", "fail", "invalid-code"),
+		COMMAND_VALIDATE_OUTPUT_FAIL_ALREADY_VALIDATED("command", "validate", "output", "fail", "already-validated"),
 
-		COMMAND_USERINFO_USAGE("command.user-info.usage"),
-		COMMAND_USERINFO_DESCRIPTION("command.user-info.description"),
-		COMMAND_USERINFO_OUTPUT_USERNAME("command.user-info.output.username"),
-		COMMAND_USERINFO_OUTPUT_DISPLAY_NAME("command.user-info.output.displayname"),
-		COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP("command.user-info.output.primary-group"),
-		COMMAND_USERINFO_OUTPUT_ALL_GROUPS("command.user-info.output.all-groups"),
-		COMMAND_USERINFO_OUTPUT_REGISTER_DATE("command.user-info.output.registered-date"),
-		COMMAND_USERINFO_OUTPUT_VALIDATED("command.user-info.output.validated"),
-		COMMAND_USERINFO_OUTPUT_BANNED("command.user-info.output.banned"),
-		COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD("command.user-info.output.custom-field"),
-		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_HEADER("command.user-info.output.integrations.header"),
-		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_IDENTIFIER("command.user-info.output.integrations.identifier"),
-		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME("command.user-info.output.integrations.username"),
-		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE("command.user-info.output.integrations.linked-date"),
-		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_VERIFIED("command.user-info.output.integrations.verified"),
+		COMMAND_USERINFO_USAGE("command", "user-info", "usage"),
+		COMMAND_USERINFO_DESCRIPTION("command", "user-info", "description"),
+		COMMAND_USERINFO_OUTPUT_USERNAME("command", "user-info", "output", "username"),
+		COMMAND_USERINFO_OUTPUT_DISPLAY_NAME("command", "user-info", "output", "displayname"),
+		COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP("command", "user-info", "output", "primary-group"),
+		COMMAND_USERINFO_OUTPUT_ALL_GROUPS("command", "user-info", "output", "all-groups"),
+		COMMAND_USERINFO_OUTPUT_REGISTER_DATE("command", "user-info", "output", "registered-date"),
+		COMMAND_USERINFO_OUTPUT_VALIDATED("command", "user-info", "output", "validated"),
+		COMMAND_USERINFO_OUTPUT_BANNED("command", "user-info", "output", "banned"),
+		COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD("command", "user-info", "output", "custom-field"),
+		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_HEADER("command", "user-info", "output", "integrations", "header"),
+		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_IDENTIFIER("command", "user-info", "output", "integrations", "identifier"),
+		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME("command", "user-info", "output", "integrations", "username"),
+		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE("command", "user-info", "output", "integrations", "linked-date"),
+		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_VERIFIED("command", "user-info", "output", "integrations", "verified"),
 
 		JOIN_NOT_REGISTERED("join-not-registered"),
 		JOIN_NOTIFICATIONS("join-notifications"),
@@ -95,9 +95,9 @@ public class LanguageHandler implements Reloadable {
 
 		;
 
-		private final String path;
+		private final Object[] path;
 
-		Term(final String path) {
+		Term(final Object... path) {
 			this.path = path;
 		}
 
@@ -109,6 +109,7 @@ public class LanguageHandler implements Reloadable {
 	private static final int VERSION = 26;
 
 	private static final Set<String> LANGUAGES = Set.of(
+			"ar_SA",
 			"cs_CZ",
 			"de_DE",
 			"el_GR",
@@ -141,12 +142,10 @@ public class LanguageHandler implements Reloadable {
 
 	private static final String DEFAULT_LANGUAGE = "en_UK";
 	private static final String VERSION_FILE_NAME = ".VERSION_DO_NOT_DELETE.dat";
-	private static final ConfigurationProvider CONFIGURATION_PROVIDER =
-			ConfigurationProvider.getProvider(YamlConfiguration.class);
 
 	private String activeLanguageCode;
-	private Configuration fallbackLanguageFile;
-	private Configuration activeLanguageFile;
+	private ConfigurationNode fallbackLanguageFile;
+	private ConfigurationNode activeLanguageFile;
 
 	private final @NonNull Path dataDirectory;
 	private final @NonNull Path languageDirectory;
@@ -170,21 +169,20 @@ public class LanguageHandler implements Reloadable {
 	public void reload() {
 		try {
 			this.updateFiles();
-			this.setActiveLanguage(this.config.main()
-					.getString("language", DEFAULT_LANGUAGE));
+			this.setActiveLanguage(this.config.main().node("language").getString(DEFAULT_LANGUAGE));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	public String raw(final Term term) {
-		String message = this.activeLanguageFile.getString(term.path, null);
+		String message = this.activeLanguageFile.node(term.path).getString();
 		if (message == null) {
-			this.logger.warning("Message '" + term.path + "' missing from language file, using EnglishUK as fallback. Please help translate: https://translate.namelessmc.com");
-			message = this.fallbackLanguageFile.getString(term.path, null);
+			this.logger.warning("Message '" + Arrays.toString(term.path) + "' missing from language file, using EnglishUK as fallback. Please help translate: https://translate.namelessmc.com");
+			message = this.fallbackLanguageFile.node(term.path).getString();
 		}
 		return Objects.requireNonNull(message,
-				"Message '" + term.path + "' missing from base language file. This is a bug, please report it.");
+				"Message '" + Arrays.toString(term.path) + "' missing from base language file. This is a bug, please report it.");
 	}
 
 	public Component get(final Term term) {
@@ -255,12 +253,9 @@ public class LanguageHandler implements Reloadable {
 		this.logger.info("Done");
 	}
 
-	private @NonNull Configuration readLanguageFile(final @NonNull String languageName) throws IOException {
-		final Path file = this.languageDirectory.resolve(languageName + ".yaml");
-
-		try (final InputStream in = Files.newInputStream(file)) {
-			return CONFIGURATION_PROVIDER.load(in);
-		}
+	private @NonNull CommentedConfigurationNode readLanguageFile(final @NonNull String languageName) throws IOException {
+		final Path path = this.languageDirectory.resolve(languageName + ".yaml");
+		return YamlConfigurationLoader.builder().path(path).build().load();
 	}
 
 	private void setActiveLanguage(final @NonNull String languageCode) throws IOException {

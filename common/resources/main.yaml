@@ -14,7 +14,7 @@ api:
   # Syntax: https://en.wikipedia.org/wiki/ISO_8601#Durations
   timeout: 'PT5S'
 
-# Supported platforms: all, limited: https://docs.namelessmc.com/en/integrations/plugin-data-sender
+# Supported platforms: all, data depends on platform: https://docs.namelessmc.com/en/integrations/plugin-data-sender
 # The server data sender sends data about this server to the website, periodically. It is essential for many
 # features to work like group sync, username sync and placeholders.
 # Note that currently the website doesn't use the plugin for server status and player list yet, even though
@@ -34,7 +34,7 @@ server-data-sender:
     # player-specific placeholders to send to the website (list of placeholder names without %%)
     player: []
 
-# Supported platforms: Spigot
+# Supported platforms: Bukkit
 # Retrieving user info from NamelessMC and make it available as PlaceholderAPI placeholders.
 # NOT the same as sending placeholders to the website, which can be configured above!
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders#nameless-plugin
@@ -43,7 +43,7 @@ retrieve-placeholders:
   # Duration between retrieving placeholders https://en.wikipedia.org/wiki/ISO_8601#Durations
   interval: 'PT30S'
 
-# Supported platforms: Spigot
+# Supported platforms: all
 # Show single line error messages instead of full stacktraces.
 # Can be helpful to reduce console spam while your webserver is broken.
 single-line-exceptons: false
@@ -56,9 +56,9 @@ not-registered-join-message: false
 # Send website notifications in chat on join, if there are any
 join-notifications: false
 
-# Supported platforms: Spigot
+# Supported platforms: Bukkit
 # When a player is banned, also ban their website account if they have one.
-auto-ban-on-website: false
+sync-ban-to-website: false
 
 # Supported platforms: all
 # For a list of valid languages, check file names in the 'languages' directory.
@@ -67,7 +67,7 @@ auto-ban-on-website: false
 language: en_UK
 datetime-format: 'yyyy-MM-dd HH:mm:ss'
 
-# Supported platforms: Spigot
+# Supported platforms: Bukkit
 user-sync:
   enabled: false
   # Number of seconds in between syncs
@@ -93,7 +93,7 @@ user-sync:
   bans:
     enabled: false
 
-# Supported platforms: Spigot
+# Supported platforms: all
 # Periodically send website announcements in chat
 announcements:
   enabled: false
@@ -102,17 +102,3 @@ announcements:
   # If specified, it will only show announcements with the respective display.
   # see https://github.com/NamelessMC/Nameless/wiki/v2-API#getannouncements-get
   # display: Forums
-
-# Supported platforms: Spigot
-# Run commands sent by the Websend module (third party)
-# For this to work you must also configure the server id in the 'server-data-sender' section. However, websend
-# is unrelated to the server data sender and the server data sender doesn't have to be enabled.
-websend:
-  # Poll the Websend module for commands to execute
-  command-executor:
-    enabled: false
-    interval: 2
-  # EXPERIMENTAL: Send console output to the Websend module
-  console-capture:
-    enabled: false
-    send-interval: 2

@@ -1,8 +1,8 @@
 package com.namelessmc.plugin.velocity;
 
-import com.namelessmc.plugin.common.NamelessPlayer;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.event.ServerJoinEvent;
+import com.namelessmc.plugin.common.event.NamelessJoinEvent;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -23,7 +23,7 @@ public class VelocityEventProxy {
 					", Audience is null");
 			return;
 		}
-		final ServerJoinEvent event2 = new ServerJoinEvent(player);
+		final NamelessJoinEvent event2 = new NamelessJoinEvent(player);
 		this.plugin.events().post(event2);
 	}
 

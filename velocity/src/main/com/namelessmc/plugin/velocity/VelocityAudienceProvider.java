@@ -1,8 +1,8 @@
 package com.namelessmc.plugin.velocity;
 
-import com.namelessmc.plugin.common.AbstractAudienceProvider;
-import com.namelessmc.plugin.common.NamelessConsole;
-import com.namelessmc.plugin.common.NamelessPlayer;
+import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
+import com.namelessmc.plugin.common.audiences.NamelessConsole;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.kyori.adventure.audience.Audience;
@@ -20,9 +20,13 @@ public class VelocityAudienceProvider extends AbstractAudienceProvider {
 		this.server = server;
 	}
 
+	private void dispatchCommand(final String command) {
+		this.server.getCommandManager().executeAsync(NamelessCommandSource.instance(), command);
+	}
+
 	@Override
 	public @NonNull NamelessConsole console() {
-		return new NamelessConsole(server.getConsoleCommandSource());
+		return new NamelessConsole(server.getConsoleCommandSource(), this::dispatchCommand);
 	}
 
 	@Override

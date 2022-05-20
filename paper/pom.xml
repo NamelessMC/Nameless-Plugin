@@ -7,9 +7,10 @@
     <name>Nameless-Plugin-Paper</name>
 
     <parent>
+        <relativePath>../pom.xml</relativePath>
         <groupId>com.namelessmc</groupId>
         <artifactId>plugin</artifactId>
-        <version>3.0.0-beta</version>
+        <version>${revision}</version>
     </parent>
 
     <build>
@@ -37,16 +38,20 @@
                 <configuration>
                     <relocations combine.children="append">
                         <relocation>
-                            <pattern>net.md_5.bungee.config</pattern>
-                            <shadedPattern>com.namelessmc.plugin.lib.bungee-config</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>org.checkerframework</pattern>
                             <shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.jetbrains.annotations</pattern>
                             <shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.spongepowered.configurate</pattern>
+                            <shadedPattern>com.namelessmc.plugin.lib.configurate</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>io.leangen.geantyref</pattern>
+                            <shadedPattern>com.namelessmc.plugin.lib.geantyref</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -68,6 +73,7 @@
             <groupId>com.namelessmc</groupId>
             <artifactId>plugin-bukkit-base</artifactId>
             <exclusions>
+                <!-- Paper API dependency replaces Bukkit -->
                 <exclusion>
                     <groupId>org.bukkit</groupId>
                     <artifactId>bukkit</artifactId>
@@ -88,6 +94,11 @@
                 <exclusion>
                     <groupId>net.kyori</groupId>
                     <artifactId>adventure-text-serializer-plain</artifactId>
+                </exclusion>
+                <!-- Paper ships with SnakeYAML -->
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

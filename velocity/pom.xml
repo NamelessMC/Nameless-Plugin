@@ -7,9 +7,10 @@
     <name>Nameless-Plugin-Velocity</name>
 
     <parent>
-        <groupId>com.namelessmc</groupId>
-        <artifactId>plugin</artifactId>
-        <version>3.0.0-beta</version>
+		<relativePath>../pom.xml</relativePath>
+		<groupId>com.namelessmc</groupId>
+		<artifactId>plugin</artifactId>
+		<version>${revision}</version>
     </parent>
 
     <build>
@@ -21,16 +22,21 @@
 				<configuration>
 					<relocations combine.children="append">
 						<relocation>
-							<pattern>net.md_5.bungee.config</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.bungee-config</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>org.checkerframework</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.jetbrains.annotations</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
+						</relocation>
+						<!-- Velocity does include configurate, but it's v3, and we are using v4 -->
+						<relocation>
+							<pattern>org.spongepowered.configurate</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.configurate</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>io.leangen.geantyref</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.geantyref</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
@@ -42,6 +48,22 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths combine.children="append">
+						<path>
+							<groupId>com.velocitypowered</groupId>
+							<artifactId>velocity-api</artifactId>
+							<version>${velocityVersion}</version>
+						</path>
+					</annotationProcessorPaths>
+					<annotationProcessors combine.children="append">
+						<annotationProcessor>com.velocitypowered.api.plugin.ap.PluginAnnotationProcessor</annotationProcessor>
+					</annotationProcessors>
+				</configuration>
 			</plugin>
 		</plugins>
     </build>
@@ -62,6 +84,11 @@
 				<exclusion>
 					<groupId>net.kyori</groupId>
 					<artifactId>adventure-text-minimessage</artifactId>
+				</exclusion>
+				<!-- Configurate is outdated, but we can still use the SnakeYAML lib it pulls in -->
+				<exclusion>
+					<groupId>org.yaml</groupId>
+					<artifactId>snakeyaml</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

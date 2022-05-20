@@ -5,10 +5,12 @@ import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.InvalidValidateCodeException;
 import com.namelessmc.java_api.integrations.IntegrationData;
 import com.namelessmc.java_api.integrations.MinecraftIntegrationData;
-import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.common.Permission;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
+import com.namelessmc.plugin.common.audiences.NamelessConsole;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import org.checkerframework.checker.nullness.qual.NonNull;
-
-import java.util.Optional;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
 
@@ -35,12 +37,11 @@ public class VerifyCommand extends CommonCommand {
 		}
 
 		this.scheduler().runAsync(() -> {
-			final Optional<NamelessAPI> optApi = this.api();
-			if (optApi.isEmpty()) {
+			final NamelessAPI api = this.apiProvider().api();
+			if (api == null) {
 				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				return;
 			}
-			final NamelessAPI api = optApi.get();
 
 			try {
 				final String code = args[0];

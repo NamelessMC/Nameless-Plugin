@@ -3,15 +3,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.namelessmc</groupId>
 	<artifactId>plugin-sponge7</artifactId>
     <name>Nameless-Plugin-SpongeAPI7</name>
 
-    <parent>
-        <groupId>com.namelessmc</groupId>
-        <artifactId>plugin</artifactId>
-        <version>3.0.0-beta</version>
-    </parent>
+	<parent>
+		<relativePath>../pom.xml</relativePath>
+		<groupId>com.namelessmc</groupId>
+		<artifactId>plugin</artifactId>
+		<version>${revision}</version>
+	</parent>
 
     <build>
         <sourceDirectory>src/main</sourceDirectory>
@@ -43,10 +43,6 @@
 							<shadedPattern>com.namelessmc.plugin.lib.examination</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>net.md_5.bungee.config</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.bungee-config</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>org.checkerframework</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
 						</relocation>
@@ -57,6 +53,15 @@
 						<relocation>
 							<pattern>org.jetbrains.annotations</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
+						</relocation>
+						<!-- Sponge does include configurate, but it's v3, and we are using v4 -->
+						<relocation>
+							<pattern>org.spongepowered.configurate</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.configurate</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>io.leangen.geantyref</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.geantyref</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
@@ -77,6 +82,13 @@
 			<groupId>com.namelessmc</groupId>
 			<artifactId>plugin-common</artifactId>
 			<version>3.0.0-beta</version>
+			<exclusions>
+				<!-- Configurate is outdated, but we can still use the SnakeYAML lib it pulls in -->
+				<exclusion>
+					<groupId>org.yaml</groupId>
+					<artifactId>snakeyaml</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.spongepowered</groupId>

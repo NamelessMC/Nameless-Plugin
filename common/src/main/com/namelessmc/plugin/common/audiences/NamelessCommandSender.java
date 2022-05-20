@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.common;
+package com.namelessmc.plugin.common.audiences;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.MessageType;

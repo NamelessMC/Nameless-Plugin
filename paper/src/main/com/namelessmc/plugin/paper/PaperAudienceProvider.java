@@ -1,8 +1,8 @@
 package com.namelessmc.plugin.paper;
 
-import com.namelessmc.plugin.common.AbstractAudienceProvider;
-import com.namelessmc.plugin.common.NamelessConsole;
-import com.namelessmc.plugin.common.NamelessPlayer;
+import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
+import com.namelessmc.plugin.common.audiences.NamelessConsole;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,9 +16,13 @@ import java.util.UUID;
 
 public class PaperAudienceProvider extends AbstractAudienceProvider {
 
+	private void dispatchCommand(final @NonNull String command) {
+		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+	}
+
 	@Override
 	public @NonNull NamelessConsole console() {
-		return new NamelessConsole(Bukkit.getConsoleSender());
+		return new NamelessConsole(Bukkit.getConsoleSender(), this::dispatchCommand);
 	}
 
 	@Override

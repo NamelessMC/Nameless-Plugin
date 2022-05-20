@@ -1,13 +1,16 @@
 package com.namelessmc.plugin.bukkit;
 
-import com.namelessmc.plugin.common.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.event.ServerJoinEvent;
-import com.namelessmc.plugin.common.event.ServerQuitEvent;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
+import com.namelessmc.plugin.common.event.NamelessJoinEvent;
+import com.namelessmc.plugin.common.event.NamelessPlayerBanEvent;
+import com.namelessmc.plugin.common.event.NamelessPlayerQuitEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -22,7 +25,7 @@ public class BukkitEventProxy implements Listener {
 	}
 
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onJoin(final @NonNull PlayerJoinEvent event) {
 		final Player bukkitPlayer = event.getPlayer();
 		final NamelessPlayer player = this.plugin.audiences().player(bukkitPlayer.getUniqueId());
@@ -30,15 +33,20 @@ public class BukkitEventProxy implements Listener {
 			this.plugin.logger().severe("Skipped join event for " + bukkitPlayer.getName() + ", audience is null");
 			return;
 		}
-		final ServerJoinEvent event2 = new ServerJoinEvent(player);
-		this.plugin.events().post(event2);
+		this.plugin.events().post(new NamelessJoinEvent(player));
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onQuit(final @NonNull PlayerQuitEvent event) {
 		final UUID uuid = event.getPlayer().getUniqueId();
-		final ServerQuitEvent event2 = new ServerQuitEvent(uuid);
-		this.plugin.events().post(event2);
+		this.plugin.events().post(new NamelessPlayerQuitEvent(uuid));
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onBan(final PlayerKickEvent event) {
+		if (event.getPlayer().isBanned()) {
+			this.plugin.events().post(new NamelessPlayerBanEvent(event.getPlayer().getUniqueId()));
+		}
 	}
 
 }

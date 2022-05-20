@@ -4,11 +4,11 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.UUID;
 
-public class ServerQuitEvent extends AbstractEvent {
+public class NamelessOfflinePlayerEvent extends NamelessEvent {
 
 	private final @NonNull UUID uuid;
 
-	public ServerQuitEvent(final @NonNull UUID uuid) {
+	public NamelessOfflinePlayerEvent(final @NonNull UUID uuid) {
 		this.uuid = uuid;
 	}
 

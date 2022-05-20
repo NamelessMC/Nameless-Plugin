@@ -5,6 +5,9 @@ import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.Notification;
 import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
+import com.namelessmc.plugin.common.audiences.NamelessConsole;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.List;
@@ -35,12 +38,11 @@ public class GetNotificationsCommand extends CommonCommand {
 		}
 
 		scheduler().runAsync(() -> {
-			final Optional<NamelessAPI> optApi = this.api();
-			if (optApi.isEmpty()) {
+			final NamelessAPI api = this.apiProvider().api();
+			if (api == null) {
 				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				return;
 			}
-			final NamelessAPI api = optApi.get();
 
 			try {
 				final Optional<NamelessUser> optional = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());

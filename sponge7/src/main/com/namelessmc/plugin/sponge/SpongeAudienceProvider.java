@@ -1,10 +1,11 @@
 package com.namelessmc.plugin.sponge;
 
-import com.namelessmc.plugin.common.AbstractAudienceProvider;
-import com.namelessmc.plugin.common.NamelessConsole;
-import com.namelessmc.plugin.common.NamelessPlayer;
+import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
+import com.namelessmc.plugin.common.audiences.NamelessConsole;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
+import org.apache.commons.lang3.NotImplementedException;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.api.Server;
@@ -26,9 +27,13 @@ public class SpongeAudienceProvider extends AbstractAudienceProvider {
 		this.server = server;
 	}
 
+	private void dispatchCommand(final String command) {
+		throw new NotImplementedException("I don't know how to dispatch a command on sponge");
+	}
+
 	@Override
 	public @NonNull NamelessConsole console() {
-		return new NamelessConsole(this.audiences.console());
+		return new NamelessConsole(this.audiences.console(), this::dispatchCommand);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.plugin.common.AbstractPermissions;
-import com.namelessmc.plugin.common.NamelessPlayer;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.milkbowl.vault.permission.Permission;

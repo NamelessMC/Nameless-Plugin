@@ -1,16 +1,20 @@
 package com.namelessmc.plugin.common.command;
 
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.ApiProvider;
+import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.common.Permission;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.config.Configuration;
+import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class CommonCommand {
 
@@ -29,13 +33,11 @@ public abstract class CommonCommand {
 		this.usageTerm = usageTerm;
 		this.descriptionTerm = descriptionTerm;
 		this.permission = permission;
-		final Configuration config = plugin.config().commands();
-		this.actualName = config.contains(configName)
-				? config.getString(configName)
-				: null;
+		final CommentedConfigurationNode config = plugin.config().commands();
+		this.actualName = config.node(configName).getString();
 	}
 
-	public @Nullable String actualName() {
+	public @Nullable String actualName(@UnknownInitialization(CommonCommand.class) CommonCommand this) {
 		return this.actualName;
 	}
 
@@ -66,17 +68,17 @@ public abstract class CommonCommand {
 		return this.plugin.language();
 	}
 
-	protected @NonNull ApiProvider apiProvider(){
+	protected @NonNull ApiProvider apiProvider() {
 		return this.plugin.apiProvider();
-	}
-
-	protected @NonNull Optional<NamelessAPI> api(){
-		return this.apiProvider().api();
 	}
 
 	protected @NonNull AbstractLogger logger() { return this.plugin.logger(); }
 
 	public abstract void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args);
+
+	public List<String> complete(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args) {
+		return Collections.emptyList();
+	}
 
 	public static List<CommonCommand> commands(final @NonNull NamelessPlugin plugin) {
 		ArrayList<CommonCommand> list = new ArrayList<>();

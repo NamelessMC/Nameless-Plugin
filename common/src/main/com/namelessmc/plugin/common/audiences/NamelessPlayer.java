@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.common;
+package com.namelessmc.plugin.common.audiences;
 
 import com.namelessmc.java_api.NamelessAPI;
 import net.kyori.adventure.audience.Audience;

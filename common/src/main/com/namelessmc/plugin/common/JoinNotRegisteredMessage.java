@@ -1,14 +1,15 @@
 package com.namelessmc.plugin.common;
 
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.plugin.common.event.ServerJoinEvent;
+import com.namelessmc.plugin.common.event.NamelessJoinEvent;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.event.EventSubscription;
-import net.md_5.bungee.config.Configuration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -32,37 +33,38 @@ public class JoinNotRegisteredMessage implements Reloadable {
 			subscription = null;
 		}
 
-		final Configuration conf = this.plugin.config().main();
+		final ConfigurationNode conf = this.plugin.config().main();
 
-		if (!conf.getBoolean("not-registered-join-message")) {
-			return;
+		if (conf.node("not-registered-join-message").getBoolean()) {
+			this.subscription = this.plugin.events().subscribe(NamelessJoinEvent.class, event ->
+					onJoin(event.player().uuid()));
 		}
-
-		this.subscription = this.plugin.events().subscribe(ServerJoinEvent.class, event ->
-				onJoin(event.player().uuid()));
 	}
 
 	private void onJoin(final @NonNull UUID uuid) {
 		this.plugin.scheduler().runAsync(() -> {
-			this.plugin.apiProvider().api().ifPresent(api -> {
-				Optional<NamelessUser> userOptional;
-				try {
-					userOptional = api.getUserByMinecraftUuid(uuid);
-				} catch (final NamelessException e) {
-					this.plugin.logger().logException(e);
-					return;
-				}
+			final NamelessAPI api = this.plugin.apiProvider().api();
+			if (api == null) {
+				return;
+			}
 
-				if (userOptional.isEmpty()) {
-					this.plugin.scheduler().runSync(() -> {
-						Audience audience = this.plugin.audiences().player(uuid);
-						if (audience != null) {
-							final Component message = this.plugin.language().get(JOIN_NOT_REGISTERED);
-							audience.sendMessage(message);
-						}
-					});
-				}
-			});
+			Optional<NamelessUser> userOptional;
+			try {
+				userOptional = api.getUserByMinecraftUuid(uuid);
+			} catch (final NamelessException e) {
+				this.plugin.logger().logException(e);
+				return;
+			}
+
+			if (userOptional.isEmpty()) {
+				this.plugin.scheduler().runSync(() -> {
+					Audience audience = this.plugin.audiences().player(uuid);
+					if (audience != null) {
+						final Component message = this.plugin.language().get(JOIN_NOT_REGISTERED);
+						audience.sendMessage(message);
+					}
+				});
+			}
 		});
 	}
 

@@ -8,7 +8,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class PapiHook extends PlaceholderExpansion {
 
-	public @NonNull PlaceholderCacher cacher;
+	public final @NonNull PlaceholderCacher cacher;
 
 	public PapiHook(final @NonNull PlaceholderCacher placeholderCacher) {
 		this.cacher = placeholderCacher;

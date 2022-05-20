@@ -2,16 +2,15 @@ package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.integrations.DetailedIntegrationData;
-import com.namelessmc.plugin.common.NamelessCommandSender;
-import com.namelessmc.plugin.common.NamelessPlayer;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
@@ -32,12 +31,12 @@ public class UserInfoCommand extends CommonCommand {
 			// No username specified, try to find NamelessMC account for this Minecraft player
 			this.scheduler().runAsync(() -> {
 				try {
-					final Optional<NamelessAPI> optApi = this.api();
-					if (optApi.isEmpty()) {
+					final NamelessAPI api = this.apiProvider().api();
+					if (api == null) {
 						sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 						return;
 					}
-					final NamelessAPI api = optApi.get();
+
 					Optional<NamelessUser> userOptional = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());
 					if (userOptional.isPresent()) {
 						this.scheduler().runSync(() -> printInfoForUser(sender, userOptional.get()));
@@ -54,15 +53,30 @@ public class UserInfoCommand extends CommonCommand {
 			// Find NamelessMC user by provided username in command argument
 			this.scheduler().runAsync(() -> {
 				try {
-					final Optional<NamelessAPI> optApi = this.api();
-					if (optApi.isEmpty()) {
+					final NamelessAPI api = this.apiProvider().api();
+					if (api == null) {
 						sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 						return;
 					}
-					final NamelessAPI api = optApi.get();
-					Optional<NamelessUser> userOptional = api.getUserByUsername(args[0]);
+
+					Optional<NamelessUser> userOptional;
+					if (args[0].contains("#")) {
+						// Likely a discord username
+						userOptional = api.getUserByDiscordUsername(args[0]);
+					} else {
+						try {
+							// Maybe a UUID?
+							userOptional = api.getUserByMinecraftUuid(UUID.fromString(args[0]));
+						} catch (final IllegalArgumentException e) {
+							// Lookup by username
+							userOptional = api.getUserByUsername(args[0]);
+						}
+					}
+
 					if (userOptional.isPresent()) {
-						this.scheduler().runSync(() -> printInfoForUser(sender, userOptional.get()));
+						final NamelessUser user = userOptional.get();
+						user.getUsername(); // Force user info to load now, asynchronously
+						this.scheduler().runSync(() -> printInfoForUser(sender, user));
 					} else {
 						sender.sendMessage(language().get(ERROR_WEBSITE_USERNAME_NOT_EXIST));
 					}
@@ -101,9 +115,13 @@ public class UserInfoCommand extends CommonCommand {
 			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_BANNED,
 					Placeholder.component("banned", language().booleanText(user.isBanned(), false))));
 
-			for (CustomProfileFieldValue customField : user.getProfileFields()) {
+			for (final CustomProfileFieldValue customField : user.getProfileFields()) {
+				String value = customField.getValue();
+				if (value == null) {
+					value = "-";
+				}
 				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD,
-						"name", customField.getField().getName(), "value", customField.getValue()));
+						"name", customField.getField().getName(), "value", value));
 			}
 
 			Map<String, DetailedIntegrationData> integrations = user.getIntegrations();
@@ -126,6 +144,14 @@ public class UserInfoCommand extends CommonCommand {
 			sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 			logger().logException(e);
 		}
+	}
+
+	@Override
+	public List<String> complete(@NonNull NamelessCommandSender sender, @NonNull String @NonNull [] args) {
+		if (args.length == 1) {
+			return this.plugin().userCache().getUsernames().stream().filter(s -> s.startsWith(args[0])).collect(Collectors.toList());
+		}
+		return Collections.emptyList();
 	}
 
 }

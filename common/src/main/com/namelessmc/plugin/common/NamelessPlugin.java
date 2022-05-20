@@ -1,14 +1,15 @@
 package com.namelessmc.plugin.common;
 
+import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
-import com.namelessmc.plugin.common.event.AbstractEvent;
+import com.namelessmc.plugin.common.event.NamelessEvent;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.kyori.event.EventBus;
-import net.md_5.bungee.config.Configuration;
 import org.bstats.MetricsBase;
 import org.bstats.charts.SimplePie;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.lang.reflect.Field;
 import java.nio.file.Path;
@@ -24,7 +25,8 @@ public class NamelessPlugin {
 	private final @NonNull ApiProvider api;
 	private final @NonNull LanguageHandler language;
 	private final @NonNull DateFormatter dateFormatter;
-	private final @NonNull EventBus<AbstractEvent> eventBus;
+	private final @NonNull UserCache userCache;
+	private final @NonNull EventBus<NamelessEvent> eventBus;
 
 	private final @NonNull List<Reloadable> reloadables = new ArrayList<>();
 
@@ -32,7 +34,8 @@ public class NamelessPlugin {
 
 	public NamelessPlugin(final @NonNull Path dataDirectory,
 						  final @NonNull AbstractScheduler scheduler,
-						  final @NonNull Function<ConfigurationHandler, AbstractLogger> loggerInstantiator) {
+						  final @NonNull Function<ConfigurationHandler, AbstractLogger> loggerInstantiator,
+						  final @Nullable Path logPath) {
 		this.scheduler = scheduler;
 
 		this.configuration = this.registerReloadable(
@@ -49,11 +52,16 @@ public class NamelessPlugin {
 		);
 		this.dateFormatter = this.registerReloadable(
 				new DateFormatter(this.configuration));
+		this.userCache = this.registerReloadable(
+				new UserCache(this));
 
-		this.eventBus = EventBus.create(AbstractEvent.class);
+		this.eventBus = EventBus.create(NamelessEvent.class);
 
+		this.registerReloadable(new AnnouncementTask(this));
 		this.registerReloadable(new JoinNotificationsMessage(this));
 		this.registerReloadable(new JoinNotRegisteredMessage(this));
+		this.registerReloadable(new SyncBanToWebsite(this));
+		this.registerReloadable(new Websend(this, logPath));
 	}
 
 	public ConfigurationHandler config() {
@@ -84,7 +92,11 @@ public class NamelessPlugin {
 		return this.audienceProvider;
 	}
 
-	public @NonNull EventBus<AbstractEvent> events() {
+	public UserCache userCache() {
+		return this.userCache;
+	}
+
+	public @NonNull EventBus<NamelessEvent> events() {
 		return this.eventBus;
 	}
 
@@ -123,52 +135,48 @@ public class NamelessPlugin {
 			return;
 		}
 
-		Configuration config = this.config().main();
+		final ConfigurationNode config = this.config().main();
 
 		metrics.addCustomChart(new SimplePie("api_working", () ->
 				this.apiProvider().isApiWorkingMetric()));
 
 		metrics.addCustomChart(new SimplePie("server_data_sender_enabled", () ->
-				config.getInt("server-id") > 0
+				config.node("server-data-sender", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("upload_placeholders_enabled", () ->
-				config.getBoolean("upload-placeholders.enabled")
+				config.node("server-data-sender", "placeholders", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("language", () ->
 				this.language().getActiveLanguageCode()));
 
 		metrics.addCustomChart(new SimplePie("auto_ban_on_website", () ->
-				config.getBoolean("auto-ban-on-website")
+				config.node("auto-ban-on-website").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("not_registered_join_message", () ->
-				config.getBoolean("not-registered-join-message")
-						? "Enabled" : "Disabled"));
-
-		metrics.addCustomChart(new SimplePie("api_usernames_enabled", () ->
-				config.getBoolean("api-usernames")
+				config.node("not-registered-join-message").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("user_sync_whitelist_enabled", () ->
-				config.getBoolean("user-sync.whitelist.enabled")
+				config.node("user-sync", "whitelist", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("user_sync_bans_enabled", () ->
-				config.getBoolean("user-sync.bans.enabled")
+				config.node("user-sync", "bans", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("announcements_enabled", () ->
-				config.getInt("announcements.interval") > 0
+				config.node("announcements", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("websend_command_executor_enabled", () ->
-				config.getBoolean("websend.command-executor.enabled")
+				config.node("websend", "command-executor", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 
 		metrics.addCustomChart(new SimplePie("websend_console_capture_enabled", () ->
-				config.getBoolean("websend.console-capture.enabled")
+				config.node("websend", "console-capture", "enabled").getBoolean()
 						? "Enabled" : "Disabled"));
 	}
 

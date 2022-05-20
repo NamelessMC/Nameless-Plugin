@@ -5,11 +5,15 @@
 
 	<groupId>com.namelessmc</groupId>
 	<artifactId>plugin</artifactId>
-	<version>3.0.0-beta</version>
+	<version>${revision}</version>
 	<name>Nameless-Plugin</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<revision>3.0.0-beta</revision>
+		<checkerFrameworkVersion>3.22.0</checkerFrameworkVersion>
+		<velocityVersion>3.1.1</velocityVersion>
+		<bStatsVersion>3.0.0</bStatsVersion>
 	</properties>
 
 	<modules>
@@ -44,7 +48,7 @@
 						<path>
 							<groupId>org.checkerframework</groupId>
 							<artifactId>checker</artifactId>
-							<version>3.21.4</version>
+							<version>${checkerFrameworkVersion}</version>
 						</path>
 					</annotationProcessorPaths>
 					<annotationProcessors>
@@ -108,20 +112,33 @@
 					</filters>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M6</version>
+			</plugin>
 		</plugins>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>com.namelessmc</groupId>
 				<artifactId>plugin-common</artifactId>
-				<version>${project.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.namelessmc</groupId>
 				<artifactId>plugin-bukkit-base</artifactId>
-				<version>${project.version}</version>
+				<version>${revision}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.namelessmc</groupId>
@@ -141,22 +158,22 @@
 			<dependency>
 				<groupId>org.bstats</groupId>
 				<artifactId>bstats-base</artifactId>
-				<version>3.0.0</version>
+				<version>${bStatsVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.bstats</groupId>
 				<artifactId>bstats-bukkit</artifactId>
-				<version>3.0.0</version>
+				<version>${bStatsVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.bstats</groupId>
 				<artifactId>bstats-bungeecord</artifactId>
-				<version>3.0.0</version>
+				<version>${bStatsVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.bstats</groupId>
 				<artifactId>bstats-velocity</artifactId>
-				<version>3.0.0</version>
+				<version>${bStatsVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.kyori</groupId>
@@ -184,9 +201,9 @@
 				<version>4.1.0</version>
 			</dependency>
 			<dependency>
-				<groupId>net.md-5</groupId>
-				<artifactId>bungeecord-config</artifactId>
-				<version>1.16-R0.4</version>
+				<groupId>org.spongepowered</groupId>
+				<artifactId>configurate-yaml</artifactId>
+				<version>4.1.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -206,12 +223,12 @@
 			<dependency>
 				<groupId>org.checkerframework</groupId>
 				<artifactId>checker-qual</artifactId>
-				<version>3.21.4</version>
+				<version>${checkerFrameworkVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.velocitypowered</groupId>
 				<artifactId>velocity-api</artifactId>
-				<version>3.1.1</version>
+				<version>${velocityVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.spigotmc</groupId>

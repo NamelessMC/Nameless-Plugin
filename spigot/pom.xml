@@ -6,11 +6,12 @@
 	<artifactId>plugin-spigot</artifactId>
     <name>Nameless-Plugin-Spigot</name>
 
-    <parent>
-        <groupId>com.namelessmc</groupId>
-        <artifactId>plugin</artifactId>
-        <version>3.0.0-beta</version>
-    </parent>
+	<parent>
+		<relativePath>../pom.xml</relativePath>
+		<groupId>com.namelessmc</groupId>
+		<artifactId>plugin</artifactId>
+		<version>${revision}</version>
+	</parent>
 
     <build>
         <sourceDirectory>src/main</sourceDirectory>
@@ -56,10 +57,6 @@
 							<shadedPattern>com.namelessmc.plugin.lib.examination</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>net.md_5.bungee.config</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.bungee-config</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>org.checkerframework</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
 						</relocation>
@@ -70,6 +67,20 @@
 						<relocation>
 							<pattern>org.jetbrains.annotations</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.spongepowered.configurate</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.configurate</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>io.leangen.geantyref</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.geantyref</shadedPattern>
+						</relocation>
+						<!-- Spigot 1.8 does include a compatible SnakeYAML but it's quite old -->
+						<!-- Use our new version, it's very likely that there are bugs in the old version -->
+						<relocation>
+							<pattern>org.yaml.snakeyaml</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.snakeyaml</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
@@ -102,6 +113,13 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<scope>provided</scope>
+			<exclusions>
+				<!-- Exclude Spigot's SnakeYAML so maven doesn't shade it instead of the newer version required by configurate -->
+				<exclusion>
+					<groupId>org.yaml</groupId>
+					<artifactId>snakeyaml</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

@@ -1,34 +1,36 @@
 package com.namelessmc.plugin.bukkit;
 
 import com.google.gson.JsonObject;
+import com.namelessmc.plugin.bukkit.hooks.PapiWrapper;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import com.namelessmc.plugin.common.AbstractDataSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
-import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Objects;
 
 public class BukkitDataSender extends AbstractDataSender {
 
 	private final @NonNull NamelessPlugin plugin;
-	private final @NonNull BukkitNamelessPlugin spigotPlugin;
+	private final @NonNull BukkitNamelessPlugin bukkitPlugin;
 
 	protected BukkitDataSender(final @NonNull NamelessPlugin plugin,
-							   final @NonNull BukkitNamelessPlugin spigotPlugin) {
+							   final @NonNull BukkitNamelessPlugin bukkitPlugin) {
 		super(plugin);
 		this.plugin = plugin;
-		this.spigotPlugin = spigotPlugin;
+		this.bukkitPlugin = bukkitPlugin;
 	}
 
 	@Override
 	protected void registerCustomProviders() {
-		final Configuration config = this.getPlugin().config().main();
+
 
 		// TPS TODO Send real TPS
 		this.registerGlobalInfoProvider(json ->
@@ -42,30 +44,44 @@ public class BukkitDataSender extends AbstractDataSender {
 		}
 
 		// Maintenance
-		MaintenanceStatusProvider maintenance = spigotPlugin.getMaintenanceStatusProvider();
+		MaintenanceStatusProvider maintenance = this.bukkitPlugin.getMaintenanceStatusProvider();
 		if (maintenance != null) {
 			this.registerGlobalInfoProvider(json ->
 					json.addProperty("maintenance", maintenance.maintenanceEnabled()));
 		}
 
-		final boolean uploadPlaceholders = config.getBoolean("server-data-sender.placeholders.enabled");
-
 		// PlaceholderAPI placeholders
-		if (uploadPlaceholders) {
-			this.registerGlobalInfoProvider(json -> {
-				final JsonObject placeholders = new JsonObject();
-				config.getStringList("server-data-sender.placeholders.global").forEach((key) ->
-						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(null, "%" + key + "%"))));
-				json.add("placeholders", placeholders);
-			});
-			this.registerPlayerInfoProvider((json, player) -> {
-				final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
-				final JsonObject placeholders = new JsonObject();
-				config.getStringList("server-data-sender.placeholders.player").forEach((key) ->
-						placeholders.addProperty(key, ChatColor.stripColor(spigotPlugin.getPapiParser().parse(bukkitPlayer, "%" + key + "%"))));
-				json.add("placeholders", placeholders);
-			});
+		{
+			final ConfigurationNode config = this.getPlugin().config().main().node("server-data-sender", "placeholders");
+			if (config.node("enabled").getBoolean()) {
+				final PapiWrapper papi = this.bukkitPlugin.papiWrapper();
+				if (papi == null) {
+					this.plugin.logger().warning("Skipped sending placeholders, PlaceholderAPI integration is not working. Is PlaceholderAPI installed?");
+					return;
+				}
 
+				this.registerGlobalInfoProvider(json -> {
+					try {
+						final JsonObject placeholders = new JsonObject();
+						config.node("global").getList(String.class).forEach((key) ->
+								placeholders.addProperty(key, ChatColor.stripColor(papi.parse(null, "%" + key + "%"))));
+						json.add("placeholders", placeholders);
+					} catch (SerializationException e) {
+						this.plugin.logger().warning("Invalid global placeholders list");
+					}
+				});
+				this.registerPlayerInfoProvider((json, player) -> {
+					try {
+						final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
+						final JsonObject placeholders = new JsonObject();
+						config.node("player").getList(String.class).forEach((key) ->
+								placeholders.addProperty(key, ChatColor.stripColor(papi.parse(bukkitPlayer, "%" + key + "%"))));
+						json.add("placeholders", placeholders);
+					} catch (SerializationException e) {
+						this.plugin.logger().warning("Invalid player placeholders list");
+					}
+				});
+			}
 		}
 
 		// Location

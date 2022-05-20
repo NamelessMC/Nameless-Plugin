@@ -1,55 +1,83 @@
 package com.namelessmc.plugin.common;
 
-import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import xyz.derkades.derkutils.FileUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.format.DateTimeParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConfigurationHandler implements Reloadable {
 
+	private static final @NonNull String[] ALL_CONFIG_NAMES = {
+			"commands",
+			"main",
+			"modules",
+	};
+
 	private final @NonNull Path dataDirectory;
-	private @Nullable Configuration mainConfig;
-	private @Nullable Configuration commandsConfig;
+	private final @NonNull Map<String, CommentedConfigurationNode> configs = new HashMap<>();
 
 	public ConfigurationHandler(final @NonNull Path dataDirectory) {
 		this.dataDirectory = dataDirectory;
 	}
 
-	public @NonNull Configuration main() {
-		if (this.mainConfig == null) {
-			throw new IllegalStateException("config requested before load");
-		}
-		return this.mainConfig;
+	public @NonNull CommentedConfigurationNode commands() {
+		return this.getConfig("commands");
 	}
 
-	public @NonNull Configuration commands() {
-		if (this.commandsConfig == null) {
-			throw new IllegalStateException("config requested before load");
+	public @NonNull CommentedConfigurationNode main() {
+		return this.getConfig("main");
+	}
+
+	public @NonNull CommentedConfigurationNode modules() {
+		return this.getConfig("modules");
+	}
+
+	private @NonNull CommentedConfigurationNode getConfig(final String name) {
+		final CommentedConfigurationNode config = this.configs.get(name);
+		if (config == null) {
+			throw new IllegalStateException(name + " config requested before it was loaded");
 		}
-		return this.commandsConfig;
+		return config;
 	}
 
 	@Override
 	public void reload() {
 		try {
 			Files.createDirectories(dataDirectory);
-			this.mainConfig = copyFromJarAndLoad("config.yaml");
-			this.commandsConfig = copyFromJarAndLoad("commands.yaml");
+			for (final String configName : ALL_CONFIG_NAMES) {
+				this.configs.put(configName, copyFromJarAndLoad(configName + ".yaml"));
+			}
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private Configuration copyFromJarAndLoad(final @NonNull String name) throws IOException {
+	private CommentedConfigurationNode copyFromJarAndLoad(final @NonNull String name) throws IOException {
 		Path path = dataDirectory.resolve(name);
 		FileUtils.copyOutOfJar(ConfigurationHandler.class, name, path);
-		return ConfigurationProvider.getProvider(YamlConfiguration.class).load(path.toFile());
+		return YamlConfigurationLoader.builder().path(path).build().load();
+	}
+
+	public static @Nullable Duration getDuration(final ConfigurationNode node) {
+		String string = node.getString();
+		if (string == null) {
+			return null;
+		}
+		try {
+			return Duration.parse(string);
+		} catch (final DateTimeParseException e) {
+			return null;
+		}
 	}
 
 }

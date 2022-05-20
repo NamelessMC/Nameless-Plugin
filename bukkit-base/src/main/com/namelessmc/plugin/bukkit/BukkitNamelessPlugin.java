@@ -1,7 +1,8 @@
 package com.namelessmc.plugin.bukkit;
 
-import com.namelessmc.plugin.bukkit.event.PlayerBan;
-import com.namelessmc.plugin.bukkit.hooks.*;
+import com.namelessmc.plugin.bukkit.hooks.PapiHook;
+import com.namelessmc.plugin.bukkit.hooks.PapiWrapper;
+import com.namelessmc.plugin.bukkit.hooks.PlaceholderCacher;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
@@ -21,8 +22,8 @@ import java.nio.file.Path;
 
 public abstract class BukkitNamelessPlugin extends JavaPlugin {
 	
-	private PapiParser papiParser;
-	public PapiParser getPapiParser() { return this.papiParser; }
+	private @Nullable PapiWrapper papiWrapper;
+	public @Nullable PapiWrapper papiWrapper() { return this.papiWrapper; }
 
 	private @Nullable MaintenanceStatusProvider maintenanceStatusProvider;
 	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
@@ -38,12 +39,12 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new BukkitScheduler(this),
-				config -> new JulLogger(config, this.getLogger())
+				config -> new JulLogger(config, this.getLogger()),
+				Path.of("logs", "latest.log")
 		);
 		this.plugin.registerReloadable(new BukkitCommandProxy(this.plugin));
 		this.plugin.registerReloadable(new BukkitDataSender(this.plugin, this));
 		this.plugin.registerReloadable(new UserSyncTask(this.plugin, this));
-		this.plugin.registerReloadable(new AnnouncementTask(this.plugin));
 		this.placeholderCacher = this.plugin.registerReloadable(
 				new PlaceholderCacher(this, this.plugin)
 		);
@@ -59,7 +60,6 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		initMaintenance();
 		initMetrics();
 
-		this.getServer().getPluginManager().registerEvents(new PlayerBan(), this);
 		this.getServer().getPluginManager().registerEvents(new BukkitEventProxy(this.plugin), this);
 
 		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
@@ -84,10 +84,9 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			final PapiHook placeholders = new PapiHook(this.placeholderCacher);
 			placeholders.register();
-
-			this.papiParser = new PapiParserEnabled();
+			this.papiWrapper = new PapiWrapper();
 		} else {
-			this.papiParser = new PapiParserDisabled();
+			this.papiWrapper = null;
 		}
 	}
 	

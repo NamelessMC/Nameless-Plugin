@@ -7,10 +7,16 @@ import com.namelessmc.java_api.exception.AlreadyHasOpenReportException;
 import com.namelessmc.java_api.exception.CannotReportSelfException;
 import com.namelessmc.java_api.exception.ReportUserBannedException;
 import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
+import com.namelessmc.plugin.common.audiences.NamelessConsole;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
 
@@ -37,12 +43,11 @@ public class ReportCommand extends CommonCommand {
 		}
 
 		scheduler().runAsync(() -> {
-			final Optional<NamelessAPI> optApi = this.api();
-			if (optApi.isEmpty()) {
-				sender.sendMessage(this.language().get(ERROR_WEBSITE_CONNECTION));
+			final NamelessAPI api = this.apiProvider().api();
+			if (api == null) {
+				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				return;
 			}
-			final NamelessAPI api = optApi.get();
 
 			try {
 				final String targetUsername = args[0];
@@ -73,6 +78,17 @@ public class ReportCommand extends CommonCommand {
 				logger().logException(e);
 			}
 		});
+	}
+
+	@Override
+	public List<String> complete(@NonNull NamelessCommandSender sender, @NonNull String @NonNull [] args) {
+		if (args.length == 1) {
+			return this.plugin().audiences().onlinePlayers().stream()
+					.map(NamelessPlayer::username)
+					.filter(s -> s.startsWith(args[0]))
+					.collect(Collectors.toList());
+		}
+		return Collections.emptyList();
 	}
 
 }

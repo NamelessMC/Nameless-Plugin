@@ -4,10 +4,10 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
+import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
-import net.md_5.bungee.config.Configuration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -29,15 +30,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class PlaceholderCacher implements Listener, Reloadable {
 
 
-	private final @NonNull BukkitNamelessPlugin spigotPlugin;
+	private final @NonNull BukkitNamelessPlugin bukkitPlugin;
 	private final @NonNull NamelessPlugin plugin;
 	private @Nullable AbstractScheduledTask task;
 	private @Nullable AtomicBoolean isRunning;
 	private @Nullable Map<UUID, Integer> cachedNotificationCount;
 
-	public PlaceholderCacher(final @NonNull BukkitNamelessPlugin spigotPlugin,
+	public PlaceholderCacher(final @NonNull BukkitNamelessPlugin bukkitPlugin,
 							 final @NonNull NamelessPlugin plugin) {
-		this.spigotPlugin = spigotPlugin;
+		this.bukkitPlugin = bukkitPlugin;
 		this.plugin = plugin;
 	}
 
@@ -50,10 +51,14 @@ public class PlaceholderCacher implements Listener, Reloadable {
 			this.cachedNotificationCount = null;
 		}
 
-		final Configuration config = this.plugin.config().main();
-		if (config.getBoolean("retrieve-placeholders.enabled")) {
-			Bukkit.getPluginManager().registerEvents(this, spigotPlugin);
-			Duration interval = Duration.parse(config.getString("retrieve-placeholders.interval"));
+		final CommentedConfigurationNode config = this.plugin.config().main().node("retrieve-placeholders");
+		if (config.node("enabled").getBoolean()) {
+			Bukkit.getPluginManager().registerEvents(this, this.bukkitPlugin);
+			final Duration interval = ConfigurationHandler.getDuration(config.node("interval"));
+			if (interval == null) {
+				this.plugin.logger().warning("Placeholder cacher interval invalid");
+				return;
+			}
 			this.task = this.plugin.scheduler().runTimer(this::updateCache, interval);
 			this.isRunning = new AtomicBoolean();
 			this.cachedNotificationCount = new HashMap<>();
@@ -66,9 +71,8 @@ public class PlaceholderCacher implements Listener, Reloadable {
 		}
 
 		if (isRunning.compareAndSet(false, true)) {
-			final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
-			if (optApi.isPresent()) {
-				final NamelessAPI api = optApi.get();
+			final NamelessAPI api = this.plugin.apiProvider().api();
+			if (api != null) {
 				for (final Player player : Bukkit.getOnlinePlayers()) {
 					updateCache(api, player);
 				}
@@ -103,8 +107,12 @@ public class PlaceholderCacher implements Listener, Reloadable {
 
 		this.cachedNotificationCount.remove(event.getPlayer().getUniqueId());
 
-		final Optional<NamelessAPI> optApi = this.plugin.apiProvider().api();
-		optApi.ifPresent(api -> this.plugin.scheduler().runAsync(() -> updateCache(api, event.getPlayer())));
+		this.plugin.scheduler().runAsync(() -> {
+			final NamelessAPI api = this.plugin.apiProvider().api();
+			if (api != null) {
+				updateCache(api, event.getPlayer());
+			}
+		});
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)

@@ -5,8 +5,8 @@ import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.exception.*;
 import com.namelessmc.java_api.integrations.IntegrationData;
 import com.namelessmc.java_api.integrations.MinecraftIntegrationData;
-import com.namelessmc.plugin.common.NamelessCommandSender;
-import com.namelessmc.plugin.common.NamelessPlayer;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -36,13 +36,11 @@ public class RegisterCommand extends CommonCommand {
 		final String email = args[1];
 
 		this.scheduler().runAsync(() -> {
-			final Optional<NamelessAPI> optApi = this.api();
-			if (optApi.isEmpty()) {
-				sender.sendMessage(this.language().get(ERROR_WEBSITE_CONNECTION));
+			final NamelessAPI api = this.apiProvider().api();
+			if (api == null) {
+				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				return;
 			}
-
-			final NamelessAPI api = optApi.get();
 
 			try {
 				Optional<String> link;

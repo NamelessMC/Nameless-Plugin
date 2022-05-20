@@ -2,14 +2,17 @@ package com.namelessmc.plugin.common;
 
 import com.google.gson.JsonObject;
 import com.namelessmc.java_api.ApiError;
+import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
-import com.namelessmc.plugin.common.event.ServerJoinEvent;
-import com.namelessmc.plugin.common.event.ServerQuitEvent;
+import com.namelessmc.plugin.common.event.NamelessJoinEvent;
+import com.namelessmc.plugin.common.event.NamelessPlayerQuitEvent;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
-import net.md_5.bungee.config.Configuration;
+import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 
 import java.time.Duration;
 import java.util.*;
@@ -30,7 +33,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		this.startLoginTimeTracking();
 	}
 
-	private void startLoginTimeTracking() {
+	private void startLoginTimeTracking(@UnknownInitialization(AbstractDataSender.class) AbstractDataSender this) {
 		this.plugin.registerReloadable(() -> {
 			// If the plugin is loaded when the server is already started (e.g. using /reload on bukkit), add
 			// players manually because the join event is never called for them.
@@ -39,9 +42,9 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			}
 		});
 
-		this.plugin.events().subscribe(ServerJoinEvent.class, event ->
+		this.plugin.events().subscribe(NamelessJoinEvent.class, event ->
 				playerLoginTime.put(event.player().uuid(), System.currentTimeMillis()));
-		this.plugin.events().subscribe(ServerQuitEvent.class, event ->
+		this.plugin.events().subscribe(NamelessPlayerQuitEvent.class, event ->
 				playerLoginTime.remove(event.uuid()));
 	}
 
@@ -62,15 +65,24 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			this.dataSenderTask = null;
 		}
 
-		final Configuration config = this.plugin.config().main();
+		final CommentedConfigurationNode config = this.plugin.config().main().node("server-data-sender");
 
-		this.serverId = config.getInt("server-data-sender.server-id");
-		if (this.serverId <= 0) {
+		if (!config.node("enabled").getBoolean()) {
 			return;
 		}
 
-		final String intervalStr = config.getString("server-data-sender.interval");
-		Duration interval = Duration.parse(intervalStr);
+		this.serverId = config.node("server-id").getInt();
+		if (this.serverId <= 0) {
+			this.plugin.logger().warning("Server data sender is configured with invalid server id");
+			return;
+		}
+
+		final Duration interval = ConfigurationHandler.getDuration(config.node("interval"));
+		if (interval == null) {
+			this.plugin.logger().warning("Invalid server data sender interval.");
+			return;
+		}
+
 		this.dataSenderTask = this.plugin.scheduler().runTimer(this, interval);
 
 		this.globalInfoProviders = new ArrayList<>();
@@ -80,16 +92,19 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 	}
 
 	private @NonNull JsonObject buildJsonBody() {
-		Objects.requireNonNull(this.globalInfoProviders, "providers are never null");
-		Objects.requireNonNull(this.playerInfoProviders, "providers are never null");
+		final List<InfoProvider> globalInfoProviders = this.globalInfoProviders;
+		final List<PlayerInfoProvider> playerInfoProviders = this.playerInfoProviders;
+
+		if (globalInfoProviders == null || playerInfoProviders == null) {
+			throw new IllegalStateException("Providers are null, is the data sender disabled?");
+		}
 
 		final JsonObject data = new JsonObject();
 		data.addProperty("server-id", this.serverId);
 
 		data.addProperty("time", System.currentTimeMillis());
 
-
-		for (InfoProvider infoProvider : this.globalInfoProviders) {
+		for (final InfoProvider infoProvider : globalInfoProviders) {
 			try {
 				infoProvider.addInfoToJson(data);
 			} catch (final Exception e) {
@@ -103,7 +118,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			JsonObject playerJson = new JsonObject();
 			playerJson.addProperty("name", player.username());
 
-			for (PlayerInfoProvider infoProvider : this.playerInfoProviders) {
+			for (PlayerInfoProvider infoProvider : playerInfoProviders) {
 				try {
 					infoProvider.addInfoToJson(playerJson, player);
 				} catch (final Exception e) {
@@ -123,20 +138,23 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		final JsonObject data = buildJsonBody();
 
 		this.plugin.scheduler().runAsync(() -> {
-			this.plugin.apiProvider().api().ifPresent((api) -> {
-				final AbstractLogger logger = this.plugin.logger();
-				try {
-					api.submitServerInfo(data);
-				} catch (final ApiError e) {
-					if (e.getError() == ApiError.INVALID_SERVER_ID) {
-						logger.warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
-					} else {
-						logger.logException(e);
-					}
-				} catch (final NamelessException e) {
+			final NamelessAPI api = this.plugin.apiProvider().api();
+			if (api == null) {
+				return;
+			}
+
+			final AbstractLogger logger = this.plugin.logger();
+			try {
+				api.submitServerInfo(data);
+			} catch (final ApiError e) {
+				if (e.getError() == ApiError.INVALID_SERVER_ID) {
+					logger.warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
+				} else {
 					logger.logException(e);
 				}
-			});
+			} catch (final NamelessException e) {
+				logger.logException(e);
+			}
 		});
 	}
 
