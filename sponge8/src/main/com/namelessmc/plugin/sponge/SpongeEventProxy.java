@@ -1,14 +1,11 @@
 package com.namelessmc.plugin.sponge;
 
-import com.namelessmc.plugin.common.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.event.ServerJoinEvent;
-import com.namelessmc.plugin.common.event.ServerQuitEvent;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
+import com.namelessmc.plugin.common.event.NamelessJoinEvent;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.network.ClientConnectionEvent;
-
-import java.util.Objects;
+import org.spongepowered.api.event.network.ServerSideConnectionEvent;
 
 public class SpongeEventProxy {
 
@@ -19,17 +16,11 @@ public class SpongeEventProxy {
 	}
 
 	@Listener
-	public void onJoin(ClientConnectionEvent.Join event) {
-		final NamelessPlayer player = Objects.requireNonNull(
-				plugin.audiences().player(event.getTargetEntity().getUniqueId()));
-		final ServerJoinEvent event2 = new ServerJoinEvent(player);
-		this.plugin.events().post(event2);
+	public void onJoin(ServerSideConnectionEvent.Join event) {
+		final NamelessPlayer player = new NamelessPlayer(event.player(), event.player().uniqueId(), event.player().name());
+		this.plugin.events().post(new NamelessJoinEvent(player));
 	}
 
-	@Listener
-	public void onQuit(ClientConnectionEvent.Disconnect event) {
-		final ServerQuitEvent event2 = new ServerQuitEvent(event.getTargetEntity().getUniqueId());
-		this.plugin.events().post(event2);
-	}
+	// TODO quit event
 
 }
