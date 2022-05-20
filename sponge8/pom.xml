@@ -106,12 +106,17 @@
 					<groupId>net.kyori</groupId>
 					<artifactId>adventure-api</artifactId>
 				</exclusion>
+				<!-- Sponge 8.1+ includes MiniMessage -->
+				<exclusion>
+					<groupId>net.kyori</groupId>
+					<artifactId>adventure-text-minimessage</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.spongepowered</groupId>
 			<artifactId>spongeapi</artifactId>
-			<version>8.0.0</version>
+			<version>8.1.0</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
