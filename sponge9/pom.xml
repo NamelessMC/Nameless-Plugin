@@ -34,32 +34,12 @@
 							<shadedPattern>com.namelessmc.plugin.lib.methanol</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>com.google.errorprone</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.errorprone</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>com.google.j2objc</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.j2objc</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>com.namelessmc.java_api</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.nameless-api</shadedPattern>
 						</relocation>
 						<relocation>
-							<pattern>javax.annotation</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.javax-annotation</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>net.kyori.examination</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.examination</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>net.kyori.event</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.event</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>net.md_5.bungee.config</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.bungee-config</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.bstats</pattern>
@@ -68,14 +48,6 @@
 						<relocation>
 							<pattern>org.checkerframework</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.intellij.lang.annotations</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.intellij-annotations</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.jetbrains.annotations</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>xyz.derkades.derkutils</pattern>
@@ -96,6 +68,7 @@
     </build>
 
     <dependencies>
+
 		<dependency>
 			<groupId>com.namelessmc</groupId>
 			<artifactId>plugin-common</artifactId>
@@ -114,8 +87,19 @@
 					<groupId>org.spongepowered</groupId>
 					<artifactId>configurate-yaml</artifactId>
 				</exclusion>
+				<!-- Sponge already includes Gson 2.8 -->
+				<exclusion>
+					<groupId>com.google.code.gson</groupId>
+					<artifactId>gson</artifactId>
+				</exclusion>
+				<!-- Sponge already includes Guava 21.0 -->
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.spongepowered</groupId>
 			<artifactId>spongeapi</artifactId>
@@ -123,31 +107,13 @@
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.bstats</groupId>
 			<artifactId>bstats-sponge</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-		<!-- Sponge already includes Gson 2.8 -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Sponge already includes Guava 21.0 -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<scope>provided</scope>
-		</dependency>
-    </dependencies>
 
-	<repositories>
-		<repository>
-			<id>sponge-repo</id>
-			<name>Sponge Maven Repository</name>
-			<url>https://repo.spongepowered.org/repository/maven-public/</url>
-		</repository>
-	</repositories>
+    </dependencies>
 
 </project>

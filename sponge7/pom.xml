@@ -23,16 +23,8 @@
 				<configuration>
 					<relocations combine.children="append">
 						<relocation>
-							<pattern>com.google.errorprone</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.errorprone</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>com.google.j2objc</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.j2objc</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>javax.annotation</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.javax-annotation</shadedPattern>
+							<pattern>com.google.errorprone.annotations</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.errorprone-annotations</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>net.kyori.adventure</pattern>
@@ -78,18 +70,32 @@
     </build>
 
     <dependencies>
+
 		<dependency>
 			<groupId>com.namelessmc</groupId>
 			<artifactId>plugin-common</artifactId>
 			<version>3.0.0-beta</version>
 			<exclusions>
-				<!-- Configurate is outdated, but we can still use the SnakeYAML lib it pulls in -->
+				<!--
+				Sponge 7.4.0 includes outdated Configurate (3.7.2), but we can still use the SnakeYAML lib it pulls in
+				-->
 				<exclusion>
 					<groupId>org.yaml</groupId>
 					<artifactId>snakeyaml</artifactId>
 				</exclusion>
+				<!-- Sponge 7.4.0 includes Gson 2.8.0 -->
+				<exclusion>
+					<groupId>com.google.code.gson</groupId>
+					<artifactId>gson</artifactId>
+				</exclusion>
+				<!-- Sponge 7.4.0 includes Guava 21.0 -->
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.spongepowered</groupId>
 			<artifactId>spongeapi</artifactId>
@@ -97,36 +103,19 @@
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.bstats</groupId>
 			<artifactId>bstats-sponge</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>net.kyori</groupId>
 			<artifactId>adventure-platform-spongeapi</artifactId>
 			<version>4.1.0</version>
 		</dependency>
-		<!-- Sponge already includes Gson 2.8 -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Sponge already includes Guava 21.0 -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<scope>provided</scope>
-		</dependency>
-    </dependencies>
 
-	<repositories>
-		<repository>
-			<id>sponge-repo</id>
-			<name>Sponge Maven Repository</name>
-			<url>https://repo.spongepowered.org/repository/maven-public/</url>
-		</repository>
-	</repositories>
+    </dependencies>
 
 </project>
