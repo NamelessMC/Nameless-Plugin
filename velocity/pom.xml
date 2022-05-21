@@ -22,15 +22,6 @@
 				<configuration>
 					<relocations combine.children="append">
 						<relocation>
-							<pattern>org.checkerframework</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.jetbrains.annotations</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
-						</relocation>
-						<!-- Velocity does include configurate, but it's v3, and we are using v4 -->
-						<relocation>
 							<pattern>org.spongepowered.configurate</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.configurate</shadedPattern>
 						</relocation>
@@ -73,10 +64,11 @@
 			<groupId>com.namelessmc</groupId>
 			<artifactId>plugin-common</artifactId>
 			<exclusions>
-				<exclusion>
-					<groupId>net.kyori</groupId>
-					<artifactId>adventure</artifactId>
-				</exclusion>
+				<!--
+				Velocity 3.1.1 includes Adventure 4.9.3 It also includes MiniMessage, but it's not part of the official
+				API. We use it anyway, including a newer MiniMessage version ourselves might create more issues than
+				it solves.
+				-->
 				<exclusion>
 					<groupId>net.kyori</groupId>
 					<artifactId>adventure-api</artifactId>
@@ -85,10 +77,32 @@
 					<groupId>net.kyori</groupId>
 					<artifactId>adventure-text-minimessage</artifactId>
 				</exclusion>
-				<!-- Configurate is outdated, but we can still use the SnakeYAML lib it pulls in -->
+				<!--
+				Velocity 3.1.1 includes Configurate v3, but we'd like to use v4. However, we can still use the
+				same SnakeYAML and errorprone libraries as the old version.
+				-->
 				<exclusion>
 					<groupId>org.yaml</groupId>
 					<artifactId>snakeyaml</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.errorprone</groupId>
+					<artifactId>error_prone_annotations</artifactId>
+				</exclusion>
+				<!-- Velocity 3.1.1 includes Gson 25.1-jre -->
+				<exclusion>
+					<groupId>com.google.code.gson</groupId>
+					<artifactId>gson</artifactId>
+				</exclusion>
+				<!-- Velocity 3.1.1 includes Guava 25.1-jre -->
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+				<!-- Velocity 3.1.1 includes checker-qual 3.6.1. We use 3.22.0, but it's probably fine. -->
+				<exclusion>
+					<groupId>org.checkerframework</groupId>
+					<artifactId>checker-qual</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -100,18 +114,6 @@
 		<dependency>
 			<groupId>org.bstats</groupId>
 			<artifactId>bstats-velocity</artifactId>
-		</dependency>
-		<!-- Velocity already includes Gson -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Velocity already includes Guava -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<scope>provided</scope>
 		</dependency>
     </dependencies>
 
