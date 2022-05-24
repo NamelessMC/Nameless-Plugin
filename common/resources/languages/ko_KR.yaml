@@ -17,7 +17,6 @@ command:
         email-invalid: 유효하지 않은 메일 주소입니다.
         cannot-send-email: 인증 메일을 보낼 수 없습니다. 관리자를 통해 계정을 활성화하십시오.
         username-invalid: 잘못된 아이디입니다.
-        minercaft-used: 이 계정은 이미 다른 웹 사이트 사용자에게 연결되어 있습니다.
         username-used: 이미 사용중인 닉네임입니다.
       success:
         email: 발송된 인증 메일을 확인하십시오.

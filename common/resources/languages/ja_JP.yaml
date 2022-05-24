@@ -23,7 +23,6 @@ command:
         username-invalid: ユーザー名は無効です。
         cannot-send-email: 登録メールが送信されない場合は、管理者に連絡してアカウントを有効化してください。
         username-used: ユーザー名はすでに使用されています。
-        minercaft-used: あなたのMinecraftアカウントはすでに別のウェブサイトのユーザーとリンクしています。
     description: ウェブサイトアカウントを作成
   no-permission: このコマンドを実行する権限がありません。
   user-info:

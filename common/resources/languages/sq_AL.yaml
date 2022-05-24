@@ -32,8 +32,6 @@ command:
         username-invalid: Emri i llogarisë është invalide.
         email-used: Kjo adresa e email-it është përdorur për një llogari tjetër.
         email-invalid: Adresa e email-it është invalide.
-        minercaft-used: Llogaria jote "Minecraft" është lidhur me një tjetër llogari
-          te faqja e internetit.
         cannot-send-email: Nuk mund ta nisnim email-in për regjistrim, ju lutem contaktoni
           administratorin a server-it.
   report:

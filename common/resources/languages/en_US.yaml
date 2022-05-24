@@ -26,8 +26,6 @@ command:
         cannot-send-email: Unable to send registration email, please contact an admin
           to activate your account.
         username-used: Your username is already used.
-        minercaft-used: Your Minecraft account is already linked to a different website
-          user.
     description: Create a website account
   report:
     usage: '/<command> \<name/uuid> \<reason>'

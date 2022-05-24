@@ -53,7 +53,6 @@ command:
         username-invalid: 提供的用户名无效。
         cannot-send-email: 无法发送注册邮件，请联系管理员来激活您的账户。
         username-used: 你的用户名已被使用.
-        minercaft-used: 你的 Minecraft 账户已经被链接到了另一个网站用户.
     description: 注册
   validate:
     usage: '/<command> \<验证码>'
