@@ -120,15 +120,24 @@ public class Websend implements Reloadable {
 						// Some new data has been written to the log
 						readStart = this.previousLogSize;
 					} else {
-						// Log file got smaller, this likely means the server has
-						// rotated log files. Read the log entirely or the last part
-						// if it's too long again.
+						// Log file got smaller, this likely means the server has rotated log files. Read the new log 
+						// entirely or the last part if it's too long already. Ideally we'd try to find the compressed 
+						// previous log and decompress it to send any lines written to the old log, but this is way too
+						// much work.
+						this.plugin.logger().info("Log file was rotated or deleted, Websend may have missed some lines written to the old log.");
 						readStart = Math.max(0, newSize - SEND_LOG_MAX_BYTES);
 					}
 
 					final int readSize = newSize - readStart;
 
 					final String logString = readToString(log, readStart, readSize);
+
+					if (!logString.endsWith("\n")) {
+						this.plugin.logger().info("Server is busy writing to the log file, trying again later");
+						// Returning now means we never update this.previousLogSize, so next iteration it'll try to
+						// read from the same starting point again.
+						return;
+					}
 
 					final String[] split = logString.split("\n");
 					final List<String> lines = new ArrayList<>(split.length);
