@@ -60,7 +60,7 @@ public class UserInfoCommand extends CommonCommand {
 					}
 
 					Optional<NamelessUser> userOptional;
-					if (args[0].contains("#")) {
+					if (args[0].matches(".+#\\d{4}")) {
 						// Likely a discord username
 						userOptional = api.getUserByDiscordUsername(args[0]);
 						if (userOptional.isEmpty()) {
