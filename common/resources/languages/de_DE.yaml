@@ -22,8 +22,6 @@ command:
         cannot-send-email: Die Registrierungs-E-Mail kann nicht gesendet werden, bitte
           kontaktiere einen Admin, um deinen Account zu aktivieren.
         username-used: Dein Benutzername ist bereits vergeben.
-        minercaft-used: Dein Minecraft-Konto ist bereits mit einem anderen Benutzer
-          der Website verknüpft.
       success:
         email: Bitte überprüfe Deinen Posteingang, um die Registrierung abzuschließen.
         link: '<hover:show_text:"Klicke, um den Link im Browser zu öffnen"><click:open_url:"<url>">Registrierung

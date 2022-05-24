@@ -28,8 +28,6 @@ command:
         cannot-send-email: Não foi possível enviar o email de registro, entre em contato
           com um administrador para ativar sua conta.
         username-used: Seu nome de usuário já está sendo usado.
-        minercaft-used: Sua conta do Minecraft já está vinculada a um usuário de um
-          site diferente.
   report:
     usage: '/{command} <nome/uuid> <motivo>'
     description: Denunciar um jogador

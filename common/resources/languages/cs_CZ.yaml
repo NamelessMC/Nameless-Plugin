@@ -14,7 +14,6 @@ command:
         cannot-send-email: Nepodařilo se odeslat registrační e-mail, kontaktuj prosím
           správce, aby aktivoval tvůj účet.
         username-used: Vaše uživatelské jméno je již používáno.
-        minercaft-used: Váš Minecraft účet je již propojen s jiným uživatelem na webu.
       success:
         email: Zkontrolujte svou e-mailovou schránku pro dokončení registrace.
         link: 'Dokončete prosím registraci navštívením tohoto odkazu: <hover:show_text:"Klikněte
