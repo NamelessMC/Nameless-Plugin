@@ -23,7 +23,6 @@ import org.spongepowered.configurate.CommentedConfigurationNode;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -87,12 +86,10 @@ public class PlaceholderCacher implements Listener, Reloadable {
 		}
 
 		try {
-			final Optional<NamelessUser> user = api.getUserByMinecraftUuid(player.getUniqueId());
-			if (user.isEmpty()) {
-				return;
+			final NamelessUser user = api.getUserByMinecraftUuid(player.getUniqueId());
+			if (user != null) {
+				this.cachedNotificationCount.put(player.getUniqueId(), user.getNotificationCount());
 			}
-			final int notificationCount = user.get().getNotificationCount();
-			this.cachedNotificationCount.put(player.getUniqueId(), notificationCount);
 		} catch (final NamelessException e) {
 			this.plugin.logger().logException(e);
 		}

@@ -10,7 +10,6 @@ import net.kyori.event.EventSubscription;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.JOIN_NOTIFICATIONS;
@@ -45,12 +44,11 @@ public class JoinNotificationsMessage implements Reloadable {
 				return;
 			}
 			try {
-				final Optional<NamelessUser> userOptional = api.getUserByMinecraftUuid(uuid);
-				if (userOptional.isEmpty()) {
+				final NamelessUser user = api.getUserByMinecraftUuid(uuid);
+				if (user == null) {
 					return;
 				}
 
-				final NamelessUser user = userOptional.get();
 				int notifications = user.getNotificationCount();
 				if (notifications == 0) {
 					return;

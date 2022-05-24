@@ -14,7 +14,6 @@ import xyz.derkades.derkutils.ListUtils;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.WEBSITE_ANNOUNCEMENT;
@@ -61,9 +60,9 @@ public class AnnouncementTask implements Runnable, Reloadable {
 				this.plugin.scheduler().runAsync(() -> {
 					List<Announcement> announcements;
 					try {
-						Optional<NamelessUser> optUser = api.getUserByMinecraftUuid(player.uuid());
-						if (optUser.isPresent()) {
-							announcements = optUser.get().getAnnouncements();
+						final NamelessUser user = api.getUserByMinecraftUuid(player.uuid());
+						if (user != null) {
+							announcements = user.getAnnouncements();
 						} else {
 							announcements = api.getAnnouncements();
 						}

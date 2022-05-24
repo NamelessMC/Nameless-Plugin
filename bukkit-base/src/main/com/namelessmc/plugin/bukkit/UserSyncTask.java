@@ -94,8 +94,10 @@ public class UserSyncTask implements Runnable, Reloadable {
 			final Set<String> excludes = new HashSet<>(config.node("exclude").getList(String.class));
 			for (final NamelessUser user : users) {
 				try {
-					UUID uuid = user.getMinecraftUuid().orElseThrow(
-							() -> new IllegalStateException("User does not have UUID even though we specifically requested users with Minecraft integration"));
+					final UUID uuid = user.getMinecraftUuid();
+					if (uuid == null) {
+						throw new IllegalStateException("User does not have UUID even though we specifically requested users with Minecraft integration");
+					}
 					if (!excludes.contains(uuid.toString())) {
 						uuids.add(uuid);
 					} else if (doLog) {

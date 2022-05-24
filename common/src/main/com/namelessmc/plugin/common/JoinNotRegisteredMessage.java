@@ -11,7 +11,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.JOIN_NOT_REGISTERED;
@@ -48,15 +47,15 @@ public class JoinNotRegisteredMessage implements Reloadable {
 				return;
 			}
 
-			Optional<NamelessUser> userOptional;
+			NamelessUser user;
 			try {
-				userOptional = api.getUserByMinecraftUuid(uuid);
+				user = api.getUserByMinecraftUuid(uuid);
 			} catch (final NamelessException e) {
 				this.plugin.logger().logException(e);
 				return;
 			}
 
-			if (userOptional.isEmpty()) {
+			if (user == null) {
 				this.plugin.scheduler().runSync(() -> {
 					Audience audience = this.plugin.audiences().player(uuid);
 					if (audience != null) {

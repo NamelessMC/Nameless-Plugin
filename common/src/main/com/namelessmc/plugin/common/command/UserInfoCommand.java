@@ -37,9 +37,9 @@ public class UserInfoCommand extends CommonCommand {
 						return;
 					}
 
-					Optional<NamelessUser> userOptional = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());
-					if (userOptional.isPresent()) {
-						this.scheduler().runSync(() -> printInfoForUser(sender, userOptional.get()));
+					final NamelessUser user = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());
+					if (user != null) {
+						this.scheduler().runSync(() -> printInfoForUser(sender, user));
 					} else {
 						sender.sendMessage(language().get(PLAYER_SELF_NOT_REGISTERED));
 					}
@@ -59,42 +59,42 @@ public class UserInfoCommand extends CommonCommand {
 						return;
 					}
 
-					Optional<NamelessUser> userOptional;
+					NamelessUser user;
 					NamelessPlayer targetPlayer = this.plugin().audiences().playerByUsername(args[0]);
 					if (targetPlayer != null) {
-						userOptional = api.getUserByMinecraftUuid(targetPlayer.uuid());
-						if (userOptional.isEmpty()) {
+						user = api.getUserByMinecraftUuid(targetPlayer.uuid());
+						if (user == null) {
 							sender.sendMessage(language().get(ERROR_TARGET_NO_WEBSITE_ACCOUNT));
 							return;
 						}
 					} else if (args[0].matches(".+#\\d{4}")) {
 						// Likely a discord username
-						userOptional = api.getUserByDiscordUsername(args[0]);
-						if (userOptional.isEmpty()) {
+						user = api.getUserByDiscordUsername(args[0]);
+						if (user == null) {
 							sender.sendMessage(language().get(ERROR_DISCORD_USERNAME_NOT_EXIST));
 							return;
 						}
 					} else {
 						try {
 							// Maybe a UUID?
-							userOptional = api.getUserByMinecraftUuid(UUID.fromString(args[0]));
-							if (userOptional.isEmpty()) {
+							user = api.getUserByMinecraftUuid(UUID.fromString(args[0]));
+							if (user == null) {
 								sender.sendMessage(language().get(ERROR_MINECRAFT_UUID_NOT_EXIST));
 								return;
 							}
 						} catch (final IllegalArgumentException e) {
 							// Lookup by username
-							userOptional = api.getUserByUsername(args[0]);
-							if (userOptional.isEmpty()) {
+							user = api.getUserByUsername(args[0]);
+							if (user == null) {
 								sender.sendMessage(language().get(ERROR_WEBSITE_USERNAME_NOT_EXIST));
 								return;
 							}
 						}
 					}
 
-					final NamelessUser user = userOptional.get();
 					user.getUsername(); // Force user info to load now, asynchronously
-					this.scheduler().runSync(() -> printInfoForUser(sender, user));
+					final NamelessUser user2 = user;
+					this.scheduler().runSync(() -> printInfoForUser(sender, user2));
 				} catch (NamelessException e) {
 					sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 					logger().logException(e);
@@ -112,10 +112,12 @@ public class UserInfoCommand extends CommonCommand {
 			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_USERNAME, "username", user.getUsername()));
 			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_DISPLAY_NAME, "displayname", user.getDisplayName()));
 
-			user.getPrimaryGroup().ifPresent(group ->
-					sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP,
-							"groupname", group.getName(),
-							"id", String.valueOf(group.getId()))));
+			final Group primaryGroup = user.getPrimaryGroup();
+			if (primaryGroup != null) {
+				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP,
+						"groupname", primaryGroup.getName(),
+						"id", String.valueOf(primaryGroup.getId())));
+			}
 
 			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_ALL_GROUPS,
 					"groups_names_list", user.getGroups().stream().map(Group::getName).collect(Collectors.joining(", "))));

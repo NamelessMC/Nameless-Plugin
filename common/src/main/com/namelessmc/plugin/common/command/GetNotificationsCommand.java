@@ -4,14 +4,14 @@ import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.Notification;
-import com.namelessmc.plugin.common.*;
+import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
 
@@ -45,14 +45,12 @@ public class GetNotificationsCommand extends CommonCommand {
 			}
 
 			try {
-				final Optional<NamelessUser> optional = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());
+				final NamelessUser user = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());
 
-				if (optional.isEmpty()) {
+				if (user == null) {
 					sender.sendMessage(language().get(PLAYER_SELF_NOT_REGISTERED));
 					return;
 				}
-
-				final NamelessUser user = optional.get();
 
 				final List<Notification> notifications = user.getNotifications();
 

@@ -7,7 +7,6 @@ import com.namelessmc.plugin.common.event.NamelessPlayerBanEvent;
 import net.kyori.event.EventSubscription;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public class SyncBanToWebsite implements Reloadable {
@@ -42,9 +41,8 @@ public class SyncBanToWebsite implements Reloadable {
 				}
 
 				try {
-					Optional<NamelessUser> userOptional = api.getUserByMinecraftUuid(uuid);
-					if (userOptional.isPresent()) {
-						final NamelessUser user = userOptional.get();
+					final NamelessUser user = api.getUserByMinecraftUuid(uuid);
+					if (user != null) {
 						if (user.isBanned()) {
 							this.plugin.logger().info("User " + user.getUsername() + " is already banned");
 						} else {
