@@ -60,7 +60,14 @@ public class UserInfoCommand extends CommonCommand {
 					}
 
 					Optional<NamelessUser> userOptional;
-					if (args[0].matches(".+#\\d{4}")) {
+					NamelessPlayer targetPlayer = this.plugin().audiences().playerByUsername(args[0]);
+					if (targetPlayer != null) {
+						userOptional = api.getUserByMinecraftUuid(targetPlayer.uuid());
+						if (userOptional.isEmpty()) {
+							sender.sendMessage(language().get(ERROR_TARGET_NO_WEBSITE_ACCOUNT));
+							return;
+						}
+					} else if (args[0].matches(".+#\\d{4}")) {
 						// Likely a discord username
 						userOptional = api.getUserByDiscordUsername(args[0]);
 						if (userOptional.isEmpty()) {

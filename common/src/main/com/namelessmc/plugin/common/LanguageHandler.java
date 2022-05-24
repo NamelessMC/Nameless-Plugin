@@ -28,11 +28,12 @@ public class LanguageHandler implements Reloadable {
 		ERROR_WEBSITE_USERNAME_NOT_EXIST("error", "website-username-not-exist"),
 		ERROR_DISCORD_USERNAME_NOT_EXIST("error", "discord-username-not-exist"),
 		ERROR_MINECRAFT_UUID_NOT_EXIST("error", "minecraft-uuid-not-exist"),
+		ERROR_TARGET_NO_WEBSITE_ACCOUNT("error", "target-no-website-account"),
 		ERROR_WEBSITE_CONNECTION("error", "website-connection"),
 		ERROR_USERNAME_NOT_ONLINE("error", "username-not-online"),
 
-		PLAYER_SELF_NOT_REGISTERED("player", "self.not-registered"),
-		PLAYER_SELF_COMMAND_BANNED("player", "self.command-banned"),
+		PLAYER_SELF_NOT_REGISTERED("player", "self", "not-registered"),
+		PLAYER_SELF_COMMAND_BANNED("player", "self", "command-banned"),
 
 		BOOLEAN_YES_POSITIVE("boolean", "yes-positive"),
 		BOOLEAN_YES_NEGATIVE("boolean", "yes-negative"),
@@ -103,12 +104,16 @@ public class LanguageHandler implements Reloadable {
 			this.path = path;
 		}
 
+		public Object[] path() {
+			return this.path;
+		}
+
 	}
 
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 27;
+	private static final int VERSION = 28;
 
 	private static final Set<String> LANGUAGES = Set.of(
 			"ar_SA",

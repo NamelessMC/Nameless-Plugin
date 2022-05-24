@@ -1,7 +1,8 @@
 error:
   website-username-not-exist: "No website user exists with this username."
   discord-username-not-exist: "No website user exists with this Discord username."
-  error-minecraft-uuid-not-exist: "No website user exists with this Minecraft UUID."
+  minecraft-uuid-not-exist: "No website user exists with this Minecraft UUID."
+  target-no-website-account: "The provided player does not have a website account."
   website-connection: "An error occurred while trying to connect to the website."
   username-not-online: "The provided username is invalid or the player is not online."
 
@@ -43,7 +44,7 @@ command:
       fail:
         username-used: "Your username is already used."
         email-used: "This email address is already used for a different user account."
-        minercaft-used: "Your Minecraft account is already linked to a different website user."
+        minecraft-used: "Your Minecraft account is already linked to a different website user."
         email-invalid: "The provided email address is invalid."
         username-invalid: "The provided username is invalid."
         cannot-send-email: "Unable to send registration email, please contact an admin to activate your account."
