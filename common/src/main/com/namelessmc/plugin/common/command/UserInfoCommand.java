@@ -2,10 +2,10 @@ package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.*;
 import com.namelessmc.java_api.integrations.DetailedIntegrationData;
-import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
-import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -63,23 +63,31 @@ public class UserInfoCommand extends CommonCommand {
 					if (args[0].contains("#")) {
 						// Likely a discord username
 						userOptional = api.getUserByDiscordUsername(args[0]);
+						if (userOptional.isEmpty()) {
+							sender.sendMessage(language().get(ERROR_DISCORD_USERNAME_NOT_EXIST));
+							return;
+						}
 					} else {
 						try {
 							// Maybe a UUID?
 							userOptional = api.getUserByMinecraftUuid(UUID.fromString(args[0]));
+							if (userOptional.isEmpty()) {
+								sender.sendMessage(language().get(ERROR_MINECRAFT_UUID_NOT_EXIST));
+								return;
+							}
 						} catch (final IllegalArgumentException e) {
 							// Lookup by username
 							userOptional = api.getUserByUsername(args[0]);
+							if (userOptional.isEmpty()) {
+								sender.sendMessage(language().get(ERROR_WEBSITE_USERNAME_NOT_EXIST));
+								return;
+							}
 						}
 					}
 
-					if (userOptional.isPresent()) {
-						final NamelessUser user = userOptional.get();
-						user.getUsername(); // Force user info to load now, asynchronously
-						this.scheduler().runSync(() -> printInfoForUser(sender, user));
-					} else {
-						sender.sendMessage(language().get(ERROR_WEBSITE_USERNAME_NOT_EXIST));
-					}
+					final NamelessUser user = userOptional.get();
+					user.getUsername(); // Force user info to load now, asynchronously
+					this.scheduler().runSync(() -> printInfoForUser(sender, user));
 				} catch (NamelessException e) {
 					sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 					logger().logException(e);
@@ -97,11 +105,10 @@ public class UserInfoCommand extends CommonCommand {
 			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_USERNAME, "username", user.getUsername()));
 			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_DISPLAY_NAME, "displayname", user.getDisplayName()));
 
-			user.getPrimaryGroup().ifPresent(group -> {
-				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP,
-						"groupname", group.getName(),
-						"id", String.valueOf(group.getId())));
-			});
+			user.getPrimaryGroup().ifPresent(group ->
+					sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP,
+							"groupname", group.getName(),
+							"id", String.valueOf(group.getId()))));
 
 			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_ALL_GROUPS,
 					"groups_names_list", user.getGroups().stream().map(Group::getName).collect(Collectors.joining(", "))));

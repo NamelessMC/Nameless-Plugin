@@ -26,6 +26,8 @@ public class LanguageHandler implements Reloadable {
 	public enum Term {
 
 		ERROR_WEBSITE_USERNAME_NOT_EXIST("error", "website-username-not-exist"),
+		ERROR_DISCORD_USERNAME_NOT_EXIST("error", "discord-username-not-exist"),
+		ERROR_MINECRAFT_UUID_NOT_EXIST("error", "minecraft-uuid-not-exist"),
 		ERROR_WEBSITE_CONNECTION("error", "website-connection"),
 		ERROR_USERNAME_NOT_ONLINE("error", "username-not-online"),
 
@@ -106,7 +108,7 @@ public class LanguageHandler implements Reloadable {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 26;
+	private static final int VERSION = 27;
 
 	private static final Set<String> LANGUAGES = Set.of(
 			"ar_SA",
