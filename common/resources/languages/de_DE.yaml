@@ -22,6 +22,8 @@ command:
         cannot-send-email: Die Registrierungs-E-Mail kann nicht gesendet werden, bitte
           kontaktiere einen Admin, um deinen Account zu aktivieren.
         username-used: Dein Benutzername ist bereits vergeben.
+        minecraft-used: Dein Minecraft-Konto ist bereits mit einem anderen Benutzer
+          der Website verknüpft.
       success:
         email: Bitte überprüfe Deinen Posteingang, um die Registrierung abzuschließen.
         link: '<hover:show_text:"Klicke, um den Link im Browser zu öffnen"><click:open_url:"<url>">Registrierung
@@ -79,11 +81,14 @@ website-announcement: 'Webseiten-Ankündigung: <message>'
 user-sync-kick: Sie werden von unserem Server gesperrt, nachdem Sie ein Website-Konto
   gesperrt haben.
 error:
-  website-username-not-exist: Es existiert kein Website-Benutzer mit diesem Benutzernamen
+  website-username-not-exist: Es existiert kein Website-Benutzer mit diesem Benutzernamen.
   username-not-online: Der angegebene Benutzername ist ungültig oder der Spieler ist
     nicht online.
   website-connection: Beim Versuch, eine Verbindung zur Website herzustellen, ist
     ein Fehler aufgetreten.
+  minecraft-uuid-not-exist: Es gibt keinen Website-Benutzer mit dieser Minecraft UUID.
+  discord-username-not-exist: Es gibt keinen Website-Benutzer mit diesem Discord-Benutzernamen.
+  target-no-website-account: Der angegebene Spieler hat kein Website-Account.
 boolean:
   yes-positive: <green>Ja</green>
   yes-negative: <red>Ja</red>
