@@ -3,9 +3,7 @@ package com.namelessmc.plugin.common.command;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.java_api.exception.AlreadyHasOpenReportException;
-import com.namelessmc.java_api.exception.CannotReportSelfException;
-import com.namelessmc.java_api.exception.ReportUserBannedException;
+import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
@@ -65,13 +63,21 @@ public class ReportCommand extends CommonCommand {
 				}
 				user.createReport(target.uuid(), target.username(), reason);
 				sender.sendMessage(language().get(COMMAND_REPORT_OUTPUT_SUCCESS));
-			} catch (final ReportUserBannedException e) {
-				sender.sendMessage(language().get(PLAYER_SELF_COMMAND_BANNED));
-			} catch (final AlreadyHasOpenReportException e) {
-				sender.sendMessage(language().get(COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN));
-			} catch (final CannotReportSelfException e) {
-				sender.sendMessage(language().get(COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF));
 			} catch (final NamelessException e) {
+				if (e instanceof ApiException) {
+					switch (((ApiException) e).apiError()) {
+						case CORE_BANNED_FROM_WEBSITE:
+							sender.sendMessage(language().get(PLAYER_SELF_COMMAND_BANNED));
+							return;
+						case CORE_OPEN_REPORT_ALREADY:
+							sender.sendMessage(language().get(COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN));
+							return;
+						case CORE_CANNOT_REPORT_YOURSELF:
+							sender.sendMessage(language().get(COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF));
+							return;
+					}
+				}
+
 				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				logger().logException(e);
 			}

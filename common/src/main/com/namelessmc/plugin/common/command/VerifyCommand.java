@@ -2,7 +2,8 @@ package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
-import com.namelessmc.java_api.exception.InvalidValidateCodeException;
+import com.namelessmc.java_api.exception.ApiError;
+import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.integrations.IntegrationData;
 import com.namelessmc.java_api.integrations.MinecraftIntegrationData;
 import com.namelessmc.plugin.common.NamelessPlugin;
@@ -49,9 +50,12 @@ public class VerifyCommand extends CommonCommand {
 				final IntegrationData integrationData = new MinecraftIntegrationData(player.uuid(), player.username());
 				api.verifyIntegration(integrationData, code);
 				sender.sendMessage(language().get(COMMAND_VALIDATE_OUTPUT_SUCCESS));
-			} catch (final InvalidValidateCodeException e) {
-				sender.sendMessage(language().get(COMMAND_VALIDATE_OUTPUT_FAIL_INVALID_CODE));
 			} catch (final NamelessException e) {
+				if (e instanceof ApiException && ((ApiException) e).apiError() == ApiError.CORE_INVALID_CODE) {
+					sender.sendMessage(language().get(COMMAND_VALIDATE_OUTPUT_FAIL_INVALID_CODE));
+					return;
+				}
+
 				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				logger().logException(e);
 			}

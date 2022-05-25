@@ -1,9 +1,10 @@
 package com.namelessmc.plugin.common;
 
 import com.google.gson.JsonObject;
-import com.namelessmc.java_api.ApiError;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.ApiError;
+import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.event.NamelessJoinEvent;
@@ -146,14 +147,12 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			final AbstractLogger logger = this.plugin.logger();
 			try {
 				api.submitServerInfo(data);
-			} catch (final ApiError e) {
-				if (e.getError() == ApiError.INVALID_SERVER_ID) {
+			} catch (final NamelessException e) {
+				if (e instanceof ApiException && ((ApiException) e).apiError() == ApiError.CORE_INVALID_SERVER_ID) {
 					logger.warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
 				} else {
 					logger.logException(e);
 				}
-			} catch (final NamelessException e) {
-				logger.logException(e);
 			}
 		});
 	}

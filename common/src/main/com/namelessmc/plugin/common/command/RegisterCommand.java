@@ -57,19 +57,29 @@ public class RegisterCommand extends CommonCommand {
 				} else {
 					sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL));
 				}
-			} catch (final InvalidUsernameException e) {
-				sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_INVALID));
-			} catch (final CannotSendEmailException e) {
-				sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_CANNOT_SEND_EMAIL));
-			} catch (final UsernameAlreadyExistsException e) {
-				sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_USED));
-			} catch (final InvalidEmailAddressException e) {
-				sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_INVALID));
-			} catch (final EmailAlreadyUsedException e) {
-				sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_USED));
-			} catch (final IntegrationIdentifierInvalidException | IntegrationUsernameInvalidException e) {
-				sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED));
 			} catch (final NamelessException e) {
+				if (e instanceof ApiException) {
+					switch(((ApiException) e).apiError()) {
+						case CORE_INVALID_USERNAME:
+							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_INVALID));
+							return;
+						case CORE_UNABLE_TO_SEND_REGISTRATION_EMAIL:
+							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_CANNOT_SEND_EMAIL));
+							return;
+						case CORE_USERNAME_ALREADY_EXISTS:
+							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_USED));
+							return;
+						case CORE_INVALID_EMAIL_ADDRESS:
+							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_INVALID));
+							return;
+						case CORE_EMAIL_ALREADY_EXISTS:
+							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_USED));
+							return;
+					}
+
+					// TODO Reimplement integration api errors
+//					sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED));
+				}
 				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				logger().logException(e);
 			}

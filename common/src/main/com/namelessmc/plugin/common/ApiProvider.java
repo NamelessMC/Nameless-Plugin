@@ -1,7 +1,11 @@
 package com.namelessmc.plugin.common;
 
-import com.namelessmc.java_api.*;
-import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.NamelessVersion;
+import com.namelessmc.java_api.Website;
+import com.namelessmc.java_api.exception.ApiError;
+import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -101,6 +105,10 @@ public class ApiProvider implements Reloadable {
 				if (this.bypassVersionCheck) {
 					this.logger.warning("Bypassing version checks, use at your own risk!");
 					this.cachedApi = Tristate.known(api); // Cache working API
+				} else if (version == null) {
+					this.logger.severe("The plugin doesn't recognize the NamelessMC version you are using. Ensure you are running a " +
+							"recent version of the plugin and NamelessMC v2.");
+					this.cachedApi = Tristate.knownEmpty(); // Probably won't resolve on its own, cache until reload
 				} else if (NamelessVersion.isSupportedByJavaApi(version)) {
 					this.logger.info("Website connection appears to be working.");
 					this.cachedApi = Tristate.known(api); // Cache working API
@@ -117,17 +125,12 @@ public class ApiProvider implements Reloadable {
 						"Configuration > API and reload the plugin.");
 				this.logger.severe("Error message: '" + e.getMessage() + "'");
 				this.cachedApi = Tristate.knownEmpty(); // This won't be resolved without reloading, we don't have to retry.
-			} catch (final UnknownNamelessVersionException e) {
+			} catch (final ApiException e) {
 				this.lastException = e;
-				this.logger.severe("The plugin doesn't recognize the NamelessMC version you are using. Ensure you are running a " +
-						"recent version of the plugin and NamelessMC v2.");
-				this.cachedApi = Tristate.knownEmpty(); // Probably won't resolve on its own, cache until reload
-			} catch (final ApiError e) {
-				this.lastException = e;
-				if (e.getError() == ApiError.REQUEST_NOT_AUTHORIZED) {
+				if (e.apiError() == ApiError.NAMELESS_NOT_AUTHORIZED) {
 					this.logger.severe("You have entered an invalid API key. Please get an up-to-date API URL from StaffCP > Configuration > API and reload the plugin.");
 				} else {
-					this.logger.severe("Encountered an unexpected error code " + e.getError() + " while trying to connect to your " +
+					this.logger.severe("Encountered an unexpected error " + e.apiError() + " while trying to connect to your " +
 							"website. Enable api debug mode in the config file for more details. When you think you've fixed the problem, " +
 							"reload the plugin to attempt connecting again.");
 				}
