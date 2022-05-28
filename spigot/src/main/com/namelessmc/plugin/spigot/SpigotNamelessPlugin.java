@@ -8,6 +8,10 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class SpigotNamelessPlugin extends BukkitNamelessPlugin {
 
+	public SpigotNamelessPlugin() {
+		super("spigot");
+	}
+
 	@Override
 	protected void configureAudiences() {
 		this.plugin.setAudienceProvider(new SpigotAudienceProvider(this));

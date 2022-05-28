@@ -7,6 +7,10 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class PaperNamelessPlugin extends BukkitNamelessPlugin {
 
+	public PaperNamelessPlugin() {
+		super("paper");
+	}
+
 	@Override
 	public void configureAudiences() {
 		this.plugin.setAudienceProvider(new PaperAudienceProvider());

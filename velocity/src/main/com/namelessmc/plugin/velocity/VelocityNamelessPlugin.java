@@ -38,7 +38,9 @@ public class VelocityNamelessPlugin {
 				dataDirectory,
 				new VelocityScheduler(this, server.getScheduler()),
 				config -> new Slf4jLogger(config, logger),
-				Path.of("logs", "latest.log")
+				Path.of("logs", "latest.log"),
+				"velocity",
+				server.getVersion().getVersion()
 		);
 		this.plugin.setAudienceProvider(new VelocityAudienceProvider(server));
 		this.plugin.registerReloadable(new VelocityDataSender(this.plugin));

@@ -34,13 +34,15 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 
 	private final @NonNull PlaceholderCacher placeholderCacher;
 
-	public BukkitNamelessPlugin() {
+	public BukkitNamelessPlugin(String platformInternalName) {
 		final Path dataDirectory = this.getDataFolder().toPath();
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new BukkitScheduler(this),
 				config -> new JulLogger(config, this.getLogger()),
-				Path.of("logs", "latest.log")
+				Path.of("logs", "latest.log"),
+				platformInternalName,
+				Bukkit.getVersion()
 		);
 		this.plugin.registerReloadable(new BukkitDataSender(this.plugin, this));
 		this.plugin.registerReloadable(new UserSyncTask(this.plugin, this));

@@ -35,7 +35,9 @@ public class SpongeNamelessPlugin {
 				dataDirectory,
 				new SpongeScheduler(container),
 				config -> new Log4jLogger(config, logger),
-				Path.of("logs", "latest.log")
+				Path.of("logs", "latest.log"),
+				"sponge9",
+				Sponge.platform().minecraftVersion().name()
 		);
 		this.plugin.setAudienceProvider(new SpongeAudienceProvider());
 		this.plugin.registerReloadable(new SpongeDataSender(this.plugin));

@@ -19,23 +19,26 @@ import java.util.function.Function;
 
 public class NamelessPlugin {
 
-	private final @NonNull AbstractScheduler scheduler;
-	private final @NonNull ConfigurationHandler configuration;
-	private final @NonNull AbstractLogger logger;
-	private final @NonNull ApiProvider api;
-	private final @NonNull LanguageHandler language;
-	private final @NonNull DateFormatter dateFormatter;
-	private final @NonNull UserCache userCache;
-	private final @NonNull EventBus<NamelessEvent> eventBus;
+	private final AbstractScheduler scheduler;
+	private final ConfigurationHandler configuration;
+	private final AbstractLogger logger;
+	private final ApiProvider api;
+	private final LanguageHandler language;
+	private final DateFormatter dateFormatter;
+	private final UserCache userCache;
+	private final EventBus<NamelessEvent> eventBus;
+	private final PropertiesManager propertiesManager;
 
-	private final @NonNull List<Reloadable> reloadables = new ArrayList<>();
+	private final List<Reloadable> reloadables = new ArrayList<>();
 
 	private AbstractAudienceProvider audienceProvider;
 
-	public NamelessPlugin(final @NonNull Path dataDirectory,
-						  final @NonNull AbstractScheduler scheduler,
-						  final @NonNull Function<ConfigurationHandler, AbstractLogger> loggerInstantiator,
-						  final @Nullable Path logPath) {
+	public NamelessPlugin(final Path dataDirectory,
+						  final AbstractScheduler scheduler,
+						  final Function<ConfigurationHandler, AbstractLogger> loggerInstantiator,
+						  final @Nullable Path logPath,
+						  final String platformInternalName,
+						  final String platformVersion) {
 		this.scheduler = scheduler;
 
 		this.configuration = this.registerReloadable(
@@ -47,6 +50,7 @@ public class NamelessPlugin {
 		this.api = this.registerReloadable(
 				new ApiProvider(scheduler, this.logger, this.configuration)
 		);
+		this.propertiesManager = new PropertiesManager(dataDirectory.resolve("nameless.dat"), this);
 		this.language = this.registerReloadable(
 				new LanguageHandler(dataDirectory, this.configuration, this.logger)
 		);
@@ -60,6 +64,7 @@ public class NamelessPlugin {
 		this.registerReloadable(new AnnouncementTask(this));
 		this.registerReloadable(new JoinNotificationsMessage(this));
 		this.registerReloadable(new JoinNotRegisteredMessage(this));
+		this.registerReloadable(new Metrics(this, platformInternalName, platformVersion));
 		this.registerReloadable(new SyncBanToWebsite(this));
 		this.registerReloadable(new Websend(this, logPath));
 	}
@@ -102,6 +107,10 @@ public class NamelessPlugin {
 
 	public void setAudienceProvider(final @NonNull AbstractAudienceProvider audienceProvider) {
 		this.audienceProvider = audienceProvider;
+	}
+
+	public PropertiesManager properties() {
+		return this.propertiesManager;
 	}
 
 	public void reload() {

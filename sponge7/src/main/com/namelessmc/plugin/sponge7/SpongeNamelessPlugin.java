@@ -37,7 +37,9 @@ public class SpongeNamelessPlugin {
 				dataDirectory,
 				new SpongeScheduler(this),
 				config -> new Slf4jLogger(config, logger),
-				Path.of("logs", "latest.log")
+				Path.of("logs", "latest.log"),
+				"sponge7",
+				Sponge.getPlatform().getMinecraftVersion().getName()
 		);
 		this.plugin.setAudienceProvider(new SpongeAudienceProvider(audiences, game.getServer()));
 		this.plugin.registerReloadable(new SpongeDataSender(this.plugin));
