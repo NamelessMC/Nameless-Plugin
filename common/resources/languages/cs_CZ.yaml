@@ -14,6 +14,7 @@ command:
         cannot-send-email: Nepodařilo se odeslat registrační e-mail, kontaktuj prosím
           správce, aby aktivoval tvůj účet.
         username-used: Vaše uživatelské jméno je již používáno.
+        minecraft-used: Váš Minecraft účet je již propojen s jiným uživatelem na webu.
       success:
         email: Zkontrolujte svou e-mailovou schránku pro dokončení registrace.
         link: 'Dokončete prosím registraci navštívením tohoto odkazu: <hover:show_text:"Klikněte
@@ -74,9 +75,12 @@ player:
 website-announcement: 'Oznámení na webu: <message>'
 user-sync-kick: Jste zabanováni z tohoto serveru kvůli banu na webu.
 error:
-  website-username-not-exist: Na webu neexistuje žádný uživatel s tímto jménem
+  website-username-not-exist: Na webu neexistuje žádný uživatel s tímto jménem.
   website-connection: Při připojování se k webu se vyskytla chyba.
   username-not-online: Zadané uživatelské jméno je neplatné nebo hráč není online.
+  discord-username-not-exist: Na webu neexistuje žádný uživatel s touto Discord přezdívkou.
+  minecraft-uuid-not-exist: Na webu neexistuje žádný uživatel s tímto Minecraft UUID.
+  target-no-website-account: Zadaný hráč nemá účet na webu.
 boolean:
   no-positive: <green>Ne</green>
   no-negative: <red>Ne</red>
