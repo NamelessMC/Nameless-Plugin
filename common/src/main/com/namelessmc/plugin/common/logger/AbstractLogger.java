@@ -5,6 +5,9 @@ import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.Reloadable;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.function.Supplier;
 
 public abstract class AbstractLogger implements Reloadable {
@@ -39,7 +42,14 @@ public abstract class AbstractLogger implements Reloadable {
 			this.severe(t.getClass().getSimpleName() + " " + t.getMessage());
 		} else {
 			this.severe(t.getMessage());
-			t.printStackTrace(); // TODO print stack trace using logger
+			// Write stack trace to string buffer, then send the resulting string to logger
+			try (StringWriter out = new StringWriter();
+				PrintWriter writer = new PrintWriter(out)) {
+				t.printStackTrace(writer);
+				this.severe(out.toString());
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 
