@@ -65,6 +65,7 @@ public class NamelessPlugin {
 		this.registerReloadable(new JoinNotificationsMessage(this));
 		this.registerReloadable(new JoinNotRegisteredMessage(this));
 		this.registerReloadable(new Metrics(this, platformInternalName, platformVersion));
+		this.registerReloadable(new Store(this));
 		this.registerReloadable(new SyncBanToWebsite(this));
 		this.registerReloadable(new Websend(this, logPath));
 	}

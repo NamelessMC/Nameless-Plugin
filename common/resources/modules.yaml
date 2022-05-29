@@ -11,3 +11,9 @@ websend:
   send-logs:
     enabled: false
     interval: PT2S
+
+store:
+  connection-id: 0
+  command-executor:
+    enabled: false
+    interval: PT10S
