@@ -42,7 +42,7 @@ public class Metrics implements Reloadable {
 		this.plugin.properties().registerProperty("metrics-debug", () -> "false");
 	}
 
-	public void sendMetrics() {
+	private JsonObject metricsJson() {
 		String metricsId = this.plugin.properties().get("metrics-id");
 
 		// Format defined here: https://github.com/NamelessMC/Nameless-Plugin/wiki/Metrics
@@ -80,7 +80,11 @@ public class Metrics implements Reloadable {
 		settings.addProperty("websend-send-logs", modules.node("websend", "send-logs", "enabled").getBoolean());
 		json.add("settings", settings);
 
-		final String jsonString = json.toString();
+		return json;
+	}
+
+	public void sendMetrics() {
+		final String jsonString = this.metricsJson().toString();
 
 		boolean debug = this.plugin.properties().get("metrics-debug").equals("true");
 
@@ -102,15 +106,13 @@ public class Metrics implements Reloadable {
 				}
 			});
 
-			this.plugin.scheduler().runAsync(() -> {
-				try {
-					this.methanol.send(request, HttpResponse.BodyHandlers.discarding());
-				} catch (Exception e) {
-					if (debug) {
-						e.printStackTrace();
-					}
+			try {
+				this.methanol.send(request, HttpResponse.BodyHandlers.discarding());
+			} catch (Exception e) {
+				if (debug) {
+					e.printStackTrace();
 				}
-			});
+			}
 		});
 	}
 
