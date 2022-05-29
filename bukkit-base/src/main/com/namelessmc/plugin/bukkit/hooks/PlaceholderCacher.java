@@ -88,7 +88,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 		try {
 			final NamelessUser user = api.getUserByMinecraftUuid(player.getUniqueId());
 			if (user != null) {
-				this.cachedNotificationCount.put(player.getUniqueId(), user.getNotificationCount());
+				this.cachedNotificationCount.put(player.getUniqueId(), user.notificationCount());
 			}
 		} catch (final NamelessException e) {
 			this.plugin.logger().logException(e);

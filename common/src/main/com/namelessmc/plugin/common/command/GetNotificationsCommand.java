@@ -52,9 +52,9 @@ public class GetNotificationsCommand extends CommonCommand {
 					return;
 				}
 
-				final List<Notification> notifications = user.getNotifications();
+				final List<Notification> notifications = user.notifications();
 
-				notifications.sort((n1, n2) -> n2.getType().ordinal() - n1.getType().ordinal());
+				notifications.sort((n1, n2) -> n2.type().ordinal() - n1.type().ordinal());
 
 				if (notifications.size() == 0) {
 					sender.sendMessage(language().get(COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS));
@@ -64,8 +64,8 @@ public class GetNotificationsCommand extends CommonCommand {
 				scheduler().runSync(() -> {
 					notifications.forEach((notification) -> {
 						sender.sendMessage(language().get(COMMAND_NOTIFICATIONS_OUTPUT_NOTIFICATION,
-								"url", notification.getUrl(),
-								"message", notification.getMessage()));
+								"url", notification.url(),
+								"message", notification.message()));
 					});
 				});
 			} catch (final NamelessException e) {

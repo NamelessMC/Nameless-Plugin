@@ -190,7 +190,7 @@ public class Websend implements Reloadable {
 
 			synchronized (commandLock) {
 				try {
-					final List<WebsendCommand> commands = api.websend().getCommands(serverId);
+					final List<WebsendCommand> commands = api.websend().commands(serverId);
 					if (commands.isEmpty()) {
 						return;
 					}
@@ -199,7 +199,7 @@ public class Websend implements Reloadable {
 						final NamelessConsole console = this.plugin.audiences().console();
 						for (final WebsendCommand command : commands) {
 							try {
-								console.dispatchCommand(command.getCommandLine());
+								console.dispatchCommand(command.command());
 							} catch (final Exception e) {
 								// continue executing other commands if one fails
 								this.plugin.logger().logException(e);

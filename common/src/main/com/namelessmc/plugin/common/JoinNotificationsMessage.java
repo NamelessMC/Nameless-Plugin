@@ -49,7 +49,7 @@ public class JoinNotificationsMessage implements Reloadable {
 					return;
 				}
 
-				int notifications = user.getNotificationCount();
+				int notifications = user.notificationCount();
 				if (notifications == 0) {
 					return;
 				}

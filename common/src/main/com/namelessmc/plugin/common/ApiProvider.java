@@ -101,7 +101,7 @@ public class ApiProvider implements Reloadable {
 						.build();
 
 				final Website info = api.getWebsite();
-				NamelessVersion version = info.getParsedVersion();
+				NamelessVersion version = info.parsedVersion();
 				if (this.bypassVersionCheck) {
 					this.logger.warning("Bypassing version checks, use at your own risk!");
 					this.cachedApi = Tristate.known(api); // Cache working API

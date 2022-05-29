@@ -44,7 +44,7 @@ public class SyncBanToWebsite implements Reloadable {
 					final NamelessUser user = api.getUserByMinecraftUuid(uuid);
 					if (user != null) {
 						if (user.isBanned()) {
-							this.plugin.logger().info("User " + user.getUsername() + " is already banned");
+							this.plugin.logger().info("User " + user.username() + " is already banned");
 						} else {
 							user.banUser();
 							this.plugin.logger().info("Banned user on website");

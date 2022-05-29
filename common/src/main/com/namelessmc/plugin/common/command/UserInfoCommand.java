@@ -92,7 +92,7 @@ public class UserInfoCommand extends CommonCommand {
 						}
 					}
 
-					user.getUsername(); // Force user info to load now, asynchronously
+					user.username(); // Force user info to load now, asynchronously
 					final NamelessUser user2 = user;
 					this.scheduler().runSync(() -> printInfoForUser(sender, user2));
 				} catch (NamelessException e) {
@@ -109,10 +109,10 @@ public class UserInfoCommand extends CommonCommand {
 	private void printInfoForUser(final @NonNull NamelessCommandSender sender,
 								  final @NonNull NamelessUser user) {
 		try {
-			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_USERNAME, "username", user.getUsername()));
-			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_DISPLAY_NAME, "displayname", user.getDisplayName()));
+			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_USERNAME, "username", user.username()));
+			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_DISPLAY_NAME, "displayname", user.displayName()));
 
-			final Group primaryGroup = user.getPrimaryGroup();
+			final Group primaryGroup = user.primaryGroup();
 			if (primaryGroup != null) {
 				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP,
 						"groupname", primaryGroup.getName(),
@@ -120,10 +120,10 @@ public class UserInfoCommand extends CommonCommand {
 			}
 
 			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_ALL_GROUPS,
-					"groups_names_list", user.getGroups().stream().map(Group::getName).collect(Collectors.joining(", "))));
+					"groups_names_list", user.groups().stream().map(Group::getName).collect(Collectors.joining(", "))));
 
 			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_REGISTER_DATE,
-					"date", this.plugin().dateFormatter().format(user.getRegisteredDate())));
+					"date", this.plugin().dateFormatter().format(user.registeredDate())));
 
 			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_VALIDATED,
 					Placeholder.component("validated", language().booleanText(user.isVerified(), true))));
@@ -131,27 +131,27 @@ public class UserInfoCommand extends CommonCommand {
 			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_BANNED,
 					Placeholder.component("banned", language().booleanText(user.isBanned(), false))));
 
-			for (final CustomProfileFieldValue customField : user.getProfileFields()) {
-				String value = customField.getValue();
+			for (final CustomProfileFieldValue customField : user.profileFields()) {
+				String value = customField.value();
 				if (value == null) {
 					value = "-";
 				}
 				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD,
-						"name", customField.getField().getName(), "value", value));
+						"name", customField.field().name(), "value", value));
 			}
 
-			Map<String, DetailedIntegrationData> integrations = user.getIntegrations();
+			Map<String, DetailedIntegrationData> integrations = user.integrations();
 			if (!integrations.isEmpty()) {
 				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_HEADER));
 				integrations.forEach((name, data) -> {
 					sender.sendMessage(Component.text("  " + name + ":"));
 					final Component indent = Component.text("    ");
 					sender.sendMessage(indent.append(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_IDENTIFIER,
-							"identifier", data.getIdentifier())));
+							"identifier", data.identifier())));
 					sender.sendMessage(indent.append(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME,
-							"username", data.getUsername())));
+							"username", data.username())));
 					sender.sendMessage(indent.append(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE,
-							"linked_date", this.plugin().dateFormatter().format(data.getLinkedDate()))));
+							"linked_date", this.plugin().dateFormatter().format(data.linkedDate()))));
 					sender.sendMessage(indent.append(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_VERIFIED,
 							Placeholder.component("is_verified", language().booleanText(data.isVerified(), true)))));
 				});

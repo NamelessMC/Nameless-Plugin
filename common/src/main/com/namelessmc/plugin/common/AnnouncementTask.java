@@ -62,7 +62,7 @@ public class AnnouncementTask implements Runnable, Reloadable {
 					try {
 						final NamelessUser user = api.getUserByMinecraftUuid(player.uuid());
 						if (user != null) {
-							announcements = user.getAnnouncements();
+							announcements = user.announcements();
 						} else {
 							announcements = api.getAnnouncements();
 						}
@@ -71,11 +71,11 @@ public class AnnouncementTask implements Runnable, Reloadable {
 						return;
 					}
 					if (filterDisplay != null) {
-						announcements = announcements.stream().filter(a -> a.getDisplayPages().contains(filterDisplay)).collect(Collectors.toList());
+						announcements = announcements.stream().filter(a -> a.displayedPages().contains(filterDisplay)).collect(Collectors.toList());
 					}
 					if (!announcements.isEmpty()) {
 						Announcement announcement = ListUtils.choice(announcements);
-						String announcementMessage = announcement.getMessage();
+						String announcementMessage = announcement.message();
 						this.plugin.scheduler().runSync(() -> {
 							final NamelessPlayer player2 = this.plugin.audiences().player(player.uuid());
 							if (player2 == null) {
