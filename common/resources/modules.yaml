@@ -17,4 +17,3 @@ store:
   command-executor:
     enabled: false
     interval: PT1M
-    verbose: true

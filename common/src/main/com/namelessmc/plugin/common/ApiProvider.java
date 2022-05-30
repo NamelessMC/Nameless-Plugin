@@ -66,17 +66,14 @@ public class ApiProvider implements Reloadable {
 		scheduler.runAsync(this::api);
 	}
 
-	// For bStats
-	public String isApiWorkingMetric() {
+	public @Nullable Boolean isApiWorkingMetric() {
 		if (!this.cachedApi.known()) {
 			// In theory the API should always be cached, but in case it's not we
 			// do not want to force load it because that would affect server performance.
-			return "Unknown";
-		} else if (this.cachedApi.present()) {
-			return "Working";
-		} else {
-			return "Not working";
+			return null;
 		}
+
+		return this.cachedApi.present();
 	}
 
 	public synchronized @Nullable NamelessAPI api() {
@@ -110,7 +107,7 @@ public class ApiProvider implements Reloadable {
 							"recent version of the plugin and NamelessMC v2.");
 					this.cachedApi = Tristate.knownEmpty(); // Probably won't resolve on its own, cache until reload
 				} else if (NamelessVersion.isSupportedByJavaApi(version)) {
-					this.logger.info("Website connection appears to be working.");
+					this.logger.fine("Website connection appears to be working.");
 					this.cachedApi = Tristate.known(api); // Cache working API
 				} else {
 					this.logger.severe("Your website runs a version of NamelessMC (" + version + ") that is not supported by this " +

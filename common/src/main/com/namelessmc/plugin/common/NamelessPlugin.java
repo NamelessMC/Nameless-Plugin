@@ -50,7 +50,8 @@ public class NamelessPlugin {
 		this.api = this.registerReloadable(
 				new ApiProvider(scheduler, this.logger, this.configuration)
 		);
-		this.propertiesManager = new PropertiesManager(dataDirectory.resolve("nameless.dat"), this);
+		this.propertiesManager = this.registerReloadable(
+				new PropertiesManager(dataDirectory.resolve("nameless.dat"), this));
 		this.language = this.registerReloadable(
 				new LanguageHandler(dataDirectory, this.configuration, this.logger)
 		);
@@ -116,6 +117,7 @@ public class NamelessPlugin {
 
 	public void reload() {
 		for (Reloadable reloadable : reloadables) {
+			this.logger.fine(() -> "Reloading: " + reloadable.getClass().getSimpleName());
 			reloadable.reload();
 		}
 	}
@@ -147,8 +149,16 @@ public class NamelessPlugin {
 
 		final ConfigurationNode config = this.config().main();
 
-		metrics.addCustomChart(new SimplePie("api_working", () ->
-				this.apiProvider().isApiWorkingMetric()));
+		metrics.addCustomChart(new SimplePie("api_working", () -> {
+			Boolean working = this.apiProvider().isApiWorkingMetric();
+			if (working == null) {
+				return "Unknown";
+			} else if (working) {
+				return "Working";
+			} else {
+				return "Not working";
+			}
+		}));
 
 		metrics.addCustomChart(new SimplePie("server_data_sender_enabled", () ->
 				config.node("server-data-sender", "enabled").getBoolean()

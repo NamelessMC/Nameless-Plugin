@@ -4,6 +4,7 @@ import com.github.mizosoft.methanol.Methanol;
 import com.github.mizosoft.methanol.WritableBodyPublisher;
 import com.google.gson.JsonObject;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
+import com.namelessmc.plugin.common.logger.AbstractLogger;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 
@@ -23,7 +24,7 @@ public class Metrics implements Reloadable {
 	// TODO actual uri
 	private static final URI SUBMIT_URI = URI.create("https://metrics.namelessmc.com/plugin");
 	private static final String USER_AGENT = "Nameless-Plugin/" + MavenConstants.PROJECT_VERSION;
-	private static final Duration SEND_INTERVAL = Duration.ofMinutes(10);
+	private static final Duration SEND_INTERVAL = Duration.ofMinutes(1);
 
 	private final NamelessPlugin plugin;
 	private final String platformInternalName;
@@ -86,11 +87,7 @@ public class Metrics implements Reloadable {
 	public void sendMetrics() {
 		final String jsonString = this.metricsJson().toString();
 
-		boolean debug = this.plugin.properties().get("metrics-debug").equals("true");
-
-		if (debug) {
-			this.plugin.logger().info("Sending metrics: " + jsonString);
-		}
+		this.plugin.logger().fine(() -> "Sending metrics: " + jsonString);
 
 		this.plugin.scheduler().runAsync(() -> {
 			WritableBodyPublisher body = WritableBodyPublisher.create();
@@ -109,9 +106,7 @@ public class Metrics implements Reloadable {
 			try {
 				this.methanol.send(request, HttpResponse.BodyHandlers.discarding());
 			} catch (Exception e) {
-				if (debug) {
-					e.printStackTrace();
-				}
+				this.plugin.logger().fine(() -> "Exception while sending metrics: " + AbstractLogger.stackTraceAsString(e));
 			}
 		});
 	}

@@ -38,7 +38,7 @@ public class PropertiesManager implements Reloadable {
 		boolean dirty = false;
 		for (Map.Entry<String, Supplier<String>> property : this.defaultProperties.entrySet()) {
 			if (!properties.containsKey(property.getKey())) {
-				this.plugin.logger().warning("Properties file was missing property " + property.getKey());
+				this.plugin.logger().fine(() -> "Properties file was missing property " + property.getKey());
 				properties.setProperty(property.getKey(), property.getValue().get());
 				dirty = true;
 			}
