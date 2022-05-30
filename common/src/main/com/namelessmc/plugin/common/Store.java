@@ -46,26 +46,49 @@ public class Store implements Reloadable {
 
 	public void retrievePendingCommands() {
 		final int connectionId = this.plugin.config().modules().node("store", "connection-id").getInt();
+		final boolean verbose = this.plugin.config().modules().node("store", "verbose").getBoolean();
+
+		if (verbose) {
+			this.plugin.logger().info("Store: Retrieving pending commands");
+		}
 
 		this.plugin.scheduler().runAsync(() -> {
 			NamelessAPI api = this.plugin.apiProvider().api();
 			if (api == null) {
+				if (verbose) {
+					this.plugin.logger().info("API is not available");
+				}
 				return;
 			}
 
 			try {
 				final PendingCommandsResponse pendingCommands = api.store().pendingCommands(connectionId);
-				this.plugin.scheduler().runSync(() -> this.runPendingCommands(api, pendingCommands.shouldUseUuids(), pendingCommands.customers()));
+
+				if (pendingCommands.customers().isEmpty()) {
+					if (verbose) {
+						this.plugin.logger().info("Nothing to do");
+					}
+					return;
+				}
+
+				this.plugin.scheduler().runSync(() -> this.runPendingCommands(api, verbose, pendingCommands.shouldUseUuids(), pendingCommands.customers()));
 			} catch (NamelessException e) {
 				this.plugin.logger().logException(e);
 			}
 		});
 	}
 
-	public void runPendingCommands(NamelessAPI api, boolean useUuids, List<PendingCommandsResponse.PendingCommandsCustomer> customers) {
+	public void runPendingCommands(NamelessAPI api,
+								   boolean verbose,
+								   boolean useUuids,
+								   List<PendingCommandsResponse.PendingCommandsCustomer> customers) {
 		Deque<PendingCommandsResponse.PendingCommand> completedCommands = new ArrayDeque<>();
 
 		for (PendingCommandsResponse.PendingCommandsCustomer customer : customers) {
+			if (verbose) {
+				this.plugin.logger().info("Processing commands for customer: " + customer.username());
+			}
+
 			NamelessPlayer player;
 			if (useUuids) {
 				player = this.plugin.audiences().player(customer.identifierAsUuid());
@@ -74,11 +97,12 @@ public class Store implements Reloadable {
 			}
 
 			for (PendingCommandsResponse.PendingCommand pendingCommand : customer.pendingCommands()) {
-				this.plugin.logger().info("Processing commands for customer: " + customer.username());
 				String command = pendingCommand.command();
 
 				if (pendingCommand.isOnlineRequired() && player == null) {
-					this.plugin.logger().info("Skipped command, player needs to be online: " + command);
+					if (verbose) {
+						this.plugin.logger().info("Skipped command, player needs to be online: " + command);
+					}
 					continue;
 				}
 
@@ -107,6 +131,17 @@ public class Store implements Reloadable {
 				this.plugin.audiences().console().dispatchCommand(command);
 				completedCommands.add(pendingCommand);
 			}
+		}
+
+		if (completedCommands.isEmpty()) {
+			if (verbose) {
+				this.plugin.logger().info("No completed commands");
+			}
+			return;
+		}
+
+		if (verbose) {
+			this.plugin.logger().info("Sending " + completedCommands.size() + " completed commands to website");
 		}
 
 		this.plugin.scheduler().runAsync(() -> submitCompletedCommands(api, completedCommands));
