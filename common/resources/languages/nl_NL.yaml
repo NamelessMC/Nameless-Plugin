@@ -26,6 +26,8 @@ command:
         cannot-send-email: Kon de registratie e-mail niet verzenden, neem contact
           op met een administrator om je account te activeren.
         username-used: Jouw gebruikersnaam is al in gebruik.
+        minecraft-used: Jouw Minecraft account is al gelinkt aan een andere website
+          gebruiker.
     description: Maak een website account
   user-info:
     usage: '/<command> [gebruikersnaam]'
@@ -76,10 +78,13 @@ join-not-registered: Je hebt nog geen account op onze website. Registreer je met
 website-announcement: 'Website aankondiging: <message>'
 user-sync-kick: Je bent verbannen van onze server als gevolg van een website ban.
 error:
-  website-username-not-exist: Er bestaat geen website gebruiker met deze gebruikersnaam
+  website-username-not-exist: Er bestaat geen website gebruiker met deze gebruikersnaam.
   website-connection: Een fout is opgetreden tijdens het verbinden met de website.
   username-not-online: De opgegeven gebruikersnaam is niet geldig of de speler is
     niet online.
+  discord-username-not-exist: Geen website gebruiker bestaat met deze Discord gebruikersnaam.
+  minecraft-uuid-not-exist: Geen website gebruiker bestaat met deze Minecraft UUID.
+  target-no-website-account: De opgegeven speler heeft geen website account.
 boolean:
   yes-positive: <green>Ja</green>
   yes-negative: <red>Ja</red>
