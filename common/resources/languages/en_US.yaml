@@ -26,6 +26,8 @@ command:
         cannot-send-email: Unable to send registration email, please contact an admin
           to activate your account.
         username-used: Your username is already used.
+        minecraft-used: Your Minecraft account is already linked to a different website
+          user.
     description: Create a website account
   report:
     usage: '/<command> \<name/uuid> \<reason>'
@@ -76,9 +78,12 @@ join-not-registered: You do not have an account on our website yet. Please regis
 website-announcement: 'Website announcement: <message>'
 user-sync-kick: You are banned from our server following a website account ban.
 error:
-  website-username-not-exist: No website user exists with this username
+  website-username-not-exist: No website user exists with this username.
   website-connection: An error occurred while trying to connect to the website.
   username-not-online: The provided username is invalid or the player is not online.
+  discord-username-not-exist: No website user exists with this Discord username.
+  minecraft-uuid-not-exist: No website user exists with this Minecraft UUID.
+  target-no-website-account: The provided player does not have a website account.
 boolean:
   yes-positive: <green>Yes</green>
   yes-negative: <red>Yes</red>
