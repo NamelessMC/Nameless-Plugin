@@ -44,7 +44,7 @@ public class JoinNotificationsMessage implements Reloadable {
 				return;
 			}
 			try {
-				final NamelessUser user = api.getUserByMinecraftUuid(uuid);
+				final NamelessUser user = api.userByMinecraftUuid(uuid);
 				if (user == null) {
 					return;
 				}

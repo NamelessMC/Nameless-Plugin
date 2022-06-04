@@ -49,7 +49,7 @@ public class JoinNotRegisteredMessage implements Reloadable {
 
 			NamelessUser user;
 			try {
-				user = api.getUserByMinecraftUuid(uuid);
+				user = api.userByMinecraftUuid(uuid);
 			} catch (final NamelessException e) {
 				this.plugin.logger().logException(e);
 				return;

@@ -60,11 +60,11 @@ public class AnnouncementTask implements Runnable, Reloadable {
 				this.plugin.scheduler().runAsync(() -> {
 					List<Announcement> announcements;
 					try {
-						final NamelessUser user = api.getUserByMinecraftUuid(player.uuid());
+						final NamelessUser user = api.userByMinecraftUuid(player.uuid());
 						if (user != null) {
 							announcements = user.announcements();
 						} else {
-							announcements = api.getAnnouncements();
+							announcements = api.announcements();
 						}
 					} catch (NamelessException e) {
 						this.plugin.logger().logException(e);

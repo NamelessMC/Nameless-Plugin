@@ -97,7 +97,7 @@ public class ApiProvider implements Reloadable {
 						.timeout(this.timeout)
 						.build();
 
-				final Website info = api.getWebsite();
+				final Website info = api.website();
 				NamelessVersion version = info.parsedVersion();
 				if (this.bypassVersionCheck) {
 					this.logger.warning("Bypassing version checks, use at your own risk!");

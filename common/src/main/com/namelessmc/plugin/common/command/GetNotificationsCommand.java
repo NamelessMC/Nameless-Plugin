@@ -45,7 +45,7 @@ public class GetNotificationsCommand extends CommonCommand {
 			}
 
 			try {
-				final NamelessUser user = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());
+				final NamelessUser user = api.userByMinecraftUuid(((NamelessPlayer) sender).uuid());
 
 				if (user == null) {
 					sender.sendMessage(language().get(PLAYER_SELF_NOT_REGISTERED));

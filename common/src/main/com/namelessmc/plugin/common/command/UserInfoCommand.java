@@ -37,7 +37,7 @@ public class UserInfoCommand extends CommonCommand {
 						return;
 					}
 
-					final NamelessUser user = api.getUserByMinecraftUuid(((NamelessPlayer) sender).uuid());
+					final NamelessUser user = api.userByMinecraftUuid(((NamelessPlayer) sender).uuid());
 					if (user != null) {
 						this.scheduler().runSync(() -> printInfoForUser(sender, user));
 					} else {
@@ -62,14 +62,14 @@ public class UserInfoCommand extends CommonCommand {
 					NamelessUser user;
 					NamelessPlayer targetPlayer = this.plugin().audiences().playerByUsername(args[0]);
 					if (targetPlayer != null) {
-						user = api.getUserByMinecraftUuid(targetPlayer.uuid());
+						user = api.userByMinecraftUuid(targetPlayer.uuid());
 						if (user == null) {
 							sender.sendMessage(language().get(ERROR_TARGET_NO_WEBSITE_ACCOUNT));
 							return;
 						}
 					} else if (args[0].matches(".+#\\d{4}")) {
 						// Likely a discord username
-						user = api.getUserByDiscordUsername(args[0]);
+						user = api.userByDiscordUsername(args[0]);
 						if (user == null) {
 							sender.sendMessage(language().get(ERROR_DISCORD_USERNAME_NOT_EXIST));
 							return;
@@ -77,14 +77,14 @@ public class UserInfoCommand extends CommonCommand {
 					} else {
 						try {
 							// Maybe a UUID?
-							user = api.getUserByMinecraftUuid(UUID.fromString(args[0]));
+							user = api.userByMinecraftUuid(UUID.fromString(args[0]));
 							if (user == null) {
 								sender.sendMessage(language().get(ERROR_MINECRAFT_UUID_NOT_EXIST));
 								return;
 							}
 						} catch (final IllegalArgumentException e) {
 							// Lookup by username
-							user = api.getUserByUsername(args[0]);
+							user = api.userByUsername(args[0]);
 							if (user == null) {
 								sender.sendMessage(language().get(ERROR_WEBSITE_USERNAME_NOT_EXIST));
 								return;

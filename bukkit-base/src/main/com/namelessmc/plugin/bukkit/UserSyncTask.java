@@ -79,7 +79,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 				return null;
 			}
 
-			final FilteredUserListBuilder builder = api.getRegisteredUsers();
+			final FilteredUserListBuilder builder = api.users();
 			builder.withFilter(UserFilter.INTEGRATION, StandardIntegrationTypes.MINECRAFT);
 			builderConfigurator.accept(builder);
 			users = builder.makeRequest();

@@ -42,7 +42,7 @@ public class UserCache implements Reloadable {
 			}
 
 			try {
-				JsonObject response = api.getRegisteredUsers().makeRawRequest();
+				JsonObject response = api.users().makeRawRequest();
 				final JsonArray users = response.getAsJsonArray("users");
 				final List<String> usernames = new ArrayList<>(users.size());
 				for (final JsonElement userElement : users) {
