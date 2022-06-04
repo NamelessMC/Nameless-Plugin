@@ -75,10 +75,12 @@ public class RegisterCommand extends CommonCommand {
 						case CORE_EMAIL_ALREADY_EXISTS:
 							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_USED));
 							return;
+						case CORE_INTEGRATION_USERNAME_ERROR:
+							// This error can also mean the username is syntactically invalid, but let's assume that's
+							// not the case since we pass the username directly from the Minecraft server.
+							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED));
+							return;
 					}
-
-					// TODO Reimplement integration api errors
-//					sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED));
 				}
 				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 				logger().logException(e);
