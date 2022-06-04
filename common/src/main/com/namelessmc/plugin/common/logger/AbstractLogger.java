@@ -50,6 +50,10 @@ public abstract class AbstractLogger implements Reloadable {
 		}
 	}
 
+	public boolean isVerbose() {
+		return this.verbose;
+	}
+
 	public void logException(Throwable t) {
 		if (this.singleLineExceptions) {
 			this.severe(t.getClass().getSimpleName() + " " + t.getMessage());

@@ -17,14 +17,12 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.UUID;
-import java.util.zip.GZIPOutputStream;
 
 public class Metrics implements Reloadable {
 
-	// TODO actual uri
-	private static final URI SUBMIT_URI = URI.create("https://metrics.namelessmc.com/plugin");
+	private static final URI SUBMIT_URI = URI.create("https://nameless-metrics.rkslot.nl/submit");
 	private static final String USER_AGENT = "Nameless-Plugin/" + MavenConstants.PROJECT_VERSION;
-	private static final Duration SEND_INTERVAL = Duration.ofMinutes(1);
+	private static final Duration SEND_INTERVAL = Duration.ofMinutes(5);
 
 	private final NamelessPlugin plugin;
 	private final String platformInternalName;
@@ -37,10 +35,9 @@ public class Metrics implements Reloadable {
 		this.plugin = plugin;
 		this.platformInternalName = platformInternalName;
 		this.platformVersion = platformVersion;
-		this.methanol = Methanol.newBuilder().defaultHeader("User-Agent", USER_AGENT).build();
+		this.methanol = Methanol.create();
 
 		this.plugin.properties().registerProperty("metrics-id", () -> UUID.randomUUID().toString());
-		this.plugin.properties().registerProperty("metrics-debug", () -> "false");
 	}
 
 	private JsonObject metricsJson() {
@@ -48,38 +45,40 @@ public class Metrics implements Reloadable {
 
 		// Format defined here: https://github.com/NamelessMC/Nameless-Plugin/wiki/Metrics
 		JsonObject json = new JsonObject();
-		json.addProperty("id", metricsId);
-		json.addProperty("version", MavenConstants.PROJECT_VERSION);
+		json.addProperty("source", "nameless-plugin");
+		json.addProperty("uuid", metricsId);
 
-		JsonObject platform = new JsonObject();
-		platform.addProperty("internal-name", this.platformInternalName);
-//		platform.addProperty("external-name", this.platformExternalName);
-		platform.addProperty("version", this.platformVersion);
-		platform.addProperty("java-version", Runtime.version().feature());
-		json.add("platform", platform);
+		JsonObject fields = new JsonObject();
 
-		JsonObject system = new JsonObject();
-		system.addProperty("os", System.getProperty("os.name"));
-		json.add("system", system);
+		// Version
+		fields.addProperty("version", MavenConstants.PROJECT_VERSION);
 
-		JsonObject stats = new JsonObject();
-		stats.addProperty("api-working", this.plugin.apiProvider().isApiWorkingMetric());
-		json.add("stats", stats);
+		// Platform
+		fields.addProperty("platform_internal_name", this.platformInternalName);
+		fields.addProperty("platform_version", this.platformVersion);
+		fields.addProperty("java_version", Runtime.version().feature());
 
+		// Operating system
+		fields.addProperty("os_name", System.getProperty("os.name"));
+
+		// Stats
+		fields.addProperty("api_working", this.plugin.apiProvider().isApiWorkingMetric());
+
+		// Configuration
 		ConfigurationNode config = this.plugin.config().main();
 		ConfigurationNode modules = this.plugin.config().modules();
-		JsonObject settings = new JsonObject();
-		settings.addProperty("language", this.plugin.language().getActiveLanguageCode());
-		settings.addProperty("server-data-sender", config.node("server-data-sender", "enabled").getBoolean());
-		settings.addProperty("server-data-sender-placeholders", config.node("server-data-sender", "placeholders", "enabled").getBoolean());
-		settings.addProperty("auto-ban-on-website", config.node("auto-ban-on-website").getBoolean());
-		settings.addProperty("not-registered-join-message", config.node("not-registered-join-message").getBoolean());
-		settings.addProperty("user-sync-whitelist", config.node("user-sync", "whitelist", "enabled").getBoolean());
-		settings.addProperty("user-sync-bans", config.node("user-sync", "bans", "enabled").getBoolean());
-		settings.addProperty("announcements", config.node("announcements", "enabled").getBoolean());
-		settings.addProperty("websend-command-executor", modules.node("websend", "command-executor", "enabled").getBoolean());
-		settings.addProperty("websend-send-logs", modules.node("websend", "send-logs", "enabled").getBoolean());
-		json.add("settings", settings);
+		fields.addProperty("language", this.plugin.language().getActiveLanguageCode());
+		fields.addProperty("server_data_sender", config.node("server-data-sender", "enabled").getBoolean());
+		fields.addProperty("server_data_sender_placeholders", config.node("server-data-sender", "placeholders", "enabled").getBoolean());
+		fields.addProperty("auto_ban_on_website", config.node("auto-ban-on-website").getBoolean());
+		fields.addProperty("not_registered_join_message", config.node("not-registered-join-message").getBoolean());
+		fields.addProperty("user_sync_whitelist", config.node("user-sync", "whitelist", "enabled").getBoolean());
+		fields.addProperty("user_sync_bans", config.node("user-sync", "bans", "enabled").getBoolean());
+		fields.addProperty("announcements", config.node("announcements", "enabled").getBoolean());
+		fields.addProperty("websend_command_executor", modules.node("websend", "command-executor", "enabled").getBoolean());
+		fields.addProperty("websend_send_logs", modules.node("websend", "send-logs", "enabled").getBoolean());
+
+		json.add("fields", fields);
 
 		return json;
 	}
@@ -92,11 +91,14 @@ public class Metrics implements Reloadable {
 		this.plugin.scheduler().runAsync(() -> {
 			WritableBodyPublisher body = WritableBodyPublisher.create();
 			HttpRequest request = HttpRequest.newBuilder(SUBMIT_URI)
+					.header("Content-Type", "application/json")
+//					.header("Content-Encoding", "gzip")
+					.header("User-Agent", USER_AGENT)
 					.POST(body)
 					.build();
 
 			this.plugin.scheduler().runAsync(() -> {
-				try (Writer writer = new OutputStreamWriter(new GZIPOutputStream(body.outputStream()), StandardCharsets.UTF_8)) {
+				try (Writer writer = new OutputStreamWriter(body.outputStream(), StandardCharsets.UTF_8)) {
 					writer.write(jsonString);
 				} catch (IOException e) {
 					body.closeExceptionally(e);
@@ -104,7 +106,12 @@ public class Metrics implements Reloadable {
 			});
 
 			try {
-				this.methanol.send(request, HttpResponse.BodyHandlers.discarding());
+				if (this.plugin.logger().isVerbose()) {
+					HttpResponse<String> response = this.methanol.send(request, HttpResponse.BodyHandlers.ofString());
+					this.plugin.logger().fine("Metrics submitted, received status code " + response.statusCode() + " with body:\n" + response.body());
+				} else {
+					this.methanol.send(request, HttpResponse.BodyHandlers.discarding());
+				}
 			} catch (Exception e) {
 				this.plugin.logger().fine(() -> "Exception while sending metrics: " + AbstractLogger.stackTraceAsString(e));
 			}

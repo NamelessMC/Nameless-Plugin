@@ -66,14 +66,14 @@ public class ApiProvider implements Reloadable {
 		scheduler.runAsync(this::api);
 	}
 
-	public @Nullable Boolean isApiWorkingMetric() {
+	public @Nullable String isApiWorkingMetric() {
 		if (!this.cachedApi.known()) {
 			// In theory the API should always be cached, but in case it's not we
 			// do not want to force load it because that would affect server performance.
-			return null;
+			return "Unknown";
 		}
 
-		return this.cachedApi.present();
+		return this.cachedApi.present() ? "Working" : "Not working";
 	}
 
 	public synchronized @Nullable NamelessAPI api() {

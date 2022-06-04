@@ -149,16 +149,8 @@ public class NamelessPlugin {
 
 		final ConfigurationNode config = this.config().main();
 
-		metrics.addCustomChart(new SimplePie("api_working", () -> {
-			Boolean working = this.apiProvider().isApiWorkingMetric();
-			if (working == null) {
-				return "Unknown";
-			} else if (working) {
-				return "Working";
-			} else {
-				return "Not working";
-			}
-		}));
+		metrics.addCustomChart(new SimplePie("api_working",
+				() -> this.apiProvider().isApiWorkingMetric()));
 
 		metrics.addCustomChart(new SimplePie("server_data_sender_enabled", () ->
 				config.node("server-data-sender", "enabled").getBoolean()

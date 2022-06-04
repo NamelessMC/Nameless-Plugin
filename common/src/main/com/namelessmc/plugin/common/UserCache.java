@@ -30,11 +30,12 @@ public class UserCache implements Reloadable {
 			task.cancel();
 		}
 
-		task = this.plugin.scheduler().runTimer(this::update, Duration.ofMinutes(1));
+		task = this.plugin.scheduler().runTimer(this::update, Duration.ofMinutes(5));
 	}
 
 	private void update() {
 		this.plugin.scheduler().runAsync(() -> {
+			this.plugin.logger().fine("Refreshing user cache");
 			final NamelessAPI api = this.plugin.apiProvider().api();
 			if (api == null) {
 				return;
