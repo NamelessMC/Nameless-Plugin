@@ -123,30 +123,18 @@ public class ApiProvider implements Reloadable {
 						"Configuration > API and reload the plugin.");
 				this.logger.severe("Error message: '" + e.getMessage() + "'");
 				this.cachedApi = Tristate.knownEmpty(); // This won't be resolved without reloading, we don't have to retry.
-			} catch (final ApiException e) {
-				this.lastException = e;
-				if (e.apiError() == ApiError.NAMELESS_NOT_AUTHORIZED) {
-					this.logger.severe("You have entered an invalid API key. Please get an up-to-date API URL from StaffCP > Configuration > API and reload the plugin.");
-				} else {
-					this.logger.severe("Encountered an unexpected error " + e.apiError() + " while trying to connect to your " +
-							"website. Enable api debug mode in the config file for more details. When you think you've fixed the problem, " +
-							"reload the plugin to attempt connecting again.");
-				}
-				this.cachedApi = Tristate.knownEmpty(); // This won't be resolved without reloading, we don't have to retry.
 			} catch (final NamelessException e) {
 				this.lastException = e;
-				final String pluginCommand = this.config.commands().node("plugin").getString();
-				this.logger.warning("Encountered an error while connecting to the website. This message is expected if your " +
-						"site is down temporarily and can be ignored if the plugin works fine otherwise. If the plugin doesn't work " +
-						"as expected, run '/" + pluginCommand + " last_api_error' to print the full error message.");
-				if (this.debug) {
-					this.logger.warning("Debug is enabled, printing full error message:");
-					this.logger.logException(e);
-				}
 
-				// Do not cache, so it immediately tries again the next time. These types of errors may fix on their
-				// own, so we don't want to break the plugin until the administrator reloads.
-				this.cachedApi = Tristate.unknown();
+				this.printNamelessException(e);
+
+				if (e instanceof ApiException) {
+					this.cachedApi = Tristate.knownEmpty(); // This won't be resolved without reloading, we don't have to retry.
+				} else {
+					// Do not cache, so it immediately tries again the next time. These types of errors may fix on their
+					// own, so we don't want to break the plugin until the administrator reloads.
+					this.cachedApi = Tristate.unknown();
+				}
 			}
 		}
 
@@ -155,6 +143,37 @@ public class ApiProvider implements Reloadable {
 
 	public @Nullable NamelessAPI apiIfCached() {
 		return this.cachedApi.present() ? this.cachedApi.value() : null;
+	}
+
+	private void printNamelessException(final NamelessException e) {
+		if (e instanceof ApiException) {
+			ApiError apiError = ((ApiException) e).apiError();
+			switch(apiError) {
+				case NAMELESS_API_IS_DISABLED:
+					this.logger.severe("Cannot connect to your website, the API is disabled.");
+					break;
+				case NAMELESS_NOT_AUTHORIZED:
+					this.logger.severe("Cannot connect to your website, the API key is invalid. Please get an " +
+							"up-to-date API URL from StaffCP > Configuration > API and reload the plugin.");
+					break;
+				default:
+					this.logger.severe("Cannot connect to your website, got an unexpected API error: " + e.getMessage());
+					if (!this.debug) {
+						this.logger.severe("For more information, enable API debug mode in the config file.");
+					}
+					break;
+			}
+		} else {
+			final String pluginCommand = this.config.commands().node("plugin").getString();
+			this.logger.warning("Encountered an error while connecting to the website. If your site is not down " +
+					"temporarily, your website connection might not be configured correctly. For more information, " +
+					"run the following command: /" + pluginCommand + " last_api_error");
+		}
+
+		if (this.debug) {
+			this.logger.warning("Debug is enabled, printing full stack trace:");
+			this.logger.logException(e);
+		}
 	}
 
 	public @Nullable Throwable getLastException() {
