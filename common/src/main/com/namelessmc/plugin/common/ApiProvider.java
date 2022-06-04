@@ -66,6 +66,7 @@ public class ApiProvider implements Reloadable {
 		scheduler.runAsync(this::api);
 	}
 
+	@Deprecated
 	public @Nullable String isApiWorkingMetric() {
 		if (!this.cachedApi.known()) {
 			// In theory the API should always be cached, but in case it's not we
@@ -150,6 +151,10 @@ public class ApiProvider implements Reloadable {
 		}
 
 		return this.cachedApi.value();
+	}
+
+	public @Nullable NamelessAPI apiIfCached() {
+		return this.cachedApi.present() ? this.cachedApi.value() : null;
 	}
 
 	public @Nullable Throwable getLastException() {

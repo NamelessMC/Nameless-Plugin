@@ -62,7 +62,7 @@ public class Metrics implements Reloadable {
 		fields.addProperty("os_name", System.getProperty("os.name"));
 
 		// Stats
-		fields.addProperty("api_working", this.plugin.apiProvider().isApiWorkingMetric());
+		fields.addProperty("api_working", this.plugin.apiProvider().apiIfCached() != null);
 
 		// Configuration
 		ConfigurationNode config = this.plugin.config().main();
