@@ -19,7 +19,7 @@ public class Metrics implements Reloadable {
 	private static final URI SUBMIT_URI = URI.create("https://nameless-metrics.rkslot.nl/submit");
 	private static final String SOURCE = "nameless-plugin";
 	private static final String USER_AGENT = "Nameless-Plugin/" + MavenConstants.PROJECT_VERSION;
-	private static final Duration SEND_INTERVAL = Duration.ofMinutes(10);
+	private static final Duration SEND_INTERVAL = Duration.ofMinutes(15);
 	// Metrics id is only unique for a single session for better privacy
 	private static final String METRICS_ID = UUID.randomUUID().toString();
 
@@ -93,7 +93,9 @@ public class Metrics implements Reloadable {
 			try {
 				if (this.plugin.logger().isVerbose()) {
 					HttpResponse<String> response = this.methanol.send(request, HttpResponse.BodyHandlers.ofString());
-					this.plugin.logger().fine("Metrics submitted, received status code " + response.statusCode() + " with body:\n" + response.body());
+					if (response.statusCode() != 200) {
+						this.plugin.logger().fine("Received status code " + response.statusCode() + " with body:\n" + response.body());
+					}
 				} else {
 					this.methanol.send(request, HttpResponse.BodyHandlers.discarding());
 				}
