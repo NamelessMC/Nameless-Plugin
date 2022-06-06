@@ -114,10 +114,18 @@
 			<artifactId>spigot-api</artifactId>
 			<scope>provided</scope>
 			<exclusions>
-				<!-- Exclude Spigot's SnakeYAML so maven doesn't shade it instead of the newer version required by configurate -->
+				<!-- Exclude old libraries shipped with Spigot so maven knows to use our own -->
 				<exclusion>
 					<groupId>org.yaml</groupId>
 					<artifactId>snakeyaml</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.code.gson</groupId>
+					<artifactId>gson</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
