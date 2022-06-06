@@ -1,16 +1,12 @@
 package com.namelessmc.plugin.common;
 
 import com.github.mizosoft.methanol.Methanol;
-import com.github.mizosoft.methanol.WritableBodyPublisher;
 import com.google.gson.JsonObject;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -21,6 +17,7 @@ import java.util.UUID;
 public class Metrics implements Reloadable {
 
 	private static final URI SUBMIT_URI = URI.create("https://nameless-metrics.rkslot.nl/submit");
+	private static final String SOURCE = "nameless-plugin";
 	private static final String USER_AGENT = "Nameless-Plugin/" + MavenConstants.PROJECT_VERSION;
 	private static final Duration SEND_INTERVAL = Duration.ofMinutes(10);
 	// Metrics id is only unique for a single session for better privacy
@@ -42,7 +39,7 @@ public class Metrics implements Reloadable {
 
 	private JsonObject metricsJson() {
 		JsonObject json = new JsonObject();
-		json.addProperty("source", "nameless-plugin");
+		json.addProperty("source", SOURCE);
 		json.addProperty("uuid", METRICS_ID);
 
 		JsonObject fields = new JsonObject();
@@ -86,21 +83,12 @@ public class Metrics implements Reloadable {
 		this.plugin.logger().fine(() -> "Sending metrics: " + jsonString);
 
 		this.plugin.scheduler().runAsync(() -> {
-			WritableBodyPublisher body = WritableBodyPublisher.create();
 			HttpRequest request = HttpRequest.newBuilder(SUBMIT_URI)
 					.header("Content-Type", "application/json")
 					.header("User-Agent", USER_AGENT)
 					.timeout(Duration.ofSeconds(5))
-					.POST(body)
+					.POST(HttpRequest.BodyPublishers.ofString(jsonString, StandardCharsets.UTF_8))
 					.build();
-
-			this.plugin.scheduler().runAsync(() -> {
-				try (Writer writer = new OutputStreamWriter(body.outputStream(), StandardCharsets.UTF_8)) {
-					writer.write(jsonString);
-				} catch (IOException e) {
-					body.closeExceptionally(e);
-				}
-			});
 
 			try {
 				if (this.plugin.logger().isVerbose()) {
