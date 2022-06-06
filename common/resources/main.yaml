@@ -38,7 +38,7 @@ logging:
   # Can be helpful to reduce console spam while your webserver is broken.
   single-line-exceptons: false
   # Show more information in log
-  verbose: true
+  verbose: false
 
 # Send a message to players who don't have a NamelessMC account when they join
 not-registered-join-message: false
