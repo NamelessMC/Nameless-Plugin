@@ -22,7 +22,9 @@ public class Metrics implements Reloadable {
 
 	private static final URI SUBMIT_URI = URI.create("https://nameless-metrics.rkslot.nl/submit");
 	private static final String USER_AGENT = "Nameless-Plugin/" + MavenConstants.PROJECT_VERSION;
-	private static final Duration SEND_INTERVAL = Duration.ofMinutes(5);
+	private static final Duration SEND_INTERVAL = Duration.ofMinutes(10);
+	// Metrics id is only unique for a single session for better privacy
+	private static final String METRICS_ID = UUID.randomUUID().toString();
 
 	private final NamelessPlugin plugin;
 	private final String platformInternalName;
@@ -36,17 +38,12 @@ public class Metrics implements Reloadable {
 		this.platformInternalName = platformInternalName;
 		this.platformVersion = platformVersion;
 		this.methanol = Methanol.create();
-
-		this.plugin.properties().registerProperty("metrics-id", () -> UUID.randomUUID().toString());
 	}
 
 	private JsonObject metricsJson() {
-		String metricsId = this.plugin.properties().get("metrics-id");
-
-		// Format defined here: https://github.com/NamelessMC/Nameless-Plugin/wiki/Metrics
 		JsonObject json = new JsonObject();
 		json.addProperty("source", "nameless-plugin");
-		json.addProperty("uuid", metricsId);
+		json.addProperty("uuid", METRICS_ID);
 
 		JsonObject fields = new JsonObject();
 
@@ -122,6 +119,8 @@ public class Metrics implements Reloadable {
 	public void reload() {
 		if (this.task == null) {
 			this.task = this.plugin.scheduler().runTimer(this::sendMetrics, SEND_INTERVAL);
+			// Also send soon after server startup
+			this.plugin.scheduler().runDelayed(this::sendMetrics, Duration.ofSeconds(30));
 		}
 	}
 
