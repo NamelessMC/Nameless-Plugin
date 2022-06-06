@@ -92,8 +92,8 @@ public class Metrics implements Reloadable {
 			WritableBodyPublisher body = WritableBodyPublisher.create();
 			HttpRequest request = HttpRequest.newBuilder(SUBMIT_URI)
 					.header("Content-Type", "application/json")
-//					.header("Content-Encoding", "gzip")
 					.header("User-Agent", USER_AGENT)
+					.timeout(Duration.ofSeconds(5))
 					.POST(body)
 					.build();
 
