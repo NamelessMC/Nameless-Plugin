@@ -32,6 +32,7 @@ public class Websend implements Reloadable {
 	private @Nullable AbstractScheduledTask logTask;
 	private final Object logLock = new Object();
 	private int previousLogSize = 0;
+	private boolean clearPrevious = true;
 
 	Websend(final @NonNull NamelessPlugin plugin,
 			final @Nullable Path logPath) {
@@ -161,7 +162,10 @@ public class Websend implements Reloadable {
 						return;
 					}
 
-					api.websend().sendConsoleLog(serverId, lines);
+					api.websend().sendConsoleLog(serverId, lines, clearPrevious);
+					// Only the first time, signal to Websend module that it should clear the previous server log
+					// This means when the server is restarted, the old log is removed.
+					clearPrevious = false;
 
 					this.previousLogSize = newSize;
 				} catch (IOException e) {
