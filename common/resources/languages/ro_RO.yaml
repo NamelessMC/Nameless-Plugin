@@ -34,3 +34,5 @@ command:
       success: Îți mulțumim că ai raportat acest jucător.
   validate:
     usage: '{command} <code>'
+error:
+  website-username-not-exist: Nu exista niciun utilizator pe website cu acest nume.
