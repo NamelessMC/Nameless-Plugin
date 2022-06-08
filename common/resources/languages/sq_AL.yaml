@@ -8,13 +8,13 @@ command:
   not-a-player: Ti duhet të jesh një lojtar ta exekutosh këtë komandë.
   no-permission: Ti nuk ke të drejtëta exzekutosh këtë komandë.
   notifications:
-    usage: /<commanda>
+    usage: /<command>
     output:
       notification: <hover:show_text:"Kliko për të hapur në një shfletues ueb"><click:open_url:"<url>"><message></click></hover>
       no-notifications: Nuk ke njoftime të palexuara.
     description: Tregon një list e njoftimeve të faqes në internet.
   plugin:
-    usage: /<command> 'ringarko'/'rl'
+    usage: /<command> 'reload'/'rl'
     description: Komanda administrative për shtojcën "NamelessMC"
     output:
       reload-successful: Shtojca u ringarkua me sukses.
