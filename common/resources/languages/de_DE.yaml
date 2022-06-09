@@ -71,7 +71,7 @@ command:
     description: Informationen zu einem Website-Benutzer abrufen
   subcommands: {}
   plugin:
-    usage: /<command> 'reload'/'rl'
+    usage: /<command> 'reload'/'rl'/'last_error'
     output:
       reload-successful: Das Plugin wurde erfolgreich neu geladen.
     description: Administrative Befehle für das NamelessMC-Plugin
