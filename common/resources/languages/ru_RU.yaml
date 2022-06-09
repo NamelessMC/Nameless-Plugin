@@ -68,7 +68,7 @@ command:
     output:
       reload-successful: Плагин успешно перезапущен.
     description: Административные комманды для NamelessMC плагина
-    usage: /<command> 'reload'/'rl'
+    usage: /<command> 'reload'/'rl'/'last_error'
 player:
   self:
     not-registered: Вы должны зарегистрировать учетную запись, чтобы выполнить это
