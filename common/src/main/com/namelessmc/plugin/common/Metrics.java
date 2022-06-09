@@ -71,6 +71,7 @@ public class Metrics implements Reloadable {
 		fields.addProperty("announcements", config.node("announcements", "enabled").getBoolean());
 		fields.addProperty("websend_command_executor", modules.node("websend", "command-executor", "enabled").getBoolean());
 		fields.addProperty("websend_send_logs", modules.node("websend", "send-logs", "enabled").getBoolean());
+		fields.addProperty("store_command_executor", modules.node("store", "command-executor", "enabled").getBoolean());
 
 		json.add("fields", fields);
 
