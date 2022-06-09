@@ -34,9 +34,6 @@ server-data-sender:
     player: []
 
 logging:
-  # Show single line error messages instead of full stacktraces.
-  # Can be helpful to reduce console spam while your webserver is broken.
-  single-line-exceptons: false
   # Show more information in log
   verbose: false
 
