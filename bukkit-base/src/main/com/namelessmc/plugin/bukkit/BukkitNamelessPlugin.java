@@ -9,9 +9,7 @@ import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
 import org.bstats.bukkit.Metrics;
-import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,8 +27,6 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 
 	protected final @NonNull NamelessPlugin plugin;
-
-	private @Nullable Boolean usesMojangUuids;
 
 	private final @NonNull PlaceholderCacher placeholderCacher;
 
@@ -59,29 +55,16 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 
 		initPapi();
 		initMaintenance();
-		initMetrics();
+		new Metrics(this, 13396);
 
 		BukkitCommandProxy.registerCommands(this.plugin, this);
 
 		this.getServer().getPluginManager().registerEvents(new BukkitEventProxy(this.plugin), this);
-
-		getServer().getScheduler().runTaskAsynchronously(this, this::checkUuids);
 	}
 
 	protected abstract void configureAudiences();
 
 	public abstract void kickPlayer(final @NonNull Player player, final LanguageHandler.@NonNull Term term);
-
-	private void checkUuids() {
-		@SuppressWarnings("deprecation")
-		final OfflinePlayer notch = Bukkit.getOfflinePlayer("Notch");
-		this.usesMojangUuids = notch.getUniqueId().toString().equals("069a79f4-44e9-4726-a5be-fca90e38aaf5");
-		if (!usesMojangUuids) {
-			getLogger().severe("*** IMPORTANT ***");
-			getLogger().severe("Your server does not use Mojang UUIDs!");
-			getLogger().severe("This plugin won't work for cracked servers. If you do not intend to run a cracked server and you use BungeeCord, make sure `bungeecord: true` is set in spigot.yml and ip forwarding is enabled in the BungeeCord config file.");
-		}
-	}
 	
 	private void initPapi() {
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -111,15 +94,6 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		}
 
 		this.maintenanceStatusProvider = new KennyMaintenance();
-	}
-
-	private void initMetrics() {
-		Metrics metrics = new Metrics(this, 13396);
-		this.plugin.registerCustomCharts(metrics, Metrics.class);
-
-		metrics.addCustomChart(new SimplePie("mojang_uuids", () ->
-				this.usesMojangUuids == null ? "Unknown" : (
-						this.usesMojangUuids ? "Yes" : "No")));
 	}
 
 }

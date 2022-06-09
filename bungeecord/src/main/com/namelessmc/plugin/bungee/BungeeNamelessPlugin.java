@@ -31,8 +31,7 @@ public class BungeeNamelessPlugin extends Plugin {
 		this.plugin.setAudienceProvider(new BungeeAudienceProvider(this));
 		this.plugin.reload();
 
-		Metrics metrics = new Metrics(this, 14864);
-		this.plugin.registerCustomCharts(metrics, Metrics.class);
+		new Metrics(this, 14864);
 
 		BungeeCommandProxy.registerCommands(this.plugin, this);
 

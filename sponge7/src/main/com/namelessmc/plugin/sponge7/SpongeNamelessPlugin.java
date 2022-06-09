@@ -49,10 +49,7 @@ public class SpongeNamelessPlugin {
 	@Listener
 	public void onServerStart(final GameStartedServerEvent event) {
 		this.plugin.reload();
-
-		Metrics metrics = this.metricsFactory.make(14865);
-		this.plugin.registerCustomCharts(metrics, Metrics.class);
-
+		this.metricsFactory.make(14865);
 		SpongeCommandProxy.registerCommands(this.plugin, this);
 	}
 

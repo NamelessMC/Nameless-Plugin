@@ -49,12 +49,8 @@ public class VelocityNamelessPlugin {
 	@Subscribe
 	public void onProxyInitialization(final ProxyInitializeEvent event) {
 		this.plugin.reload();
-
 		this.server.getEventManager().register(this, new VelocityEventProxy(this.plugin));
-
-		final Metrics metrics = metricsFactory.make(this, 14863);
-		this.plugin.registerCustomCharts(metrics, Metrics.class);
-
+		metricsFactory.make(this, 14863);
 		VelocityCommandProxy.registerCommands(this.plugin, server);
 	}
 
