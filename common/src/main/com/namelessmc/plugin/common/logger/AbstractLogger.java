@@ -57,6 +57,8 @@ public abstract class AbstractLogger implements Reloadable {
 	}
 
 	public void logException(Throwable t) {
+		this.lastException = t;
+
 		String pluginCommand = null;
 		try {
 			pluginCommand = this.config.commands().node("plugin").getString();
