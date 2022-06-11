@@ -48,26 +48,28 @@ public class UserSyncTask implements Runnable, Reloadable {
 			}
 			this.task = this.plugin.scheduler().runTimer(this, interval);
 		}
+
+		if (config.hasChild("log")) {
+			this.plugin.logger().warning("The 'user-sync' -> 'log' configuration option is no longer used, please remove it from your config file.");
+		}
 	}
 
 	@Override
 	public void run() {
 		final CommentedConfigurationNode config = this.plugin.config().main().node("user-sync");
-		final boolean doLog = config.node("log").getBoolean();
 		Runnable runAfter = null;
 		if (config.node("whitelist", "enabled").getBoolean()) {
-			runAfter = () -> this.syncWhitelist(doLog);
+			runAfter = this::syncWhitelist;
 		}
 
 		if (config.node("bans", "enabled").getBoolean()) {
-			syncBans(runAfter, doLog);
+			syncBans(runAfter);
 		} else if (runAfter != null) {
 			runAfter.run();
 		}
 	}
 
-	private @Nullable Set<UUID> getUuids(final boolean doLog,
-							             final @NonNull Consumer<@NonNull FilteredUserListBuilder> builderConfigurator) {
+	private @Nullable Set<UUID> getUuids(final @NonNull Consumer<@NonNull FilteredUserListBuilder> builderConfigurator) {
 		final CommentedConfigurationNode config = this.plugin.config().main().node("user-sync");
 		final AbstractLogger logger = this.plugin.logger();
 
@@ -100,8 +102,8 @@ public class UserSyncTask implements Runnable, Reloadable {
 					}
 					if (!excludes.contains(uuid.toString())) {
 						uuids.add(uuid);
-					} else if (doLog) {
-						logger.info("Ignoring user " + uuid);
+					} else {
+						logger.fine("Ignoring user " + uuid);
 					}
 				} catch (final NamelessException e) {
 					throw new IllegalStateException("Getting a user uuid should never fail with a network error, it is cached from the listUsers response", e);
@@ -113,15 +115,11 @@ public class UserSyncTask implements Runnable, Reloadable {
 		return uuids;
 	}
 
-	private void syncBans(final @Nullable Runnable onComplete,
-						  final boolean doLog) {
+	private void syncBans(final @Nullable Runnable onComplete) {
 		final AbstractLogger logger = this.plugin.logger();
-
-		if (doLog) {
-			logger.info("Starting bans sync, retrieving list of banned users...");
-		}
+		logger.fine("Starting bans sync, retrieving list of banned users...");
 		this.plugin.scheduler().runAsync(() -> {
-			final Set<UUID> bannedUuids = getUuids(doLog, b -> b.withFilter(UserFilter.BANNED, true));
+			final Set<UUID> bannedUuids = getUuids(b -> b.withFilter(UserFilter.BANNED, true));
 			if (bannedUuids == null) {
 				return;
 			}
@@ -131,19 +129,15 @@ public class UserSyncTask implements Runnable, Reloadable {
 					final OfflinePlayer bannedPlayer = Bukkit.getOfflinePlayer(bannedUuid);
 					if (!banned.contains(bannedPlayer)) {
 						banned.add(bannedPlayer);
-						if (doLog) {
-							logger.info("Added " + bannedUuid + " to the ban list");
-						}
+						logger.fine("Added " + bannedUuid + " to the ban list");
 						if (bannedPlayer.isOnline()) {
 							this.bukkitPlugin.kickPlayer((Player) bannedPlayer, USER_SYNC_KICK);
 						}
 					}
 				}
-				if (doLog) {
-					logger.info("Retrieving list of unbanned players...");
-				}
+				logger.fine("Retrieving list of unbanned players...");
 				this.plugin.scheduler().runAsync(() -> {
-					final Set<UUID> unbannedUuids = getUuids(doLog, b -> b.withFilter(UserFilter.BANNED, false));
+					final Set<UUID> unbannedUuids = getUuids(b -> b.withFilter(UserFilter.BANNED, false));
 					if (unbannedUuids == null) {
 						return;
 					}
@@ -153,9 +147,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 							final OfflinePlayer unbannedPlayer = Bukkit.getOfflinePlayer(unbannedUuid);
 							if (banned2.contains(unbannedPlayer)) {
 								banned2.remove(unbannedPlayer);
-								if (doLog) {
-									logger.info("Removed " + unbannedUuid + " from the ban list");
-								}
+								logger.fine("Removed " + unbannedUuid + " from the ban list");
 							}
 						}
 						if (onComplete != null) {
@@ -167,19 +159,17 @@ public class UserSyncTask implements Runnable, Reloadable {
 		});
 	}
 
-	private void syncWhitelist(final boolean doLog) {
+	private void syncWhitelist() {
 		final CommentedConfigurationNode config = this.plugin.config().main().node("user-sync", "whitelist");
 		final AbstractLogger logger = this.plugin.logger();
 
 		final boolean verifiedOnly = config.node("verified-only").getBoolean();
 		final int groupIdOnly = config.node("only-with-group").getInt();
 
-		if (doLog) {
-			logger.info("Starting auto-whitelist, retrieving list of registered users...");
-		}
+		logger.fine("Starting auto-whitelist, retrieving list of registered users...");
 
 		this.plugin.scheduler().runAsync(() -> {
-			final Set<UUID> websiteUuids = getUuids(doLog, b -> {
+			final Set<UUID> websiteUuids = getUuids(b -> {
 				b.withFilter(UserFilter.BANNED, false);
 				if (verifiedOnly) {
 					b.withFilter(UserFilter.VERIFIED, true);
@@ -194,27 +184,21 @@ public class UserSyncTask implements Runnable, Reloadable {
 			}
 
 			this.plugin.scheduler().runSync(() -> {
-				if (doLog) {
-					logger.info("Done, updating bukkit whitelist...");
-				}
+				logger.fine("Done, updating bukkit whitelist...");
 
 				// Whitelist players who are not whitelisted but should be
 				for (final UUID websiteUuid : websiteUuids) {
 					final OfflinePlayer player = Bukkit.getOfflinePlayer(websiteUuid);
 					if (!player.isWhitelisted()) {
 						player.setWhitelisted(true);
-						if (doLog) {
-							logger.info("Added " + (player.getName() == null ? websiteUuid.toString() : player.getName()) + " to the whitelist.");
-						}
+						logger.fine("Added " + (player.getName() == null ? websiteUuid.toString() : player.getName()) + " to the whitelist.");
 					}
 				}
 
-				if (doLog) {
-					logger.info("Done, now retrieving a list of all users to un-whitelist users who shouldn't be whitelisted...");
-				}
+				logger.fine("Done, now retrieving a list of all users to un-whitelist users who shouldn't be whitelisted...");
 
 				this.plugin.scheduler().runAsync(() -> {
-					final Set<UUID> allUuids = getUuids(doLog, b -> {});
+					final Set<UUID> allUuids = getUuids(b -> {});
 
 					if (allUuids == null) {
 						return;
@@ -226,9 +210,7 @@ public class UserSyncTask implements Runnable, Reloadable {
 							final OfflinePlayer player = Bukkit.getOfflinePlayer(toRemove);
 							if (player.isWhitelisted()) {
 								player.setWhitelisted(false);
-								if (doLog) {
-									logger.info("Removed " + (player.getName() == null ? toRemove.toString() : player.getName()) + " from the whitelist");
-								}
+								logger.fine("Removed " + (player.getName() == null ? toRemove.toString() : player.getName()) + " from the whitelist");
 								if (player.isOnline()) {
 									this.bukkitPlugin.kickPlayer((Player) player, USER_SYNC_KICK);
 								}

@@ -67,7 +67,6 @@ user-sync:
   enabled: false
   # Number of seconds in between syncs
   poll-interval: 30
-  log: true
   # List of UUIDs to exclude (never add to or remove from the whitelist or ban list)
   # These UUIDs must be written with dashes. If you've enabled api-usernames, enter usernames instead.
   exclude: [ ]
