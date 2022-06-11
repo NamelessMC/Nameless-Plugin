@@ -1,6 +1,7 @@
 package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.java_api.*;
+import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.integrations.StandardIntegrationTypes;
 import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;

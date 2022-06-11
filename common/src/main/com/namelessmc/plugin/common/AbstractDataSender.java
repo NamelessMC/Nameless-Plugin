@@ -2,7 +2,7 @@ package com.namelessmc.plugin.common;
 
 import com.google.gson.JsonObject;
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.exception.ApiError;
 import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;

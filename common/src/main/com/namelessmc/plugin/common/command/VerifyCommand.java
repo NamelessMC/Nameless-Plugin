@@ -1,7 +1,7 @@
 package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.exception.ApiError;
 import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.integrations.IntegrationData;

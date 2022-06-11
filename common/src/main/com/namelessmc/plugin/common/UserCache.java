@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import org.checkerframework.checker.nullness.qual.Nullable;
 

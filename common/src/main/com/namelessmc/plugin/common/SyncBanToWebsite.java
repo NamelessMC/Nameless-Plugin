@@ -1,7 +1,7 @@
 package com.namelessmc.plugin.common;
 
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.NamelessException;
+import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.plugin.common.event.NamelessPlayerBanEvent;
 import net.kyori.event.EventSubscription;
