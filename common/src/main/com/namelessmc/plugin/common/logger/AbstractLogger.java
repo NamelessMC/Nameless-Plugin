@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.common.logger;
 
+import com.google.gson.JsonSyntaxException;
 import com.namelessmc.java_api.exception.ApiError;
 import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.logger.ApiLogger;
@@ -95,6 +96,11 @@ public abstract class AbstractLogger implements Reloadable {
 					);
 					break;
 			}
+			return true;
+		}
+
+		if (t instanceof JsonSyntaxException) {
+			this.warning("The website didn't return a valid json response. " + lastErrorCommand);
 			return true;
 		}
 
