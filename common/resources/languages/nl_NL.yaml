@@ -70,7 +70,7 @@ command:
     description: Valideert het websiteaccount van de gebruiker met de opgegeven code.
   subcommands: {}
   plugin:
-    usage: /<command> 'Herlaad'/'rl'/'Laatste foutmelding'
+    usage: /<command> 'reload'/'rl'/'last_error'
     description: Administratieve commando's voor de NamelessMC plugin
     output:
       reload-successful: Plugin succesvol herladen.
