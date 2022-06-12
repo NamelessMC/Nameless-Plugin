@@ -39,7 +39,9 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			// If the plugin is loaded when the server is already started (e.g. using /reload on bukkit), add
 			// players manually because the join event is never called for them.
 			for (final NamelessPlayer player : this.plugin.audiences().onlinePlayers()) {
-				playerLoginTime.put(player.uuid(), System.currentTimeMillis());
+				if (!playerLoginTime.containsKey(player.uuid())) {
+					playerLoginTime.put(player.uuid(), System.currentTimeMillis());
+				}
 			}
 		});
 
@@ -51,10 +53,6 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 
 	protected @NonNull NamelessPlugin getPlugin() {
 		return this.plugin;
-	}
-
-	public boolean isEnabled() {
-		return this.dataSenderTask != null; // for bStats
 	}
 
 	@Override
