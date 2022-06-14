@@ -12,7 +12,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class LuckPermsPermissions extends AbstractPermissions implements Reloadable {
+public class LuckPermsPermissions extends AbstractPermissions {
 
 	private @Nullable LuckPerms api;
 
