@@ -57,6 +57,8 @@ public class Metrics implements Reloadable {
 
 		// Stats
 		fields.addProperty("api_working", this.plugin.apiProvider().apiIfCached() != null);
+		AbstractPermissions permissionsAdapter = this.plugin.permissions();
+		fields.addProperty("permissions_adapter", permissionsAdapter != null ? permissionsAdapter.getClass().getSimpleName() : "None");
 
 		// Configuration
 		ConfigurationNode config = this.plugin.config().main();

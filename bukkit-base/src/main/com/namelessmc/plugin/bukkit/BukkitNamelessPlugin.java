@@ -45,6 +45,7 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		this.placeholderCacher = this.plugin.registerReloadable(
 				new PlaceholderCacher(this, this.plugin)
 		);
+		this.plugin.registerPermissionAdapter(new VaultPermissions(this.plugin));
 	}
 
 	@Override

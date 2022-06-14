@@ -85,6 +85,12 @@
 			<artifactId>checker-qual</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>net.luckperms</groupId>
+			<artifactId>api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 
 </project>

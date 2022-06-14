@@ -186,6 +186,12 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			}
 			json.addProperty("login-time", loginTime);
 		});
+
+		final AbstractPermissions permissions = this.plugin.permissions();
+		if (permissions != null) {
+			this.registerPlayerInfoProvider(permissions);
+			this.registerGlobalInfoProvider(permissions);
+		}
 	}
 
 	@FunctionalInterface

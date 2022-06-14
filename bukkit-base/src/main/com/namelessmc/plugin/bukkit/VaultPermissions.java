@@ -1,8 +1,8 @@
 package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.plugin.common.AbstractPermissions;
-import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
@@ -12,55 +12,69 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class VaultPermissions extends AbstractPermissions {
 
-	private final @NonNull Permission permission;
+	private final NamelessPlugin plugin;
+	private @Nullable Permission permission;
 
-	private VaultPermissions(final @NonNull Permission permission) {
-		this.permission = permission;
+	public VaultPermissions(final NamelessPlugin plugin) {
+		this.plugin = plugin;
 	}
 
 	@Override
-	public Collection<String> getGroups() {
-		return Arrays.asList(this.permission.getGroups());
-	}
-
-	@Override
-	public Collection<String> getPlayerGroups(final @NonNull NamelessPlayer player) {
-		final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
-		if (bukkitPlayer == null) {
-			throw new IllegalStateException("Player " + player.username() + " is offline");
-		}
-		return Arrays.asList(this.permission.getPlayerGroups(bukkitPlayer));
-	}
-
-	static @Nullable VaultPermissions create(final @NonNull NamelessPlugin plugin) {
-		final AbstractLogger log = plugin.logger();
+	public void reload() {
+		final AbstractLogger log = this.plugin.logger();
 		if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
-			log.warning("Vault is not installed. Group sync will not work.");
-			return null;
+			log.fine("Vault is not installed. Group sync will not work.");
+			return;
 		}
 		final RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServer().getServicesManager().getRegistration(Permission.class);
 		if (permissionProvider == null) {
-			log.warning("No vault compatible permissions plugin was found. Group sync will not work.");
-			return null;
+			log.fine("No vault compatible permissions plugin was found.");
+			return;
 		}
 		final Permission permission = permissionProvider.getProvider();
 		if (permission == null) {
-			log.warning("No vault compatible permissions plugin was found. Group sync will not work.");
-			return null;
+			log.fine("No vault compatible permissions plugin was found.");
+			return;
 		}
 
 		try {
 			permission.getGroups();
 		} catch (final UnsupportedOperationException ignored) {
-			log.warning("Permission plugin doesn't seem to work. Group sync will not work.");
-			return null;
+			log.fine("Vault permissions plugin doesn't seem to work.");
+			return;
 		}
 
-		return new VaultPermissions(permission);
+		this.permission = permission;
+	}
+
+	@Override
+	public boolean isUsable() {
+		return this.permission != null;
+	}
+
+	@Override
+	public Set<String> getGroups() {
+		if (this.permission == null) {
+			throw new ProviderNotUsableException();
+		}
+		return Arrays.stream(this.permission.getGroups()).collect(Collectors.toUnmodifiableSet());
+	}
+
+	@Override
+	public Set<String> getPlayerGroups(final @NonNull NamelessPlayer player) {
+		if (this.permission == null) {
+			throw new ProviderNotUsableException();
+		}
+		final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
+		if (bukkitPlayer == null) {
+			return null;
+		}
+		return Arrays.stream(this.permission.getPlayerGroups(bukkitPlayer)).collect(Collectors.toUnmodifiableSet());
 	}
 
 }

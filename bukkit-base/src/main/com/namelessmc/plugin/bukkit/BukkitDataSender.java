@@ -30,19 +30,6 @@ public class BukkitDataSender extends AbstractDataSender {
 
 	@Override
 	protected void registerCustomProviders() {
-
-
-		// TPS TODO Send real TPS
-		this.registerGlobalInfoProvider(json ->
-				json.addProperty("tps", 20));
-
-		// Permissions
-		final VaultPermissions permissions = VaultPermissions.create(plugin);
-		if (permissions != null) {
-			this.registerGlobalInfoProvider(permissions);
-			this.registerPlayerInfoProvider(permissions);
-		}
-
 		// Maintenance
 		MaintenanceStatusProvider maintenance = this.bukkitPlugin.getMaintenanceStatusProvider();
 		if (maintenance != null) {

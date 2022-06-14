@@ -26,6 +26,8 @@ public class NamelessPlugin {
 	private final PropertiesManager propertiesManager;
 
 	private final List<Reloadable> reloadables = new ArrayList<>();
+	private final List<AbstractPermissions> permissionAdapters = new ArrayList<>();
+	private @Nullable AbstractPermissions chosenPermissionAdapter;
 
 	private AbstractAudienceProvider audienceProvider;
 
@@ -65,6 +67,8 @@ public class NamelessPlugin {
 		this.registerReloadable(new Store(this));
 		this.registerReloadable(new SyncBanToWebsite(this));
 		this.registerReloadable(new Websend(this, logPath));
+
+		this.registerPermissionAdapter(new LuckPermsPermissions());
 	}
 
 	public ConfigurationHandler config() {
@@ -99,8 +103,12 @@ public class NamelessPlugin {
 		return this.userCache;
 	}
 
-	public @NonNull EventBus<NamelessEvent> events() {
+	public EventBus<NamelessEvent> events() {
 		return this.eventBus;
+	}
+
+	public @Nullable AbstractPermissions permissions() {
+		return this.chosenPermissionAdapter;
 	}
 
 	public void setAudienceProvider(final @NonNull AbstractAudienceProvider audienceProvider) {
@@ -121,6 +129,26 @@ public class NamelessPlugin {
 	public <T extends Reloadable> T registerReloadable(T reloadable) {
 		this.reloadables.add(reloadable);
 		return reloadable;
+	}
+
+	public <T extends AbstractPermissions> void registerPermissionAdapter(T adapter) {
+		this.permissionAdapters.add(adapter);
+		this.reloadables.add(adapter);
+		this.selectPermissionsAdapter();
+	}
+
+	private void selectPermissionsAdapter() {
+		for (AbstractPermissions adapter : this.permissionAdapters) {
+			if (adapter.isUsable()) {
+				this.chosenPermissionAdapter = adapter;
+				break;
+			}
+		}
+		if (this.chosenPermissionAdapter == null) {
+			this.logger.fine("No usable permission adapter");
+		} else {
+			this.logger.fine("Using permission adapter: " + this.chosenPermissionAdapter.getClass().getSimpleName());
+		}
 	}
 
 }
