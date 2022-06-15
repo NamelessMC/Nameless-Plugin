@@ -1,8 +1,8 @@
 package com.namelessmc.plugin.bukkit.hooks;
 
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
@@ -23,8 +23,11 @@ import org.spongepowered.configurate.CommentedConfigurationNode;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 public class PlaceholderCacher implements Listener, Reloadable {
 
@@ -60,7 +63,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 			}
 			this.task = this.plugin.scheduler().runTimer(this::updateCache, interval);
 			this.isRunning = new AtomicBoolean();
-			this.cachedNotificationCount = new HashMap<>();
+			this.cachedNotificationCount = new ConcurrentHashMap<>();
 		}
 	}
 
@@ -69,26 +72,36 @@ public class PlaceholderCacher implements Listener, Reloadable {
 			throw new IllegalStateException("Placeholder cacher is disabled");
 		}
 
-		if (isRunning.compareAndSet(false, true)) {
-			final NamelessAPI api = this.plugin.apiProvider().api();
-			if (api != null) {
-				for (final Player player : Bukkit.getOnlinePlayers()) {
-					updateCache(api, player);
+		final Set<UUID> uuids = Bukkit.getOnlinePlayers().stream()
+				.map(OfflinePlayer::getUniqueId)
+				.collect(Collectors.toUnmodifiableSet());
+
+		this.plugin.scheduler().runAsync(() -> {
+			if (isRunning.compareAndSet(false, true)) {
+				final NamelessAPI api = this.plugin.apiProvider().api();
+				if (api == null) {
+					this.plugin.logger().fine("Skipped placeholder caching, API connection is broken");
+					return;
 				}
+
+				for (final UUID uuid : uuids) {
+					updateCache(api, uuid);
+				}
+				isRunning.set(false);
 			}
-			isRunning.set(false);
-		}
+		});
 	}
 
-	private void updateCache(final @NonNull NamelessAPI api, final @NonNull Player player) {
+	private void updateCache(final NamelessAPI api, final UUID uuid) {
 		if (this.cachedNotificationCount == null) {
 			throw new IllegalStateException("Placeholder cacher is disabled");
 		}
 
 		try {
-			final NamelessUser user = api.userByMinecraftUuid(player.getUniqueId());
+			this.plugin.logger().fine(() -> "Updating notification count placeholder for " + uuid);
+			final NamelessUser user = api.userByMinecraftUuid(uuid);
 			if (user != null) {
-				this.cachedNotificationCount.put(player.getUniqueId(), user.notificationCount());
+				this.cachedNotificationCount.put(uuid, user.notificationCount());
 			}
 		} catch (final NamelessException e) {
 			this.plugin.logger().logException(e);
