@@ -52,7 +52,7 @@ public class Store implements Reloadable {
 		this.plugin.scheduler().runAsync(() -> {
 			NamelessAPI api = this.plugin.apiProvider().api();
 			if (api == null) {
-				this.plugin.logger().fine("API is not available");
+				this.plugin.logger().fine("Store: API is not available");
 				return;
 			}
 
@@ -60,7 +60,7 @@ public class Store implements Reloadable {
 				final PendingCommandsResponse pendingCommands = api.store().pendingCommands(connectionId);
 
 				if (pendingCommands.customers().isEmpty()) {
-					this.plugin.logger().fine("Nothing to do");
+					this.plugin.logger().fine("Store: nothing to do");
 					return;
 				}
 
