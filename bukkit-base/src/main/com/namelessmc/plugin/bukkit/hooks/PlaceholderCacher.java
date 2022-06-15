@@ -10,7 +10,6 @@ import com.namelessmc.plugin.common.Reloadable;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
@@ -21,7 +20,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -120,7 +118,7 @@ public class PlaceholderCacher implements Listener, Reloadable {
 		this.plugin.scheduler().runAsync(() -> {
 			final NamelessAPI api = this.plugin.apiProvider().api();
 			if (api != null) {
-				updateCache(api, event.getPlayer());
+				updateCache(api, event.getPlayer().getUniqueId());
 			}
 		});
 	}
