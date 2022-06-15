@@ -9,3 +9,5 @@ report: 'report'
 user-info: 'webinfo'
 verify: 'verify'
 plugin: 'nlpl'
+
+#store-credits: 'changecredits'

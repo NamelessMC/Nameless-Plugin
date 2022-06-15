@@ -12,7 +12,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -81,15 +80,15 @@ public abstract class CommonCommand {
 	}
 
 	public static List<CommonCommand> commands(final @NonNull NamelessPlugin plugin) {
-		ArrayList<CommonCommand> list = new ArrayList<>();
-		list.add(new GetNotificationsCommand(plugin));
-		list.add(new NamelessPluginCommand(plugin));
-		list.add(new RegisterCommand(plugin));
-		list.add(new ReportCommand(plugin));
-		list.add(new UserInfoCommand(plugin));
-		list.add(new VerifyCommand(plugin));
-		list.trimToSize();
-		return list;
+		return List.of(
+				new GetNotificationsCommand(plugin),
+				new NamelessPluginCommand(plugin),
+				new RegisterCommand(plugin),
+				new ReportCommand(plugin),
+				new UserInfoCommand(plugin),
+				new StoreCreditsCommand(plugin),
+				new VerifyCommand(plugin)
+		);
 	}
 
 }

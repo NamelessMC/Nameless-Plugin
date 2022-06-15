@@ -7,6 +7,7 @@ public enum Permission {
 	COMMAND_GET_NOTIFICATIONS("namelessmc.command.getnotifications"),
 	COMMAND_REGISTER("namelessmc.command.register"),
 	COMMAND_REPORT("namelessmc.command.report"),
+	COMMAND_STORE_CREDITS("namelessmc.command.store-credits"),
 	COMMAND_SET_GROUP("namelessmc.command.setgroup"),
 	COMMAND_USER_INFO("namelessmc.command.userinfo"),
 	COMMAND_VERIFY("namelessmc.command.verify"),

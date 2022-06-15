@@ -69,6 +69,12 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN("command", "report", "output", "fail", "already-open"),
 		COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF("command", "report", "output", "fail", "report-self"),
 
+		COMMAND_STORE_CREDITS_USAGE("command", "store-credits", "usage"),
+		COMMAND_STORE_CREDITS_DESCRIPTION("command", "store-credits", "description"),
+		COMMAND_STORE_CREDITS_OUTPUT_ADDED("command", "store-credits", "output", "added"),
+		COMMAND_STORE_CREDITS_OUTPUT_REMOVED("command", "store-credits", "output", "removed"),
+		COMMAND_STORE_CREDITS_OUTPUT_NOTHING("command", "store-credits", "output", "nothing"),
+
 		COMMAND_VALIDATE_USAGE("command", "validate", "usage"),
 		COMMAND_VALIDATE_DESCRIPTION("command", "validate", "description"),
 		COMMAND_VALIDATE_OUTPUT_SUCCESS("command", "validate", "output", "success"),
