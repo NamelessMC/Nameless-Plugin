@@ -1,10 +1,11 @@
 package com.namelessmc.plugin.common;
 
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.exception.NamelessException;
+import com.namelessmc.java_api.NamelessApiBuilder;
 import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.Website;
 import com.namelessmc.java_api.exception.ApiException;
+import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -14,6 +15,7 @@ import xyz.derkades.derkutils.Tristate;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.http.HttpClient;
 import java.time.Duration;
 import java.util.Objects;
 
@@ -27,11 +29,12 @@ public class ApiProvider implements Reloadable {
 
 	private Tristate<NamelessAPI> cachedApi;
 
-	private @Nullable String apiUrl;
+	private @Nullable URL apiUrl;
 	private @Nullable String apiKey;
 	private boolean debug;
 	private @Nullable Duration timeout;
 	private boolean bypassVersionCheck;
+	private boolean forceHttp1;
 
 	public ApiProvider(final @NonNull AbstractScheduler scheduler,
 					   final @NonNull AbstractLogger logger,
@@ -45,7 +48,16 @@ public class ApiProvider implements Reloadable {
 	@Override
 	public void reload() {
 		final CommentedConfigurationNode config = this.config.main().node("api");
-		this.apiUrl = config.node("url").getString();
+		try {
+			final String rawUrl = config.node("url").getString();
+			if (rawUrl != null ) {
+				this.apiUrl = new URL(rawUrl);
+			}
+		} catch (MalformedURLException e) {
+			this.logger.severe("You have entered an invalid API URL. Please get an up-to-date API URL from StaffCP > " +
+					"Configuration > API and reload the plugin.");
+			return;
+		}
 		this.apiKey = config.node("key").getString();
 		this.debug = config.node("debug").getBoolean();
 
@@ -57,6 +69,7 @@ public class ApiProvider implements Reloadable {
 			this.timeout = Duration.ofSeconds(10);
 		}
 		this.bypassVersionCheck = config.node("bypass-version-check").getBoolean();
+		this.forceHttp1 = config.node("force-http-1").getBoolean();
 
 		this.cachedApi = Tristate.unknown();
 
@@ -82,18 +95,23 @@ public class ApiProvider implements Reloadable {
 			return this.cachedApi.value();
 		}
 
-		if (this.apiUrl == null || this.apiUrl.isEmpty() || this.apiKey == null || this.apiKey.isEmpty()) {
-			this.logger.severe("You have not entered an API URL and API key in the config. Please get your site's API URL and " +
-					"API key from StaffCP > Configuration > API and reload the plugin.");
+		if (this.apiUrl == null || this.apiKey == null || this.apiKey.isEmpty()) {
+			this.logger.severe("You have not entered an API URL and API key in the config or the API URL or " +
+					"API key is invalid. Please get your site's API URL and API key from " +
+					"StaffCP > Configuration > API and reload the plugin.");
 			this.cachedApi = Tristate.knownEmpty(); // This won't be resolved without reloading, we don't have to retry.
 		} else {
 			try {
-				URL url = new URL(this.apiUrl);
-				final NamelessAPI api = NamelessAPI.builder(url, this.apiKey)
+				final NamelessApiBuilder builder = NamelessAPI.builder(this.apiUrl, this.apiKey)
 						.userAgent(USER_AGENT)
 						.customDebugLogger(this.debug ? this.logger.getApiLogger() : null)
-						.timeout(this.timeout)
-						.build();
+						.timeout(this.timeout);
+
+				if (this.forceHttp1) {
+					builder.httpversion(HttpClient.Version.HTTP_1_1);
+				}
+
+				final NamelessAPI api = builder.build();
 
 				final Website info = api.website();
 				NamelessVersion version = info.parsedVersion();
@@ -112,11 +130,6 @@ public class ApiProvider implements Reloadable {
 							"version of the plugin. Please update your NamelessMC website and/or the plugin.");
 					this.cachedApi = Tristate.knownEmpty(); // No need to retry, cache that it's not working
 				}
-			} catch (MalformedURLException e) {
-				this.logger.severe("You have entered an invalid API URL. Please get an up-to-date API URL from StaffCP > " +
-						"Configuration > API and reload the plugin.");
-				this.logger.severe("MalformedURLException message: '" + e.getMessage() + "'");
-				this.cachedApi = Tristate.knownEmpty(); // This won't be resolved without reloading, we don't have to retry.
 			} catch (final NamelessException e) {
 				this.logger.logException(e);
 
