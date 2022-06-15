@@ -14,7 +14,7 @@ command:
       no-notifications: Nuk ke njoftime të palexuara.
     description: Tregon një list e njoftimeve të faqes në internet.
   plugin:
-    usage: /<command> 'reload'/'rl'
+    usage: /<command> 'reload'/'rl'/'last_error'
     description: Komanda administrative për shtojcën "NamelessMC"
     output:
       reload-successful: Shtojca u ringarkua me sukses.
