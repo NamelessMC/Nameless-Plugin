@@ -75,6 +75,13 @@ command:
     output:
       reload-successful: Das Plugin wurde erfolgreich neu geladen.
     description: Administrative Befehle für das NamelessMC-Plugin
+  store-credits:
+    description: Shop für einen Benutzer hinzufügen oder entfernen
+    output:
+      added: <Credits> Credits zu <Benutzername> hinzugefügt
+      nothing: Keine Maßnahmen erforderlich
+      removed: Entfernte <Credits> Credits von <Benutzername>
+    usage: /<Befehl> \<Spielername> <(-)Credits>
 join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
   Dich mit /register.
 website-announcement: 'Webseiten-Ankündigung: <message>'
