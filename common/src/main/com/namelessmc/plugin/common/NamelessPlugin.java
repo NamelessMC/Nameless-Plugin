@@ -69,6 +69,7 @@ public class NamelessPlugin {
 		this.registerReloadable(new Websend(this, logPath));
 
 		this.registerPermissionAdapter(new LuckPermsPermissions());
+		this.registerReloadable(this::selectPermissionsAdapter);
 	}
 
 	public ConfigurationHandler config() {
@@ -132,13 +133,13 @@ public class NamelessPlugin {
 	}
 
 	public <T extends AbstractPermissions> void registerPermissionAdapter(T adapter) {
+		this.logger.fine(() -> "Registered permission adapter: " + adapter.getClass().getSimpleName());
 		this.permissionAdapters.add(adapter);
 		this.reloadables.add(adapter);
-		this.selectPermissionsAdapter();
 	}
 
 	private void selectPermissionsAdapter() {
-		for (AbstractPermissions adapter : this.permissionAdapters) {
+		for (final AbstractPermissions adapter : this.permissionAdapters) {
 			if (adapter.isUsable()) {
 				this.chosenPermissionAdapter = adapter;
 				break;
