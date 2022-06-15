@@ -135,6 +135,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 	@Override
 	public void run() {
 		final JsonObject data = buildJsonBody();
+		this.plugin.logger().fine(() -> "Sending server data to website: " + data);
 
 		this.plugin.scheduler().runAsync(() -> {
 			final NamelessAPI api = this.plugin.apiProvider().api();
