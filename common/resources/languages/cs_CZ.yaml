@@ -66,6 +66,13 @@ command:
     description: Administrativní příkazy pro plugin NamelessMC
     output:
       reload-successful: Plugin úspěšně znovu načten.
+  store-credits:
+    output:
+      added: Uživateli <username> bylo přidáno <credits> kreditů
+      removed: Uživateli <username> bylo odebráno <credits> kreditů
+      nothing: Není vyžadována žádná akce
+    usage: /<command> \<jméno hráče> <(-)kredity>
+    description: Přidat nebo odebrat kredity uživateli
 join-not-registered: Ještě nemáte na našem webu účet. Zaregistrujte se pomocí /register.
 player:
   other: {}
