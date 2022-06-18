@@ -23,6 +23,7 @@ command:
         username-invalid: ユーザー名は無効です。
         cannot-send-email: 登録メールが送信されない場合は、管理者に連絡してアカウントを有効化してください。
         username-used: ユーザー名はすでに使用されています。
+        minecraft-used: あなたのMinecraftアカウントは、すでに別のウェブサイトユーザーとリンクしています。
     description: ウェブサイトアカウントを作成
   no-permission: このコマンドを実行する権限がありません。
   user-info:
@@ -43,6 +44,7 @@ command:
         username: 'ユーザー名: <username>'
         header: '連携:'
         linked-date: '連携した日付: <linked_date>'
+        verified: '検証: <is_verified>'
     description: ウェブサイトユーザーに関する情報を取得
   validate:
     usage: '/<command> \<コード>'
@@ -65,9 +67,27 @@ command:
     description: NamelessMCプラグイン用管理コマンド
     output:
       reload-successful: プラグインのリロードが正常に行われました。
-    usage: /<command> \<reload|rl>
+    usage: /<command> 'reload'/'rl'/'last_error'
+  store-credits:
+    output:
+      added: <username>に<credits>クレジットを追加
+      removed: <username>から<credits>のクレジットを削除
+      nothing: アクション不要
+    usage: /<command> \<プレイヤー名> <(-)クレジット>
+    description: ユーザーのストアクレジットを追加または削除
 join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。
 website-announcement: 'ウェブサイトのお知らせ: <message>'
 user-sync-kick: ウェブサイトのアカウントBANによって、私たちのサーバーからBANされています。
 error:
-  website-username-not-exist: このユーザー名のウェブサイトユーザーが存在しません
+  website-username-not-exist: このユーザー名のウェブサイトユーザーが存在しません。
+  website-connection: ウェブサイトに接続しようとしたときにエラーが発生しました。
+  username-not-online: 入力されたユーザー名が無効であるか、プレイヤーがオンラインではありません。
+  discord-username-not-exist: このDiscordユーザー名を持つウェブサイトサイトユーザーは存在しません。
+  minecraft-uuid-not-exist: このMinecraft UUIDを持つウェブサイトユーザーは存在しません。
+  target-no-website-account: 提供されたプレイヤーは、ウェブサイトアカウントを持っていません。
+boolean:
+  yes-positive: <green>はい</green>
+  yes-negative: <red>はい</red>
+  no-positive: <green>いいえ</green>
+  no-negative: <red>いいえ</red>
+join-notifications: ウェブサイトに通知があります。詳細については、/<notifications_command>を実行してください。
