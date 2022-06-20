@@ -127,12 +127,35 @@
 					<groupId>com.google.guava</groupId>
 					<artifactId>guava</artifactId>
 				</exclusion>
+				<!-- We don't use these, but make sure we don't accidentally rely on them -->
+				<exclusion>
+					<groupId>commons-lang</groupId>
+					<artifactId>commons-lang</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.googlecode.json-simple</groupId>
+					<artifactId>json-simple</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.avaje</groupId>
+					<artifactId>ebean</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>net.kyori</groupId>
 			<artifactId>adventure-platform-bukkit</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>net.kyori</groupId>
+					<artifactId>adventure-text-serializer-gson</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.kyori</groupId>
+					<artifactId>adventure-text-serializer-gson-legacy-impl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
     </dependencies>
