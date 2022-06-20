@@ -20,7 +20,7 @@ public class LuckPermsPermissions extends AbstractPermissions {
 	public void reload() {
 		try {
 			this.api = LuckPermsProvider.get();
-		} catch (IllegalStateException e) {}
+		} catch (IllegalStateException | NoClassDefFoundError e) {}
 	}
 
 	@Override
