@@ -11,9 +11,7 @@ import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class OldBukkitAudienceProvider extends AbstractAudienceProvider {
@@ -28,8 +26,14 @@ public class OldBukkitAudienceProvider extends AbstractAudienceProvider {
 	}
 
 	@Override
-	public @NonNull Audience broadcast() {
-		throw new NotImplementedException(); // TODO
+	public Audience broadcast() {
+		final Player[] bukkitPlayers = Bukkit.getOnlinePlayers();
+		final List<Audience> audiences = new ArrayList<>(bukkitPlayers.length + 1);
+		for (Player player : bukkitPlayers) {
+			audiences.add(new LegacyCommandSenderAudience(player));
+		}
+		audiences.add(new LegacyCommandSenderAudience(Bukkit.getConsoleSender()));
+		return Audience.audience(audiences);
 	}
 
 	public @Nullable NamelessPlayer bukkitToNamelessPlayer(final Player bukkitPlayer) {
