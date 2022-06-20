@@ -14,6 +14,7 @@
 		<checkerFrameworkVersion>3.22.2</checkerFrameworkVersion>
 		<velocityVersion>3.1.1</velocityVersion>
 		<bStatsVersion>3.0.0</bStatsVersion>
+		<adventureVersion>4.11.0</adventureVersion>
 	</properties>
 
 	<modules>
@@ -180,17 +181,22 @@
 			<dependency>
 				<groupId>net.kyori</groupId>
 				<artifactId>adventure-api</artifactId>
-				<version>4.11.0</version>
+				<version>${adventureVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.kyori</groupId>
 				<artifactId>adventure-text-serializer-plain</artifactId>
-				<version>4.11.0</version>
+				<version>${adventureVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.kyori</groupId>
+				<artifactId>adventure-text-serializer-legacy</artifactId>
+				<version>${adventureVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.kyori</groupId>
 				<artifactId>adventure-text-minimessage</artifactId>
-				<version>4.11.0</version>
+				<version>${adventureVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.kyori</groupId>
