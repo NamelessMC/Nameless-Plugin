@@ -40,6 +40,7 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 				platformInternalName,
 				Bukkit.getVersion()
 		);
+		this.plugin.registerReloadable(this::initPapi);
 		this.plugin.registerReloadable(new BukkitDataSender(this.plugin, this));
 		this.plugin.registerReloadable(new UserSyncTask(this.plugin, this));
 		this.placeholderCacher = this.plugin.registerReloadable(
@@ -54,7 +55,6 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 
 		this.plugin.reload();
 
-		initPapi();
 		initMaintenance();
 		new Metrics(this, 13396);
 
@@ -69,6 +69,10 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 	
 	private void initPapi() {
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			if (this.papiWrapper != null) {
+				// Placeholders were already registered in a previous reload
+				return;
+			}
 			final PapiHook placeholders = new PapiHook(this.placeholderCacher);
 			placeholders.register();
 			this.papiWrapper = new PapiWrapper();
