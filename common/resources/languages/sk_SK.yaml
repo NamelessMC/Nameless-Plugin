@@ -27,6 +27,8 @@ command:
         email-used: Táto e-mailová adresa sa už používa pre iný používateľský účet.
         cannot-send-email: Registračný e-mail nie je možné odoslať. Požiadajte správcu
           o aktiváciu vášho účtu.
+        username-used: Vaše používateľské meno sa už používa.
+        minecraft-used: Váš účet Minecraft je už prepojený s iným používateľom webstránky.
       success:
         email: Skontrolujte svoju doručenú poštu a dokončite registráciu.
         link: <click:open_url:"<url>">Registráciu dokončíte kliknutím sem.
@@ -43,6 +45,13 @@ command:
       uuid-unknown: neznáme
       all-groups: 'Všetky skupiny: <groups_names_list>'
       validated: 'Účet bol overený: <validated>'
+      integrations:
+        header: 'Integrácie:'
+        verified: 'Overený: <is_verified>'
+        username: 'Používateľské meno: <username>'
+        identifier: 'Identifikátor: <identifier>'
+        linked-date: 'Dátum prepojenia: <linked_date>'
+      custom-field: "Vlastné pole '<name>': <value>"
     usage: /{command} [username]
     description: Načítanie používateľových informácii na webe
   validate:
@@ -55,5 +64,36 @@ command:
       success: Váš účet bol overený.
     description: Overuje účet používateľa na danom webe pomocou daného kódu.
   not-a-player: Musíte byť hráč, ak chcete vykonať tento príkaz.
+  plugin:
+    output:
+      reload-successful: Plugin bol úspešne načítaný.
+    usage: /<command> 'reload'/'rl'/'last_error'
+    description: Administratívne príkazy pre plugin NamelessMC
+  store-credits:
+    usage: /<command> \<player name> <(-)credits>
+    description: Pridajte alebo odstráňte kredity v obchode pre používateľa
+    output:
+      added: Pridané <credits> kredity pre <username>
+      removed: Odobrané <credits> kredity od <username>
+      nothing: Nie je potrebná žiadna akcia
 join-not-registered: Na našej webovej stránke ešte nemáte účet. Prosím zaregistrujte
   sa pomocou /register.
+user-sync-kick: Po zákaze účtu na webovej stránke máte zakázaný prístup na náš server.
+error:
+  website-username-not-exist: Neexistuje žiadny používateľ webstránky s týmto používateľským
+    menom.
+  website-connection: Pri pokuse o pripojenie k webstránke sa vyskytla chyba.
+  discord-username-not-exist: Neexistuje žiadny používateľ webstránky s týmto discord
+    používateľským menom.
+  target-no-website-account: Uvedený hráč nemá webový účet.
+  minecraft-uuid-not-exist: Neexistuje žiadny používateľ webstránky s týmto Minecraft
+    UUID.
+  username-not-online: Zadané používateľské meno je neplatné alebo hráč nie je online.
+website-announcement: 'Oznámenie webovej stránky: <message>'
+boolean:
+  yes-positive: <green>Áno</green>
+  yes-negative: <red>Áno</red>
+  no-positive: <green>Nie</green>
+  no-negative: <red>Nie</red>
+join-notifications: Máte upozornenia na webe, použite /<notifications_command> pre
+  viac informácií.
