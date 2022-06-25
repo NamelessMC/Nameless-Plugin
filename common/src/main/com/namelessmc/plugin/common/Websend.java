@@ -98,7 +98,7 @@ public class Websend implements Reloadable {
 					}
 
 					if (!Files.isRegularFile(log)) {
-						this.plugin.logger().warning("Log file does not exist or is not a regular file");
+						this.plugin.logger().warning("Log file does not exist or is not a regular file: " + log.toAbsolutePath());
 						return;
 					}
 
