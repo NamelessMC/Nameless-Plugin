@@ -182,7 +182,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		this.registerPlayerInfoProvider((json, player) -> {
 			Long loginTime =  this.playerLoginTime.get(player.uuid());
 			if (loginTime == null) {
-				this.plugin.logger().warning("Player " + player.username() + " is missing from login time map");
+				this.plugin.logger().warning("Player " + player.username() + " is missing from login time map. If the plugin was loaded normally (e.g. not using a plugin manager), this is probably a bug.");
 				loginTime = System.currentTimeMillis();
 			}
 			json.addProperty("login-time", loginTime);
