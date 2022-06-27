@@ -71,6 +71,7 @@ public class Metrics implements Reloadable {
 		fields.addProperty("user_sync_whitelist", config.node("user-sync", "whitelist", "enabled").getBoolean());
 		fields.addProperty("user_sync_bans", config.node("user-sync", "bans", "enabled").getBoolean());
 		fields.addProperty("announcements", config.node("announcements", "enabled").getBoolean());
+		fields.addProperty("retrieve_placeholders", config.node("retrieve-placeholders", "enabled").getBoolean());
 		fields.addProperty("websend_command_executor", modules.node("websend", "command-executor", "enabled").getBoolean());
 		fields.addProperty("websend_send_logs", modules.node("websend", "send-logs", "enabled").getBoolean());
 		fields.addProperty("store_command_executor", modules.node("store", "command-executor", "enabled").getBoolean());
