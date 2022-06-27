@@ -2,6 +2,8 @@ package com.namelessmc.plugin.common;
 
 import com.github.mizosoft.methanol.Methanol;
 import com.google.gson.JsonObject;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.Website;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -56,8 +58,16 @@ public class Metrics implements Reloadable {
 		fields.addProperty("os_name", System.getProperty("os.name"));
 
 		// Stats
-		fields.addProperty("api_working", this.plugin.apiProvider().apiIfCached() != null);
-		AbstractPermissions permissionsAdapter = this.plugin.permissions();
+		final NamelessAPI api = this.plugin.apiProvider().apiIfCached();
+		fields.addProperty("api_working", api != null);
+		if (api != null) {
+			Website website = api.websiteIfCached();
+			if (website != null) {
+				fields.addProperty("website_version", website.rawVersion());
+			}
+		}
+
+		final AbstractPermissions permissionsAdapter = this.plugin.permissions();
 		fields.addProperty("permissions_adapter", permissionsAdapter != null ? permissionsAdapter.getClass().getSimpleName() : "None");
 
 		// Configuration
