@@ -2,9 +2,9 @@ package com.namelessmc.plugin.common;
 
 import com.google.gson.JsonObject;
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.exception.ApiError;
 import com.namelessmc.java_api.exception.ApiException;
+import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import com.namelessmc.plugin.common.event.NamelessJoinEvent;
@@ -14,6 +14,7 @@ import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.time.Duration;
 import java.util.*;
@@ -178,6 +179,12 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			json.addProperty("max-memory", Runtime.getRuntime().maxMemory());
 			json.addProperty("allocated-memory", Runtime.getRuntime().totalMemory());
 		});
+
+		final ConfigurationNode commands = this.plugin.config().commands();
+		if (commands.hasChild("verify")) {
+			final String verifyCommand = commands.node("verify").getString();
+			this.registerGlobalInfoProvider(json -> json.addProperty("verify_command", verifyCommand));
+		}
 
 		this.registerPlayerInfoProvider((json, player) -> {
 			Long loginTime =  this.playerLoginTime.get(player.uuid());
