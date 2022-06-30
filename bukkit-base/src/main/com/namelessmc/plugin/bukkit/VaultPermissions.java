@@ -49,6 +49,8 @@ public class VaultPermissions extends AbstractPermissions {
 			return;
 		}
 
+		log.fine("Vault permissions plugin found, seems to work");
+
 		this.permission = permission;
 	}
 

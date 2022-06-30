@@ -25,7 +25,11 @@ public class NamelessPlugin {
 	private final EventBus<NamelessEvent> eventBus;
 	private final PropertiesManager propertiesManager;
 
-	private final List<Reloadable> reloadables = new ArrayList<>();
+	private final List<List<Reloadable>> reloadables = List.of(
+			new ArrayList<>(),
+			new ArrayList<>(),
+			new ArrayList<>()
+	);
 	private final List<AbstractPermissions> permissionAdapters = new ArrayList<>();
 	private @Nullable AbstractPermissions chosenPermissionAdapter;
 
@@ -69,7 +73,9 @@ public class NamelessPlugin {
 		this.registerReloadable(new Websend(this, logPath));
 
 		this.registerPermissionAdapter(new LuckPermsPermissions());
-		this.registerReloadable(this::selectPermissionsAdapter);
+		// Selecting permissions adapter needs to happen after all permission adapters
+		// are reloaded, so we set order = LAST here
+		this.registerReloadable(this::selectPermissionsAdapter, Reloadable.Order.LAST);
 	}
 
 	public ConfigurationHandler config() {
@@ -121,21 +127,27 @@ public class NamelessPlugin {
 	}
 
 	public void reload() {
-		for (Reloadable reloadable : reloadables) {
-			this.logger.fine(() -> "Reloading: " + reloadable.getClass().getSimpleName());
-			reloadable.reload();
+		for (Reloadable.Order order : Reloadable.Order.values()) {
+			for (Reloadable reloadable : reloadables.get(order.ordinal())) {
+				this.logger.fine(() -> "Reloading " + order + ": " + reloadable.getClass().getSimpleName());
+				reloadable.reload();
+			}
 		}
 	}
 
 	public <T extends Reloadable> T registerReloadable(T reloadable) {
-		this.reloadables.add(reloadable);
+		return this.registerReloadable(reloadable, Reloadable.Order.NORMAL);
+	}
+
+	public <T extends Reloadable> T registerReloadable(T reloadable, Reloadable.Order order) {
+		this.reloadables.get(order.ordinal()).add(reloadable);
 		return reloadable;
 	}
 
-	public <T extends AbstractPermissions> void registerPermissionAdapter(T adapter) {
+	public <T extends AbstractPermissions> T registerPermissionAdapter(T adapter) {
 		this.logger.fine(() -> "Registered permission adapter: " + adapter.getClass().getSimpleName());
 		this.permissionAdapters.add(adapter);
-		this.reloadables.add(adapter);
+		return this.registerReloadable(adapter);
 	}
 
 	private void selectPermissionsAdapter() {
