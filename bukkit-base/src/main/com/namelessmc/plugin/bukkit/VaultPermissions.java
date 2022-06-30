@@ -28,7 +28,7 @@ public class VaultPermissions extends AbstractPermissions {
 	public void reload() {
 		final AbstractLogger log = this.plugin.logger();
 		if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
-			log.fine("Vault is not installed. Group sync will not work.");
+			log.fine("Vault is not installed.");
 			return;
 		}
 		final RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServer().getServicesManager().getRegistration(Permission.class);
