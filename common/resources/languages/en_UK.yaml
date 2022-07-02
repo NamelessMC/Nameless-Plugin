@@ -59,7 +59,7 @@ command:
         report-self: "You cannot report yourself."
 
   store-credits:
-    usage: "/<command> \\<player name> <(-)credits>"
+    usage: "/<command> \\<player name> \\<(-)credits>"
     description: "Add or remove store credits for a user"
     output:
       added: "Added <credits> credits to <username>"
