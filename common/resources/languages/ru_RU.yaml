@@ -75,7 +75,7 @@ command:
       removed: Убрано <credits> кредит(-а/-ов) от <username>
       nothing: Не требуется никаких действий
     description: Добавить или убрать кредиты магазина для пользователя
-    usage: /<command> \<ник игрока> <(-)credits>
+    usage: /<command> \<ник игрока> \<(-)кредиты>
 player:
   self:
     not-registered: Вы должны зарегистрировать учетную запись, чтобы выполнить это
