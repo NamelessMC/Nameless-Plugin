@@ -75,7 +75,7 @@ command:
     description: Comandos administrativos para el plugin NamelessMC
     usage: /<command> 'reload'/'rl'/'last_error'
   store-credits:
-    usage: /<command> \<nombre del jugador> <(-)créditos>
+    usage: /<command> \<nombre del jugador> \<(-)créditos>
     description: Añadir o eliminar créditos de la tienda para un usuario
     output:
       added: Añadidos los créditos de <credits> a <username>
