@@ -149,7 +149,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 				api.submitServerInfo(data);
 			} catch (final NamelessException e) {
 				if (e instanceof ApiException && ((ApiException) e).apiError() == ApiError.CORE_INVALID_SERVER_ID) {
-					logger.warning("Server ID is incorrect. Please enter a correct server ID or disable the server data uploader.");
+					logger.warning("Server ID is incorrect. Please enter a correct server ID or disable the server data sender.");
 				} else {
 					logger.logException(e);
 				}
