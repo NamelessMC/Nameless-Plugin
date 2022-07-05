@@ -1,7 +1,7 @@
 package com.namelessmc.plugin.bukkit;
 
 import com.google.gson.JsonObject;
-import com.namelessmc.plugin.bukkit.hooks.PapiWrapper;
+import com.namelessmc.plugin.bukkit.hooks.PapiHook;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import com.namelessmc.plugin.common.AbstractDataSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
@@ -41,11 +41,7 @@ public class BukkitDataSender extends AbstractDataSender {
 		{
 			final ConfigurationNode config = this.getPlugin().config().main().node("server-data-sender", "placeholders");
 			if (config.node("enabled").getBoolean()) {
-				final PapiWrapper papi = this.bukkitPlugin.papiWrapper();
-				if (papi == null) {
-					this.plugin.logger().warning("Skipped sending placeholders, PlaceholderAPI integration is not working. Is PlaceholderAPI installed?");
-					return;
-				}
+				PapiHook papi = this.bukkitPlugin.papi();
 
 				this.registerGlobalInfoProvider(json -> {
 					try {

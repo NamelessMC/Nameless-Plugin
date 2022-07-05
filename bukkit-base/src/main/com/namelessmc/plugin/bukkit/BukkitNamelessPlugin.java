@@ -1,8 +1,6 @@
 package com.namelessmc.plugin.bukkit;
 
 import com.namelessmc.plugin.bukkit.hooks.PapiHook;
-import com.namelessmc.plugin.bukkit.hooks.PapiWrapper;
-import com.namelessmc.plugin.bukkit.hooks.PlaceholderCacher;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.KennyMaintenance;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import com.namelessmc.plugin.common.LanguageHandler;
@@ -19,16 +17,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import java.nio.file.Path;
 
 public abstract class BukkitNamelessPlugin extends JavaPlugin {
-	
-	private @Nullable PapiWrapper papiWrapper;
-	public @Nullable PapiWrapper papiWrapper() { return this.papiWrapper; }
 
 	private @Nullable MaintenanceStatusProvider maintenanceStatusProvider;
 	public @Nullable MaintenanceStatusProvider getMaintenanceStatusProvider() { return this.maintenanceStatusProvider; }
 
 	protected final @NonNull NamelessPlugin plugin;
 
-	private final @NonNull PlaceholderCacher placeholderCacher;
+	private final PapiHook papiHook;
 
 	public BukkitNamelessPlugin(String platformInternalName) {
 		final Path dataDirectory = this.getDataFolder().toPath();
@@ -40,13 +35,11 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 				platformInternalName,
 				Bukkit.getVersion()
 		);
-		this.plugin.registerReloadable(this::initPapi);
 		this.plugin.registerReloadable(new BukkitDataSender(this.plugin, this));
 		this.plugin.registerReloadable(new UserSyncTask(this.plugin, this));
-		this.placeholderCacher = this.plugin.registerReloadable(
-				new PlaceholderCacher(this, this.plugin)
-		);
 		this.plugin.registerPermissionAdapter(new VaultPermissions(this.plugin));
+
+		this.papiHook = this.plugin.registerReloadable(new PapiHook(this, this.plugin));
 	}
 
 	@Override
@@ -66,19 +59,9 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 	protected abstract void configureAudiences();
 
 	public abstract void kickPlayer(final @NonNull Player player, final LanguageHandler.@NonNull Term term);
-	
-	private void initPapi() {
-		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			if (this.papiWrapper != null) {
-				// Placeholders were already registered in a previous reload
-				return;
-			}
-			final PapiHook placeholders = new PapiHook(this.placeholderCacher);
-			placeholders.register();
-			this.papiWrapper = new PapiWrapper();
-		} else {
-			this.papiWrapper = null;
-		}
+
+	public PapiHook papi() {
+		return this.papiHook;
 	}
 	
 	private void initMaintenance() {
