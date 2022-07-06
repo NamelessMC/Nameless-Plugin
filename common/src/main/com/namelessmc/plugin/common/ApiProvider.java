@@ -23,9 +23,9 @@ public class ApiProvider implements Reloadable {
 
 	private static final String USER_AGENT = "Nameless-Plugin/"	 + MavenConstants.PROJECT_VERSION;
 
-	private final @NonNull AbstractScheduler scheduler;
-	private final @NonNull AbstractLogger logger;
-	private final @NonNull ConfigurationHandler config;
+	private final AbstractScheduler scheduler;
+	private final AbstractLogger logger;
+	private final ConfigurationHandler config;
 
 	private Tristate<NamelessAPI> cachedApi;
 
@@ -88,9 +88,8 @@ public class ApiProvider implements Reloadable {
 	}
 
 	public synchronized @Nullable NamelessAPI api() {
-		Objects.requireNonNull(this.logger, "Exception logger not initialized before API was requested. This is a bug.");
 		Objects.requireNonNull(this.timeout, "API requested before config settings are loaded");
-
+		
 		if (this.cachedApi.known()) {
 			return this.cachedApi.value();
 		}
