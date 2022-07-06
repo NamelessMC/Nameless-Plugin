@@ -88,8 +88,6 @@ public class ApiProvider implements Reloadable {
 	}
 
 	public synchronized @Nullable NamelessAPI api() {
-		Objects.requireNonNull(this.timeout, "API requested before config settings are loaded");
-		
 		if (this.cachedApi.known()) {
 			return this.cachedApi.value();
 		}
