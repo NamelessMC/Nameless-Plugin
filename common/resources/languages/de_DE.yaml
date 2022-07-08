@@ -24,11 +24,13 @@ command:
         username-used: Dein Benutzername ist bereits vergeben.
         minecraft-used: Dein Minecraft-Konto ist bereits mit einem anderen Benutzer
           der Website verknüpft.
+        console-must-specify-username: Wenn du den Befehl register Befehl über die
+          Konsole ausführst, musst du einen Benutzernamen angeben.
       success:
         email: Bitte überprüfe Deinen Posteingang, um die Registrierung abzuschließen.
         link: '<hover:show_text:"Klicke, um den Link im Browser zu öffnen"><click:open_url:"<url>">Registrierung
           abschließen, indem du <url> aufrufst.'
-    usage: '/{command} <Mail>'
+    usage: '/{command} \<E-Mail> [Username]'
     description: Erstelle einen Forum-Account
   no-permission: Du hast keine Berechtigung, diesen Befehl auszuführen.
   report:
