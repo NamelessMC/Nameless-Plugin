@@ -35,7 +35,7 @@ command:
       reload-successful: "Plugin reloaded successfully."
 
   register:
-    usage: "/<command> \\<username> \\<email>"
+    usage: "/<command> \\<email> [username]"
     description: "Create a website account"
     output:
       success:
@@ -48,6 +48,7 @@ command:
         email-invalid: "The provided email address is invalid."
         username-invalid: "The provided username is invalid."
         cannot-send-email: "Unable to send registration email, please contact an admin to activate your account."
+        console-must-specify-username: "When running the register command from the console, you must specify a username."
 
   report:
     usage: "/<command> \\<name/uuid> \\<reason>"

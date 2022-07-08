@@ -62,6 +62,7 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_INVALID("command", "register", "output", "fail", "email-invalid"),
 		COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_INVALID("command", "register", "output", "fail", "username-invalid"),
 		COMMAND_REGISTER_OUTPUT_FAIL_CANNOT_SEND_EMAIL("command", "register", "output", "fail", "cannot-send-email"),
+		COMMAND_REGISTER_OUTPUT_FAIL_CONSOLE_MUST_SPECIFY_USERNAME("command", "register", "output", "fail", "console-must-specify-username"),
 
 		COMMAND_REPORT_USAGE("command", "report", "usage"),
 		COMMAND_REPORT_DESCRIPTION("command", "report", "description"),
@@ -119,7 +120,7 @@ public class LanguageHandler implements Reloadable {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 29;
+	private static final int VERSION = 30;
 
 	private static final Set<String> LANGUAGES = Set.of(
 			"ar_SA",

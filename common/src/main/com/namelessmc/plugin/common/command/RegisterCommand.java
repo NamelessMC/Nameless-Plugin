@@ -1,14 +1,14 @@
 package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
-import com.namelessmc.java_api.exception.*;
 import com.namelessmc.java_api.integrations.IntegrationData;
 import com.namelessmc.java_api.integrations.MinecraftIntegrationData;
-import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
-import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Optional;
@@ -27,13 +27,21 @@ public class RegisterCommand extends CommonCommand {
 
 	@Override
 	public void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args) {
-		if (args.length != 2) {
+		if (args.length != 1 && args.length != 2) {
 			sender.sendMessage(this.usage());
 			return;
 		}
 
-		final String username = args[0];
-		final String email = args[1];
+		final String email = args[0];
+		final String username;
+		if (args.length == 2) {
+			username = args[1];
+		} else if (sender instanceof NamelessPlayer) {
+			username = ((NamelessPlayer) sender).username();
+		} else {
+			sender.sendMessage(this.language().get(COMMAND_REGISTER_OUTPUT_FAIL_CONSOLE_MUST_SPECIFY_USERNAME));
+			return;
+		}
 
 		this.scheduler().runAsync(() -> {
 			final NamelessAPI api = this.apiProvider().api();
