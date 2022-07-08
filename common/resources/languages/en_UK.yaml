@@ -49,6 +49,7 @@ command:
         username-invalid: "The provided username is invalid."
         cannot-send-email: "Unable to send registration email, please contact an admin to activate your account."
         console-must-specify-username: "When running the register command from the console, you must specify a username."
+        custom-username-disabled: "Registering with a username other than your Minecraft username is not allowed."
 
   report:
     usage: "/<command> \\<name/uuid> \\<reason>"

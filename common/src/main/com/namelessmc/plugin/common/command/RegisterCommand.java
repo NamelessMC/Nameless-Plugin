@@ -43,6 +43,14 @@ public class RegisterCommand extends CommonCommand {
 			return;
 		}
 
+		// If custom usernames are disabled and 'username' is different from the player's username
+		if (!this.plugin().config().main().node("register-custom-username").getBoolean(true) &&
+				sender instanceof NamelessPlayer &&
+				!username.equalsIgnoreCase(((NamelessPlayer) sender).username())) {
+			sender.sendMessage(this.language().get(COMMAND_REGISTER_OUTPUT_FAIL_CUSTOM_USERNAME_DISABLED));
+			return;
+		}
+
 		this.scheduler().runAsync(() -> {
 			final NamelessAPI api = this.apiProvider().api();
 			if (api == null) {

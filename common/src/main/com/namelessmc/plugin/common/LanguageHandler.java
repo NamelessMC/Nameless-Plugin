@@ -63,6 +63,7 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_INVALID("command", "register", "output", "fail", "username-invalid"),
 		COMMAND_REGISTER_OUTPUT_FAIL_CANNOT_SEND_EMAIL("command", "register", "output", "fail", "cannot-send-email"),
 		COMMAND_REGISTER_OUTPUT_FAIL_CONSOLE_MUST_SPECIFY_USERNAME("command", "register", "output", "fail", "console-must-specify-username"),
+		COMMAND_REGISTER_OUTPUT_FAIL_CUSTOM_USERNAME_DISABLED("command", "register", "output", "fail", "custom-username-disabled"),
 
 		COMMAND_REPORT_USAGE("command", "report", "usage"),
 		COMMAND_REPORT_DESCRIPTION("command", "report", "description"),

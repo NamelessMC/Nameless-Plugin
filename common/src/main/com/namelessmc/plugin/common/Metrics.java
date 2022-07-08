@@ -76,6 +76,7 @@ public class Metrics implements Reloadable {
 		fields.addProperty("language", this.plugin.language().getActiveLanguageCode());
 		fields.addProperty("server_data_sender", config.node("server-data-sender", "enabled").getBoolean());
 		fields.addProperty("server_data_sender_placeholders", config.node("server-data-sender", "placeholders", "enabled").getBoolean());
+		fields.addProperty("register_custom_username", config.node("register-custom-username").getBoolean(true));
 		fields.addProperty("sync_ban_to_website", config.node("sync-ban-to-website").getBoolean());
 		fields.addProperty("not_registered_join_message", config.node("not-registered-join-message").getBoolean());
 		fields.addProperty("user_sync_whitelist", config.node("user-sync", "whitelist", "enabled").getBoolean());
