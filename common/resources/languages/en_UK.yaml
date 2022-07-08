@@ -1,15 +1,15 @@
 error:
-  website-username-not-exist: "No website user exists with this username."
-  discord-username-not-exist: "No website user exists with this Discord username."
-  minecraft-uuid-not-exist: "No website user exists with this Minecraft UUID."
-  target-no-website-account: "The provided player does not have a website account."
-  website-connection: "An error occurred while trying to connect to the website."
-  username-not-online: "The provided username is invalid or the player is not online."
+  website-username-not-exist: "<red>No website user exists with this username."
+  discord-username-not-exist: "<red>No website user exists with this Discord username."
+  minecraft-uuid-not-exist: "<red>No website user exists with this Minecraft UUID."
+  target-no-website-account: "<red>The provided player does not have a website account."
+  website-connection: "<red>An error occurred while trying to connect to the website."
+  username-not-online: "<red>The provided username is invalid or the player is not online."
 
 player:
   self:
-    not-registered: "You must register for an account to perform this action."
-    command-banned: "You cannot run this command, you are banned from the website."
+    not-registered: "<red>You must register for an account to perform this action."
+    command-banned: "<red>You cannot run this command, you are banned from the website."
 
 boolean:
   yes-positive: "<green>Yes</green>"
@@ -18,8 +18,8 @@ boolean:
   no-negative: "<red>No</red>"
 
 command:
-  not-a-player: "You must be a player to perform this command."
-  no-permission: "You don't have permission to execute this command."
+  not-a-player: "<red>You must be a player to perform this command."
+  no-permission: "<red>You don't have permission to execute this command."
 
   notifications:
     usage: "/<command>"
@@ -42,14 +42,14 @@ command:
         email: "Please check your inbox to complete registration."
         link: "Please complete registration by going to <hover:show_text:\"Click to open in a web browser\"><click:open_url:\"<url>\"><url></click></hover>."
       fail:
-        username-used: "Your username is already used."
-        email-used: "This email address is already used for a different user account."
-        minecraft-used: "Your Minecraft account is already linked to a different website user."
-        email-invalid: "The provided email address is invalid."
-        username-invalid: "The provided username is invalid."
-        cannot-send-email: "Unable to send registration email, please contact an admin to activate your account."
-        console-must-specify-username: "When running the register command from the console, you must specify a username."
-        custom-username-disabled: "Registering with a username other than your Minecraft username is not allowed."
+        username-used: "<red>Your username is already used."
+        email-used: "<red>This email address is already used for a different user account."
+        minecraft-used: "<red>Your Minecraft account is already linked to a different website user."
+        email-invalid: "<red>The provided email address is invalid."
+        username-invalid: "<red>The provided username is invalid."
+        cannot-send-email: "<red>Unable to send registration email, please contact an admin to activate your account."
+        console-must-specify-username: "<red>When running the register command from the console, you must specify a username."
+        custom-username-disabled: "<red>Registering with a username other than your Minecraft username is not allowed."
 
   report:
     usage: "/<command> \\<name/uuid> \\<reason>"
@@ -57,8 +57,8 @@ command:
     output:
       success: "Thank you for reporting this player."
       fail:
-        already-open: "You cannot report this player, you already have an open report for them."
-        report-self: "You cannot report yourself."
+        already-open: "<red>You cannot report this player, you already have an open report for them."
+        report-self: "<red>You cannot report yourself."
 
   store-credits:
     usage: "/<command> \\<player name> \\<(-)credits>"
@@ -74,7 +74,7 @@ command:
     output:
       success: "Your account has been validated."
       fail:
-        invalid-code: "Your validation code is incorrect. Please check if you copied it correctly and try again."
+        invalid-code: "<red>Your validation code is incorrect. Please check if you copied it correctly and try again."
         already-validated: "Your account is already validated."
 
   user-info:
