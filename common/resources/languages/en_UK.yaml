@@ -64,8 +64,8 @@ command:
     usage: "/<command> \\<player name> \\<(-)credits>"
     description: "Add or remove store credits for a user"
     output:
-      added: "Added <credits> credits to <username>"
-      removed: "Removed <credits> credits from <username>"
+      added: "Added <green><credits></green> credits to <username>"
+      removed: "Removed <red><credits></red> credits from <username>"
       nothing: "No action needed"
 
   validate:
