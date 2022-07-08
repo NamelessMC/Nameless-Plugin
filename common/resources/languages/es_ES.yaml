@@ -6,7 +6,7 @@ player:
 command:
   register:
     description: Crear una cuenta en el sitio web
-    usage: '/<command> \<nombre de usuario> \<correo electrónico>'
+    usage: '/<command> \<correo electrónico> [nombre de usuario]'
     output:
       success:
         link: Por favor, complete el registro yendo a <hover:show_text:"Haga clic
@@ -22,6 +22,8 @@ command:
         username-used: Tu nombre de usuario ya está utilizado.
         minecraft-used: Tu cuenta de Minecraft ya está vinculada a otro usuario del
           sitio web.
+        console-must-specify-username: Se debe especificar un nombre de usuario cuando
+          se ejecuta el comando de registro desde la consola.
   not-a-player: Debes ser un jugador para usar este comando.
   no-permission: No tienes permiso para ejecutar este comando.
   notifications:
