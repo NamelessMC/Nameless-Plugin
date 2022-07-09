@@ -8,32 +8,38 @@ command:
   register:
     output:
       fail:
-        email-used: Tuto e-mailovou adresu již používá jiný účet.
-        email-invalid: Zadaná e-mailová adresa není platná.
-        username-invalid: Zadané uživatelské jméno je neplatné.
-        cannot-send-email: Nepodařilo se odeslat registrační e-mail, kontaktuj prosím
-          správce, aby aktivoval tvůj účet.
-        username-used: Vaše uživatelské jméno je již používáno.
-        minecraft-used: Váš Minecraft účet je již propojen s jiným uživatelem na webu.
+        email-used: <red>Tuto e-mailovou adresu již používá jiný účet.
+        email-invalid: <red>Zadaná e-mailová adresa není platná.
+        username-invalid: <red>Zadané uživatelské jméno je neplatné.
+        cannot-send-email: <red>Nepodařilo se odeslat registrační e-mail, kontaktujte
+          prosím správce, aby vám aktivoval účet.
+        username-used: <red>Vaše uživatelské jméno je již používáno.
+        minecraft-used: <red>Váš Minecraft účet je již propojen s jiným uživatelem
+          na webu.
+        console-must-specify-username: <red>Při spuštění příkazu k registraci z konzole
+          musíte zadat uživatelské jméno.
+        custom-username-disabled: <red>Registrace s uživatelským jménem jiným než
+          má váš Minecraft účet není povolena.
       success:
         email: Zkontrolujte svou e-mailovou schránku pro dokončení registrace.
         link: 'Dokončete prosím registraci navštívením tohoto odkazu: <hover:show_text:"Klikněte
           pro otevření ve webovém prohlížeči"><click:open_url:"<url>"><url></click></hover>.'
-    usage: '/<command> \<uživatelské jméno> \<e-mail>'
+    usage: '/<command> \<e-mail> [uživatelské jméno]'
     description: Vytvořit účet na webu
   report:
     output:
       fail:
-        already-open: Nemůžete nahlásit tohoto hráče, již na něj máte otevřené nahlášení.
-        report-self: Nemůžete nahlásit sami sebe.
+        already-open: <red>Nemůžete nahlásit tohoto hráče, již na něj máte otevřené
+          nahlášení.
+        report-self: <red>Nemůžete nahlásit sami sebe.
       success: Děkujeme za nahlášení tohoto hráče.
     usage: '/<command> \<jméno/uuid> \<důvod>'
     description: Nahlásit hráče
   validate:
     output:
       fail:
-        invalid-code: Váš ověřovací kód je nesprávný. Zkontrolujte, zda jste jej zkopírovali
-          správně a zkuste to znovu.
+        invalid-code: <red>Váš ověřovací kód je nesprávný. Zkontrolujte, zda jste
+          jej zkopírovali správně a zkuste to znovu.
         already-validated: Váš účet je již ověřen.
       success: Váš účet byl ověřen.
     usage: '/<command> \<kód>'
@@ -59,8 +65,8 @@ command:
         linked-date: 'Datum propojení: <linked_date>'
         verified: 'Ověřen: <is_verified>'
   subcommands: {}
-  not-a-player: Pro vykonání této akce musíte být hráčem.
-  no-permission: Nemáte oprávnění pro vykonání tohoto příkazu.
+  not-a-player: <red>Pro vykonání této akce musíte být hráčem.
+  no-permission: <red>Nemáte oprávnění pro vykonání tohoto příkazu.
   plugin:
     usage: /<command> 'reload'/'rl'/'last_error'
     description: Administrativní příkazy pro plugin NamelessMC
@@ -68,26 +74,28 @@ command:
       reload-successful: Plugin úspěšně znovu načten.
   store-credits:
     output:
-      added: Uživateli <username> bylo přidáno <credits> kreditů
-      removed: Uživateli <username> bylo odebráno <credits> kreditů
+      added: Uživateli <username> bylo přidáno <green><credits></green> kreditů
+      removed: Uživateli <username> bylo odebráno <red><credits></red> kreditů
       nothing: Není vyžadována žádná akce
-    usage: /<command> \<jméno hráče> <(-)kredity>
+    usage: /<command> \<jméno hráče> \<(-)kredity>
     description: Přidat nebo odebrat kredity uživateli
 join-not-registered: Ještě nemáte na našem webu účet. Zaregistrujte se pomocí /register.
 player:
   other: {}
   self:
-    not-registered: Pro vykonání této akce se musíte zaregistrovat.
-    command-banned: Nemůžete spustit tento příkaz, jste zabanováni na webu.
+    not-registered: <red>Pro vykonání této akce se musíte zaregistrovat.
+    command-banned: <red>Nemůžete spustit tento příkaz, jste zabanováni na webu.
 website-announcement: 'Oznámení na webu: <message>'
 user-sync-kick: Jste zabanováni z tohoto serveru kvůli banu na webu.
 error:
-  website-username-not-exist: Na webu neexistuje žádný uživatel s tímto jménem.
-  website-connection: Při připojování se k webu se vyskytla chyba.
-  username-not-online: Zadané uživatelské jméno je neplatné nebo hráč není online.
-  discord-username-not-exist: Na webu neexistuje žádný uživatel s touto Discord přezdívkou.
-  minecraft-uuid-not-exist: Na webu neexistuje žádný uživatel s tímto Minecraft UUID.
-  target-no-website-account: Zadaný hráč nemá účet na webu.
+  website-username-not-exist: <red>Na webu neexistuje žádný uživatel s tímto jménem.
+  website-connection: <red>Při připojování se k webu se vyskytla chyba.
+  username-not-online: <red>Zadané uživatelské jméno je neplatné nebo hráč není online.
+  discord-username-not-exist: <red>Na webu neexistuje žádný uživatel s touto Discord
+    přezdívkou.
+  minecraft-uuid-not-exist: <red>Na webu neexistuje žádný uživatel s tímto Minecraft
+    UUID.
+  target-no-website-account: <red>Zadaný hráč nemá účet na webu.
 boolean:
   no-positive: <green>Ne</green>
   no-negative: <red>Ne</red>
