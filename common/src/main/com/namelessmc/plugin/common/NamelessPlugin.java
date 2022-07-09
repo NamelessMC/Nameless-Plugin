@@ -73,9 +73,9 @@ public class NamelessPlugin {
 		this.registerReloadable(new Websend(this, logPath));
 
 		this.registerPermissionAdapter(new LuckPermsPermissions());
-		// Selecting permissions adapter needs to happen after all permission adapters
-		// are reloaded, so we set order = LAST here
-		this.registerReloadable(this::selectPermissionsAdapter, Reloadable.Order.LAST);
+
+		// Permission adapter is used by other reloadables, so must be loaded first.
+		this.registerReloadable(this::selectPermissionsAdapter, Reloadable.Order.FIRST);
 	}
 
 	public ConfigurationHandler config() {
@@ -147,20 +147,27 @@ public class NamelessPlugin {
 	public <T extends AbstractPermissions> T registerPermissionAdapter(T adapter) {
 		this.logger.fine(() -> "Registered permission adapter: " + adapter.getClass().getSimpleName());
 		this.permissionAdapters.add(adapter);
-		return this.registerReloadable(adapter);
+		return adapter;
 	}
 
 	private void selectPermissionsAdapter() {
-		for (final AbstractPermissions adapter : this.permissionAdapters) {
-			if (adapter.isUsable()) {
-				this.chosenPermissionAdapter = adapter;
+		this.chosenPermissionAdapter = null;
+
+		for (int i = this.permissionAdapters.size() - 1; i >= 0; i--) {
+			AbstractPermissions permissions = this.permissionAdapters.get(i);
+			// Permission adapters implement Reloadable but are not reloaded by the plugin's main reload system.
+			// We need to reload it manually here.
+			this.logger.fine(() -> "Reloading permissions: " + permissions.getClass().getSimpleName());
+			permissions.reload();
+			if (permissions.isUsable()) {
+				this.logger.fine(() -> "Chosen permission adapter: " + permissions.getClass().getSimpleName());
+				this.chosenPermissionAdapter = permissions;
 				break;
 			}
 		}
+
 		if (this.chosenPermissionAdapter == null) {
-			this.logger.fine("No usable permission adapter");
-		} else {
-			this.logger.fine("Using permission adapter: " + this.chosenPermissionAdapter.getClass().getSimpleName());
+			this.logger.fine("Found no usable permission adapter");
 		}
 	}
 
