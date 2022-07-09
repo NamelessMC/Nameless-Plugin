@@ -121,11 +121,12 @@ public class LanguageHandler implements Reloadable {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 30;
+	private static final int VERSION = 31;
 
 	private static final Set<String> LANGUAGES = Set.of(
 			"ar_SA",
 			"cs_CZ",
+			"da_DK",
 			"de_DE",
 			"el_GR",
 			"en_UK",
