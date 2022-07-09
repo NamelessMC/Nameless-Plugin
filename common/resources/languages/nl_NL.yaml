@@ -1,11 +1,11 @@
 player:
   other: {}
   self:
-    not-registered: Je moet geregistreerd zijn op de website om dit te doen.
-    command-banned: Je kan deze opdracht niet uitvoeren, je bent verbannen van de
-      website.
+    not-registered: <red>Je moet geregistreerd zijn op de website om dit te doen.
+    command-banned: <red>Je kan deze opdracht niet uitvoeren, je bent verbannen van
+      de website.
 command:
-  not-a-player: Dit commando kan alleen als speler uitgevoerd worden.
+  not-a-player: <red>Dit commando kan alleen als speler uitgevoerd worden.
   notifications:
     usage: '/<command>'
     output:
@@ -13,21 +13,25 @@ command:
       notification: <hover:show_text:"Klik om in een web browser te openen"><click:open_url:"<url>"><message></click></hover>
     description: Laat een lijst van website meldingen zien.
   register:
-    usage: '/<command> \<gebruikersnaam> \<e-mailadres>'
+    usage: '/<command> \<e-mailadres> [gebruikersnaam]'
     output:
       success:
         email: Controleer uw inbox om de registratie te voltooien.
         link: Om de registratie te voltooien, ga naar <hover:show_text:"Klik om te
           openen in een web browser"><click:open_url:"<url>"><url></click></hover>.
       fail:
-        email-used: Dit e-mailadres wordt al gebruikt door een andere gebruiker.
-        email-invalid: Het opgegeven e-mailadres is ongeldig.
-        username-invalid: De opgegeven gebruikersnaam is ongeldig.
-        cannot-send-email: Kon de registratie e-mail niet verzenden, neem contact
+        email-used: <red>Dit e-mailadres wordt al gebruikt door een andere gebruiker.
+        email-invalid: <red>Het opgegeven e-mailadres is ongeldig.
+        username-invalid: <red>De opgegeven gebruikersnaam is ongeldig.
+        cannot-send-email: <red>Kon de registratie e-mail niet verzenden, neem contact
           op met een administrator om je account te activeren.
-        username-used: Jouw gebruikersnaam is al in gebruik.
-        minecraft-used: Jouw Minecraft account is al gelinkt aan een andere website
+        username-used: <red>Jouw gebruikersnaam is al in gebruik.
+        minecraft-used: <red>Jouw Minecraft account is al gelinkt aan een andere website
           gebruiker.
+        console-must-specify-username: <red>Het is nodig om een gebruikersnaam op
+          te geven als je het registreercommando uitvoert vanuit de console.
+        custom-username-disabled: <red>Het registreren met een gebruikersnaam die
+          verschilt van je Minecraft gebruikersnaam is niet toegestaan.
     description: Maak een website account
   user-info:
     usage: '/<command> [gebruikersnaam]'
@@ -49,22 +53,22 @@ command:
         username: 'Gebruikersnaam: <username>'
         verified: 'Geverifieerd: <is_verified>'
     description: Informatie opvragen over een websitegebruiker
-  no-permission: Je hebt geen toestemming om dit commando uit te voeren.
+  no-permission: <red>Je hebt geen toestemming om dit commando uit te voeren.
   report:
     description: Rapporteer een speler
     output:
       success: Bedankt voor het rapporteren van deze speler.
       fail:
-        already-open: Je kan niet deze speler rapporteren, er staat al een rapport
+        already-open: <red>Je kan niet deze speler rapporteren, er staat al een rapport
           open.
-        report-self: Je kunt jezelf niet rapporteren.
+        report-self: <red>Je kunt jezelf niet rapporteren.
     usage: '/<command> \<naam/uuid> \<reden>'
   validate:
     usage: '/<command> \<code>'
     output:
       success: Je account is gevalideerd.
       fail:
-        invalid-code: Jouw validatiecode is onjuist. Controleer of je het correct
+        invalid-code: <red>Jouw validatiecode is onjuist. Controleer of je het correct
           hebt gekopieerd en probeer het opnieuw.
         already-validated: Je account is al gevalideerd.
     description: Valideert het websiteaccount van de gebruiker met de opgegeven code.
@@ -74,17 +78,26 @@ command:
     description: Administratieve commando's voor de NamelessMC plugin
     output:
       reload-successful: Plugin succesvol herladen.
+  store-credits:
+    usage: /<command> \<speler naam> \<(-)krediet>
+    description: Wijzig het winkelkrediet van een gebruiker
+    output:
+      added: Het krediet van <username> is opgewaardeerd met <green><credits></green>
+      removed: Er is <red><credit></red> van het krediet van <username> afgenomen
+      nothing: Geen wijziging
 join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.
 website-announcement: 'Website aankondiging: <message>'
 user-sync-kick: Je bent verbannen van onze server als gevolg van een website ban.
 error:
-  website-username-not-exist: Er bestaat geen website gebruiker met deze gebruikersnaam.
-  website-connection: Een fout is opgetreden tijdens het verbinden met de website.
-  username-not-online: De opgegeven gebruikersnaam is niet geldig of de speler is
-    niet online.
-  discord-username-not-exist: Geen website gebruiker bestaat met deze Discord gebruikersnaam.
-  minecraft-uuid-not-exist: Geen website gebruiker bestaat met deze Minecraft UUID.
-  target-no-website-account: De opgegeven speler heeft geen website account.
+  website-username-not-exist: <red>Er bestaat geen website gebruiker met deze gebruikersnaam.
+  website-connection: <red>Een fout is opgetreden tijdens het verbinden met de website.
+  username-not-online: <red>De opgegeven gebruikersnaam is niet geldig of de speler
+    is niet online.
+  discord-username-not-exist: <red>Er bestaat geen website gebruiker met deze Discord
+    gebruikersnaam.
+  minecraft-uuid-not-exist: <red>Er bestaat geen website gebruiker met deze Minecraft
+    UUID.
+  target-no-website-account: <red>De opgegeven speler heeft geen website account.
 boolean:
   yes-positive: <green>Ja</green>
   yes-negative: <red>Ja</red>
