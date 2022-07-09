@@ -77,6 +77,11 @@ public class NamelessPlugin {
 
 		// Permission adapter is used by other reloadables, so must be loaded first.
 		this.registerReloadable(new PermissionAdapterSelector(), Reloadable.Order.FIRST);
+
+		int javaVer = Runtime.version().feature();
+		if (javaVer > 11 && javaVer < 17) {
+			this.logger.warning("You are running Java version " + javaVer + " which is non-LTS and no longer receives bug fixes or security fixes. Please update to Java 17.");
+		}
 	}
 
 	public ConfigurationHandler config() {
