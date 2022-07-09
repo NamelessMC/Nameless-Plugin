@@ -29,13 +29,18 @@ public class BungeeNamelessPlugin extends Plugin {
 	@Override
 	public void onEnable() {
 		this.plugin.setAudienceProvider(new BungeeAudienceProvider(this));
-		this.plugin.reload();
+		this.plugin.load();
 
 		new Metrics(this, 14864);
 
 		BungeeCommandProxy.registerCommands(this.plugin, this);
 
 		ProxyServer.getInstance().getPluginManager().registerListener(this, new BungeeEventProxy(this.plugin));
+	}
+
+	@Override
+	public void onDisable() {
+		this.plugin.unload();
 	}
 
 }

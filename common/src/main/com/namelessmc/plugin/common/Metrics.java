@@ -31,6 +31,7 @@ public class Metrics implements Reloadable {
 	private final Methanol methanol;
 
 	private @Nullable AbstractScheduledTask task;
+	private boolean firstStartup = true;
 
 	public Metrics(NamelessPlugin plugin, String platformInternalName, String platformVersion) {
 		this.plugin = plugin;
@@ -121,11 +122,20 @@ public class Metrics implements Reloadable {
 	}
 
 	@Override
-	public void reload() {
-		if (this.task == null) {
-			this.task = this.plugin.scheduler().runTimer(this::sendMetrics, SEND_INTERVAL);
+	public void unload() {
+		if (this.task != null) {
+			this.task.cancel();
+			this.task = null;
+		}
+	}
+
+	@Override
+	public void load() {
+		this.task = this.plugin.scheduler().runTimer(this::sendMetrics, SEND_INTERVAL);
+		if (this.firstStartup) {
 			// Also send soon after server startup
 			this.plugin.scheduler().runDelayed(this::sendMetrics, Duration.ofSeconds(30));
+			this.firstStartup = false;
 		}
 	}
 

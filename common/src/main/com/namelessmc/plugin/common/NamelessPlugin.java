@@ -9,6 +9,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.nio.file.Path;
+import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -75,7 +76,7 @@ public class NamelessPlugin {
 		this.registerPermissionAdapter(new LuckPermsPermissions());
 
 		// Permission adapter is used by other reloadables, so must be loaded first.
-		this.registerReloadable(this::selectPermissionsAdapter, Reloadable.Order.FIRST);
+		this.registerReloadable(new PermissionAdapterSelector(), Reloadable.Order.FIRST);
 	}
 
 	public ConfigurationHandler config() {
@@ -126,11 +127,20 @@ public class NamelessPlugin {
 		return this.propertiesManager;
 	}
 
-	public void reload() {
+	public void unload() {
 		for (Reloadable.Order order : Reloadable.Order.values()) {
 			for (Reloadable reloadable : reloadables.get(order.ordinal())) {
-				this.logger.fine(() -> "Reloading " + order + ": " + reloadable.getClass().getSimpleName());
-				reloadable.reload();
+				this.logger.fine(() -> "Unloading " + order + ": " + reloadable.getClass().getSimpleName());
+				reloadable.load();
+			}
+		}
+	}
+
+	public void load() {
+		for (Reloadable.Order order : Reloadable.Order.values()) {
+			for (Reloadable reloadable : reloadables.get(order.ordinal())) {
+				this.logger.fine(() -> "Loading " + order + ": " + reloadable.getClass().getSimpleName());
+				reloadable.load();
 			}
 		}
 	}
@@ -150,24 +160,35 @@ public class NamelessPlugin {
 		return adapter;
 	}
 
-	private void selectPermissionsAdapter() {
-		this.chosenPermissionAdapter = null;
+	private class PermissionAdapterSelector implements Reloadable {
 
-		for (int i = this.permissionAdapters.size() - 1; i >= 0; i--) {
-			AbstractPermissions permissions = this.permissionAdapters.get(i);
-			// Permission adapters implement Reloadable but are not reloaded by the plugin's main reload system.
-			// We need to reload it manually here.
-			this.logger.fine(() -> "Reloading permissions: " + permissions.getClass().getSimpleName());
-			permissions.reload();
-			if (permissions.isUsable()) {
-				this.logger.fine(() -> "Chosen permission adapter: " + permissions.getClass().getSimpleName());
-				this.chosenPermissionAdapter = permissions;
-				break;
+		@Override
+		public void unload() {
+			NamelessPlugin.this.chosenPermissionAdapter = null;
+
+			for (AbstractPermissions permissions : NamelessPlugin.this.permissionAdapters) {
+				permissions.unload();
 			}
 		}
 
-		if (this.chosenPermissionAdapter == null) {
-			this.logger.fine("Found no usable permission adapter");
+		@Override
+		public void load() {
+			for (int i = NamelessPlugin.this.permissionAdapters.size() - 1; i >= 0; i--) {
+				AbstractPermissions permissions = NamelessPlugin.this.permissionAdapters.get(i);
+				// Permission adapters implement Reloadable but are not reloaded by the plugin's main reload system.
+				// We need to reload it manually here.
+				NamelessPlugin.this.logger.fine(() -> "Reloading permissions: " + permissions.getClass().getSimpleName());
+				permissions.load();
+				if (permissions.isUsable()) {
+					NamelessPlugin.this.logger.fine(() -> "Chosen permission adapter: " + permissions.getClass().getSimpleName());
+					NamelessPlugin.this.chosenPermissionAdapter = permissions;
+					break;
+				}
+			}
+
+			if (NamelessPlugin.this.chosenPermissionAdapter == null) {
+				NamelessPlugin.this.logger.fine("Found no usable permission adapter");
+			}
 		}
 	}
 

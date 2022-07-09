@@ -34,12 +34,15 @@ public class UserSyncTask implements Runnable, Reloadable {
 	}
 
 	@Override
-	public void reload() {
+	public void unload() {
 		if (task != null) {
 			task.cancel();
 			task = null;
 		}
+	}
 
+	@Override
+	public void load() {
 		final CommentedConfigurationNode config = this.plugin.config().main().node("user-sync");
 		if (config.node("enabled").getBoolean()) {
 			final Duration interval = ConfigurationHandler.getDuration(config.node("poll-interval"));

@@ -25,12 +25,15 @@ public class JoinNotificationsMessage implements Reloadable {
 	}
 
 	@Override
-	public void reload() {
-		if (subscription != null) {
-			subscription.unsubscribe();
-			subscription = null;
+	public void unload() {
+		if (this.subscription != null) {
+			this.subscription.unsubscribe();
+			this.subscription = null;
 		}
+	}
 
+	@Override
+	public void load() {
 		if (this.plugin.config().main().node("join-notifications").getBoolean()) {
 			this.subscription = this.plugin.events().subscribe(NamelessJoinEvent.class, event ->
 					onJoin(event.player().uuid()));

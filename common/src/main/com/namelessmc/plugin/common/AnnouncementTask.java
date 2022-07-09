@@ -21,6 +21,7 @@ import static com.namelessmc.plugin.common.LanguageHandler.Term.WEBSITE_ANNOUNCE
 public class AnnouncementTask implements Runnable, Reloadable {
 
 	private final @NonNull NamelessPlugin plugin;
+
 	private @Nullable AbstractScheduledTask task;
 
 	AnnouncementTask(final @NonNull NamelessPlugin plugin) {
@@ -28,12 +29,15 @@ public class AnnouncementTask implements Runnable, Reloadable {
 	}
 
 	@Override
-	public void reload() {
+	public void unload() {
 		if (task != null) {
 			task.cancel();
 			task = null;
 		}
+	}
 
+	@Override
+	public void load() {
 		final CommentedConfigurationNode config = this.plugin.config().main().node("announcements");
 		if (config.node("enabled").getBoolean()) {
 			final Duration interval = ConfigurationHandler.getDuration(config.node("interval"));

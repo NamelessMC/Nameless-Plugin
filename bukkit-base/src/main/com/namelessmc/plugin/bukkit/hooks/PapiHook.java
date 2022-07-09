@@ -48,7 +48,8 @@ public class PapiHook implements Reloadable, Listener {
 		this.plugin = plugin;
 	}
 
-	private void unload() {
+	@Override
+	public void unload() {
 		if (this.task != null) {
 			this.task.cancel();
 			this.task = null;
@@ -64,7 +65,8 @@ public class PapiHook implements Reloadable, Listener {
 		}
 	}
 
-	private void load() {
+	@Override
+	public void load() {
 		if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			this.plugin.logger().fine("PlaceholderAPI plugin is not loaded");
 			this.placeholderParser = new NoopParser();
@@ -89,12 +91,6 @@ public class PapiHook implements Reloadable, Listener {
 			this.isRunning = new AtomicBoolean();
 			this.cachedNotificationCount = new ConcurrentHashMap<>();
 		}
-	}
-
-	@Override
-	public void reload() {
-		this.unload();
-		this.load();
 	}
 
 	private void updateCache() {

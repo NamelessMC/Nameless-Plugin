@@ -25,12 +25,15 @@ public class Store implements Reloadable {
 	}
 
 	@Override
-	public void reload() {
+	public void unload() {
 		if (this.commandTask != null) {
 			this.commandTask.cancel();
 			this.commandTask = null;
 		}
+	}
 
+	@Override
+	public void load() {
 		ConfigurationNode commandExecutor = this.plugin.config().modules().node("store", "command-executor");
 		if (!commandExecutor.node("enabled").getBoolean()) {
 			return;

@@ -51,13 +51,14 @@ public class SpongeNamelessPlugin {
 
 	@Listener
 	public void onStarted(final StartedEngineEvent<Server> event) {
-		this.plugin.reload();
+		this.plugin.load();
 		this.metricsFactory.make(14865);
 	}
 
 	@Listener
 	public void reload(final RefreshGameEvent event) {
-		this.plugin.reload();
+		this.plugin.unload();
+		this.plugin.load();
 	}
 
 }

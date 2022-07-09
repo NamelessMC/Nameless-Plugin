@@ -26,12 +26,15 @@ public class JoinNotRegisteredMessage implements Reloadable {
 	}
 
 	@Override
-	public void reload() {
+	public void unload() {
 		if (subscription != null) {
 			subscription.unsubscribe();
 			subscription = null;
 		}
+	}
 
+	@Override
+	public void load() {
 		final ConfigurationNode conf = this.plugin.config().main();
 
 		if (conf.node("not-registered-join-message").getBoolean()) {

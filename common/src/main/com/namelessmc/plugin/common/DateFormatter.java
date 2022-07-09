@@ -17,7 +17,12 @@ public class DateFormatter implements Reloadable {
 	}
 
 	@Override
-	public void reload() {
+	public void unload() {
+		this.formatter = null;
+	}
+
+	@Override
+	public void load() {
 		this.formatter = new SimpleDateFormat(config.main().node("datetime-format").getString());
 	}
 

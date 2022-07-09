@@ -25,11 +25,16 @@ public class UserCache implements Reloadable {
 	}
 
 	@Override
-	public void reload() {
-		if (task != null) {
-			task.cancel();
+	public void unload() {
+		if (this.task != null) {
+			this.task.cancel();
+			this.task = null;
 		}
+		this.usernames = Collections.emptyList();
+	}
 
+	@Override
+	public void load() {
 		task = this.plugin.scheduler().runTimer(this::update, Duration.ofMinutes(5));
 	}
 

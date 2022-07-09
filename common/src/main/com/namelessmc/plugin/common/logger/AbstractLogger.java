@@ -133,9 +133,13 @@ public abstract class AbstractLogger implements Reloadable {
 	}
 
 	@Override
-	public void reload() {
-		this.verbose = this.config.main().node("logging", "verbose").getBoolean();
+	public void unload() {
 		this.lastException = null;
+	}
+
+	@Override
+	public void load() {
+		this.verbose = this.config.main().node("logging", "verbose").getBoolean();
 	}
 
 	private class ApiLoggerImpl extends ApiLogger {

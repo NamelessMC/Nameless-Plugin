@@ -46,7 +46,7 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 	public void onEnable() {
 		this.configureAudiences();
 
-		this.plugin.reload();
+		this.plugin.load();
 
 		initMaintenance();
 		new Metrics(this, 13396);
@@ -54,6 +54,11 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 		BukkitCommandProxy.registerCommands(this.plugin, this);
 
 		this.getServer().getPluginManager().registerEvents(new BukkitEventProxy(this.plugin), this);
+	}
+
+	@Override
+	public void onDisable() {
+		this.plugin.unload();
 	}
 
 	protected abstract void configureAudiences();

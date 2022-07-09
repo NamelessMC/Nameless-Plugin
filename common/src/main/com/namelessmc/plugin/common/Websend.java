@@ -41,7 +41,7 @@ public class Websend implements Reloadable {
 	}
 
 	@Override
-	public void reload() {
+	public void unload() {
 		if (logTask != null) {
 			logTask.cancel();
 			logTask = null;
@@ -51,7 +51,10 @@ public class Websend implements Reloadable {
 			commandTask.cancel();
 			commandTask = null;
 		}
+	}
 
+	@Override
+	public void load() {
 		final ConfigurationNode config = this.plugin.config().modules().node("websend");
 
 		if (config.node("command-executor", "enabled").getBoolean()) {
@@ -70,8 +73,6 @@ public class Websend implements Reloadable {
 				return;
 			}
 			this.logTask = this.plugin.scheduler().runTimer(this::sendLogLines, interval);
-		} else {
-			logTask = null;
 		}
 	}
 

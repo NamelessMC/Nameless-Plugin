@@ -48,15 +48,18 @@ public class VelocityNamelessPlugin {
 
 	@Subscribe
 	public void onProxyInitialization(final ProxyInitializeEvent event) {
-		this.plugin.reload();
+		this.plugin.load();
 		this.server.getEventManager().register(this, new VelocityEventProxy(this.plugin));
 		metricsFactory.make(this, 14863);
 		VelocityCommandProxy.registerCommands(this.plugin, server);
 	}
 
+	// TODO call unload() when proxy server shuts down
+
 	@Subscribe
 	public void onReload(final ProxyReloadEvent event) {
-		this.plugin.reload();
+		this.plugin.unload();
+		this.plugin.load();
 	}
 
 }

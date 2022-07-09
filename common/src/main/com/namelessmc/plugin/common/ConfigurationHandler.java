@@ -51,7 +51,12 @@ public class ConfigurationHandler implements Reloadable {
 	}
 
 	@Override
-	public void reload() {
+	public void unload() {
+
+	}
+
+	@Override
+	public void load() {
 		try {
 			Files.createDirectories(dataDirectory);
 			for (final String configName : ALL_CONFIG_NAMES) {

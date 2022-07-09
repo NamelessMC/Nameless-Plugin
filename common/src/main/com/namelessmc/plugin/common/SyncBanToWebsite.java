@@ -20,12 +20,15 @@ public class SyncBanToWebsite implements Reloadable {
 	}
 
 	@Override
-	public void reload() {
-		if (subscription != null) {
-			subscription.unsubscribe();
-			subscription = null;
+	public void unload() {
+		if (this.subscription != null) {
+			this.subscription.unsubscribe();
+			this.subscription = null;
 		}
+	}
 
+	@Override
+	public void load() {
 		if (!this.plugin.config().main().node("sync-ban-to-website").getBoolean()) {
 			return;
 		}

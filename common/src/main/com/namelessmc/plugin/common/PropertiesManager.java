@@ -1,5 +1,7 @@
 package com.namelessmc.plugin.common;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,23 +16,32 @@ public class PropertiesManager implements Reloadable {
 
 	private final NamelessPlugin plugin;
 	private final Path propertiesPath;
-	private final Properties properties;
 	private final Map<String, Supplier<String>> defaultProperties;
+	private @Nullable Properties properties;
 
 	PropertiesManager(Path propertiesPath, NamelessPlugin plugin) {
 		this.propertiesPath = propertiesPath;
 		this.plugin = plugin;
-		this.properties = new Properties();
 		this.defaultProperties = new HashMap<>();
 	}
 
 	@Override
-	public void reload() {
-		properties.clear();
+	public void unload() {
+		this.properties = null;
+	}
+
+	@Override
+	public void load() {
+		this.properties = new Properties();
 
 		if (Files.isRegularFile(this.propertiesPath)) {
 			// Properties file already exists, load it
-			this.load();
+			try (InputStream in = Files.newInputStream(this.propertiesPath)) {
+				this.properties.clear();
+				this.properties.load(in);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 
 		// Ensure it contains all required properties
@@ -46,15 +57,6 @@ public class PropertiesManager implements Reloadable {
 
 		if (dirty) {
 			this.store();
-		}
-	}
-
-	private void load() {
-		try (InputStream in = Files.newInputStream(this.propertiesPath)) {
-			this.properties.clear();
-			this.properties.load(in);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
 		}
 	}
 

@@ -48,14 +48,15 @@ public class SpongeNamelessPlugin {
 
 	@Listener
 	public void onServerStart(final GameStartedServerEvent event) {
-		this.plugin.reload();
+		this.plugin.load();
 		this.metricsFactory.make(14865);
 		SpongeCommandProxy.registerCommands(this.plugin, this);
 	}
 
 	@Listener
 	public void reload(final GameReloadEvent event) {
-		this.plugin.reload();
+		this.plugin.unload();
+		this.plugin.load();
 	}
 
 }

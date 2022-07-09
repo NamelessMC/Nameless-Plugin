@@ -8,6 +8,7 @@ import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
+import net.kyori.adventure.util.TriState;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
@@ -46,7 +47,15 @@ public class ApiProvider implements Reloadable {
 	}
 
 	@Override
-	public void reload() {
+	public void unload() {
+		this.cachedApi = Tristate.unknown();
+		this.apiUrl = null;
+		this.apiKey = null;
+		this.timeout = null;
+	}
+
+	@Override
+	public void load() {
 		final CommentedConfigurationNode config = this.config.main().node("api");
 		try {
 			final String rawUrl = config.node("url").getString();
@@ -70,8 +79,6 @@ public class ApiProvider implements Reloadable {
 		}
 		this.bypassVersionCheck = config.node("bypass-version-check").getBoolean();
 		this.forceHttp1 = config.node("force-http-1").getBoolean();
-
-		this.cachedApi = Tristate.unknown();
 
 		scheduler.runAsync(this::api);
 	}

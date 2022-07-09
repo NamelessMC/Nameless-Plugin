@@ -182,7 +182,14 @@ public class LanguageHandler implements Reloadable {
 	}
 
 	@Override
-	public void reload() {
+	public void unload() {
+		this.activeLanguageCode = null;
+		this.fallbackLanguageFile = null;
+		this.activeLanguageFile = null;
+	}
+
+	@Override
+	public void load() {
 		try {
 			this.updateFiles();
 			this.setActiveLanguage(this.config.main().node("language").getString(DEFAULT_LANGUAGE));

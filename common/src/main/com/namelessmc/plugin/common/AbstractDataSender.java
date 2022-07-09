@@ -36,14 +36,20 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 	}
 
 	private void startLoginTimeTracking(@UnknownInitialization(AbstractDataSender.class) AbstractDataSender this) {
-		this.plugin.registerReloadable(() -> {
-			// If the plugin is loaded when the server is already started (e.g. using /reload on bukkit), add
-			// players manually because the join event is never called for them.
-			for (final NamelessPlayer player : this.plugin.audiences().onlinePlayers()) {
-				if (!playerLoginTime.containsKey(player.uuid())) {
-					playerLoginTime.put(player.uuid(), System.currentTimeMillis());
-				}
-			}
+		this.plugin.registerReloadable(new Reloadable() {
+		   @Override
+		   public void unload() {}
+
+		   @Override
+		   public void load() {
+			   // If the plugin is loaded when the server is already started (e.g. using /reload on bukkit), add
+			   // players manually because the join event is never called for them.
+			   for (final NamelessPlayer player : AbstractDataSender.this.plugin.audiences().onlinePlayers()) {
+				   if (!playerLoginTime.containsKey(player.uuid())) {
+					   playerLoginTime.put(player.uuid(), System.currentTimeMillis());
+				   }
+			   };
+		   }
 		});
 
 		this.plugin.events().subscribe(NamelessJoinEvent.class, event ->
@@ -57,14 +63,17 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 	}
 
 	@Override
-	public void reload() {
+	public void unload() {
 		if (this.dataSenderTask != null) {
 			this.playerInfoProviders = null;
 			this.globalInfoProviders = null;
 			this.dataSenderTask.cancel();
 			this.dataSenderTask = null;
 		}
+	}
 
+	@Override
+	public void load() {
 		final CommentedConfigurationNode config = this.plugin.config().main().node("server-data-sender");
 
 		if (!config.node("enabled").getBoolean()) {

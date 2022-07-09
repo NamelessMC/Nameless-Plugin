@@ -36,7 +36,8 @@ public class NamelessPluginCommand extends CommonCommand {
 			switch(args[0]) {
 				case "reload":
 				case "rl":
-					this.plugin().reload();
+					this.plugin().unload();
+					this.plugin().load();
 					sender.sendMessage(this.language().get(COMMAND_PLUGIN_OUTPUT_RELOAD_SUCCESSFUL));
 					return;
 				case "last_error":

@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class VaultPermissions extends AbstractPermissions {
 
 	private final NamelessPlugin plugin;
+
 	private @Nullable Permission permission;
 
 	public VaultPermissions(final NamelessPlugin plugin) {
@@ -25,7 +26,12 @@ public class VaultPermissions extends AbstractPermissions {
 	}
 
 	@Override
-	public void reload() {
+	public void unload() {
+		this.permission = null;
+	}
+
+	@Override
+	public void load() {
 		final AbstractLogger log = this.plugin.logger();
 		if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
 			log.fine("Vault is not installed.");
