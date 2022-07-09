@@ -2,8 +2,8 @@ command:
   validate:
     output:
       fail:
-        invalid-code: Ваш проверочный код неверен. Проверьте, правильно ли вы скопировали,
-          и попробуйте еще раз.
+        invalid-code: <red>Ваш проверочный код неверен. Проверьте, правильно ли вы
+          скопировали, и попробуйте еще раз.
         already-validated: Ваш аккаунт уже подтверждён.
       success: Ваша учетная запись была подтверждена.
     usage: '/<command> \<код>'
@@ -29,8 +29,8 @@ command:
         verified: 'Подтверждён: <is_verified>'
     usage: '/<command> [ник]'
     description: Получить информацию о пользователе веб-сайта
-  not-a-player: Чтобы выполнить эту команду, вы должны быть игроком.
-  no-permission: У вас нет разрешения на выполнение этой команды.
+  not-a-player: <red>Чтобы выполнить эту команду, вы должны быть игроком.
+  no-permission: <red>У вас нет разрешения на выполнение этой команды.
   notifications:
     description: Отображает список уведомлений веб-сайта.
     output:
@@ -38,7 +38,7 @@ command:
       notification: <hover:show_text:"Нажмите сюда для открытия в браузере"><click:open_url:"<url>"><message>
     usage: '/<command>'
   register:
-    usage: '/<command> \<почта>'
+    usage: '/<command> \<почта> [никнейм]'
     description: Создайте аккаунт на сайте
     output:
       success:
@@ -46,23 +46,27 @@ command:
         link: <hover:show_text:"Кликните сюда, для открытия в браузере"><click:open_url:"<url>">Завершите
           регистрацию перейдя по ссылке <url>.
       fail:
-        email-used: Этот адрес электронной почты уже используется для другой учетной
-          записи пользователя.
-        email-invalid: Указанный адрес электронной почты недействителен.
-        username-invalid: Указанное имя пользователя недействительно.
-        cannot-send-email: Отправить письмо на ваш Email не удалось. Пожалуйста, свяжитесь
-          с администрацией для активации вашего аккаунта.
-        username-used: Ваш никнейм уже используется.
-        minecraft-used: Ваш Minecraft аккаунт уже привязан к другому пользователю
+        email-used: <red>Этот адрес электронной почты уже используется для другой
+          учетной записи пользователя.
+        email-invalid: <red>Указанный адрес электронной почты недействителен.
+        username-invalid: <red>Указанное имя пользователя недействительно.
+        cannot-send-email: <red>Отправить письмо на ваш Email не удалось. Пожалуйста,
+          свяжитесь с администрацией для активации вашего аккаунта.
+        username-used: <red>Ваш никнейм уже используется.
+        minecraft-used: <red>Ваш Minecraft аккаунт уже привязан к другому пользователю
           сайта.
+        console-must-specify-username: <red>Когда пишешь команду регистрации из консоли,
+          вы должны указать никнейм.
+        custom-username-disabled: <red>Регистрироваться с никнеймом кроме Minecraft
+          никнейма запрещено.
   report:
     usage: '/<command> \<ник/uuid> \<причина>'
     description: Пожаловаться на игрока
     output:
       success: Спасибо, что пожаловались на этого игрока.
       fail:
-        already-open: Вы уже отправляли жалобу на этого игрока.
-        report-self: Вы не можете отправить заявку на самого себя.
+        already-open: <red>Вы уже отправляли жалобу на этого игрока.
+        report-self: <red>Вы не можете отправить заявку на самого себя.
   subcommands: {}
   plugin:
     output:
@@ -71,16 +75,16 @@ command:
     usage: /<command> 'reload'/'rl'/'last_error'
   store-credits:
     output:
-      added: Добавлено <credits> кредит(-а/-ов) для <username>
-      removed: Убрано <credits> кредит(-а/-ов) от <username>
+      added: Добавлено <green><credits></green> кредит(-а/-ов) для <username>
+      removed: Убрано <red><credits></red> кредит(-а/-ов) от <username>
       nothing: Не требуется никаких действий
     description: Добавить или убрать кредиты магазина для пользователя
     usage: /<command> \<ник игрока> \<(-)кредиты>
 player:
   self:
-    not-registered: Вы должны зарегистрировать учетную запись, чтобы выполнить это
-      действие.
-    command-banned: Вы не можете выполнять эту команду, поскольку вы заблокированы
+    not-registered: <red>Вы должны зарегистрировать учетную запись, чтобы выполнить
+      это действие.
+    command-banned: <red>Вы не можете выполнять эту команду, поскольку вы заблокированы
       на сайте.
   other: {}
 join-not-registered: У вас еще нет учетной записи на нашем сайте. Пожалуйста, зарегистрируйтесь,
@@ -89,12 +93,15 @@ website-announcement: 'объявление на сайте: <message>'
 user-sync-kick: Вы заблокированы на этом сервере так как вы заблокированы на нашем
   сайте.
 error:
-  website-connection: Произошла ошибка при подключению к сайту.
-  website-username-not-exist: Никаких пользователей сайта не существует с этим никнеймом.
-  username-not-online: Представленный никнейм неправильный или игрок не в сети.
-  target-no-website-account: У данного игрока нету аккаунта на сайте.
-  discord-username-not-exist: Не существует пользователей сайта с таким Discord никнеймом.
-  minecraft-uuid-not-exist: Не существует пользователей сайта с таким Minecraft UUID.
+  website-connection: <red>Произошла ошибка при подключению к сайту.
+  website-username-not-exist: <red>Никаких пользователей сайта не существует с этим
+    никнеймом.
+  username-not-online: <red>Представленный никнейм неправильный или игрок не в сети.
+  target-no-website-account: <red>У данного игрока нету аккаунта на сайте.
+  discord-username-not-exist: <red>Не существует пользователей сайта с таким Discord
+    никнеймом.
+  minecraft-uuid-not-exist: <red>Не существует пользователей сайта с таким Minecraft
+    UUID.
 boolean:
   yes-positive: <green>Да</green>
   yes-negative: <red>Да</red>
