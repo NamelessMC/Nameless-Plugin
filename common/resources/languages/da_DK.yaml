@@ -1,1 +1,107 @@
-{}
+error:
+  website-username-not-exist: <red>Der findes ikke en bruger på hjemmesiden med det
+    brugernavn.
+  discord-username-not-exist: <red>Der findes ingen bruger på hjemmesiden med dette
+    Discord brugernavn.
+  target-no-website-account: <red>Den valgte spiller har ikke en konto på hjemmesiden.
+  website-connection: <red>Der opstod en fejl under forsøget på at oprette forbindelse
+    til hjemmesiden.
+  username-not-online: <red>Enten er det angivet brugernavn er ugyldigt eller så er
+    spilleren ikke online.
+  minecraft-uuid-not-exist: <red>Der findes ingen bruger på hjemmesiden med det Minecraft
+    UUID.
+player:
+  self:
+    command-banned: <red>Du kan ikke bruge denne kommando, du er udelukket fra hjemmesiden.
+    not-registered: <red>Du skal oprette en konto for at udføre denne handling.
+boolean:
+  yes-positive: <green>Ja</green>
+  yes-negative: <red>Ja</red>
+  no-positive: <green>Nej</green>
+  no-negative: <red>Nej</red>
+command:
+  not-a-player: <red>Du skal være en spiller for at kunne bruge denne kommando.
+  notifications:
+    usage: /<command>
+    output:
+      no-notifications: Du har ikke nogle ulæste notifikationer.
+      notification: <hover:show_text:"Tryk her for at åbne i en web browser"><click:open_url:"<url>"><message></click></hover>
+    description: Viser en liste over notifikationer fra hjemmesiden.
+  plugin:
+    usage: /<command> 'reload'/'rl'/'last_error'
+    description: Administrative kommandoer til NamelessMC plugin
+    output:
+      reload-successful: Pluginet blev genindlæst.
+  register:
+    usage: /<command> \<email> [brugernavn]
+    description: Opret en konto på hjemmesiden
+    output:
+      success:
+        email: Tjek venligst din indbakke for at fuldføre registreringen.
+        link: Udfyld venligst registreringen ved at gå til <hover:show_text:\"Klik
+          for at åbne i en webbrowser\"><click:open_url:\"<url>\"><url></click></hover>.
+      fail:
+        username-used: <red>Dit brugernavn er allerede brugt.
+        email-used: <red>Denne e-mailadresse er allerede brugt til en anden konto.
+        minecraft-used: <red>Din Minecraft-konto er allerede knyttet til en anden
+          bruger på hjemmesiden.
+        email-invalid: <red>Den angivnet e-mailadresse er ugyldig.
+        cannot-send-email: <red>Kan ikke sende registrerings e-mail, kontakt venligst
+          en administrator for at aktivere din konto.
+        custom-username-disabled: <red>Registrering med et andet brugernavn end dit
+          Minecraft-brugernavn er ikke tilladt.
+        username-invalid: <red>Det angivet brugernavn er ugyldigt.
+        console-must-specify-username: <red>Når du udfører registrer kommandoen fra
+          konsollen, skal du angive et brugernavn.
+  report:
+    usage: /<command> \<navn/uuid> \<grund>
+    description: Rapporter en spiller
+    output:
+      success: Tak, fordi du rapporterede denne spiller.
+      fail:
+        already-open: <red>Du kan ikke rapportere denne spiller, du har allerede en
+          åben rapport med dem.
+        report-self: <red>Du kan ikke rapportere dig selv.
+  store-credits:
+    usage: /<command> \<spillernavn> \<(-)credits>
+    output:
+      added: Tilføjet <green><credits></green> kreditter til <username>
+      nothing: Ingen handling nødvendig
+      removed: Fjernet <red><credits></red> kreditter fra <username>
+    description: Tilføj eller fjern butikskreditter for en bruger
+  validate:
+    usage: /<command> \<verifikationskode>
+    description: Validerer brugerens webstedskonto ved hjælp af den givne kode.
+    output:
+      success: Din konto er blevet valideret.
+      fail:
+        invalid-code: <red>Din valideringskode er forkert. Tjek om du har kopierede
+          koden korrekt, og prøv igen.
+        already-validated: Din konto er allerede valideret.
+  user-info:
+    usage: /<command> [brugernavn]
+    description: Hent oplysninger om en bruger fra hjemmesiden
+    output:
+      username: 'Brugernavn: <username>'
+      displayname: 'Vist navn: <displayname>'
+      uuid: 'UUID: <uuid>'
+      uuid-unknown: 'UUID: ukendt'
+      primary-group: 'Primær gruppe: <groupname>'
+      all-groups: 'Alle grupper: <groups_names_list>'
+      registered-date: 'Registreret den: <date>'
+      validated: 'Konto valideret: <validated>'
+      integrations:
+        header: 'Integrationer:'
+        identifier: 'Identifikation: <identifier>'
+        username: 'Brugernavn: <username>'
+        linked-date: 'Tilknyttet dato: <linked_date>'
+        verified: 'Verificeret: <is_verified>'
+      banned: 'Udelukket: <banned>'
+      custom-field: "Brugerdefineret felt '<name>': <value>"
+  no-permission: <red>Du har ikke adgang til at bruge denne kommando.
+join-not-registered: Du har endnu ikke en konto på vores hjemmeside. Tilmeld dig venligst
+  ved hjælp af /<register_command>.
+join-notifications: Du har en notifikation på hjemmesiden, brug /<notifications_command>
+  for mere information.
+website-announcement: 'Hjemmeside meddelelse: <message>'
+user-sync-kick: Du er udelukket fra vores server efter et kontoforbud på hjemmesiden.
