@@ -41,7 +41,7 @@ command:
         link: Udfyld venligst registreringen ved at gå til <hover:show_text:\"Klik
           for at åbne i en webbrowser\"><click:open_url:\"<url>\"><url></click></hover>.
       fail:
-        username-used: <red>Dit brugernavn er allerede brugt.
+        username-used: <red>Dit valgte brugernavn er allerede i brug af en anden bruger.
         email-used: <red>Denne e-mailadresse er allerede brugt til en anden konto.
         minecraft-used: <red>Din Minecraft-konto er allerede knyttet til en anden
           bruger på hjemmesiden.
@@ -65,9 +65,9 @@ command:
   store-credits:
     usage: /<command> \<spillernavn> \<(-)credits>
     output:
-      added: Tilføjet <green><credits></green> kreditter til <username>
-      nothing: Ingen handling nødvendig
-      removed: Fjernet <red><credits></red> kreditter fra <username>
+      added: Tilføjet <green><credits></green> kreditter til <username>.
+      nothing: Ingen handling nødvendig.
+      removed: Fjernet <red><credits></red> kreditter fra <username>.
     description: Tilføj eller fjern butikskreditter for en bruger
   validate:
     usage: /<command> \<verifikationskode>
@@ -75,8 +75,8 @@ command:
     output:
       success: Din konto er blevet valideret.
       fail:
-        invalid-code: <red>Din valideringskode er forkert. Tjek om du har kopierede
-          koden korrekt, og prøv igen.
+        invalid-code: <red>Valideringskoden er forkert. Tjek om du har kopierede koden
+          korrekt, og prøv igen.
         already-validated: Din konto er allerede valideret.
   user-info:
     usage: /<command> [brugernavn]
