@@ -2,8 +2,8 @@ command:
   validate:
     output:
       fail:
-        invalid-code: <red>Ваш проверочный код неверен. Проверьте, правильно ли вы
-          скопировали, и попробуйте еще раз.
+        invalid-code: <red>Данный проверочный код неверен. Проверьте, правильно ли
+          вы скопировали, и попробуйте еще раз.
         already-validated: Ваш аккаунт уже подтверждён.
       success: Ваша учетная запись была подтверждена.
     usage: '/<command> \<код>'
@@ -52,7 +52,7 @@ command:
         username-invalid: <red>Указанное имя пользователя недействительно.
         cannot-send-email: <red>Отправить письмо на ваш Email не удалось. Пожалуйста,
           свяжитесь с администрацией для активации вашего аккаунта.
-        username-used: <red>Ваш никнейм уже используется.
+        username-used: <red>Данный никнейм уже используется другим аккаунтом.
         minecraft-used: <red>Ваш Minecraft аккаунт уже привязан к другому пользователю
           сайта.
         console-must-specify-username: <red>Когда пишешь команду регистрации из консоли,
@@ -75,9 +75,9 @@ command:
     usage: /<command> 'reload'/'rl'/'last_error'
   store-credits:
     output:
-      added: Добавлено <green><credits></green> кредит(-а/-ов) для <username>
-      removed: Убрано <red><credits></red> кредит(-а/-ов) от <username>
-      nothing: Не требуется никаких действий
+      added: Добавлено <green><credits></green> кредит(-а/-ов) для <username>.
+      removed: Убрано <red><credits></red> кредит(-а/-ов) от <username>.
+      nothing: Не требуется никаких действий.
     description: Добавить или убрать кредиты магазина для пользователя
     usage: /<command> \<ник игрока> \<(-)кредиты>
 player:
