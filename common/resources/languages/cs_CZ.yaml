@@ -13,7 +13,7 @@ command:
         username-invalid: <red>Zadané uživatelské jméno je neplatné.
         cannot-send-email: <red>Nepodařilo se odeslat registrační e-mail, kontaktujte
           prosím správce, aby vám aktivoval účet.
-        username-used: <red>Vaše uživatelské jméno je již používáno.
+        username-used: <red>Zadané uživatelské jméno je již používáno jiným účtem.
         minecraft-used: <red>Váš Minecraft účet je již propojen s jiným uživatelem
           na webu.
         console-must-specify-username: <red>Při spuštění příkazu k registraci z konzole
@@ -38,7 +38,7 @@ command:
   validate:
     output:
       fail:
-        invalid-code: <red>Váš ověřovací kód je nesprávný. Zkontrolujte, zda jste
+        invalid-code: <red>Zadaný ověřovací kód je nesprávný. Zkontrolujte, zda jste
           jej zkopírovali správně a zkuste to znovu.
         already-validated: Váš účet je již ověřen.
       success: Váš účet byl ověřen.
@@ -74,9 +74,9 @@ command:
       reload-successful: Plugin úspěšně znovu načten.
   store-credits:
     output:
-      added: Uživateli <username> bylo přidáno <green><credits></green> kreditů
-      removed: Uživateli <username> bylo odebráno <red><credits></red> kreditů
-      nothing: Není vyžadována žádná akce
+      added: Uživateli <username> bylo přidáno <green><credits></green> kreditů.
+      removed: Uživateli <username> bylo odebráno <red><credits></red> kreditů.
+      nothing: Není vyžadována žádná akce.
     usage: /<command> \<jméno hráče> \<(-)kredity>
     description: Přidat nebo odebrat kredity uživateli
 join-not-registered: Ještě nemáte na našem webu účet. Zaregistrujte se pomocí /register.
