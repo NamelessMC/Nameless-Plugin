@@ -1,8 +1,9 @@
 player:
   other: {}
   self:
-    not-registered: Debe registrarse para realizar esta acción.
-    command-banned: No puedes ejecutar este comando, estás expulsado del sitio web.
+    not-registered: <red>Debe registrarse para realizar esta acción.
+    command-banned: <red>No puedes ejecutar este comando, estás expulsado del sitio
+      web.
 command:
   register:
     description: Crear una cuenta en el sitio web
@@ -13,19 +14,22 @@ command:
           para abrir en un navegador web"><click:open_url:"<url>"><url></click></hover>.
         email: Por favor, compruebe su bandeja de entrada para completar el registro.
       fail:
-        email-used: Esta dirección de correo electrónico ya se ha utilizado para otra
-          cuenta.
-        email-invalid: La dirección de correo electrónico proporcionada es inválida.
-        username-invalid: El nombre de usuario proporcionado es inválido.
-        cannot-send-email: No se puede enviar el correo electrónico de registro, por
-          favor contacte con un administrador para activar su cuenta.
-        username-used: Tu nombre de usuario ya está utilizado.
-        minecraft-used: Tu cuenta de Minecraft ya está vinculada a otro usuario del
-          sitio web.
-        console-must-specify-username: Se debe especificar un nombre de usuario cuando
-          se ejecuta el comando de registro desde la consola.
-  not-a-player: Debes ser un jugador para usar este comando.
-  no-permission: No tienes permiso para ejecutar este comando.
+        email-used: <red>Esta dirección de correo electrónico ya se ha utilizado para
+          otra cuenta.
+        email-invalid: <red>La dirección de correo electrónico proporcionada es inválida.
+        username-invalid: <red>El nombre de usuario proporcionado es inválido.
+        cannot-send-email: <red>No se puede enviar el correo electrónico de registro,
+          por favor contacte con un administrador para activar su cuenta.
+        username-used: <red>El nombre de usuario proporcionado ya está en uso por
+          una cuenta de usuario diferente.
+        minecraft-used: <red>Tu cuenta de Minecraft ya está vinculada a otro usuario
+          del sitio web.
+        console-must-specify-username: <red>Se debe especificar un nombre de usuario
+          cuando se ejecuta el comando de registro desde la consola.
+        custom-username-disabled: <red>No está permitido registrarse con un nombre
+          de usuario distinto al de Minecraft.
+  not-a-player: <red>Debes ser un jugador para usar este comando.
+  no-permission: <red>No tienes permiso para ejecutar este comando.
   notifications:
     usage: '/<command>'
     description: Muestra una lista de notificaciones del sitio web.
@@ -37,17 +41,17 @@ command:
     output:
       success: Gracias por reportar a este jugador.
       fail:
-        already-open: No puedes reportar a este jugador, ya tienes un reporte abierto
-          para él.
-        report-self: No puedes denunciarte a ti mismo.
+        already-open: <red>No puedes reportar a este jugador, ya tienes un reporte
+          abierto para él.
+        report-self: <red>No puedes denunciarte a ti mismo.
     usage: '/<command> \<nombre/uuid> \<razón>'
   subcommands: {}
   validate:
     output:
       success: Su cuenta ha sido validada.
       fail:
-        invalid-code: Su código de validación es incorrecto. Por favor, compruebe
-          si lo ha copiado correctamente e inténtelo de nuevo.
+        invalid-code: <red>El código de validación proporcionado es incorrecto. Por
+          favor, compruebe si lo ha copiado correctamente y vuelva a intentarlo.
         already-validated: Su cuenta ya está validada.
     usage: '/<command> \<código>'
     description: Valida la cuenta del sitio web del usuario usando el código proporcionado.
@@ -80,26 +84,27 @@ command:
     usage: /<command> \<nombre del jugador> \<(-)créditos>
     description: Añadir o eliminar créditos de la tienda para un usuario
     output:
-      added: Añadidos los créditos de <credits> a <username>
-      removed: Se han eliminado los créditos de <credits> de <username>
-      nothing: No se requiere ninguna acción
+      added: Añadidos los créditos de <credits> a <username>.
+      removed: Se han eliminado los créditos de <credits> de <username>.
+      nothing: No se requiere ninguna acción.
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /register.
 website-announcement: 'Anuncio de la página web: <message>'
 user-sync-kick: Usted ha sido expulsado de nuestro servidor a raíz de un baneo de
   la cuenta del sitio web.
 error:
-  website-username-not-exist: No existe ningún usuario en el sitio web con este nombre
-    de usuario.
-  username-not-online: El nombre de usuario proporcionado no es válido o el jugador
+  website-username-not-exist: <red>No existe ningún usuario en el sitio web con este
+    nombre de usuario.
+  username-not-online: <red>El nombre de usuario proporcionado no es válido o el jugador
     no está conectado.
-  website-connection: Se ha producido un error al intentar conectarse al sitio web.
-  discord-username-not-exist: No existe ningún usuario del sitio web con este nombre
-    de usuario de Discord.
-  target-no-website-account: El jugador proporcionado no tiene una cuenta en el sitio
+  website-connection: <red>Se ha producido un error al intentar conectarse al sitio
     web.
-  minecraft-uuid-not-exist: No existe ningún usuario del sitio web con este UUID de
-    Minecraft.
+  discord-username-not-exist: <red>No existe ningún usuario del sitio web con este
+    nombre de usuario de Discord.
+  target-no-website-account: <red>El jugador proporcionado no tiene una cuenta en
+    el sitio web.
+  minecraft-uuid-not-exist: <red>No existe ningún usuario del sitio web con este UUID
+    de Minecraft.
 boolean:
   yes-negative: <red>Sí</red>
   no-negative: <red>No</red>
