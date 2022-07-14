@@ -1,8 +1,8 @@
 player:
   other: {}
   self:
-    command-banned: 사이트에서 차단되어 이 명령을 실행할 수 없습니다.
-    not-registered: 이 동작을 수행하려면 등록되어야 합니다.
+    command-banned: <red>사이트에서 차단되어 이 명령을 실행할 수 없습니다.
+    not-registered: <red>이 동작을 수행하려면 등록되어야 합니다.
 command:
   notifications:
     output:
@@ -13,21 +13,24 @@ command:
   register:
     output:
       fail:
-        email-used: 다른 계정에서 사용 중인 메일입니다.
-        email-invalid: 유효하지 않은 메일 주소입니다.
-        cannot-send-email: 인증 메일을 보낼 수 없습니다. 관리자를 통해 계정을 활성화하십시오.
-        username-invalid: 잘못된 아이디입니다.
-        username-used: 이미 사용중인 닉네임입니다.
+        email-used: <red>다른 계정에서 사용 중인 메일입니다.
+        email-invalid: <red>유효하지 않은 메일 주소입니다.
+        cannot-send-email: <red>인증 메일을 보낼 수 없습니다. 관리자를 통해 계정을 활성화하십시오.
+        username-invalid: <red>잘못된 아이디입니다.
+        username-used: <red>이미 사용중인 닉네임입니다.
+        minecraft-used: <red>당신의 마인크래프트 계정은 이미 다른 사용자의 계정에 연결되어있습니다.
+        console-must-specify-username: <red>콘솔에서 register 명령을 실행할 때 사용자 이름을 지정해야 합니다.
+        custom-username-disabled: <red>Minecraft 사용자 이름이 아닌 다른 사용자 이름으로 등록할 수 없습니다.
       success:
         email: 발송된 인증 메일을 확인하십시오.
         link: '{link}로 접속해 인증을 완료하십시오.'
-    usage: /{command} <email>
+    usage: /{command} <email>[username]
     description: 웹 사이트 아이디를 생성합니다
   report:
     output:
       fail:
-        already-open: 이미 신고된 플레이어를 신고할 수 없습니다.
-        report-self: 스스로를 신고할 수 없습니다.
+        already-open: <red>이미 신고된 플레이어를 신고할 수 없습니다.
+        report-self: <red>스스로를 신고할 수 없습니다.
       success: 신고가 접수되었습니다.
     usage: /{command} <닉네임/UUID> <사유>
     description: 플레이어를 신고합니다
@@ -35,12 +38,12 @@ command:
     output:
       fail:
         already-validated: 이미 인증된 계정입니다.
-        invalid-code: 잘못된 코드입니다. 제대로 복사했는지 확인 후 다시 시도하십시오.
+        invalid-code: <red>잘못된 코드입니다. 제대로 복사했는지 확인 후 다시 시도하십시오.
       success: 계정이 활성화되었습니다.
     usage: /{command} <코드>
     description: 입력된 코드로 플레이어의 웹 사이트 계정을 활성화합니다.
-  not-a-player: 플레이어만 이 명령어를 사용할 수 있습니다.
-  no-permission: 권한이 없습니다.
+  not-a-player: <red>플레이어만 이 명령어를 사용할 수 있습니다.
+  no-permission: <red>권한이 없습니다.
   user-info:
     usage: /{command} [아이디]
     description: 웹 사이트 유저의 정보를 불러옵니다
@@ -65,13 +68,23 @@ command:
   plugin:
     output:
       reload-successful: 플러그인이 다시 로드되었습니다.
-    usage: /<command> \<reload|rl>
+    usage: /<command> 'reload'|'rl'|'last_error'
     description: NamelessMC 플러그인 관리자 명령어
+  store-credits:
+    usage: /<command> \<player name> \<(-)credits>
+    description: 사용자에 대한 스토어 크레딧 추가 또는 제거
+    output:
+      removed: <username>의 <red><credits></red>크레딧을 제거했습니다.
+      added: 크레딧을 <green><credits></green><username>에게 추가했습니다.
+      nothing: 아무 동작이 필요하지 않습니다.
 join-not-registered: 웹 사이트 계정이 존재하지 않습니다. /register 로 가입하세요.
 error:
-  website-username-not-exist: 해당 아아디의 웹 사이트 사용자가 없습니다
-  website-connection: 웹 사이트에 연결하는 도중 오류가 발생했습니다.
-  username-not-online: 접속해 있지 않거나 유효하지 않은 닉네임입니다.
+  website-username-not-exist: <red>해당 아이디의 웹 사이트 사용자가 없습니다.
+  website-connection: <red>웹 사이트에 연결하는 도중 오류가 발생했습니다.
+  username-not-online: <red>접속해 있지 않거나 유효하지 않은 닉네임입니다.
+  discord-username-not-exist: <red>해당 디스코드 닉네임의 사용자가 없습니다.
+  minecraft-uuid-not-exist: <red>해당 마인크래프트 UUID의 사용자가 없습니다.
+  target-no-website-account: <red>해당 플레이어는 웹사이트 계정이 없습니다.
 boolean:
   yes-positive: <green>예</green>
   yes-negative: <red>예</red>
