@@ -29,7 +29,7 @@ public class StoreCreditsCommand extends CommonCommand {
 
 		final float credits;
 		try {
-			credits = Float.parseFloat(args[0]);
+			credits = Float.parseFloat(args[1]);
 
 			if (Float.isNaN(credits) || Float.isInfinite(credits)) {
 				sender.sendMessage(this.usage());
