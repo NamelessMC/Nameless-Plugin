@@ -191,7 +191,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 
 		final ConfigurationNode commands = this.plugin.config().commands();
 		if (commands.hasChild("verify")) {
-			final String verifyCommand = commands.node("verify").getString();
+			final String verifyCommand = "/" + commands.node("verify").getString();
 			this.registerGlobalInfoProvider(json -> json.addProperty("verify_command", verifyCommand));
 		}
 
