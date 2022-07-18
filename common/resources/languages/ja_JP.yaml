@@ -1,10 +1,10 @@
 player:
   other: {}
   self:
-    not-registered: 実行するには、アカウントの登録が必要です。
-    command-banned: このコマンドを実行できません。あなたはウェブサイトからBANされています。
+    not-registered: <red>実行するには、アカウントの登録が必要です。
+    command-banned: <red>このコマンドを実行できません。あなたはウェブサイトからBANされています。
 command:
-  not-a-player: このコマンドを実行するにはプレイヤーでなければなりません。
+  not-a-player: <red>このコマンドを実行するにはプレイヤーでなければなりません。
   notifications:
     usage: '/<command>'
     output:
@@ -12,20 +12,22 @@ command:
       notification: <hover:show_text:"クリックしてウェブブラウザで開く"><click:open_url:"<url>"><message>
     description: ウェブサイトの通知一覧を表示します。
   register:
-    usage: '/<command> \<ユーザー名> \<メールアドレス>'
+    usage: '/<command> \<メールアドレス> [ユーザー名]'
     output:
       success:
         email: メールボックスを確認して登録を完了させてください。
         link: '<hover:show_text:"クリックしてウェブブラウザで開く"><click:open_url:"<url>"><url>にアクセスして登録を完了してください。'
       fail:
-        email-used: このメールアドレスはすでに別のユーザーアカウントで使用されています。
-        email-invalid: メールアドレスは無効です。
-        username-invalid: ユーザー名は無効です。
-        cannot-send-email: 登録メールが送信されない場合は、管理者に連絡してアカウントを有効化してください。
-        username-used: ユーザー名はすでに使用されています。
-        minecraft-used: あなたのMinecraftアカウントは、すでに別のウェブサイトユーザーとリンクしています。
+        email-used: <red>このメールアドレスはすでに別のユーザーアカウントで使用されています。
+        email-invalid: <red>メールアドレスは無効です。
+        username-invalid: <red>ユーザー名は無効です。
+        cannot-send-email: <red>登録メールが送信されない場合は、管理者に連絡してアカウントを有効化してください。
+        username-used: 入力されたユーザー名は、すでに別のユーザーアカウントによって使用されています。
+        minecraft-used: <red>あなたのMinecraftアカウントは、すでに別のウェブサイトユーザーとリンクしています。
+        custom-username-disabled: <red>Minecraftのユーザー名以外での登録は禁止されています。
+        console-must-specify-username: <red>コンソールからregisterコマンドを実行する場合、ユーザー名を指定する必要があります。
     description: ウェブサイトアカウントを作成
-  no-permission: このコマンドを実行する権限がありません。
+  no-permission: <red>このコマンドを実行する権限がありません。
   user-info:
     usage: '/<command> [ユーザー名]'
     output:
@@ -59,8 +61,8 @@ command:
     output:
       success: プレイヤーを報告していただきありがとうございます。
       fail:
-        already-open: プレイヤーを報告することはできません。あなたは既に問題を開いています。
-        report-self: 自分自身を報告することはできません。
+        already-open: <red>プレイヤーを報告することはできません。あなたは既に問題を開いています。
+        report-self: <red>自分自身を報告することはできません。
     description: プレイヤーを報告
   subcommands: {}
   plugin:
@@ -70,21 +72,21 @@ command:
     usage: /<command> 'reload'/'rl'/'last_error'
   store-credits:
     output:
-      added: <username>に<credits>クレジットを追加
-      removed: <username>から<credits>のクレジットを削除
-      nothing: アクション不要
+      added: <username>に<credits>クレジットを追加。
+      removed: <username>から<credits>のクレジットを削除。
+      nothing: アクション不要。
     usage: /<command> \<プレイヤー名> <(-)クレジット>
     description: ユーザーのストアクレジットを追加または削除
 join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。
 website-announcement: 'ウェブサイトのお知らせ: <message>'
 user-sync-kick: ウェブサイトのアカウントBANによって、私たちのサーバーからBANされています。
 error:
-  website-username-not-exist: このユーザー名のウェブサイトユーザーが存在しません。
-  website-connection: ウェブサイトに接続しようとしたときにエラーが発生しました。
-  username-not-online: 入力されたユーザー名が無効であるか、プレイヤーがオンラインではありません。
-  discord-username-not-exist: このDiscordユーザー名を持つウェブサイトサイトユーザーは存在しません。
-  minecraft-uuid-not-exist: このMinecraft UUIDを持つウェブサイトユーザーは存在しません。
-  target-no-website-account: 提供されたプレイヤーは、ウェブサイトアカウントを持っていません。
+  website-username-not-exist: <red>このユーザー名のウェブサイトユーザーが存在しません。
+  website-connection: <red>ウェブサイトに接続しようとしたときにエラーが発生しました。
+  username-not-online: <red>入力されたユーザー名が無効であるか、プレイヤーがオンラインではありません。
+  discord-username-not-exist: <red>このDiscordユーザー名を持つウェブサイトサイトユーザーは存在しません。
+  minecraft-uuid-not-exist: <red>このMinecraft UUIDを持つウェブサイトユーザーは存在しません。
+  target-no-website-account: <red>提供されたプレイヤーは、ウェブサイトアカウントを持っていません。
 boolean:
   yes-positive: <green>はい</green>
   yes-negative: <red>はい</red>
