@@ -9,7 +9,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.nio.file.Path;
-import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -136,7 +135,7 @@ public class NamelessPlugin {
 		for (Reloadable.Order order : Reloadable.Order.values()) {
 			for (Reloadable reloadable : reloadables.get(order.ordinal())) {
 				this.logger.fine(() -> "Unloading " + order + ": " + reloadable.getClass().getSimpleName());
-				reloadable.load();
+				reloadable.unload();
 			}
 		}
 	}
