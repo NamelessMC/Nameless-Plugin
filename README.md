@@ -7,7 +7,7 @@
 The official Minecraft plugin for NamelessMC v2. For compiled files see the [spigot resource page](https://www.spigotmc.org/resources/nameless-plugin-for-v2.59032/)
 
 ## Features
-* Multi-platform! Supports Spigot 1.8-1.18, BungeeCord, Velocity, Sponge 7-9.
+* Multi-platform! Supports Spigot 1.8-1.19, BungeeCord, Velocity, Sponge 7-9.
 * Commands to register or verify an account, report a player, read website notifications and more.
 * Configurable command names to avoid conflicts
 * Configurable messages with translation support
