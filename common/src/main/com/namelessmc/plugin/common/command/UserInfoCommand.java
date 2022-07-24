@@ -166,7 +166,7 @@ public class UserInfoCommand extends CommonCommand {
 	@Override
 	public List<String> complete(@NonNull NamelessCommandSender sender, @NonNull String @NonNull [] args) {
 		if (args.length == 1) {
-			return this.plugin().userCache().getUsernames().stream().filter(s -> s.startsWith(args[0])).collect(Collectors.toList());
+			return this.plugin().userCache().usernamesSearch(args[0]);
 		}
 		return Collections.emptyList();
 	}

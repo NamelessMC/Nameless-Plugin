@@ -3,14 +3,14 @@ package com.namelessmc.plugin.common.command;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.NamelessException;
-import com.namelessmc.plugin.common.LanguageHandler;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
-import net.kyori.adventure.text.Component;
-import org.checkerframework.checker.nullness.qual.NonNull;
+
+import java.util.Collections;
+import java.util.List;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
 
@@ -76,4 +76,13 @@ public class StoreViewCreditsCommand extends CommonCommand {
 			}
 		});
 	}
+
+	@Override
+	public List<String> complete(final NamelessCommandSender sender, final String[] args) {
+		if (args.length == 1) {
+			return this.plugin().userCache().minecraftUsernamesSearch(args[0]);
+		}
+		return Collections.emptyList();
+	}
+
 }

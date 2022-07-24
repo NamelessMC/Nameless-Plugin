@@ -1,17 +1,17 @@
 package com.namelessmc.plugin.common;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserCache implements Reloadable {
 
@@ -19,6 +19,7 @@ public class UserCache implements Reloadable {
 
 	private @Nullable AbstractScheduledTask task;
 	private List<String> usernames = Collections.emptyList();
+	private List<String> minecraftUsernames = Collections.emptyList();
 
 	UserCache(final NamelessPlugin plugin) {
 		this.plugin = plugin;
@@ -47,23 +48,42 @@ public class UserCache implements Reloadable {
 			}
 
 			try {
-				JsonObject response = api.users().makeRawRequest();
-				final JsonArray users = response.getAsJsonArray("users");
+				final List<NamelessUser> users = api.users().makeRequest();
+
 				final List<String> usernames = new ArrayList<>(users.size());
-				for (final JsonElement userElement : users) {
-					final JsonObject user = userElement.getAsJsonObject();
-					final String username = user.get("username").getAsString();
-					usernames.add(username);
-					this.usernames = usernames;
+				final List<String> minecraftUsernames = new ArrayList<>(users.size());
+
+				for (NamelessUser user : users) {
+					usernames.add(user.username());
+					minecraftUsernames.add(user.minecraftUsername());
 				}
+
+				this.usernames = usernames;
+				this.minecraftUsernames = minecraftUsernames;
 			} catch (NamelessException e) {
 				throw new RuntimeException(e);
 			}
 		});
 	}
 
-	public List<String> getUsernames() {
+	private List<String> search(Collection<String> original, String part) {
+		return original.stream().filter(s -> s.startsWith(part)).collect(Collectors.toUnmodifiableList());
+	}
+
+	public List<String> usernames() {
 		return this.usernames;
+	}
+
+	public List<String> usernamesSearch(String part) {
+		return this.search(this.usernames, part);
+	}
+
+	public List<String> minecraftUsernames() {
+		return this.minecraftUsernames;
+	}
+
+	public List<String> minecraftUsernamesSearch(String part) {
+		return this.search(this.minecraftUsernames, part);
 	}
 
 }

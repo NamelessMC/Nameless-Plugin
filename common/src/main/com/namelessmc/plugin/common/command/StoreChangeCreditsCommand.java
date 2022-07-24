@@ -8,6 +8,9 @@ import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.Collections;
+import java.util.List;
+
 import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
 import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_STORE_CHANGE_CREDITS_OUTPUT_REMOVED;
 
@@ -80,6 +83,14 @@ public class StoreChangeCreditsCommand extends CommonCommand {
 			}
 		});
 
+	}
+
+	@Override
+	public List<String> complete(final NamelessCommandSender sender, final String[] args) {
+		if (args.length == 1) {
+			return this.plugin().userCache().minecraftUsernamesSearch(args[0]);
+		}
+		return Collections.emptyList();
 	}
 
 }
