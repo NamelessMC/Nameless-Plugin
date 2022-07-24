@@ -9,15 +9,16 @@ import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_STORE_CHANGE_CREDITS_OUTPUT_REMOVED;
 
-public class StoreCreditsCommand extends CommonCommand {
+public class StoreChangeCreditsCommand extends CommonCommand {
 
-	public StoreCreditsCommand(final @NonNull NamelessPlugin plugin) {
+	public StoreChangeCreditsCommand(final @NonNull NamelessPlugin plugin) {
 		super(plugin,
-				"store-credits",
-				COMMAND_STORE_CREDITS_USAGE,
-				COMMAND_STORE_CREDITS_DESCRIPTION,
-				Permission.COMMAND_STORE_CREDITS);
+				"store-change-credits",
+				COMMAND_STORE_CHANGE_CREDITS_USAGE,
+				COMMAND_STORE_CHANGE_CREDITS_DESCRIPTION,
+				Permission.COMMAND_STORE_CHANGE_CREDITS);
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class StoreCreditsCommand extends CommonCommand {
 		}
 
 		if (credits == 0) {
-			sender.sendMessage(this.language().get(COMMAND_STORE_CREDITS_OUTPUT_NOTHING));
+			sender.sendMessage(this.language().get(COMMAND_STORE_CHANGE_CREDITS_OUTPUT_NOTHING));
 			return;
 		}
 
@@ -65,11 +66,11 @@ public class StoreCreditsCommand extends CommonCommand {
 
 				if (credits > 0) {
 					user.store().addCredits(credits);
-					sender.sendMessage(this.language().get(COMMAND_STORE_CREDITS_OUTPUT_ADDED,
+					sender.sendMessage(this.language().get(COMMAND_STORE_CHANGE_CREDITS_OUTPUT_ADDED,
 							"credits", String.format("%.2f", credits), "username", namelessUsername));
 				} else if (credits < 0) {
 					user.store().removeCredits(-credits);
-					sender.sendMessage(this.language().get(COMMAND_STORE_CREDITS_OUTPUT_REMOVED,
+					sender.sendMessage(this.language().get(COMMAND_STORE_CHANGE_CREDITS_OUTPUT_REMOVED,
 							"credits", String.format("%.2f", -credits), "username", namelessUsername));
 				} else {
 					throw new IllegalStateException();

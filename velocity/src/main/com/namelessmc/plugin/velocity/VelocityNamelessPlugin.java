@@ -3,6 +3,7 @@ package com.namelessmc.plugin.velocity;
 import com.google.inject.Inject;
 import com.namelessmc.plugin.common.MavenConstants;
 import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.velocity.audiences.VelocityAudienceProvider;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyReloadEvent;

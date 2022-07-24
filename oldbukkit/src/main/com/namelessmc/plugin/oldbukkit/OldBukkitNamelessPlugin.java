@@ -2,6 +2,7 @@ package com.namelessmc.plugin.oldbukkit;
 
 import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import com.namelessmc.plugin.common.LanguageHandler;
+import com.namelessmc.plugin.oldbukkit.audiences.OldBukkitAudienceProvider;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;

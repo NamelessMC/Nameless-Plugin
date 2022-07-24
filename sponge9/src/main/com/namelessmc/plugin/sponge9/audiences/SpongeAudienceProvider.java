@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.sponge8;
+package com.namelessmc.plugin.sponge9.audiences;
 
 import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
@@ -7,7 +7,6 @@ import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 
 import java.util.Collection;
@@ -17,19 +16,11 @@ import java.util.stream.Collectors;
 
 public class SpongeAudienceProvider extends AbstractAudienceProvider {
 
-	SpongeAudienceProvider() {}
-
-	static void dispatchCommand(String command) {
-		try {
-			Sponge.server().commandManager().process(command);
-		} catch (CommandException e) {
-			throw new RuntimeException(e);
-		}
-	}
+	public SpongeAudienceProvider() {}
 
 	@Override
 	public @NotNull NamelessConsole console() {
-		return new NamelessConsole(Sponge.systemSubject(), SpongeAudienceProvider::dispatchCommand);
+		return new SpongeNamelessConsole();
 	}
 
 	@Override
@@ -40,7 +31,7 @@ public class SpongeAudienceProvider extends AbstractAudienceProvider {
 	private @Nullable NamelessPlayer spongeToNamelessPlayer(final Optional<ServerPlayer> optionalPlayer) {
 		if (optionalPlayer.isPresent()) {
 			final ServerPlayer player = optionalPlayer.get();
-			return new NamelessPlayer(player, player.uniqueId(), player.name());
+			return new SpongeNamelessPlayer(player);
 		}
 		return null;
 	}
@@ -58,7 +49,7 @@ public class SpongeAudienceProvider extends AbstractAudienceProvider {
 	@Override
 	public @NotNull Collection<@NotNull NamelessPlayer> onlinePlayers() {
 		return Sponge.server().onlinePlayers().stream()
-				.map(p -> new NamelessPlayer(p, p.uniqueId(), p.name()))
+				.map(SpongeNamelessPlayer::new)
 				.collect(Collectors.toUnmodifiableList());
 	}
 }

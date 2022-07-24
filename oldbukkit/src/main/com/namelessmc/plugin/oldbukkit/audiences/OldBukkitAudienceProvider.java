@@ -1,11 +1,10 @@
-package com.namelessmc.plugin.oldbukkit;
+package com.namelessmc.plugin.oldbukkit.audiences;
 
-import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
+import com.namelessmc.plugin.bukkit.audiences.BukkitNamelessConsole;
 import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import net.kyori.adventure.audience.Audience;
-import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -22,7 +21,7 @@ public class OldBukkitAudienceProvider extends AbstractAudienceProvider {
 
 	@Override
 	public @NonNull NamelessConsole console() {
-		return new NamelessConsole(new LegacyCommandSenderAudience(Bukkit.getConsoleSender()), this::dispatchCommand);
+		return new BukkitNamelessConsole(new LegacyCommandSenderAudience(Bukkit.getConsoleSender()));
 	}
 
 	@Override
@@ -39,7 +38,7 @@ public class OldBukkitAudienceProvider extends AbstractAudienceProvider {
 	public @Nullable NamelessPlayer bukkitToNamelessPlayer(final Player bukkitPlayer) {
 		return bukkitPlayer == null
 				? null
-				: new NamelessPlayer(new LegacyCommandSenderAudience(bukkitPlayer), bukkitPlayer.getUniqueId(), bukkitPlayer.getName());
+				: new OldBukkitNamelessPlayer(bukkitPlayer);
 	}
 
 	@Override
@@ -60,7 +59,7 @@ public class OldBukkitAudienceProvider extends AbstractAudienceProvider {
 	@Override
 	public @NonNull Collection<@NonNull NamelessPlayer> onlinePlayers() {
 		return Arrays.stream(Bukkit.getOnlinePlayers())
-				.map(p -> new NamelessPlayer(new LegacyCommandSenderAudience(p), p.getUniqueId(), p.getName()))
+				.map(OldBukkitNamelessPlayer::new)
 				.collect(Collectors.toUnmodifiableList());
 	}
 }

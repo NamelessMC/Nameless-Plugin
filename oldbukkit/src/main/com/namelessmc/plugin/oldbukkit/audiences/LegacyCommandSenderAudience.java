@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.oldbukkit;
+package com.namelessmc.plugin.oldbukkit.audiences;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.audience.MessageType;

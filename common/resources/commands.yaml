@@ -10,4 +10,5 @@ user-info: 'webinfo'
 verify: 'verify'
 plugin: 'nlpl'
 
-#store-credits: 'changecredits'
+#store-change-credits: 'changecredits'
+#store-view-credits: 'credits'

@@ -33,9 +33,8 @@ public class BukkitCommandProxy {
 			final PlainTextComponentSerializer ser = PlainTextComponentSerializer.plainText();
 			final String description = ser.serialize(command.description());
 			final String usage = ser.serialize(command.usage());
-			final Component noPermissionMessage = plugin.language().get(COMMAND_NO_PERMISSION);
 
-			final Command spigotCommand = new SpigotCommand(bukkitPlugin, plugin.audiences(), command, name, description, usage, noPermissionMessage);
+			final Command spigotCommand = new SpigotCommand(bukkitPlugin, plugin.audiences(), command, name, description, usage);
 
 			ReflectionUtil.registerCommand("nameless", spigotCommand);
 		});
@@ -46,23 +45,18 @@ public class BukkitCommandProxy {
 		private final BukkitNamelessPlugin bukkitPlugin;
 		private final AbstractAudienceProvider audiences;
 		private final CommonCommand command;
-		private final String permission;
-		private final Component noPermissionMessage;
 
 		protected SpigotCommand(final BukkitNamelessPlugin bukkitPlugin,
 								final AbstractAudienceProvider audiences,
 								final CommonCommand command,
 								final String name,
 								final String plainDescription,
-								final String plainUsage,
-								final Component noPermissionMessage) {
+								final String plainUsage) {
 			super(name, plainDescription, plainUsage, Collections.emptyList());
 
 			this.bukkitPlugin = bukkitPlugin;
 			this.audiences = audiences;
 			this.command = command;
-			this.permission = command.permission().toString();
-			this.noPermissionMessage = noPermissionMessage;
 		}
 
 		private @Nullable NamelessCommandSender bukkitToNamelessSender(final CommandSender bukkitCommandSender) {
@@ -83,12 +77,7 @@ public class BukkitCommandProxy {
 				return true;
 			}
 
-			if (!bukkitCommandSender.hasPermission(this.permission)) {
-				sender.sendMessage(noPermissionMessage);
-				return true;
-			}
-
-			command.execute(sender, args);
+			command.verifyPermissionThenExecute(sender, args);
 			return true;
 		}
 

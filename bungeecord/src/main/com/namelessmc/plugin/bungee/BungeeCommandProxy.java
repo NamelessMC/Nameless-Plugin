@@ -10,8 +10,6 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_NO_PERMISSION;
-
 public class BungeeCommandProxy {
 
 	static void registerCommands(final NamelessPlugin plugin, final BungeeNamelessPlugin bungeePlugin) {
@@ -37,12 +35,7 @@ public class BungeeCommandProxy {
 						return;
 					}
 
-					if (!bungeeSender.hasPermission(permission)) {
-						sender.sendMessage(plugin.language().get(COMMAND_NO_PERMISSION));
-						return;
-					}
-
-					command.execute(sender, args);
+					command.verifyPermissionThenExecute(sender, args);
 				}
 			};
 

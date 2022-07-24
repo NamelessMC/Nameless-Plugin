@@ -71,11 +71,17 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_REPORT_OUTPUT_FAIL_ALREADY_OPEN("command", "report", "output", "fail", "already-open"),
 		COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF("command", "report", "output", "fail", "report-self"),
 
-		COMMAND_STORE_CREDITS_USAGE("command", "store-credits", "usage"),
-		COMMAND_STORE_CREDITS_DESCRIPTION("command", "store-credits", "description"),
-		COMMAND_STORE_CREDITS_OUTPUT_ADDED("command", "store-credits", "output", "added"),
-		COMMAND_STORE_CREDITS_OUTPUT_REMOVED("command", "store-credits", "output", "removed"),
-		COMMAND_STORE_CREDITS_OUTPUT_NOTHING("command", "store-credits", "output", "nothing"),
+		COMMAND_STORE_CHANGE_CREDITS_USAGE("command", "store-change-credits", "usage"),
+		COMMAND_STORE_CHANGE_CREDITS_DESCRIPTION("command", "store-change-credits", "description"),
+		COMMAND_STORE_CHANGE_CREDITS_OUTPUT_ADDED("command", "store-change-credits", "output", "added"),
+		COMMAND_STORE_CHANGE_CREDITS_OUTPUT_REMOVED("command", "store-change-credits", "output", "removed"),
+		COMMAND_STORE_CHANGE_CREDITS_OUTPUT_NOTHING("command", "store-change-credits", "output", "nothing"),
+
+		COMMAND_STORE_VIEW_CREDITS_USAGE("command", "store-view-credits", "usage"),
+		COMMAND_STORE_VIEW_CREDITS_DESCRIPTION("command", "store-view-credits", "description"),
+		COMMAND_STORE_VIEW_CREDITS_OUTPUT_CREDITS("command", "store-view-credits", "output", "credits"),
+		COMMAND_STORE_VIEW_CREDITS_OUTPUT_CONSOLE_MUST_PROVIDE_TARGET("command", "store-view-credits", "output", "console-must-provide-target"),
+		COMMAND_STORE_VIEW_CREDITS_OUTPUT_NO_PERMISSION_OTHER("command", "store-view-credits", "output", "no-permission-other"),
 
 		COMMAND_VALIDATE_USAGE("command", "validate", "usage"),
 		COMMAND_VALIDATE_DESCRIPTION("command", "validate", "description"),
@@ -121,7 +127,7 @@ public class LanguageHandler implements Reloadable {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 31;
+	private static final int VERSION = 32;
 
 	private static final Set<String> LANGUAGES = Set.of(
 			"ar_SA",

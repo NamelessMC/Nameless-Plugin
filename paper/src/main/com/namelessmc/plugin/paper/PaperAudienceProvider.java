@@ -1,5 +1,7 @@
 package com.namelessmc.plugin.paper;
 
+import com.namelessmc.plugin.bukkit.audiences.BukkitNamelessConsole;
+import com.namelessmc.plugin.bukkit.audiences.BukkitNamelessPlayer;
 import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
@@ -22,7 +24,7 @@ public class PaperAudienceProvider extends AbstractAudienceProvider {
 
 	@Override
 	public @NonNull NamelessConsole console() {
-		return new NamelessConsole(Bukkit.getConsoleSender(), this::dispatchCommand);
+		return new BukkitNamelessConsole(Bukkit.getConsoleSender());
 	}
 
 	@Override
@@ -38,7 +40,7 @@ public class PaperAudienceProvider extends AbstractAudienceProvider {
 	public @Nullable NamelessPlayer bukkitToNamelessPlayer(final @Nullable Player bukkitPlayer) {
 		return bukkitPlayer == null
 				? null
-				: new NamelessPlayer(bukkitPlayer, bukkitPlayer.getUniqueId(), bukkitPlayer.getName());
+				: new BukkitNamelessPlayer(bukkitPlayer, bukkitPlayer);
 	}
 
 	@Override
@@ -54,7 +56,7 @@ public class PaperAudienceProvider extends AbstractAudienceProvider {
 	@Override
 	public @NonNull Collection<@NonNull NamelessPlayer> onlinePlayers() {
 		return Bukkit.getOnlinePlayers().stream()
-				.map(p -> new NamelessPlayer(p, p.getUniqueId(), p.getName()))
+				.map(p -> (NamelessPlayer) new BukkitNamelessPlayer(p, p))
 				.toList();
 	}
 }

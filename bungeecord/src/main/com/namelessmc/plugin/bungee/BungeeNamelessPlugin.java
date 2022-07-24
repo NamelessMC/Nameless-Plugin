@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.bungee;
 
+import com.namelessmc.plugin.bungee.audiences.BungeeAudienceProvider;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.logger.JulLogger;
 import net.md_5.bungee.api.ProxyServer;

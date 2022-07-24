@@ -2,9 +2,9 @@ package com.namelessmc.plugin.sponge9;
 
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
-import com.namelessmc.plugin.common.audiences.NamelessConsole;
-import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.CommonCommand;
+import com.namelessmc.plugin.sponge9.audiences.SpongeNamelessConsole;
+import com.namelessmc.plugin.sponge9.audiences.SpongeNamelessPlayer;
 import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.api.SystemSubject;
@@ -55,10 +55,9 @@ public class SpongeCommandProxy {
 
 		private NamelessCommandSender causeToSender(final CommandCause cause) {
 			if (cause instanceof Player) {
-				final Player player = (Player) cause;
-				return new NamelessPlayer(player, player.uniqueId(), player.name());
+				return new SpongeNamelessPlayer((Player) cause);
 			} else if (cause instanceof SystemSubject) {
-				return new NamelessConsole((SystemSubject) cause, SpongeAudienceProvider::dispatchCommand);
+				return new SpongeNamelessConsole();
 			} else {
 				throw new UnsupportedOperationException("Unsupported command source");
 			}
@@ -74,7 +73,7 @@ public class SpongeCommandProxy {
 
 		@Override
 		public CommandResult process(final CommandCause cause, final ArgumentReader.Mutable arguments) throws CommandException {
-			this.command.execute(causeToSender(cause), argsToArray(arguments));
+			this.command.verifyPermissionThenExecute(causeToSender(cause), argsToArray(arguments));
 			return CommandResult.success();
 		}
 

@@ -60,13 +60,21 @@ command:
         already-open: "<red>You cannot report this player, you already have an open report for them."
         report-self: "<red>You cannot report yourself."
 
-  store-credits:
+  store-change-credits:
     usage: "/<command> \\<player name> \\<(-)credits>"
     description: "Add or remove store credits for a user"
     output:
       added: "Added <green><credits></green> credits to <username>."
       removed: "Removed <red><credits></red> credits from <username>."
       nothing: "No action needed."
+
+  store-view-credits:
+    usage: "/<command> [player name]"
+    description: "View store credits"
+    output:
+      credits: "You have <credits> credits."
+      console-must-provide-target: "A target player must be provided when running this command from the console."
+      no-permission-other: "You do not have permission to view credits for players other than yourself."
 
   validate:
     usage: "/<command> \\<code>"

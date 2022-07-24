@@ -53,7 +53,7 @@ public class SpongeCommandProxy {
 						source.sendMessage(Text.of("ERROR: Cannot obtain audience for command sender"));
 					}
 
-					command.execute(namelessCommandSender, args);
+					command.verifyPermissionThenExecute(namelessCommandSender, args);
 					return CommandResult.success();
 				}
 

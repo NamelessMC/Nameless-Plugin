@@ -3,6 +3,7 @@ package com.namelessmc.plugin.sponge7;
 import com.google.inject.Inject;
 import com.namelessmc.plugin.common.MavenConstants;
 import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.sponge7.audiences.SpongeAudienceProvider;
 import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
 import org.bstats.sponge.Metrics;
 import org.checkerframework.checker.nullness.qual.NonNull;

@@ -1,12 +1,13 @@
 package com.namelessmc.plugin.common.audiences;
 
 import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.plugin.common.Permission;
 import net.kyori.adventure.audience.Audience;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.UUID;
 
-public class NamelessPlayer extends NamelessCommandSender {
+public abstract class NamelessPlayer extends NamelessCommandSender {
 
 	private final @NonNull UUID uuid;
 	private final @NonNull String username;

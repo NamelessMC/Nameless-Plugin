@@ -53,7 +53,7 @@ public class VelocityCommandProxy {
 				return;
 			}
 
-			command.execute(namelessSender, invocation.arguments());
+			command.verifyPermissionThenExecute(namelessSender, invocation.arguments());
 		}
 
 		@Override

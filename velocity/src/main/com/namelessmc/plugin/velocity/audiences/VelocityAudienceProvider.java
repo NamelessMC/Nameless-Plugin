@@ -1,4 +1,4 @@
-package com.namelessmc.plugin.velocity;
+package com.namelessmc.plugin.velocity.audiences;
 
 import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
@@ -16,17 +16,13 @@ public class VelocityAudienceProvider extends AbstractAudienceProvider {
 
 	private final @NonNull ProxyServer server;
 
-	VelocityAudienceProvider(final @NonNull ProxyServer server) {
+	public VelocityAudienceProvider(final @NonNull ProxyServer server) {
 		this.server = server;
-	}
-
-	private void dispatchCommand(final String command) {
-		this.server.getCommandManager().executeAsync(NamelessCommandSource.instance(), command);
 	}
 
 	@Override
 	public @NonNull NamelessConsole console() {
-		return new NamelessConsole(server.getConsoleCommandSource(), this::dispatchCommand);
+		return new VelocityNamelessConsole(this.server);
 	}
 
 	@Override
@@ -44,7 +40,7 @@ public class VelocityAudienceProvider extends AbstractAudienceProvider {
 		}
 
 		Player player = optionalPlayer.get();
-		return new NamelessPlayer(player, player.getUniqueId(), player.getUsername());
+		return new VelocityNamelessPlayer(player);
 	}
 
 	@Override
@@ -60,7 +56,7 @@ public class VelocityAudienceProvider extends AbstractAudienceProvider {
 	@Override
 	public @NonNull Collection<@NonNull NamelessPlayer> onlinePlayers() {
 		return server.getAllPlayers().stream()
-				.map(p -> new NamelessPlayer(p, p.getUniqueId(), p.getUsername()))
+				.map(VelocityNamelessPlayer::new)
 				.collect(Collectors.toUnmodifiableList());
 	}
 

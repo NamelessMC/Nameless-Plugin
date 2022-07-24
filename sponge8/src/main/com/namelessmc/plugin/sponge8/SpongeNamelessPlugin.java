@@ -2,6 +2,7 @@ package com.namelessmc.plugin.sponge8;
 
 import com.google.inject.Inject;
 import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.sponge8.audiences.SpongeAudienceProvider;
 import org.apache.logging.log4j.Logger;
 import org.bstats.sponge.Metrics;
 import org.spongepowered.api.Server;

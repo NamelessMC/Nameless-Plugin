@@ -15,6 +15,8 @@ import org.spongepowered.configurate.CommentedConfigurationNode;
 import java.util.Collections;
 import java.util.List;
 
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_NO_PERMISSION;
+
 public abstract class CommonCommand {
 
 	private final @NonNull NamelessPlugin plugin;
@@ -73,7 +75,15 @@ public abstract class CommonCommand {
 
 	protected @NonNull AbstractLogger logger() { return this.plugin.logger(); }
 
-	public abstract void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args);
+	protected abstract void execute(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args);
+
+	public void verifyPermissionThenExecute(NamelessCommandSender sender, String[] args) {
+		if (!sender.hasPermission(this.permission)) {
+			this.language().get(COMMAND_NO_PERMISSION);
+		}
+
+		this.execute(sender, args);
+	}
 
 	public List<String> complete(final @NonNull NamelessCommandSender sender, final @NonNull String@NonNull[] args) {
 		return Collections.emptyList();
@@ -86,7 +96,7 @@ public abstract class CommonCommand {
 				new RegisterCommand(plugin),
 				new ReportCommand(plugin),
 				new UserInfoCommand(plugin),
-				new StoreCreditsCommand(plugin),
+				new StoreChangeCreditsCommand(plugin),
 				new VerifyCommand(plugin)
 		);
 	}
