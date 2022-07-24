@@ -6,7 +6,6 @@ import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.query.QueryOptions;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Set;
@@ -44,7 +43,7 @@ public class LuckPermsPermissions extends AbstractPermissions {
 	}
 
 	@Override
-	public Set<String> getPlayerGroups(@NonNull NamelessPlayer player) {
+	public @Nullable Set<String> getPlayerGroups(NamelessPlayer player) {
 		if (this.api == null) {
 			throw new ProviderNotUsableException();
 		}

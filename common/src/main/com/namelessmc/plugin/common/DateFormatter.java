@@ -1,6 +1,6 @@
 package com.namelessmc.plugin.common;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -8,11 +8,11 @@ import java.util.Date;
 
 public class DateFormatter implements Reloadable {
 
-	private final @NonNull ConfigurationHandler config;
+	private final ConfigurationHandler config;
 
-	private DateFormat formatter;
+	private @Nullable DateFormat formatter;
 
-	DateFormatter(final @NonNull ConfigurationHandler config) {
+	DateFormatter(final ConfigurationHandler config) {
 		this.config = config;
 	}
 
@@ -23,10 +23,14 @@ public class DateFormatter implements Reloadable {
 
 	@Override
 	public void load() {
-		this.formatter = new SimpleDateFormat(config.main().node("datetime-format").getString());
+		String format = config.main().node("datetime-format").getString();
+		this.formatter = new SimpleDateFormat();
 	}
 
-	public String format(final @NonNull Date date) {
+	public String format(final Date date) {
+		if (this.formatter == null) {
+			throw new IllegalStateException("Cannot format dates before DateFormatter is initialized");
+		}
 		return formatter.format(date);
 	}
 
