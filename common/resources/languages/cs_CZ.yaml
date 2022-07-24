@@ -74,11 +74,8 @@ command:
       reload-successful: Plugin úspěšně znovu načten.
   store-credits:
     output:
-      added: Uživateli <username> bylo přidáno <green><credits></green> kreditů.
       removed: Uživateli <username> bylo odebráno <red><credits></red> kreditů.
-      nothing: Není vyžadována žádná akce.
     usage: /<command> \<jméno hráče> \<(-)kredity>
-    description: Přidat nebo odebrat kredity uživateli
 join-not-registered: Ještě nemáte na našem webu účet. Zaregistrujte se pomocí /register.
 player:
   other: {}

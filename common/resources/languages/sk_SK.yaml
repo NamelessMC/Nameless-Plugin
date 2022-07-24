@@ -76,12 +76,9 @@ command:
     usage: /<command> 'reload'/'rl'/'last_error'
     description: Administratívne príkazy pre plugin NamelessMC
   store-credits:
-    usage: /<príkaz> \<meno hráča> \<(-)kredity>
     description: Pridajte alebo odstráňte kredity v obchode pre používateľa
     output:
-      added: Pridané <green><credits></green> kredity pre <username>.
       removed: Odobrané <red><credits></red> kredity od <username>.
-      nothing: Nie je potrebná žiadna akcia.
 join-not-registered: Na našej webovej stránke ešte nemáte účet. Prosím zaregistrujte
   sa pomocou /register.
 user-sync-kick: Po zákaze účtu na webovej stránke máte zakázaný prístup na náš server.

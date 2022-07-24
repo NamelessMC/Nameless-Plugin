@@ -75,11 +75,8 @@ command:
       reload-successful: Plugin reloaded successfully.
   store-credits:
     output:
-      added: Added <credits> credits to <username>
       nothing: No action needed
-      removed: Removed <credits> credits from <username>
     usage: /<command> \<player name> <(-)credits>
-    description: Add or remove store credits for a user
 join-not-registered: You do not have an account on our website yet. Please register
   using /register.
 website-announcement: 'Website announcement: <message>'

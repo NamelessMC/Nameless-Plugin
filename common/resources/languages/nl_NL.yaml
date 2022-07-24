@@ -79,12 +79,9 @@ command:
     output:
       reload-successful: Plugin succesvol herladen.
   store-credits:
-    usage: /<command> \<speler naam> \<(-)krediet>
     description: Wijzig het winkelkrediet van een gebruiker
     output:
-      added: Het krediet van <username> is opgewaardeerd met <green><credits></green>
       removed: Er is <red><credit></red> van het krediet van <username> afgenomen
-      nothing: Geen wijziging
 join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.
 website-announcement: 'Website aankondiging: <message>'
 user-sync-kick: Je bent verbannen van onze server als gevolg van een website ban.

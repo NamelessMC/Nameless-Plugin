@@ -63,12 +63,9 @@ command:
           åben rapport med dem.
         report-self: <red>Du kan ikke rapportere dig selv.
   store-credits:
-    usage: /<command> \<spillernavn> \<(-)credits>
     output:
       added: Tilføjet <green><credits></green> kreditter til <username>.
-      nothing: Ingen handling nødvendig.
       removed: Fjernet <red><credits></red> kreditter fra <username>.
-    description: Tilføj eller fjern butikskreditter for en bruger
   validate:
     usage: /<command> \<verifikationskode>
     description: Validerer brugerens webstedskonto ved hjælp af den givne kode.
