@@ -1,8 +1,14 @@
 package com.namelessmc.plugin.common.command;
 
-import com.namelessmc.java_api.*;
+import com.namelessmc.java_api.CustomProfileFieldValue;
+import com.namelessmc.java_api.Group;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.java_api.exception.ApiError;
+import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.integrations.DetailedIntegrationData;
+import com.namelessmc.java_api.modules.ModuleNames;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
@@ -159,6 +165,22 @@ public class UserInfoCommand extends CommonCommand {
 							"name", customField.field().name(), "value", value));
 				}
 			});
+
+			if (user.api().website().modules().contains(ModuleNames.STORE)) {
+				try {
+					float credits = user.store().credits();
+					runSync.add(() -> {
+						sender.sendMessage(this.language().get(COMMAND_USERINFO_OUTPUT_STORE_MODULE_CREDITS,
+								"credits", String.valueOf(credits)));
+					});
+				} catch (ApiException e) {
+					if (e.apiError() == ApiError.NAMELESS_INVALID_API_METHOD) {
+						this.logger().warning("Skipped showing store credits, you are using a store module version that does not have the endpoint yet.");
+					} else {
+						throw e;
+					}
+				}
+			}
 
 			Map<String, DetailedIntegrationData> integrations = user.integrations();
 			if (!integrations.isEmpty()) {

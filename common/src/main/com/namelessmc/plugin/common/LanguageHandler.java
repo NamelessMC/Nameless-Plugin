@@ -99,6 +99,7 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_USERINFO_OUTPUT_VALIDATED("command", "user-info", "output", "validated"),
 		COMMAND_USERINFO_OUTPUT_BANNED("command", "user-info", "output", "banned"),
 		COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD("command", "user-info", "output", "custom-field"),
+		COMMAND_USERINFO_OUTPUT_STORE_MODULE_CREDITS("command", "user-info", "output", "store-module-credits"),
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_HEADER("command", "user-info", "output", "integrations", "header"),
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_IDENTIFIER("command", "user-info", "output", "integrations", "identifier"),
 		COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME("command", "user-info", "output", "integrations", "username"),
@@ -127,7 +128,7 @@ public class LanguageHandler implements Reloadable {
 	/**
 	 * Language version. Increment by one when adding, removing, or changing strings.
 	 */
-	private static final int VERSION = 32;
+	private static final int VERSION = 33;
 
 	private static final Set<String> LANGUAGES = Set.of(
 			"ar_SA",

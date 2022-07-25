@@ -99,6 +99,7 @@ command:
       validated: "Account validated: <validated>"
       banned: "Banned: <banned>"
       custom-field: "Custom field '<name>': <value>"
+      store-module-credits: "Store module credits: <credits>"
       integrations:
         header: "Integrations:"
         identifier: "Identifier: <identifier>"
