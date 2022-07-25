@@ -40,7 +40,7 @@ public class UserInfoCommand extends CommonCommand {
 
 					final NamelessUser user = api.userByMinecraftUuid(((NamelessPlayer) sender).uuid());
 					if (user != null) {
-						this.scheduler().runSync(() -> printInfoForUser(sender, user));
+						this.scheduler().runSync(() -> printInfo(sender, user));
 					} else {
 						sender.sendMessage(language().get(PLAYER_SELF_NOT_REGISTERED));
 					}
@@ -60,17 +60,16 @@ public class UserInfoCommand extends CommonCommand {
 						return;
 					}
 
-					NamelessUser user;
 					NamelessPlayer targetPlayer = this.plugin().audiences().playerByUsername(args[0]);
 					if (targetPlayer != null) {
-						user = api.userByMinecraftUuid(targetPlayer.uuid());
+						NamelessUser user = api.userByMinecraftUuid(targetPlayer.uuid());
 						if (user == null) {
 							sender.sendMessage(language().get(ERROR_TARGET_NO_WEBSITE_ACCOUNT));
 							return;
 						}
 					} else if (args[0].matches(".+#\\d{4}")) {
 						// Likely a discord username
-						user = api.userByDiscordUsername(args[0]);
+						NamelessUser user = api.userByDiscordUsername(args[0]);
 						if (user == null) {
 							sender.sendMessage(language().get(ERROR_DISCORD_USERNAME_NOT_EXIST));
 							return;
@@ -78,24 +77,22 @@ public class UserInfoCommand extends CommonCommand {
 					} else {
 						try {
 							// Maybe a UUID?
-							user = api.userByMinecraftUuid(UUID.fromString(args[0]));
+							NamelessUser user = api.userByMinecraftUuid(UUID.fromString(args[0]));
 							if (user == null) {
 								sender.sendMessage(language().get(ERROR_MINECRAFT_UUID_NOT_EXIST));
 								return;
 							}
+							printInfo(sender, user);
 						} catch (final IllegalArgumentException e) {
 							// Lookup by username
-							user = api.userByUsername(args[0]);
+							NamelessUser user = api.userByUsername(args[0]);
 							if (user == null) {
 								sender.sendMessage(language().get(ERROR_WEBSITE_USERNAME_NOT_EXIST));
 								return;
 							}
+							printInfo(sender, user);
 						}
 					}
-
-					user.username(); // Force user info to load now, asynchronously
-					final NamelessUser user2 = user;
-					this.scheduler().runSync(() -> printInfoForUser(sender, user2));
 				} catch (NamelessException e) {
 					sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 					logger().logException(e);
@@ -107,56 +104,82 @@ public class UserInfoCommand extends CommonCommand {
 		sender.sendMessage(this.usage());
 	}
 
-	private void printInfoForUser(final @NonNull NamelessCommandSender sender,
-								  final @NonNull NamelessUser user) {
+	private void printInfo(final NamelessCommandSender sender,
+						   final NamelessUser user) {
 		try {
-			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_USERNAME, "username", user.username()));
-			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_DISPLAY_NAME, "displayname", user.displayName()));
+			List<Runnable> runSync = new LinkedList<>();
+
+			String username = user.username();
+			String displayName = user.displayName();
+
+			runSync.add(() -> {
+				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_USERNAME, "username", username));
+				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_DISPLAY_NAME, "displayname", displayName));
+			});
 
 			final Group primaryGroup = user.primaryGroup();
 			if (primaryGroup != null) {
-				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP,
-						"groupname", primaryGroup.getName(),
-						"id", String.valueOf(primaryGroup.getId())));
+				runSync.add(() -> {
+					sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_PRIMARY_GROUP,
+							"groupname", primaryGroup.getName(),
+							"id", String.valueOf(primaryGroup.getId())));
+				});
 			}
 
-			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_ALL_GROUPS,
-					"groups_names_list", user.groups().stream().map(Group::getName).collect(Collectors.joining(", "))));
+			final String groupCommaString = user.groups().stream().map(Group::getName).collect(Collectors.joining(", "));
+			final String registeredDate = this.plugin().dateFormatter().format(user.registeredDate());
 
-			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_REGISTER_DATE,
-					"date", this.plugin().dateFormatter().format(user.registeredDate())));
+			runSync.add(() -> {
+				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_ALL_GROUPS,
+						"groups_names_list", groupCommaString));
+				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_REGISTER_DATE,
+						"date", registeredDate));
+			});
 
-			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_VALIDATED,
-					Placeholder.component("validated", language().booleanText(user.isVerified(), true))));
+			boolean verified = user.isVerified();
+			boolean banned = user.isBanned();
 
-			sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_BANNED,
-					Placeholder.component("banned", language().booleanText(user.isBanned(), false))));
+			runSync.add(() -> {
+				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_VALIDATED,
+						Placeholder.component("validated", language().booleanText(verified, true))));
 
-			for (final CustomProfileFieldValue customField : user.profileFields()) {
-				String value = customField.value();
-				if (value == null) {
-					value = "-";
+				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_BANNED,
+						Placeholder.component("banned", language().booleanText(banned, false))));
+			});
+
+			Collection<CustomProfileFieldValue> customFields = user.profileFields();
+
+			runSync.add(() -> {
+				for (final CustomProfileFieldValue customField : customFields) {
+					String value = customField.value();
+					if (value == null) {
+						value = "-";
+					}
+					sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD,
+							"name", customField.field().name(), "value", value));
 				}
-				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_CUSTOM_FIELD,
-						"name", customField.field().name(), "value", value));
-			}
+			});
 
 			Map<String, DetailedIntegrationData> integrations = user.integrations();
 			if (!integrations.isEmpty()) {
-				sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_HEADER));
-				integrations.forEach((name, data) -> {
-					sender.sendMessage(Component.text("  " + name + ":"));
-					final Component indent = Component.text("    ");
-					sender.sendMessage(indent.append(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_IDENTIFIER,
-							"identifier", data.identifier())));
-					sender.sendMessage(indent.append(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME,
-							"username", data.username())));
-					sender.sendMessage(indent.append(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE,
-							"linked_date", this.plugin().dateFormatter().format(data.linkedDate()))));
-					sender.sendMessage(indent.append(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_VERIFIED,
-							Placeholder.component("is_verified", language().booleanText(data.isVerified(), true)))));
+				runSync.add(() -> {
+					sender.sendMessage(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_HEADER));
+					integrations.forEach((name, data) -> {
+						sender.sendMessage(Component.text("  " + name + ":"));
+						final Component indent = Component.text("    ");
+						sender.sendMessage(indent.append(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_IDENTIFIER,
+								"identifier", data.identifier())));
+						sender.sendMessage(indent.append(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_USERNAME,
+								"username", data.username())));
+						sender.sendMessage(indent.append(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_LINKED_DATE,
+								"linked_date", this.plugin().dateFormatter().format(data.linkedDate()))));
+						sender.sendMessage(indent.append(language().get(COMMAND_USERINFO_OUTPUT_INTEGRATIONS_VERIFIED,
+								Placeholder.component("is_verified", language().booleanText(data.isVerified(), true)))));
+					});
 				});
 			}
+
+			this.plugin().scheduler().runSync(() -> runSync.forEach(Runnable::run));
 		} catch (NamelessException e) {
 			sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
 			logger().logException(e);
