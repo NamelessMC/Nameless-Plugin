@@ -83,8 +83,23 @@ command:
     description: Administrative Befehle für das NamelessMC-Plugin
   store-credits:
     output:
-      added: <Credits> Credits zu <Benutzername> hinzugefügt.
       removed: Entfernte <Credits> Credits von <Benutzername>.
+  store-change-credits:
+    output:
+      added: <green><credits></green> Credits zu <username> hinzugefügt.
+      removed: Entfernt <red><credits></red> Credits von <username>.
+      nothing: Keine Maßnahmen erforderlich.
+    description: Guthaben für einen Benutzer hinzufügen oder entfernen
+    usage: /<Befehl> \<Name des Spielers> \<(-)Credits>
+  store-view-credits:
+    usage: /<command> [Benutzer Name]
+    description: Guthaben ansehen
+    output:
+      credits: Du hast <credits> Credits.
+      console-must-provide-target: Bei der Ausführung dieses Befehls über die Konsole
+        muss ein Zielplayer angegeben werden.
+      no-permission-other: Du hast nicht die Erlaubnis, Credits von anderen Spielern
+        zu sehen.
 join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
   Dich mit /register.
 website-announcement: 'Webseiten-Ankündigung: <message>'
