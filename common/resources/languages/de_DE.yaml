@@ -73,6 +73,7 @@ command:
         linked-date: 'Verknüpftes Datum: <linked_date>'
         header: 'Integrationen:'
       custom-field: "Benutzerdefiniertes Feld '<name>': <value>"
+      store-module-credits: 'Store Modul Credits: <credits>'
     usage: '/{command} [Benutzername]'
     description: Informationen zu einem Website-Benutzer abrufen
   subcommands: {}
@@ -98,6 +99,12 @@ command:
         muss ein Zielplayer angegeben werden.
       no-permission-other: Du hast nicht die Erlaubnis, Credits von anderen Spielern
         zu sehen.
+  sugggest:
+    description: Einen Vorschlag erstellen
+    usage: /<Befehl> \<Vorschlag Titel>
+    output:
+      success: Vorschlag erfolgreich erstellt. Klicke auf <gelb><click:open_url:"<url>">hier</click></gelb>,
+        um es in einem Webbrowser zu öffnen.
 join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
   Dich mit /register.
 website-announcement: 'Webseiten-Ankündigung: <message>'
