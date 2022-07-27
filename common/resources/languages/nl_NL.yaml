@@ -25,7 +25,8 @@ command:
         username-invalid: <red>De opgegeven gebruikersnaam is ongeldig.
         cannot-send-email: <red>Kon de registratie e-mail niet verzenden, neem contact
           op met een administrator om je account te activeren.
-        username-used: <red>Jouw gebruikersnaam is al in gebruik.
+        username-used: <red>De opgegeven gebruikersnaam is al gebruikt door een ander
+          gebruikersaccount.
         minecraft-used: <red>Jouw Minecraft account is al gelinkt aan een andere website
           gebruiker.
         console-must-specify-username: <red>Het is nodig om een gebruikersnaam op
@@ -52,6 +53,7 @@ command:
         header: 'Integraties:'
         username: 'Gebruikersnaam: <username>'
         verified: 'Geverifieerd: <is_verified>'
+      store-module-credits: 'Winkelmodule tegoed: <credits>'
     description: Informatie opvragen over een websitegebruiker
   no-permission: <red>Je hebt geen toestemming om dit commando uit te voeren.
   report:
@@ -68,8 +70,8 @@ command:
     output:
       success: Je account is gevalideerd.
       fail:
-        invalid-code: <red>Jouw validatiecode is onjuist. Controleer of je het correct
-          hebt gekopieerd en probeer het opnieuw.
+        invalid-code: <red>De opgegeven validatiecode is onjuist. Controleer of je
+          het correct hebt gekopieerd en probeer het opnieuw.
         already-validated: Je account is al gevalideerd.
     description: Valideert het websiteaccount van de gebruiker met de opgegeven code.
   subcommands: {}
@@ -79,6 +81,28 @@ command:
     output:
       reload-successful: Plugin succesvol herladen.
   store-credits: {}
+  store-change-credits:
+    usage: /<command> \<player name> \<(-)credits>
+    description: Winkeltegoed voor een gebruiker toevoegen of verwijderen
+    output:
+      added: <green><credits></green> winkeltegoed is toegevoegd aan <username>.
+      nothing: Geen actie vereist.
+      removed: <red><credits></red> winkeltegoed is verwijdert van <username>.
+  store-view-credits:
+    usage: /<command> [speler naam]
+    description: Bekijk winkeltegoed
+    output:
+      credits: Je hebt <credits> winkeltegoed.
+      no-permission-other: Je hebt geen toegang tot het bekijken van winkeltegoed
+        van andere spelers.
+      console-must-provide-target: Er moet een doelspeler worden opgegeven bij het
+        uitvoeren van deze opdracht vanaf de console.
+  sugggest:
+    usage: /<commando> \<suggestie titel>
+    description: Maak een suggestie
+    output:
+      success: Suggestie succesvol gemaakt. Klik <yellow><click:open_url:"<url>">hier</click></yellow>
+        om hem te openen in een web browser.
 join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.
 website-announcement: 'Website aankondiging: <message>'
 user-sync-kick: Je bent verbannen van onze server als gevolg van een website ban.
