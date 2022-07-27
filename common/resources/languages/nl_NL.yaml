@@ -79,7 +79,6 @@ command:
     output:
       reload-successful: Plugin succesvol herladen.
   store-credits:
-    description: Wijzig het winkelkrediet van een gebruiker
     output:
       removed: Er is <red><credit></red> van het krediet van <username> afgenomen
 join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.

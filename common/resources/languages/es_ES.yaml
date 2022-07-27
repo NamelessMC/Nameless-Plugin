@@ -81,7 +81,6 @@ command:
     description: Comandos administrativos para el plugin NamelessMC
     usage: /<command> 'reload'/'rl'/'last_error'
   store-credits:
-    description: Añadir o eliminar créditos de la tienda para un usuario
     output:
       removed: Se han eliminado los créditos de <credits> de <username>.
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese

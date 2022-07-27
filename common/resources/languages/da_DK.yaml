@@ -64,7 +64,6 @@ command:
         report-self: <red>Du kan ikke rapportere dig selv.
   store-credits:
     output:
-      added: Tilføjet <green><credits></green> kreditter til <username>.
       removed: Fjernet <red><credits></red> kreditter fra <username>.
   validate:
     usage: /<command> \<verifikationskode>

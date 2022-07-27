@@ -71,8 +71,6 @@ command:
       reload-successful: プラグインのリロードが正常に行われました。
     usage: /<command> 'reload'/'rl'/'last_error'
   store-credits:
-    output:
-      removed: <username>から<credits>のクレジットを削除。
     usage: /<command> \<プレイヤー名> <(-)クレジット>
 join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。
 website-announcement: 'ウェブサイトのお知らせ: <message>'

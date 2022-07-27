@@ -74,8 +74,6 @@ command:
     output:
       reload-successful: Plugin reloaded successfully.
   store-credits:
-    output:
-      nothing: No action needed
     usage: /<command> \<player name> <(-)credits>
 join-not-registered: You do not have an account on our website yet. Please register
   using /register.

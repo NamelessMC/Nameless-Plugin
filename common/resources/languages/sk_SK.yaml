@@ -75,9 +75,7 @@ command:
       reload-successful: Plugin bol úspešne načítaný.
     usage: /<command> 'reload'/'rl'/'last_error'
     description: Administratívne príkazy pre plugin NamelessMC
-  store-credits:
-    output:
-      removed: Odobrané <red><credits></red> kredity od <username>.
+  store-credits: {}
   store-change-credits:
     usage: /<príkaz> \<meno hráča> \<(-)kredity>
     description: Pridajte alebo odstráňte kredity v obchode pre používateľa

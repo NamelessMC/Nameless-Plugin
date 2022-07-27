@@ -74,8 +74,6 @@ command:
     description: Административные комманды для NamelessMC плагина
     usage: /<command> 'reload'/'rl'/'last_error'
   store-credits:
-    output:
-      removed: Убрано <red><credits></red> кредит(-а/-ов) от <username>.
     description: Добавить или убрать кредиты магазина для пользователя
 player:
   self:

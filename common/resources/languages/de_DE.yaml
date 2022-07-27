@@ -81,9 +81,7 @@ command:
     output:
       reload-successful: Das Plugin wurde erfolgreich neu geladen.
     description: Administrative Befehle für das NamelessMC-Plugin
-  store-credits:
-    output:
-      removed: Entfernte <Credits> Credits von <Benutzername>.
+  store-credits: {}
   store-change-credits:
     output:
       added: <green><credits></green> Credits zu <username> hinzugefügt.
