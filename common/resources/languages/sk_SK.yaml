@@ -58,6 +58,7 @@ command:
         identifier: 'Identifikátor: <identifier>'
         linked-date: 'Dátum prepojenia: <linked_date>'
       custom-field: "Vlastné pole '<name>': <value>"
+      store-module-credits: 'Kredity v module obchodu: <credits>'
     usage: /{command} [username]
     description: Načítanie používateľových informácii na webe
   validate:
@@ -92,6 +93,12 @@ command:
         ako ste vy.
       console-must-provide-target: Pri spustení tohto príkazu z konzoly musí byť poskytnutý
         cieľový hráč.
+  sugggest:
+    description: Vytvoriť návrh
+    output:
+      success: Návrh bol úspešne vytvorený. Kliknite <yellow><click:open url:"<url>">sem</click></yellow>
+        a otvorte ho vo webovom prehliadači.
+    usage: /<príkaz> \<názov návrhu>
 join-not-registered: Na našej webovej stránke ešte nemáte účet. Prosím zaregistrujte
   sa pomocou /register.
 user-sync-kick: Po zákaze účtu na webovej stránke máte zakázaný prístup na náš server.
