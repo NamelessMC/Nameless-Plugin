@@ -85,6 +85,12 @@ command:
         invalid-code: "<red>The provided validation code is incorrect. Please check if you copied it correctly and try again."
         already-validated: "Your account is already validated."
 
+  sugggest:
+    usage: "/<command> \\<suggestion title>"
+    description: "Create a suggestion"
+    output:
+      success: "Suggestion created successfully. Click <yellow><click:open_url:\"<url>\">here</click></yellow> to open it in a web browser."
+
   user-info:
     usage: "/<command> [username]"
     description: "Retrieve information about a website user"

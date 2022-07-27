@@ -97,6 +97,8 @@ public abstract class CommonCommand {
 				new ReportCommand(plugin),
 				new UserInfoCommand(plugin),
 				new StoreChangeCreditsCommand(plugin),
+				new StoreViewCreditsCommand(plugin),
+				new SuggestCommand(plugin),
 				new VerifyCommand(plugin)
 		);
 	}

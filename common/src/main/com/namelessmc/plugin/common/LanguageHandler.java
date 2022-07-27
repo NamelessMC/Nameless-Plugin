@@ -89,6 +89,10 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_VALIDATE_OUTPUT_FAIL_INVALID_CODE("command", "validate", "output", "fail", "invalid-code"),
 		COMMAND_VALIDATE_OUTPUT_FAIL_ALREADY_VALIDATED("command", "validate", "output", "fail", "already-validated"),
 
+		COMMAND_SUGGEST_USAGE("command", "suggest", "usage"),
+		COMMAND_SUGGEST_DESCRIPTION("command", "suggest", "description"),
+		COMMAND_SUGGEST_OUTPUT_SUCCESS("command", "suggest", "output", "success"),
+
 		COMMAND_USERINFO_USAGE("command", "user-info", "usage"),
 		COMMAND_USERINFO_DESCRIPTION("command", "user-info", "description"),
 		COMMAND_USERINFO_OUTPUT_USERNAME("command", "user-info", "output", "username"),

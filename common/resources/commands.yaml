@@ -1,6 +1,4 @@
-# The server needs to be fully restarted for changes to take effect, commands cannot easily be dynamically registered
-# on most platforms and would break for Minecraft 1.13+ anyway.
-
+# The server needs to be fully restarted for changes to take effect due to Minecraft limitations.
 # Commands can be disabled by commenting a line.
 
 get-notifications: 'notifications'
@@ -12,3 +10,4 @@ plugin: 'nlpl'
 
 #store-change-credits: 'changecredits'
 #store-view-credits: 'credits'
+#suggest: 'suggest'

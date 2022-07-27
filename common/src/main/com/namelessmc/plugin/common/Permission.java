@@ -11,6 +11,7 @@ public enum Permission {
 	COMMAND_STORE_VIEW_CREDITS("namelessmc.command.store-view-credits"),
 	COMMAND_STORE_VIEW_CREDITS_OTHERS("namelessmc.command.store-view-credits.others"),
 	COMMAND_SET_GROUP("namelessmc.command.setgroup"),
+	COMMAND_SUGGEST("namelessmc.command.suggest"),
 	COMMAND_USER_INFO("namelessmc.command.userinfo"),
 	COMMAND_VERIFY("namelessmc.command.verify"),
 
