@@ -73,8 +73,6 @@ command:
     description: Administrative commands for the NamelessMC plugin
     output:
       reload-successful: Plugin reloaded successfully.
-  store-credits:
-    usage: /<command> \<player name> <(-)credits>
 join-not-registered: You do not have an account on our website yet. Please register
   using /register.
 website-announcement: 'Website announcement: <message>'

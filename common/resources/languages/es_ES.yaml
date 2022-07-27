@@ -80,9 +80,7 @@ command:
       reload-successful: El plugin se ha recargado con éxito.
     description: Comandos administrativos para el plugin NamelessMC
     usage: /<command> 'reload'/'rl'/'last_error'
-  store-credits:
-    output:
-      removed: Se han eliminado los créditos de <credits> de <username>.
+  store-credits: {}
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /register.
 website-announcement: 'Anuncio de la página web: <message>'

@@ -72,8 +72,6 @@ command:
     description: Administrativní příkazy pro plugin NamelessMC
     output:
       reload-successful: Plugin úspěšně znovu načten.
-  store-credits:
-    usage: /<command> \<jméno hráče> \<(-)kredity>
 join-not-registered: Ještě nemáte na našem webu účet. Zaregistrujte se pomocí /register.
 player:
   other: {}

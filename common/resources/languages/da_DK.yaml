@@ -62,9 +62,7 @@ command:
         already-open: <red>Du kan ikke rapportere denne spiller, du har allerede en
           åben rapport med dem.
         report-self: <red>Du kan ikke rapportere dig selv.
-  store-credits:
-    output:
-      removed: Fjernet <red><credits></red> kreditter fra <username>.
+  store-credits: {}
   validate:
     usage: /<command> \<verifikationskode>
     description: Validerer brugerens webstedskonto ved hjælp af den givne kode.

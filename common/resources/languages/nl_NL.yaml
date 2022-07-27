@@ -78,9 +78,7 @@ command:
     description: Administratieve commando's voor de NamelessMC plugin
     output:
       reload-successful: Plugin succesvol herladen.
-  store-credits:
-    output:
-      removed: Er is <red><credit></red> van het krediet van <username> afgenomen
+  store-credits: {}
 join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.
 website-announcement: 'Website aankondiging: <message>'
 user-sync-kick: Je bent verbannen van onze server als gevolg van een website ban.

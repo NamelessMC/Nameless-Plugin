@@ -70,9 +70,7 @@ command:
       reload-successful: 플러그인이 다시 로드되었습니다.
     usage: /<command> 'reload'|'rl'|'last_error'
     description: NamelessMC 플러그인 관리자 명령어
-  store-credits:
-    output:
-      added: 크레딧을 <green><credits></green><username>에게 추가했습니다.
+  store-credits: {}
 join-not-registered: 웹 사이트 계정이 존재하지 않습니다. /register 로 가입하세요.
 error:
   website-username-not-exist: <red>해당 아이디의 웹 사이트 사용자가 없습니다.
