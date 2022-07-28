@@ -64,6 +64,7 @@ command:
         username: 'Uživatelské jméno: <username>'
         linked-date: 'Datum propojení: <linked_date>'
         verified: 'Ověřen: <is_verified>'
+      store-module-credits: 'Kredity doplňku Store: <credits>'
   subcommands: {}
   not-a-player: <red>Pro vykonání této akce musíte být hráčem.
   no-permission: <red>Nemáte oprávnění pro vykonání tohoto příkazu.
@@ -72,6 +73,28 @@ command:
     description: Administrativní příkazy pro plugin NamelessMC
     output:
       reload-successful: Plugin úspěšně znovu načten.
+  store-change-credits:
+    description: Přidat nebo odebrat kredityuživateli
+    output:
+      added: Přidáno <green><credits></green> kreditů uživateli <username>.
+      removed: Odebráno <red><credits></red> kreritů uživateli <username>.
+      nothing: Není vyžadována žádná akce.
+    usage: /<command> \<jméno hráče> \<(-)kredity>
+  store-view-credits:
+    usage: /<command> [jméno hráče]
+    description: Zobrazit kredity
+    output:
+      credits: Máte <credits> kreditů.
+      console-must-provide-target: Při spuštění tohoto příkazu v konzoli musí být
+        zadán cílový hráč.
+      no-permission-other: Nemáte oprávnění zobrazit kredity někoho jiného než jste
+        vy.
+  sugggest:
+    usage: /<command> \<nadpis návrhu>
+    description: Vytvořit návrh
+    output:
+      success: Návrh úspěšně vytvořen. Klikněte <yellow><click:open_url:"<url>">sem</click></yellow>
+        pro otevření ve webovém prohlížeči.
 join-not-registered: Ještě nemáte na našem webu účet. Zaregistrujte se pomocí /register.
 player:
   other: {}
