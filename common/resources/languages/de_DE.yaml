@@ -99,7 +99,7 @@ command:
         muss ein Zielplayer angegeben werden.
       no-permission-other: Du hast nicht die Erlaubnis, Credits von anderen Spielern
         zu sehen.
-  sugggest:
+  suggest:
     description: Einen Vorschlag erstellen
     usage: /<Befehl> \<Vorschlag Titel>
     output:

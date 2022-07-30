@@ -93,7 +93,7 @@ command:
         ako ste vy.
       console-must-provide-target: Pri spustení tohto príkazu z konzoly musí byť poskytnutý
         cieľový hráč.
-  sugggest:
+  suggest:
     description: Vytvoriť návrh
     output:
       success: Návrh bol úspešne vytvorený. Kliknite <yellow><click:open url:"<url>">sem</click></yellow>

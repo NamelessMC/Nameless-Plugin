@@ -85,7 +85,7 @@ command:
         invalid-code: "<red>The provided validation code is incorrect. Please check if you copied it correctly and try again."
         already-validated: "Your account is already validated."
 
-  sugggest:
+  suggest:
     usage: "/<command> \\<suggestion title>"
     description: "Create a suggestion"
     output:

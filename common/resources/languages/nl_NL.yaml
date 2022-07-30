@@ -97,7 +97,7 @@ command:
         van andere spelers.
       console-must-provide-target: Er moet een doelspeler worden opgegeven bij het
         uitvoeren van deze opdracht vanaf de console.
-  sugggest:
+  suggest:
     usage: /<commando> \<suggestie titel>
     description: Maak een suggestie
     output:

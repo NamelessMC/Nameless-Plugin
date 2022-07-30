@@ -89,7 +89,7 @@ command:
         zadán cílový hráč.
       no-permission-other: Nemáte oprávnění zobrazit kredity někoho jiného než jste
         vy.
-  sugggest:
+  suggest:
     usage: /<command> \<nadpis návrhu>
     description: Vytvořit návrh
     output:
