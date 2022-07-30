@@ -74,6 +74,7 @@ command:
         header: 'Integraciones:'
         identifier: 'Identificador: <identifier>'
         verified: 'Verificado: <is_verified>'
+      store-module-credits: 'Créditos del módulo de la tienda: <credits>'
     description: Obtener información sobre un usuario del sitio web
   plugin:
     output:
@@ -81,6 +82,28 @@ command:
     description: Comandos administrativos para el plugin NamelessMC
     usage: /<command> 'reload'/'rl'/'last_error'
   store-credits: {}
+  store-change-credits:
+    usage: /<command> \<nombre del jugador> \<(-)créditos>
+    description: Añadir o eliminar créditos de la tienda para un usuario
+    output:
+      added: Añadidos los <green><credits></green> créditos a <username>.
+      removed: Eliminados los <red><credits></red> créditos de <username>.
+      nothing: No es necesario hacer nada.
+  store-view-credits:
+    usage: /<command> [nombre del jugador]
+    description: Ver los créditos de la tienda
+    output:
+      credits: Tienes <credits> créditos.
+      console-must-provide-target: Se debe proporcionar un nombre de usuario cuando
+        se ejecuta este comando desde la consola.
+      no-permission-other: No tienes permiso para ver los créditos de otros jugadores
+        que no seas tú.
+  suggest:
+    description: Crear una sugerencia
+    usage: /<command> \<título de la sugerencia>
+    output:
+      success: Sugerencia creada con éxito. Haga clic <yellow><click:open_url:"<url>">aquí</click></yellow>
+        para abrirla en un navegador web.
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /register.
 website-announcement: 'Anuncio de la página web: <message>'
