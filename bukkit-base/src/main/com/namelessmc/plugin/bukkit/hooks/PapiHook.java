@@ -3,7 +3,7 @@ package com.namelessmc.plugin.bukkit.hooks;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.NamelessException;
-import com.namelessmc.java_api.modules.ModuleNames;
+import com.namelessmc.java_api.modules.NamelessModule;
 import com.namelessmc.java_api.modules.store.PaymentsFilter;
 import com.namelessmc.java_api.modules.store.StorePayment;
 import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
@@ -126,7 +126,7 @@ public class PapiHook implements Reloadable, Listener {
 			return;
 		}
 
-		if (api.website().modules().contains(ModuleNames.STORE)) {
+		if (api.website().modules().contains(NamelessModule.STORE)) {
 			List<StorePayment> payments = api.store().payments(PaymentsFilter.limit(1));
 			if (payments.isEmpty()) {
 				this.cachedLastStorePayment = null;

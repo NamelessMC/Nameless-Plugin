@@ -8,7 +8,7 @@ import com.namelessmc.java_api.exception.ApiError;
 import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.integrations.DetailedIntegrationData;
-import com.namelessmc.java_api.modules.ModuleNames;
+import com.namelessmc.java_api.modules.NamelessModule;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
@@ -166,12 +166,12 @@ public class UserInfoCommand extends CommonCommand {
 				}
 			});
 
-			if (user.api().website().modules().contains(ModuleNames.STORE)) {
+			if (user.api().website().modules().contains(NamelessModule.STORE)) {
 				try {
-					float credits = user.store().credits();
+					float credits = user.store().creditsCents() / 100f;
 					runSync.add(() -> {
 						sender.sendMessage(this.language().get(COMMAND_USERINFO_OUTPUT_STORE_MODULE_CREDITS,
-								"credits", String.valueOf(credits)));
+								"credits", String.format("%.2f", credits)));
 					});
 				} catch (ApiException e) {
 					if (e.apiError() == ApiError.NAMELESS_INVALID_API_METHOD) {
