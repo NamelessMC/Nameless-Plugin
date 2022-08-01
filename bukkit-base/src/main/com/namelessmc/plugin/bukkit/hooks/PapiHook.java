@@ -3,6 +3,9 @@ package com.namelessmc.plugin.bukkit.hooks;
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.NamelessException;
+import com.namelessmc.java_api.modules.ModuleNames;
+import com.namelessmc.java_api.modules.store.PaymentsFilter;
+import com.namelessmc.java_api.modules.store.StorePayment;
 import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.MavenConstants;
@@ -24,9 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 
 import java.time.Duration;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
@@ -38,9 +39,11 @@ public class PapiHook implements Reloadable, Listener {
 	private final NamelessPlugin plugin;
 	private @Nullable AbstractScheduledTask task;
 	private @Nullable AtomicBoolean isRunning;
-	private @Nullable Map<UUID, Integer> cachedNotificationCount;
 	private @Nullable Expansion placeholderExpansion;
 	private BiFunction<Player, String, String> placeholderParser = new NoopParser();
+
+	private @Nullable Map<UUID, Integer> cachedNotificationCount;
+	private @Nullable StorePayment cachedLastStorePayment;
 
 	public PapiHook(final @NonNull BukkitNamelessPlugin bukkitPlugin,
 							 final @NonNull NamelessPlugin plugin) {
@@ -57,6 +60,7 @@ public class PapiHook implements Reloadable, Listener {
 
 		this.isRunning = null;
 		this.cachedNotificationCount = null;
+		this.cachedLastStorePayment = null;
 		HandlerList.unregisterAll(this);
 
 		if (this.placeholderExpansion != null) {
@@ -88,6 +92,7 @@ public class PapiHook implements Reloadable, Listener {
 				return;
 			}
 			this.task = this.plugin.scheduler().runTimer(this::updateCache, interval);
+			this.plugin.scheduler().runAsync(this::updateCache);
 			this.isRunning = new AtomicBoolean();
 			this.cachedNotificationCount = new ConcurrentHashMap<>();
 		}
@@ -104,34 +109,50 @@ public class PapiHook implements Reloadable, Listener {
 
 		this.plugin.scheduler().runAsync(() -> {
 			if (isRunning.compareAndSet(false, true)) {
-				final NamelessAPI api = this.plugin.apiProvider().api();
-				if (api == null) {
-					this.plugin.logger().fine("Skipped placeholder caching, API connection is broken");
-					return;
-				}
-
-				for (final UUID uuid : uuids) {
-					updateCache(api, uuid);
+				try {
+					this.updatePlayerCache(uuids);
+				} catch (final NamelessException e) {
+					this.plugin.logger().logException(e);
 				}
 				isRunning.set(false);
 			}
 		});
 	}
 
-	private void updateCache(final NamelessAPI api, final UUID uuid) {
+	private void updatePlayerCache(final Collection<UUID> uuids) throws NamelessException {
+		final NamelessAPI api = this.plugin.apiProvider().api();
+		if (api == null) {
+			this.plugin.logger().fine("Skipped placeholder caching, API connection is broken");
+			return;
+		}
+
+		if (api.website().modules().contains(ModuleNames.STORE)) {
+			List<StorePayment> payments = api.store().payments(PaymentsFilter.limit(1));
+			if (payments.isEmpty()) {
+				this.cachedLastStorePayment = null;
+			} else if (payments.size() == 1) {
+				this.cachedLastStorePayment = payments.get(0);
+			} else {
+				throw new IllegalStateException(String.valueOf(payments.size()));
+			}
+		}
+
+		for (final UUID uuid : uuids) {
+			updatePlayerCache(api, uuid);
+		}
+	}
+
+	private void updatePlayerCache(final NamelessAPI api, final UUID uuid) throws NamelessException {
 		if (this.cachedNotificationCount == null) {
 			throw new IllegalStateException("Placeholder caching is disabled");
 		}
 
-		try {
-			this.plugin.logger().fine(() -> "Updating notification count placeholder for " + uuid);
-			final NamelessUser user = api.userByMinecraftUuid(uuid);
-			if (user != null) {
-				this.cachedNotificationCount.put(uuid, user.notificationCount());
-			}
-		} catch (final NamelessException e) {
-			this.plugin.logger().logException(e);
+		this.plugin.logger().fine(() -> "Updating notification count placeholder for " + uuid);
+		final NamelessUser user = api.userByMinecraftUuid(uuid);
+		if (user != null) {
+			this.cachedNotificationCount.put(uuid, user.notificationCount());
 		}
+
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -146,7 +167,11 @@ public class PapiHook implements Reloadable, Listener {
 		this.plugin.scheduler().runAsync(() -> {
 			final NamelessAPI api = this.plugin.apiProvider().api();
 			if (api != null) {
-				updateCache(api, event.getPlayer().getUniqueId());
+				try {
+					updatePlayerCache(api, event.getPlayer().getUniqueId());
+				} catch (NamelessException e) {
+					this.plugin.logger().logException(e);
+				}
 			}
 		});
 	}
@@ -177,6 +202,16 @@ public class PapiHook implements Reloadable, Listener {
 				} else {
 					return String.valueOf(cachedNotificationCount.get(player.getUniqueId()));
 				}
+			} else if (identifier.equals("store_last_payment_received_username")) {
+				return cachedLastStorePayment == null ? "" : cachedLastStorePayment.receivingCustomer().username();
+			} else if (identifier.equals("store_last_payment_paid_username")) {
+				return cachedLastStorePayment == null ? "" : cachedLastStorePayment.payingCustomer().username();
+			} else if (identifier.equals("store_last_payment_amount")) {
+				return cachedLastStorePayment == null ? "" : cachedLastStorePayment.amount();
+			} else if (identifier.equals("store_last_payment_currency")) {
+				return cachedLastStorePayment == null ? "" : cachedLastStorePayment.currency();
+			} else if (identifier.equals("store_last_payment_date")) {
+				return cachedLastStorePayment == null ? "" : plugin.dateFormatter().format(cachedLastStorePayment.creationDate());
 			}
 			return null;
 		}
