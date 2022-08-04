@@ -13,25 +13,32 @@ command:
         link: '<hover:show_text:"לחץ לפתיחה בדפדפן אינטרנט"><click:open_url:"<url>">אנא
           השלם את ההרשמה על ידי מעבר אל <url>.'
       fail:
-        cannot-send-email: לא ניתן לשלוח דוא"ל לרישום, אנא צרו קשר עם מנהל המערכת
+        cannot-send-email: <red>לא ניתן לשלוח דוא"ל לרישום, אנא צרו קשר עם מנהל המערכת
           כדי להפעיל את חשבונכם.
-        email-used: כתובת דוא"ל זו כבר משמשת לחשבון משתמש אחר.
-        email-invalid: כתובת הדוא"ל שצוינה אינה חוקית.
-        username-invalid: שם המשתמש שסופק אינו חוקי.
+        email-used: <red>כתובת דוא"ל זו כבר משמשת לחשבון משתמש אחר.
+        email-invalid: <red>כתובת הדוא"ל שצוינה אינה חוקית.
+        username-invalid: <red>שם המשתמש שסופק אינו חוקי.
+        username-used: <red>שם המשתמש שסופק כבר נמצא בשימוש על ידי חשבון משתמש אחר.
+        minecraft-used: <red>חשבון Minecraft שלך כבר מקושר למשתמש אחר באתר.
+        console-must-specify-username: <red>כאשר מפעילים את פקודת הרישום מהמסוף, עליך
+          לציין שם משתמש.
+        custom-username-disabled: <red>הרשמה עם שם משתמש שאינו שם המשתמש שלך ב-Minecraft
+          אסורה.
     usage: /<פקודה> \<email> [שם משתמש]
   report:
     output:
       success: תודה שדיווחת על שחקן זה.
       fail:
-        already-open: אינך יכול לדווח על שחקן זה, כבר יש לך דוח פתוח בשבילו.
-        report-self: אתה לא יכול לדווח על עצמך.
+        already-open: <red>אינך יכול לדווח על שחקן זה, כבר יש לך דוח פתוח בשבילו.
+        report-self: <red>אתה לא יכול לדווח על עצמך.
     description: דווח על שחקן
     usage: /{command} <שם/uuid> <סיבה>
   validate:
     output:
       success: חשבונך אומת.
       fail:
-        invalid-code: קוד האימות שלך שגוי. אנא בדוק אם העתקת אותו כראוי ונסה שוב.
+        invalid-code: <red>קוד האימות שסופק שגוי. אנא בדוק אם העתקת אותו כהלכה ונסה
+          שוב.
         already-validated: חשבונך כבר מאומת.
     usage: <קוד> {פקודה}/
     description: מאמת את חשבון האתר של המשתמש באמצעות הקוד הנתון.
@@ -48,6 +55,14 @@ command:
       displayname: 'שם תצוגה: <displayname>'
       all-groups: 'כל הקבוצות: <groups_names_list>'
       banned: 'נאסר: <banned>'
+      custom-field: "שדה מותאם אישית '<name>': <value>"
+      integrations:
+        header: 'אינטגרציות:'
+        identifier: 'מזהה: <identifier>'
+        username: 'שם משתמש: <username>'
+        linked-date: 'תאריך מקושר: <linked_date>'
+        verified: 'מאומת: <is_verified>'
+      store-module-credits: 'חנות זיכויים של מודול: <credits>'
   not-a-player: <red>עליך להיות שחקן כדי לבצע פקודה זו.
   subcommands: {}
   no-permission: <red>אין לך הרשאה לבצע פקודה זו.
@@ -55,6 +70,27 @@ command:
     output:
       reload-successful: הפלאגין נטען מחדש בהצלחה.
     description: פקודות ניהול עבור הפלאגין NamelessMC
+    usage: /<command> 'reload'/'rl'/'last_error'
+  store-change-credits:
+    usage: /<פקודה> \<שם שחקן> \<(-)קרדיטים>
+    description: הוסף או הסר זיכוי חנות עבור משתמש
+    output:
+      added: הוסיפו זיכויים <green><credits></green> ל-<שם משתמש>.
+      removed: הוסרו קרדיטים <red><credits></red> מ-<שם משתמש>.
+      nothing: אין צורך בפעולה.
+  store-view-credits:
+    usage: /<command> [שם שחקן]
+    description: הצג קרדיטים לחנות
+    output:
+      credits: יש לך <credits> קרשיטים.
+      console-must-provide-target: יש לספק נגן יעד בעת הפעלת פקודה זו מהמסוף.
+      no-permission-other: אין לך הרשאה לראות קרדיטים עבור שחקנים מלבדך.
+  suggest:
+    usage: /<פקודה> \<כותרת ההצעה>
+    description: צור הצעה
+    output:
+      success: ההצעה נוצרה בהצלחה. לחץ <yellow><click:open_url:"<url>">כאן</click></yellow>
+        כדי לפתוח אותו בדפדפן אינטרנט.
 player:
   other: {}
   self:
@@ -73,3 +109,6 @@ boolean:
   no-positive: <green>לא</green>
   no-negative: <red>לא</red>
   yes-positive: <green>כן</green>
+website-announcement: 'הודעת אתר: <message>'
+user-sync-kick: אתה נחסם מהשרת שלנו בעקבות איסור חשבון אתר.
+join-notifications: יש לך הודעות באתר, הפעל את /<notifications_command> למידע נוסף.
