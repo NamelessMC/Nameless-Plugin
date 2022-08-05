@@ -27,6 +27,7 @@ command:
         username: 'Никнейм: <username>'
         linked-date: 'Дата привязки: <linked_date>'
         verified: 'Подтверждён: <is_verified>'
+      store-module-credits: 'Кредиты магазин модуля: <credits>'
     usage: '/<command> [ник]'
     description: Получить информацию о пользователе веб-сайта
   not-a-player: <red>Чтобы выполнить эту команду, вы должны быть игроком.
@@ -73,6 +74,28 @@ command:
       reload-successful: Плагин успешно перезапущен.
     description: Административные комманды для NamelessMC плагина
     usage: /<command> 'reload'/'rl'/'last_error'
+  store-change-credits:
+    usage: /<command> \<имя игрока> \<(-)кредит(а/ов)>
+    description: Добавить или удалить кредиты для пользователя
+    output:
+      added: Добавлено <green><credits></green> кредитов для <username>.
+      removed: Убрано <red><credits></red> кредитов от <username>.
+      nothing: Действия не требуются.
+  store-view-credits:
+    usage: /<command> [имя игрока]
+    description: Показать кредиты магазина
+    output:
+      credits: У вас <credits> кредит(а/ов).
+      console-must-provide-target: Имя игрока должно быть указано при использовании
+        этой комманды из консоли.
+      no-permission-other: У вас нет прав что бы посмотреть кредиты игроков кроме
+        себя.
+  suggest:
+    usage: /<command> \<название предложения>
+    description: Создать предложение
+    output:
+      success: Предложение успешно создано. Нажмите <yellow><click:open_url:"<url>">сюда</click></yellow>
+        что бы открыть в браузере.
 player:
   self:
     not-registered: <red>Вы должны зарегистрировать учетную запись, чтобы выполнить
