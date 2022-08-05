@@ -44,6 +44,7 @@ command:
         link: Xin hãy hoàn tất việc đăng ký bằng việc <hover:show_text:"Nhấn để mở
           trình duyệt web"><click:open_url:"<url>"><url></click></hover>.
     description: Tạo một tài khoản trên trang web
+    usage: /<command> \<email> [username]
   report:
     output:
       success: Cảm ơn bạn đã báo cáo người chơi này.
@@ -52,6 +53,7 @@ command:
         already-open: <red>Bạn không thể báo cáo người chơi này, bạn đã có một báo
           cáo còn mở cho họ.
     description: Báo cáo một người chơi
+    usage: /<command> \<name/uuid> \<reason>
   validate:
     description: Xác thực tài khoản trang web của người dùng bằng cách sử dụng mã
       đã cho.
@@ -68,14 +70,17 @@ command:
       no-notifications: Bạn không có bất kỳ thông báo chưa đọc nào.
       notification: '<hover: show_text:"Nhấp để mở trong trình duyệt web"><click:open_url:
         "<url>"><message></click></hover>'
+    usage: /<command>
   plugin:
     description: Các lệnh quản trị cho plugin NamelessMC
     output:
       reload-successful: Đã tải lại plugin thành công.
+    usage: /<command> 'reload'/'rl'/'last_error'
   no-permission: <red>Bạn không có quyền thực hiện lệnh này.
   store-change-credits:
     output:
       nothing: Không có việc gì cần làm.
+    usage: /<command> \<player name> \<(-)credits>
   store-view-credits:
     output:
       console-must-provide-target: Một người chơi chỉ định phải được cung cấp khi
