@@ -1,1 +1,32 @@
-{}
+command:
+  not-a-player: <red>Morate biti igrač da biste izvršili ovu naredbu.
+  plugin:
+    description: Administrativne naredbe za NamelessMC dodatak
+    usage: /<naredba> 'reload'/'rl'/'last_error'
+  notifications:
+    output:
+      no-notifications: Nemate nijednu nepročitanu obavijest.
+      notification: <hover:show_text:"Kliknite za otvaranje u web pregledniku"><click:open_url:"<url>"><message></click></hover>
+    usage: /<naredba>
+    description: Prikazuje popis obavijesti web stranice.
+  no-permission: <red>Nemate dozvolu za izvršenje ove naredbe.
+error:
+  username-not-online: <red>Navedeno korisničko ime je nevažeće ili igrač nije online.
+  discord-username-not-exist: <red>Ne postoji korisnik s ovim korisničkim imenom na
+    Discord-u.
+  website-username-not-exist: <red>Ne postoji korisnik s ovim korisničkim imenom.
+  website-connection: <red>Došlo je do pogreške prilikom pokušaja povezivanja na web
+    stranicu.
+  minecraft-uuid-not-exist: <red>Ne postoji korisnik web stranice s ovim Minecraft
+    UUID-om.
+  target-no-website-account: <red>Navedeni igrač nema račun na web stranici.
+player:
+  self:
+    command-banned: <red>Ne možete pokrenuti ovu naredbu, zabranjen vam je pristup
+      web stranici.
+    not-registered: <red>Morate se registrirati kako biste izvršili ovu radnju.
+boolean:
+  yes-positive: <green>Da</green>
+  yes-negative: <red>Da</red>
+  no-positive: <green>Ne</green>
+  no-negative: <red>Ne</red>
