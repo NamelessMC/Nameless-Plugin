@@ -2,25 +2,36 @@ command:
   register:
     output:
       fail:
-        email-invalid: A megadott e-mail cím érvénytelen.
-        email-used: Ezt az e-mail címet már használják egy másik felhasználói fiókhoz.
-        username-invalid: A megadott felhasználónév érvénytelen.
-        cannot-send-email: Nem sikerült elküldeni a regisztrációs e-mailt, a fiók
-          aktiválásához vegye fel a kapcsolatot az adminisztrátorral.
+        email-invalid: <red>A megadott e-mail cím érvénytelen.
+        email-used: <red>Ezt az e-mail címet már használják egy másik felhasználói
+          fiókhoz.
+        username-invalid: <red>A megadott felhasználónév érvénytelen.
+        cannot-send-email: <red>Nem sikerült elküldeni a regisztrációs e-mailt, a
+          fiók aktiválásához vegye fel a kapcsolatot az adminisztrátorral.
+        minecraft-used: <red>A Minecraft-fiókod már egy másik weboldal felhasználójához
+          kapcsolódik.
+        username-used: <red>A megadott felhasználónevet már egy másik felhasználói
+          fiók használja.
+        console-must-specify-username: <red>Az register parancs konzolról történő
+          futtatásakor meg kell adnia egy felhasználónevet.
+        custom-username-disabled: <red>A Minecraft felhasználónevedtől eltérő felhasználónévvel
+          történő regisztráció nem megengedett.
       success:
         email: A regisztráció befejezéséhez ellenőrizze a beérkező leveleket.
         link: <hover:show_text:"Böngésző megnyitása."><click:open_url:"<url>">A regisztráció
           befejezéséhez látogasson el a (z) <link> oldalra.
-    usage: '/{command} <email>'
+    usage: '/{command} \<email> [username]'
     description: Hozzon létre egy webhelyfiókot
   report:
     description: Játékos jelentése
     output:
       fail:
-        already-open: Nem jelentheted ezt a játékost, mert már van nyitott jelentésed
+        already-open: <red>Nem jelentheted ezt a játékost, mert már van nyitott jelentésed
           a moderátorok felé.
-        report-self: Nem jelentheted saját magad.
+        report-self: <red>Nem jelentheted saját magad.
       success: Köszönjük, hogy bejelentetted ezt a játékost.
+      notify-broadcast: <sárga><jelentő_felhasználónév></sárga> jelentést nyitott
+        <sárga><jelentő_felhasználónév></sárga> számára.
     usage: '/{command} <név/uuid> <indok>'
   validate:
     usage: '/{command} <kód>'
@@ -28,14 +39,15 @@ command:
     output:
       success: Fiókját érvényesítettük.
       fail:
-        invalid-code: Helytelen az érvényesítési kódod. Kérjük, ellenőrizze, hogy
-          helyesen másolta-e, és próbálkozzon újra.
+        invalid-code: <red>A megadott érvényesítési kód hibás. Kérjük, ellenőrizze,
+          hogy helyesen másolta-e be, és próbálja meg újra.
         already-validated: Fiókja már érvényesítve van.
-  not-a-player: A parancs végrehajtásához játékosnak kell lenned.
-  no-permission: Nincs engedélye a parancs végrehajtására.
+  not-a-player: <red>A parancs végrehajtásához játékosnak kell lenned.
+  no-permission: <red>Nincs engedélye a parancs végrehajtására.
   notifications:
     output:
       no-notifications: Nincsenek olvasatlan értesítései.
+      notification: <hover:show_text:"Kattints, hogy a böngészőben nyissa meg"><click:open_url:"<url>"><message></click></hover>
     usage: '/{command}'
     description: Megjeleníti a webhely értesítéseinek listáját.
   user-info:
@@ -50,13 +62,64 @@ command:
       validated: 'Fiók érvényesítve: <validated>'
       primary-group: 'Elsődleges csoport: <groupname>'
       all-groups: 'Összes csoport: <groups_names_list>'
+      integrations:
+        identifier: 'Azonosító: <azonosító>'
+        linked-date: 'Kapcsolódó dátum: <linked_date>'
+        verified: 'Ellenőrzött: <is_verified>'
+        header: 'Integrációk:'
+        username: 'Felhasználónév: <username>'
+      custom-field: "Egyéni mező '<name>': <value>"
+      store-module-credits: 'Tárolási modul kreditek: <kredit>'
     description: Információk lekérése a webhely felhasználójáról
   subcommands: {}
+  plugin:
+    usage: /<command> 'reload'/'rl'/'last_error'
+    output:
+      reload-successful: A plugin sikeresen újratöltődött.
+    description: Adminisztrációs parancsok a NamelessMC plugin számára
+  store-change-credits:
+    description: Bolti kreditek hozzáadása vagy eltávolítása egy felhasználó számára
+    usage: /<command> \<játékos név> \<(-)credits>
+    output:
+      added: Hozzáadva <green><credits></green> kredit <username> számlájához.
+      removed: Eltávolítva <red><credits></red> kredit <username> számlájáról.
+      nothing: Nincs szükség intézkedésre.
+  store-view-credits:
+    output:
+      credits: Önnek <credits> kreditje van.
+      no-permission-other: Nincs jogosultságod a saját magadon kívüli játékosok kreditjeinek
+        megtekintésére.
+      console-must-provide-target: Ha ezt a parancsot a konzolról futtatja, meg kell
+        adnia egy játékost.
+    usage: /<command> [játékos neve]
+    description: Store kreditek megtekintése
+  suggest:
+    description: Javaslat létrehozása
+    output:
+      success: Javaslat sikeresen létrehozva. Kattintson <yellow><click:open_url:"<url>">itt</click></yellow>
+        a webböngészőben való megnyitásához.
+    usage: /<command> \<javaslat címe>
 player:
   other: {}
   self:
-    not-registered: A művelet végrehajtásához regisztrálnia kell egy fiókot.
-    command-banned: Nem futtathatja ezt a parancsot, mert ki van tiltva a webhelyről.
+    not-registered: <red>A művelet végrehajtásához regisztrálnia kell egy fiókot.
+    command-banned: <red>Nem futtathatja ezt a parancsot, mert ki van tiltva a webhelyről.
 join-not-registered: Még nincs fiókja a weboldalunkon. Kérjük, regisztráljon a / register
   segítségével.
 website-announcement: 'Weboldal közlemények: <message>'
+user-sync-kick: Önt letiltották a szerverünkről egy weboldal-fiók letiltását követően.
+error:
+  website-connection: <red>Hiba történt a weboldalhoz való kapcsolódás során.
+  username-not-online: <red>A megadott felhasználónév érvénytelen, vagy a játékos
+    nincs online.
+  website-username-not-exist: <red>Nincs weboldal felhasználó ezzel a felhasználónévvel.
+  minecraft-uuid-not-exist: <red>Nincs weboldal felhasználó ezzel a Minecraft UUID-vel.
+  target-no-website-account: <red>A megadott játékos nem rendelkezik weboldalfiókkal.
+  discord-username-not-exist: <red>Nincs weboldal felhasználó ezzel a Discord felhasználónévvel.
+boolean:
+  yes-negative: <red>Igen</red>
+  yes-positive: <green>Igen</green>
+  no-positive: <green>Nem</green>
+  no-negative: <red>Nem</red>
+join-notifications: Ön rendelkezik weboldal-értesítésekkel, kérjük, futtassa a /<notifications_command>
+  parancsot további információkért.
