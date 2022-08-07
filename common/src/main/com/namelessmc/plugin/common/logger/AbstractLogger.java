@@ -104,14 +104,14 @@ public abstract class AbstractLogger implements Reloadable {
 			return true;
 		}
 
-		if (t instanceof IOException) {
-			this.warning("Could not connect to your website due to a network connection error ('" +
-					t.getMessage() + "'). " + lastErrorCommand);
-			return true;
-		}
-
 		if (t.getCause() != null) {
 			return printReducedException(t.getCause(), lastErrorCommand);
+		}
+
+		if (t instanceof IOException) {
+			this.warning("Could not connect to your website due to a network connection error ('" +
+					t.getClass().getSimpleName() + ": " + t.getMessage() + "'). " + lastErrorCommand);
+			return true;
 		}
 
 		// Exception (and cause) is unknown, cannot print reduced exception
