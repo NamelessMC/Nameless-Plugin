@@ -1,7 +1,7 @@
 player:
   other: {}
   self:
-    not-registered: You must register for an account to perform this action.
+    not-registered: <red>You must register for an account to perform this action.
     command-banned: You cannot run this command, you are banned from the website.
 command:
   not-a-player: You must be a player to perform this command.
@@ -79,11 +79,12 @@ website-announcement: 'Website announcement: <message>'
 user-sync-kick: You are banned from our server following a website account ban.
 error:
   website-username-not-exist: No website user exists with this username.
-  website-connection: An error occurred while trying to connect to the website.
-  username-not-online: The provided username is invalid or the player is not online.
-  discord-username-not-exist: No website user exists with this Discord username.
-  minecraft-uuid-not-exist: No website user exists with this Minecraft UUID.
-  target-no-website-account: The provided player does not have a website account.
+  website-connection: <red>An error occurred while trying to connect to the website.
+  username-not-online: <red>The provided username is invalid or the player is not
+    online.
+  discord-username-not-exist: <red>No website user exists with this Discord username.
+  minecraft-uuid-not-exist: <red>No website user exists with this Minecraft UUID.
+  target-no-website-account: <red>The provided player does not have a website account.
 boolean:
   yes-positive: <green>Yes</green>
   yes-negative: <red>Yes</red>
