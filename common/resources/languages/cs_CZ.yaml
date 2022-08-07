@@ -33,6 +33,8 @@ command:
           nahlášení.
         report-self: <red>Nemůžete nahlásit sami sebe.
       success: Děkujeme za nahlášení tohoto hráče.
+      notify-broadcast: Hráč <yellow><reporter_username></yellow> otevřel nahlášení
+        hráče <yellow><reported_username></yellow>.
     usage: '/<command> \<jméno/uuid> \<důvod>'
     description: Nahlásit hráče
   validate:
