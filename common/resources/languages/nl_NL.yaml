@@ -64,6 +64,8 @@ command:
         already-open: <red>Je kan niet deze speler rapporteren, er staat al een rapport
           open.
         report-self: <red>Je kunt jezelf niet rapporteren.
+      notify-broadcast: <yellow><reporter_username></yellow> heeft een rapport geopend
+        voor <yellow><reported_username></yellow>.
     usage: '/<command> \<naam/uuid> \<reden>'
   validate:
     usage: '/<command> \<code>'
