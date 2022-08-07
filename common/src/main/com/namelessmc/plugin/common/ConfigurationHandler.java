@@ -57,6 +57,10 @@ public class ConfigurationHandler implements Reloadable {
 
 	@Override
 	public void load() {
+		if (Files.exists(this.dataDirectory.resolve("config.yml"))) {
+			throw new RuntimeException("Plugin directory contains config.yml. This is an old config file from the 2.x.x plugin versions. Please delete the plugin configuration directory or move it elsewhere to get new configuration files.");
+		}
+
 		try {
 			Files.createDirectories(dataDirectory);
 			for (final String configName : ALL_CONFIG_NAMES) {
