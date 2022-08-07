@@ -10,6 +10,7 @@ command:
         already-open: <red>Tohto hráča nemôžete nahlásiť, pretože ste ho už nahlásili.
         report-self: <red>Nemôžete sa nahlásiť.
       success: Ďakujeme za nahlásenie hráča.
+      notify-broadcast: <yellow><reporter_username></yellow> otvoril report pre <yellow><reported_username></yellow>.
     description: Nahlásiť hráča
     usage: '/{command} <name/uuid> <reason>'
   notifications:
