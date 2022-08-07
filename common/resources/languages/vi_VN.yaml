@@ -20,7 +20,11 @@ command:
       primary-group: 'Nhóm chính: <groupname>'
       registered-date: 'Đăng ký vào: <date>'
       username: 'Tên người dùng: <username>'
+      uuid: 'UUID: <uuid>'
+      custom-field: "Trường tùy chỉnh '<name>': <value>"
+      store-module-credits: 'Store module credits: <credits>'
     description: Truy xuất thông tin về người dùng trên trang web
+    usage: /<command> [tên người chơi]
   not-a-player: <red>Bạn phải là người chơi để thực hiện lệnh này.
   register:
     output:
@@ -52,6 +56,7 @@ command:
         report-self: <red>Vị hảo hán nào lại tự báo cáo chính mình vậy.
         already-open: <red>Bạn không thể báo cáo người chơi này, bạn đã có một báo
           cáo còn mở cho họ.
+      notify-broadcast: <yellow><reporter_username></yellow>đã mở một báo cáo cho<yellow><reported_username></yellow>.
     description: Báo cáo một người chơi
     usage: /<command> \<name/uuid> \<reason>
   validate:
@@ -64,6 +69,7 @@ command:
         already-validated: Tài khoản của bạn đã được xác thực rồi không cần xác thực
           lại nữa.
       success: Tài khoản của bạn đã được xác thực.
+    usage: /<command> \<code>
   notifications:
     description: Hiển thị danh sách thông báo trang web.
     output:
@@ -80,16 +86,25 @@ command:
   store-change-credits:
     output:
       nothing: Không có việc gì cần làm.
+      added: Added <green><credits></green> credits to <username>.
+      removed: Removed <red><credits></red> credits from <username>.
     usage: /<command> \<player name> \<(-)credits>
+    description: Add or remove store credits for a user
   store-view-credits:
     output:
       console-must-provide-target: Một người chơi chỉ định phải được cung cấp khi
         chạy lệnh này từ bảng điều khiển.
+      credits: You have <credits> credits.
+      no-permission-other: You do not have permission to view credits for players
+        other than yourself.
+    description: View store credits
+    usage: /<command> [Tên người chơi]
   suggest:
     description: Tạo một đề xuất
     output:
       success: 'Đề xuất đã được tạo thành công. Nhấp vào <yellow><click:open_url:
         "<url>">đây</click></yellow>để mở nó trong trình duyệt web.'
+    usage: /<command> \<gợi ý>
 join-not-registered: Bạn chưa có tài khoản trên trang web của chúng tôi. Vui lòng
   đăng ký bằng /register.
 website-announcement: 'Thông báo trên trang web: <message>'
