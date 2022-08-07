@@ -46,6 +46,8 @@ command:
         already-open: <red>Du kannst diesen Spieler nicht reporten, du hast bereits
           einen offnenen Report gegen ihn.
         report-self: <red>Du kannst dich nicht selber melden.
+      notify-broadcast: <yellow><reporter_username></yellow> hat eine Meldung für
+        <yellow><reporter_username></yellow> eröffnet.
   validate:
     usage: '/{command} <Code>'
     description: Überprüft das Website-Konto des Benutzers mit dem angegebenen Code.
