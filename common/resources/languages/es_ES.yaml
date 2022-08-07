@@ -44,6 +44,8 @@ command:
         already-open: <red>No puedes reportar a este jugador, ya tienes un reporte
           abierto para él.
         report-self: <red>No puedes denunciarte a ti mismo.
+      notify-broadcast: <yellow><reporter_username></yellow> ha abierto una denuncia
+        contra <yellow><reported_username></yellow>.
     usage: '/<command> \<nombre/uuid> \<razón>'
   subcommands: {}
   validate:
