@@ -43,14 +43,19 @@ command:
       username: 'اسم المستخدم: <username>'
       primary-group: 'المجموعة الأساسية: <groupname>'
       all-groups: 'كل المجموعات: <groups_names_list>'
-  not-a-player: يجب أن تكون لاعبا لأداء هذا الأمر.
-  no-permission: ليس لديك إذن بتنفيذ هذا الأمر.
+  not-a-player: <red>يجب أن تكون لاعبا لأداء هذا الأمر.
+  no-permission: <red>ليس لديك إذن بتنفيذ هذا الأمر.
   notifications:
     output:
       notification: '<hover:show_text:"انقر للفتح في مستعرض ويب"> <click:open_url:"<url>"><message>'
       no-notifications: ليس لديك أي إشعارات غير مقروءة.
     usage: /{command}
     description: يعرض قائمة إشعارات موقع الويب.
+  plugin:
+    usage: /<command> 'reload'/'rl'/'last_error'
+    description: أوامر إدارية للمكوِّن الإضافي NamelessMC
+    output:
+      reload-successful: تمت إعادة تحميل المكون الاضافي.
 join-not-registered: ليس لديك حساب على موقعنا حتى الآن. الرجاء التسجيل باستخدام /register.
 website-announcement: 'إعلان الموقع: <message>'
 user-sync-kick: أنت محظور من خادمنا بعد حظر حساب على الموقع.
@@ -69,3 +74,6 @@ error:
   target-no-website-account: <red> اللاعب المقدم ليس لديه حساب على موقع الويب.
 boolean:
   yes-positive: <green> نعم </ green>
+  yes-negative: <red>نعم</red>
+  no-positive: <green>لا</green>
+  no-negative: <red>لا</red>
