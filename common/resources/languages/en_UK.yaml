@@ -59,6 +59,7 @@ command:
       fail:
         already-open: "<red>You cannot report this player, you already have an open report for them."
         report-self: "<red>You cannot report yourself."
+      notify-broadcast: "<yellow><reporter_username></yellow> has opened a report for <yellow><reported_username></yellow>."
 
   store-change-credits:
     usage: "/<command> \\<player name> \\<(-)credits>"

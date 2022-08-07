@@ -1,14 +1,15 @@
 package com.namelessmc.plugin.common.command;
 
 import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.NamelessUser;
 import com.namelessmc.java_api.exception.ApiException;
+import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
+import net.kyori.adventure.text.Component;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Arrays;
@@ -63,6 +64,7 @@ public class ReportCommand extends CommonCommand {
 				}
 				user.createReport(target.uuid(), target.username(), reason);
 				sender.sendMessage(language().get(COMMAND_REPORT_OUTPUT_SUCCESS));
+				reportNotify(target.username(), ((NamelessPlayer) sender).username());
 			} catch (final NamelessException e) {
 				if (e instanceof ApiException) {
 					switch (((ApiException) e).apiError()) {
@@ -82,6 +84,17 @@ public class ReportCommand extends CommonCommand {
 				logger().logException(e);
 			}
 		});
+	}
+
+	private void reportNotify(String reporterUsername, String reportedUsername) {
+		Component message = this.language().get(COMMAND_REPORT_OUTPUT_NOTIFY_BROADCAST,
+				"reporter_username", reporterUsername, "reported_username", reportedUsername);
+		this.plugin().audiences().console().sendMessage(message);
+		for (NamelessPlayer player : this.plugin().audiences().onlinePlayers()) {
+			if (player.hasPermission(Permission.COMMAND_REPORT_NOTIFY_BROADCAST)) {
+				player.sendMessage(message);
+			}
+		}
 	}
 
 	@Override
