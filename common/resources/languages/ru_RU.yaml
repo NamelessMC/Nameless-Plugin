@@ -68,6 +68,7 @@ command:
       fail:
         already-open: <red>Вы уже отправляли жалобу на этого игрока.
         report-self: <red>Вы не можете отправить заявку на самого себя.
+      notify-broadcast: <yellow><reporter_username></yellow> сделал репорт на <yellow><reported_username></yellow>.
   subcommands: {}
   plugin:
     output:
