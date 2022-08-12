@@ -47,12 +47,13 @@ command:
         header: '連携:'
         linked-date: '連携した日付: <linked_date>'
         verified: '検証: <is_verified>'
+      store-module-credits: 'ストアモジュールクレジット: <credits>'
     description: ウェブサイトユーザーに関する情報を取得
   validate:
     usage: '/<command> \<コード>'
     output:
       fail:
-        invalid-code: 認証コードが正しくありません。正しくコピーされているかどうかを確認して、もう一度お試しください。
+        invalid-code: <red>認証コードが正しくありません。正しくコピーされているかどうかを確認して、もう一度お試しください。
         already-validated: アカウントはすでに認証されています。
       success: アカウントは認証されました。
     description: コードを使用して、ユーザーのウェブサイトアカウントを認証します。
@@ -63,6 +64,7 @@ command:
       fail:
         already-open: <red>プレイヤーを報告することはできません。あなたは既に問題を開いています。
         report-self: <red>自分自身を報告することはできません。
+      notify-broadcast: <yellow><reporter_username></yellow>は、<yellow><reported_username></yellow>のレポートを開きました。
     description: プレイヤーを報告
   subcommands: {}
   plugin:
@@ -70,6 +72,24 @@ command:
     output:
       reload-successful: プラグインのリロードが正常に行われました。
     usage: /<command> 'reload'/'rl'/'last_error'
+  store-view-credits:
+    usage: /<command> [プレイヤー名]
+    output:
+      no-permission-other: 自分以外のプレイヤーのクレジットを表示する権限がありません。
+      credits: あなたは<credits>クレジットを持っています。
+      console-must-provide-target: コンソールからこのコマンドを実行する場合、対象となるプレーヤーを指定する必要があります。
+    description: ストアクレジットを表示
+  suggest:
+    output:
+      success: 提案が正常に作成されました。<yellow><click:open_url:"<url>">ここ</click></yellow>をクリックすると、ウェブブラウザで開くことができます。
+    description: 提案を作成
+    usage: /<command> \<提案のタイトル>
+  store-change-credits:
+    output:
+      added: <username>に<green><credits></green>クレジットを追加しました。
+      removed: <username>から<red><credits></red>クレジットを削除しました。
+    usage: /<command> \<プレイヤー名> \<(-)クレジット>
+    description: ユーザーのストアクレジットを追加または削除
 join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。
 website-announcement: 'ウェブサイトのお知らせ: <message>'
 user-sync-kick: ウェブサイトのアカウントBANによって、私たちのサーバーからBANされています。
