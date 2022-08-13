@@ -164,6 +164,7 @@ public class LanguageHandler implements Reloadable {
 			"sq_AL",
 			"sv_SE",
 			"tr_TR",
+			"uk_UA",
 			"vi_VN",
 			"zh_CN"
 	);
