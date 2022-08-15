@@ -48,7 +48,7 @@ command:
         link: Xin hãy hoàn tất việc đăng ký bằng việc <hover:show_text:"Nhấn để mở
           trình duyệt web"><click:open_url:"<url>"><url></click></hover>.
     description: Tạo một tài khoản trên trang web
-    usage: /<command> \<email> [username]
+    usage: /<command> \<email> [Tên người chơi]
   report:
     output:
       success: Cảm ơn bạn đã báo cáo người chơi này.
