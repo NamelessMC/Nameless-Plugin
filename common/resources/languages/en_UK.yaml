@@ -114,7 +114,7 @@ command:
         linked-date: "Linked date: <linked_date>"
         verified: "Verified: <is_verified>"
 
-join-not-registered: "You do not have an account on our website yet. Please register using /register."
+join-not-registered: "You do not have an account on our website yet. Please register using /<register_command>."
 join-notifications: "You have website notifications, please run /<notifications_command> for more info."
 website-announcement: "Website announcement: <message>"
 user-sync-kick: "You are banned from our server following a website account ban."

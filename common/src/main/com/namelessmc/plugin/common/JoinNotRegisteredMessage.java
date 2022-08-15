@@ -20,6 +20,7 @@ public class JoinNotRegisteredMessage implements Reloadable {
 	private final @NonNull NamelessPlugin plugin;
 
 	private @Nullable EventSubscription subscription;
+	private @Nullable String registerCommand;
 
 	JoinNotRegisteredMessage(final @NonNull NamelessPlugin plugin) {
 		this.plugin = plugin;
@@ -35,15 +36,31 @@ public class JoinNotRegisteredMessage implements Reloadable {
 
 	@Override
 	public void load() {
+
 		final ConfigurationNode conf = this.plugin.config().main();
 
-		if (conf.node("not-registered-join-message").getBoolean()) {
-			this.subscription = this.plugin.events().subscribe(NamelessJoinEvent.class, event ->
-					onJoin(event.player().uuid()));
+		if (!conf.node("not-registered-join-message").getBoolean()) {
+			return;
 		}
+
+		ConfigurationNode commands = this.plugin.config().commands();
+		if (!commands.hasChild("register")) {
+			this.plugin.logger().warning("not-registered-join-message is enabled, but the register command is disabled");
+			return;
+		}
+
+		this.registerCommand = commands.node("register").getString();
+
+		this.subscription = this.plugin.events().subscribe(NamelessJoinEvent.class, event ->
+				onJoin(event.player().uuid()));
 	}
 
 	private void onJoin(final @NonNull UUID uuid) {
+		String registerCommand = this.registerCommand;
+		if (registerCommand == null) {
+			throw new IllegalStateException("Register command cannot be null");
+		}
+
 		this.plugin.scheduler().runAsync(() -> {
 			final NamelessAPI api = this.plugin.apiProvider().api();
 			if (api == null) {
@@ -62,7 +79,8 @@ public class JoinNotRegisteredMessage implements Reloadable {
 				this.plugin.scheduler().runSync(() -> {
 					Audience audience = this.plugin.audiences().player(uuid);
 					if (audience != null) {
-						final Component message = this.plugin.language().get(JOIN_NOT_REGISTERED);
+						final Component message = this.plugin.language().get(JOIN_NOT_REGISTERED,
+								"register_command", registerCommand);
 						audience.sendMessage(message);
 					}
 				});
