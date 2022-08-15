@@ -1,8 +1,8 @@
 player:
   other: {}
   self:
-    command-banned: Non puoi eseguire questo comando, sei bannato dal sito web.
-    not-registered: Devi registrarti per farlo.
+    command-banned: <red>Non puoi eseguire questo comando, sei bannato dalla piattaforma.
+    not-registered: <red>Devi registrare un account per effettuare questa azione.
 command:
   notifications:
     usage: '{command}'
@@ -13,38 +13,55 @@ command:
   register:
     output:
       fail:
-        email-used: Questo indirizzo mail è stato già usato per un altro account.
-        cannot-send-email: Impossibile inviare l'email di registrazione, per favore,
-          contatta un amministratore per attivare il tuo account.
-        email-invalid: L'indirizzo mail fornito non è valido.
-        username-invalid: L'username fornito non è valido.
+        email-used: <red>Questo indirizzo mail è stato già usato da un altro account.
+        cannot-send-email: <red>Impossibile inviare l'email di registrazione, per
+          favore, contatta un amministratore per attivare il tuo account.
+        email-invalid: <red>L'indirizzo mail fornito non è valido.
+        username-invalid: <red>L'username fornito non è valido.
+        minecraft-used: <red>Il tuo account di Minecraft è già collegato a un altro
+          utente.
+        console-must-specify-username: <red>Quando esegui il comando di registrazione
+          dalla console, devi specificare un username.
+        custom-username-disabled: <red>Registrare un username che non sia in tuo possesso
+          non è consentito.
+        username-used: <red>L’username fornito è già in uso da un altro account.
       success:
         email: Per favore, controlla la tua posta in entrata per completare la registrazione.
         link: Per favore, visita <link> per completare la registrazione.
-    usage: /{command} <email>
+    usage: /<comando> \<email> [username]
     description: Crea un account sul sito
   report:
     description: Segnala un giocatore
     output:
       success: Grazie per aver segnalato questo giocatore.
       fail:
-        already-open: Non puoi segnalare questo giocatore, hai già una segnalazione
+        already-open: <red>Non puoi segnalare questo giocatore, hai già una segnalazione
           aperta.
-        report-self: Non puoi reportarti.
+        report-self: <red>Non puoi reportarti.
+      notify-broadcast: <yellow><reporter_username></yellow> ha aperto una segnalazione
+        per <yellow><reported_username></yellow>.
     usage: /{command} <nome/uuid> <motivazione>
-  not-a-player: Devi essere un giocatore per poter eseguire questo comando.
-  no-permission: Non hai il permesso per eseguire questo comando.
+  not-a-player: <red>Devi essere un giocatore per poter eseguire questo comando.
+  no-permission: <red>Non hai il permesso per eseguire questo comando.
   user-info:
     output:
       registered-date: 'Registrato il: <date>'
       uuid: 'UUID: <uuid>'
-      uuid-unknown: sconosciuto
+      uuid-unknown: 'UUID: sconosciuto'
       all-groups: 'Tutti i gruppi: <groups_names_list>'
       validated: 'Account verificato: <validated>'
       banned: 'Bannato: <banned>'
       primary-group: 'Gruppo primario: <groupname>'
       displayname: 'Nome visualizzato: <displayname>'
       username: 'Nome utente: <username>'
+      integrations:
+        identifier: 'Account: <identifier>'
+        username: 'Nome utente: <username>'
+        verified: 'Verificato: <is_verified>'
+        header: 'Integrazioni:'
+        linked-date: 'Data Collegamento: <linked_date>'
+      custom-field: "Campo personalizzato '<name>': <value>"
+      store-module-credits: 'Crediti Store: <credits>'
     description: Ottieni informazioni sul sito web dell'utente
     usage: /{command} [username]
   subcommands: {}
@@ -54,8 +71,53 @@ command:
       success: Il tuo account è stato verificato.
       fail:
         already-validated: Il tuo account è già verificato.
-        invalid-code: Il tuo codice di convalida non è corretto. Controlla di averlo
-          copiato correttamente e riprova.
+        invalid-code: Il tuo codice di verifica non é corretto. Per favore controlla
+          di averlo copiato in modo corretto e riprova.
     description: Convalida l'account del sito Web dell'utente utilizzando il codice
       fornito.
+  plugin:
+    description: Comandi amministrativi per il plugin NamelessMC
+    usage: /<comando> reload'/'rl'/'last_error'
+    output:
+      reload-successful: Plugin ricaricato correttamente.
+  store-change-credits:
+    usage: /<comando> \<nome player> \<(-)crediti>
+    description: Aggiungi o rimuovi crediti store ad un utente
+    output:
+      added: Sono stati aggiunti <green><credits></green> crediti a <username>.
+      removed: Sono stati rimossi <red><credits></red> crediti da <username>.
+      nothing: Nessuna azione richiesta.
+  store-view-credits:
+    usage: /<comando> [nome player]
+    output:
+      credits: Possiedi <credits> crediti.
+      no-permission-other: Non possiedi il permesso per vedere i crediti degli altri
+        players.
+      console-must-provide-target: Devi indicare un player di target quando esegui
+        comandi dalla console.
+    description: Visualizza crediti store
+  suggest:
+    usage: /<comando> \<titolo proposta>
+    description: Crea una proposta
+    output:
+      success: Proposta creata correttamente. Clicca <yellow><click:open_url:"<url>">qui</click></yellow>
+        per aprirla nel browser.
 join-not-registered: Non hai un account sul sito, usa /register.
+error:
+  website-username-not-exist: <red>Non esiste alcun utente con questo username.
+  website-connection: <red>È subentrato un errore nel tentativo di connessione al
+    sito.
+  username-not-online: <red>L’username fornito non è valido o il player non è online.
+  minecraft-uuid-not-exist: <red>Non esiste alcun utente con questo UUID di Minecraft.
+  target-no-website-account: <red>Il player non possiede un account.
+  discord-username-not-exist: <red>Non esiste alcun utente con questo username di
+    Discord.
+boolean:
+  no-positive: <green>No</green>
+  no-negative: <red>No</red>
+  yes-positive: <green>Si</green>
+  yes-negative: <red>Si</red>
+website-announcement: 'Annuncio: <message>'
+join-notifications: Hai notifiche disponibili, esegui /<notifications_command> per
+  maggiori informazioni.
+user-sync-kick: Sei stato bannato dal nostro server in seguito a un ban dal sito.
