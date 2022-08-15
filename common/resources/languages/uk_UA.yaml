@@ -1,7 +1,7 @@
 error:
   minecraft-uuid-not-exist: <red>Немає користувачів веб-сайту з цим UUID Minecraft.
   target-no-website-account: <red>Наданий гравець не має облікового запису на веб-сайті.
-  username-not-online: <red>Надане ім'я користувача недійсне або гравець не в мережі.
+  username-not-online: <red>Надане ім`я користувача недійсне або гравець не в мережі.
   website-username-not-exist: <red>Немає користувачів веб-сайту з цим іменем користувача.
   discord-username-not-exist: <red>Не існує користувачів веб-сайту з цим іменем користувача
     Discord.
@@ -38,16 +38,16 @@ command:
         username-used: <red>Данный никнейм уже використовується іншим обліковим записом.
         email-used: <red>Ця адреса електронної пошти вже використовується для іншої
           облікової записи користувача.
-        minecraft-used: <red>Ваш обліковий запис Minecraft вже прив'язаний до іншого
+        minecraft-used: <red>Ваш обліковий запис Minecraft вже прив`язаний до іншого
           користувача сайту.
-        username-invalid: <red>Вказане ім'я користувача недійсне.
+        username-invalid: <red>Вказане ім`я користувача недійсне.
         console-must-specify-username: <red>Коли пишеш команду реєстрації з консолі,
           ви повинні вказати нікнейм.
         custom-username-disabled: <red>Реєструватися з нікнеймом крім Minecraft нікнейму
           заборонено.
         email-invalid: <red>Вказана адреса електронної пошти недійсна.
         cannot-send-email: <red>Надіслати листа на ваш Email не вдалося. Будь ласка,
-          зв'яжіться з адміністрацією для активації вашого облікового запису.
+          зв`яжіться з адміністрацією для активації вашого облікового запису.
       success:
         email: Будь ласка, перевірте свій поштовий ящик, щоб завершити реєстрацію.
         link: <hover:show_text:"Натисніть сюди, щоб відкрити в браузері"><click:open_url:"<url>">Завершіть
@@ -63,18 +63,18 @@ command:
         <yellow><reported_username></yellow>.
       success: Дякую, що поскаржилися на цього гравця.
   store-change-credits:
-    usage: /<command> \<ім'я гравця> \<(-)кредит(а/ів)>
+    usage: /<command> \<ім`я гравця> \<(-)кредит(а/ів)>
     output:
       added: Добавлено <green><credits></green> кредитів для <username>.
       removed: Остщено <red><credits></red> кредитів від <username>.
       nothing: Дії не потрібні.
     description: Додати або видалити позики для користувача
   store-view-credits:
-    usage: /<command> [ім'я гравця]
+    usage: /<command> [ім`я гравця]
     output:
       credits: У вас <credits> кредит(а/ів).
       no-permission-other: Ви не маєте права бачити позики гравців, крім вас самих.
-      console-must-provide-target: Ім'я гравця повинно бути вказане при використанні
+      console-must-provide-target: Ім`я гравця повинно бути вказане при використанні
         цієї команди з консолі.
     description: Показати кредити магазину
   validate:
@@ -97,8 +97,8 @@ command:
     usage: /<command> [нік]
     description: Отримати інформацію про користувача веб-сайту
     output:
-      username: "Ім'я користувача: <username>"
-      displayname: "Ім'я, що відображається: <displayname>"
+      username: "Ім`я користувача: <username>"
+      displayname: "Ім`я, що відображається: <displayname>"
       uuid: 'UUID: <uuid>'
       uuid-unknown: 'UUID: невідомий'
       primary-group: 'Основна група: <groupname>'
@@ -112,7 +112,7 @@ command:
         header: 'Інтеграції:'
         identifier: 'Ідентифікатор: <identifier>'
         username: 'Нікнейм: <username>'
-        linked-date: "Дата прив'язки: <linked_date>"
+        linked-date: "Дата прив`язки: <linked_date>"
         verified: 'Підтверджено: <is_verified>'
   no-permission: <red>У вас немає дозволу на виконання цієї команди.
 join-not-registered: У вас ще немає облікового запису на нашому сайті. Будь ласка,
