@@ -62,6 +62,7 @@ command:
         already-open: <red>Du kan ikke rapportere denne spiller, du har allerede en
           åben rapport med dem.
         report-self: <red>Du kan ikke rapportere dig selv.
+      notify-broadcast: <yellow><reporter_username></yellow> har rapporteret <yellow><reported_username></yellow>.
   store-credits: {}
   validate:
     usage: /<command> \<verifikationskode>
@@ -92,7 +93,30 @@ command:
         verified: 'Verificeret: <is_verified>'
       banned: 'Udelukket: <banned>'
       custom-field: "Brugerdefineret felt '<name>': <value>"
+      store-module-credits: 'Store modulkreditter: <credits>'
   no-permission: <red>Du har ikke adgang til at bruge denne kommando.
+  store-view-credits:
+    output:
+      credits: Du har <credits> kreditter.
+      console-must-provide-target: Du skal vælge en spiller når du bruger denne kommando
+        fra konsolen.
+      no-permission-other: Du har ikke tilladelse til at se kreditter for andre spillere
+        end dig selv.
+    usage: /<command> [spiller navn]
+    description: Se butikskreditter
+  store-change-credits:
+    usage: /<command> \<player name> \<(-)credits>
+    description: Tilføj eller fjern store kreditter for brugeren
+    output:
+      added: Tilføjet <green><credits></green> kreditter til <username>.
+      removed: Fjernet <red><credits></red> kreditter fra <username>.
+      nothing: Ingen handling nødvendig.
+  suggest:
+    usage: /<command> \<suggestion title>
+    description: Opret et forslag
+    output:
+      success: Forslaget blev oprettet. Klik <yellow><click:open_url:"<url>">her</click></yellow>
+        for at åbne den i en webbrowser.
 join-not-registered: Du har endnu ikke en konto på vores hjemmeside. Tilmeld dig venligst
   ved hjælp af /<register_command>.
 join-notifications: Du har en notifikation på hjemmesiden, brug /<notifications_command>
