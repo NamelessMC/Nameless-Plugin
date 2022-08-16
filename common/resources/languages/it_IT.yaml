@@ -102,7 +102,7 @@ command:
     output:
       success: Proposta creata correttamente. Clicca <yellow><click:open_url:"<url>">qui</click></yellow>
         per aprirla nel browser.
-join-not-registered: Non hai un account sul sito, usa /register.
+join-not-registered: Non hai un account sul sito. Registrati usando il comando /<register_command>.
 error:
   website-username-not-exist: <red>Non esiste alcun utente con questo username.
   website-connection: <red>È subentrato un errore nel tentativo di connessione al
