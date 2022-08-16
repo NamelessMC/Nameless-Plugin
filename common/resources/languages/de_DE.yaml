@@ -108,7 +108,7 @@ command:
       success: Vorschlag erfolgreich erstellt. Klicke auf <gelb><click:open_url:"<url>">hier</click></gelb>,
         um es in einem Webbrowser zu öffnen.
 join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
-  Dich mit /register.
+  Dich mit /<register_command>.
 website-announcement: 'Webseiten-Ankündigung: <message>'
 user-sync-kick: Sie werden von unserem Server gesperrt, nachdem Sie ein Website-Konto
   gesperrt haben.
