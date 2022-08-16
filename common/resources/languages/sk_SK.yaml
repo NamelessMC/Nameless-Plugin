@@ -101,7 +101,7 @@ command:
         a otvorte ho vo webovom prehliadači.
     usage: /<príkaz> \<názov návrhu>
 join-not-registered: Na našej webovej stránke ešte nemáte účet. Prosím zaregistrujte
-  sa pomocou /register.
+  sa pomocou /<command>.
 user-sync-kick: Po zákaze účtu na webovej stránke máte zakázaný prístup na náš server.
 error:
   website-username-not-exist: <red>Neexistuje žiadny používateľ webstránky s týmto
