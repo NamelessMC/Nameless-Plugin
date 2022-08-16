@@ -107,7 +107,7 @@ command:
       success: Sugerencia creada con éxito. Haga clic <yellow><click:open_url:"<url>">aquí</click></yellow>
         para abrirla en un navegador web.
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
-  usando /register.
+  usando /<register_command>.
 website-announcement: 'Anuncio de la página web: <message>'
 user-sync-kick: Usted ha sido expulsado de nuestro servidor a raíz de un baneo de
   la cuenta del sitio web.
