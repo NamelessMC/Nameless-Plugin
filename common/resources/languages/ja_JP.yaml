@@ -88,9 +88,10 @@ command:
     output:
       added: <username>に<green><credits></green>クレジットを追加しました。
       removed: <username>から<red><credits></red>クレジットを削除しました。
+      nothing: 何も変更されませんでした。
     usage: /<command> \<プレイヤー名> \<(-)クレジット>
     description: ユーザーのストアクレジットを追加または削除
-join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/register を使用し、登録してください。
+join-not-registered: あなたはまだ私達のウェブサイトでアカウントを持っていません。/<register_command>を使用し、登録してください。
 website-announcement: 'ウェブサイトのお知らせ: <message>'
 user-sync-kick: ウェブサイトのアカウントBANによって、私たちのサーバーからBANされています。
 error:
