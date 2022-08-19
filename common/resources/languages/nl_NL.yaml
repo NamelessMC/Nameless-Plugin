@@ -105,7 +105,7 @@ command:
     output:
       success: Suggestie succesvol gemaakt. Klik <yellow><click:open_url:"<url>">hier</click></yellow>
         om hem te openen in een web browser.
-join-not-registered: Je hebt nog geen account op onze website. Registreer je met /register.
+join-not-registered: Je hebt nog geen account op onze website. Registreer je met /<register_command>.
 website-announcement: 'Website aankondiging: <message>'
 user-sync-kick: Je bent verbannen van onze server als gevolg van een website ban.
 error:
