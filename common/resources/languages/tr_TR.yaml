@@ -62,3 +62,6 @@ join-not-registered: Henüz web sitemizde bir hesabınız yok. Lütfen / registe
   kaydolun.
 website-announcement: 'Site duyurusu: <message>'
 user-sync-kick: Bu sunucuda uzaklaştırılmışsınız.
+error:
+  website-username-not-exist: <red>Bu kullanıcı adına sahip website kullanıcısı yok.
+  discord-username-not-exist: <red>Bu kullanıcı adına sahip Discord kullanıcısı yok.
