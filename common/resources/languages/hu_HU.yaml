@@ -104,8 +104,8 @@ player:
   self:
     not-registered: <red>A művelet végrehajtásához regisztrálnia kell egy fiókot.
     command-banned: <red>Nem futtathatja ezt a parancsot, mert ki van tiltva a webhelyről.
-join-not-registered: Még nincs fiókja a weboldalunkon. Kérjük, regisztráljon a / register
-  segítségével.
+join-not-registered: Még nincs fiókja a weboldalunkon. Kérjük, regisztráljon a /<register_command>
+  parancs segítségével.
 website-announcement: 'Weboldal közlemények: <message>'
 user-sync-kick: Önt letiltották a szerverünkről egy weboldal-fiók letiltását követően.
 error:
