@@ -63,6 +63,7 @@ register-custom-username: true
 # ------------------ Options below only supported on Bukkit platforms ------------------ #
 
 # When a player is banned, also ban their website account if they have one.
+# This is event based, so it will not affect players that are already banned.
 sync-ban-to-website: false
 
 user-sync:
