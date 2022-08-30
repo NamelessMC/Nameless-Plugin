@@ -61,7 +61,7 @@ public class UserCache implements Reloadable {
 				this.usernames = usernames;
 				this.minecraftUsernames = minecraftUsernames;
 			} catch (NamelessException e) {
-				throw new RuntimeException(e);
+				this.plugin.logger().logException(e);
 			}
 		});
 	}
