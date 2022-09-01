@@ -158,6 +158,12 @@ public class NamelessPlugin {
 		return reloadable;
 	}
 
+	public void unregisterReloadable(Class<?> clazz) {
+		for (Reloadable.Order order : Reloadable.Order.values()) {
+			reloadables.get(order.ordinal()).removeIf(reloadable -> reloadable.getClass().equals(clazz));
+		}
+	}
+
 	public <T extends AbstractPermissions> T registerPermissionAdapter(T adapter) {
 		this.logger.fine(() -> "Registered permission adapter: " + adapter.getClass().getSimpleName());
 		this.permissionAdapters.add(adapter);

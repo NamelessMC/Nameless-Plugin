@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.paper;
 
+import com.namelessmc.plugin.bukkit.BukkitDataSender;
 import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import com.namelessmc.plugin.common.LanguageHandler;
 import org.bukkit.entity.Player;
@@ -9,6 +10,9 @@ public class PaperNamelessPlugin extends BukkitNamelessPlugin {
 
 	public PaperNamelessPlugin() {
 		super("paper");
+
+		this.plugin.unregisterReloadable(BukkitDataSender.class);
+		this.plugin.registerReloadable(new PaperDataSender(this.plugin, this));
 	}
 
 	@Override
