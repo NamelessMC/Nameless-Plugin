@@ -43,6 +43,7 @@ public class PapiHook implements Reloadable, Listener {
 	private BiFunction<Player, String, String> placeholderParser = new NoopParser();
 
 	private @Nullable Map<UUID, Integer> cachedNotificationCount;
+	private @Nullable Map<UUID, Integer> cachedStoreCredits;
 	private @Nullable StorePayment cachedLastStorePayment;
 
 	public PapiHook(final @NonNull BukkitNamelessPlugin bukkitPlugin,
@@ -60,6 +61,7 @@ public class PapiHook implements Reloadable, Listener {
 
 		this.isRunning = null;
 		this.cachedNotificationCount = null;
+		this.cachedStoreCredits = null;
 		this.cachedLastStorePayment = null;
 		HandlerList.unregisterAll(this);
 
@@ -95,6 +97,7 @@ public class PapiHook implements Reloadable, Listener {
 			this.plugin.scheduler().runAsync(this::updateCache);
 			this.isRunning = new AtomicBoolean();
 			this.cachedNotificationCount = new ConcurrentHashMap<>();
+			this.cachedStoreCredits = new ConcurrentHashMap<>();
 		}
 	}
 
@@ -110,7 +113,26 @@ public class PapiHook implements Reloadable, Listener {
 		this.plugin.scheduler().runAsync(() -> {
 			if (isRunning.compareAndSet(false, true)) {
 				try {
-					this.updatePlayerCache(uuids);
+					final NamelessAPI api = this.plugin.apiProvider().api();
+					if (api == null) {
+						this.plugin.logger().fine("Skipped placeholder caching, API connection is broken");
+						return;
+					}
+
+					if (api.website().modules().contains(NamelessModule.STORE)) {
+						List<StorePayment> payments = api.store().payments(PaymentsFilter.limit(1));
+						if (payments.isEmpty()) {
+							this.cachedLastStorePayment = null;
+						} else if (payments.size() == 1) {
+							this.cachedLastStorePayment = payments.get(0);
+						} else {
+							throw new IllegalStateException(String.valueOf(payments.size()));
+						}
+					}
+
+					for (final UUID uuid : uuids) {
+						updatePlayerCache(api, uuid);
+					}
 				} catch (final NamelessException e) {
 					this.plugin.logger().logException(e);
 				}
@@ -119,31 +141,9 @@ public class PapiHook implements Reloadable, Listener {
 		});
 	}
 
-	private void updatePlayerCache(final Collection<UUID> uuids) throws NamelessException {
-		final NamelessAPI api = this.plugin.apiProvider().api();
-		if (api == null) {
-			this.plugin.logger().fine("Skipped placeholder caching, API connection is broken");
-			return;
-		}
-
-		if (api.website().modules().contains(NamelessModule.STORE)) {
-			List<StorePayment> payments = api.store().payments(PaymentsFilter.limit(1));
-			if (payments.isEmpty()) {
-				this.cachedLastStorePayment = null;
-			} else if (payments.size() == 1) {
-				this.cachedLastStorePayment = payments.get(0);
-			} else {
-				throw new IllegalStateException(String.valueOf(payments.size()));
-			}
-		}
-
-		for (final UUID uuid : uuids) {
-			updatePlayerCache(api, uuid);
-		}
-	}
-
 	private void updatePlayerCache(final NamelessAPI api, final UUID uuid) throws NamelessException {
-		if (this.cachedNotificationCount == null) {
+		if (this.cachedNotificationCount == null ||
+				this.cachedStoreCredits == null) {
 			throw new IllegalStateException("Placeholder caching is disabled");
 		}
 
@@ -151,8 +151,10 @@ public class PapiHook implements Reloadable, Listener {
 		final NamelessUser user = api.userByMinecraftUuid(uuid);
 		if (user != null) {
 			this.cachedNotificationCount.put(uuid, user.notificationCount());
+			if (api.website().modules().contains(NamelessModule.STORE)) {
+				this.cachedStoreCredits.put(uuid, user.store().creditsCents());
+			}
 		}
-
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -194,26 +196,37 @@ public class PapiHook implements Reloadable, Listener {
 
 		@Override
 		public @Nullable String onPlaceholderRequest(final Player player, final String identifier) {
-			if (identifier.equals("notifications") && player != null) {
-				if (cachedNotificationCount == null) {
-					return "?";
-				} else if (!cachedNotificationCount.containsKey(player.getUniqueId())) {
-					return "?";
-				} else {
-					return String.valueOf(cachedNotificationCount.get(player.getUniqueId()));
-				}
-			} else if (identifier.equals("store_last_payment_received_username")) {
-				return cachedLastStorePayment == null ? "" : cachedLastStorePayment.receivingCustomer().username();
-			} else if (identifier.equals("store_last_payment_paid_username")) {
-				return cachedLastStorePayment == null ? "" : cachedLastStorePayment.payingCustomer().username();
-			} else if (identifier.equals("store_last_payment_amount")) {
-				return cachedLastStorePayment == null ? "" : cachedLastStorePayment.amount();
-			} else if (identifier.equals("store_last_payment_currency")) {
-				return cachedLastStorePayment == null ? "" : cachedLastStorePayment.currency();
-			} else if (identifier.equals("store_last_payment_date")) {
-				return cachedLastStorePayment == null ? "" : plugin.dateFormatter().format(cachedLastStorePayment.creationDate());
+			switch(identifier) {
+				case "notifications":
+					if (player == null ||
+							cachedNotificationCount == null ||
+							!cachedNotificationCount.containsKey(player.getUniqueId())
+						) {
+						return "?";
+					} else {
+						return String.valueOf(cachedNotificationCount.get(player.getUniqueId()));
+					}
+				case "store_last_payment_received_username":
+					return cachedLastStorePayment == null ? "" : cachedLastStorePayment.receivingCustomer().username();
+				case "store_last_payment_paid_username":
+					return cachedLastStorePayment == null ? "" : cachedLastStorePayment.payingCustomer().username();
+				case "store_last_payment_amount":
+					return cachedLastStorePayment == null ? "" : cachedLastStorePayment.amount();
+				case "store_last_payment_currency":
+					return cachedLastStorePayment == null ? "" : cachedLastStorePayment.currency();
+				case "store_last_payment_date":
+					return cachedLastStorePayment == null ? "" : plugin.dateFormatter().format(cachedLastStorePayment.creationDate());
+				case "store_credits":
+					if (player == null ||
+							cachedStoreCredits == null ||
+							!cachedStoreCredits.containsKey(player.getUniqueId())) {
+						return "";
+					} else {
+						return String.format("%.2f", cachedStoreCredits.get(player.getUniqueId()) / 100f);
+					}
+				default:
+					return null;
 			}
-			return null;
 		}
 
 		@Override
