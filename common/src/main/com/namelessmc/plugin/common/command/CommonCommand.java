@@ -79,7 +79,8 @@ public abstract class CommonCommand {
 
 	public void verifyPermissionThenExecute(NamelessCommandSender sender, String[] args) {
 		if (!sender.hasPermission(this.permission)) {
-			this.language().get(COMMAND_NO_PERMISSION);
+			sender.sendMessage(this.language().get(COMMAND_NO_PERMISSION));
+			return;
 		}
 
 		this.execute(sender, args);
