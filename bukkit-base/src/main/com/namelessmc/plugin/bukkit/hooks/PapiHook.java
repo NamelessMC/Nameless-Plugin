@@ -220,7 +220,7 @@ public class PapiHook implements Reloadable, Listener {
 					if (player == null ||
 							cachedStoreCredits == null ||
 							!cachedStoreCredits.containsKey(player.getUniqueId())) {
-						return "";
+						return "?";
 					} else {
 						return String.format("%.2f", cachedStoreCredits.get(player.getUniqueId()) / 100f);
 					}
