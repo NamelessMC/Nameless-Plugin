@@ -2,7 +2,7 @@ player:
   other: {}
   self:
     not-registered: 您必须先注册一个帐号才能执行此操作。
-    command-banned: 由于您已经被网站封禁，您无法使用此指令。
+    command-banned: 您已经被网站封禁，无法使用此指令。
 command:
   notifications:
     output:
@@ -38,8 +38,8 @@ command:
         verified: '已验证: <is_verified>'
     usage: '/<command> [用户名]'
     description: 获得一个网站用户的信息
-  not-a-player: 您必须是一个玩家才能执行此指令。
-  no-permission: 您没有执行此指令的权限。
+  not-a-player: 您必须是玩家才能执行此命令。
+  no-permission: 您不能执行该指令，因为您没有该指令的权限
   register:
     usage: '/<command> \<用户名> \<邮箱>'
     output:
@@ -67,14 +67,17 @@ command:
     description: NamelessMC 插件的管理命令
     output:
       reload-successful: 插件重载成功.
-    usage: /<command> 'reload'/'rl'
+    usage: /<command> '重新加载的指令是'/'rl'/'最后一个错误'
 join-not-registered: 您在我们的网站上没有帐号。请使用 /register 来注册。
 website-announcement: '网站公告: <message>'
 user-sync-kick: 您因为网站账号被封禁而被在服务器上一并封禁。
 error:
   website-username-not-exist: 网站中没有此用户名
-  website-connection: 在试图连接到网站时发生了错误.
+  website-connection: 试图连接到网站时发生了未知错误.
   username-not-online: 提供的玩家用户名无效或不在线.
+  discord-username-not-exist: 没有可以使用的 Discord账户
+  minecraft-uuid-not-exist: 没有用户存在这个Minecraft UUID。
+  target-no-website-account: 提供的玩家没有网站帐户
 boolean:
   yes-positive: <green>是</green>
   yes-negative: <red>是</red>
