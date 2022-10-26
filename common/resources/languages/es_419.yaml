@@ -4,15 +4,20 @@ command:
       fail:
         cannot-send-email: No se puede enviar el correo electrónico de registro, por
           favor contacte con un administrador para activar su cuenta.
-        email-used: Esta dirección de correo electrónico ya esta siendo utilizada
-          para otra cuenta.
-        email-invalid: La dirección de correo electrónico proporcionada es inválida.
+        email-used: <red>Esta dirección de correo electrónico ya se usa para una cuenta
+          de usuario diferente.
+        email-invalid: <red>La dirección de correo electrónico proporcionada no es
+          válida.
         username-invalid: El nombre de usuario proporcionado es inválido.
+        username-used: <red>El nombre de usuario proporcionado ya está en uso por
+          una cuenta de usuario diferente.
+        minecraft-used: <red>Tu cuenta de Minecraft ya está vinculada a un usuario
+          de sitio web diferente.
       success:
         email: Por favor, compruebe su bandeja de entrada para completar el registro.
         link: <hover:show_text:"Haga clic para abrir en un navegador web"><click:open_url:"<url>">Por
           favor complete el registro yendo a <url>.
-    usage: '/{command} <correo electrónico>'
+    usage: '/<comando> \<correo electrónico> [nombre de usuario]'
     description: Crear una cuenta en el sitio web
   user-info:
     output:
@@ -28,8 +33,8 @@ command:
     usage: '/{command} [nombre de usuario]'
     description: Obtener información sobre un usuario del sitio web
   subcommands: {}
-  not-a-player: Debes ser un jugador para usar este comando.
-  no-permission: No tienes permiso para ejecutar este comando.
+  not-a-player: <red>Debes ser un jugador para realizar este comando.
+  no-permission: <red>No tiene permiso para ejecutar este comando.
   notifications:
     usage: '/{command}'
     description: Muestra una lista de notificaciones del sitio web.
@@ -54,10 +59,33 @@ command:
         invalid-code: Su código de validación es incorrecto. Por favor, compruebe
           si lo ha copiado correctamente e inténtelo de nuevo.
         already-validated: Su cuenta ya está validada.
+  plugin:
+    usage: /<command> 'reload'/'rl'/'last_error'
+    description: Comandos administrativos para el plugin NamelessMC
+    output:
+      reload-successful: Plugin recargado con éxito.
 player:
   other: {}
   self:
-    not-registered: Debe registrarse para realizar esta acción.
-    command-banned: No puedes ejecutar este comando, estás expulsado del sitio web.
+    not-registered: <red>Debe registrarse en una cuenta para realizar esta acción.
+    command-banned: <red>No puede ejecutar este comando, estás baneado en el sitio
+      web.
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /register.
+error:
+  discord-username-not-exist: <red>No existe ningún usuario del sitio web con este
+    nombre de usuario de Discord.
+  website-username-not-exist: <red>No existe ningún usuario en el sitio web con este
+    nombre de usuario.
+  website-connection: <red>Se produjo un error al intentar conectarse al sitio web.
+  username-not-online: <red>El nombre de usuario proporcionado no es válido o el jugador
+    no está en línea.
+  minecraft-uuid-not-exist: <red>No existe ningún usuario del sitio web con este UUID
+    de Minecraft.
+  target-no-website-account: <red>El jugador proporcionado no tiene una cuenta en
+    el sitio web.
+boolean:
+  no-positive: <green>No</green>
+  no-negative: <red>No</red>
+  yes-positive: <green>Sí</green>
+  yes-negative: <red>Sí</red>
