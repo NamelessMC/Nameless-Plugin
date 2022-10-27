@@ -1,30 +1,33 @@
 player:
   other: {}
   self:
-    not-registered: Musisz byc zarejestrowany aby wykonac ta akcje.
-    command-banned: Nie możesz użyć tej komendy, jesteś zbanowany/a ze strony.
+    not-registered: Musisz być zarejestrowany, aby wykonać tą akcję.
+    command-banned: Nie możesz użyć tej komendy, ponieważ zostałeś/aś wykluczony/a
+      ze strony.
 command:
-  not-a-player: Musisz byc Uzytkownikiem aby uzyc tej komendy.
-  no-permission: Nie masz wystarczajacych uprawnien aby uzyc tej komendy.
+  not-a-player: Musisz być graczem, aby wykonać tą komendę.
+  no-permission: Nie posiadasz odpowiednich uprawnień, aby wykonać to polecenie.
   notifications:
-    usage: '/{command}'
+    usage: '/<command>'
     output:
-      no-notifications: Nie posiadasz zadnych nie przeczytanych powiadomien.
-      notification: <hover:show_text:"Kliknij, aby uruchomić w przeglądarce"><click:open_url:"<url>"><message>
-    description: Wyswietla liste powiadomien ze strony.
+      no-notifications: Brak nie przeczytanych powiadomień.
+      notification: <hover:show_text:"Kliknij, aby uruchomić w przeglądarce"><click:open_url:"<url>"><message></click></hover>
+    description: Wyświetla listę powiadomień strony.
   register:
-    usage: '/{command} <email>'
+    usage: '/<komenda> \<email> [nick]'
     output:
       success:
         email: Prosze sprawdzic swoja skrzynke w celu dokonczenia rejestracji.
         link: Prosze wejsc na <link> w celu dokkonczenia rejestracji.
       fail:
-        email-used: Ten adres email zostal juz uzyty przez innego uzytkownika.
-        email-invalid: Wprowadzony adres email jest bledny.
-        username-invalid: Podany nick jest nieprawidłowy.
-        cannot-send-email: Nie udało się wysłać registration email, proszę skontaktuj
+        email-used: <red>Ten adres email został już użyty przez innego użytkownika.
+        email-invalid: <red>Podany email jest nieprawidłowy.
+        username-invalid: <red>Podana nazwa nie jest prawidłowa.
+        cannot-send-email: <red>Nie udało się wysłać rejerstracji email, proszę skontaktuj
           się z adminem aby aktywował twoje konto.
-    description: Tworzy konto
+        username-used: <red>Podany nick jest już używany przez inne konto.
+        minecraft-used: <red>Twoje konto Minecraft jest już podłączone pod inne konto.
+    description: Tworzy konto na stronie
   report:
     usage: '/{command} <nick/uuid> <powód>'
     output:
@@ -56,5 +59,23 @@ command:
       primary-group: 'Podstawowa grupa: <nazwagrupy>'
     description: Zdobadz informacje o uzytkowniku
   subcommands: {}
+  plugin:
+    usage: /<command> 'reload'/'rl'/'last_error'
+    description: Polecenia administracyjne dla wtyczki NamelessMC
+    output:
+      reload-successful: Wtyczka przeładowana pomyślnie.
 join-not-registered: Nie posiadasz jeszcze konta na stronie. Prosimy sie zarejestrowac
   przy uzyciu /register.
+error:
+  minecraft-uuid-not-exist: Żaden użytkownik nie posiada takiego UUID Minecrafta.
+  target-no-website-account: Podany gracz nie posiada konta na stronie.
+  website-username-not-exist: Żaden użytkownik strony nie istnieje z taką nazwą.
+  website-connection: Wystąpił błąd podczas łączenia się ze stroną.
+  discord-username-not-exist: Żaden użytkownik strony nie istnieje z taką nazwą na
+    Discordzie.
+  username-not-online: Nazwa użytkownika nie jest prawidłowa lub użytkownik jest offline.
+boolean:
+  no-positive: <green>Nie</green>
+  yes-positive: <green>Tak</green>
+  yes-negative: <red>Nie</red>
+  no-negative: <red>Nie</red>
