@@ -5,9 +5,9 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
-import net.luckperms.api.query.QueryOptions;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -51,8 +51,9 @@ public class LuckPermsPermissions extends AbstractPermissions {
 		if (user == null) {
 			return null;
 		}
-		return user.getInheritedGroups(QueryOptions.defaultContextualOptions()).stream()
-				.map(Group::getName)
-				.collect(Collectors.toUnmodifiableSet());
+		return Collections.singleton(user.getPrimaryGroup());
+//		return user.getInheritedGroups(QueryOptions.defaultContextualOptions()).stream()
+//				.map(Group::getName)
+//				.collect(Collectors.toUnmodifiableSet());
 	}
 }
