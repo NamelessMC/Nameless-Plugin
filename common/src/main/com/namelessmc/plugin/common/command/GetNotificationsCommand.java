@@ -12,6 +12,7 @@ import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
 
@@ -52,9 +53,10 @@ public class GetNotificationsCommand extends CommonCommand {
 					return;
 				}
 
-				final List<Notification> notifications = user.notifications();
-
-				notifications.sort((n1, n2) -> n2.type().ordinal() - n1.type().ordinal());
+				final List<Notification> notifications = user.notifications()
+						.stream()
+						.sorted((n1, n2) -> n2.type().ordinal() - n1.type().ordinal())
+						.collect(Collectors.toUnmodifiableList());
 
 				if (notifications.size() == 0) {
 					sender.sendMessage(language().get(COMMAND_NOTIFICATIONS_OUTPUT_NO_NOTIFICATIONS));
