@@ -93,6 +93,7 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_SUGGEST_USAGE("command", "suggest", "usage"),
 		COMMAND_SUGGEST_DESCRIPTION("command", "suggest", "description"),
 		COMMAND_SUGGEST_OUTPUT_SUCCESS("command", "suggest", "output", "success"),
+		COMMAND_SUGGEST_OUTPUT_TOO_SHORT("command", "suggest", "output", "too-short"),
 
 		COMMAND_USERINFO_USAGE("command", "user-info", "usage"),
 		COMMAND_USERINFO_DESCRIPTION("command", "user-info", "description"),

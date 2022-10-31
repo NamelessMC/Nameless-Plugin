@@ -91,6 +91,7 @@ command:
     description: "Create a suggestion"
     output:
       success: "Suggestion created successfully. Click <yellow><click:open_url:\"<url>\">here</click></yellow> to open it in a web browser."
+      too-short: "The provided suggestion is too short, please use more words to describe your suggestion."
 
   user-info:
     usage: "/<command> [username]"

@@ -25,6 +25,12 @@ public class SuggestCommand extends CommonCommand {
 
 	@Override
 	protected void execute(NamelessCommandSender sender, String[] args) {
+		final String suggestionTitle = String.join(" ", args);
+		if (suggestionTitle.length() < 6) {
+			sender.sendMessage(this.language().get(COMMAND_SUGGEST_OUTPUT_TOO_SHORT));
+			return;
+		}
+
 		NamelessAPI api = this.apiProvider().api();
 
 		if (api == null) {
@@ -40,8 +46,7 @@ public class SuggestCommand extends CommonCommand {
 		this.scheduler().runAsync(() -> {
 			try {
 				NamelessUser user = api.userByMinecraftUuid(((NamelessPlayer) sender).uuid());
-				String suggestionTitle = String.join(" ", args);
-				Suggestion suggestion = user.suggestions().createSuggestion(suggestionTitle, "");
+				Suggestion suggestion = user.suggestions().createSuggestion(suggestionTitle, suggestionTitle);
 				String url = suggestion.url().toString();
 				this.scheduler().runSync(() ->
 						sender.sendMessage(this.language().get(COMMAND_SUGGEST_OUTPUT_SUCCESS, "url", url)));
