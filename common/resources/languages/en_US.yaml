@@ -2,10 +2,10 @@ player:
   other: {}
   self:
     not-registered: <red>You must register for an account to perform this action.
-    command-banned: You cannot run this command, you are banned from the website.
+    command-banned: <red>You cannot run this command, you are banned from the website.
 command:
-  not-a-player: You must be a player to perform this command.
-  no-permission: You don't have permission to execute this command.
+  not-a-player: <red>You must be a player to perform this command.
+  no-permission: <red>You don't have permission to execute this command.
   notifications:
     usage: '/<command>'
     description: Displays a list of website notifications.
@@ -13,21 +13,26 @@ command:
       no-notifications: You do not have any unread notifications.
       notification: <hover:show_text:"Click to open in a web browser"><click:open_url:"<url>"><message></click></hover>
   register:
-    usage: '/<command> \<username> \<email>'
+    usage: '/<command> \<email> [username]'
     output:
       success:
         email: Please check your inbox to complete registration.
         link: Please complete registration by going to <hover:show_text:"Click to
           open in a web browser"><click:open_url:"<url>"><url></click></hover>.
       fail:
-        email-used: This email address is already used for a different user account.
-        username-invalid: The provided username is invalid.
-        email-invalid: The provided email address is invalid.
-        cannot-send-email: Unable to send registration email, please contact an admin
-          to activate your account.
-        username-used: Your username is already used.
-        minecraft-used: Your Minecraft account is already linked to a different website
-          user.
+        email-used: <red>This email address is already used for a different user account.
+        username-invalid: <red>The provided username is invalid.
+        email-invalid: <red>The provided email address is invalid.
+        cannot-send-email: <red>Unable to send registration email, please contact
+          an admin to activate your account.
+        username-used: <red>The provided username is already in use by a different
+          user account.
+        minecraft-used: <red>Your Minecraft account is already linked to a different
+          website user.
+        console-must-specify-username: <red>When running the register command from
+          the console, you must specify a username.
+        custom-username-disabled: <red>Registering with a username other than your
+          Minecraft username is not allowed.
     description: Create a website account
   report:
     usage: '/<command> \<name/uuid> \<reason>'
@@ -35,17 +40,19 @@ command:
     output:
       success: Thank you for reporting this player.
       fail:
-        already-open: You cannot report this player, you already have an open report
-          for them.
-        report-self: You cannot report yourself.
+        already-open: <red>You cannot report this player, you already have an open
+          report for them.
+        report-self: <red>You cannot report yourself.
+      notify-broadcast: <yellow><reporter_username></yellow> has opened a report for
+        <yellow><reported_username></yellow>.
   validate:
     usage: '/<command> \<code>'
     description: Validates the user's website account using the given code.
     output:
       success: Your account has been validated.
       fail:
-        invalid-code: Your validation code is incorrect. Please check if you copied
-          it correctly and try again.
+        invalid-code: <red>The provided validation code is incorrect. Please check
+          if you copied it correctly and try again.
         already-validated: Your account is already validated.
   user-info:
     usage: '/<command> [username]'
@@ -66,6 +73,7 @@ command:
         username: 'Username: <username>'
         linked-date: 'Linked date: <linked_date>'
         verified: 'Verified: <is_verified>'
+      store-module-credits: 'Store module credits: <credits>'
     description: Retrieve information about a website user
   subcommands: {}
   plugin:
@@ -73,12 +81,34 @@ command:
     description: Administrative commands for the NamelessMC plugin
     output:
       reload-successful: Plugin reloaded successfully.
+  store-view-credits:
+    output:
+      no-permission-other: You do not have permission to view credits for players
+        other than yourself.
+      console-must-provide-target: A target player must be provided when running this
+        command from the console.
+      credits: You have <credits> credits.
+    usage: /<command> [player name]
+    description: View store credits
+  store-change-credits:
+    output:
+      added: Added <green><credits></green> credits to <username>.
+      nothing: No action needed.
+      removed: Removed <red><credits></red> credits from <username>.
+    usage: /<command> \<player name> \<(-)credits>
+    description: Add or remove store credits for a user
+  suggest:
+    description: Create a suggestion
+    usage: /<command> \<suggestion title>
+    output:
+      success: Suggestion created successfully. Click <yellow><click:open_url:"<url>">here</click></yellow>
+        to open it in a web browser.
 join-not-registered: You do not have an account on our website yet. Please register
-  using /register.
+  using /<register_command>.
 website-announcement: 'Website announcement: <message>'
 user-sync-kick: You are banned from our server following a website account ban.
 error:
-  website-username-not-exist: No website user exists with this username.
+  website-username-not-exist: <red>No website user exists with this username.
   website-connection: <red>An error occurred while trying to connect to the website.
   username-not-online: <red>The provided username is invalid or the player is not
     online.
