@@ -23,8 +23,12 @@ public class DateFormatter implements Reloadable {
 
 	@Override
 	public void load() {
-		String format = config.main().node("datetime-format").getString();
-		this.formatter = new SimpleDateFormat();
+		final String format = config.main().node("datetime-format").getString();
+		if (format != null) {
+			this.formatter = new SimpleDateFormat(format);
+		} else {
+			this.formatter = new SimpleDateFormat();
+		}
 	}
 
 	public String format(final Date date) {
