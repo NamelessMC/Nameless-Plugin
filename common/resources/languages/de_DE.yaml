@@ -107,6 +107,8 @@ command:
     output:
       success: Vorschlag erfolgreich erstellt. Klicke auf <gelb><click:open_url:"<url>">hier</click></gelb>,
         um es in einem Webbrowser zu öffnen.
+      too-short: Der Vorschlag ist zu kurz, bitte verwende mehr Wörter, um deinen
+        Vorschlag zu beschreiben.
 join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
   Dich mit /<register_command>.
 website-announcement: 'Webseiten-Ankündigung: <message>'
