@@ -97,6 +97,8 @@ command:
     output:
       success: Návrh úspěšně vytvořen. Klikněte <yellow><click:open_url:"<url>">sem</click></yellow>
         pro otevření ve webovém prohlížeči.
+      too-short: Zadaný návrh je příliš krátký, použijte prosím více slov pro popsání
+        svého návrhu.
 join-not-registered: Ještě nemáte na našem webu účet. Zaregistrujte se pomocí příkazu
   /<register_command>.
 player:
