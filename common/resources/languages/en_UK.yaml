@@ -84,7 +84,8 @@ command:
       success: "Your account has been validated."
       fail:
         invalid-code: "<red>The provided validation code is incorrect. Please check if you copied it correctly and try again."
-        already-validated: "Your account is already validated."
+        already-validated: "<red>Your account is already validated."
+        minecraft-account-linked: "<red>This Minecraft account is already linked to a website account."
 
   suggest:
     usage: "/<command> \\<suggestion title>"
