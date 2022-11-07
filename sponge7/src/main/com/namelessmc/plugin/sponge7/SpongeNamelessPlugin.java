@@ -5,7 +5,6 @@ import com.namelessmc.plugin.common.MavenConstants;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.sponge7.audiences.SpongeAudienceProvider;
 import net.kyori.adventure.platform.spongeapi.SpongeAudiences;
-import org.bstats.sponge.Metrics;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
@@ -25,15 +24,12 @@ import java.nio.file.Path;
 public class SpongeNamelessPlugin {
 
 	private final @NonNull NamelessPlugin plugin;
-	private final Metrics.@NonNull Factory metricsFactory;
 
 	@Inject
 	public SpongeNamelessPlugin(final @NonNull SpongeAudiences audiences,
 								final @ConfigDir(sharedRoot = false) @NonNull Path dataDirectory,
 								final @NonNull Logger logger,
-								final Metrics.@NonNull Factory metricsFactory,
 								final @NonNull Game game) {
-		this.metricsFactory = metricsFactory;
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
 				new SpongeScheduler(this),
@@ -50,7 +46,6 @@ public class SpongeNamelessPlugin {
 	@Listener
 	public void onServerStart(final GameStartedServerEvent event) {
 		this.plugin.load();
-		this.metricsFactory.make(14865);
 		SpongeCommandProxy.registerCommands(this.plugin, this);
 	}
 
