@@ -20,7 +20,7 @@
     "dependencies": [
       {
         "id": "spongeapi",
-        "version": "9.0.0"
+        "version": "10.0.0"
       }
     ]
   },
@@ -28,7 +28,7 @@
     {
       "id": "namelessmc",
       "name": "NamelessMC",
-      "entrypoint": "com.namelessmc.plugin.sponge9.SpongeNamelessPlugin",
+      "entrypoint": "com.namelessmc.plugin.sponge10.SpongeNamelessPlugin",
       "description": "Integration with NamelessMC websites"
     }
   ]

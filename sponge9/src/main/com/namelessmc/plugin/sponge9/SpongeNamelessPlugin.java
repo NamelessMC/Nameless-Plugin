@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.sponge9.audiences.SpongeAudienceProvider;
 import org.apache.logging.log4j.Logger;
-import org.bstats.sponge.Metrics;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.Command;
@@ -23,14 +22,11 @@ public class SpongeNamelessPlugin {
 
 	private final NamelessPlugin plugin;
 	private final PluginContainer container;
-	private final Metrics.Factory metricsFactory;
 
 	@Inject
 	public SpongeNamelessPlugin(final @ConfigDir(sharedRoot = false) Path dataDirectory,
 								final Logger logger,
-								final Metrics.Factory metricsFactory,
 								final PluginContainer container) {
-		this.metricsFactory = metricsFactory;
 		this.container = container;
 		this.plugin = new NamelessPlugin(
 				dataDirectory,
@@ -53,7 +49,6 @@ public class SpongeNamelessPlugin {
 	@Listener
 	public void onStarted(final StartedEngineEvent<Server> event) {
 		this.plugin.load();
-		this.metricsFactory.make(14865);
 	}
 
 	@Listener
