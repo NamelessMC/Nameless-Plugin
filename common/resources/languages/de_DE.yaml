@@ -56,7 +56,9 @@ command:
       fail:
         invalid-code: <red>Der angegebene Validierungscode ist falsch. Bitte überprüfe,
           ob du ihn richtig kopiert hast und versuche es erneut.
-        already-validated: Dein Account ist schon aktiviert.
+        already-validated: <red>Dein Account ist schon aktiviert.
+        minecraft-account-linked: <red>Dieses Minecraft-Konto ist bereits mit einem
+          Website-Konto verknüpft.
   user-info:
     output:
       username: 'Benutzername: <username>'
