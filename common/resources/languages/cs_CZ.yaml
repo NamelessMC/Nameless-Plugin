@@ -42,7 +42,9 @@ command:
       fail:
         invalid-code: <red>Zadaný ověřovací kód je nesprávný. Zkontrolujte, zda jste
           jej zkopírovali správně a zkuste to znovu.
-        already-validated: Váš účet je již ověřen.
+        already-validated: <red>Váš účet je již ověřen.
+        minecraft-account-linked: <red>Tento Minecraft účet je již propojen s účtem
+          na webu.
       success: Váš účet byl ověřen.
     usage: '/<command> \<kód>'
     description: Ověří účet uživatele pomocí daného kódu.
