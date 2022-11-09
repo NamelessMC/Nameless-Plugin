@@ -68,7 +68,9 @@ command:
       fail:
         invalid-code: <red>Uvedený overovací kód je nesprávny. Skontrolujte, či ste
           ho skopírovali správne a skúste to znova.
-        already-validated: Váš účet je už overený.
+        already-validated: <red>Váš účet je už overený.
+        minecraft-account-linked: <red>Tento minecraft účet je už prepojený s účtom
+          na webstránke.
       success: Váš účet bol overený.
     description: Overuje účet používateľa na danom webe pomocou daného kódu.
   not-a-player: <red>Musíte byť hráč, ak chcete vykonať tento príkaz.
@@ -99,6 +101,8 @@ command:
     output:
       success: Návrh bol úspešne vytvorený. Kliknite <yellow><click:open url:"<url>">sem</click></yellow>
         a otvorte ho vo webovom prehliadači.
+      too-short: Poskytnutý návrh je príliš krátky, použite viac slov na popis svojho
+        návrhu.
     usage: /<príkaz> \<názov návrhu>
 join-not-registered: Na našej webovej stránke ešte nemáte účet. Prosím zaregistrujte
   sa pomocou /<command>.
