@@ -70,9 +70,11 @@ command:
     output:
       success: Il tuo account è stato verificato.
       fail:
-        already-validated: Il tuo account è già verificato.
+        already-validated: <red>Il tuo account è già verificato.
         invalid-code: Il tuo codice di verifica non é corretto. Per favore controlla
           di averlo copiato in modo corretto e riprova.
+        minecraft-account-linked: <red>Questo account di Minecraft è già collegato
+          a un account sul sito.
     description: Convalida l'account del sito Web dell'utente utilizzando il codice
       fornito.
   plugin:
@@ -102,6 +104,8 @@ command:
     output:
       success: Proposta creata correttamente. Clicca <yellow><click:open_url:"<url>">qui</click></yellow>
         per aprirla nel browser.
+      too-short: Questa proposta è troppo corta, usa più parole per descrivere ciò
+        che vuoi proporre.
 join-not-registered: Non hai un account sul sito. Registrati usando il comando /<register_command>.
 error:
   website-username-not-exist: <red>Non esiste alcun utente con questo username.
