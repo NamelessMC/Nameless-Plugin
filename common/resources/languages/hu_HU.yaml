@@ -41,7 +41,9 @@ command:
       fail:
         invalid-code: <red>A megadott érvényesítési kód hibás. Kérjük, ellenőrizze,
           hogy helyesen másolta-e be, és próbálja meg újra.
-        already-validated: Fiókja már érvényesítve van.
+        already-validated: <red>A Fiókod már hitelesítve lett.
+        minecraft-account-linked: <red>Ez a Minecraft-fiók már össze van kapcsolva
+          a weboldal fiókjával.
   not-a-player: <red>A parancs végrehajtásához játékosnak kell lenned.
   no-permission: <red>Nincs engedélye a parancs végrehajtására.
   notifications:
@@ -98,6 +100,8 @@ command:
     output:
       success: Javaslat sikeresen létrehozva. Kattintson <yellow><click:open_url:"<url>">itt</click></yellow>
         a webböngészőben való megnyitásához.
+      too-short: A megadott javaslat túl rövid, kérjük, használjon több szót a javaslat
+        leírására.
     usage: /<command> \<javaslat címe>
 player:
   other: {}
