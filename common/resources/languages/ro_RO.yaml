@@ -1,38 +1,133 @@
 player:
   other: {}
   self:
-    not-registered: Trebuie să îți înregistrezi un cont pentru a efectua această acțiune.
-    command-banned: Nu poți rula această comandă, ești interzis de pe site.
+    not-registered: <red>Trebuie să îți înregistrezi un cont pentru a efectua această
+      acțiune.
+    command-banned: <red>Nu poți rula această comandă, ești interzis de pe site.
 command:
   notifications:
     description: Afișează o listă de notificări ale site-ului.
     output:
       no-notifications: Nu ai nicio notificare necitită.
-    usage: '{command}'
-  not-a-player: Trebuie să fii un jucător pentru a efectua această comandă.
-  no-permission: Nu ai permisiunea de a executa această comandă.
+      notification: <hover:show_text:"Faceți clic pentru a deschide într-un browser
+        web"><click:open_url:"<url>"><message></click></hover>
+    usage: '/<command>'
+  not-a-player: <red>Trebuie să fii un jucător pentru a efectua această comandă.
+  no-permission: <red>Nu ai permisiunea de a executa această comandă.
   register:
     output:
       fail:
-        cannot-send-email: Imposibil de trimis email-ul de înregistrare, te rog contactează
-          un administrator pentru a-ți activa contul.
-        email-used: Acest email este deja folosit pentru un cont diferit.
-        email-invalid: Adresa de email dată este invalidă.
-        username-invalid: Numele de utilizator dat este invalid.
+        cannot-send-email: <red>Imposibil de trimis email-ul de înregistrare, te rog
+          contactează un administrator pentru a-ți activa contul.
+        email-used: <red>Această adresă de e-mail este deja utilizată pentru un alt
+          cont de utilizator.
+        email-invalid: <red>Adresa de email dată este invalidă.
+        username-invalid: <red>Numele de utilizator dat este invalid.
+        minecraft-used: <red>Contul tău Minecraft este deja conectat la un alt utilizator
+          de site.
+        username-used: <red>Numele de utilizator furnizat este deja utilizat de un
+          alt cont de utilizator.
+        console-must-specify-username: <red>Când rulați comanda register din consolă,
+          trebuie să specificați un nume de utilizator.
+        custom-username-disabled: <red>Înregistrarea cu un alt nume de utilizator
+          decât numele de utilizator Minecraft nu este permisă.
       success:
         email: Te rog verifică-ți email-ul pentru a completa înregistrarea.
         link: Te rog intră pe <link> pentru a completa înregistrarea.
     usage: '{command} <email>'
     description: Creează un cont pe site
   report:
-    usage: '{command} <name/uuid> <reason>'
+    usage: '/{command} <nume/uuid> <motiv>'
     description: Raportează un jucător
     output:
       fail:
-        already-open: Nu poți raporta acest jucător, deja ai un raport deschis pentru
-          el.
+        already-open: <red>Nu poți raporta acest jucător, deja ai un raport deschis
+          pentru el.
+        report-self: <red>Nu te poți raporta singur.
       success: Îți mulțumim că ai raportat acest jucător.
+      notify-broadcast: <yellow><reporter_username></yellow> a deschis un raport pentru
+        <yellow><reported_username></yellow>.
   validate:
-    usage: '{command} <code>'
+    usage: '/{command} <cod>'
+    description: Validează contul de site al utilizatorului utilizând codul dat.
+    output:
+      success: Contul dvs. a fost validat.
+      fail:
+        invalid-code: <red>Codul de validare furnizat este incorect. Verificați dacă
+          ați copiat corect și încercați din nou.
+        already-validated: <red>Contul dvs. este deja validat.
+        minecraft-account-linked: <red>Acest cont Minecraft este deja conectat la
+          un cont de site.
+  user-info:
+    output:
+      username: 'Nume utilizator: <username>'
+      validated: 'Cont validat: <validated>'
+      custom-field: "Câmp personalizat '<name>': <value>"
+      uuid-unknown: 'UUID: necunoscut'
+      displayname: 'Nume afișat: <displayname>'
+      integrations:
+        identifier: 'Identificator: <identifier>'
+        username: 'Nume utilizator: <username>'
+        verified: 'Verificat: <is_verified>'
+        header: 'Integrari:'
+        linked-date: 'Data legarii: <linked_date>'
+      store-module-credits: 'Credite modul de stocare: <credits>'
+      uuid: 'UUID: <uuid>'
+      primary-group: 'Grup principal: <groupname>'
+      all-groups: 'Toate grupurile: <groups_names_list>'
+      registered-date: 'Inregistrat in: <date>'
+      banned: 'Interzis: <banned>'
+    usage: /<comanda> [nume utilizator]
+    description: Preluați informații despre un utilizator al site-ului web
+  plugin:
+    description: Comenzi administrative pentru pluginul NamelessMC
+    output:
+      reload-successful: Pluginul a fost reîncărcat cu succes.
+    usage: /<comanda> 'reload'/'rl'/'last_error'
+  store-view-credits:
+    output:
+      credits: Ai <credits> credite.
+      console-must-provide-target: Un jucător țintă trebuie furnizat atunci când rulați
+        această comandă de pe consolă.
+      no-permission-other: Nu aveți permisiunea de a vizualiza credite pentru alți
+        jucători decât dvs.
+    usage: /<command> [nume de utilizator]
+    description: Vedeți creditele magazinului
+  store-change-credits:
+    description: Adăugați sau eliminați credite din magazin pentru un utilizator
+    output:
+      added: Adăugat <green><credits></green> credite către <username>.
+      removed: Sterse <red><credits></red> credite de la <username>.
+      nothing: Nici o actiune necesara.
+    usage: /<comanda> \<numele jucătorului> \<(-)credite>
+  suggest:
+    usage: /<comanda> \<titlul sugestiei>
+    description: Creați o sugestie
+    output:
+      success: Sugestie creată cu succes. Faceți clic pe <yellow><click:open_url:"<url>">aici</click></yellow>
+        pentru a-l deschide într-un browser web.
+      too-short: Sugestia oferită este prea scurtă, vă rugăm să folosiți mai multe
+        cuvinte pentru a descrie sugestia dvs.
 error:
-  website-username-not-exist: Nu exista niciun utilizator pe website cu acest nume.
+  website-username-not-exist: <red>Nu exista niciun utilizator pe website cu acest
+    nume.
+  target-no-website-account: <red>Playerul furnizat nu are un cont pe site.
+  discord-username-not-exist: <red>Nu există niciun utilizator de site cu acest nume
+    de utilizator Discord.
+  minecraft-uuid-not-exist: <red>Nu există niciun utilizator de site cu acest UUID
+    Minecraft.
+  website-connection: <red>A apărut o eroare la încercarea de a vă conecta la site.
+  username-not-online: <red>Numele de utilizator furnizat este invalid sau jucătorul
+    nu este online.
+boolean:
+  yes-positive: <green>Da</green>
+  yes-negative: <red>Da</red>
+  no-positive: <green>Nu</green>
+  no-negative: <red>Nu</red>
+user-sync-kick: Sunteți interzis de pe serverul nostru în urma unei interziceri a
+  contului de pe site.
+join-notifications: Aveți notificări pe site, vă rugăm să rulați /<notifications_command>
+  pentru mai multe informații.
+join-not-registered: Încă nu aveți un cont pe site-ul nostru. Vă rugăm să vă înregistrați
+  folosind /<register_command>.
+website-announcement: 'Anunț de site: <message>'
