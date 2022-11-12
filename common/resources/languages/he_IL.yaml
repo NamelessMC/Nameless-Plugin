@@ -31,6 +31,7 @@ command:
       fail:
         already-open: <red>אינך יכול לדווח על שחקן זה, כבר יש לך דוח פתוח בשבילו.
         report-self: <red>אתה לא יכול לדווח על עצמך.
+      notify-broadcast: <yellow><reporter_username></yellow> פתח דיווח על <yellow><reported_username></yellow>.
     description: דווח על שחקן
     usage: /{command} <שם/uuid> <סיבה>
   validate:
@@ -39,7 +40,8 @@ command:
       fail:
         invalid-code: <red>קוד האימות שסופק שגוי. אנא בדוק אם העתקת אותו כהלכה ונסה
           שוב.
-        already-validated: חשבונך כבר מאומת.
+        already-validated: <red>חשבונך כבר מאומת.
+        minecraft-account-linked: <red>המשתמש מיינקראפט הזה כבר מקושר לאתר.
     usage: <קוד> {פקודה}/
     description: מאמת את חשבון האתר של המשתמש באמצעות הקוד הנתון.
   user-info:
@@ -91,12 +93,13 @@ command:
     output:
       success: ההצעה נוצרה בהצלחה. לחץ <yellow><click:open_url:"<url>">כאן</click></yellow>
         כדי לפתוח אותו בדפדפן אינטרנט.
+      too-short: ההעצה שהצעת היא קצרה, אם תוכל להכליל עוד מילים בה.
 player:
   other: {}
   self:
     not-registered: <red>עליך להירשם לחשבון כדי לבצע פעולה זו.
     command-banned: <red>אינך יכול להפעיל את הפקודה הזו, אתה נחסם מהאתר.
-join-not-registered: עדיין אין לך חשבון באתר שלנו. אנא הירשם באמצעות / הירשם.
+join-not-registered: עדיין אין לך חשבון באתר שלנו. אנא הירשם באמצעות הפקודה <register_command>/.
 error:
   website-username-not-exist: <red>לא קיים משתמש באתר עם שם משתמש זה.
   username-not-online: <red>שם המשתמש שסופק אינו חוקי או שהשחקן אינו מקוון.
