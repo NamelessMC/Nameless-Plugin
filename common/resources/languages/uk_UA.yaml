@@ -84,15 +84,19 @@ command:
     output:
       success: Ваш акаунт підтверджено.
       fail:
-        already-validated: Ваш акаунт вже підтверджено.
+        already-validated: <red>Ваш обліковий запис вже підтверджено.
         invalid-code: <red>Цей код перевірки неправильний. Перевірте, чи правильно
           ви скопіювали, і спробуйте ще раз.
+        minecraft-account-linked: <red>Цей обліковий запис Minecraft вже пов'язаний
+          з обліковим записом на веб-сайті.
   suggest:
     usage: /<command> \<назва пропозиції>
     description: Створити пропозицію
     output:
       success: Пропозиція успішно створена. Натисніть <yellow><click:open_url:"<url>">сюди</click></yellow>
         щоб відкрити браузер.
+      too-short: Надана пропозиція занадто коротка, будь ласка, використовуйте більше
+        слів для опису Вашої пропозиції.
   user-info:
     usage: /<command> [нік]
     description: Отримати інформацію про користувача веб-сайту
@@ -115,8 +119,8 @@ command:
         linked-date: "Дата прив`язки: <linked_date>"
         verified: 'Підтверджено: <is_verified>'
   no-permission: <red>У вас немає дозволу на виконання цієї команди.
-join-not-registered: У вас ще немає облікового запису на нашому сайті. Будь ласка,
-  зареєструйтесь за допомогою /register.
+join-not-registered: Ви ще не маєте облікового запису на нашому сайті. Будь ласка,
+  зареєструйтесь за допомогою /<register_command>.
 join-notifications: У вас є повідомлення сайту, напишіть /<notifications command>
   для отримання більш детальної інформації.
 website-announcement: 'оголошення на сайті: <message>'
