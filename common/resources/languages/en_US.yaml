@@ -53,7 +53,9 @@ command:
       fail:
         invalid-code: <red>The provided validation code is incorrect. Please check
           if you copied it correctly and try again.
-        already-validated: Your account is already validated.
+        already-validated: <red>Your account is already validated.
+        minecraft-account-linked: <red>This Minecraft account is already linked to
+          a website account.
   user-info:
     usage: '/<command> [username]'
     output:
@@ -103,6 +105,8 @@ command:
     output:
       success: Suggestion created successfully. Click <yellow><click:open_url:"<url>">here</click></yellow>
         to open it in a web browser.
+      too-short: The provided suggestion is too short, please use more words to describe
+        your suggestion.
 join-not-registered: You do not have an account on our website yet. Please register
   using /<register_command>.
 website-announcement: 'Website announcement: <message>'
