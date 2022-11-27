@@ -34,11 +34,11 @@ command:
         email: Bitte überprüfe Deinen Posteingang, um die Registrierung abzuschließen.
         link: '<hover:show_text:"Klicke, um den Link im Browser zu öffnen"><click:open_url:"<url>">Registrierung
           abschließen, indem du <url> aufrufst.'
-    usage: '/{command} \<E-Mail> [Username]'
+    usage: '/<command> \<E-Mail> [Username]'
     description: Erstelle einen Forum-Account
   no-permission: <red>Du hast keine Berechtigung, diesen Befehl auszuführen.
   report:
-    usage: '/{command} <Name/UUID> <Grund>'
+    usage: '/<command> \<Name/UUID> \<Grund>'
     description: Einen Spieler melden
     output:
       success: Vielen Dank, das du diesen Spieler gemeldet haben.
@@ -49,7 +49,7 @@ command:
       notify-broadcast: <yellow><reporter_username></yellow> hat eine Meldung für
         <yellow><reporter_username></yellow> eröffnet.
   validate:
-    usage: '/{command} <Code>'
+    usage: '/<command> \<Code>'
     description: Überprüft das Website-Konto des Benutzers mit dem angegebenen Code.
     output:
       success: Ihr Konto wurde bestätigt.
@@ -78,7 +78,7 @@ command:
         header: 'Integrationen:'
       custom-field: "Benutzerdefiniertes Feld '<name>': <value>"
       store-module-credits: 'Store Modul Credits: <credits>'
-    usage: '/{command} [Benutzername]'
+    usage: '/<command> [Benutzername]'
     description: Informationen zu einem Website-Benutzer abrufen
   subcommands: {}
   plugin:
@@ -93,7 +93,7 @@ command:
       removed: Entfernt <red><credits></red> Credits von <username>.
       nothing: Keine Maßnahmen erforderlich.
     description: Guthaben für einen Benutzer hinzufügen oder entfernen
-    usage: /<Befehl> \<Name des Spielers> \<(-)Credits>
+    usage: /<command> \<Name des Spielers> \<(-)Credits>
   store-view-credits:
     usage: /<command> [Benutzer Name]
     description: Guthaben ansehen
@@ -105,7 +105,7 @@ command:
         zu sehen.
   suggest:
     description: Einen Vorschlag erstellen
-    usage: /<Befehl> \<Vorschlag Titel>
+    usage: /<command> \<Vorschlag Titel>
     output:
       success: Vorschlag erfolgreich erstellt. Klicke auf <gelb><click:open_url:"<url>">hier</click></gelb>,
         um es in einem Webbrowser zu öffnen.
