@@ -122,10 +122,10 @@ error:
     ist nicht online.
   website-connection: <red>Beim Versuch, eine Verbindung zur Website herzustellen,
     ist ein Fehler aufgetreten.
-  minecraft-uuid-not-exist: <red>Es gibt keinen Website-Benutzer mit dieser Minecraft
+  minecraft-uuid-not-exist: <red>Es existiert kein Website-Benutzer mit dieser Minecraft
     UUID.
-  discord-username-not-exist: <red>Es gibt keinen Website-Benutzer mit diesem Discord-Benutzernamen.
-  target-no-website-account: <red>Der angegebene Spieler hat kein Website-Account.
+  discord-username-not-exist: <red>Es existiert kein Website-Benutzer mit diesem Discord-Benutzernamen.
+  target-no-website-account: <red>Der angegebene Spieler verfügt nicht über ein Website-Konto.
 boolean:
   yes-positive: <green>Ja</green>
   yes-negative: <red>Ja</red>
