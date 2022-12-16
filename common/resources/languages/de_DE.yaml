@@ -114,8 +114,8 @@ command:
 join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
   Dich mit /<register_command>.
 website-announcement: 'Webseiten-Ankündigung: <message>'
-user-sync-kick: Sie werden von unserem Server gesperrt, nachdem Sie ein Website-Konto
-  gesperrt haben.
+user-sync-kick: Du wurdest von unserem Server gebannt, nachdem dein Account auf der
+  Website gebannt wurde.
 error:
   website-username-not-exist: <red>Es existiert kein Website-Benutzer mit diesem Benutzernamen.
   username-not-online: <red>Der angegebene Benutzername ist ungültig oder der Spieler
