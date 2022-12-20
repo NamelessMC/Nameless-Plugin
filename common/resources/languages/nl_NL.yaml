@@ -74,7 +74,9 @@ command:
       fail:
         invalid-code: <red>De opgegeven validatiecode is onjuist. Controleer of je
           het correct hebt gekopieerd en probeer het opnieuw.
-        already-validated: Je account is al gevalideerd.
+        already-validated: <red>Je account is al gevalideerd.
+        minecraft-account-linked: <red>Dit Minecraftaccount is al verbonden aan een
+          ander websiteaccount.
     description: Valideert het websiteaccount van de gebruiker met de opgegeven code.
   subcommands: {}
   plugin:
@@ -84,7 +86,7 @@ command:
       reload-successful: Plugin succesvol herladen.
   store-credits: {}
   store-change-credits:
-    usage: /<command> \<player name> \<(-)credits>
+    usage: /<command> \<spelernaam> \<(-)krediet>
     description: Winkeltegoed voor een gebruiker toevoegen of verwijderen
     output:
       added: <green><credits></green> winkeltegoed is toegevoegd aan <username>.
@@ -105,6 +107,8 @@ command:
     output:
       success: Suggestie succesvol gemaakt. Klik <yellow><click:open_url:"<url>">hier</click></yellow>
         om hem te openen in een web browser.
+      too-short: De opgegeven suggestie is te kort, gelieve meer woorden te gebruiken
+        om je suggestie te omschrijven.
 join-not-registered: Je hebt nog geen account op onze website. Registreer je met /<register_command>.
 website-announcement: 'Website aankondiging: <message>'
 user-sync-kick: Je bent verbannen van onze server als gevolg van een website ban.
