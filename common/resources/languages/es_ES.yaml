@@ -54,7 +54,9 @@ command:
       fail:
         invalid-code: <red>El código de validación proporcionado es incorrecto. Por
           favor, compruebe si lo ha copiado correctamente y vuelva a intentarlo.
-        already-validated: Su cuenta ya está validada.
+        already-validated: <red>Su cuenta ya está validada.
+        minecraft-account-linked: <red>Esta cuenta de Minecraft ya esta connectada
+          a una cuenta de esta página web.
     usage: '/<command> \<código>'
     description: Valida la cuenta del sitio web del usuario usando el código proporcionado.
   user-info:
@@ -106,6 +108,8 @@ command:
     output:
       success: Sugerencia creada con éxito. Haga clic <yellow><click:open_url:"<url>">aquí</click></yellow>
         para abrirla en un navegador web.
+      too-short: La sugerencia proporcionada es demasiado corta, utilice más palabras
+        para describir su sugerencia.
 join-not-registered: Aún no tienes una cuenta en nuestro sitio web. Por favor, regístrese
   usando /<register_command>.
 website-announcement: 'Anuncio de la página web: <message>'
