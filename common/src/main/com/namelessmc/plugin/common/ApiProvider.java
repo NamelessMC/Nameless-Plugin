@@ -8,7 +8,6 @@ import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
-import net.kyori.adventure.util.TriState;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
@@ -18,7 +17,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.time.Duration;
-import java.util.Objects;
 
 public class ApiProvider implements Reloadable {
 
@@ -112,7 +110,7 @@ public class ApiProvider implements Reloadable {
 						.timeout(this.timeout);
 
 				if (this.forceHttp1) {
-					builder.httpversion(HttpClient.Version.HTTP_1_1);
+					builder.httpVersion(HttpClient.Version.HTTP_1_1);
 				}
 
 				final NamelessAPI api = builder.build();
