@@ -1,7 +1,7 @@
 player:
   other: {}
   self:
-    not-registered: Vous devez créer un compte pour effectuer cette action.
+    not-registered: Vous devez vous créer un compte pour effectuer cette action.
     command-banned: Vous ne pouvez pas exécuter cette commande, vous êtes banni du
       site.
 command:
@@ -11,6 +11,7 @@ command:
     usage: '/{command}'
     output:
       no-notifications: Vous n'avez aucune notification non lue.
+      notification: <hover:show_text:"Cliquez ici pour ouvrir la page dans votre navigateur"><click:open_url:"<url>"><message></click></hover>
     description: Affiche une liste de notifications de site Web.
   register:
     usage: '/{command} <email>'
@@ -59,3 +60,20 @@ command:
         already-validated: Votre compte a déjà été validé.
 join-not-registered: Vous n'avez pas encore de compte sur notre site web. Veuillez
   vous inscrire avec /register.
+error:
+  website-username-not-exist: <red>Aucun utilisateur avec ce nom existe sur notre
+    site.
+  discord-username-not-exist: <red>Aucun utilisateur avec ce pseudo Discord existe
+    sur notre site.
+  minecraft-uuid-not-exist: <red>Aucun utilisateur avec cette UUID existe sur notre
+    site.
+  target-no-website-account: <red>Le joueur indiqué n'a pas de compte sur le site
+    web.
+  username-not-online: <red>Le nom d'utilisateur indiqué est invalide ou le joueur
+    n'est pas en ligne.
+  website-connection: <red>Une erreur est survenue lors de la connexion au site web.
+boolean:
+  yes-positive: <green>Oui</green>
+  yes-negative: <red>Oui</red>
+  no-positive: <green>Non</green>
+  no-negative: <red>Non</red>
