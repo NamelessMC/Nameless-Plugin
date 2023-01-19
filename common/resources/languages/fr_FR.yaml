@@ -2,11 +2,11 @@ player:
   other: {}
   self:
     not-registered: Vous devez vous créer un compte pour effectuer cette action.
-    command-banned: Vous ne pouvez pas exécuter cette commande, vous êtes banni du
-      site.
+    command-banned: <red>Vous ne pouvez pas exécuter cette commande, vous êtes banni
+      du site.
 command:
-  not-a-player: Vous devez être un joueur pour exécuter cette commande.
-  no-permission: Vous n'êtes pas autorisé à exécuter cette commande.
+  not-a-player: <red>Vous devez être un joueur pour exécuter cette commande.
+  no-permission: <red>Vous n'êtes pas autorisé à exécuter cette commande.
   notifications:
     usage: '/{command}'
     output:
@@ -14,27 +14,38 @@ command:
       notification: <hover:show_text:"Cliquez ici pour ouvrir la page dans votre navigateur"><click:open_url:"<url>"><message></click></hover>
     description: Affiche une liste de notifications de site Web.
   register:
-    usage: '/{command} <email>'
+    usage: '/{<command} <adresse email> [nom d''utilisateur]'
     description: Crée un compte
     output:
       success:
         email: Veuillez vérifier votre boîte de réception pour terminer l'inscription.
         link: Veuillez visiter <link> pour terminer l'inscription.
       fail:
-        email-used: Cette adresse e-mail est déjà utilisée pour un autre compte utilisateur.
-        email-invalid: L'adresse e-mail fournie est invalide.
-        username-invalid: Le nom d'utilisateur fourni est invalide.
-        cannot-send-email: L'envoi de l'e-mail d'inscription a échoué, contactez un
-          administrateur pour activer votre compte.
+        email-used: <red>Cette adresse e-mail est déjà utilisée pour un autre compte
+          utilisateur.
+        email-invalid: <red>L'adresse e-mail fournie est invalide.
+        username-invalid: <red>Le nom d'utilisateur fourni est invalide.
+        cannot-send-email: <red>L'envoi de l'e-mail d'inscription a échoué, contactez
+          un administrateur pour activer votre compte.
+        username-used: <red>Le nom d'utilisateur indiqué est déjà utilisé par un autre
+          compte utilisateur.
+        minecraft-used: <red>Votre compte Minecraft est déjà lié à un différent compte
+          utilisateur du site web.
+        console-must-specify-username: <red>Vous devez indiquer un nom d'utilisateur
+          lorsque vous exécutez la commande register depuis la console.
+        custom-username-disabled: <red>S'enregistrer avec un nom d'utilisateur différent
+          de celui de votre compte Minecraft n'est pas autorisé.
   report:
     description: Signaler un joueur
     usage: /{command} <nom/uuid> <raison>
     output:
       success: Merci d'avoir signalé ce joueur.
       fail:
-        already-open: Vous ne pouvez pas signaler ce joueur, vous avez déjà un rapport
-          ouvert pour lui.
-        report-self: Vous ne pouvez pas vous signaler vous-même.
+        already-open: <red>Vous ne pouvez pas signaler ce joueur, vous avez déjà un
+          rapport ouvert pour lui.
+        report-self: <red>Vous ne pouvez pas vous signaler vous-même.
+      notify-broadcast: <yellow><reporter_username></yellow> a ouvert un rapport sur
+        <yellow><reported_username></yellow>.
   user-info:
     output:
       validated: 'Compte validé : <validated>'
@@ -55,11 +66,36 @@ command:
     output:
       success: Votre compte a été validé.
       fail:
-        invalid-code: Votre code de validation est incorrect. Veuillez le vérifier
+        invalid-code: <red>Votre code de validation est incorrect. Veuillez le vérifier
           puis réessayer.
-        already-validated: Votre compte a déjà été validé.
+        already-validated: <red>Votre compte a déjà été validé.
+        minecraft-account-linked: <red>Ce compte Minecraft est déjà lié à un compte
+          sur le site.
+  plugin:
+    output:
+      reload-successful: Le plugin a été rechargé avec succès.
+    description: Commandes d'administration pour le plugin NamelessMC
+    usage: /<command> 'reload'/'rl'/'last_error'
+  store-change-credits:
+    description: Ajouter ou enlever des crédits boutique à un utilisateur
+    output:
+      nothing: Aucune action n'est nécessaire.
+      added: <green><credits></green> crédits ont été ajoutés à <username>.
+      removed: <red><credits></red> crédits ont été enlevés de <username>.
+    usage: /<command> \<nom du joueur> \<(-)crédits>
+  store-view-credits:
+    usage: /<command> [nom d'utilisateur]
+    output:
+      console-must-provide-target: Un joueur doit être ciblé pour pouvoir utiliser
+        cette commande depuis la console.
+      credits: Vous avez <credits> crédits.
+      no-permission-other: Vous n'avez pas la permission de voir les crédits des autres
+        joueurs.
+    description: Voir les crédits boutique
+  suggest:
+    usage: /<command> \<titre de la suggestion>
 join-not-registered: Vous n'avez pas encore de compte sur notre site web. Veuillez
-  vous inscrire avec /register.
+  vous inscrire avec /<register_command>..
 error:
   website-username-not-exist: <red>Aucun utilisateur avec ce nom existe sur notre
     site.
