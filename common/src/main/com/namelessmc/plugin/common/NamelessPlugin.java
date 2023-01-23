@@ -71,6 +71,7 @@ public class NamelessPlugin {
 		this.registerReloadable(new Store(this));
 		this.registerReloadable(new SyncBanToWebsite(this));
 		this.registerReloadable(new Websend(this, logPath));
+		this.registerReloadable(new GroupSync(this));
 
 		this.registerPermissionAdapter(new LuckPermsPermissions());
 
