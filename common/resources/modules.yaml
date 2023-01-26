@@ -1,5 +1,4 @@
-# Supported platforms: all
-# Run commands sent by the Websend module (third party)
+# Integration with Supercrafter100's Websend module. Do not enable if the websend module is not installed.
 # For this to work you must also configure the server id in the 'server-data-sender' section. However, Websend
 # is unrelated to the server data sender and the server data sender doesn't have to be enabled.
 websend:
@@ -12,8 +11,13 @@ websend:
     enabled: false
     interval: PT2S
 
+# Integration with Partydragen's Store module. Do not enable if the store module is not installed.
 store:
+  # The connection id can be obtained from the store module in StaffCP
   connection-id: 0
+  # Enable the command executor to periodically fetch pending commands from the Store module, and run them
+  # in your Minecraft server.
   command-executor:
     enabled: false
+    # Delay between fetching commands: https://en.wikipedia.org/wiki/ISO_8601#Durations
     interval: PT1M
