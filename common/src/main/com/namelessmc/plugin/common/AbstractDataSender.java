@@ -109,7 +109,8 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		}
 
 		final JsonObject data = new JsonObject();
-		data.addProperty("server-id", this.serverId);
+		data.addProperty("server_id", this.serverId);
+		data.addProperty("server-id", this.serverId); // Compatibility with old sites
 
 		data.addProperty("time", System.currentTimeMillis());
 
@@ -184,6 +185,10 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 
 	private void registerBaseProviders() {
 		this.registerGlobalInfoProvider(json -> {
+			json.addProperty("free_memory", Runtime.getRuntime().freeMemory());
+			json.addProperty("max_memory", Runtime.getRuntime().maxMemory());
+			json.addProperty("allocated_memory", Runtime.getRuntime().totalMemory());
+			// Dashes for compatibility with old sites
 			json.addProperty("free-memory", Runtime.getRuntime().freeMemory());
 			json.addProperty("max-memory", Runtime.getRuntime().maxMemory());
 			json.addProperty("allocated-memory", Runtime.getRuntime().totalMemory());
@@ -201,7 +206,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 				this.plugin.logger().warning("Player " + player.username() + " is missing from login time map. If the plugin was loaded normally (e.g. not using a plugin manager), this is probably a bug.");
 				loginTime = System.currentTimeMillis();
 			}
-			json.addProperty("login-time", loginTime);
+			json.addProperty("login_time", loginTime);
 		});
 
 		final AbstractPermissions permissions = this.plugin.permissions();
