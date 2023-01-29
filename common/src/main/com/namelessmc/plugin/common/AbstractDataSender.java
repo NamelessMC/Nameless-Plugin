@@ -26,6 +26,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 	private @Nullable List<@NonNull InfoProvider> globalInfoProviders;
 	private @Nullable List<@NonNull PlayerInfoProvider> playerInfoProviders;
 	private int serverId;
+	private @Nullable Duration configuredInterval;
 
 	private final @NonNull Map<UUID, Long> playerLoginTime = new HashMap<>();
 
@@ -69,6 +70,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			this.globalInfoProviders = null;
 			this.dataSenderTask.cancel();
 			this.dataSenderTask = null;
+			this.configuredInterval = null;
 		}
 	}
 
@@ -86,13 +88,13 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 			return;
 		}
 
-		final Duration interval = ConfigurationHandler.getDuration(config.node("interval"));
-		if (interval == null) {
+		this.configuredInterval = ConfigurationHandler.getDuration(config.node("interval"));
+		if (configuredInterval == null) {
 			this.plugin.logger().warning("Invalid server data sender interval.");
 			return;
 		}
 
-		this.dataSenderTask = this.plugin.scheduler().runTimer(this, interval);
+		this.dataSenderTask = this.plugin.scheduler().runTimer(this, configuredInterval);
 
 		this.globalInfoProviders = new ArrayList<>();
 		this.playerInfoProviders = new ArrayList<>();
@@ -111,6 +113,11 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		final JsonObject data = new JsonObject();
 		data.addProperty("server_id", this.serverId);
 		data.addProperty("server-id", this.serverId); // Compatibility with old sites
+
+		if (configuredInterval == null) {
+			throw new IllegalStateException("Interval should never be null if task is running");
+		}
+		data.addProperty("interval_seconds", configuredInterval.toSeconds());
 
 		data.addProperty("time", System.currentTimeMillis());
 
