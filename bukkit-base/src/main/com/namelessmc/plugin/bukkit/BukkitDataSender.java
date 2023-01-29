@@ -10,10 +10,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.Objects;
 
 public class BukkitDataSender extends AbstractDataSender {
@@ -33,6 +36,18 @@ public class BukkitDataSender extends AbstractDataSender {
 		// Max players
 		this.registerGlobalInfoProvider(json ->
 				json.addProperty("max_players", Bukkit.getServer().getMaxPlayers()));
+
+		// Motd
+		this.registerGlobalInfoProvider(json -> {
+			final InetAddress address = new InetSocketAddress("nameless-fake-ping", 1234).getAddress();
+			final String motd = Bukkit.getServer().getMotd();
+			final int onlinePlayers = Bukkit.getServer().getOnlinePlayers().size();
+			final int maxPlayers = Bukkit.getServer().getMaxPlayers();
+			// Send fake ping event so plugins can change the motd
+			final ServerListPingEvent event = new ServerListPingEvent(address, motd, onlinePlayers, maxPlayers);
+			Bukkit.getPluginManager().callEvent(event);
+			json.addProperty("motd", event.getMotd());
+		});
 
 		// Maintenance
 		MaintenanceStatusProvider maintenance = this.bukkitPlugin.getMaintenanceStatusProvider();
