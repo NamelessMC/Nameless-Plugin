@@ -39,14 +39,19 @@ public class BukkitDataSender extends AbstractDataSender {
 
 		// Motd
 		this.registerGlobalInfoProvider(json -> {
-			final InetAddress address = new InetSocketAddress("nameless-fake-ping", 1234).getAddress();
-			final String motd = Bukkit.getServer().getMotd();
-			final int onlinePlayers = Bukkit.getServer().getOnlinePlayers().size();
-			final int maxPlayers = Bukkit.getServer().getMaxPlayers();
-			// Send fake ping event so plugins can change the motd
-			final ServerListPingEvent event = new ServerListPingEvent(address, motd, onlinePlayers, maxPlayers);
-			Bukkit.getPluginManager().callEvent(event);
-			json.addProperty("motd", event.getMotd());
+			try {
+				final InetAddress address = new InetSocketAddress("nameless-fake-ping", 1234).getAddress();
+				final String motd = Bukkit.getServer().getMotd();
+				final int onlinePlayers = Bukkit.getServer().getOnlinePlayers().size();
+				final int maxPlayers = Bukkit.getServer().getMaxPlayers();
+				// Send fake ping event so plugins can change the motd
+				final ServerListPingEvent event = new ServerListPingEvent(address, motd, onlinePlayers, maxPlayers);
+				Bukkit.getPluginManager().callEvent(event);
+				json.addProperty("motd", event.getMotd());
+			} catch (NoSuchMethodError ignored) {
+				// Paper has a different ServerListPingEvent constructor
+				// TODO fix properly
+			}
 		});
 
 		// Maintenance
