@@ -14,6 +14,11 @@ public class BungeeDataSender extends AbstractDataSender {
 
 	@Override
 	protected void registerCustomProviders() {
+		// Max players
+		this.registerGlobalInfoProvider(json ->
+				json.addProperty("max_players", ProxyServer.getInstance().getConfig().getPlayerLimit()));
+
+		// Player address
 		this.registerPlayerInfoProvider((json, player) -> {
 			final ProxiedPlayer bungeePlayer = ProxyServer.getInstance().getPlayer(player.uuid());
 			if (bungeePlayer == null) {

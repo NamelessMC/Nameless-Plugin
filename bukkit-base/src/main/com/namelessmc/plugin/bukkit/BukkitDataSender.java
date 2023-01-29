@@ -30,6 +30,10 @@ public class BukkitDataSender extends AbstractDataSender {
 
 	@Override
 	protected void registerCustomProviders() {
+		// Max players
+		this.registerGlobalInfoProvider(json ->
+				json.addProperty("max_players", Bukkit.getServer().getMaxPlayers()));
+
 		// Maintenance
 		MaintenanceStatusProvider maintenance = this.bukkitPlugin.getMaintenanceStatusProvider();
 		if (maintenance != null) {
