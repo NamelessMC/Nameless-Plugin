@@ -25,6 +25,7 @@ server-data-sender:
   # Duration between sending data https://en.wikipedia.org/wiki/ISO_8601#Durations
   interval: 'PT10S'
   # Send PlaceholderAPI placeholders, to be used by NamelessMC (leaderboards, profile pages) or modules.
+  # This is only supported on the 'oldbukkit', 'spigot', and 'paper' platforms.
   placeholders:
     enabled: false
     # global placeholders to send to the website (list of placeholder names without %%). Not currently used by the website.
@@ -66,6 +67,7 @@ register-custom-username: true
 # This is event based, so it will not affect players that are already banned.
 sync-ban-to-website: false
 
+# User sync is only supported on the 'oldbukkit', 'spigot' and 'paper' platforms.
 user-sync:
   enabled: false
   # Number of seconds in between syncs
@@ -93,6 +95,7 @@ user-sync:
 # Retrieving user info from NamelessMC and make it available as PlaceholderAPI placeholders.
 # NOT the same as sending placeholders to the website, which can be configured above!
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders#nameless-plugin
+# This feature is only supported on the 'oldbukkit', 'spigot', and 'paper' platforms.
 retrieve-placeholders:
   enabled: false
   # Duration between retrieving placeholders https://en.wikipedia.org/wiki/ISO_8601#Durations
