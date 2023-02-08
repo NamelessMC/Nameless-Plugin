@@ -151,6 +151,7 @@ public class LanguageHandler implements Reloadable {
 			"he_IL",
 			"hr_HR",
 			"hu_HU",
+			"id_ID",
 			"it_IT",
 			"ja_JP",
 			"ko_KR",
