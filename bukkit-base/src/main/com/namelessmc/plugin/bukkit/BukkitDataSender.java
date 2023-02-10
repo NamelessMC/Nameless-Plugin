@@ -16,7 +16,7 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 import java.util.Objects;
 
 public class BukkitDataSender extends AbstractDataSender {
@@ -40,7 +40,7 @@ public class BukkitDataSender extends AbstractDataSender {
 		// Motd
 		this.registerGlobalInfoProvider(json -> {
 			try {
-				final InetAddress address = new InetSocketAddress("nameless-fake-ping", 1234).getAddress();
+				final InetAddress address = InetAddress.getByName("0.0.0.0");
 				final String motd = Bukkit.getServer().getMotd();
 				final int onlinePlayers = Bukkit.getServer().getOnlinePlayers().size();
 				final int maxPlayers = Bukkit.getServer().getMaxPlayers();
@@ -51,6 +51,8 @@ public class BukkitDataSender extends AbstractDataSender {
 			} catch (NoSuchMethodError ignored) {
 				// Paper has a different ServerListPingEvent constructor
 				// TODO fix properly
+			} catch (UnknownHostException e) {
+				throw new RuntimeException(e);
 			}
 		});
 
