@@ -137,7 +137,7 @@ public class LanguageHandler implements Reloadable {
 	 */
 	private static final int VERSION = 36;
 
-	private static final Set<String> LANGUAGES = Set.of(
+	public static final Set<String> LANGUAGES = Set.of(
 			"ar_SA",
 			"cs_CZ",
 			"da_DK",

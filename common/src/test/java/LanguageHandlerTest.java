@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -33,6 +34,13 @@ public class LanguageHandlerTest {
 		ConfigurationNode config = YamlConfigurationLoader.builder().path(path).build().load();
 		for (LanguageHandler.Term term : LanguageHandler.Term.values()) {
 			Assertions.assertTrue(config.hasChild(term.path()), "base file en_UK missing term " + Arrays.toString(term.path()));
+		}
+	}
+
+	@Test
+	void ensureLanguageFilesPresent() {
+		for (String language : LanguageHandler.LANGUAGES) {
+			Assertions.assertTrue(Files.isRegularFile(Paths.get("resources", "languages", language + ".yaml")));
 		}
 	}
 
