@@ -14,7 +14,7 @@
 		<checkerFrameworkVersion>3.30.0</checkerFrameworkVersion>
 		<velocityVersion>3.1.1</velocityVersion>
 		<bStatsVersion>3.0.1</bStatsVersion>
-		<adventureVersion>4.11.0</adventureVersion>
+		<adventureVersion>4.12.0</adventureVersion>
 	</properties>
 
 	<modules>
