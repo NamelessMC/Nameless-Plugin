@@ -11,7 +11,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<revision>3.3.0-beta</revision>
-		<checkerFrameworkVersion>3.30.0</checkerFrameworkVersion>
+		<checkerFrameworkVersion>3.31.0</checkerFrameworkVersion>
 		<velocityVersion>3.1.1</velocityVersion>
 		<bStatsVersion>3.0.1</bStatsVersion>
 		<adventureVersion>4.11.0</adventureVersion>
