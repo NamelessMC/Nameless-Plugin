@@ -4,6 +4,8 @@ import com.destroystokyo.paper.profile.PlayerProfile;
 import com.google.gson.JsonObject;
 import com.namelessmc.plugin.bukkit.BukkitDataSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.profile.PlayerTextures;
@@ -40,6 +42,12 @@ public class PaperDataSender extends BukkitDataSender {
 				skinJson.addProperty("cape", cape.toString());
 			}
 			json.add("skin", skinJson);
+		});
+
+		this.registerGlobalInfoProvider(json -> {
+			final Component motd = Bukkit.getServer().motd();
+			final String legacyMotd = LegacyComponentSerializer.legacySection().serialize(motd);
+			json.addProperty("motd", legacyMotd);
 		});
 	}
 

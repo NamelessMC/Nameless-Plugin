@@ -10,6 +10,8 @@ public class SpigotNamelessPlugin extends BukkitNamelessPlugin {
 
 	public SpigotNamelessPlugin() {
 		super("spigot");
+
+		this.plugin.registerReloadable(new SpigotDataSender(this.plugin, this));
 	}
 
 	@Override

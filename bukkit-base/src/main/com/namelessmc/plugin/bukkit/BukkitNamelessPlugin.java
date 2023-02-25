@@ -35,7 +35,7 @@ public abstract class BukkitNamelessPlugin extends JavaPlugin {
 				platformInternalName,
 				Bukkit.getVersion()
 		);
-		this.plugin.registerReloadable(new BukkitDataSender(this.plugin, this));
+
 		this.plugin.registerReloadable(new UserSyncTask(this.plugin, this));
 		this.plugin.registerPermissionAdapter(new VaultPermissions(this.plugin));
 

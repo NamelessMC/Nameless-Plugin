@@ -12,6 +12,8 @@ public class OldBukkitNamelessPlugin extends BukkitNamelessPlugin {
 	public OldBukkitNamelessPlugin() {
 		super("oldbukkit");
 		this.plugin.logger().warning("Please note that the 'Old Bukkit' version of the Nameless Plugin is not supported and may contain broken functionality.");
+
+		this.plugin.registerReloadable(new OldBukkitDataSender(this.plugin, this));
 	}
 
 	@Override

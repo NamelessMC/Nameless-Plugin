@@ -10,16 +10,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
-import org.bukkit.event.server.ServerListPingEvent;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Objects;
 
-public class BukkitDataSender extends AbstractDataSender {
+public abstract class BukkitDataSender extends AbstractDataSender {
 
 	private final @NonNull NamelessPlugin plugin;
 	private final @NonNull BukkitNamelessPlugin bukkitPlugin;
@@ -36,25 +33,6 @@ public class BukkitDataSender extends AbstractDataSender {
 		// Max players
 		this.registerGlobalInfoProvider(json ->
 				json.addProperty("max_players", Bukkit.getServer().getMaxPlayers()));
-
-		// Motd
-		this.registerGlobalInfoProvider(json -> {
-			try {
-				final InetAddress address = InetAddress.getByName("0.0.0.0");
-				final String motd = Bukkit.getServer().getMotd();
-				final int onlinePlayers = Bukkit.getServer().getOnlinePlayers().size();
-				final int maxPlayers = Bukkit.getServer().getMaxPlayers();
-				// Send fake ping event so plugins can change the motd
-				final ServerListPingEvent event = new ServerListPingEvent(address, motd, onlinePlayers, maxPlayers);
-				Bukkit.getPluginManager().callEvent(event);
-				json.addProperty("motd", event.getMotd());
-			} catch (NoSuchMethodError ignored) {
-				// Paper has a different ServerListPingEvent constructor
-				// TODO fix properly
-			} catch (UnknownHostException e) {
-				throw new RuntimeException(e);
-			}
-		});
 
 		// Maintenance
 		MaintenanceStatusProvider maintenance = this.bukkitPlugin.getMaintenanceStatusProvider();
