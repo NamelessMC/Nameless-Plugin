@@ -10,7 +10,7 @@ api:
   debug: false
   # Maximum time in milliseconds to wait for a response from the website. Sensible values are 3s-15s.
   # Syntax: https://en.wikipedia.org/wiki/ISO_8601#Durations
-  timeout: 'PT5S'
+  timeout: 'PT10S'
 
 # Data depends on platform: https://docs.namelessmc.com/en/integrations/plugin-data-sender
 # The server data sender sends data about this server to the website, periodically. It is essential for many
