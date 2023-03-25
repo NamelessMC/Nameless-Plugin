@@ -12,6 +12,7 @@ websend:
     interval: PT2S
 
 # Integration with Partydragen's Store module. Do not enable if the store module is not installed.
+# Store module commands need to be enabled separately in commands.yaml
 store:
   # The connection id can be obtained from the store module in StaffCP
   connection-id: 0

@@ -8,6 +8,9 @@ user-info: 'webinfo'
 verify: 'verify'
 plugin: 'nlpl'
 
+# Commands for Partydragen's store module
 #store-change-credits: 'changecredits'
 #store-view-credits: 'credits'
+
+# Commands for Partydragen's suggestions module
 #suggest: 'suggest'
