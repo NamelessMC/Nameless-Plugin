@@ -23,7 +23,7 @@ server-data-sender:
   # Create a server if you haven't already
   server-id: 0
   # Duration between sending data https://en.wikipedia.org/wiki/ISO_8601#Durations
-  interval: 'PT10S'
+  interval: 'PT30S'
   # Send PlaceholderAPI placeholders, to be used by NamelessMC (leaderboards, profile pages) or modules.
   # This is only supported on the 'oldbukkit', 'spigot', and 'paper' platforms.
   placeholders:
