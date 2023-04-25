@@ -1,6 +1,7 @@
 package com.namelessmc.plugin.bungee.audiences;
 
 import com.namelessmc.plugin.bungee.BungeeNamelessPlugin;
+import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
@@ -17,9 +18,12 @@ import java.util.stream.Collectors;
 
 public class BungeeAudienceProvider extends AbstractAudienceProvider {
 
-	private final @NonNull BungeeAudiences audiences;
+	private final ConfigurationHandler config;
+	private final BungeeAudiences audiences;
 
-	public BungeeAudienceProvider(final @NonNull BungeeNamelessPlugin bungeePlugin) {
+	public BungeeAudienceProvider(final ConfigurationHandler config,
+								  final BungeeNamelessPlugin bungeePlugin) {
+		this.config = config;
 		this.audiences = BungeeAudiences.create(bungeePlugin);
 	}
 
@@ -36,7 +40,7 @@ public class BungeeAudienceProvider extends AbstractAudienceProvider {
 	public @Nullable NamelessPlayer bungeeToNamelessPlayer(final ProxiedPlayer bungeePlayer) {
 		return bungeePlayer == null
 				? null
-				: new BungeeNamelessPlayer(this.audiences, bungeePlayer);
+				: new BungeeNamelessPlayer(this.config, this.audiences, bungeePlayer);
 	}
 
 	@Override
@@ -52,7 +56,8 @@ public class BungeeAudienceProvider extends AbstractAudienceProvider {
 	@Override
 	public @NonNull Collection<@NonNull NamelessPlayer> onlinePlayers() {
 		return ProxyServer.getInstance().getPlayers().stream()
-				.map(p -> (NamelessPlayer) new BungeeNamelessPlayer(this.audiences, 	p))
+				.map(p -> (NamelessPlayer) new BungeeNamelessPlayer(this.config, this.audiences, p))
 				.collect(Collectors.toUnmodifiableList());
 	}
+
 }

@@ -16,7 +16,7 @@ public class SpigotNamelessPlugin extends BukkitNamelessPlugin {
 
 	@Override
 	protected void configureAudiences() {
-		this.plugin.setAudienceProvider(new SpigotAudienceProvider(this));
+		this.plugin.setAudienceProvider(new SpigotAudienceProvider(this.plugin.config(), this));
 	}
 
 	@Override

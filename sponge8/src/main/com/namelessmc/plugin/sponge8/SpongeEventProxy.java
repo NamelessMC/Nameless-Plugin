@@ -18,7 +18,7 @@ public class SpongeEventProxy {
 
 	@Listener
 	public void onJoin(ServerSideConnectionEvent.Join event) {
-		final NamelessPlayer player = new SpongeNamelessPlayer(event.player());
+		final NamelessPlayer player = new SpongeNamelessPlayer(this.plugin.config(), event.player());
 		this.plugin.events().post(new NamelessJoinEvent(player));
 	}
 

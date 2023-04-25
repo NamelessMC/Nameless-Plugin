@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.bungee;
 
+import com.namelessmc.plugin.bungee.audiences.BungeeNamelessPlayer;
 import com.namelessmc.plugin.common.AbstractDataSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import net.md_5.bungee.api.ProxyServer;
@@ -20,10 +21,7 @@ public class BungeeDataSender extends AbstractDataSender {
 
 		// Player address
 		this.registerPlayerInfoProvider((json, player) -> {
-			final ProxiedPlayer bungeePlayer = ProxyServer.getInstance().getPlayer(player.uuid());
-			if (bungeePlayer == null) {
-				return;
-			}
+			final ProxiedPlayer bungeePlayer = ((BungeeNamelessPlayer) player).bungeePlayer();
 			json.addProperty("address", bungeePlayer.getSocketAddress().toString());
 		});
 	}

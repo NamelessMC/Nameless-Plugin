@@ -1,6 +1,7 @@
 package com.namelessmc.plugin.bukkit;
 
 import com.google.gson.JsonObject;
+import com.namelessmc.plugin.bukkit.audiences.BukkitNamelessPlayer;
 import com.namelessmc.plugin.bukkit.hooks.PapiHook;
 import com.namelessmc.plugin.bukkit.hooks.maintenance.MaintenanceStatusProvider;
 import com.namelessmc.plugin.common.AbstractDataSender;
@@ -59,7 +60,7 @@ public abstract class BukkitDataSender extends AbstractDataSender {
 				});
 				this.registerPlayerInfoProvider((json, player) -> {
 					try {
-						final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
+						final Player bukkitPlayer = ((BukkitNamelessPlayer) player).bukkitPlayer();
 						final JsonObject placeholders = new JsonObject();
 						config.node("player").getList(String.class).forEach((key) ->
 								placeholders.addProperty(key, ChatColor.stripColor(papi.parse(bukkitPlayer, "%" + key + "%"))));
@@ -73,7 +74,7 @@ public abstract class BukkitDataSender extends AbstractDataSender {
 
 		// Location
 		this.registerPlayerInfoProvider((json, player) -> {
-			final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
+			final Player bukkitPlayer = ((BukkitNamelessPlayer) player).bukkitPlayer();
 			final JsonObject location = new JsonObject();
 			final Location loc = bukkitPlayer.getLocation();
 			location.addProperty("world", loc.getWorld().getName());
@@ -100,7 +101,7 @@ public abstract class BukkitDataSender extends AbstractDataSender {
 
 		// Misc player stats
 		this.registerPlayerInfoProvider((json, player) -> {
-			final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
+			final Player bukkitPlayer = ((BukkitNamelessPlayer) player).bukkitPlayer();
 			json.addProperty("playtime", bukkitPlayer.getStatistic(finalPlayStat) / 120);
 			json.addProperty("ip", bukkitPlayer.getAddress().toString());
 		});

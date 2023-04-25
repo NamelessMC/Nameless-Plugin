@@ -3,6 +3,7 @@ package com.namelessmc.plugin.paper;
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.google.gson.JsonObject;
 import com.namelessmc.plugin.bukkit.BukkitDataSender;
+import com.namelessmc.plugin.bukkit.audiences.BukkitNamelessPlayer;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -24,7 +25,7 @@ public class PaperDataSender extends BukkitDataSender {
 		super.registerCustomProviders();
 
 		this.registerPlayerInfoProvider((json, namelessPlayer) -> {
-			Player player = Bukkit.getPlayer(namelessPlayer.uuid());
+			Player player = ((BukkitNamelessPlayer) namelessPlayer).bukkitPlayer();
 			if (player == null) {
 				throw new IllegalStateException();
 			}

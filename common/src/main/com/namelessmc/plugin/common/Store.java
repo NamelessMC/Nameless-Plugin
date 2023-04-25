@@ -101,8 +101,8 @@ public class Store implements Reloadable {
 				String username;
 
 				if (player != null) {
-					uuid = player.uuid().toString();
-					username = player.username().toString();
+					uuid = NamelessAPI.javaUuidToWebsiteUuid(player.uuid());
+					username = player.username();
 				} else {
 					uuid = customer.identifier();
 					username = customer.username();

@@ -18,7 +18,7 @@ public class OldBukkitNamelessPlugin extends BukkitNamelessPlugin {
 
 	@Override
 	protected void configureAudiences() {
-		this.plugin.setAudienceProvider(new OldBukkitAudienceProvider());
+		this.plugin.setAudienceProvider(new OldBukkitAudienceProvider(this.plugin.config()));
 	}
 
 	@Override

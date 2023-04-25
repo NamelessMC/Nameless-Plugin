@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.sponge7.audiences;
 
+import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
@@ -17,11 +18,14 @@ import java.util.stream.Collectors;
 
 public class SpongeAudienceProvider extends AbstractAudienceProvider {
 
-	private final @NonNull SpongeAudiences audiences;
-	private final @NonNull Server server;
+	private final ConfigurationHandler config;
+	private final SpongeAudiences audiences;
+	private final Server server;
 
-	public SpongeAudienceProvider(final @NonNull SpongeAudiences audiences,
-						   final @NonNull Server server) {
+	public SpongeAudienceProvider(final ConfigurationHandler config,
+								  final SpongeAudiences audiences,
+								  final Server server) {
+		this.config = config;
 		this.audiences = audiences;
 		this.server = server;
 	}
@@ -39,7 +43,7 @@ public class SpongeAudienceProvider extends AbstractAudienceProvider {
 	private @Nullable NamelessPlayer spongeToNamelessPlayer(final Optional<Player> optionalPlayer) {
 		if (optionalPlayer.isPresent()) {
 			final Player player = optionalPlayer.get();
-			return new SpongeNamelessPlayer(this.audiences, player);
+			return new SpongeNamelessPlayer(this.config, this.audiences, player);
 		}
 		return null;
 	}
@@ -57,7 +61,7 @@ public class SpongeAudienceProvider extends AbstractAudienceProvider {
 	@Override
 	public @NonNull Collection<@NonNull NamelessPlayer> onlinePlayers() {
 		return this.server.getOnlinePlayers().stream()
-				.map(p -> new SpongeNamelessPlayer(this.audiences, p))
+				.map(p -> new SpongeNamelessPlayer(this.config, this.audiences, p))
 				.collect(Collectors.toUnmodifiableList());
 	}
 }

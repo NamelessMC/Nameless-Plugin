@@ -36,14 +36,15 @@ public class SpongeNamelessPlugin {
 				"sponge9",
 				Sponge.platform().minecraftVersion().name()
 		);
-		this.plugin.setAudienceProvider(new SpongeAudienceProvider());
+		this.plugin.setAudienceProvider(new SpongeAudienceProvider(this.plugin.config()));
 		this.plugin.registerReloadable(new SpongeDataSender(this.plugin));
 		Sponge.eventManager().registerListeners(container, new SpongeEventProxy(this.plugin));
 	}
 
 	@Listener
 	public void registerCommands(final RegisterCommandEvent<Command> event) {
-		SpongeCommandProxy.registerCommands(event, this.plugin, this.container);
+		SpongeCommandProxy commandProxy = new SpongeCommandProxy(this.plugin);
+		commandProxy.registerCommands(event, this.container);
 	}
 
 	@Listener

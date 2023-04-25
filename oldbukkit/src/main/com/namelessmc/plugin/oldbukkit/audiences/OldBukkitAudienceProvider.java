@@ -1,6 +1,7 @@
 package com.namelessmc.plugin.oldbukkit.audiences;
 
 import com.namelessmc.plugin.bukkit.audiences.BukkitNamelessConsole;
+import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
@@ -14,6 +15,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class OldBukkitAudienceProvider extends AbstractAudienceProvider {
+
+	private final ConfigurationHandler config;
+
+	public OldBukkitAudienceProvider(final ConfigurationHandler config) {
+		this.config = config;
+	}
 
 	private void dispatchCommand(final @NonNull String command) {
 		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
@@ -38,7 +45,7 @@ public class OldBukkitAudienceProvider extends AbstractAudienceProvider {
 	public @Nullable NamelessPlayer bukkitToNamelessPlayer(final Player bukkitPlayer) {
 		return bukkitPlayer == null
 				? null
-				: new OldBukkitNamelessPlayer(bukkitPlayer);
+				: new OldBukkitNamelessPlayer(this.config, bukkitPlayer);
 	}
 
 	@Override
@@ -59,7 +66,7 @@ public class OldBukkitAudienceProvider extends AbstractAudienceProvider {
 	@Override
 	public @NonNull Collection<@NonNull NamelessPlayer> onlinePlayers() {
 		return Arrays.stream(Bukkit.getOnlinePlayers())
-				.map(OldBukkitNamelessPlayer::new)
+				.map(p -> new OldBukkitNamelessPlayer(this.config, p))
 				.collect(Collectors.toUnmodifiableList());
 	}
 }

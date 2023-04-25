@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.sponge8.audiences;
 
+import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import org.apache.commons.lang3.NotImplementedException;
@@ -9,8 +10,9 @@ public class SpongeNamelessPlayer extends NamelessPlayer {
 
 	private final Player player;
 
-	public SpongeNamelessPlayer(Player player) {
-		super(player, player.uniqueId(), player.name());
+	public SpongeNamelessPlayer(final ConfigurationHandler config,
+								final Player player) {
+		super(config, player, player.uniqueId(), player.name());
 		this.player = player;
 	}
 

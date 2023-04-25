@@ -11,6 +11,10 @@ api:
   # Maximum time in milliseconds to wait for a response from the website. Sensible values are 3s-15s.
   # Syntax: https://en.wikipedia.org/wiki/ISO_8601#Durations
   timeout: 'PT10S'
+  # When enabled, the plugin will ignore server UUIDs and instead generate offline-mode UUIDs from player
+  # usernames to make API requests. The website must also be configured to use offline-mode UUIDs.
+  # This feature is experimental. It may help with bedrock (floodgate/geyser) compatibility.
+  offline-uuids: false
 
 # Data depends on platform: https://docs.namelessmc.com/en/integrations/plugin-data-sender
 # The server data sender sends data about this server to the website, periodically. It is essential for many

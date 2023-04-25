@@ -29,7 +29,7 @@ public class BungeeNamelessPlugin extends Plugin {
 
 	@Override
 	public void onEnable() {
-		this.plugin.setAudienceProvider(new BungeeAudienceProvider(this));
+		this.plugin.setAudienceProvider(new BungeeAudienceProvider(this.plugin.config(), this));
 		this.plugin.load();
 
 		new Metrics(this, 14864);

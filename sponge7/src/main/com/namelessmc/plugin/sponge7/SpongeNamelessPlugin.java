@@ -38,7 +38,7 @@ public class SpongeNamelessPlugin {
 				"sponge7",
 				Sponge.getPlatform().getMinecraftVersion().getName()
 		);
-		this.plugin.setAudienceProvider(new SpongeAudienceProvider(audiences, game.getServer()));
+		this.plugin.setAudienceProvider(new SpongeAudienceProvider(this.plugin.config(), audiences, game.getServer()));
 		this.plugin.registerReloadable(new SpongeDataSender(this.plugin));
 		Sponge.getEventManager().registerListeners(this, new SpongeEventProxy(this.plugin));
 	}

@@ -3,6 +3,7 @@ package com.namelessmc.plugin.spigot;
 import com.namelessmc.plugin.bukkit.BukkitNamelessPlugin;
 import com.namelessmc.plugin.bukkit.audiences.BukkitNamelessConsole;
 import com.namelessmc.plugin.bukkit.audiences.BukkitNamelessPlayer;
+import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.audiences.NamelessConsole;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
@@ -19,9 +20,12 @@ import java.util.stream.Collectors;
 
 public class SpigotAudienceProvider extends AbstractAudienceProvider {
 
-	private final @NonNull BukkitAudiences audiences;
+	private final ConfigurationHandler config;
+	private final BukkitAudiences audiences;
 
-	SpigotAudienceProvider(final @NonNull BukkitNamelessPlugin bukkitPlugin) {
+	SpigotAudienceProvider(final ConfigurationHandler config,
+						   final BukkitNamelessPlugin bukkitPlugin) {
+		this.config = config;
 		this.audiences = BukkitAudiences.create(bukkitPlugin);
 	}
 
@@ -42,7 +46,7 @@ public class SpigotAudienceProvider extends AbstractAudienceProvider {
 	public @Nullable NamelessPlayer bukkitToNamelessPlayer(final Player bukkitPlayer) {
 		return bukkitPlayer == null
 				? null
-				: new BukkitNamelessPlayer(this.audiences.player(bukkitPlayer), bukkitPlayer);
+				: new BukkitNamelessPlayer(this.config, this.audiences.player(bukkitPlayer), bukkitPlayer);
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class SpigotAudienceProvider extends AbstractAudienceProvider {
 	@Override
 	public @NonNull Collection<@NonNull NamelessPlayer> onlinePlayers() {
 		return Bukkit.getOnlinePlayers().stream()
-				.map(p -> new BukkitNamelessPlayer(this.audiences.player(p), p))
+				.map(p -> new BukkitNamelessPlayer(this.config, this.audiences.player(p), p))
 				.collect(Collectors.toUnmodifiableList());
 	}
 }

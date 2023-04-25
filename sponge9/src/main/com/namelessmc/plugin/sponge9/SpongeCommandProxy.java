@@ -25,10 +25,15 @@ import java.util.stream.Collectors;
 
 public class SpongeCommandProxy {
 
-	static void registerCommands(final RegisterCommandEvent<Command> event,
-								 final NamelessPlugin plugin,
-								 final PluginContainer pluginContainer) {
-		CommonCommand.commands(plugin).forEach(command -> {
+	private final NamelessPlugin plugin;
+
+	SpongeCommandProxy(final NamelessPlugin plugin) {
+		this.plugin = plugin;
+	}
+
+	void registerCommands(final RegisterCommandEvent<Command> event,
+						  final PluginContainer pluginContainer) {
+		CommonCommand.commands(this.plugin).forEach(command -> {
 			if (command == null) {
 				return; // Command is disabled
 			}
@@ -39,7 +44,7 @@ public class SpongeCommandProxy {
 		});
 	}
 
-	private static class SpongeCommand implements Command.Raw {
+	private class SpongeCommand implements Command.Raw {
 
 		private final CommonCommand command;
 		private final String permission;
@@ -55,7 +60,7 @@ public class SpongeCommandProxy {
 
 		private NamelessCommandSender causeToSender(final CommandCause cause) {
 			if (cause instanceof Player) {
-				return new SpongeNamelessPlayer((Player) cause);
+				return new SpongeNamelessPlayer(SpongeCommandProxy.this.plugin.config(), (Player) cause);
 			} else if (cause instanceof SystemSubject) {
 				return new SpongeNamelessConsole();
 			} else {

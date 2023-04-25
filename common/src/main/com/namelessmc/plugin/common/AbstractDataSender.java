@@ -143,7 +143,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 				}
 			}
 
-			players.add(player.websiteUuid(), playerJson);
+			players.add(NamelessAPI.javaUuidToWebsiteUuid(player.uuid()), playerJson);
 		}
 
 		data.add("players", players);

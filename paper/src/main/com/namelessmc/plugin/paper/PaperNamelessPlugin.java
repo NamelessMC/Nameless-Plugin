@@ -17,7 +17,7 @@ public class PaperNamelessPlugin extends BukkitNamelessPlugin {
 
 	@Override
 	public void configureAudiences() {
-		this.plugin.setAudienceProvider(new PaperAudienceProvider());
+		this.plugin.setAudienceProvider(new PaperAudienceProvider(this.plugin.config()));
 	}
 
 	@Override

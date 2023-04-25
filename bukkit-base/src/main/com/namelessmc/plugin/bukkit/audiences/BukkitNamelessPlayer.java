@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.bukkit.audiences;
 
+import com.namelessmc.plugin.common.ConfigurationHandler;
 import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import net.kyori.adventure.audience.Audience;
@@ -9,9 +10,15 @@ public class BukkitNamelessPlayer extends NamelessPlayer {
 
 	private final Player player;
 
-	public BukkitNamelessPlayer(Audience audience, Player player) {
-		super(audience, player.getUniqueId(), player.getName());
+	public BukkitNamelessPlayer(final ConfigurationHandler config,
+								final Audience audience,
+								final Player player) {
+		super(config, audience, player.getUniqueId(), player.getName());
 		this.player = player;
+	}
+
+	public Player bukkitPlayer() {
+		return this.player;
 	}
 
 	@Override

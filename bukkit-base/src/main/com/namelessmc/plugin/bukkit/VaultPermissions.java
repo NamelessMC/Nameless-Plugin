@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.bukkit;
 
+import com.namelessmc.plugin.bukkit.audiences.BukkitNamelessPlayer;
 import com.namelessmc.plugin.common.AbstractPermissions;
 import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
@@ -78,10 +79,7 @@ public class VaultPermissions extends AbstractPermissions {
 		if (this.permission == null) {
 			throw new ProviderNotUsableException();
 		}
-		final Player bukkitPlayer = Bukkit.getPlayer(player.uuid());
-		if (bukkitPlayer == null) {
-			return null;
-		}
+		final Player bukkitPlayer = ((BukkitNamelessPlayer) player).bukkitPlayer();
 		return Arrays.stream(this.permission.getPlayerGroups(bukkitPlayer)).collect(Collectors.toUnmodifiableSet());
 	}
 
