@@ -23,7 +23,6 @@ public class NamelessPlugin {
 	private final DateFormatter dateFormatter;
 	private final UserCache userCache;
 	private final EventBus<NamelessEvent> eventBus;
-	private final PropertiesManager propertiesManager;
 
 	private final List<List<Reloadable>> reloadables = List.of(
 			new ArrayList<>(),
@@ -52,8 +51,6 @@ public class NamelessPlugin {
 		this.api = this.registerReloadable(
 				new ApiProvider(scheduler, this.logger, this.configuration)
 		);
-		this.propertiesManager = this.registerReloadable(
-				new PropertiesManager(dataDirectory.resolve("nameless.dat"), this));
 		this.language = this.registerReloadable(
 				new LanguageHandler(dataDirectory, this.configuration, this.logger)
 		);
@@ -126,10 +123,6 @@ public class NamelessPlugin {
 
 	public void setAudienceProvider(final @NonNull AbstractAudienceProvider audienceProvider) {
 		this.audienceProvider = audienceProvider;
-	}
-
-	public PropertiesManager properties() {
-		return this.propertiesManager;
 	}
 
 	public void unload() {
