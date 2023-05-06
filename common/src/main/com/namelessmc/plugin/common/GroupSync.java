@@ -36,6 +36,13 @@ public class GroupSync implements Reloadable {
 
     @Override
     public void load() {
+        final AbstractPermissions permissions = this.plugin.permissions();
+
+        if (permissions == null) {
+            this.plugin.logger().warning("Group sync disabled, no permissions adapter is active. Is a supported permissions system installed, like LuckPerms or Vault?");
+            return;
+        }
+
         this.plugin.scheduler().runAsync(() -> {
             try {
                 final NamelessAPI api = this.plugin.apiProvider().api();
@@ -45,10 +52,10 @@ public class GroupSync implements Reloadable {
 
                 // Group sync API is available in 2.1.0+
                 if (api.website().parsedVersion().minor() >= 1) {
-                    this.plugin.logger().fine("New group sync API enabled!");
+                    this.plugin.logger().info("Website is v2.1.0+, new group sync system enabled!");
                     this.task = this.plugin.scheduler().runTimer(this::syncGroups, Duration.ofSeconds(10));
                 } else {
-                    this.plugin.logger().fine("New group sync not enabled, website must be v2.1.0+");
+                    this.plugin.logger().info("Website version is older than v2.1.0+, not enabling new group sync system. The old group sync system is still active.");
                 }
             } catch (final NamelessException e) {
                 this.plugin.logger().logException(e);
@@ -58,10 +65,8 @@ public class GroupSync implements Reloadable {
 
     private void syncGroups() {
         final AbstractPermissions permissions = this.plugin.permissions();
-
         if (permissions == null) {
-            this.plugin.logger().warning("Cannot check player groups for group sync, no permissions adapter is active.");
-            return;
+            throw new IllegalStateException("Permissions adapter cannot be null, or this task shouldn't have been registered");
         }
 
         final Map<UUID, Set<String>> groupsToSend = new HashMap<>();
