@@ -1,6 +1,4 @@
-# Integration with Supercrafter100's Websend module. Do not enable if the websend module is not installed.
-# For this to work you must also configure the server id in the 'server-data-sender' section. However, Websend
-# is unrelated to the server data sender and the server data sender doesn't have to be enabled.
+# Integration with Supercrafter100's Websend module. Do not enable if the 'Websend' module is not installed.
 websend:
   # Poll the Websend module for commands to execute
   command-executor:
@@ -11,7 +9,7 @@ websend:
     enabled: false
     interval: PT2S
 
-# Integration with Partydragen's Store module. Do not enable if the store module is not installed.
+# Integration with Partydragen's Store module. Do not enable if the 'Store' module is not installed.
 # Store module commands need to be enabled separately in commands.yaml
 store:
   # The connection id can be obtained from the store module in StaffCP
