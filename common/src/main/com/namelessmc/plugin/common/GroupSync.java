@@ -5,6 +5,7 @@ import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ public class GroupSync implements Reloadable {
     private final NamelessPlugin plugin;
 
     private @Nullable AbstractScheduledTask task = null;
+    private int serverId;
 
     GroupSync(final NamelessPlugin plugin) {
         this.plugin = plugin;
@@ -36,10 +38,25 @@ public class GroupSync implements Reloadable {
 
     @Override
     public void load() {
+        ConfigurationNode config = this.plugin.config().main();
+        if (!config.node("group-sync", "enabled").getBoolean()) {
+            this.plugin.logger().fine("New group sync disabled");
+            return;
+        }
+
+        this.plugin.logger().fine("Enabling new group sync system");
+
+        this.serverId = config.node("api", "server-id").getInt(0);
+
+        if (this.serverId == 0) {
+            this.plugin.logger().warning("Group sync is enabled but server-id is missing or zero. Group sync will not work until server-id is configured in main.yaml.");
+            return;
+        }
+
         final AbstractPermissions permissions = this.plugin.permissions();
 
         if (permissions == null) {
-            this.plugin.logger().warning("Group sync disabled, no permissions adapter is active. Is a supported permissions system installed, like LuckPerms or Vault?");
+            this.plugin.logger().warning("Group sync is enabled, but no permissions adapter is active. Is a supported permissions system installed, like LuckPerms or Vault?");
             return;
         }
 
@@ -51,12 +68,12 @@ public class GroupSync implements Reloadable {
                 }
 
                 // Group sync API is available in 2.1.0+
-                if (api.website().parsedVersion().minor() >= 1) {
-                    this.plugin.logger().info("Website is v2.1.0+, new group sync system enabled!");
-                    this.task = this.plugin.scheduler().runTimer(this::syncGroups, Duration.ofSeconds(10));
-                } else {
-                    this.plugin.logger().info("Website version is older than v2.1.0+, not enabling new group sync system. The old group sync system is still active.");
+                if (api.website().parsedVersion().minor() < 1) {
+                    this.plugin.logger().warning("Website version is older than v2.1.0+, refusing to enable new group sync system");
+                    return;
                 }
+
+                this.task = this.plugin.scheduler().runTimer(this::syncGroups, Duration.ofSeconds(10));
             } catch (final NamelessException e) {
                 this.plugin.logger().logException(e);
             }
@@ -98,20 +115,13 @@ public class GroupSync implements Reloadable {
 
         this.plugin.logger().fine(() -> "Sending groups for " + groupsToSend.size() + " players");
 
-        final int serverId = this.plugin.config().main().node("server-data-sender", "server-id").getInt();
-
-        if (serverId <= 0) {
-            this.plugin.logger().warning("server-id is not configured");
-            return;
-        }
-
         this.plugin.scheduler().runAsync(() -> {
             final NamelessAPI api = this.plugin.apiProvider().api();
             if (api == null) {
                 return;
             }
             try {
-                api.sendMinecraftGroups(serverId, groupsToSend);
+                api.sendMinecraftGroups(this.serverId, groupsToSend);
             } catch (NamelessException e) {
                 this.plugin.logger().warning("An error occurred while sending player groups to the website, for group sync. The plugin will try again later.");
                 this.plugin.logger().logException(e);

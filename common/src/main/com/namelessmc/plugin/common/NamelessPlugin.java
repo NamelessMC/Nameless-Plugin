@@ -79,6 +79,10 @@ public class NamelessPlugin {
 		if (javaVer > 11 && javaVer < 17) {
 			this.logger.warning("You are running Java version " + javaVer + " which is non-LTS and no longer receives bug fixes or security fixes. Please update to Java 17.");
 		}
+
+		if (!this.config().main().hasChild("api", "server-id")) {
+			this.logger.warning("Your config file is missing the server-id option. Please move it from the 'server-data-sender' section to the 'api' section, if you upgraded from an older version.");
+		}
 	}
 
 	public ConfigurationHandler config() {

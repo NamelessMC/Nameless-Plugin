@@ -6,6 +6,8 @@ api:
   # Enable the API and obtain the API URL and API key in StaffCP > Configuration > API
   url: ""
   key: ""
+  # Find your server id in StaffCP > Integrations > Minecraft > Minecraft Servers
+  server-id: 0
   # Print detailed information about website requests and responses
   debug: false
   # Maximum time in milliseconds to wait for a response from the website. Sensible values are 3s-15s.
@@ -23,9 +25,6 @@ api:
 # the plugin sends this information. You'll need to configure server pinging separately on the website.
 server-data-sender:
   enabled: false
-  # Find your server id in StaffCP > Integrations > Minecraft > Minecraft Servers
-  # Create a server if you haven't already
-  server-id: 0
   # Duration between sending data https://en.wikipedia.org/wiki/ISO_8601#Durations
   interval: 'PT30S'
   # Send PlaceholderAPI placeholders, to be used by NamelessMC (leaderboards, profile pages) or modules.
@@ -36,6 +35,15 @@ server-data-sender:
     global: []
     # player-specific placeholders to send to the website (list of placeholder names without %%)
     player: []
+
+# Group sync will, when enabled, send Minecraft groups to the website.
+#  > Select a group sync server: StaffCP > Integrations > Minecraft > Minecraft Servers
+#  > Configure groups: StaffCP > Configuration > API > Group sync.
+# This option is for NamelessMC v2.1.0+ only. In older versions, group sync is done by server-data-sender.
+group-sync:
+  enabled: false
+  # Duration between sending groups https://en.wikipedia.org/wiki/ISO_8601#Durations
+  interval: 'PT30S'
 
 logging:
   # Show more information in log

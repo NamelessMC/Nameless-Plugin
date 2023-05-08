@@ -157,7 +157,7 @@ public class Websend implements Reloadable {
 						return;
 					}
 
-					final int serverId = this.plugin.config().main().node("server-data-sender", "server-id").getInt(0);
+					final int serverId = this.plugin.config().main().node("api", "server-id").getInt(0);
 					if (serverId <= 0) {
 						this.plugin.logger().warning("server-id is not configured");
 						return;
@@ -181,9 +181,9 @@ public class Websend implements Reloadable {
 	}
 
 	private void executeCommands() {
-		final int serverId = this.plugin.config().main().node("server-data-sender", "server-id").getInt(0);
+		final int serverId = this.plugin.config().main().node("api", "server-id").getInt(0);
 		if (serverId <= 0) {
-			this.plugin.logger().warning("Websend is enabled but 'server-data-sender.server-id' in main.yaml is not set properly.");
+			this.plugin.logger().warning("Websend is enabled but 'api.server-id' in main.yaml is not set properly.");
 			return;
 		}
 
