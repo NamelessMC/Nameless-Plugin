@@ -84,7 +84,7 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 
 		this.serverId = config.node("server-id").getInt();
 		if (this.serverId <= 0) {
-			this.plugin.logger().warning("Server data sender is configured with invalid server id");
+			this.plugin.logger().warning("Server data sender is enabled, but server-id is not configured. Please enter the correct server id in main.yaml.");
 			return;
 		}
 

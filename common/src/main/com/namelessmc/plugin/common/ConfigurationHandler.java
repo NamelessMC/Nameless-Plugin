@@ -1,5 +1,6 @@
 package com.namelessmc.plugin.common;
 
+import com.namelessmc.plugin.common.logger.AbstractLogger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.CommentedConfigurationNode;
@@ -71,6 +72,10 @@ public class ConfigurationHandler implements Reloadable {
 		}
 	}
 
+	public void postLoadChecks(AbstractLogger logger) {
+
+	}
+
 	private CommentedConfigurationNode copyFromJarAndLoad(final @NonNull String name) throws IOException {
 		Path path = dataDirectory.resolve(name);
 		FileUtils.copyOutOfJar(ConfigurationHandler.class, name, path);
@@ -86,6 +91,29 @@ public class ConfigurationHandler implements Reloadable {
 			return Duration.parse(string);
 		} catch (final DateTimeParseException e) {
 			return null;
+		}
+	}
+
+	public static class PostLoadChecker implements Reloadable {
+
+		private final ConfigurationHandler config;
+		private final AbstractLogger logger;
+
+		public PostLoadChecker(final ConfigurationHandler config, final AbstractLogger logger) {
+			this.config = config;
+			this.logger = logger;
+		}
+
+		@Override
+		public void unload() {
+
+		}
+
+		@Override
+		public void load() {
+			if (!this.config.main().hasChild("api", "server-id")) {
+				this.logger.warning("Your config file is missing the server-id option. If you upgraded from an older plugin version, it is recommended to delete main.yaml to let the plugin generate an up-to-date file.");
+			}
 		}
 	}
 
