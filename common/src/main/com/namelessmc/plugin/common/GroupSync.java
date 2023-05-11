@@ -1,6 +1,8 @@
 package com.namelessmc.plugin.common;
 
 import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.exception.ApiError;
+import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
 import com.namelessmc.plugin.common.command.AbstractScheduledTask;
@@ -124,7 +126,11 @@ public class GroupSync implements Reloadable {
                 api.sendMinecraftGroups(this.serverId, groupsToSend);
             } catch (NamelessException e) {
                 this.plugin.logger().warning("An error occurred while sending player groups to the website, for group sync. The plugin will try again later.");
-                this.plugin.logger().logException(e);
+                if (e instanceof ApiException && ((ApiException) e).apiError() == ApiError.CORE_INVALID_SERVER_ID) {
+                    this.plugin.logger().warning("The server id configured in main.yaml is incorrect.");
+                } else {
+                    this.plugin.logger().logException(e);
+                }
 
                 // Re-queue players by deleting their groups from local state
                 for (final UUID uuid : groupsToSend.keySet()) {
