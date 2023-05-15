@@ -57,6 +57,14 @@ command:
       registered-date: Inscrit le <date>
       primary-group: 'Groupe primaire : <groupname>'
       all-groups: 'Tous les groupes : <groups_names_list>'
+      integrations:
+        header: 'Intégrations :'
+        identifier: 'Identifiant : <identifier>'
+        username: "Nom d'utilisateur : <username>"
+        linked-date: 'Date de liaison : <linked_date>'
+        verified: 'Vérifié : <is_verified>'
+      custom-field: "Champ personnalisé '<name>': <value>"
+      store-module-credits: 'Crédits du module boutique : <credits>'
     description: Extrait de l'information à propos d'un utilisateur du site web
     usage: /{command} [pseudo]
   subcommands: {}
@@ -94,6 +102,12 @@ command:
     description: Voir les crédits boutique
   suggest:
     usage: /<command> \<titre de la suggestion>
+    description: Créer une suggestion
+    output:
+      success: Suggestion créée avec succès. Cliquez <yellow><click:open_url:"<url>">ici</click></yellow>
+        pour l'ouvrir dans un navigateur internet.
+      too-short: La suggestion fournie est trop courte, veuillez utiliser plus de
+        mots pour décrire votre suggestion.
 join-not-registered: Vous n'avez pas encore de compte sur notre site web. Veuillez
   vous inscrire avec /<register_command>..
 error:
@@ -113,3 +127,8 @@ boolean:
   yes-negative: <red>Oui</red>
   no-positive: <green>Non</green>
   no-negative: <red>Non</red>
+website-announcement: 'Annonce du site Web : <message>'
+join-notifications: Vous avez des notifications du site internet, veuillez exécuter
+  /<notifications_command> pour plus d'informations.
+user-sync-kick: Vous êtes banni de notre serveur suite à un bannissement de votre
+  compte du site internet.
