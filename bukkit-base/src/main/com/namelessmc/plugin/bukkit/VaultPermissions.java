@@ -38,25 +38,24 @@ public class VaultPermissions extends AbstractPermissions {
 			log.fine("Vault is not installed.");
 			return;
 		}
+
 		final RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServer().getServicesManager().getRegistration(Permission.class);
 		if (permissionProvider == null) {
-			log.fine("No vault compatible permissions plugin was found.");
+			log.warning("Vault is installed, but no vault-compatible permissions system is loaded. Is your permissions plugin compatible with Vault?");
 			return;
 		}
 		final Permission permission = permissionProvider.getProvider();
 		if (permission == null) {
-			log.fine("No vault compatible permissions plugin was found.");
+			log.warning("Vault is installed, but no vault-compatible permissions system is loaded. Is your permissions plugin compatible with Vault?");
 			return;
 		}
 
-		try {
-			permission.getGroups();
-		} catch (final UnsupportedOperationException ignored) {
-			log.fine("Vault permissions plugin doesn't seem to work.");
+		if (!permission.hasGroupSupport()) {
+			log.warning("Vault is installed, but the loaded permissions system ('" + permission.getName() + "') does not support groups. Is your permissions plugin compatible with Vault?");
 			return;
 		}
 
-		log.fine("Vault permissions plugin found, seems to work");
+		log.fine("Vault permissions seem to work");
 
 		this.permission = permission;
 	}
