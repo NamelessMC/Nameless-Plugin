@@ -64,6 +64,7 @@ public class RegisterCommand extends CommonCommand {
 					final NamelessPlayer player = (NamelessPlayer) sender;
 					IntegrationData integrationData = new MinecraftIntegrationData(player.uuid(), player.username());
 					link = api.registerUser(username, email, integrationData);
+					this.plugin().groupSync().resetGroups(player);
 				} else {
 					link = api.registerUser(username, email);
 				}

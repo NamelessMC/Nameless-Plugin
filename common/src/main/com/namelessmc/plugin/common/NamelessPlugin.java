@@ -23,6 +23,7 @@ public class NamelessPlugin {
 	private final DateFormatter dateFormatter;
 	private final UserCache userCache;
 	private final EventBus<NamelessEvent> eventBus;
+	private final GroupSync groupSync;
 
 	private final List<List<Reloadable>> reloadables = List.of(
 			new ArrayList<>(),
@@ -71,7 +72,7 @@ public class NamelessPlugin {
 		this.registerReloadable(new Store(this));
 		this.registerReloadable(new SyncBanToWebsite(this));
 		this.registerReloadable(new Websend(this, logPath));
-		this.registerReloadable(new GroupSync(this));
+		this.groupSync = this.registerReloadable(new GroupSync(this));
 
 		this.registerPermissionAdapter(new LuckPermsPermissions());
 
@@ -118,6 +119,10 @@ public class NamelessPlugin {
 
 	public EventBus<NamelessEvent> events() {
 		return this.eventBus;
+	}
+
+	public GroupSync groupSync() {
+		return this.groupSync;
 	}
 
 	public @Nullable AbstractPermissions permissions() {

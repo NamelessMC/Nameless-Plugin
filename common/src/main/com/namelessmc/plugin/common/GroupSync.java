@@ -140,4 +140,12 @@ public class GroupSync implements Reloadable {
         });
     }
 
+    /**
+     * Force groups to be sent again for this player
+     * @param player
+     */
+    public void resetGroups(NamelessPlayer player) {
+        this.playerGroups.remove(player.uuid());
+    }
+
 }
