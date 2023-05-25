@@ -127,7 +127,7 @@ public class GroupSync implements Reloadable {
             } catch (NamelessException e) {
                 this.plugin.logger().warning("An error occurred while sending player groups to the website, for group sync. The plugin will try again later.");
                 if (e instanceof ApiException && ((ApiException) e).apiError() == ApiError.CORE_INVALID_SERVER_ID) {
-                    this.plugin.logger().warning("The server id configured in main.yaml is incorrect.");
+                    this.plugin.logger().warning("The server id configured in main.yaml is incorrect, or no correct group sync server is selected in StaffCP > Integrations > Minecraft > Minecraft Servers.");
                 } else {
                     this.plugin.logger().logException(e);
                 }
