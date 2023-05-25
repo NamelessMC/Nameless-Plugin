@@ -73,6 +73,8 @@ command:
         invalid-code: <red>Valideringskoden er forkert. Tjek om du har kopierede koden
           korrekt, og prøv igen.
         already-validated: Din konto er allerede valideret.
+        minecraft-account-linked: <red>Denne Minecraft konto er allerede linket til
+          en konto.
   user-info:
     usage: /<command> [brugernavn]
     description: Hent oplysninger om en bruger fra hjemmesiden
@@ -117,6 +119,8 @@ command:
     output:
       success: Forslaget blev oprettet. Klik <yellow><click:open_url:"<url>">her</click></yellow>
         for at åbne den i en webbrowser.
+      too-short: Det angivne forslag er for kort. Brug venligst flere ord til at beskrive
+        dit forslag.
 join-not-registered: Du har endnu ikke en konto på vores hjemmeside. Tilmeld dig venligst
   ved hjælp af /<register_command>.
 join-notifications: Du har en notifikation på hjemmesiden, brug /<notifications_command>
