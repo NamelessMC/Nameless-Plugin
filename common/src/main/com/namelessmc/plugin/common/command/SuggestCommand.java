@@ -46,6 +46,11 @@ public class SuggestCommand extends CommonCommand {
 		this.scheduler().runAsync(() -> {
 			try {
 				NamelessUser user = api.userByMinecraftUuid(((NamelessPlayer) sender).uuid());
+				if (user == null) {
+					this.scheduler().runSync(() ->
+							sender.sendMessage(this.language().get(PLAYER_SELF_NOT_REGISTERED)));
+					return;
+				}
 				Suggestion suggestion = user.suggestions().createSuggestion(suggestionTitle, suggestionTitle);
 				String url = suggestion.url().toString();
 				this.scheduler().runSync(() ->
