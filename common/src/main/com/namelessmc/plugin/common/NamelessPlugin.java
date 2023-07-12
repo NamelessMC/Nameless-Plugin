@@ -15,6 +15,8 @@ import java.util.function.Function;
 
 public class NamelessPlugin {
 
+	private static NamelessPlugin instance; // Not meant to be used by the nameless plugin itself
+
 	private final AbstractScheduler scheduler;
 	private final ConfigurationHandler configuration;
 	private final AbstractLogger logger;
@@ -41,6 +43,8 @@ public class NamelessPlugin {
 						  final @Nullable Path logPath,
 						  final String platformInternalName,
 						  final String platformVersion) {
+		instance = this;
+
 		this.scheduler = scheduler;
 
 		this.configuration = this.registerReloadable(
@@ -202,6 +206,14 @@ public class NamelessPlugin {
 				NamelessPlugin.this.logger.fine("Found no usable permission adapter");
 			}
 		}
+	}
+
+	/**
+	 * Get the most recently created instance (usually the only instance) of the Nameless-Plugin. To be used by
+	 * external plugins that want to use the Nameless API without duplicating API configuration.
+	 */
+	public static NamelessPlugin instance() {
+		return instance;
 	}
 
 }
