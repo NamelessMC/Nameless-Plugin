@@ -74,16 +74,35 @@ public class Metrics implements Reloadable {
 		// Configuration
 		ConfigurationNode config = this.plugin.config().main();
 		ConfigurationNode modules = this.plugin.config().modules();
-		fields.addProperty("language", this.plugin.language().getActiveLanguageCode());
+		// API
+		fields.addProperty("api_debug", config.node("api", "debug").getBoolean());
+		fields.addProperty("api_offline_uuids", config.node("api", "offline-uuids").getBoolean());
+		// Server data sender
 		fields.addProperty("server_data_sender", config.node("server-data-sender", "enabled").getBoolean());
 		fields.addProperty("server_data_sender_placeholders", config.node("server-data-sender", "placeholders", "enabled").getBoolean());
-		fields.addProperty("register_custom_username", config.node("register-custom-username").getBoolean(true));
-		fields.addProperty("sync_ban_to_website", config.node("sync-ban-to-website").getBoolean());
+		// Group sync
+		fields.addProperty("group_sync", config.node("group-sync", "enabled").getBoolean());
+		// Logging
+		fields.addProperty("logging_verbose", config.node("logging", "verbose").getBoolean());
+		// Not registered join message
 		fields.addProperty("not_registered_join_message", config.node("not-registered-join-message").getBoolean());
+		// Join notifications
+		fields.addProperty("join_notifications", config.node("join-notifications").getBoolean());
+		// Language
+		fields.addProperty("language", this.plugin.language().getActiveLanguageCode());
+		// Announcements
+		fields.addProperty("announcements", config.node("announcements", "enabled").getBoolean());
+		// Register using custom username
+		fields.addProperty("register_custom_username", config.node("register-custom-username").getBoolean(true));
+		// Sync ban to website
+		fields.addProperty("sync_ban_to_website", config.node("sync-ban-to-website").getBoolean());
+		// User sync
+		fields.addProperty("user_sync", config.node("user-sync", "enabeld").getBoolean());
 		fields.addProperty("user_sync_whitelist", config.node("user-sync", "whitelist", "enabled").getBoolean());
 		fields.addProperty("user_sync_bans", config.node("user-sync", "bans", "enabled").getBoolean());
-		fields.addProperty("announcements", config.node("announcements", "enabled").getBoolean());
+		// Retrieve placeholders
 		fields.addProperty("retrieve_placeholders", config.node("retrieve-placeholders", "enabled").getBoolean());
+		// Modules
 		fields.addProperty("websend_command_executor", modules.node("websend", "command-executor", "enabled").getBoolean());
 		fields.addProperty("websend_send_logs", modules.node("websend", "send-logs", "enabled").getBoolean());
 		fields.addProperty("store_command_executor", modules.node("store", "command-executor", "enabled").getBoolean());

@@ -66,8 +66,7 @@ announcements:
   enabled: false
   # Every <interval> a random announcement is chosen (if there are any) and sent to the player
   interval: 'PT10M'
-  # If specified, it will only show announcements with the respective display.
-  # see https://github.com/NamelessMC/Nameless/wiki/v2-API#getannouncements-get
+  # If specified, it will only show announcements with the respective display page.
   # display: Forums
 
 # Allow players to specify a username, other than their Minecraft username, when using the register command.
@@ -86,7 +85,7 @@ user-sync:
   poll-interval: 'PT30S'
   # List of UUIDs to exclude (never add to or remove from the whitelist or ban list)
   # These UUIDs must be written with dashes. If you've enabled api-usernames, enter usernames instead.
-  exclude: [ ]
+  exclude: []
 
   # Auto whitelist registered players.
   #
