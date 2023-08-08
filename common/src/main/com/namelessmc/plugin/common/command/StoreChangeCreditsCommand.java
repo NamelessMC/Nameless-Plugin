@@ -31,11 +31,11 @@ public class StoreChangeCreditsCommand extends CommonCommand {
 			return;
 		}
 
-		final float credits;
+		final int credits;
 		try {
-			credits = Float.parseFloat(args[1]);
-
-			if (Float.isNaN(credits) || Float.isInfinite(credits)) {
+			try {
+				credits = Integer.parseInt(args[1]);
+			} catch (NumberFormatException ignored) {
 				sender.sendMessage(this.usage());
 				return;
 			}
@@ -70,11 +70,11 @@ public class StoreChangeCreditsCommand extends CommonCommand {
 				if (credits > 0) {
 					user.store().addCredits(credits);
 					sender.sendMessage(this.language().get(COMMAND_STORE_CHANGE_CREDITS_OUTPUT_ADDED,
-							"credits", String.format("%.2f", credits), "username", namelessUsername));
+							"credits", String.format("%.2f", credits / 100f), "username", namelessUsername));
 				} else if (credits < 0) {
 					user.store().removeCredits(-credits);
 					sender.sendMessage(this.language().get(COMMAND_STORE_CHANGE_CREDITS_OUTPUT_REMOVED,
-							"credits", String.format("%.2f", -credits), "username", namelessUsername));
+							"credits", String.format("%.2f", -credits / 100f), "username", namelessUsername));
 				} else {
 					throw new IllegalStateException();
 				}

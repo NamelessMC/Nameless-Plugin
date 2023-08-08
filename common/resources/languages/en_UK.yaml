@@ -62,7 +62,7 @@ command:
       notify-broadcast: "<yellow><reporter_username></yellow> has opened a report for <yellow><reported_username></yellow>."
 
   store-change-credits:
-    usage: "/<command> \\<player name> \\<(-)credits>"
+    usage: "/<command> \\<player name> \\<(-)credits cents>"
     description: "Add or remove store credits for a user"
     output:
       added: "Added <green><credits></green> credits to <username>."

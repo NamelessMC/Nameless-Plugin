@@ -67,9 +67,9 @@ public class StoreViewCreditsCommand extends CommonCommand {
 					}
 				}
 
-				float credits = user.store().credits();
+				final String credits = user.store().creditsDisplay();
 				sender.sendMessage(this.language().get(COMMAND_STORE_VIEW_CREDITS_OUTPUT_CREDITS,
-						"credits", String.valueOf(credits)));
+						"credits", credits));
 			} catch (NamelessException e) {
 				sender.sendMessage(this.language().get(ERROR_WEBSITE_CONNECTION));
 				this.logger().logException(e);
