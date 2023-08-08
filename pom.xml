@@ -43,6 +43,7 @@
 				<configuration>
 					<source>11</source>
 					<target>11</target>
+					<showDeprecation>true</showDeprecation>
 					<fork>true</fork> <!-- Must fork or else JVM arguments are ignored. -->
 					<compilerArguments>
 						<Xmaxerrs>100</Xmaxerrs>
