@@ -83,7 +83,7 @@ command:
       added: Přidáno <green><credits></green> kreditů uživateli <username>.
       removed: Odebráno <red><credits></red> kreritů uživateli <username>.
       nothing: Není vyžadována žádná akce.
-    usage: /<command> \<jméno hráče> \<(-)kredity>
+    usage: /<command> \<jméno hráče> \<(-)centy kreditů>
   store-view-credits:
     usage: /<command> [jméno hráče]
     description: Zobrazit kredity
