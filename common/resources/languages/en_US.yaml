@@ -97,7 +97,7 @@ command:
       added: Added <green><credits></green> credits to <username>.
       nothing: No action needed.
       removed: Removed <red><credits></red> credits from <username>.
-    usage: /<command> \<player name> \<(-)credits>
+    usage: /<command> \<player name> \<(-)credits cents>
     description: Add or remove store credits for a user
   suggest:
     description: Create a suggestion
