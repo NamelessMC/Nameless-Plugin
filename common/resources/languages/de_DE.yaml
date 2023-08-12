@@ -93,7 +93,7 @@ command:
       removed: Entfernt <red><credits></red> Credits von <username>.
       nothing: Keine Maßnahmen erforderlich.
     description: Guthaben für einen Benutzer hinzufügen oder entfernen
-    usage: /<command> \<Name des Spielers> \<(-)Credits>
+    usage: /<command> \<Name des Spielers> \<(-)Credits cents>
   store-view-credits:
     usage: /<command> [Benutzer Name]
     description: Guthaben ansehen
