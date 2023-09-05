@@ -7,7 +7,8 @@ command:
   notifications:
     output:
       no-notifications: 您没有任何未读通知。
-      notification: <hover:show_text:"点击以在网页浏览器中打开"><click:open_url:"<url>"><message></click></hover>
+      notification: 
+        <hover:show_text:"点击以在网页浏览器中打开"><click:open_url:"<url>"><message></click></hover>
     description: 显示网站通知列表。
     usage: '/<command>'
   report:
@@ -53,6 +54,9 @@ command:
         username-invalid: 提供的用户名无效。
         cannot-send-email: 无法发送注册邮件，请联系管理员来激活您的账户。
         username-used: 你的用户名已被使用.
+        minecraft-used: 您的 Minecraft 帐户已关联到其他网站用户.
+        custom-username-disabled: <red>不允许使用您的 Minecraft 用户名以外的用户名进行注册.
+        console-must-specify-username: <red>从控制台运行注册命令时，必须指定用户名.
     description: 注册
   validate:
     usage: '/<command> \<验证码>'
@@ -62,12 +66,26 @@ command:
       fail:
         invalid-code: 您的验证码不正确。请检查您是否正确的拷贝了它，随后再试一次。
         already-validated: 您的账号已被验证过了。
+        minecraft-account-linked: <red>此Minecraft帐户已链接到网站帐户.
   subcommands: {}
   plugin:
     description: NamelessMC 插件的管理命令
     output:
       reload-successful: 插件重载成功.
     usage: /<command> '重新加载的指令是'/'rl'/'最后一个错误'
+  store-change-credits:
+    description: 为用户添加或删除商店积分
+    output:
+      nothing: 无需执行任何操作.
+  store-view-credits:
+    description: 查看商店积分
+    output:
+      no-permission-other: 您无权查看除您自己以外的玩家的积分.
+      console-must-provide-target: 从控制台运行此命令时，必须提供目标玩家.
+  suggest:
+    description: 创建建议
+    output:
+      too-short: 提供的建议太短，请使用更多词语来描述您的建议.
 join-not-registered: 您在我们的网站上没有帐号。请使用 /register 来注册。
 website-announcement: '网站公告: <message>'
 user-sync-kick: 您因为网站账号被封禁而被在服务器上一并封禁。
