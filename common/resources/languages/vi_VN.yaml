@@ -68,6 +68,8 @@ command:
           tra xem bạn đã sao chép đúng chưa và thử lại.
         already-validated: Tài khoản của bạn đã được xác thực rồi không cần xác thực
           lại nữa.
+        minecraft-account-linked: <red>Tài khoản Minecraft này đã được liên kết với
+          tài khoản trang web.
       success: Tài khoản của bạn đã được xác thực.
     usage: /<command> \<code>
   notifications:
@@ -104,6 +106,8 @@ command:
     output:
       success: 'Đề xuất đã được tạo thành công. Nhấp vào <yellow><click:open_url:
         "<url>">đây</click></yellow>để mở nó trong trình duyệt web.'
+      too-short: Đề xuất được cung cấp quá ngắn, vui lòng sử dụng nhiều từ hơn để
+        mô tả đề xuất của bạn.
     usage: /<command> \<gợi ý>
 join-not-registered: Bạn chưa có tài khoản trên trang web của chúng tôi. Vui lòng
   đăng ký bằng /register.
