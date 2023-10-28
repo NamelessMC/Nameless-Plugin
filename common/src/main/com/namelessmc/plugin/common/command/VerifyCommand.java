@@ -49,6 +49,7 @@ public class VerifyCommand extends CommonCommand {
 				final IntegrationData integrationData = new MinecraftIntegrationData(player.uuid(), player.username());
 				api.verifyIntegration(integrationData, code);
 				sender.sendMessage(language().get(COMMAND_VALIDATE_OUTPUT_SUCCESS));
+				this.plugin().groupSync().resetGroups(player);
 			} catch (ApiException e) {
 				switch(e.apiError()) {
 					case CORE_INVALID_CODE:
