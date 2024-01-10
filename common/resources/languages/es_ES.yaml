@@ -87,7 +87,7 @@ command:
     usage: /<command> 'reload'/'rl'/'last_error'
   store-credits: {}
   store-change-credits:
-    usage: /<command> \<nombre del jugador> \<(-)créditos>
+    usage: /<command> \<nombre del jugador> \<(-)créditos cent>
     description: Añadir o eliminar créditos de la tienda para un usuario
     output:
       added: Añadidos los <green><credits></green> créditos a <username>.
