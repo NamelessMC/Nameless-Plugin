@@ -2,15 +2,21 @@ package com.namelessmc.plugin.velocity;
 
 import com.namelessmc.plugin.common.AbstractDataSender;
 import com.namelessmc.plugin.common.NamelessPlugin;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import com.velocitypowered.api.proxy.ProxyServer;
 
 public class VelocityDataSender extends AbstractDataSender {
 
-	protected VelocityDataSender(final @NonNull NamelessPlugin plugin) {
+	private final ProxyServer server;
+	
+	protected VelocityDataSender(final NamelessPlugin plugin, final ProxyServer server) {
 		super(plugin);
+		this.server = server;
 	}
 
 	@Override
-	protected void registerCustomProviders() {}
+	protected void registerCustomProviders() {
+		this.registerGlobalInfoProvider(json ->
+				json.addProperty("max_players", server.getConfiguration().getShowMaxPlayers()));
+	}
 
 }
