@@ -13,9 +13,11 @@ public class BungeeDataSender extends AbstractDataSender {
 		super(plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void registerCustomProviders() {
 		// Max players
+		// ProxyConfig is deprecated, but there seems to be no alternative.
 		this.registerGlobalInfoProvider(json ->
 				json.addProperty("max_players", ProxyServer.getInstance().getConfig().getPlayerLimit()));
 
