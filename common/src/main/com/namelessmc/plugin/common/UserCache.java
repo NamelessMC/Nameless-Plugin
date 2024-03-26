@@ -66,7 +66,10 @@ public class UserCache implements Reloadable {
 		});
 	}
 
-	private List<String> search(Collection<String> original, String part) {
+	private List<String> search(Collection<String> original, @Nullable String part) {
+		if (part == null) {
+			return Collections.emptyList();
+		}
 		return original.stream().filter(s -> s.startsWith(part)).collect(Collectors.toUnmodifiableList());
 	}
 
@@ -74,7 +77,7 @@ public class UserCache implements Reloadable {
 		return this.usernames;
 	}
 
-	public List<String> usernamesSearch(String part) {
+	public List<String> usernamesSearch(@Nullable String part) {
 		return this.search(this.usernames, part);
 	}
 
@@ -82,7 +85,7 @@ public class UserCache implements Reloadable {
 		return this.minecraftUsernames;
 	}
 
-	public List<String> minecraftUsernamesSearch(String part) {
+	public List<String> minecraftUsernamesSearch(@Nullable String part) {
 		return this.search(this.minecraftUsernames, part);
 	}
 
