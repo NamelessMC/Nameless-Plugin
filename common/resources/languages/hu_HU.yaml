@@ -81,7 +81,7 @@ command:
     description: Adminisztrációs parancsok a NamelessMC plugin számára
   store-change-credits:
     description: Bolti kreditek hozzáadása vagy eltávolítása egy felhasználó számára
-    usage: /<command> \<játékos név> \<(-)credits>
+    usage: /<command> \<játékos név> \<(-)credits cents>
     output:
       added: Hozzáadva <green><credits></green> kredit <username> számlájához.
       removed: Eltávolítva <red><credits></red> kredit <username> számlájáról.
