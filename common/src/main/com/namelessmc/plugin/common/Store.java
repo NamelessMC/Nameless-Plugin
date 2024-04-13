@@ -1,6 +1,8 @@
 package com.namelessmc.plugin.common;
 
 import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.exception.ApiError;
+import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
 import com.namelessmc.java_api.modules.store.PendingCommandsResponse;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
@@ -69,7 +71,11 @@ public class Store implements Reloadable {
 
 				this.plugin.scheduler().runSync(() -> this.runPendingCommands(api, pendingCommands.shouldUseUuids(), pendingCommands.customers()));
 			} catch (NamelessException e) {
-				this.plugin.logger().logException(e);
+				if (e instanceof ApiException && ((ApiException) e).apiError() == ApiError.STORE_CONNECTION_NOT_FOUND) {
+					this.plugin.logger().warning("Unable to retrieve commands for the Store module, because it is configured with an invalid connection id.");
+				} else {
+					this.plugin.logger().logException(e);	
+				}				
 			}
 		});
 	}
@@ -137,6 +143,7 @@ public class Store implements Reloadable {
 	public void submitCompletedCommands(NamelessAPI api, Collection<PendingCommandsResponse.PendingCommand> complete) {
 		try {
 			api.store().markCommandsExecuted(complete);
+			// TODO retry
 		} catch (NamelessException e) {
 			this.plugin.logger().warning("Failed to mark commands as executed!");
 			this.plugin.logger().warning("To prevent commands running in a loop, the store system will shut down (until the next reload).");
