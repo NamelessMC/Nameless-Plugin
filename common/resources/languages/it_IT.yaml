@@ -114,8 +114,7 @@ error:
   username-not-online: <red>L’username fornito non è valido o il player non è online.
   minecraft-uuid-not-exist: <red>Non esiste alcun utente con questo UUID di Minecraft.
   target-no-website-account: <red>Il player non possiede un account.
-  discord-username-not-exist: <red>Non esiste alcun utente con questo username di
-    Discord.
+  discord-username-not-exist: <red>Non esiste alcun utente con questo username.
 boolean:
   no-positive: <green>No</green>
   no-negative: <red>No</red>
