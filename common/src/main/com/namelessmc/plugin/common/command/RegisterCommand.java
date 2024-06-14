@@ -1,5 +1,23 @@
 package com.namelessmc.plugin.common.command;
 
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_REGISTER_DESCRIPTION;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_REGISTER_OUTPUT_FAIL_CANNOT_SEND_EMAIL;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_REGISTER_OUTPUT_FAIL_CONSOLE_MUST_SPECIFY_USERNAME;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_REGISTER_OUTPUT_FAIL_CUSTOM_USERNAME_DISABLED;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_INVALID;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_USED;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_INVALID;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_USED;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_REGISTER_OUTPUT_SUCCESS_LINK;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_REGISTER_USAGE;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.ERROR_WEBSITE_CONNECTION;
+
+import java.util.Optional;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
@@ -9,11 +27,6 @@ import com.namelessmc.plugin.common.NamelessPlugin;
 import com.namelessmc.plugin.common.Permission;
 import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.audiences.NamelessPlayer;
-import org.checkerframework.checker.nullness.qual.NonNull;
-
-import java.util.Optional;
-
-import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
 
 public class RegisterCommand extends CommonCommand {
 
@@ -54,7 +67,7 @@ public class RegisterCommand extends CommonCommand {
 		this.scheduler().runAsync(() -> {
 			final NamelessAPI api = this.apiProvider().api();
 			if (api == null) {
-				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
+				sender.sendMessage(this.language().get(ERROR_WEBSITE_CONNECTION));
 				return;
 			}
 
@@ -62,7 +75,7 @@ public class RegisterCommand extends CommonCommand {
 				Optional<String> link;
 				if (sender instanceof NamelessPlayer) {
 					final NamelessPlayer player = (NamelessPlayer) sender;
-					IntegrationData integrationData = new MinecraftIntegrationData(player.uuid(), player.username());
+					final IntegrationData integrationData = new MinecraftIntegrationData(player.uuid(), player.username());
 					link = api.registerUser(username, email, integrationData);
 					this.plugin().groupSync().resetGroups(player);
 				} else {
@@ -70,37 +83,38 @@ public class RegisterCommand extends CommonCommand {
 				}
 
 				if (link.isPresent()) {
-					sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_SUCCESS_LINK, "url", link.get()));
+					sender.sendMessage(this.language().get(COMMAND_REGISTER_OUTPUT_SUCCESS_LINK, "url", link.get()));
 				} else {
-					sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL));
+					sender.sendMessage(this.language().get(COMMAND_REGISTER_OUTPUT_SUCCESS_EMAIL));
 				}
 			} catch (final NamelessException e) {
 				if (e instanceof ApiException) {
 					switch(((ApiException) e).apiError()) {
 						case CORE_INVALID_USERNAME:
-							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_INVALID));
+							sender.sendMessage(this.language().get(COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_INVALID));
 							return;
 						case CORE_UNABLE_TO_SEND_REGISTRATION_EMAIL:
-							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_CANNOT_SEND_EMAIL));
+							sender.sendMessage(this.language().get(COMMAND_REGISTER_OUTPUT_FAIL_CANNOT_SEND_EMAIL));
 							return;
 						case CORE_USERNAME_ALREADY_EXISTS:
-							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_USED));
+							sender.sendMessage(this.language().get(COMMAND_REGISTER_OUTPUT_FAIL_USERNAME_USED));
 							return;
 						case CORE_INVALID_EMAIL_ADDRESS:
-							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_INVALID));
+							sender.sendMessage(this.language().get(COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_INVALID));
 							return;
 						case CORE_EMAIL_ALREADY_EXISTS:
-							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_USED));
+							sender.sendMessage(this.language().get(COMMAND_REGISTER_OUTPUT_FAIL_EMAIL_USED));
 							return;
+						case CORE_INTEGRATION_IDENTIFIER_ERROR:
 						case CORE_INTEGRATION_USERNAME_ERROR:
 							// This error can also mean the username is syntactically invalid, but let's assume that's
 							// not the case since we pass the username directly from the Minecraft server.
-							sender.sendMessage(language().get(COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED));
+							sender.sendMessage(this.language().get(COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED));
 							return;
 					}
 				}
-				sender.sendMessage(language().get(ERROR_WEBSITE_CONNECTION));
-				logger().logException(e);
+				sender.sendMessage(this.language().get(ERROR_WEBSITE_CONNECTION));
+				this.logger().logException(e);
 			}
 		});
 	}
