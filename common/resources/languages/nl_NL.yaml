@@ -86,7 +86,7 @@ command:
       reload-successful: Plugin succesvol herladen.
   store-credits: {}
   store-change-credits:
-    usage: /<command> \<spelernaam> \<(-)krediet>
+    usage: /<command> \<spelernaam> \<(-)krediet centen>
     description: Winkeltegoed voor een gebruiker toevoegen of verwijderen
     output:
       added: <green><credits></green> winkeltegoed is toegevoegd aan <username>.
