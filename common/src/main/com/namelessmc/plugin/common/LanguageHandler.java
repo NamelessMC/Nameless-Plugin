@@ -1,15 +1,9 @@
 package com.namelessmc.plugin.common;
 
-import com.namelessmc.plugin.common.logger.AbstractLogger;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
-import xyz.derkades.derkutils.FileUtils;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.BOOLEAN_NO_NEGATIVE;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.BOOLEAN_NO_POSITIVE;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.BOOLEAN_YES_NEGATIVE;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.BOOLEAN_YES_POSITIVE;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -19,7 +13,18 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.namelessmc.plugin.common.LanguageHandler.Term.*;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
+
+import com.namelessmc.plugin.common.logger.AbstractLogger;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import xyz.derkades.derkutils.FileUtils;
 
 public class LanguageHandler implements Reloadable {
 
@@ -147,6 +152,7 @@ public class LanguageHandler implements Reloadable {
 			"en_US",
 			"es_419",
 			"es_ES",
+			"fa_IR",
 			"fr_FR",
 			"he_IL",
 			"hr_HR",
@@ -209,7 +215,7 @@ public class LanguageHandler implements Reloadable {
 		try {
 			this.updateFiles();
 			this.setActiveLanguage(this.config.main().node("language").getString(DEFAULT_LANGUAGE));
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -225,33 +231,33 @@ public class LanguageHandler implements Reloadable {
 	}
 
 	public Component get(final Term term) {
-		return MiniMessage.miniMessage().deserialize(raw(term)); // TODO cache?
+		return MiniMessage.miniMessage().deserialize(this.raw(term)); // TODO cache?
 	}
 
 	public Component get(final Term term, final String... placeholders) {
-		TagResolver[] resolvers = new TagResolver[placeholders.length / 2];
+		final TagResolver[] resolvers = new TagResolver[placeholders.length / 2];
 		for (int i = 0; i < placeholders.length; i+=2) {
 			resolvers[i / 2] = Placeholder.parsed(placeholders[i], placeholders[i+1]);
 		}
-		return MiniMessage.miniMessage().deserialize(raw(term), resolvers);
+		return MiniMessage.miniMessage().deserialize(this.raw(term), resolvers);
 	}
 
 	public Component get(final Term term, TagResolver... resolvers) {
-		return MiniMessage.miniMessage().deserialize(raw(term), resolvers);
+		return MiniMessage.miniMessage().deserialize(this.raw(term), resolvers);
 	}
 
 	public Component booleanText(final boolean isYes, final boolean yesIsPositive) {
 		if (isYes) {
 			if (yesIsPositive) {
-				return get(BOOLEAN_YES_POSITIVE);
+				return this.get(BOOLEAN_YES_POSITIVE);
 			} else {
-				return get(BOOLEAN_YES_NEGATIVE);
+				return this.get(BOOLEAN_YES_NEGATIVE);
 			}
 		} else {
 			if (yesIsPositive) {
-				return get(BOOLEAN_NO_NEGATIVE);
+				return this.get(BOOLEAN_NO_NEGATIVE);
 			} else {
-				return get(BOOLEAN_NO_POSITIVE);
+				return this.get(BOOLEAN_NO_POSITIVE);
 			}
 		}
 	}
@@ -269,7 +275,7 @@ public class LanguageHandler implements Reloadable {
 
 			this.logger.warning("Language files are outdated!");
 			this.logger.info("Making backup of old languages directory");
-			Path dest = this.dataDirectory.resolve("languages-backup-" + System.currentTimeMillis());
+			final Path dest = this.dataDirectory.resolve("languages-backup-" + System.currentTimeMillis());
 			Files.move(this.languageDirectory, dest);
 			Files.createDirectory(this.languageDirectory);
 		} else {
@@ -300,16 +306,16 @@ public class LanguageHandler implements Reloadable {
 	private void setActiveLanguage(final @NonNull String languageCode) throws IOException {
 		if (!LANGUAGES.contains(languageCode)) {
 			this.logger.severe("Language '" + languageCode + "' not known, using default language.");
-			setActiveLanguage(DEFAULT_LANGUAGE);
+			this.setActiveLanguage(DEFAULT_LANGUAGE);
 			return;
 		}
 
 		this.activeLanguageCode = languageCode;
-		this.activeLanguageFile = readLanguageFile(languageCode);
+		this.activeLanguageFile = this.readLanguageFile(languageCode);
 		if (languageCode.equals(DEFAULT_LANGUAGE)) {
 			this.fallbackLanguageFile = this.activeLanguageFile;
 		} else {
-			this.fallbackLanguageFile = readLanguageFile(DEFAULT_LANGUAGE);
+			this.fallbackLanguageFile = this.readLanguageFile(DEFAULT_LANGUAGE);
 		}
 	}
 
