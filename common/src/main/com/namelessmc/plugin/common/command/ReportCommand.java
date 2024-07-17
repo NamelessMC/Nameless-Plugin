@@ -62,7 +62,8 @@ public class ReportCommand extends CommonCommand {
 					sender.sendMessage(language().get(PLAYER_SELF_NOT_REGISTERED));
 					return;
 				}
-				user.createReport(target.uuid(), target.username(), reason);
+				int serverId = this.plugin().config().main().node("api.server-id", 0).getInt();
+				user.createReport(target.uuid(), target.username(), reason, serverId);
 				sender.sendMessage(language().get(COMMAND_REPORT_OUTPUT_SUCCESS));
 				reportNotify(target.username(), ((NamelessPlayer) sender).username());
 			} catch (final NamelessException e) {
@@ -77,6 +78,8 @@ public class ReportCommand extends CommonCommand {
 						case CORE_CANNOT_REPORT_YOURSELF:
 							sender.sendMessage(language().get(COMMAND_REPORT_OUTPUT_FAIL_REPORT_SELF));
 							return;
+						default:
+							// intentionally empty
 					}
 				}
 
