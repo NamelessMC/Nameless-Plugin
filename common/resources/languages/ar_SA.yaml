@@ -8,13 +8,13 @@ command:
         cannot-send-email: <red>لا يمكن إرسال البريد الإلكتروني للتسجيل ، يرجى الاتصال
           بالمسؤول لتفعيل حسابك.
         username-used: <red>لقد تم استخدام اسم المسخدم هذا من طرف حساب آخر.
-        minecraft-used: <red>حسابك في Minecraft مرتبط بالفعل بمستخدم موقع مختلف.
+        minecraft-used: <red>حسابك في Minecraft مرتبط بالفعل بمستخدم مختلف.
       success:
         email: يرجى التحقق من صندوق الوارد الخاص بك لإكمال التسجيل.
         link: '<hover:show_text:"انقر للفتح في مستعرض ويب"> <click:open_url:"<url>">الرجاء
           إكمال التسجيل بالانتقال إلى<url>.'
     description: قم بإنشاء حساب موقع
-    usage: /{command} <email>
+    usage: /<command> \<email> [username]
   report:
     description: الإبلاغ عن لاعب
     output:
