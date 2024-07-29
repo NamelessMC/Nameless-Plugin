@@ -9,6 +9,10 @@ command:
           بالمسؤول لتفعيل حسابك.
         username-used: <red>لقد تم استخدام اسم المسخدم هذا من طرف حساب آخر.
         minecraft-used: <red>حسابك في Minecraft مرتبط بالفعل بمستخدم مختلف.
+        console-must-specify-username: <red>عند تشغيل أمر التسجيل من الكونسول، يجب
+          عليك تحديد اسم مستخدم.
+        custom-username-disabled: <red>لا يُسمح بالتسجيل باسم مستخدم غير اسم المستخدم
+          الخاص بك في Minecraft.
       success:
         email: يرجى التحقق من صندوق الوارد الخاص بك لإكمال التسجيل.
         link: '<hover:show_text:"انقر للفتح في مستعرض ويب"> <click:open_url:"<url>">الرجاء
@@ -20,8 +24,10 @@ command:
     output:
       success: شكرا لك على الإبلاغ عن هذا اللاعب.
       fail:
-        already-open: لا يمكنك الإبلاغ عن هذا اللاعب ، لديك بالفعل تقرير مفتوح له.
-        report-self: لا يمكنك الإبلاغ عن نفسك.
+        already-open: <red>لا يمكنك الإبلاغ عن هذا اللاعب ، لديك بالفعل بلاغ مفتوح
+          عنه.
+        report-self: <red>لا يمكنك الإبلاغ عن نفسك.
+      notify-broadcast: <yellow><reporter_username></yellow> فتح تقريرا ل <yellow><reported_username></yellow>.
     usage: /{command} <الاسم/uuid> <السبب>
   validate:
     usage: /{command} <الرمز>
@@ -58,6 +64,12 @@ command:
     description: أوامر إدارية للمكوِّن الإضافي NamelessMC
     output:
       reload-successful: تمت إعادة تحميل المكون الاضافي.
+  store-change-credits:
+    usage: /<command> \<player name> \<(-)credits cents>
+    output:
+      added: تمت إضافة <green><credits></green> كرصيد إلى <username>.
+      removed: تمت إزالة <red><credits></red> من رصيد <username>.
+    description: إضافة أو إزالة أرصدة المتجر للمستخدم
 join-not-registered: ليس لديك حساب على موقعنا حتى الآن. الرجاء التسجيل باستخدام /register.
 website-announcement: 'إعلان الموقع: <message>'
 user-sync-kick: أنت محظور من خادمنا بعد حظر حساب على الموقع.
