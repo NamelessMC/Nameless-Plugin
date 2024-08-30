@@ -55,7 +55,9 @@ public class UserCache implements Reloadable {
 
 				for (NamelessUser user : users) {
 					usernames.add(user.username());
-					minecraftUsernames.add(user.minecraftUsername());
+					if (user.minecraftUsername() != null) {
+						minecraftUsernames.add(user.minecraftUsername());
+					}
 				}
 
 				this.usernames = usernames;
