@@ -1,12 +1,14 @@
 package com.namelessmc.plugin.bukkit;
 
-import com.namelessmc.plugin.common.command.AbstractScheduledTask;
-import com.namelessmc.plugin.common.command.AbstractScheduler;
+import java.time.Duration;
+
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.time.Duration;
+import com.namelessmc.plugin.common.command.AbstractScheduledTask;
+import com.namelessmc.plugin.common.command.AbstractScheduler;
 
 public class BukkitScheduler extends AbstractScheduler {
 
@@ -18,26 +20,40 @@ public class BukkitScheduler extends AbstractScheduler {
 
 	@Override
 	public void runAsync(final @NonNull Runnable runnable) {
+		if (!this.plugin.isEnabled()) {
+			return;
+		}
 		Bukkit.getScheduler().runTaskAsynchronously(this.plugin, runnable);
 	}
 
 	@Override
 	public void runSync(final @NonNull Runnable runnable) {
+		if (!this.plugin.isEnabled()) {
+			return;
+		}
 		Bukkit.getScheduler().runTask(this.plugin, runnable);
 	}
 
 	@Override
+	@Nullable
 	public BukkitScheduledTask runTimer(final @NonNull Runnable runnable,
 																 final @NonNull Duration interval) {
-		long ticks = interval.toMillis() / 50;
+		if (!this.plugin.isEnabled()) {
+			return null;
+		}
+		final long ticks = interval.toMillis() / 50;
 		final BukkitTask task = Bukkit.getScheduler().runTaskTimer(this.plugin, runnable, ticks, ticks);
 		return new BukkitScheduledTask(task);
 	}
 
 	@Override
+	@Nullable
 	public BukkitScheduledTask runDelayed(final @NonNull Runnable runnable,
 																   final @NonNull Duration delay) {
-		long ticks = delay.toMillis() / 50;
+		if (!this.plugin.isEnabled()) {
+			return null;
+		}
+		final long ticks = delay.toMillis() / 50;
 		final BukkitTask task = Bukkit.getScheduler().runTaskLater(this.plugin, runnable, ticks);
 		return new BukkitScheduledTask(task);
 	}
