@@ -171,6 +171,7 @@ public class LanguageHandler implements Reloadable {
 			"ru_RU",
 			"sk_SK",
 			"sq_AL",
+			"sr_RS",
 			"sv_SE",
 			"tr_TR",
 			"uk_UA",
