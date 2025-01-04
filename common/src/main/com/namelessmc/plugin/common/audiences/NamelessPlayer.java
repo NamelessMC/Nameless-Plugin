@@ -31,5 +31,9 @@ public abstract class NamelessPlayer extends NamelessCommandSender {
 	public String username() {
 		return this.username;
 	}
+	
+	public boolean isVanished() {
+		return false;
+	}
 
 }

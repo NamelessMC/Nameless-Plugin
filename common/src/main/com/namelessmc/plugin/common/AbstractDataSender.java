@@ -132,6 +132,10 @@ public abstract class AbstractDataSender implements Runnable, Reloadable {
 		final JsonObject players = new JsonObject();
 
 		for (final NamelessPlayer player : this.plugin.audiences().onlinePlayers()) {
+			if (player.isVanished()) {
+				continue;
+			}
+			
 			JsonObject playerJson = new JsonObject();
 			playerJson.addProperty("name", player.username());
 
