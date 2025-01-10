@@ -12,7 +12,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<revision>3.4.2-beta</revision>
 		<checkerFrameworkVersion>3.48.4</checkerFrameworkVersion>
-		<velocityVersion>3.1.1</velocityVersion>
+		<velocityVersion>3.4.0-SNAPSHOT</velocityVersion>
 		<bStatsVersion>3.1.0</bStatsVersion>
 		<adventureVersion>4.12.0</adventureVersion>
 	</properties>
@@ -281,8 +281,8 @@
 		</repository>
 
 		<repository>
-			<id>papermc</id>
-			<url>https://papermc.io/repo/repository/maven-public/</url>
+			<id>paper</id>
+			<url>https://repo.papermc.io/repository/maven-public/</url>
 		</repository>
 
 		<repository>
@@ -293,11 +293,6 @@
 		<repository>
 			<id>placeholderapi</id>
 			<url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
-		</repository>
-
-		<repository>
-			<id>velocity</id>
-			<url>https://nexus.velocitypowered.com/repository/maven-public/</url>
 		</repository>
 
 		<repository>

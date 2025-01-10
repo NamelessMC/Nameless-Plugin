@@ -52,7 +52,7 @@ public class VelocityNamelessPlugin {
 		this.plugin.load();
 		this.server.getEventManager().register(this, new VelocityEventProxy(this.plugin));
 		metricsFactory.make(this, 14863);
-		VelocityCommandProxy.registerCommands(this.plugin, server);
+		VelocityCommandProxy.registerCommands(this, this.plugin, server);
 	}
 
 	// TODO call unload() when proxy server shuts down

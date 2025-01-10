@@ -5,15 +5,17 @@ import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
 import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
 import com.namelessmc.plugin.common.command.CommonCommand;
 import com.velocitypowered.api.command.Command;
+import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
+
 import net.kyori.adventure.text.Component;
 
 public class VelocityCommandProxy {
 
-	static void registerCommands(final NamelessPlugin plugin, final ProxyServer server) {
+	static void registerCommands(final VelocityNamelessPlugin velocityPlugin, NamelessPlugin plugin, final ProxyServer server) {
 		CommonCommand.commands(plugin).forEach(command -> {
 			final String name = command.actualName();
 			if (name == null) {
@@ -22,7 +24,8 @@ public class VelocityCommandProxy {
 			}
 
 			Command velocityCommand = new VelocityCommand(command, plugin.audiences());
-			server.getCommandManager().register(name, velocityCommand);
+			CommandMeta meta = server.getCommandManager().metaBuilder(name).plugin(velocityPlugin).build();
+			server.getCommandManager().register(meta, velocityCommand);
 		});
 	}
 
