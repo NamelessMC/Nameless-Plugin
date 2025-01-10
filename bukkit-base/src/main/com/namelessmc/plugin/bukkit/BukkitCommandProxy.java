@@ -1,11 +1,8 @@
 package com.namelessmc.plugin.bukkit;
 
-import com.namelessmc.plugin.common.NamelessPlugin;
-import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
-import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
-import com.namelessmc.plugin.common.command.CommonCommand;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -13,12 +10,14 @@ import org.bukkit.command.PluginIdentifiableCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.Nullable;
+
+import com.namelessmc.plugin.common.NamelessPlugin;
+import com.namelessmc.plugin.common.audiences.AbstractAudienceProvider;
+import com.namelessmc.plugin.common.audiences.NamelessCommandSender;
+import com.namelessmc.plugin.common.command.CommonCommand;
+
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import xyz.derkades.derkutils.bukkit.reflection.ReflectionUtil;
-
-import java.util.Collections;
-import java.util.List;
-
-import static com.namelessmc.plugin.common.LanguageHandler.Term.COMMAND_NO_PERMISSION;
 
 public class BukkitCommandProxy {
 

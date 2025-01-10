@@ -40,6 +40,8 @@ public abstract class AbstractPermissions
 
 	protected class ProviderNotUsableException extends IllegalStateException {
 
+		private static final long serialVersionUID = 1L;
+
 		public ProviderNotUsableException() {
 			super("Provider was called un unusable state");
 		}

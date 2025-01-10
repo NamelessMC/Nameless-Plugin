@@ -29,10 +29,6 @@ public class SpigotAudienceProvider extends AbstractAudienceProvider {
 		this.audiences = BukkitAudiences.create(bukkitPlugin);
 	}
 
-	private void dispatchCommand(final @NonNull String command) {
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-	}
-
 	@Override
 	public @NonNull NamelessConsole console() {
 		return new BukkitNamelessConsole(audiences.console());

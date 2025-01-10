@@ -1,9 +1,10 @@
 package com.namelessmc.plugin.bukkit.audiences;
 
-import com.namelessmc.plugin.common.Permission;
-import com.namelessmc.plugin.common.audiences.NamelessConsole;
-import net.kyori.adventure.audience.Audience;
 import org.bukkit.Bukkit;
+
+import com.namelessmc.plugin.common.audiences.NamelessConsole;
+
+import net.kyori.adventure.audience.Audience;
 
 public class BukkitNamelessConsole extends NamelessConsole {
 
