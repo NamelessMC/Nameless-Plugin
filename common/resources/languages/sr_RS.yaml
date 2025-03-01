@@ -1,1 +1,3 @@
-{}
+error:
+  website-username-not-exist: <red>Ne postoji korisnik pod ovim imenom.
+  discord-username-not-exist: <red>Ne postoji korisnik pod ovim Diskord imenom.
