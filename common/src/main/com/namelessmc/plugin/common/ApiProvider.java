@@ -135,7 +135,8 @@ public class ApiProvider implements Reloadable {
 						}
 					} catch (final UnknownNamelessVersionException ignored) {
 						this.logger.severe("The plugin doesn't recognize the NamelessMC version you are using. Ensure you are running a " +
-								"recent version of the plugin and NamelessMC v2.");
+								"recent version of the plugin and NamelessMC v2. If no updated version is available, you can bypass " + 
+								"the version check at your own risk by adding `bypass-version-check: true` in the api section in main.yml.");
 						this.cachedApi = Tristate.knownEmpty(); // Probably won't resolve on its own, cache until reload
 					}
 				}
