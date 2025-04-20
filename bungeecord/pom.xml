@@ -72,6 +72,14 @@
 							<pattern>org.spongepowered.configurate</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.configurate</shadedPattern>
 						</relocation>
+						<relocation> <!-- pulled in by configurate -->
+							<pattern>net.kyori.option</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.option</shadedPattern>
+						</relocation>
+    					<relocation> <!-- pulled in by kyori.option -->
+							<pattern>org.jspecify.annotations</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.jspecify-annotations</shadedPattern>
+						</relocation>
 						<relocation>
 							<pattern>io.leangen.geantyref</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.geantyref</shadedPattern>

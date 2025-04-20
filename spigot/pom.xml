@@ -53,6 +53,10 @@
 							<shadedPattern>com.namelessmc.plugin.lib.adventure</shadedPattern>
 						</relocation>
 						<relocation>
+							<pattern>net.kyori.option</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.option</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>net.kyori.examination</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.examination</shadedPattern>
 						</relocation>
@@ -67,6 +71,10 @@
 						<relocation>
 							<pattern>org.jetbrains.annotations</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.jetbrains-annotations</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.jspecify.annotations</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.jspecify-annotations</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.spongepowered.configurate</pattern>

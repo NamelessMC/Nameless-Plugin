@@ -57,12 +57,20 @@
 							<shadedPattern>com.namelessmc.plugin.lib.examination</shadedPattern>
 						</relocation>
 						<relocation>
+							<pattern>net.kyori.option</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.option</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>org.checkerframework</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.intellij.lang.annotations</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.intellij-annotations</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.jspecify.annotations</pattern>
+							<shadedPattern>com.namelessmc.plugin.lib.jspecify-annotations</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>org.jetbrains.annotations</pattern>
