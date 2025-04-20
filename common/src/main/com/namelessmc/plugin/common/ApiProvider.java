@@ -1,22 +1,25 @@
 package com.namelessmc.plugin.common;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.time.Duration;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+
 import com.namelessmc.java_api.NamelessAPI;
 import com.namelessmc.java_api.NamelessApiBuilder;
 import com.namelessmc.java_api.NamelessVersion;
 import com.namelessmc.java_api.Website;
 import com.namelessmc.java_api.exception.ApiException;
 import com.namelessmc.java_api.exception.NamelessException;
+import com.namelessmc.java_api.exception.UnknownNamelessVersionException;
 import com.namelessmc.plugin.common.command.AbstractScheduler;
 import com.namelessmc.plugin.common.logger.AbstractLogger;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.CommentedConfigurationNode;
-import xyz.derkades.derkutils.Tristate;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.http.HttpClient;
-import java.time.Duration;
+import xyz.derkades.derkutils.Tristate;
 
 public class ApiProvider implements Reloadable {
 
@@ -60,7 +63,7 @@ public class ApiProvider implements Reloadable {
 			if (rawUrl != null ) {
 				this.apiUrl = new URL(rawUrl);
 			}
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			this.logger.severe("You have entered an invalid API URL. Please get an up-to-date API URL from StaffCP > " +
 					"Configuration > API and reload the plugin.");
 			return;
@@ -78,7 +81,7 @@ public class ApiProvider implements Reloadable {
 		this.bypassVersionCheck = config.node("bypass-version-check").getBoolean();
 		this.forceHttp1 = config.node("force-http-1").getBoolean();
 
-		scheduler.runAsync(this::api);
+		this.scheduler.runAsync(this::api);
 	}
 
 	@Deprecated
@@ -116,21 +119,25 @@ public class ApiProvider implements Reloadable {
 				final NamelessAPI api = builder.build();
 
 				final Website info = api.website();
-				NamelessVersion version = info.parsedVersion();
 				if (this.bypassVersionCheck) {
 					this.logger.warning("Bypassing version checks, use at your own risk!");
 					this.cachedApi = Tristate.known(api); // Cache working API
-				} else if (version == null) {
-					this.logger.severe("The plugin doesn't recognize the NamelessMC version you are using. Ensure you are running a " +
-							"recent version of the plugin and NamelessMC v2.");
-					this.cachedApi = Tristate.knownEmpty(); // Probably won't resolve on its own, cache until reload
-				} else if (NamelessVersion.isSupportedByJavaApi(version)) {
-					this.logger.fine("Website connection appears to be working.");
-					this.cachedApi = Tristate.known(api); // Cache working API
 				} else {
-					this.logger.severe("Your website runs a version of NamelessMC (" + version + ") that is not supported by this " +
-							"version of the plugin. Please update your NamelessMC website and/or the plugin.");
-					this.cachedApi = Tristate.knownEmpty(); // No need to retry, cache that it's not working
+					try {
+						final NamelessVersion version = info.parsedVersion();
+						if (NamelessVersion.isSupportedByJavaApi(version)) {
+							this.logger.fine("Website connection appears to be working.");
+							this.cachedApi = Tristate.known(api); // Cache working API
+						} else {
+							this.logger.severe("Your website runs a version of NamelessMC (" + version + ") that is not supported by this " +
+									"version of the plugin. Please update your NamelessMC website and/or the plugin.");
+							this.cachedApi = Tristate.knownEmpty(); // No need to retry, cache that it's not working
+						}
+					} catch (final UnknownNamelessVersionException ignored) {
+						this.logger.severe("The plugin doesn't recognize the NamelessMC version you are using. Ensure you are running a " +
+								"recent version of the plugin and NamelessMC v2.");
+						this.cachedApi = Tristate.knownEmpty(); // Probably won't resolve on its own, cache until reload
+					}
 				}
 			} catch (final NamelessException e) {
 				this.logger.logException(e);
