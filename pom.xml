@@ -129,7 +129,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.14.0</version> <!-- Cannot upgrade to 6.0.0 because we need Java 11 compatibility -->
+			<version>6.0.0</version> <!-- Cannot upgrade to 6.0.0 because we need Java 11 compatibility -->
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
