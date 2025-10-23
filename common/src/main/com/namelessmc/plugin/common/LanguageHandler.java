@@ -6,6 +6,7 @@ import static com.namelessmc.plugin.common.LanguageHandler.Term.BOOLEAN_YES_NEGA
 import static com.namelessmc.plugin.common.LanguageHandler.Term.BOOLEAN_YES_POSITIVE;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jspecify.annotations.NonNull;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
@@ -24,7 +25,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import xyz.derkades.derkutils.FileUtils;
 
 public class LanguageHandler implements Reloadable {
 
@@ -186,14 +186,14 @@ public class LanguageHandler implements Reloadable {
 	private ConfigurationNode fallbackLanguageFile;
 	private ConfigurationNode activeLanguageFile;
 
-	private final @NonNull Path dataDirectory;
-	private final @NonNull Path languageDirectory;
-	private final @NonNull ConfigurationHandler config;
-	private final @NonNull AbstractLogger logger;
+	private final Path dataDirectory;
+	private final Path languageDirectory;
+	private final ConfigurationHandler config;
+	private final AbstractLogger logger;
 
-	public LanguageHandler(final @NonNull Path dataDirectory,
-						   final @NonNull ConfigurationHandler config,
-						   final @NonNull AbstractLogger logger) {
+	public LanguageHandler(final Path dataDirectory,
+						   final ConfigurationHandler config,
+						   final AbstractLogger logger) {
 		this.dataDirectory = dataDirectory;
 		this.languageDirectory = dataDirectory.resolve("languages");
 		this.config = config;
@@ -215,7 +215,7 @@ public class LanguageHandler implements Reloadable {
 	public void load() {
 		try {
 			this.updateFiles();
-			this.setActiveLanguage(this.config.main().node("language").getString(DEFAULT_LANGUAGE));
+			this.setActiveLanguage(this.config.main().node("language").getString(LanguageHandler.DEFAULT_LANGUAGE));
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -243,7 +243,7 @@ public class LanguageHandler implements Reloadable {
 		return MiniMessage.miniMessage().deserialize(this.raw(term), resolvers);
 	}
 
-	public Component get(final Term term, TagResolver... resolvers) {
+	public Component get(final Term term, final TagResolver... resolvers) {
 		return MiniMessage.miniMessage().deserialize(this.raw(term), resolvers);
 	}
 
@@ -266,11 +266,11 @@ public class LanguageHandler implements Reloadable {
 	private void updateFiles() throws IOException {
 		Files.createDirectories(this.languageDirectory);
 
-		final Path versionFile = this.languageDirectory.resolve(VERSION_FILE_NAME);
+		final Path versionFile = this.languageDirectory.resolve(LanguageHandler.VERSION_FILE_NAME);
 
 		if (Files.exists(versionFile)) {
 			final String versionContent = Files.readString(versionFile);
-			if (versionContent.equals(String.valueOf(VERSION))) {
+			if (versionContent.equals(String.valueOf(LanguageHandler.VERSION))) {
 				return;
 			}
 
@@ -285,15 +285,20 @@ public class LanguageHandler implements Reloadable {
 
 		this.logger.info("Installing language files");
 
-		for (final String languageName : LANGUAGES) {
+		for (final String languageName : LanguageHandler.LANGUAGES) {
 			final String languagePathInJar = "languages/" + languageName + ".yaml";
 			final Path dest = this.languageDirectory.resolve(languageName + ".yaml");
-			FileUtils.copyOutOfJar(LanguageHandler.class, languagePathInJar, dest);
+			if (!Files.exists(dest)) {
+				try (InputStream in = Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream(languagePathInJar),
+						"path does not exist in jar: " + languagePathInJar)) {
+					Files.copy(in, dest);
+				}
+			}
 		}
 
 		this.logger.info("Creating version file");
 
-		final byte[] bytes = String.valueOf(VERSION).getBytes(StandardCharsets.UTF_8);
+		final byte[] bytes = String.valueOf(LanguageHandler.VERSION).getBytes(StandardCharsets.UTF_8);
 		Files.write(versionFile, bytes);
 
 		this.logger.info("Done");
@@ -305,18 +310,18 @@ public class LanguageHandler implements Reloadable {
 	}
 
 	private void setActiveLanguage(final @NonNull String languageCode) throws IOException {
-		if (!LANGUAGES.contains(languageCode)) {
+		if (!LanguageHandler.LANGUAGES.contains(languageCode)) {
 			this.logger.severe("Language '" + languageCode + "' not known, using default language.");
-			this.setActiveLanguage(DEFAULT_LANGUAGE);
+			this.setActiveLanguage(LanguageHandler.DEFAULT_LANGUAGE);
 			return;
 		}
 
 		this.activeLanguageCode = languageCode;
 		this.activeLanguageFile = this.readLanguageFile(languageCode);
-		if (languageCode.equals(DEFAULT_LANGUAGE)) {
+		if (languageCode.equals(LanguageHandler.DEFAULT_LANGUAGE)) {
 			this.fallbackLanguageFile = this.activeLanguageFile;
 		} else {
-			this.fallbackLanguageFile = this.readLanguageFile(DEFAULT_LANGUAGE);
+			this.fallbackLanguageFile = this.readLanguageFile(LanguageHandler.DEFAULT_LANGUAGE);
 		}
 	}
 

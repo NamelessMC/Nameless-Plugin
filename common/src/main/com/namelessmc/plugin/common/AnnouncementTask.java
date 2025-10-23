@@ -1,22 +1,24 @@
 package com.namelessmc.plugin.common;
 
-import com.namelessmc.java_api.Announcement;
-import com.namelessmc.java_api.NamelessAPI;
-import com.namelessmc.java_api.exception.NamelessException;
-import com.namelessmc.java_api.NamelessUser;
-import com.namelessmc.plugin.common.audiences.NamelessPlayer;
-import com.namelessmc.plugin.common.command.AbstractScheduledTask;
-import net.kyori.adventure.text.Component;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.CommentedConfigurationNode;
-import xyz.derkades.derkutils.ListUtils;
+import static com.namelessmc.plugin.common.LanguageHandler.Term.WEBSITE_ANNOUNCEMENT;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-import static com.namelessmc.plugin.common.LanguageHandler.Term.WEBSITE_ANNOUNCEMENT;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+
+import com.namelessmc.java_api.Announcement;
+import com.namelessmc.java_api.NamelessAPI;
+import com.namelessmc.java_api.NamelessUser;
+import com.namelessmc.java_api.exception.NamelessException;
+import com.namelessmc.plugin.common.audiences.NamelessPlayer;
+import com.namelessmc.plugin.common.command.AbstractScheduledTask;
+
+import net.kyori.adventure.text.Component;
 
 public class AnnouncementTask implements Runnable, Reloadable {
 
@@ -30,9 +32,9 @@ public class AnnouncementTask implements Runnable, Reloadable {
 
 	@Override
 	public void unload() {
-		if (task != null) {
-			task.cancel();
-			task = null;
+		if (this.task != null) {
+			this.task.cancel();
+			this.task = null;
 		}
 	}
 
@@ -70,16 +72,18 @@ public class AnnouncementTask implements Runnable, Reloadable {
 						} else {
 							announcements = api.announcements();
 						}
-					} catch (NamelessException e) {
+					} catch (final NamelessException e) {
 						this.plugin.logger().logException(e);
 						return;
 					}
+
 					if (filterDisplay != null) {
 						announcements = announcements.stream().filter(a -> a.displayedPages().contains(filterDisplay)).collect(Collectors.toList());
 					}
+
 					if (!announcements.isEmpty()) {
-						Announcement announcement = ListUtils.choice(announcements);
-						String announcementMessage = announcement.message();
+						final Announcement announcement = announcements.get(ThreadLocalRandom.current().nextInt(announcements.size()));
+						final String announcementMessage = announcement.message();
 						this.plugin.scheduler().runSync(() -> {
 							final NamelessPlayer player2 = this.plugin.audiences().player(player.uuid());
 							if (player2 == null) {

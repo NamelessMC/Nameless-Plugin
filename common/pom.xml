@@ -51,11 +51,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>xyz.derkades</groupId>
-			<artifactId>Derkutils</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>net.kyori</groupId>
 			<artifactId>event-api</artifactId>
 		</dependency>

@@ -1,49 +1,50 @@
 package com.namelessmc.plugin.common;
 
-import com.namelessmc.plugin.common.logger.AbstractLogger;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.spongepowered.configurate.CommentedConfigurationNode;
-import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
-import xyz.derkades.derkutils.FileUtils;
-
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
+
+import com.namelessmc.plugin.common.logger.AbstractLogger;
 
 public class ConfigurationHandler implements Reloadable {
 
-	private static final @NonNull String[] ALL_CONFIG_NAMES = {
+	private static final String[] ALL_CONFIG_NAMES = {
 			"commands",
 			"main",
 			"modules",
 	};
 
-	private final @NonNull Path dataDirectory;
-	private final @NonNull Map<String, CommentedConfigurationNode> configs = new HashMap<>();
+	private final Path dataDirectory;
+	private final Map<String, CommentedConfigurationNode> configs = new HashMap<>();
 
-	public ConfigurationHandler(final @NonNull Path dataDirectory) {
+	public ConfigurationHandler(final Path dataDirectory) {
 		this.dataDirectory = dataDirectory;
 	}
 
-	public @NonNull CommentedConfigurationNode commands() {
+	public CommentedConfigurationNode commands() {
 		return this.getConfig("commands");
 	}
 
-	public @NonNull CommentedConfigurationNode main() {
+	public CommentedConfigurationNode main() {
 		return this.getConfig("main");
 	}
 
-	public @NonNull CommentedConfigurationNode modules() {
+	public CommentedConfigurationNode modules() {
 		return this.getConfig("modules");
 	}
 
-	private @NonNull CommentedConfigurationNode getConfig(final String name) {
+	private CommentedConfigurationNode getConfig(final String name) {
 		final CommentedConfigurationNode config = this.configs.get(name);
 		if (config == null) {
 			throw new IllegalStateException(name + " config requested before it was loaded");
@@ -63,27 +64,32 @@ public class ConfigurationHandler implements Reloadable {
 		}
 
 		try {
-			Files.createDirectories(dataDirectory);
-			for (final String configName : ALL_CONFIG_NAMES) {
-				this.configs.put(configName, copyFromJarAndLoad(configName + ".yaml"));
+			Files.createDirectories(this.dataDirectory);
+			for (final String configName : ConfigurationHandler.ALL_CONFIG_NAMES) {
+				this.configs.put(configName, this.copyFromJarAndLoad(configName + ".yaml"));
 			}
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public void postLoadChecks(AbstractLogger logger) {
+	public void postLoadChecks(final AbstractLogger logger) {
 
 	}
 
-	private CommentedConfigurationNode copyFromJarAndLoad(final @NonNull String name) throws IOException {
-		Path path = dataDirectory.resolve(name);
-		FileUtils.copyOutOfJar(ConfigurationHandler.class, name, path);
+	private CommentedConfigurationNode copyFromJarAndLoad(final String name) throws IOException {
+		final Path path = this.dataDirectory.resolve(name);
+		if (!Files.exists(path)) {
+			try (InputStream in = Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream(name),
+					"path does not exist in jar: " + name)) {
+				Files.copy(in, path);
+			}
+		}
 		return YamlConfigurationLoader.builder().path(path).build().load();
 	}
 
 	public static @Nullable Duration getDuration(final ConfigurationNode node) {
-		String string = node.getString();
+		final String string = node.getString();
 		if (string == null) {
 			return null;
 		}

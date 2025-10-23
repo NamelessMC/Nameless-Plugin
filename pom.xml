@@ -102,10 +102,6 @@
 							<pattern>org.bstats</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.bstats</shadedPattern>
 						</relocation>
-						<relocation>
-							<pattern>xyz.derkades.derkutils</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.derkutils</shadedPattern>
-						</relocation>
 					</relocations>
 
 					<filters>
@@ -150,11 +146,6 @@
 				<groupId>com.namelessmc</groupId>
 				<artifactId>java-api</artifactId>
 				<version>canary</version>
-			</dependency>
-			<dependency>
-				<groupId>xyz.derkades</groupId>
-				<artifactId>Derkutils</artifactId>
-				<version>spigot-1.13</version>
 			</dependency>
 			<dependency>
 				<groupId>net.kyori</groupId>

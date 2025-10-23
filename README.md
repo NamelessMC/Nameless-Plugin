@@ -37,13 +37,9 @@ Requirements: Maven, Git, JDK 11, JDK 17 (only required for paper and sponge9)
 
 On Debian/Ubuntu: `apt install maven git openjdk-11-jdk openjdk-17-jdk`
 
-```sh
-git clone https://github.com/Derkades/Derkutils
-cd Derkutils
-git checkout spigot-1.13 # important!
-mvn clean install # Uses JDK 11
-cd ..
+You can also use any newer version of the JDK, but that means the compiled plugin won't be compatible with older Java versions.
 
+```sh
 git clone https://github.com/NamelessMC/Nameless-Java-API
 cd Nameless-Java-API
 mvn clean install # Uses JDK 11

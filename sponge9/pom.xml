@@ -49,10 +49,6 @@
 							<pattern>org.checkerframework</pattern>
 							<shadedPattern>com.namelessmc.plugin.lib.checker-framework</shadedPattern>
 						</relocation>
-						<relocation>
-							<pattern>xyz.derkades.derkutils</pattern>
-							<shadedPattern>com.namelessmc.plugin.lib.derkutils</shadedPattern>
-						</relocation>
 					</relocations>
 				</configuration>
 				<executions>

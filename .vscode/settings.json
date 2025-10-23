@@ -1,3 +1,12 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.cleanup.actions": [
+        "renameFileToType",
+        "organizeImports",
+        "addFinalModifier",
+        "addOverride",
+        "qualifyMembers",
+        "qualifyStaticMembers",
+    ],
+    "java.maven.downloadSources": true
 }
