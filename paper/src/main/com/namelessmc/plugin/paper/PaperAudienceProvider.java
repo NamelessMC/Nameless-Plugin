@@ -25,10 +25,6 @@ public class PaperAudienceProvider extends AbstractAudienceProvider {
 		this.config = config;
 	}
 
-	private void dispatchCommand(final @NonNull String command) {
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-	}
-
 	@Override
 	public @NonNull NamelessConsole console() {
 		return new BukkitNamelessConsole(Bukkit.getConsoleSender());

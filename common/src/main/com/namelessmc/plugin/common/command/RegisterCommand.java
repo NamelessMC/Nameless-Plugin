@@ -111,6 +111,7 @@ public class RegisterCommand extends CommonCommand {
 							// not the case since we pass the username directly from the Minecraft server.
 							sender.sendMessage(this.language().get(COMMAND_REGISTER_OUTPUT_FAIL_MINECRAFT_USED));
 							return;
+						default:
 					}
 				}
 				sender.sendMessage(this.language().get(ERROR_WEBSITE_CONNECTION));
