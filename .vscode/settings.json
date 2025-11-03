@@ -8,5 +8,5 @@
         "qualifyMembers",
         "qualifyStaticMembers",
     ],
-    "java.maven.downloadSources": true
+    "java.maven.downloadSources": true,
 }
