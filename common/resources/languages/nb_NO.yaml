@@ -2,7 +2,8 @@ player:
   other: {}
   self:
     not-registered: Du må registrere en konto for å utføre denne handlingen.
-    command-banned: Du kan ikke utføre denne kommandoen, du er utestengt fra nettsiden.
+    command-banned: Du kan ikke utføre denne kommandoen, du er utestengt fra 
+      nettsiden.
 command:
   report:
     description: Rapporter en spiller
@@ -10,14 +11,17 @@ command:
     output:
       success: Takk for at du rapporterte denne spilleren.
       fail:
-        already-open: Du kan ikke rapportere denne spillere, fordi en rapport allerede
-          er åpen for dem.
+        already-open: Du kan ikke rapportere denne spillere, fordi en rapport 
+          allerede er åpen for dem.
         report-self: Du kan ikke rapportere deg selv.
+      notify-broadcast: <yellow><reporter_username></yellow> har åpnet en 
+        rapport for <yellow><reported_username></yellow>.
   notifications:
     usage: /{command}
     output:
       no-notifications: Du har ingen uleste varslinger.
-      notification: <hover:show_text:"Klikk for å åpne i en nettleser"><click:open_url:"<url>"><message>
+      notification: <hover:show_text:"Klikk for å åpne i en 
+        nettleser"><click:open_url:"<url>"><message>
     description: Viser en liste over alle nettsidevarsler.
   no-permission: Du har ikke tilgang til denne kommandoen.
   register:
@@ -26,21 +30,27 @@ command:
     output:
       success:
         email: Sjekk innboksen din for å fullføre registrering .
-        link: <hover:show_text:"Klikk for å åpne i en nettleser"><click:open_url:"<url>">Vennligst
-          fullfør registreringen ved å gå til <url>.
+        link: <hover:show_text:"Klikk for å åpne i en 
+          nettleser"><click:open_url:"<url>">Vennligst fullfør registreringen 
+          ved å gå til <url>.
       fail:
-        email-used: Denne e-postadressen er allerede i bruk av en annen brukerkonto.
+        email-used: Denne e-postadressen er allerede i bruk av en annen 
+          brukerkonto.
         email-invalid: Den angitte e-postadressen er ugyldig.
         username-invalid: Det angitte brukernavnet er ugyldig.
-        cannot-send-email: Kunne ikke sende registreringse-post, vennligst kontakt
-          en admin for å aktivere kontoen din.
+        cannot-send-email: Kunne ikke sende registreringse-post, vennligst 
+          kontakt en admin for å aktivere kontoen din.
+        console-must-specify-username: <red>Når du kjører register-kommandoen 
+          fra konsollen, må du angi et brukernavn.
+        custom-username-disabled: <red>Det er ikke tillatt å registrere seg med 
+          et annet brukernavn enn Minecraft-brukernavnet ditt.
   validate:
     usage: /{command} <kode>
     output:
       success: Kontoen din har blitt validert.
       fail:
-        invalid-code: Valideringskoden var feil. Vennligst sjekk at du kopierte den
-          riktig og prøv igjen.
+        invalid-code: Valideringskoden var feil. Vennligst sjekk at du kopierte 
+          den riktig og prøv igjen.
         already-validated: Kontoen din er allerede validert.
     description: Validerer brukerens nettsidekonto med den oppgitte koden.
   user-info:
@@ -57,6 +67,41 @@ command:
       primary-group: 'Primærgruppe: <groupname>'
     description: Hent informasjon om en nettsidebruker
   not-a-player: Du må være en spiller for å utføre denne kommandoen.
+  plugin:
+    description: Administrative kommandoer for NamelessMC-pluginen
+    output:
+      reload-successful: Plugin-modulen er lastet inn på nytt.
+  store-change-credits:
+    description: Legge til eller fjerne nettbutikk-kreditter for en bruker
+    output:
+      added: Lagt til <green><credits></green> credits til <username>.
+      removed: Fjernet <red><credits></red> kreditter fra <username>.
+      nothing: Ingen handling nødvendig.
+  store-view-credits:
+    description: Se nettbutikk-kreditter
+    output:
+      credits: Du har <credits> kreditter.
+      console-must-provide-target: En målspiller må oppgis når denne kommandoen 
+        kjøres fra konsollen.
+      no-permission-other: Du har ikke tillatelse til å se kreditter for andre 
+        spillere enn deg selv.
 website-announcement: 'Nettsidekunngjøring: <message>'
-join-not-registered: Du har ikke en konto på nettsiden vår enda. Vennligst registrer
-  deg med /register.
+join-not-registered: Du har ikke en konto på nettsiden vår enda. Vennligst 
+  registrer deg med /register.
+error:
+  website-username-not-exist: <red>Ingen bruker finnes med dette brukernavnet.
+  discord-username-not-exist: <red>Ingen bruker finnes med dette 
+    Discord-brukernavnet.
+  minecraft-uuid-not-exist: <red>Ingen bruker finnes med denne Minecraft 
+    UUID-en.
+  target-no-website-account: <red>Den oppgitte spilleren har ikke en konto på 
+    nettsiden.
+  website-connection: <red>Det oppsto en feil under forsøk på å koble til 
+    nettstedet.
+  username-not-online: <red>Det oppgitte brukernavnet er ugyldig, eller 
+    spilleren er ikke online.
+boolean:
+  yes-positive: <green>Ja</green>
+  yes-negative: <red>Ja/red>
+  no-positive: <green>Nei</green>
+  no-negative: <red>Nei</red>
