@@ -2,12 +2,13 @@ command:
   validate:
     output:
       fail:
-        invalid-code: Doğrulama kodunuz yanlış. Lütfen doğru kopyalayıp kopyalamadığınızı
-          kontrol edin ve tekrar deneyin.
+        invalid-code: Doğrulama kodunuz yanlış. Lütfen doğru kopyalayıp 
+          kopyalamadığınızı kontrol edin ve tekrar deneyin.
         already-validated: Hesabınız zaten doğrulandı.
       success: Hesabınız doğrulandı.
     usage: '/{command} <kod>'
-    description: Verilen kodu kullanarak kullanıcının web sitesi hesabını doğrular.
+    description: Verilen kodu kullanarak kullanıcının web sitesi hesabını 
+      doğrular.
   user-info:
     output:
       uuid: 'UUID: <uuid>'
@@ -26,21 +27,24 @@ command:
     usage: '/{command}'
     output:
       no-notifications: Okunmamış bildiriminiz yok.
-      notification: <hover:show_text:"Tarayıcıyı Açmak İçin Tıkla."><click:open_url:"<url>"><message>
+      notification: <hover:show_text:"Tarayıcıyı Açmak İçin 
+        Tıkla."><click:open_url:"<url>"><message>
     description: Web sitesi bildirimlerinin bir listesini görüntüler.
   register:
     description: Bir hesap oluşturur
     output:
       success:
         email: Kaydı tamamlamak için lütfen gelen kutunuzu kontrol edin.
-        link: <hover:show_text:"Tarayıcıda açmak için tıkla"><click:open_url:"<url>">Lütfen
-          kayıt sürecini tamamlamak için <url> adresine gidiniz.
+        link: <hover:show_text:"Tarayıcıda açmak için 
+          tıkla"><click:open_url:"<url>">Lütfen kayıt sürecini tamamlamak için 
+          <url> adresine gidiniz.
       fail:
-        email-used: Bu e-posta adresi zaten farklı bir kullanıcı hesabı için kullanılıyor.
+        email-used: Bu e-posta adresi zaten farklı bir kullanıcı hesabı için 
+          kullanılıyor.
         email-invalid: Girdiğiniz e-posta adresi geçersiz.
         username-invalid: Sağlanan kullanıcı adı geçersiz.
-        cannot-send-email: Kayıt e-postası gönderilemiyor, hesabınızı etkinleştirmek
-          için lütfen bir yöneticiyle iletişime geçin.
+        cannot-send-email: Kayıt e-postası gönderilemiyor, hesabınızı 
+          etkinleştirmek için lütfen bir yöneticiyle iletişime geçin.
     usage: '/{command} <eposta>'
   report:
     description: Bir oyuncuyu rapor et
@@ -48,8 +52,8 @@ command:
     output:
       success: Bu oyuncuyu bildirdiğiniz için teşekkür ederiz.
       fail:
-        already-open: Bu oyuncuyu şikayet edemezsiniz, onlar için zaten açık bir raporunuz
-          var.
+        already-open: Bu oyuncuyu şikayet edemezsiniz, onlar için zaten açık bir
+          raporunuz var.
         report-self: Kendi kendini şikayet edemezsin.
   subcommands: {}
   not-a-player: Bu komutu gerçekleştirmek için oyuncu olmalısınız.
@@ -58,10 +62,18 @@ player:
   self:
     not-registered: Bu eylemi gerçekleştirmek için bir hesap açmalısınız.
     command-banned: Bu komutu çalıştıramazsınız, siteden yasaklanırsınız.
-join-not-registered: Henüz web sitemizde bir hesabınız yok. Lütfen / register kullanarak
-  kaydolun.
+join-not-registered: Henüz web sitemizde bir hesabınız yok. Lütfen / register 
+  kullanarak kaydolun.
 website-announcement: 'Site duyurusu: <message>'
 user-sync-kick: Bu sunucuda uzaklaştırılmışsınız.
 error:
-  website-username-not-exist: <red>Bu kullanıcı adına sahip website kullanıcısı yok.
-  discord-username-not-exist: <red>Bu kullanıcı adına sahip Discord kullanıcısı yok.
+  website-username-not-exist: <red>Bu kullanıcı adına sahip website kullanıcısı 
+    yok.
+  discord-username-not-exist: <red>Bu kullanıcı adına sahip Discord kullanıcısı 
+    yok.
+  minecraft-uuid-not-exist: Bu Minecraft UUID'ile eşleşen oyuncu 
+    bulunmamaktadır.
+  target-no-website-account: İlgili oyuncu bir web sitesi hesabına sahip değil.
+  website-connection: Website'ye bağlanılmayı denenirken bir hata oluştu.
+  username-not-online: İlgili kulllanıcı şuan aktif değil veya böyle bir 
+    kullanıcı yok.
