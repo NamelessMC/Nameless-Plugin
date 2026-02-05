@@ -46,7 +46,8 @@ command:
     output:
       success:
         email: 请查看您的收件箱来完成注册。
-        link: 请前往 <hover:show_text:"点击在浏览器中打开"><click:open_url:"<url>"><url></click></hover>
+        link: 请前往 
+          <hover:show_text:"点击在浏览器中打开"><click:open_url:"<url>"><url></click></hover>
           完成注册.
       fail:
         email-used: 此邮箱已被另一个帐号使用了。
