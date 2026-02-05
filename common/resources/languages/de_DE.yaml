@@ -1,37 +1,41 @@
 player:
   other: {}
   self:
-    not-registered: <red>Du must ein Konto erstellen, um diese Aktion ausführen zu
-      können.
-    command-banned: <red>Du kannst diesen Befehl nicht ausführen, da du von der Website
-      gebannt wurdest.
+    not-registered: <red>Du must ein Konto erstellen, um diese Aktion ausführen 
+      zu können.
+    command-banned: <red>Du kannst diesen Befehl nicht ausführen, da du von der 
+      Website gebannt wurdest.
 command:
   notifications:
     output:
       no-notifications: Du hast keine ungelesenen Benachrichtigungen.
-      notification: <hover:show_text:"Klicken um in einem Browser zu öffnen"><click:open_url:"<url>"><message>
+      notification: <hover:show_text:"Klicken um in einem Browser zu 
+        öffnen"><click:open_url:"<url>"><message>
     usage: '/<command>'
     description: Zeigt eine Liste der Website-Benachrichtigungen an.
-  not-a-player: <red>Du must ein Spieler sein, um diesen Befehl ausführen zu können.
+  not-a-player: <red>Du must ein Spieler sein, um diesen Befehl ausführen zu 
+    können.
   register:
     output:
       fail:
-        email-used: <red>Diese E-Mail-Adresse wird bereits für ein anderes Benutzerkonto
-          verwendet.
+        email-used: <red>Diese E-Mail-Adresse wird bereits für ein anderes 
+          Benutzerkonto verwendet.
         email-invalid: <red>Die angegebene E-Mail-Adresse ist ungültig.
         username-invalid: <red>Der angegebene Benutzername ist ungültig.
-        cannot-send-email: <red>Die Registrierungs-E-Mail kann nicht gesendet werden,
-          bitte kontaktiere einen Admin, um deinen Account zu aktivieren.
-        username-used: <red>Der angegebene Benutzername wird bereits von einem anderen
-          Benutzerkonto verwendet.
-        minecraft-used: <red>Dein Minecraft-Konto ist bereits mit einem anderen Benutzer
-          der Website verknüpft.
-        console-must-specify-username: <red>Wenn du den Befehl register Befehl über
-          die Konsole ausführst, musst du einen Benutzernamen angeben.
-        custom-username-disabled: <red>Die Registrierung mit einem anderen Benutzernamen
-          als deinem Minecraft-Benutzernamen ist nicht erlaubt.
+        cannot-send-email: <red>Die Registrierungs-E-Mail kann nicht gesendet 
+          werden, bitte kontaktiere einen Admin, um deinen Account zu 
+          aktivieren.
+        username-used: <red>Der angegebene Benutzername wird bereits von einem 
+          anderen Benutzerkonto verwendet.
+        minecraft-used: <red>Dein Minecraft-Konto ist bereits mit einem anderen 
+          Benutzer der Website verknüpft.
+        console-must-specify-username: <red>Wenn du den Befehl register Befehl 
+          über die Konsole ausführst, musst du einen Benutzernamen angeben.
+        custom-username-disabled: <red>Die Registrierung mit einem anderen 
+          Benutzernamen als deinem Minecraft-Benutzernamen ist nicht erlaubt.
       success:
-        email: Bitte überprüfe Deinen Posteingang, um die Registrierung abzuschließen.
+        email: Bitte überprüfe Deinen Posteingang, um die Registrierung 
+          abzuschließen.
         link: '<hover:show_text:"Klicke, um den Link im Browser zu öffnen"><click:open_url:"<url>">Registrierung
           abschließen, indem du <url> aufrufst.'
     usage: '/<command> \<E-Mail> [Username]'
@@ -43,22 +47,23 @@ command:
     output:
       success: Vielen Dank, das du diesen Spieler gemeldet haben.
       fail:
-        already-open: <red>Du kannst diesen Spieler nicht reporten, du hast bereits
-          einen offnenen Report gegen ihn.
+        already-open: <red>Du kannst diesen Spieler nicht reporten, du hast 
+          bereits einen offnenen Report gegen ihn.
         report-self: <red>Du kannst dich nicht selber melden.
-      notify-broadcast: <yellow><reporter_username></yellow> hat eine Meldung für
-        <yellow><reporter_username></yellow> eröffnet.
+      notify-broadcast: <yellow><reporter_username></yellow> hat eine Meldung 
+        für <yellow><reporter_username></yellow> eröffnet.
   validate:
     usage: '/<command> \<Code>'
-    description: Überprüft das Website-Konto des Benutzers mit dem angegebenen Code.
+    description: Überprüft das Website-Konto des Benutzers mit dem angegebenen 
+      Code.
     output:
       success: Ihr Konto wurde bestätigt.
       fail:
-        invalid-code: <red>Der angegebene Validierungscode ist falsch. Bitte überprüfe,
-          ob du ihn richtig kopiert hast und versuche es erneut.
+        invalid-code: <red>Der angegebene Validierungscode ist falsch. Bitte 
+          überprüfe, ob du ihn richtig kopiert hast und versuche es erneut.
         already-validated: <red>Dein Account ist schon aktiviert.
-        minecraft-account-linked: <red>Dieses Minecraft-Konto ist bereits mit einem
-          Website-Konto verknüpft.
+        minecraft-account-linked: <red>Dieses Minecraft-Konto ist bereits mit 
+          einem Website-Konto verknüpft.
   user-info:
     output:
       username: 'Benutzername: <username>'
@@ -99,37 +104,41 @@ command:
     description: Guthaben ansehen
     output:
       credits: Du hast <credits> Credits.
-      console-must-provide-target: Bei der Ausführung dieses Befehls über die Konsole
-        muss ein Zielplayer angegeben werden.
-      no-permission-other: Du hast nicht die Erlaubnis, Credits von anderen Spielern
-        zu sehen.
+      console-must-provide-target: Bei der Ausführung dieses Befehls über die 
+        Konsole muss ein Zielplayer angegeben werden.
+      no-permission-other: Du hast nicht die Erlaubnis, Credits von anderen 
+        Spielern zu sehen.
   suggest:
     description: Einen Vorschlag erstellen
     usage: /<command> \<Vorschlag Titel>
     output:
-      success: Vorschlag erfolgreich erstellt. Klicke auf <gelb><click:open_url:"<url>">hier</click></gelb>,
-        um es in einem Webbrowser zu öffnen.
-      too-short: Der Vorschlag ist zu kurz, bitte verwende mehr Wörter, um deinen
-        Vorschlag zu beschreiben.
-join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte registriere
-  Dich mit /<register_command>.
+      success: Vorschlag erfolgreich erstellt. Klicke auf 
+        <gelb><click:open_url:"<url>">hier</click></gelb>, um es in einem 
+        Webbrowser zu öffnen.
+      too-short: Der Vorschlag ist zu kurz, bitte verwende mehr Wörter, um 
+        deinen Vorschlag zu beschreiben.
+join-not-registered: Du hast noch kein Konto auf unserer Website. Bitte 
+  registriere Dich mit /<register_command>.
 website-announcement: 'Webseiten-Ankündigung: <message>'
-user-sync-kick: Du wurdest von unserem Server gebannt, nachdem dein Account auf der
-  Website gebannt wurde.
+user-sync-kick: Du wurdest von unserem Server gebannt, nachdem dein Account auf 
+  der Website gebannt wurde.
 error:
-  website-username-not-exist: <red>Es existiert kein Website-Benutzer mit diesem Benutzernamen.
-  username-not-online: <red>Der angegebene Benutzername ist ungültig oder der Spieler
-    ist nicht online.
-  website-connection: <red>Beim Versuch, eine Verbindung zur Website herzustellen,
-    ist ein Fehler aufgetreten.
-  minecraft-uuid-not-exist: <red>Es existiert kein Website-Benutzer mit dieser Minecraft
-    UUID.
-  discord-username-not-exist: <red>Es existiert kein Website-Benutzer mit diesem Discord-Benutzernamen.
-  target-no-website-account: <red>Der angegebene Spieler verfügt nicht über ein Website-Konto.
+  website-username-not-exist: <red>Es existiert kein Website-Benutzer mit diesem
+    Benutzernamen.
+  username-not-online: <red>Der angegebene Benutzername ist ungültig oder der 
+    Spieler ist nicht online.
+  website-connection: <red>Beim Versuch, eine Verbindung zur Website 
+    herzustellen, ist ein Fehler aufgetreten.
+  minecraft-uuid-not-exist: <red>Es existiert kein Website-Benutzer mit dieser 
+    Minecraft UUID.
+  discord-username-not-exist: <red>Es existiert kein Website-Benutzer mit diesem
+    Discord-Benutzernamen.
+  target-no-website-account: <red>Der angegebene Spieler verfügt nicht über ein 
+    Website-Konto.
 boolean:
   yes-positive: <green>Ja</green>
   yes-negative: <red>Ja</red>
   no-positive: <green>Nein</green>
   no-negative: <red>Nein</red>
-join-notifications: Du hast Website-Benachrichtigungen, bitte führe /<notifications_command>
-  für weitere Informationen aus.
+join-notifications: Du hast Website-Benachrichtigungen, bitte führe 
+  /<notifications_command> für weitere Informationen aus.
