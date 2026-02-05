@@ -2,15 +2,15 @@ command:
   validate:
     output:
       fail:
-        invalid-code: <red>Данный проверочный код неверен. Проверьте, правильно ли
-          вы скопировали, и попробуйте еще раз.
+        invalid-code: <red>Данный проверочный код неверен. Проверьте, правильно 
+          ли вы скопировали, и попробуйте еще раз.
         already-validated: <red>Ваш аккаунт уже подтверждён.
-        minecraft-account-linked: <red>Эта учетная запись Minecraft уже связана с
-          учетной записью сайта.
+        minecraft-account-linked: <red>Эта учетная запись Minecraft уже связана 
+          с учетной записью сайта.
       success: Ваша учетная запись была подтверждена.
     usage: '/<command> \<код>'
-    description: Проверяет учетную запись пользователя на веб-сайте с помощью указанного
-      кода.
+    description: Проверяет учетную запись пользователя на веб-сайте с помощью 
+      указанного кода.
   user-info:
     output:
       displayname: 'Отображаемое имя: <displayname>'
@@ -38,30 +38,33 @@ command:
     description: Отображает список уведомлений веб-сайта.
     output:
       no-notifications: У вас нет непрочитанных уведомлений.
-      notification: <hover:show_text:"Нажмите сюда для открытия в браузере"><click:open_url:"<url>"><message>
+      notification: <hover:show_text:"Нажмите сюда для открытия в 
+        браузере"><click:open_url:"<url>"><message>
     usage: '/<command>'
   register:
     usage: '/<command> \<почта> [никнейм]'
     description: Создайте аккаунт на сайте
     output:
       success:
-        email: Пожалуйста, проверьте свой почтовый ящик, чтобы завершить регистрацию.
-        link: <hover:show_text:"Кликните сюда, для открытия в браузере"><click:open_url:"<url>">Завершите
-          регистрацию перейдя по ссылке <url>.
+        email: Пожалуйста, проверьте свой почтовый ящик, чтобы завершить 
+          регистрацию.
+        link: <hover:show_text:"Кликните сюда, для открытия в 
+          браузере"><click:open_url:"<url>">Завершите регистрацию перейдя по 
+          ссылке <url>.
       fail:
-        email-used: <red>Этот адрес электронной почты уже используется для другой
-          учетной записи пользователя.
+        email-used: <red>Этот адрес электронной почты уже используется для 
+          другой учетной записи пользователя.
         email-invalid: <red>Указанный адрес электронной почты недействителен.
         username-invalid: <red>Указанное имя пользователя недействительно.
-        cannot-send-email: <red>Отправить письмо на ваш Email не удалось. Пожалуйста,
-          свяжитесь с администрацией для активации вашего аккаунта.
+        cannot-send-email: <red>Отправить письмо на ваш Email не удалось. 
+          Пожалуйста, свяжитесь с администрацией для активации вашего аккаунта.
         username-used: <red>Данный никнейм уже используется другим аккаунтом.
-        minecraft-used: <red>Ваш Minecraft аккаунт уже привязан к другому пользователю
-          сайта.
-        console-must-specify-username: <red>Когда пишешь команду регистрации из консоли,
-          вы должны указать никнейм.
-        custom-username-disabled: <red>Регистрироваться с никнеймом кроме Minecraft
-          никнейма запрещено.
+        minecraft-used: <red>Ваш Minecraft аккаунт уже привязан к другому 
+          пользователю сайта.
+        console-must-specify-username: <red>Когда пишешь команду регистрации из 
+          консоли, вы должны указать никнейм.
+        custom-username-disabled: <red>Регистрироваться с никнеймом кроме 
+          Minecraft никнейма запрещено.
   report:
     usage: '/<command> \<ник/uuid> \<причина>'
     description: Пожаловаться на игрока
@@ -70,7 +73,8 @@ command:
       fail:
         already-open: <red>Вы уже отправляли жалобу на этого игрока.
         report-self: <red>Вы не можете отправить заявку на самого себя.
-      notify-broadcast: <yellow><reporter_username></yellow> сделал репорт на <yellow><reported_username></yellow>.
+      notify-broadcast: <yellow><reporter_username></yellow> сделал репорт на 
+        <yellow><reported_username></yellow>.
   subcommands: {}
   plugin:
     output:
@@ -89,44 +93,46 @@ command:
     description: Показать кредиты магазина
     output:
       credits: У вас <credits> кредит(а/ов).
-      console-must-provide-target: Имя игрока должно быть указано при использовании
-        этой комманды из консоли.
-      no-permission-other: У вас нет прав что бы посмотреть кредиты игроков кроме
-        себя.
+      console-must-provide-target: Имя игрока должно быть указано при 
+        использовании этой комманды из консоли.
+      no-permission-other: У вас нет прав что бы посмотреть кредиты игроков 
+        кроме себя.
   suggest:
     usage: /<command> \<название предложения>
     description: Создать предложение
     output:
-      success: Предложение успешно создано. Нажмите <yellow><click:open_url:"<url>">сюда</click></yellow>
-        что бы открыть в браузере.
-      too-short: Предоставленное предложение слишком короткое, пожалуйста, используйте
-        больше слов, чтобы описать ваше предложение.
+      success: Предложение успешно создано. Нажмите 
+        <yellow><click:open_url:"<url>">сюда</click></yellow> что бы открыть в 
+        браузере.
+      too-short: Предоставленное предложение слишком короткое, пожалуйста, 
+        используйте больше слов, чтобы описать ваше предложение.
 player:
   self:
-    not-registered: <red>Вы должны зарегистрировать учетную запись, чтобы выполнить
-      это действие.
-    command-banned: <red>Вы не можете выполнять эту команду, поскольку вы заблокированы
-      на сайте.
+    not-registered: <red>Вы должны зарегистрировать учетную запись, чтобы 
+      выполнить это действие.
+    command-banned: <red>Вы не можете выполнять эту команду, поскольку вы 
+      заблокированы на сайте.
   other: {}
-join-not-registered: У вас еще нет учетной записи на нашем сайте. Пожалуйста, зарегистрируйтесь,
-  используя /<register_command>.
+join-not-registered: У вас еще нет учетной записи на нашем сайте. Пожалуйста, 
+  зарегистрируйтесь, используя /<register_command>.
 website-announcement: 'объявление на сайте: <message>'
-user-sync-kick: Вы заблокированы на этом сервере так как вы заблокированы на нашем
-  сайте.
+user-sync-kick: Вы заблокированы на этом сервере так как вы заблокированы на 
+  нашем сайте.
 error:
   website-connection: <red>Произошла ошибка при подключению к сайту.
-  website-username-not-exist: <red>Никаких пользователей сайта не существует с этим
-    никнеймом.
-  username-not-online: <red>Представленный никнейм неправильный или игрок не в сети.
+  website-username-not-exist: <red>Никаких пользователей сайта не существует с 
+    этим никнеймом.
+  username-not-online: <red>Представленный никнейм неправильный или игрок не в 
+    сети.
   target-no-website-account: <red>У данного игрока нету аккаунта на сайте.
-  discord-username-not-exist: <red>Не существует пользователей сайта с таким Discord
-    никнеймом.
-  minecraft-uuid-not-exist: <red>Не существует пользователей сайта с таким Minecraft
-    UUID.
+  discord-username-not-exist: <red>Не существует пользователей сайта с таким 
+    Discord никнеймом.
+  minecraft-uuid-not-exist: <red>Не существует пользователей сайта с таким 
+    Minecraft UUID.
 boolean:
   yes-positive: <green>Да</green>
   yes-negative: <red>Да</red>
   no-positive: <green>Нет</green>
   no-negative: <red>Нет</red>
-join-notifications: У вас есть уведомления сайта, напишите /<notifications_command>
-  для больше информации.
+join-notifications: У вас есть уведомления сайта, напишите 
+  /<notifications_command> для больше информации.
