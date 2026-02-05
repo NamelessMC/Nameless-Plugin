@@ -2,7 +2,8 @@ player:
   other: {}
   self:
     not-registered: Du måste registrera ett konto för att utföra detta.
-    command-banned: Du kan inte utföra detta kommando, du är bannlyst från hemsidan.
+    command-banned: Du kan inte utföra detta kommando, du är bannlyst från 
+      hemsidan.
 command:
   not-a-player: Du måste vara en spelare för att utföra detta kommando.
   no-permission: Du har inte tillåtelse att utföra detta kommando.
@@ -11,12 +12,13 @@ command:
     description: Visar en lista över notifikationer.
     output:
       no-notifications: Du har inte några icke lästa notifikationer.
-      notification: <hover:show_text:"Klicka för att öppna i en webbläsare"><click:open_url:"<url>"><message>
+      notification: <hover:show_text:"Klicka för att öppna i en 
+        webbläsare"><click:open_url:"<url>"><message>
   report:
     output:
       fail:
-        already-open: Du kan inte anmäla den här spelaren, eftersom du redan har en
-          öppen anmälning om honom.
+        already-open: Du kan inte anmäla den här spelaren, eftersom du redan har
+          en öppen anmälning om honom.
         report-self: Du kan inte anmäla dig själv.
       success: Tack för att du anmälde den här spelaren.
     usage: /{command} <namn/uuid> <anledning>
@@ -27,23 +29,26 @@ command:
     output:
       success:
         email: Kontrollera din inkorg för att slutföra registreringen.
-        link: <hover:show_text:"Klicka för att öppna i en webbläsare"><click:open_url:"<url>">Registrera
-          dig genom att gå till <url>.
+        link: <hover:show_text:"Klicka för att öppna i en 
+          webbläsare"><click:open_url:"<url>">Registrera dig genom att gå till 
+          <url>.
       fail:
-        email-used: Den här e-postadressen används redan för ett annat användarkonto.
+        email-used: Den här e-postadressen används redan för ett annat 
+          användarkonto.
         email-invalid: Den angivna e-postadressen är ogiltig.
         username-invalid: Det angivna användarnamnet är ogiltigt.
-        cannot-send-email: Det går inte att skicka ett registreringsmeddelande, kontakta
-          en administratör för att aktivera ditt konto.
+        cannot-send-email: Det går inte att skicka ett registreringsmeddelande, 
+          kontakta en administratör för att aktivera ditt konto.
         username-used: Ditt användarnamn används redan.
   validate:
     usage: /{command} <kod>
-    description: Validerar användarens webbplatskonto med hjälp av den angivna koden.
+    description: Validerar användarens webbplatskonto med hjälp av den angivna 
+      koden.
     output:
       success: Ditt konto har godkänts.
       fail:
-        invalid-code: Din valideringskod är felaktig. Kontrollera om du har kopierat
-          koden korrekt och försök igen.
+        invalid-code: Din valideringskod är felaktig. Kontrollera om du har 
+          kopierat koden korrekt och försök igen.
         already-validated: Ditt konto har redan godkänts.
   user-info:
     usage: /{command} [användarnamn]
@@ -63,15 +68,15 @@ command:
       reload-successful: Plugin har laddats om.
     description: Administrativa kommandon för NamelessMC plugin
 website-announcement: 'Meddelande från webbplatsen: <message>'
-user-sync-kick: Du är bannlyst från vår server efter att ha bannlysts från ert konto
-  på webbplatsen.
-join-not-registered: Du har ännu inget konto på vår webbplats. Registrera dig med
-  hjälp av /register.
+user-sync-kick: Du är bannlyst från vår server efter att ha bannlysts från ert 
+  konto på webbplatsen.
+join-not-registered: Du har ännu inget konto på vår webbplats. Registrera dig 
+  med hjälp av /register.
 error:
   website-username-not-exist: Ingen användare med detta användarnamnet existerar
   website-connection: Ett fel uppstod när du försökte ansluta till webbplatsen.
-  username-not-online: Det angivna användarnamnet är ogiltigt eller så är spelaren
-    inte online.
+  username-not-online: Det angivna användarnamnet är ogiltigt eller så är 
+    spelaren inte online.
 boolean:
   yes-positive: <green>Ja</green>
   no-positive: <green>Nej</green>
