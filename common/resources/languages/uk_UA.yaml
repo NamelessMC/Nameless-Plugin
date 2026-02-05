@@ -1,16 +1,21 @@
 error:
-  minecraft-uuid-not-exist: <red>Немає користувачів веб-сайту з цим UUID Minecraft.
-  target-no-website-account: <red>Наданий гравець не має облікового запису на веб-сайті.
-  username-not-online: <red>Надане імʼя користувача недійсне або гравець не в мережі.
-  website-username-not-exist: <red>Немає користувачів веб-сайту з цим іменем користувача.
-  discord-username-not-exist: <red>Не існує користувачів веб-сайту з цим іменем користувача
-    Discord.
-  website-connection: <red>Під час спроби підключитися до веб-сайту сталася помилка.
+  minecraft-uuid-not-exist: <red>Немає користувачів веб-сайту з цим UUID 
+    Minecraft.
+  target-no-website-account: <red>Наданий гравець не має облікового запису на 
+    веб-сайті.
+  username-not-online: <red>Надане імʼя користувача недійсне або гравець не в 
+    мережі.
+  website-username-not-exist: <red>Немає користувачів веб-сайту з цим іменем 
+    користувача.
+  discord-username-not-exist: <red>Не існує користувачів веб-сайту з цим іменем 
+    користувача Discord.
+  website-connection: <red>Під час спроби підключитися до веб-сайту сталася 
+    помилка.
 player:
   self:
     not-registered: <red>Ти повинний зареєструвати профіль, щоб виконати цю дію.
-    command-banned: <red>Ти не можеш виконувати цю команду, оскільки заблокований
-      на сайті.
+    command-banned: <red>Ти не можеш виконувати цю команду, оскільки 
+      заблокований на сайті.
 boolean:
   yes-positive: <green>Так</green>
   yes-negative: <red>Так</red>
@@ -23,7 +28,8 @@ command:
     description: Відображає список сповіщень сайту.
     output:
       no-notifications: У тебе немає непрочитаних сповіщень.
-      notification: <hover:show_text:"Натисни тут для відкриття в браузері"><click:open_url:"<url>"><message>
+      notification: <hover:show_text:"Натисни тут для відкриття в 
+        браузері"><click:open_url:"<url>"><message>
   plugin:
     output:
       reload-successful: Плагін успішно перезапущено.
@@ -34,21 +40,24 @@ command:
     description: Створи профіль на сайті
     output:
       fail:
-        username-used: <red>Це імʼя користувача вже використовується іншим профілем.
-        email-used: <red>Ця адреса електронної пошти вже використовується для іншого
-          профілю користувача.
-        minecraft-used: <red>Ваш профіль Minecraft вже привʼязано до іншого користувача
-          сайту.
+        username-used: <red>Це імʼя користувача вже використовується іншим 
+          профілем.
+        email-used: <red>Ця адреса електронної пошти вже використовується для 
+          іншого профілю користувача.
+        minecraft-used: <red>Ваш профіль Minecraft вже привʼязано до іншого 
+          користувача сайту.
         username-invalid: <red>Вказане імʼя користувача недійсне.
-        console-must-specify-username: <red>Коли пишеш команду реєстрації з консолі,
-          ти повинний вказати нікнейм.
-        custom-username-disabled: <red>Реєструватися з нікнеймом крім Minecraft нікнейму
-          заборонено.
+        console-must-specify-username: <red>Коли пишеш команду реєстрації з 
+          консолі, ти повинний вказати нікнейм.
+        custom-username-disabled: <red>Реєструватися з нікнеймом крім Minecraft 
+          нікнейму заборонено.
         email-invalid: <red>Вказана адреса електронної пошти недійсна.
-        cannot-send-email: <red>Неможливо надіслати електронний лист для реєстрації,
-          будь ласка, звернись до адміністратора, щоб активувати свій профіль.
+        cannot-send-email: <red>Неможливо надіслати електронний лист для 
+          реєстрації, будь ласка, звернись до адміністратора, щоб активувати 
+          свій профіль.
       success:
-        email: Будь ласка, перевір свої вхідні повідомлення, щоб завершити реєстрацію.
+        email: Будь ласка, перевір свої вхідні повідомлення, щоб завершити 
+          реєстрацію.
         link: 'Будь ласка, заверши реєстрацію, перейшовши за посиланням: <hover:show_text:"Натисни,
           щоб відкрити у веб-браузері"><click:open_url:"<url>"><url></click></hover>.'
   report:
@@ -58,7 +67,8 @@ command:
       fail:
         report-self: <red>Ти не можеш надіслати скаргу на себе.
         already-open: <red>Ти вже надсилав скаргу на цього гравця.
-      notify-broadcast: <yellow><reporter_username></yellow> поскаржився на <yellow><reported_username></yellow>.
+      notify-broadcast: <yellow><reporter_username></yellow> поскаржився на 
+        <yellow><reported_username></yellow>.
       success: Дякую, що поскаржився на цього гравця.
   store-change-credits:
     usage: /<command> \<гравець> \<(-)кредит(а/ів)>
@@ -71,30 +81,32 @@ command:
     usage: /<command> [гравець]
     output:
       credits: У тебе <credits> кредит(а/ів).
-      no-permission-other: У тебе немає дозволу переглядати кредити для інших гравців,
-        окрім себе.
-      console-must-provide-target: Нікнейм гравця повинно бути вказане при використанні
-        цієї команди з консолі.
+      no-permission-other: У тебе немає дозволу переглядати кредити для інших 
+        гравців, окрім себе.
+      console-must-provide-target: Нікнейм гравця повинно бути вказане при 
+        використанні цієї команди з консолі.
     description: Показати кредити магазину
   validate:
     usage: /<command> \<код>
-    description: Верифікує профіль користувача на сайті, використовуючи наданий код.
+    description: Верифікує профіль користувача на сайті, використовуючи наданий 
+      код.
     output:
       success: Твій профіль верифіковано.
       fail:
         already-validated: <red>Твій профіль уже верифіковано.
-        invalid-code: <red>Цей код перевірки неправильний. Перевір, чи правильно ти
-          скопіював, і спробуй ще раз.
-        minecraft-account-linked: <red>Цей профіль Minecraft вже пов'язано з обліковим
-          записом на веб-сайті.
+        invalid-code: <red>Цей код перевірки неправильний. Перевір, чи правильно
+          ти скопіював, і спробуй ще раз.
+        minecraft-account-linked: <red>Цей профіль Minecraft вже пов'язано з 
+          обліковим записом на веб-сайті.
   suggest:
     usage: /<command> \<назва пропозиції>
     description: Створити пропозицію
     output:
-      success: Пропозицію успішно створено. Натисни <yellow><click:open_url:"<url>">сюди</click></yellow>
-        щоб відкрити браузер.
-      too-short: Надана пропозиція занадто коротка, будь ласка, використовуй більше
-        слів для опису пропозиції.
+      success: Пропозицію успішно створено. Натисни 
+        <yellow><click:open_url:"<url>">сюди</click></yellow> щоб відкрити 
+        браузер.
+      too-short: Надана пропозиція занадто коротка, будь ласка, використовуй 
+        більше слів для опису пропозиції.
   user-info:
     usage: /<command> [нік]
     description: Отримати інформацію про користувача веб-сайту
@@ -117,10 +129,10 @@ command:
         linked-date: "Дата привʼязки: <linked_date>"
         verified: 'Верифіковано: <is_verified>'
   no-permission: <red>Немає дозволу на виконання цієї команди.
-join-not-registered: Ти ще не маєш акаунту на нашому сайті. Будь ласка, зареєструйся
-  за допомогою /<register_command>.
-join-notifications: У тебе є сповіщення з сайту, напиши /<notifications command> для
-  отримання більш детальної інформації.
+join-not-registered: Ти ще не маєш акаунту на нашому сайті. Будь ласка, 
+  зареєструйся за допомогою /<register_command>.
+join-notifications: У тебе є сповіщення з сайту, напиши /<notifications command>
+  для отримання більш детальної інформації.
 website-announcement: 'Оголошення на сайті: <message>'
-user-sync-kick: Ти заблокований на цьому сервері, оскільки заблокований на нашому
-  сайті.
+user-sync-kick: Ти заблокований на цьому сервері, оскільки заблокований на 
+  нашому сайті.
