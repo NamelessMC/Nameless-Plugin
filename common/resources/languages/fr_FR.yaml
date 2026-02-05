@@ -2,8 +2,8 @@ player:
   other: {}
   self:
     not-registered: Vous devez vous créer un compte pour effectuer cette action.
-    command-banned: <red>Vous ne pouvez pas exécuter cette commande, vous êtes banni
-      du site.
+    command-banned: <red>Vous ne pouvez pas exécuter cette commande, vous êtes 
+      banni du site.
 command:
   not-a-player: <red>Vous devez être un joueur pour exécuter cette commande.
   no-permission: <red>Vous n'êtes pas autorisé à exécuter cette commande.
@@ -11,41 +11,44 @@ command:
     usage: '/{command}'
     output:
       no-notifications: Vous n'avez aucune notification non lue.
-      notification: <hover:show_text:"Cliquez ici pour ouvrir la page dans votre navigateur"><click:open_url:"<url>"><message></click></hover>
+      notification: <hover:show_text:"Cliquez ici pour ouvrir la page dans votre
+        navigateur"><click:open_url:"<url>"><message></click></hover>
     description: Affiche une liste de notifications de site Web.
   register:
     usage: '/{<command} <adresse email> [nom d''utilisateur]'
     description: Crée un compte
     output:
       success:
-        email: Veuillez vérifier votre boîte de réception pour terminer l'inscription.
+        email: Veuillez vérifier votre boîte de réception pour terminer 
+          l'inscription.
         link: Veuillez visiter <link> pour terminer l'inscription.
       fail:
-        email-used: <red>Cette adresse e-mail est déjà utilisée pour un autre compte
-          utilisateur.
+        email-used: <red>Cette adresse e-mail est déjà utilisée pour un autre 
+          compte utilisateur.
         email-invalid: <red>L'adresse e-mail fournie est invalide.
         username-invalid: <red>Le nom d'utilisateur fourni est invalide.
-        cannot-send-email: <red>L'envoi de l'e-mail d'inscription a échoué, contactez
-          un administrateur pour activer votre compte.
-        username-used: <red>Le nom d'utilisateur indiqué est déjà utilisé par un autre
-          compte utilisateur.
-        minecraft-used: <red>Votre compte Minecraft est déjà lié à un différent compte
-          utilisateur du site web.
-        console-must-specify-username: <red>Vous devez indiquer un nom d'utilisateur
-          lorsque vous exécutez la commande register depuis la console.
-        custom-username-disabled: <red>S'enregistrer avec un nom d'utilisateur différent
-          de celui de votre compte Minecraft n'est pas autorisé.
+        cannot-send-email: <red>L'envoi de l'e-mail d'inscription a échoué, 
+          contactez un administrateur pour activer votre compte.
+        username-used: <red>Le nom d'utilisateur indiqué est déjà utilisé par un
+          autre compte utilisateur.
+        minecraft-used: <red>Votre compte Minecraft est déjà lié à un différent 
+          compte utilisateur du site web.
+        console-must-specify-username: <red>Vous devez indiquer un nom 
+          d'utilisateur lorsque vous exécutez la commande register depuis la 
+          console.
+        custom-username-disabled: <red>S'enregistrer avec un nom d'utilisateur 
+          différent de celui de votre compte Minecraft n'est pas autorisé.
   report:
     description: Signaler un joueur
     usage: /{command} <nom/uuid> <raison>
     output:
       success: Merci d'avoir signalé ce joueur.
       fail:
-        already-open: <red>Vous ne pouvez pas signaler ce joueur, vous avez déjà un
-          rapport ouvert pour lui.
+        already-open: <red>Vous ne pouvez pas signaler ce joueur, vous avez déjà
+          un rapport ouvert pour lui.
         report-self: <red>Vous ne pouvez pas vous signaler vous-même.
-      notify-broadcast: <yellow><reporter_username></yellow> a ouvert un rapport sur
-        <yellow><reported_username></yellow>.
+      notify-broadcast: <yellow><reporter_username></yellow> a ouvert un rapport
+        sur <yellow><reported_username></yellow>.
   user-info:
     output:
       validated: 'Compte validé : <validated>'
@@ -70,15 +73,16 @@ command:
   subcommands: {}
   validate:
     usage: /{command} <code>
-    description: Valide le compte du joueur sur le site web à partir du code donné.
+    description: Valide le compte du joueur sur le site web à partir du code 
+      donné.
     output:
       success: Votre compte a été validé.
       fail:
-        invalid-code: <red>Votre code de validation est incorrect. Veuillez le vérifier
-          puis réessayer.
+        invalid-code: <red>Votre code de validation est incorrect. Veuillez le 
+          vérifier puis réessayer.
         already-validated: <red>Votre compte a déjà été validé.
-        minecraft-account-linked: <red>Ce compte Minecraft est déjà lié à un compte
-          sur le site.
+        minecraft-account-linked: <red>Ce compte Minecraft est déjà lié à un 
+          compte sur le site.
   plugin:
     output:
       reload-successful: Le plugin a été rechargé avec succès.
@@ -94,41 +98,43 @@ command:
   store-view-credits:
     usage: /<command> [nom d'utilisateur]
     output:
-      console-must-provide-target: Un joueur doit être ciblé pour pouvoir utiliser
-        cette commande depuis la console.
+      console-must-provide-target: Un joueur doit être ciblé pour pouvoir 
+        utiliser cette commande depuis la console.
       credits: Vous avez <credits> crédits.
-      no-permission-other: Vous n'avez pas la permission de voir les crédits des autres
-        joueurs.
+      no-permission-other: Vous n'avez pas la permission de voir les crédits des
+        autres joueurs.
     description: Voir les crédits boutique
   suggest:
     usage: /<command> \<titre de la suggestion>
     description: Créer une suggestion
     output:
-      success: Suggestion créée avec succès. Cliquez <yellow><click:open_url:"<url>">ici</click></yellow>
-        pour l'ouvrir dans un navigateur internet.
-      too-short: La suggestion fournie est trop courte, veuillez utiliser plus de
-        mots pour décrire votre suggestion.
-join-not-registered: Vous n'avez pas encore de compte sur notre site web. Veuillez
-  vous inscrire avec /<register_command>..
+      success: Suggestion créée avec succès. Cliquez 
+        <yellow><click:open_url:"<url>">ici</click></yellow> pour l'ouvrir dans 
+        un navigateur internet.
+      too-short: La suggestion fournie est trop courte, veuillez utiliser plus 
+        de mots pour décrire votre suggestion.
+join-not-registered: Vous n'avez pas encore de compte sur notre site web. 
+  Veuillez vous inscrire avec /<register_command>..
 error:
-  website-username-not-exist: <red>Aucun utilisateur avec ce nom existe sur notre
-    site.
-  discord-username-not-exist: <red>Aucun utilisateur avec ce pseudo Discord existe
-    sur notre site.
-  minecraft-uuid-not-exist: <red>Aucun utilisateur avec cette UUID existe sur notre
-    site.
-  target-no-website-account: <red>Le joueur indiqué n'a pas de compte sur le site
+  website-username-not-exist: <red>Aucun utilisateur avec ce nom existe sur 
+    notre site.
+  discord-username-not-exist: <red>Aucun utilisateur avec ce pseudo Discord 
+    existe sur notre site.
+  minecraft-uuid-not-exist: <red>Aucun utilisateur avec cette UUID existe sur 
+    notre site.
+  target-no-website-account: <red>Le joueur indiqué n'a pas de compte sur le 
+    site web.
+  username-not-online: <red>Le nom d'utilisateur indiqué est invalide ou le 
+    joueur n'est pas en ligne.
+  website-connection: <red>Une erreur est survenue lors de la connexion au site 
     web.
-  username-not-online: <red>Le nom d'utilisateur indiqué est invalide ou le joueur
-    n'est pas en ligne.
-  website-connection: <red>Une erreur est survenue lors de la connexion au site web.
 boolean:
   yes-positive: <green>Oui</green>
   yes-negative: <red>Oui</red>
   no-positive: <green>Non</green>
   no-negative: <red>Non</red>
 website-announcement: 'Annonce du site Web : <message>'
-join-notifications: Vous avez des notifications du site internet, veuillez exécuter
-  /<notifications_command> pour plus d'informations.
-user-sync-kick: Vous êtes banni de notre serveur suite à un bannissement de votre
-  compte du site internet.
+join-notifications: Vous avez des notifications du site internet, veuillez 
+  exécuter /<notifications_command> pour plus d'informations.
+user-sync-kick: Vous êtes banni de notre serveur suite à un bannissement de 
+  votre compte du site internet.
