@@ -13,33 +13,36 @@ command:
         link: '<hover:show_text:"לחץ לפתיחה בדפדפן אינטרנט"><click:open_url:"<url>">אנא
           השלם את ההרשמה על ידי מעבר אל <url>.'
       fail:
-        cannot-send-email: <red>לא ניתן לשלוח דוא"ל לרישום, אנא צרו קשר עם מנהל המערכת
-          כדי להפעיל את חשבונכם.
+        cannot-send-email: <red>לא ניתן לשלוח דוא"ל לרישום, אנא צרו קשר עם מנהל 
+          המערכת כדי להפעיל את חשבונכם.
         email-used: <red>כתובת דוא"ל זו כבר משמשת לחשבון משתמש אחר.
         email-invalid: <red>כתובת הדוא"ל שצוינה אינה חוקית.
         username-invalid: <red>שם המשתמש שסופק אינו חוקי.
-        username-used: <red>שם המשתמש שסופק כבר נמצא בשימוש על ידי חשבון משתמש אחר.
+        username-used: <red>שם המשתמש שסופק כבר נמצא בשימוש על ידי חשבון משתמש 
+          אחר.
         minecraft-used: <red>חשבון Minecraft שלך כבר מקושר למשתמש אחר באתר.
-        console-must-specify-username: <red>כאשר מפעילים את פקודת הרישום מהמסוף, עליך
-          לציין שם משתמש.
-        custom-username-disabled: <red>הרשמה עם שם משתמש שאינו שם המשתמש שלך ב-Minecraft
-          אסורה.
+        console-must-specify-username: <red>כאשר מפעילים את פקודת הרישום מהמסוף,
+          עליך לציין שם משתמש.
+        custom-username-disabled: <red>הרשמה עם שם משתמש שאינו שם המשתמש שלך 
+          ב-Minecraft אסורה.
     usage: /<פקודה> \<email> [שם משתמש]
   report:
     output:
       success: תודה שדיווחת על שחקן זה.
       fail:
-        already-open: <red>אינך יכול לדווח על שחקן זה, כבר יש לך דוח פתוח בשבילו.
+        already-open: <red>אינך יכול לדווח על שחקן זה, כבר יש לך דוח פתוח 
+          בשבילו.
         report-self: <red>אתה לא יכול לדווח על עצמך.
-      notify-broadcast: <yellow><reporter_username></yellow> פתח דיווח על <yellow><reported_username></yellow>.
+      notify-broadcast: <yellow><reporter_username></yellow> פתח דיווח על 
+        <yellow><reported_username></yellow>.
     description: דווח על שחקן
     usage: /{command} <שם/uuid> <סיבה>
   validate:
     output:
       success: חשבונך אומת.
       fail:
-        invalid-code: <red>קוד האימות שסופק שגוי. אנא בדוק אם העתקת אותו כהלכה ונסה
-          שוב.
+        invalid-code: <red>קוד האימות שסופק שגוי. אנא בדוק אם העתקת אותו כהלכה 
+          ונסה שוב.
         already-validated: <red>חשבונך כבר מאומת.
         minecraft-account-linked: <red>המשתמש מיינקראפט הזה כבר מקושר לאתר.
     usage: <קוד> {פקודה}/
@@ -91,15 +94,17 @@ command:
     usage: /<פקודה> \<כותרת ההצעה>
     description: צור הצעה
     output:
-      success: ההצעה נוצרה בהצלחה. לחץ <yellow><click:open_url:"<url>">כאן</click></yellow>
-        כדי לפתוח אותו בדפדפן אינטרנט.
+      success: ההצעה נוצרה בהצלחה. לחץ 
+        <yellow><click:open_url:"<url>">כאן</click></yellow> כדי לפתוח אותו 
+        בדפדפן אינטרנט.
       too-short: ההעצה שהצעת היא קצרה, אם תוכל להכליל עוד מילים בה.
 player:
   other: {}
   self:
     not-registered: <red>עליך להירשם לחשבון כדי לבצע פעולה זו.
     command-banned: <red>אינך יכול להפעיל את הפקודה הזו, אתה נחסם מהאתר.
-join-not-registered: עדיין אין לך חשבון באתר שלנו. אנא הירשם באמצעות הפקודה <register_command>/.
+join-not-registered: עדיין אין לך חשבון באתר שלנו. אנא הירשם באמצעות הפקודה 
+  <register_command>/.
 error:
   website-username-not-exist: <red>לא קיים משתמש באתר עם שם משתמש זה.
   username-not-online: <red>שם המשתמש שסופק אינו חוקי או שהשחקן אינו מקוון.
@@ -114,4 +119,5 @@ boolean:
   yes-positive: <green>כן</green>
 website-announcement: 'הודעת אתר: <message>'
 user-sync-kick: אתה נחסם מהשרת שלנו בעקבות איסור חשבון אתר.
-join-notifications: יש לך הודעות באתר, הפעל את /<notifications_command> למידע נוסף.
+join-notifications: יש לך הודעות באתר, הפעל את /<notifications_command> למידע 
+  נוסף.
