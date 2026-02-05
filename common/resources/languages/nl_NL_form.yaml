@@ -1,7 +1,8 @@
 player:
   self:
     not-registered: U heeft een account nodig om deze actie uit te voeren.
-    command-banned: U kunt deze opdracht niet uitvoeren, u bent verbannen van de website.
+    command-banned: U kunt deze opdracht niet uitvoeren, u bent verbannen van de
+      website.
   other: {}
 command:
   not-a-player: U moet een speler zijn om dit commando uit te voeren.
@@ -9,7 +10,8 @@ command:
     usage: '/{command}'
     output:
       no-notifications: U heeft geen ongelezen berichten.
-      notification: <hover:show_text:"Klik om te openen in een web browser"><click:open_url:"<url>"><message>
+      notification: <hover:show_text:"Klik om te openen in een web 
+        browser"><click:open_url:"<url>"><message>
     description: Laat een lijst van websiteberichten zien.
   no-permission: U heeft geen toestemming om dit commando uit te voeren.
   report:
@@ -17,8 +19,8 @@ command:
     usage: '/{command} <naam/uuid> <reden>'
     output:
       fail:
-        already-open: U kunt deze speler niet rapporteren, u heeft al een open rapport
-          over hem.
+        already-open: U kunt deze speler niet rapporteren, u heeft al een open 
+          rapport over hem.
         report-self: U kunt uzelf niet rapporteren.
       success: Bedankt om deze speler te rapporteren.
   user-info:
@@ -39,26 +41,28 @@ command:
       success: Uw account is gevalideerd.
       fail:
         already-validated: Uw account is al gevalideerd.
-        invalid-code: Uw validatie code is ongeldig. Kijkt u alstublieft na of u deze
-          correct gekopieerd heeft en probeer het opnieuw.
+        invalid-code: Uw validatie code is ongeldig. Kijkt u alstublieft na of u
+          deze correct gekopieerd heeft en probeer het opnieuw.
     usage: /{command} <code>
-    description: Valideert de gebruiker zijn website account door middel van de opgegeven
-      code.
+    description: Valideert de gebruiker zijn website account door middel van de 
+      opgegeven code.
   register:
     usage: '/{command} <e-mail>'
     output:
       fail:
         username-invalid: De opgegeven gebruikersnaam is ongeldig.
-        cannot-send-email: Kon de registratie e-mail niet verzenden, neem contact
-          op met de serverbeheerder.
+        cannot-send-email: Kon de registratie e-mail niet verzenden, neem 
+          contact op met de serverbeheerder.
         email-used: Dit email adres is al gebruikt voor een ander account.
         email-invalid: Het opgegeven email adres is ongeldig.
       success:
-        link: <hover:show_text:"Klik om te openen in een web browser"><click:open_url:"<url>">Om
-          de registratie te voltooien, ga alstublieft naar <url>.
-        email: Controleer alstublieft uw e-mail inbox om de registratie te voltooien.
+        link: <hover:show_text:"Klik om te openen in een web 
+          browser"><click:open_url:"<url>">Om de registratie te voltooien, ga 
+          alstublieft naar <url>.
+        email: Controleer alstublieft uw e-mail inbox om de registratie te 
+          voltooien.
     description: Maak een website account
   subcommands: {}
-join-not-registered: U heeft nog geen account op onze website. Registreer alstublieft
-  met /register.
+join-not-registered: U heeft nog geen account op onze website. Registreer 
+  alstublieft met /register.
 website-announcement: 'Website aankondiging: <message>'
