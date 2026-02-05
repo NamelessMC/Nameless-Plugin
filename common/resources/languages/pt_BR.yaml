@@ -1,8 +1,10 @@
 player:
   other: {}
   self:
-    not-registered: <red>Você deve se registrar em uma conta para realizar essa ação.
-    command-banned: <red>Você não pode executar esse comando, você foi banido do site.
+    not-registered: <red>Você deve se registrar em uma conta para realizar essa 
+      ação.
+    command-banned: <red>Você não pode executar esse comando, você foi banido do
+      site.
 command:
   not-a-player: <red>Você precisa ser um jogador para executar esse comando.
   no-permission: <red>Você não tem permissão para executar esse comando.
@@ -10,7 +12,8 @@ command:
     usage: '/{command}'
     output:
       no-notifications: Você não tem notificações não lidas.
-      notification: <hover:show_text:"Clique para abrir em um navegador da web"><click:open_url:"<url>"><message></click></hover>
+      notification: <hover:show_text:"Clique para abrir em um navegador da 
+        web"><click:open_url:"<url>"><message></click></hover>
     description: Exibir uma lista de notificações do site.
   register:
     usage: '/<command> \<email> [username]'
@@ -18,41 +21,42 @@ command:
     output:
       success:
         email: Verifique sua caixa de entrada para concluir o registro.
-        link: Por favor, complete o cadastro acessando <hover:show_text:"Clique para
-          abrir em um navegador da web"><click:open_url:"<url>"><url></click></hover>.
+        link: Por favor, complete o cadastro acessando <hover:show_text:"Clique 
+          para abrir em um navegador da 
+          web"><click:open_url:"<url>"><url></click></hover>.
       fail:
-        email-used: <red>Este endereço de email já está em uso em uma conta de usuário
-          diferente.
+        email-used: <red>Este endereço de email já está em uso em uma conta de 
+          usuário diferente.
         email-invalid: <red>O endereço de email fornecido é inválido.
         username-invalid: <red>O nome de usuário fornecido é inválido.
-        cannot-send-email: <red>Não foi possível enviar o email de registro, entre
-          em contato com um administrador para ativar sua conta.
+        cannot-send-email: <red>Não foi possível enviar o email de registro, 
+          entre em contato com um administrador para ativar sua conta.
         username-used: <red>Seu nome de usuário já está sendo usado.
-        minecraft-used: <red>Sua conta do Minecraft já está vinculada a um usuário
-          diferente no site.
-        console-must-specify-username: <red>Ao executar o comando register no console,
-          você deve especificar um nickname.
-        custom-username-disabled: <red>Registrar-se com um nome de usuário diferente
-          do seu nome de usuário do Minecraft não está permitido.
+        minecraft-used: <red>Sua conta do Minecraft já está vinculada a um 
+          usuário diferente no site.
+        console-must-specify-username: <red>Ao executar o comando register no 
+          console, você deve especificar um nickname.
+        custom-username-disabled: <red>Registrar-se com um nome de usuário 
+          diferente do seu nome de usuário do Minecraft não está permitido.
   report:
     usage: '/{command} <nome/uuid> <motivo>'
     description: Denunciar um jogador
     output:
       success: Obrigado por denunciar este jogador.
       fail:
-        already-open: <red>Você não pode denunciar este jogador, você já tem uma denuncia
-          aberta para ele.
+        already-open: <red>Você não pode denunciar este jogador, você já tem uma
+          denuncia aberta para ele.
         report-self: <red>Você não pode denunciar a si mesmo.
-      notify-broadcast: <yellow><reporter_username></yellow> abriu um reporte para
-        <yellow><reported_username></yellow>.
+      notify-broadcast: <yellow><reporter_username></yellow> abriu um reporte 
+        para <yellow><reported_username></yellow>.
   validate:
     output:
       fail:
         already-validated: <red>Sua conta já foi validada.
-        invalid-code: <red>O seu código está incorreto. Por favor, verifique se você
-          copiou o código correto e tente novamente.
-        minecraft-account-linked: <red>Esta conta do Minecraft já está vinculada a
-          uma conta do site.
+        invalid-code: <red>O seu código está incorreto. Por favor, verifique se 
+          você copiou o código correto e tente novamente.
+        minecraft-account-linked: <red>Esta conta do Minecraft já está vinculada
+          a uma conta do site.
       success: Sua conta foi validada.
     usage: '/{command} <código>'
     description: Validar a conta do site do usuário usando o código fornecido.
@@ -85,10 +89,10 @@ command:
     description: Comandos administrativos para o plugin do NamelessMC
   store-view-credits:
     output:
-      console-must-provide-target: Um jogador de destino deve ser fornecido ao executar
-        este comando no console.
-      no-permission-other: Você não tem permissão para ver os créditos de outros jogadores
-        além de você.
+      console-must-provide-target: Um jogador de destino deve ser fornecido ao 
+        executar este comando no console.
+      no-permission-other: Você não tem permissão para ver os créditos de outros
+        jogadores além de você.
       credits: Você tem <créditos> créditos.
     usage: /<comando> [nickname]
     description: Ver créditos da loja
@@ -102,15 +106,17 @@ command:
   suggest:
     description: Criar uma sugestão
     output:
-      too-short: A sugestão fornecida é muito curta. Use mais palavras para descrevê-la.
-      success: Sugestão criada com sucesso. Clique <yellow><click:open_url:"<url>">aqui</click></yellow>
-        para abri-lo em um navegador da web.
+      too-short: A sugestão fornecida é muito curta. Use mais palavras para 
+        descrevê-la.
+      success: Sugestão criada com sucesso. Clique 
+        <yellow><click:open_url:"<url>">aqui</click></yellow> para abri-lo em um
+        navegador da web.
     usage: /<command> \<sugestão>
-join-not-registered: Você ainda não tem uma conta em nosso site. Por favor, registre-se
-  usando /<register_command>.
+join-not-registered: Você ainda não tem uma conta em nosso site. Por favor, 
+  registre-se usando /<register_command>.
 website-announcement: 'Anúncio do site: <message>'
-user-sync-kick: Você foi banido de nosso servidor após o banimento de uma conta no
-  site.
+user-sync-kick: Você foi banido de nosso servidor após o banimento de uma conta 
+  no site.
 boolean:
   yes-negative: <red>Sim</red>
   no-positive: <green>Não</green>
@@ -118,13 +124,14 @@ boolean:
   yes-positive: <green>Sim</green>
 error:
   website-connection: <red>Ocorreu um erro ao tentar se conectar ao site.
-  username-not-online: <red>O nome de usuário fornecido é inválido ou o jogador não
-    está online.
-  discord-username-not-exist: <red>Não existe nenhum usuário no site com este nome
-    de usuário do Discord.
+  username-not-online: <red>O nome de usuário fornecido é inválido ou o jogador 
+    não está online.
+  discord-username-not-exist: <red>Não existe nenhum usuário no site com este 
+    nome de usuário do Discord.
   minecraft-uuid-not-exist: <red>Nenhum usuário no site existe com esta UUID.
-  target-no-website-account: <red>O jogador fornecido não possui uma conta no site.
-  website-username-not-exist: <red>Nenhum usuário do site existe com este nome de
-    usuário.
-join-notifications: Você tem notificações do site, execute /<notifications_command>
-  para obter mais informações.
+  target-no-website-account: <red>O jogador fornecido não possui uma conta no 
+    site.
+  website-username-not-exist: <red>Nenhum usuário do site existe com este nome 
+    de usuário.
+join-notifications: Você tem notificações do site, execute 
+  /<notifications_command> para obter mais informações.
