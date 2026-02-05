@@ -106,7 +106,7 @@
 		<dependency>
 			<groupId>net.kyori</groupId>
 			<artifactId>adventure-platform-spongeapi</artifactId>
-			<version>4.2.0</version>
+			<version>4.4.1</version>
 		</dependency>
 
     </dependencies>
