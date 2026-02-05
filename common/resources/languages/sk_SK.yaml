@@ -7,16 +7,19 @@ command:
   report:
     output:
       fail:
-        already-open: <red>Tohto hráča nemôžete nahlásiť, pretože ste ho už nahlásili.
+        already-open: <red>Tohto hráča nemôžete nahlásiť, pretože ste ho už 
+          nahlásili.
         report-self: <red>Nemôžete sa nahlásiť.
       success: Ďakujeme za nahlásenie hráča.
-      notify-broadcast: <yellow><reporter_username></yellow> otvoril report pre <yellow><reported_username></yellow>.
+      notify-broadcast: <yellow><reporter_username></yellow> otvoril report pre 
+        <yellow><reported_username></yellow>.
     description: Nahlásiť hráča
     usage: '/{command} <name/uuid> <reason>'
   notifications:
     usage: '/{command}'
     output:
-      notification: <hover:show_text:"Kliknutím otvoríte vo webovom prehliadači"><click:open_url:"<url>"><message>
+      notification: <hover:show_text:"Kliknutím otvoríte vo webovom 
+        prehliadači"><click:open_url:"<url>"><message>
       no-notifications: Nemáte žiadne neprečítané upozornenia.
     description: Zobrazí zoznam upozornení na webu.
   no-permission: <red>Na vykonanie tohto príkazu nemáte povolenie.
@@ -25,17 +28,18 @@ command:
       fail:
         username-invalid: <red>Zadané používateľské meno je neplatné.
         email-invalid: <red>Zadaná e-mailová adresa je neplatná.
-        email-used: <red>Táto e-mailová adresa sa už používa pre iný používateľský
-          účet.
-        cannot-send-email: <red>Registračný e-mail nie je možné odoslať. Požiadajte
-          správcu o aktiváciu vášho účtu.
-        username-used: <red>Uvedené používateľské meno už používa iný používateľ.
-        minecraft-used: <red>Váš účet Minecraft je už prepojený s iným používateľom
-          webstránky.
-        console-must-specify-username: <red>Pri spustení príkazu register z konzoly
-          musíte zadať používateľské meno.
-        custom-username-disabled: <red>Registrácia s iným používateľským menom, ako
-          je vaše Minecraft meno, nie je povolená.
+        email-used: <red>Táto e-mailová adresa sa už používa pre iný 
+          používateľský účet.
+        cannot-send-email: <red>Registračný e-mail nie je možné odoslať. 
+          Požiadajte správcu o aktiváciu vášho účtu.
+        username-used: <red>Uvedené používateľské meno už používa iný 
+          používateľ.
+        minecraft-used: <red>Váš účet Minecraft je už prepojený s iným 
+          používateľom webstránky.
+        console-must-specify-username: <red>Pri spustení príkazu register z 
+          konzoly musíte zadať používateľské meno.
+        custom-username-disabled: <red>Registrácia s iným používateľským menom, 
+          ako je vaše Minecraft meno, nie je povolená.
       success:
         email: Skontrolujte svoju doručenú poštu a dokončite registráciu.
         link: <click:open_url:"<url>">Registráciu dokončíte kliknutím sem.
@@ -66,11 +70,11 @@ command:
     usage: '{command} <kód>'
     output:
       fail:
-        invalid-code: <red>Uvedený overovací kód je nesprávny. Skontrolujte, či ste
-          ho skopírovali správne a skúste to znova.
+        invalid-code: <red>Uvedený overovací kód je nesprávny. Skontrolujte, či 
+          ste ho skopírovali správne a skúste to znova.
         already-validated: <red>Váš účet je už overený.
-        minecraft-account-linked: <red>Tento minecraft účet je už prepojený s účtom
-          na webstránke.
+        minecraft-account-linked: <red>Tento minecraft účet je už prepojený s 
+          účtom na webstránke.
       success: Váš účet bol overený.
     description: Overuje účet používateľa na danom webe pomocou daného kódu.
   not-a-player: <red>Musíte byť hráč, ak chcete vykonať tento príkaz.
@@ -84,45 +88,49 @@ command:
     usage: /<príkaz> \<meno hráča> \<(-)kredity>
     description: Pridajte alebo odstráňte kredity v obchode pre používateľa
     output:
-      added: Bolo pridaných <green><credits></green> kreditov hráčovi <username>.
+      added: Bolo pridaných <green><credits></green> kreditov hráčovi 
+        <username>.
       nothing: Nie je potrebná žiadna akcia.
-      removed: Bolo odobraných <green><credits></green> kreditov hráčovi <username>.
+      removed: Bolo odobraných <green><credits></green> kreditov hráčovi 
+        <username>.
   store-view-credits:
     usage: /<príkaz> [meno hráča]
     description: Zobraziť kredity obchodu
     output:
       credits: Máte <credits> kreditov.
-      no-permission-other: Nemáte povolenie na zobrazenie kreditov pre iných hráčov,
-        ako ste vy.
-      console-must-provide-target: Pri spustení tohto príkazu z konzoly musí byť poskytnutý
-        cieľový hráč.
+      no-permission-other: Nemáte povolenie na zobrazenie kreditov pre iných 
+        hráčov, ako ste vy.
+      console-must-provide-target: Pri spustení tohto príkazu z konzoly musí byť
+        poskytnutý cieľový hráč.
   suggest:
     description: Vytvoriť návrh
     output:
-      success: Návrh bol úspešne vytvorený. Kliknite <yellow><click:open url:"<url>">sem</click></yellow>
-        a otvorte ho vo webovom prehliadači.
-      too-short: Poskytnutý návrh je príliš krátky, použite viac slov na popis svojho
-        návrhu.
+      success: Návrh bol úspešne vytvorený. Kliknite <yellow><click:open 
+        url:"<url>">sem</click></yellow> a otvorte ho vo webovom prehliadači.
+      too-short: Poskytnutý návrh je príliš krátky, použite viac slov na popis 
+        svojho návrhu.
     usage: /<príkaz> \<názov návrhu>
-join-not-registered: Na našej webovej stránke ešte nemáte účet. Prosím zaregistrujte
-  sa pomocou /<command>.
-user-sync-kick: Po zákaze účtu na webovej stránke máte zakázaný prístup na náš server.
+join-not-registered: Na našej webovej stránke ešte nemáte účet. Prosím 
+  zaregistrujte sa pomocou /<command>.
+user-sync-kick: Po zákaze účtu na webovej stránke máte zakázaný prístup na náš 
+  server.
 error:
-  website-username-not-exist: <red>Neexistuje žiadny používateľ webstránky s týmto
-    používateľským menom.
-  website-connection: <red>Pri pokuse o pripojenie k webstránke sa vyskytla chyba.
-  discord-username-not-exist: <red>Neexistuje žiadny používateľ webstránky s týmto
-    discord používateľským menom.
+  website-username-not-exist: <red>Neexistuje žiadny používateľ webstránky s 
+    týmto používateľským menom.
+  website-connection: <red>Pri pokuse o pripojenie k webstránke sa vyskytla 
+    chyba.
+  discord-username-not-exist: <red>Neexistuje žiadny používateľ webstránky s 
+    týmto discord používateľským menom.
   target-no-website-account: <red>Uvedený hráč nemá webový účet.
-  minecraft-uuid-not-exist: <red>Neexistuje žiadny používateľ webstránky s týmto Minecraft
-    UUID.
-  username-not-online: <red>Zadané používateľské meno je neplatné alebo hráč nie je
-    online.
+  minecraft-uuid-not-exist: <red>Neexistuje žiadny používateľ webstránky s týmto
+    Minecraft UUID.
+  username-not-online: <red>Zadané používateľské meno je neplatné alebo hráč nie
+    je online.
 website-announcement: 'Oznámenie webovej stránky: <message>'
 boolean:
   yes-positive: <green>Áno</green>
   yes-negative: <red>Áno</red>
   no-positive: <green>Nie</green>
   no-negative: <red>Nie</red>
-join-notifications: Máte upozornenia na webe, použite /<notifications_command> pre
-  viac informácií.
+join-notifications: Máte upozornenia na webe, použite /<notifications_command> 
+  pre viac informácií.
