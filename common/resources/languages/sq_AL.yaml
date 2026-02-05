@@ -1,8 +1,9 @@
 player:
   self:
-    command-banned: Ju nuk mund ta ekzekutoni këtë komandë, ju jeni të ndaluar nga
-      faqja e internetit.
-    not-registered: Ju duhet të regjistroheni për një llogari për të kryer këtë veprim.
+    command-banned: Ju nuk mund ta ekzekutoni këtë komandë, ju jeni të ndaluar 
+      nga faqja e internetit.
+    not-registered: Ju duhet të regjistroheni për një llogari për të kryer këtë 
+      veprim.
   other: {}
 command:
   not-a-player: Ti duhet të jesh një lojtar ta exekutosh këtë komandë.
@@ -10,7 +11,8 @@ command:
   notifications:
     usage: /<command>
     output:
-      notification: <hover:show_text:"Kliko për të hapur në një shfletues ueb"><click:open_url:"<url>"><message></click></hover>
+      notification: <hover:show_text:"Kliko për të hapur në një shfletues 
+        ueb"><click:open_url:"<url>"><message></click></hover>
       no-notifications: Nuk ke njoftime të palexuara.
     description: Tregon një list e njoftimeve të faqes në internet.
   plugin:
@@ -23,35 +25,38 @@ command:
     description: Krijo një llogari te faqja e internetit
     output:
       success:
-        link: Ju lutemi plotësoni regjistrimin duke shkuar te <hover:show_text:"Kliko
-          për të hapur në një shfletues ueb"><click:open_url:"<url>"><url></click></hover>.
-        email: Ju lutemi kontrolloni email-in tuaj për të përfunduar regjistrimin.
+        link: Ju lutemi plotësoni regjistrimin duke shkuar te 
+          <hover:show_text:"Kliko për të hapur në një shfletues 
+          ueb"><click:open_url:"<url>"><url></click></hover>.
+        email: Ju lutemi kontrolloni email-in tuaj për të përfunduar 
+          regjistrimin.
       fail:
         username-used: Emri i llogarisë është i përdorur.
         username-invalid: Emri i llogarisë është invalide.
         email-used: Kjo adresa e email-it është përdorur për një llogari tjetër.
         email-invalid: Adresa e email-it e dhënë është e pavlefshme.
-        cannot-send-email: Nuk mund ta nisnim email-in për regjistrim, ju lutem contaktoni
-          administratorin a server-it.
-        minecraft-used: Llogaria juaj e Minecraft është tashmë e lidhur me një përdorues
-          tjetër të faqes në internet.
+        cannot-send-email: Nuk mund ta nisnim email-in për regjistrim, ju lutem 
+          contaktoni administratorin a server-it.
+        minecraft-used: Llogaria juaj e Minecraft është tashmë e lidhur me një 
+          përdorues tjetër të faqes në internet.
   report:
     output:
       fail:
-        already-open: Ti nuk mund ta raportosh këtë lojtarin, ti e keraportuar njëherë.
+        already-open: Ti nuk mund ta raportosh këtë lojtarin, ti e keraportuar 
+          njëherë.
         report-self: Ti nuk mund ta raportosh veten.
       success: Faleminderit që raportuat këtë lojtarin.
     usage: /<komandë> \<emri/uuid> \<arsye>
     description: Raporto një lojtar
   validate:
     usage: /<komandë> \<kodi>
-    description: Validon llogarinë e faqes së internetit të përdoruesit duke përdorur
-      kodin e dhënë.
+    description: Validon llogarinë e faqes së internetit të përdoruesit duke 
+      përdorur kodin e dhënë.
     output:
       success: Llogaria jote është validuar.
       fail:
-        invalid-code: Kodi juaj i validimit është gabim. Ju lutem shini nëse e keni
-          copjuar korrekt the provoni përsëri.
+        invalid-code: Kodi juaj i validimit është gabim. Ju lutem shini nëse e 
+          keni copjuar korrekt the provoni përsëri.
         already-validated: Llogaria juaj është vërtetuar tashmë.
   user-info:
     output:
@@ -73,26 +78,26 @@ command:
         verified: 'Verifikuar: <is_verified>'
     description: Merr informacion për një përdorues të faqes së internetit
     usage: /<komandë> [emri-i-lojtarit]
-user-sync-kick: Ju jeni përjashtuar nga serveri ynë pas një ndalimi të llogarisë në
-  faqen e internetit.
+user-sync-kick: Ju jeni përjashtuar nga serveri ynë pas një ndalimi të llogarisë
+  në faqen e internetit.
 website-announcement: 'Njoftim nga faqja e internetit: <message>'
 error:
   website-username-not-exist: Nuk ka lojtar me këtë emër te faqja e internetit.
-  username-not-online: Emri i përdoruesit është i pavlefshëm ose lojtari nuk është
-    në linjë.
-  discord-username-not-exist: Asnjë përdorues i faqes në internet nuk ekziston me
-    këtë emër përdoruesi Discord.
-  minecraft-uuid-not-exist: Asnjë përdorues i faqes në internet nuk ekziston me këtë
-    UUID të Minecraft.
+  username-not-online: Emri i përdoruesit është i pavlefshëm ose lojtari nuk 
+    është në linjë.
+  discord-username-not-exist: Asnjë përdorues i faqes në internet nuk ekziston 
+    me këtë emër përdoruesi Discord.
+  minecraft-uuid-not-exist: Asnjë përdorues i faqes në internet nuk ekziston me 
+    këtë UUID të Minecraft.
   target-no-website-account: Lojtari i ofruar nuk ka një llogari në internet.
-  website-connection: Ndodhi një gabim gjatë përpjekjes për t'u lidhur me faqen e
-    internetit.
-join-not-registered: Ti nuk ke një llogari te faqja jonë e internetit. Ju lutem regjistrohuni
-  me /register.
+  website-connection: Ndodhi një gabim gjatë përpjekjes për t'u lidhur me faqen 
+    e internetit.
+join-not-registered: Ti nuk ke një llogari te faqja jonë e internetit. Ju lutem 
+  regjistrohuni me /register.
 boolean:
   yes-positive: <green>Po</green>
   yes-negative: <red>Po</red>
   no-positive: <green>Jo</green>
   no-negative: <red>Jo</red>
-join-notifications: Ju keni njoftime në uebsajt, ju lutemi ekzekutoni /<notifications_command>
-  për më shumë informacion.
+join-notifications: Ju keni njoftime në uebsajt, ju lutemi ekzekutoni 
+  /<notifications_command> për më shumë informacion.
