@@ -2,7 +2,8 @@ command:
   notifications:
     output:
       no-notifications: Nemáte žádná nepřečtená oznámení.
-      notification: <hover:show_text:"Klikněte pro otevření ve webovém prohlížeči"><click:open_url:"<url>"><message></click></hover>
+      notification: <hover:show_text:"Klikněte pro otevření ve webovém 
+        prohlížeči"><click:open_url:"<url>"><message></click></hover>
     usage: '/<command>'
     description: Zobrazí seznam webových oznámení.
   register:
@@ -11,15 +12,16 @@ command:
         email-used: <red>Tuto e-mailovou adresu již používá jiný účet.
         email-invalid: <red>Zadaná e-mailová adresa není platná.
         username-invalid: <red>Zadané uživatelské jméno je neplatné.
-        cannot-send-email: <red>Nepodařilo se odeslat registrační e-mail, kontaktujte
-          prosím správce, aby vám aktivoval účet.
-        username-used: <red>Zadané uživatelské jméno je již používáno jiným účtem.
-        minecraft-used: <red>Váš Minecraft účet je již propojen s jiným uživatelem
-          na webu.
-        console-must-specify-username: <red>Při spuštění příkazu k registraci z konzole
-          musíte zadat uživatelské jméno.
-        custom-username-disabled: <red>Registrace s uživatelským jménem jiným než
-          má váš Minecraft účet není povolena.
+        cannot-send-email: <red>Nepodařilo se odeslat registrační e-mail, 
+          kontaktujte prosím správce, aby vám aktivoval účet.
+        username-used: <red>Zadané uživatelské jméno je již používáno jiným 
+          účtem.
+        minecraft-used: <red>Váš Minecraft účet je již propojen s jiným 
+          uživatelem na webu.
+        console-must-specify-username: <red>Při spuštění příkazu k registraci z 
+          konzole musíte zadat uživatelské jméno.
+        custom-username-disabled: <red>Registrace s uživatelským jménem jiným 
+          než má váš Minecraft účet není povolena.
       success:
         email: Zkontrolujte svou e-mailovou schránku pro dokončení registrace.
         link: 'Dokončete prosím registraci navštívením tohoto odkazu: <hover:show_text:"Klikněte
@@ -29,22 +31,22 @@ command:
   report:
     output:
       fail:
-        already-open: <red>Nemůžete nahlásit tohoto hráče, již na něj máte otevřené
-          nahlášení.
+        already-open: <red>Nemůžete nahlásit tohoto hráče, již na něj máte 
+          otevřené nahlášení.
         report-self: <red>Nemůžete nahlásit sami sebe.
       success: Děkujeme za nahlášení tohoto hráče.
-      notify-broadcast: Hráč <yellow><reporter_username></yellow> otevřel nahlášení
-        hráče <yellow><reported_username></yellow>.
+      notify-broadcast: Hráč <yellow><reporter_username></yellow> otevřel 
+        nahlášení hráče <yellow><reported_username></yellow>.
     usage: '/<command> \<jméno/uuid> \<důvod>'
     description: Nahlásit hráče
   validate:
     output:
       fail:
-        invalid-code: <red>Zadaný ověřovací kód je nesprávný. Zkontrolujte, zda jste
-          jej zkopírovali správně a zkuste to znovu.
+        invalid-code: <red>Zadaný ověřovací kód je nesprávný. Zkontrolujte, zda 
+          jste jej zkopírovali správně a zkuste to znovu.
         already-validated: <red>Váš účet je již ověřen.
-        minecraft-account-linked: <red>Tento Minecraft účet je již propojen s účtem
-          na webu.
+        minecraft-account-linked: <red>Tento Minecraft účet je již propojen s 
+          účtem na webu.
       success: Váš účet byl ověřen.
     usage: '/<command> \<kód>'
     description: Ověří účet uživatele pomocí daného kódu.
@@ -89,20 +91,21 @@ command:
     description: Zobrazit kredity
     output:
       credits: Máte <credits> kreditů.
-      console-must-provide-target: Při spuštění tohoto příkazu v konzoli musí být
-        zadán cílový hráč.
-      no-permission-other: Nemáte oprávnění zobrazit kredity někoho jiného než jste
-        vy.
+      console-must-provide-target: Při spuštění tohoto příkazu v konzoli musí 
+        být zadán cílový hráč.
+      no-permission-other: Nemáte oprávnění zobrazit kredity někoho jiného než 
+        jste vy.
   suggest:
     usage: /<command> \<nadpis návrhu>
     description: Vytvořit návrh
     output:
-      success: Návrh úspěšně vytvořen. Klikněte <yellow><click:open_url:"<url>">sem</click></yellow>
-        pro otevření ve webovém prohlížeči.
-      too-short: Zadaný návrh je příliš krátký, použijte prosím více slov pro popsání
-        svého návrhu.
-join-not-registered: Ještě nemáte na našem webu účet. Zaregistrujte se pomocí příkazu
-  /<register_command>.
+      success: Návrh úspěšně vytvořen. Klikněte 
+        <yellow><click:open_url:"<url>">sem</click></yellow> pro otevření ve 
+        webovém prohlížeči.
+      too-short: Zadaný návrh je příliš krátký, použijte prosím více slov pro 
+        popsání svého návrhu.
+join-not-registered: Ještě nemáte na našem webu účet. Zaregistrujte se pomocí 
+  příkazu /<register_command>.
 player:
   other: {}
   self:
@@ -111,18 +114,20 @@ player:
 website-announcement: 'Oznámení na webu: <message>'
 user-sync-kick: Jste zabanováni z tohoto serveru kvůli banu na webu.
 error:
-  website-username-not-exist: <red>Na webu neexistuje žádný uživatel s tímto jménem.
+  website-username-not-exist: <red>Na webu neexistuje žádný uživatel s tímto 
+    jménem.
   website-connection: <red>Při připojování se k webu se vyskytla chyba.
-  username-not-online: <red>Zadané uživatelské jméno je neplatné nebo hráč není online.
-  discord-username-not-exist: <red>Na webu neexistuje žádný uživatel s touto Discord
-    přezdívkou.
-  minecraft-uuid-not-exist: <red>Na webu neexistuje žádný uživatel s tímto Minecraft
-    UUID.
+  username-not-online: <red>Zadané uživatelské jméno je neplatné nebo hráč není 
+    online.
+  discord-username-not-exist: <red>Na webu neexistuje žádný uživatel s touto 
+    Discord přezdívkou.
+  minecraft-uuid-not-exist: <red>Na webu neexistuje žádný uživatel s tímto 
+    Minecraft UUID.
   target-no-website-account: <red>Zadaný hráč nemá účet na webu.
 boolean:
   no-positive: <green>Ne</green>
   no-negative: <red>Ne</red>
   yes-positive: <green>Ano</green>
   yes-negative: <red>Ano</red>
-join-notifications: Pokud máte webová oznámení, zadejte prosím /<notifications_command>
-  pro více informací.
+join-notifications: Pokud máte webová oznámení, zadejte prosím 
+  /<notifications_command> pro více informací.
