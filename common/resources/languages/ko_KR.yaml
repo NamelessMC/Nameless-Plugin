@@ -7,7 +7,8 @@ command:
   notifications:
     output:
       no-notifications: 새 알림이 없습니다.
-      notification: <hover:show_text:"웹 브라우저에서 열려면 클릭"><click:open_url:"<url>"><message></click></hover>
+      notification: <hover:show_text:"웹 브라우저에서 열려면 
+        클릭"><click:open_url:"<url>"><message></click></hover>
     usage: /{command}
     description: 웹 사이트의 알림 목록을 불러옵니다.
   register:
@@ -19,8 +20,10 @@ command:
         username-invalid: <red>잘못된 아이디입니다.
         username-used: <red>이미 사용중인 닉네임입니다.
         minecraft-used: <red>당신의 마인크래프트 계정은 이미 다른 사용자의 계정에 연결되어있습니다.
-        console-must-specify-username: <red>콘솔에서 register 명령을 실행할 때 사용자 이름을 지정해야 합니다.
-        custom-username-disabled: <red>Minecraft 사용자 이름이 아닌 다른 사용자 이름으로 등록할 수 없습니다.
+        console-must-specify-username: <red>콘솔에서 register 명령을 실행할 때 사용자 이름을 지정해야
+          합니다.
+        custom-username-disabled: <red>Minecraft 사용자 이름이 아닌 다른 사용자 이름으로 등록할 수 
+          없습니다.
       success:
         email: 발송된 인증 메일을 확인하십시오.
         link: '{link}로 접속해 인증을 완료하십시오.'
