@@ -95,6 +95,7 @@ public class LanguageHandler implements Reloadable {
 		COMMAND_VALIDATE_OUTPUT_FAIL_INVALID_CODE("command", "validate", "output", "fail", "invalid-code"),
 		COMMAND_VALIDATE_OUTPUT_FAIL_ALREADY_VALIDATED("command", "validate", "output", "fail", "already-validated"),
 		COMMAND_VALIDATE_OUTPUT_FAIL_MINECRAFT_ACCOUNT_LINKED("command", "validate", "output", "fail", "minecraft-account-linked"),
+		COMMAND_VALIDATE_OUTPUT_FAIL_OTHERS_ONLY_FROM_CONSOLE("command", "validate", "output", "fail", "others-only-from-console"),
 
 		COMMAND_SUGGEST_USAGE("command", "suggest", "usage"),
 		COMMAND_SUGGEST_DESCRIPTION("command", "suggest", "description"),

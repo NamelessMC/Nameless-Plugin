@@ -78,7 +78,7 @@ command:
       no-permission-other: "You do not have permission to view credits for players other than yourself."
 
   validate:
-    usage: "/<command> \\<code>"
+    usage: "/<command> \\<code> [player name]"
     description: "Validates the user's website account using the given code."
     output:
       success: "Your account has been validated."
@@ -86,6 +86,7 @@ command:
         invalid-code: "<red>The provided validation code is incorrect. Please check if you copied it correctly and try again."
         already-validated: "<red>Your account is already validated."
         minecraft-account-linked: "<red>This Minecraft account is already linked to a website account."
+        others-only-from-console: "<red>You can only use this command on other players from the console."
 
   suggest:
     usage: "/<command> \\<suggestion title>"
