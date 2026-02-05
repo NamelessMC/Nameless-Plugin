@@ -2,17 +2,18 @@ command:
   register:
     output:
       fail:
-        email-used: <red>عنوان البريد الإلكتروني هذا مستخدم بالفعل من طرف حساب آخر.
+        email-used: <red>عنوان البريد الإلكتروني هذا مستخدم بالفعل من طرف حساب 
+          آخر.
         email-invalid: <red>عنوان البريد الإلكتروني المقدم غير صالح.
         username-invalid: <red>اسم المستخدم المقدم غير صالح.
-        cannot-send-email: <red>لا يمكن إرسال البريد الإلكتروني للتسجيل ، يرجى الاتصال
-          بالمسؤول لتفعيل حسابك.
+        cannot-send-email: <red>لا يمكن إرسال البريد الإلكتروني للتسجيل ، يرجى 
+          الاتصال بالمسؤول لتفعيل حسابك.
         username-used: <red>لقد تم استخدام اسم المسخدم هذا من طرف حساب آخر.
         minecraft-used: <red>حسابك في Minecraft مرتبط بالفعل بمستخدم مختلف.
-        console-must-specify-username: <red>عند تشغيل أمر التسجيل من الكونسول، يجب
-          عليك تحديد اسم مستخدم.
-        custom-username-disabled: <red>لا يُسمح بالتسجيل باسم مستخدم غير اسم المستخدم
-          الخاص بك في Minecraft.
+        console-must-specify-username: <red>عند تشغيل أمر التسجيل من الكونسول، 
+          يجب عليك تحديد اسم مستخدم.
+        custom-username-disabled: <red>لا يُسمح بالتسجيل باسم مستخدم غير اسم 
+          المستخدم الخاص بك في Minecraft.
       success:
         email: يرجى التحقق من صندوق الوارد الخاص بك لإكمال التسجيل.
         link: '<hover:show_text:"انقر للفتح في مستعرض ويب"> <click:open_url:"<url>">الرجاء
@@ -24,10 +25,11 @@ command:
     output:
       success: شكرا لك على الإبلاغ عن هذا اللاعب.
       fail:
-        already-open: <red>لا يمكنك الإبلاغ عن هذا اللاعب ، لديك بالفعل بلاغ مفتوح
-          عنه.
+        already-open: <red>لا يمكنك الإبلاغ عن هذا اللاعب ، لديك بالفعل بلاغ 
+          مفتوح عنه.
         report-self: <red>لا يمكنك الإبلاغ عن نفسك.
-      notify-broadcast: <yellow><reporter_username></yellow> فتح تقريرا ل <yellow><reported_username></yellow>.
+      notify-broadcast: <yellow><reporter_username></yellow> فتح تقريرا ل 
+        <yellow><reported_username></yellow>.
     usage: /{command} <الاسم/uuid> <السبب>
   validate:
     usage: /{command} <الرمز>
@@ -35,8 +37,8 @@ command:
       success: تم التحقق من صحة حسابك.
       fail:
         already-validated: تم التحقق من صحة حسابك بالفعل.
-        invalid-code: رمز التحقق الخاص بك غير صحيح. يرجى التحقق مما إذا قمت بنسخه
-          بشكل صحيح وحاول مرة أخرى.
+        invalid-code: رمز التحقق الخاص بك غير صحيح. يرجى التحقق مما إذا قمت 
+          بنسخه بشكل صحيح وحاول مرة أخرى.
     description: يتحقق من صحة حساب موقع المستخدم باستخدام الرمز المحدد.
   user-info:
     usage: /{command} [اسم المستخدم]
@@ -70,7 +72,8 @@ command:
       added: تمت إضافة <green><credits></green> كرصيد إلى <username>.
       removed: تمت إزالة <red><credits></red> من رصيد <username>.
     description: إضافة أو إزالة أرصدة المتجر للمستخدم
-join-not-registered: ليس لديك حساب على موقعنا حتى الآن. الرجاء التسجيل باستخدام /register.
+join-not-registered: ليس لديك حساب على موقعنا حتى الآن. الرجاء التسجيل باستخدام 
+  /register.
 website-announcement: 'إعلان الموقع: <message>'
 user-sync-kick: أنت محظور من خادمنا بعد حظر حساب على الموقع.
 player:
@@ -79,12 +82,13 @@ player:
     not-registered: <red>يجب عليك التسجيل للحصول على حساب لتنفيذ هذا الإجراء.
     command-banned: <red> لا يمكنك تشغيل هذا الأمر ، أنت محظور من الموقع.
 error:
-  discord-username-not-exist: <red> لا يوجد مستخدم موقع ويب باسم مستخدم ديسكورد هذا.
+  discord-username-not-exist: <red> لا يوجد مستخدم موقع ويب باسم مستخدم ديسكورد 
+    هذا.
   username-not-online: <red> اسم المستخدم المقدم غير صالح أو أن اللاعب غير متصل.
   website-username-not-exist: <red> لا يوجد مستخدم موقع ويب باسم المستخدم هذا.
   website-connection: <red> حدث خطأ أثناء محاولة الاتصال بموقع الويب.
-  minecraft-uuid-not-exist: <red> لا يوجد مستخدم موقع لديه هذا الرمز المميز لماين
-    كرافت.
+  minecraft-uuid-not-exist: <red> لا يوجد مستخدم موقع لديه هذا الرمز المميز 
+    لماين كرافت.
   target-no-website-account: <red> اللاعب المقدم ليس لديه حساب على موقع الويب.
 boolean:
   yes-positive: <green> نعم </ green>
