@@ -2,8 +2,8 @@ player:
   other: {}
   self:
     not-registered: Musisz być zarejestrowany, aby wykonać tą akcję.
-    command-banned: Nie możesz użyć tej komendy, ponieważ zostałeś/aś wykluczony/a
-      ze strony.
+    command-banned: Nie możesz użyć tej komendy, ponieważ zostałeś/aś 
+      wykluczony/a ze strony.
 command:
   not-a-player: Musisz być graczem, aby wykonać tą komendę.
   no-permission: Nie posiadasz odpowiednich uprawnień, aby wykonać to polecenie.
@@ -11,7 +11,8 @@ command:
     usage: '/<command>'
     output:
       no-notifications: Brak nie przeczytanych powiadomień.
-      notification: <hover:show_text:"Kliknij, aby uruchomić w przeglądarce"><click:open_url:"<url>"><message></click></hover>
+      notification: <hover:show_text:"Kliknij, aby uruchomić w 
+        przeglądarce"><click:open_url:"<url>"><message></click></hover>
     description: Wyświetla listę powiadomień strony.
   register:
     usage: '/<komenda> \<email> [nick]'
@@ -20,20 +21,23 @@ command:
         email: Prosze sprawdzic swoja skrzynke w celu dokonczenia rejestracji.
         link: Prosze wejsc na <link> w celu dokkonczenia rejestracji.
       fail:
-        email-used: <red>Ten adres email został już użyty przez innego użytkownika.
+        email-used: <red>Ten adres email został już użyty przez innego 
+          użytkownika.
         email-invalid: <red>Podany email jest nieprawidłowy.
         username-invalid: <red>Podana nazwa nie jest prawidłowa.
-        cannot-send-email: <red>Nie udało się wysłać rejerstracji email, proszę skontaktuj
-          się z adminem aby aktywował twoje konto.
+        cannot-send-email: <red>Nie udało się wysłać rejerstracji email, proszę 
+          skontaktuj się z adminem aby aktywował twoje konto.
         username-used: <red>Podany nick jest już używany przez inne konto.
-        minecraft-used: <red>Twoje konto Minecraft jest już podłączone pod inne konto.
+        minecraft-used: <red>Twoje konto Minecraft jest już podłączone pod inne 
+          konto.
     description: Tworzy konto na stronie
   report:
     usage: '/{command} <nick/uuid> <powód>'
     output:
       success: Dziekujemy za zgloszenie.
       fail:
-        already-open: Nie możesz zgłosić tego gracza, już został przez ciebie zgłoszony.
+        already-open: Nie możesz zgłosić tego gracza, już został przez ciebie 
+          zgłoszony.
         report-self: Nie możesz zgłosić siebie.
     description: Zglos gracza
   validate:
@@ -42,8 +46,8 @@ command:
     output:
       success: Twoje konto zostalo zweryfikowane.
       fail:
-        invalid-code: Twoj kod weryfikujacy jest bledny. Sprawdz czy skopiowales go
-          dobrze i sprobuj jeszcze raz.
+        invalid-code: Twoj kod weryfikujacy jest bledny. Sprawdz czy skopiowales
+          go dobrze i sprobuj jeszcze raz.
         already-validated: Twoje konto już jest zatwierdzone.
   user-info:
     usage: '/{command} [nazwa użytkownika]'
@@ -64,16 +68,18 @@ command:
     description: Polecenia administracyjne dla wtyczki NamelessMC
     output:
       reload-successful: Wtyczka przeładowana pomyślnie.
-join-not-registered: Nie posiadasz jeszcze konta na stronie. Prosimy sie zarejestrowac
-  przy uzyciu /register.
+join-not-registered: Nie posiadasz jeszcze konta na stronie. Prosimy sie 
+  zarejestrowac przy uzyciu /register.
 error:
-  minecraft-uuid-not-exist: Żaden użytkownik nie posiada takiego UUID Minecrafta.
+  minecraft-uuid-not-exist: Żaden użytkownik nie posiada takiego UUID 
+    Minecrafta.
   target-no-website-account: Podany gracz nie posiada konta na stronie.
   website-username-not-exist: Żaden użytkownik strony nie istnieje z taką nazwą.
   website-connection: Wystąpił błąd podczas łączenia się ze stroną.
-  discord-username-not-exist: Żaden użytkownik strony nie istnieje z taką nazwą na
-    Discordzie.
-  username-not-online: Nazwa użytkownika nie jest prawidłowa lub użytkownik jest offline.
+  discord-username-not-exist: Żaden użytkownik strony nie istnieje z taką nazwą 
+    na Discordzie.
+  username-not-online: Nazwa użytkownika nie jest prawidłowa lub użytkownik jest
+    offline.
 boolean:
   no-positive: <green>Nie</green>
   yes-positive: <green>Tak</green>
