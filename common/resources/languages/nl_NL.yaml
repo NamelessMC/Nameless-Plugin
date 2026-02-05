@@ -1,38 +1,42 @@
 player:
   other: {}
   self:
-    not-registered: <red>Je moet geregistreerd zijn op de website om dit te doen.
-    command-banned: <red>Je kan deze opdracht niet uitvoeren, je bent verbannen van
-      de website.
+    not-registered: <red>Je moet geregistreerd zijn op de website om dit te 
+      doen.
+    command-banned: <red>Je kan deze opdracht niet uitvoeren, je bent verbannen 
+      van de website.
 command:
   not-a-player: <red>Dit commando kan alleen als speler uitgevoerd worden.
   notifications:
     usage: '/<command>'
     output:
       no-notifications: Je hebt geen ongelezen meldingen.
-      notification: <hover:show_text:"Klik om in een web browser te openen"><click:open_url:"<url>"><message></click></hover>
+      notification: <hover:show_text:"Klik om in een web browser te 
+        openen"><click:open_url:"<url>"><message></click></hover>
     description: Laat een lijst van website meldingen zien.
   register:
     usage: '/<command> \<e-mailadres> [gebruikersnaam]'
     output:
       success:
         email: Controleer uw inbox om de registratie te voltooien.
-        link: Om de registratie te voltooien, ga naar <hover:show_text:"Klik om te
-          openen in een web browser"><click:open_url:"<url>"><url></click></hover>.
+        link: Om de registratie te voltooien, ga naar <hover:show_text:"Klik om 
+          te openen in een web 
+          browser"><click:open_url:"<url>"><url></click></hover>.
       fail:
-        email-used: <red>Dit e-mailadres wordt al gebruikt door een andere gebruiker.
+        email-used: <red>Dit e-mailadres wordt al gebruikt door een andere 
+          gebruiker.
         email-invalid: <red>Het opgegeven e-mailadres is ongeldig.
         username-invalid: <red>De opgegeven gebruikersnaam is ongeldig.
-        cannot-send-email: <red>Kon de registratie e-mail niet verzenden, neem contact
-          op met een administrator om je account te activeren.
-        username-used: <red>De opgegeven gebruikersnaam is al gebruikt door een ander
-          gebruikersaccount.
-        minecraft-used: <red>Jouw Minecraft account is al gelinkt aan een andere website
-          gebruiker.
-        console-must-specify-username: <red>Het is nodig om een gebruikersnaam op
-          te geven als je het registreercommando uitvoert vanuit de console.
-        custom-username-disabled: <red>Het registreren met een gebruikersnaam die
-          verschilt van je Minecraft gebruikersnaam is niet toegestaan.
+        cannot-send-email: <red>Kon de registratie e-mail niet verzenden, neem 
+          contact op met een administrator om je account te activeren.
+        username-used: <red>De opgegeven gebruikersnaam is al gebruikt door een 
+          ander gebruikersaccount.
+        minecraft-used: <red>Jouw Minecraft account is al gelinkt aan een andere
+          website gebruiker.
+        console-must-specify-username: <red>Het is nodig om een gebruikersnaam 
+          op te geven als je het registreercommando uitvoert vanuit de console.
+        custom-username-disabled: <red>Het registreren met een gebruikersnaam 
+          die verschilt van je Minecraft gebruikersnaam is niet toegestaan.
     description: Maak een website account
   user-info:
     usage: '/<command> [gebruikersnaam]'
@@ -61,23 +65,24 @@ command:
     output:
       success: Bedankt voor het rapporteren van deze speler.
       fail:
-        already-open: <red>Je kan niet deze speler rapporteren, er staat al een rapport
-          open.
+        already-open: <red>Je kan niet deze speler rapporteren, er staat al een 
+          rapport open.
         report-self: <red>Je kunt jezelf niet rapporteren.
-      notify-broadcast: <yellow><reporter_username></yellow> heeft een rapport geopend
-        voor <yellow><reported_username></yellow>.
+      notify-broadcast: <yellow><reporter_username></yellow> heeft een rapport 
+        geopend voor <yellow><reported_username></yellow>.
     usage: '/<command> \<naam/uuid> \<reden>'
   validate:
     usage: '/<command> \<code>'
     output:
       success: Je account is gevalideerd.
       fail:
-        invalid-code: <red>De opgegeven validatiecode is onjuist. Controleer of je
-          het correct hebt gekopieerd en probeer het opnieuw.
+        invalid-code: <red>De opgegeven validatiecode is onjuist. Controleer of 
+          je het correct hebt gekopieerd en probeer het opnieuw.
         already-validated: <red>Je account is al gevalideerd.
-        minecraft-account-linked: <red>Dit Minecraftaccount is al verbonden aan een
-          ander websiteaccount.
-    description: Valideert het websiteaccount van de gebruiker met de opgegeven code.
+        minecraft-account-linked: <red>Dit Minecraftaccount is al verbonden aan 
+          een ander websiteaccount.
+    description: Valideert het websiteaccount van de gebruiker met de opgegeven 
+      code.
   subcommands: {}
   plugin:
     usage: /<command> 'reload'/'rl'/'last_error'
@@ -97,35 +102,41 @@ command:
     description: Bekijk winkeltegoed
     output:
       credits: Je hebt <credits> winkeltegoed.
-      no-permission-other: Je hebt geen toegang tot het bekijken van winkeltegoed
-        van andere spelers.
-      console-must-provide-target: Er moet een doelspeler worden opgegeven bij het
-        uitvoeren van deze opdracht vanaf de console.
+      no-permission-other: Je hebt geen toegang tot het bekijken van 
+        winkeltegoed van andere spelers.
+      console-must-provide-target: Er moet een doelspeler worden opgegeven bij 
+        het uitvoeren van deze opdracht vanaf de console.
   suggest:
     usage: /<commando> \<suggestie titel>
     description: Maak een suggestie
     output:
-      success: Suggestie succesvol gemaakt. Klik <yellow><click:open_url:"<url>">hier</click></yellow>
-        om hem te openen in een web browser.
-      too-short: De opgegeven suggestie is te kort, gelieve meer woorden te gebruiken
-        om je suggestie te omschrijven.
-join-not-registered: Je hebt nog geen account op onze website. Registreer je met /<register_command>.
+      success: Suggestie succesvol gemaakt. Klik 
+        <yellow><click:open_url:"<url>">hier</click></yellow> om hem te openen 
+        in een web browser.
+      too-short: De opgegeven suggestie is te kort, gelieve meer woorden te 
+        gebruiken om je suggestie te omschrijven.
+join-not-registered: Je hebt nog geen account op onze website. Registreer je met
+  /<register_command>.
 website-announcement: 'Website aankondiging: <message>'
-user-sync-kick: Je bent verbannen van onze server als gevolg van een website ban.
+user-sync-kick: Je bent verbannen van onze server als gevolg van een website 
+  ban.
 error:
-  website-username-not-exist: <red>Er bestaat geen website gebruiker met deze gebruikersnaam.
-  website-connection: <red>Een fout is opgetreden tijdens het verbinden met de website.
-  username-not-online: <red>De opgegeven gebruikersnaam is niet geldig of de speler
-    is niet online.
-  discord-username-not-exist: <red>Er bestaat geen website gebruiker met deze Discord
+  website-username-not-exist: <red>Er bestaat geen website gebruiker met deze 
     gebruikersnaam.
-  minecraft-uuid-not-exist: <red>Er bestaat geen website gebruiker met deze Minecraft
-    UUID.
-  target-no-website-account: <red>De opgegeven speler heeft geen website account.
+  website-connection: <red>Een fout is opgetreden tijdens het verbinden met de 
+    website.
+  username-not-online: <red>De opgegeven gebruikersnaam is niet geldig of de 
+    speler is niet online.
+  discord-username-not-exist: <red>Er bestaat geen website gebruiker met deze 
+    Discord gebruikersnaam.
+  minecraft-uuid-not-exist: <red>Er bestaat geen website gebruiker met deze 
+    Minecraft UUID.
+  target-no-website-account: <red>De opgegeven speler heeft geen website 
+    account.
 boolean:
   yes-positive: <green>Ja</green>
   yes-negative: <red>Ja</red>
   no-positive: <green>Nee</green>
   no-negative: <red>Nee</red>
-join-notifications: Je hebt meldingen op de website, je kan /<notifications_command>
-  uitvoeren om ze te bekijken.
+join-notifications: Je hebt meldingen op de website, je kan 
+  /<notifications_command> uitvoeren om ze te bekijken.
