@@ -1,18 +1,20 @@
 error:
-  website-username-not-exist: <red>Der findes ikke en bruger på hjemmesiden med det
-    brugernavn.
-  discord-username-not-exist: <red>Der findes ingen bruger på hjemmesiden med dette
-    Discord brugernavn.
-  target-no-website-account: <red>Den valgte spiller har ikke en konto på hjemmesiden.
-  website-connection: <red>Der opstod en fejl under forsøget på at oprette forbindelse
-    til hjemmesiden.
-  username-not-online: <red>Enten er det angivet brugernavn er ugyldigt eller så er
-    spilleren ikke online.
-  minecraft-uuid-not-exist: <red>Der findes ingen bruger på hjemmesiden med det Minecraft
-    UUID.
+  website-username-not-exist: <red>Der findes ikke en bruger på hjemmesiden med 
+    det brugernavn.
+  discord-username-not-exist: <red>Der findes ingen bruger på hjemmesiden med 
+    dette Discord brugernavn.
+  target-no-website-account: <red>Den valgte spiller har ikke en konto på 
+    hjemmesiden.
+  website-connection: <red>Der opstod en fejl under forsøget på at oprette 
+    forbindelse til hjemmesiden.
+  username-not-online: <red>Enten er det angivet brugernavn er ugyldigt eller så
+    er spilleren ikke online.
+  minecraft-uuid-not-exist: <red>Der findes ingen bruger på hjemmesiden med det 
+    Minecraft UUID.
 player:
   self:
-    command-banned: <red>Du kan ikke bruge denne kommando, du er udelukket fra hjemmesiden.
+    command-banned: <red>Du kan ikke bruge denne kommando, du er udelukket fra 
+      hjemmesiden.
     not-registered: <red>Du skal oprette en konto for at udføre denne handling.
 boolean:
   yes-positive: <green>Ja</green>
@@ -25,7 +27,8 @@ command:
     usage: /<command>
     output:
       no-notifications: Du har ikke nogle ulæste notifikationer.
-      notification: <hover:show_text:"Tryk her for at åbne i en web browser"><click:open_url:"<url>"><message></click></hover>
+      notification: <hover:show_text:"Tryk her for at åbne i en web 
+        browser"><click:open_url:"<url>"><message></click></hover>
     description: Viser en liste over notifikationer fra hjemmesiden.
   plugin:
     usage: /<command> 'reload'/'rl'/'last_error'
@@ -38,31 +41,35 @@ command:
     output:
       success:
         email: Tjek venligst din indbakke for at fuldføre registreringen.
-        link: Udfyld venligst registreringen ved at gå til <hover:show_text:\"Klik
-          for at åbne i en webbrowser\"><click:open_url:\"<url>\"><url></click></hover>.
+        link: Udfyld venligst registreringen ved at gå til 
+          <hover:show_text:\"Klik for at åbne i en 
+          webbrowser\"><click:open_url:\"<url>\"><url></click></hover>.
       fail:
-        username-used: <red>Dit valgte brugernavn er allerede i brug af en anden bruger.
-        email-used: <red>Denne e-mailadresse er allerede brugt til en anden konto.
-        minecraft-used: <red>Din Minecraft-konto er allerede knyttet til en anden
-          bruger på hjemmesiden.
+        username-used: <red>Dit valgte brugernavn er allerede i brug af en anden
+          bruger.
+        email-used: <red>Denne e-mailadresse er allerede brugt til en anden 
+          konto.
+        minecraft-used: <red>Din Minecraft-konto er allerede knyttet til en 
+          anden bruger på hjemmesiden.
         email-invalid: <red>Den angivnet e-mailadresse er ugyldig.
-        cannot-send-email: <red>Kan ikke sende registrerings e-mail, kontakt venligst
-          en administrator for at aktivere din konto.
-        custom-username-disabled: <red>Registrering med et andet brugernavn end dit
-          Minecraft-brugernavn er ikke tilladt.
+        cannot-send-email: <red>Kan ikke sende registrerings e-mail, kontakt 
+          venligst en administrator for at aktivere din konto.
+        custom-username-disabled: <red>Registrering med et andet brugernavn end 
+          dit Minecraft-brugernavn er ikke tilladt.
         username-invalid: <red>Det angivet brugernavn er ugyldigt.
-        console-must-specify-username: <red>Når du udfører registrer kommandoen fra
-          konsollen, skal du angive et brugernavn.
+        console-must-specify-username: <red>Når du udfører registrer kommandoen 
+          fra konsollen, skal du angive et brugernavn.
   report:
     usage: /<command> \<navn/uuid> \<grund>
     description: Rapporter en spiller
     output:
       success: Tak, fordi du rapporterede denne spiller.
       fail:
-        already-open: <red>Du kan ikke rapportere denne spiller, du har allerede en
-          åben rapport med dem.
+        already-open: <red>Du kan ikke rapportere denne spiller, du har allerede
+          en åben rapport med dem.
         report-self: <red>Du kan ikke rapportere dig selv.
-      notify-broadcast: <yellow><reporter_username></yellow> har rapporteret <yellow><reported_username></yellow>.
+      notify-broadcast: <yellow><reporter_username></yellow> har rapporteret 
+        <yellow><reported_username></yellow>.
   store-credits: {}
   validate:
     usage: /<command> \<verifikationskode>
@@ -70,11 +77,11 @@ command:
     output:
       success: Din konto er blevet valideret.
       fail:
-        invalid-code: <red>Valideringskoden er forkert. Tjek om du har kopierede koden
-          korrekt, og prøv igen.
+        invalid-code: <red>Valideringskoden er forkert. Tjek om du har kopierede
+          koden korrekt, og prøv igen.
         already-validated: Din konto er allerede valideret.
-        minecraft-account-linked: <red>Denne Minecraft konto er allerede linket til
-          en konto.
+        minecraft-account-linked: <red>Denne Minecraft konto er allerede linket 
+          til en konto.
   user-info:
     usage: /<command> [brugernavn]
     description: Hent oplysninger om en bruger fra hjemmesiden
@@ -100,10 +107,10 @@ command:
   store-view-credits:
     output:
       credits: Du har <credits> kreditter.
-      console-must-provide-target: Du skal vælge en spiller når du bruger denne kommando
-        fra konsolen.
-      no-permission-other: Du har ikke tilladelse til at se kreditter for andre spillere
-        end dig selv.
+      console-must-provide-target: Du skal vælge en spiller når du bruger denne 
+        kommando fra konsolen.
+      no-permission-other: Du har ikke tilladelse til at se kreditter for andre 
+        spillere end dig selv.
     usage: /<command> [spiller navn]
     description: Se butikskreditter
   store-change-credits:
@@ -117,13 +124,15 @@ command:
     usage: /<command> \<suggestion title>
     description: Opret et forslag
     output:
-      success: Forslaget blev oprettet. Klik <yellow><click:open_url:"<url>">her</click></yellow>
-        for at åbne den i en webbrowser.
-      too-short: Det angivne forslag er for kort. Brug venligst flere ord til at beskrive
-        dit forslag.
-join-not-registered: Du har endnu ikke en konto på vores hjemmeside. Tilmeld dig venligst
-  ved hjælp af /<register_command>.
-join-notifications: Du har en notifikation på hjemmesiden, brug /<notifications_command>
-  for mere information.
+      success: Forslaget blev oprettet. Klik 
+        <yellow><click:open_url:"<url>">her</click></yellow> for at åbne den i 
+        en webbrowser.
+      too-short: Det angivne forslag er for kort. Brug venligst flere ord til at
+        beskrive dit forslag.
+join-not-registered: Du har endnu ikke en konto på vores hjemmeside. Tilmeld dig
+  venligst ved hjælp af /<register_command>.
+join-notifications: Du har en notifikation på hjemmesiden, brug 
+  /<notifications_command> for mere information.
 website-announcement: 'Hjemmeside meddelelse: <message>'
-user-sync-kick: Du er udelukket fra vores server efter et kontoforbud på hjemmesiden.
+user-sync-kick: Du er udelukket fra vores server efter et kontoforbud på 
+  hjemmesiden.
