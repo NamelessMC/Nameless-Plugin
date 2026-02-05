@@ -1,8 +1,10 @@
 player:
   other: {}
   self:
-    not-registered: <red>You must register for an account to perform this action.
-    command-banned: <red>You cannot run this command, you are banned from the website.
+    not-registered: <red>You must register for an account to perform this 
+      action.
+    command-banned: <red>You cannot run this command, you are banned from the 
+      website.
 command:
   not-a-player: <red>You must be a player to perform this command.
   no-permission: <red>You don't have permission to execute this command.
@@ -11,28 +13,31 @@ command:
     description: Displays a list of website notifications.
     output:
       no-notifications: You do not have any unread notifications.
-      notification: <hover:show_text:"Click to open in a web browser"><click:open_url:"<url>"><message></click></hover>
+      notification: <hover:show_text:"Click to open in a web 
+        browser"><click:open_url:"<url>"><message></click></hover>
   register:
     usage: '/<command> \<email> [username]'
     output:
       success:
         email: Please check your inbox to complete registration.
-        link: Please complete registration by going to <hover:show_text:"Click to
-          open in a web browser"><click:open_url:"<url>"><url></click></hover>.
+        link: Please complete registration by going to <hover:show_text:"Click 
+          to open in a web 
+          browser"><click:open_url:"<url>"><url></click></hover>.
       fail:
-        email-used: <red>This email address is already used for a different user account.
+        email-used: <red>This email address is already used for a different user
+          account.
         username-invalid: <red>The provided username is invalid.
         email-invalid: <red>The provided email address is invalid.
-        cannot-send-email: <red>Unable to send registration email, please contact
-          an admin to activate your account.
-        username-used: <red>The provided username is already in use by a different
-          user account.
-        minecraft-used: <red>Your Minecraft account is already linked to a different
-          website user.
-        console-must-specify-username: <red>When running the register command from
-          the console, you must specify a username.
-        custom-username-disabled: <red>Registering with a username other than your
-          Minecraft username is not allowed.
+        cannot-send-email: <red>Unable to send registration email, please 
+          contact an admin to activate your account.
+        username-used: <red>The provided username is already in use by a 
+          different user account.
+        minecraft-used: <red>Your Minecraft account is already linked to a 
+          different website user.
+        console-must-specify-username: <red>When running the register command 
+          from the console, you must specify a username.
+        custom-username-disabled: <red>Registering with a username other than 
+          your Minecraft username is not allowed.
     description: Create a website account
   report:
     usage: '/<command> \<name/uuid> \<reason>'
@@ -40,22 +45,22 @@ command:
     output:
       success: Thank you for reporting this player.
       fail:
-        already-open: <red>You cannot report this player, you already have an open
-          report for them.
+        already-open: <red>You cannot report this player, you already have an 
+          open report for them.
         report-self: <red>You cannot report yourself.
-      notify-broadcast: <yellow><reporter_username></yellow> has opened a report for
-        <yellow><reported_username></yellow>.
+      notify-broadcast: <yellow><reporter_username></yellow> has opened a report
+        for <yellow><reported_username></yellow>.
   validate:
     usage: '/<command> \<code>'
     description: Validates the user's website account using the given code.
     output:
       success: Your account has been validated.
       fail:
-        invalid-code: <red>The provided validation code is incorrect. Please check
-          if you copied it correctly and try again.
+        invalid-code: <red>The provided validation code is incorrect. Please 
+          check if you copied it correctly and try again.
         already-validated: <red>Your account is already validated.
-        minecraft-account-linked: <red>This Minecraft account is already linked to
-          a website account.
+        minecraft-account-linked: <red>This Minecraft account is already linked 
+          to a website account.
   user-info:
     usage: '/<command> [username]'
     output:
@@ -85,10 +90,10 @@ command:
       reload-successful: Plugin reloaded successfully.
   store-view-credits:
     output:
-      no-permission-other: You do not have permission to view credits for players
-        other than yourself.
-      console-must-provide-target: A target player must be provided when running this
-        command from the console.
+      no-permission-other: You do not have permission to view credits for 
+        players other than yourself.
+      console-must-provide-target: A target player must be provided when running
+        this command from the console.
       credits: You have <credits> credits.
     usage: /<command> [player name]
     description: View store credits
@@ -103,26 +108,31 @@ command:
     description: Create a suggestion
     usage: /<command> \<suggestion title>
     output:
-      success: Suggestion created successfully. Click <yellow><click:open_url:"<url>">here</click></yellow>
-        to open it in a web browser.
-      too-short: The provided suggestion is too short, please use more words to describe
-        your suggestion.
-join-not-registered: You do not have an account on our website yet. Please register
-  using /<register_command>.
+      success: Suggestion created successfully. Click 
+        <yellow><click:open_url:"<url>">here</click></yellow> to open it in a 
+        web browser.
+      too-short: The provided suggestion is too short, please use more words to 
+        describe your suggestion.
+join-not-registered: You do not have an account on our website yet. Please 
+  register using /<register_command>.
 website-announcement: 'Website announcement: <message>'
 user-sync-kick: You are banned from our server following a website account ban.
 error:
   website-username-not-exist: <red>No website user exists with this username.
-  website-connection: <red>An error occurred while trying to connect to the website.
-  username-not-online: <red>The provided username is invalid or the player is not
-    online.
-  discord-username-not-exist: <red>No website user exists with this Discord username.
-  minecraft-uuid-not-exist: <red>No website user exists with this Minecraft UUID.
-  target-no-website-account: <red>The provided player does not have a website account.
+  website-connection: <red>An error occurred while trying to connect to the 
+    website.
+  username-not-online: <red>The provided username is invalid or the player is 
+    not online.
+  discord-username-not-exist: <red>No website user exists with this Discord 
+    username.
+  minecraft-uuid-not-exist: <red>No website user exists with this Minecraft 
+    UUID.
+  target-no-website-account: <red>The provided player does not have a website 
+    account.
 boolean:
   yes-positive: <green>Yes</green>
   yes-negative: <red>Yes</red>
   no-positive: <green>No</green>
   no-negative: <red>No</red>
-join-notifications: You have website notifications, please run /<notifications_command>
-  for more info.
+join-notifications: You have website notifications, please run 
+  /<notifications_command> for more info.
