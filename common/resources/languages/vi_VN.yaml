@@ -1,8 +1,10 @@
 player:
   other: {}
   self:
-    not-registered: <red> Bạn phải đăng ký một tài khoản để thực hiện hành động này.
-    command-banned: <red> Bạn không thể chạy lệnh này vì bạn bị cấm vào trang web.
+    not-registered: <red> Bạn phải đăng ký một tài khoản để thực hiện hành động 
+      này.
+    command-banned: <red> Bạn không thể chạy lệnh này vì bạn bị cấm vào trang 
+      web.
 command:
   user-info:
     output:
@@ -29,24 +31,24 @@ command:
   register:
     output:
       fail:
-        email-used: <red>Địa chỉ email này đã được sử dụng cho một tài khoản người
-          dùng khác.
+        email-used: <red>Địa chỉ email này đã được sử dụng cho một tài khoản 
+          người dùng khác.
         username-invalid: <red>Tên người dùng được cung cấp không hợp lệ.
-        cannot-send-email: <red>Không thể gửi email đăng ký, vui lòng liên hệ với
-          quản trị viên để kích hoạt tài khoản của bạn.
-        username-used: <red>Tên người dùng được cung cấp đã được một tài khoản người
-          dùng khác sử dụng.
+        cannot-send-email: <red>Không thể gửi email đăng ký, vui lòng liên hệ 
+          với quản trị viên để kích hoạt tài khoản của bạn.
+        username-used: <red>Tên người dùng được cung cấp đã được một tài khoản 
+          người dùng khác sử dụng.
         email-invalid: <red>Địa chỉ email đã cung cấp không hợp lệ.
-        minecraft-used: <red>Tài khoản Minecraft của bạn đã được liên kết với một
-          người dùng trên trang web rồi.
-        console-must-specify-username: <red>Khi chạy lệnh đăng ký từ bảng điều khiển,
-          bạn phải chỉ định tên người dùng.
-        custom-username-disabled: <red>Không được phép đăng ký bằng tên người dùng
-          khác với tên người dùng Minecraft của bạn.
+        minecraft-used: <red>Tài khoản Minecraft của bạn đã được liên kết với 
+          một người dùng trên trang web rồi.
+        console-must-specify-username: <red>Khi chạy lệnh đăng ký từ bảng điều 
+          khiển, bạn phải chỉ định tên người dùng.
+        custom-username-disabled: <red>Không được phép đăng ký bằng tên người 
+          dùng khác với tên người dùng Minecraft của bạn.
       success:
         email: Vui lòng kiểm tra hộp thư của bạn để hoàn tất đăng ký.
-        link: Xin hãy hoàn tất việc đăng ký bằng việc <hover:show_text:"Nhấn để mở
-          trình duyệt web"><click:open_url:"<url>"><url></click></hover>.
+        link: Xin hãy hoàn tất việc đăng ký bằng việc <hover:show_text:"Nhấn để 
+          mở trình duyệt web"><click:open_url:"<url>"><url></click></hover>.
     description: Tạo một tài khoản trên trang web
     usage: /<command> \<email> [Tên người chơi]
   report:
@@ -54,22 +56,23 @@ command:
       success: Cảm ơn bạn đã báo cáo người chơi này.
       fail:
         report-self: <red>Vị hảo hán nào lại tự báo cáo chính mình vậy.
-        already-open: <red>Bạn không thể báo cáo người chơi này, bạn đã có một báo
-          cáo còn mở cho họ.
-      notify-broadcast: <yellow><reporter_username></yellow>đã mở một báo cáo cho<yellow><reported_username></yellow>.
+        already-open: <red>Bạn không thể báo cáo người chơi này, bạn đã có một 
+          báo cáo còn mở cho họ.
+      notify-broadcast: <yellow><reporter_username></yellow>đã mở một báo cáo 
+        cho<yellow><reported_username></yellow>.
     description: Báo cáo một người chơi
     usage: /<command> \<name/uuid> \<reason>
   validate:
-    description: Xác thực tài khoản trang web của người dùng bằng cách sử dụng mã
-      đã cho.
+    description: Xác thực tài khoản trang web của người dùng bằng cách sử dụng 
+      mã đã cho.
     output:
       fail:
-        invalid-code: <red>Mã xác thực được cung cấp không chính xác. Vui lòng kiểm
-          tra xem bạn đã sao chép đúng chưa và thử lại.
-        already-validated: Tài khoản của bạn đã được xác thực rồi không cần xác thực
-          lại nữa.
-        minecraft-account-linked: <red>Tài khoản Minecraft này đã được liên kết với
-          tài khoản trang web.
+        invalid-code: <red>Mã xác thực được cung cấp không chính xác. Vui lòng 
+          kiểm tra xem bạn đã sao chép đúng chưa và thử lại.
+        already-validated: Tài khoản của bạn đã được xác thực rồi không cần xác 
+          thực lại nữa.
+        minecraft-account-linked: <red>Tài khoản Minecraft này đã được liên kết 
+          với tài khoản trang web.
       success: Tài khoản của bạn đã được xác thực.
     usage: /<command> \<code>
   notifications:
@@ -94,11 +97,11 @@ command:
     description: Add or remove store credits for a user
   store-view-credits:
     output:
-      console-must-provide-target: Một người chơi chỉ định phải được cung cấp khi
-        chạy lệnh này từ bảng điều khiển.
+      console-must-provide-target: Một người chơi chỉ định phải được cung cấp 
+        khi chạy lệnh này từ bảng điều khiển.
       credits: You have <credits> credits.
-      no-permission-other: You do not have permission to view credits for players
-        other than yourself.
+      no-permission-other: You do not have permission to view credits for 
+        players other than yourself.
     description: View store credits
     usage: /<command> [Tên người chơi]
   suggest:
@@ -106,30 +109,30 @@ command:
     output:
       success: 'Đề xuất đã được tạo thành công. Nhấp vào <yellow><click:open_url:
         "<url>">đây</click></yellow>để mở nó trong trình duyệt web.'
-      too-short: Đề xuất được cung cấp quá ngắn, vui lòng sử dụng nhiều từ hơn để
-        mô tả đề xuất của bạn.
+      too-short: Đề xuất được cung cấp quá ngắn, vui lòng sử dụng nhiều từ hơn 
+        để mô tả đề xuất của bạn.
     usage: /<command> \<gợi ý>
-join-not-registered: Bạn chưa có tài khoản trên trang web của chúng tôi. Vui lòng
-  đăng ký bằng /register.
+join-not-registered: Bạn chưa có tài khoản trên trang web của chúng tôi. Vui 
+  lòng đăng ký bằng /register.
 website-announcement: 'Thông báo trên trang web: <message>'
-user-sync-kick: Bạn bị cấm khỏi máy chủ của chúng tôi bởi lệnh cấm tài khoản trên
-  trang web.
+user-sync-kick: Bạn bị cấm khỏi máy chủ của chúng tôi bởi lệnh cấm tài khoản 
+  trên trang web.
 error:
-  website-username-not-exist: <red>Không có người dùng nào trên trang web với tên
-    đó cả.
+  website-username-not-exist: <red>Không có người dùng nào trên trang web với 
+    tên đó cả.
   website-connection: <red>Có lỗi gì đó khi đang cố kết nối tới trang web.
-  username-not-online: <red> Tên người dùng được cung cấp không hợp lệ hoặc người
-    chơi không trực tuyến.
-  discord-username-not-exist: <red>Không có người dùng trên trang web tồn tại với
-    tên Discord đó cả.
-  minecraft-uuid-not-exist: <red>Không có người dùng nào trên trang web tồn tại với
-    Minecraft UUID đó cả.
-  target-no-website-account: <red> Người chơi được cung cấp không có tài khoản trang
-    web.
+  username-not-online: <red> Tên người dùng được cung cấp không hợp lệ hoặc 
+    người chơi không trực tuyến.
+  discord-username-not-exist: <red>Không có người dùng trên trang web tồn tại 
+    với tên Discord đó cả.
+  minecraft-uuid-not-exist: <red>Không có người dùng nào trên trang web tồn tại 
+    với Minecraft UUID đó cả.
+  target-no-website-account: <red> Người chơi được cung cấp không có tài khoản 
+    trang web.
 boolean:
   no-positive: <green>Không</green>
   no-negative: <red>Không</red>
   yes-positive: <green>Có</green>
   yes-negative: <red>Có</red>
-join-notifications: Bạn có thông báo trang web, vui lòng chạy /<notifications_command>
-  để biết thêm thông tin.
+join-notifications: Bạn có thông báo trang web, vui lòng chạy 
+  /<notifications_command> để biết thêm thông tin.
