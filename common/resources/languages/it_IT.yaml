@@ -1,32 +1,37 @@
 player:
   other: {}
   self:
-    command-banned: <red>Non puoi eseguire questo comando, sei bannato dalla piattaforma.
-    not-registered: <red>Devi registrare un account per effettuare questa azione.
+    command-banned: <red>Non puoi eseguire questo comando, sei bannato dalla 
+      piattaforma.
+    not-registered: <red>Devi registrare un account per effettuare questa 
+      azione.
 command:
   notifications:
     usage: '{command}'
     description: Mostra una lista di notifiche dal sito web.
     output:
       no-notifications: Non hai notifiche non lette.
-      notification: <hover:show_text:"Clicca per aprire nel web browser"><click:open_url:"<url>"><message>
+      notification: <hover:show_text:"Clicca per aprire nel web 
+        browser"><click:open_url:"<url>"><message>
   register:
     output:
       fail:
-        email-used: <red>Questo indirizzo mail è stato già usato da un altro account.
-        cannot-send-email: <red>Impossibile inviare l'email di registrazione, per
-          favore, contatta un amministratore per attivare il tuo account.
+        email-used: <red>Questo indirizzo mail è stato già usato da un altro 
+          account.
+        cannot-send-email: <red>Impossibile inviare l'email di registrazione, 
+          per favore, contatta un amministratore per attivare il tuo account.
         email-invalid: <red>L'indirizzo mail fornito non è valido.
         username-invalid: <red>L'username fornito non è valido.
-        minecraft-used: <red>Il tuo account di Minecraft è già collegato a un altro
-          utente.
-        console-must-specify-username: <red>Quando esegui il comando di registrazione
-          dalla console, devi specificare un username.
-        custom-username-disabled: <red>Registrare un username che non sia in tuo possesso
-          non è consentito.
+        minecraft-used: <red>Il tuo account di Minecraft è già collegato a un 
+          altro utente.
+        console-must-specify-username: <red>Quando esegui il comando di 
+          registrazione dalla console, devi specificare un username.
+        custom-username-disabled: <red>Registrare un username che non sia in tuo
+          possesso non è consentito.
         username-used: <red>L’username fornito è già in uso da un altro account.
       success:
-        email: Per favore, controlla la tua posta in entrata per completare la registrazione.
+        email: Per favore, controlla la tua posta in entrata per completare la 
+          registrazione.
         link: Per favore, visita <link> per completare la registrazione.
     usage: /<comando> \<email> [username]
     description: Crea un account sul sito
@@ -35,11 +40,11 @@ command:
     output:
       success: Grazie per aver segnalato questo giocatore.
       fail:
-        already-open: <red>Non puoi segnalare questo giocatore, hai già una segnalazione
-          aperta.
+        already-open: <red>Non puoi segnalare questo giocatore, hai già una 
+          segnalazione aperta.
         report-self: <red>Non puoi reportarti.
-      notify-broadcast: <yellow><reporter_username></yellow> ha aperto una segnalazione
-        per <yellow><reported_username></yellow>.
+      notify-broadcast: <yellow><reporter_username></yellow> ha aperto una 
+        segnalazione per <yellow><reported_username></yellow>.
     usage: /{command} <nome/uuid> <motivazione>
   not-a-player: <red>Devi essere un giocatore per poter eseguire questo comando.
   no-permission: <red>Non hai il permesso per eseguire questo comando.
@@ -71,12 +76,12 @@ command:
       success: Il tuo account è stato verificato.
       fail:
         already-validated: <red>Il tuo account è già verificato.
-        invalid-code: Il tuo codice di verifica non é corretto. Per favore controlla
-          di averlo copiato in modo corretto e riprova.
-        minecraft-account-linked: <red>Questo account di Minecraft è già collegato
-          a un account sul sito.
-    description: Convalida l'account del sito Web dell'utente utilizzando il codice
-      fornito.
+        invalid-code: Il tuo codice di verifica non é corretto. Per favore 
+          controlla di averlo copiato in modo corretto e riprova.
+        minecraft-account-linked: <red>Questo account di Minecraft è già 
+          collegato a un account sul sito.
+    description: Convalida l'account del sito Web dell'utente utilizzando il 
+      codice fornito.
   plugin:
     description: Comandi amministrativi per il plugin NamelessMC
     usage: /<comando> reload'/'rl'/'last_error'
@@ -93,26 +98,30 @@ command:
     usage: /<comando> [nome player]
     output:
       credits: Possiedi <credits> crediti.
-      no-permission-other: Non possiedi il permesso per vedere i crediti degli altri
-        players.
-      console-must-provide-target: Devi indicare un player di target quando esegui
-        comandi dalla console.
+      no-permission-other: Non possiedi il permesso per vedere i crediti degli 
+        altri players.
+      console-must-provide-target: Devi indicare un player di target quando 
+        esegui comandi dalla console.
     description: Visualizza crediti store
   suggest:
     usage: /<comando> \<titolo proposta>
     description: Crea una proposta
     output:
-      success: Proposta creata correttamente. Clicca <yellow><click:open_url:"<url>">qui</click></yellow>
-        per aprirla nel browser.
-      too-short: Questa proposta è troppo corta, usa più parole per descrivere ciò
-        che vuoi proporre.
-join-not-registered: Non hai un account sul sito. Registrati usando il comando /<register_command>.
+      success: Proposta creata correttamente. Clicca 
+        <yellow><click:open_url:"<url>">qui</click></yellow> per aprirla nel 
+        browser.
+      too-short: Questa proposta è troppo corta, usa più parole per descrivere 
+        ciò che vuoi proporre.
+join-not-registered: Non hai un account sul sito. Registrati usando il comando 
+  /<register_command>.
 error:
   website-username-not-exist: <red>Non esiste alcun utente con questo username.
-  website-connection: <red>È subentrato un errore nel tentativo di connessione al
-    sito.
-  username-not-online: <red>L’username fornito non è valido o il player non è online.
-  minecraft-uuid-not-exist: <red>Non esiste alcun utente con questo UUID di Minecraft.
+  website-connection: <red>È subentrato un errore nel tentativo di connessione 
+    al sito.
+  username-not-online: <red>L’username fornito non è valido o il player non è 
+    online.
+  minecraft-uuid-not-exist: <red>Non esiste alcun utente con questo UUID di 
+    Minecraft.
   target-no-website-account: <red>Il player non possiede un account.
   discord-username-not-exist: <red>Non esiste alcun utente con questo username.
 boolean:
@@ -121,6 +130,7 @@ boolean:
   yes-positive: <green>Si</green>
   yes-negative: <red>Si</red>
 website-announcement: 'Annuncio: <message>'
-join-notifications: Hai notifiche disponibili, esegui /<notifications_command> per
-  maggiori informazioni.
-user-sync-kick: Sei stato bannato dal nostro server in seguito a un ban dal sito.
+join-notifications: Hai notifiche disponibili, esegui /<notifications_command> 
+  per maggiori informazioni.
+user-sync-kick: Sei stato bannato dal nostro server in seguito a un ban dal 
+  sito.
