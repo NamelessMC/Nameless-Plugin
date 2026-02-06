@@ -53,7 +53,7 @@ command:
       notify-broadcast: <yellow><reporter_username></yellow> hat eine Meldung 
         für <yellow><reporter_username></yellow> eröffnet.
   validate:
-    usage: '/<command> \<Code>'
+    usage: '/<command> \<Code> [Spieler Name]'
     description: Überprüft das Website-Konto des Benutzers mit dem angegebenen 
       Code.
     output:
@@ -64,6 +64,8 @@ command:
         already-validated: <red>Dein Account ist schon aktiviert.
         minecraft-account-linked: <red>Dieses Minecraft-Konto ist bereits mit 
           einem Website-Konto verknüpft.
+        others-only-from-console: <red>Du kannst diesen Befehl nur über die 
+          Konsole auf andere Spieler anwenden.
   user-info:
     output:
       username: 'Benutzername: <username>'
