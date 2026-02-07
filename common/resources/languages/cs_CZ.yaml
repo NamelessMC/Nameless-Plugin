@@ -10,7 +10,7 @@ command:
     output:
       fail:
         email-used: <red>Tuto e-mailovou adresu již používá jiný účet.
-        email-invalid: <red>Zadaná e-mailová adresa není platná.
+        email-invalid: <red>Zadaná e-mailová adresa je neplatná.
         username-invalid: <red>Zadané uživatelské jméno je neplatné.
         cannot-send-email: <red>Nepodařilo se odeslat registrační e-mail, 
           kontaktujte prosím správce, aby vám aktivoval účet.
@@ -47,8 +47,10 @@ command:
         already-validated: <red>Váš účet je již ověřen.
         minecraft-account-linked: <red>Tento Minecraft účet je již propojen s 
           účtem na webu.
+        others-only-from-console: <red>Tento příkaz můžete používat na jiných 
+          hráčích pouze z konzole.
       success: Váš účet byl ověřen.
-    usage: '/<command> \<kód>'
+    usage: '/<command> \<kód> [jméno hráče]'
     description: Ověří účet uživatele pomocí daného kódu.
   user-info:
     usage: '/<command> [jméno]'
@@ -83,7 +85,7 @@ command:
     description: Přidat nebo odebrat kredityuživateli
     output:
       added: Přidáno <green><credits></green> kreditů uživateli <username>.
-      removed: Odebráno <red><credits></red> kreritů uživateli <username>.
+      removed: Odebráno <red><credits></red> kreditů uživateli <username>.
       nothing: Není vyžadována žádná akce.
     usage: /<command> \<jméno hráče> \<(-)centy kreditů>
   store-view-credits:
