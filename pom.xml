@@ -13,7 +13,7 @@
 		<revision>3.4.2</revision>
 		<checkerFrameworkVersion>3.53.1</checkerFrameworkVersion>
 		<velocityVersion>3.4.0</velocityVersion>
-		<bStatsVersion>3.1.0</bStatsVersion>
+		<bStatsVersion>3.2.0</bStatsVersion>
 		<adventureVersion>4.26.1</adventureVersion>
 	</properties>
 
