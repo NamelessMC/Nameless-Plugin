@@ -23,27 +23,27 @@ command:
     description: 举报
   user-info:
     output:
-      registered-date: '注册时间: <date>'
-      username: '用户名: <username>'
-      displayname: '显示名: <displayname>'
-      uuid: 'UUID: <uuid>'
-      validated: '帐号是否已验证: <validated>'
-      banned: '是否被封禁: <banned>'
-      uuid-unknown: 'UUID: 未知'
-      primary-group: 主要群组：<groupname>
-      all-groups: 全部群组：<groups_names_list>
+      registered-date: '注册时间：<date>'
+      username: '用户名：<username>'
+      displayname: '显示名称：<displayname>'
+      uuid: 'UUID：<uuid>'
+      validated: '帐户是否已验证：<validated>'
+      banned: '是否被封禁：<banned>'
+      uuid-unknown: 'UUID：未知'
+      primary-group: 主权限组：<groupname>
+      all-groups: 全部权限组：<groups_names_list>
       custom-field: "自定义字段 '<name>': <value>"
       integrations:
         identifier: '标识符：<identifier>'
-        header: '集成:'
-        username: '用户名: <username>'
-        linked-date: '链接日期: <linked_date>'
-        verified: '已验证: <is_verified>'
+        header: '集成：'
+        username: '用户名：<username>'
+        linked-date: '链接日期：<linked_date>'
+        verified: '已验证：<is_verified>'
       store-module-credits: 商店模块信誉分：<credits>
     usage: '/<command> [用户名]'
     description: 获得一个网站用户的信息
   not-a-player: <red>您必须是玩家才能执行此命令。
-  no-permission: <red>您没有权限执行该命令。
+  no-permission: <red>您无权执行该命令。
   register:
     usage: '/<command> \<邮箱> [用户名]'
     output:
@@ -51,16 +51,16 @@ command:
         email: 请查看您的收件箱来完成注册。
         link: 请前往 
           <hover:show_text:"点击在浏览器中打开"><click:open_url:"<url>"><url></click></hover>
-          完成注册.
+          完成注册。
       fail:
-        email-used: <red>此邮箱地址已被用于其他帐号。
+        email-used: <red>此邮箱地址已被其他帐号使用。
         email-invalid: <red>该邮箱地址无效。
         username-invalid: <red>该用户名无效。
         cannot-send-email: <red>无法发送用于注册的邮件，请联系管理员激活账户。
         username-used: <red>该用户名已被其他账户使用。
-        minecraft-used: 您的 Minecraft 帐户已关联到其他网站用户.
-        custom-username-disabled: <red>不允许使用您的 Minecraft 用户名以外的用户名进行注册.
-        console-must-specify-username: <red>从控制台运行注册命令时，必须指定用户名.
+        minecraft-used: 您的 Minecraft 帐户已关联到其他网站用户。
+        custom-username-disabled: <red>不允许使用不同于您 Minecraft 的用户名进行注册。
+        console-must-specify-username: <red>从控制台运行注册命令时，必须指定用户名。
     description: 注册
   validate:
     usage: '/<command> \<验证码> [玩家名]'
@@ -70,45 +70,45 @@ command:
       fail:
         invalid-code: 该验证码有误。请检查您是否已正确拷贝，随后再试一次。
         already-validated: <red>您已验证过您的账户。
-        minecraft-account-linked: <red>此Minecraft帐户已链接到网站帐户.
+        minecraft-account-linked: <red>此 Minecraft 帐户已链接到网站帐户。
         others-only-from-console: <red>您只能在控制台中对其他玩家使用此命令。
   subcommands: {}
   plugin:
     description: NamelessMC 插件的管理命令
     output:
       reload-successful: 插件重载成功。
-    usage: /<command> '重新加载的指令是'/'rl'/'最后一个错误'
+    usage: /<command> “reload”/“rl”/“last_error”
   store-change-credits:
     description: 为用户添加或删除商店积分
     output:
-      nothing: 无需执行任何操作.
+      nothing: 无需执行任何操作。
       added: 已为 <username> 添加 <green><credits></green> 点信誉分。
       removed: 已为 <username> 移除 <red><credits></red> 点信誉分。
     usage: /<command> \<玩家名> \<(-)信誉分>
   store-view-credits:
     description: 查看商店积分
     output:
-      no-permission-other: 您无权查看除您自己以外的玩家的积分.
-      console-must-provide-target: 从控制台运行此命令时，必须提供目标玩家.
+      no-permission-other: 您无权查看除您自己以外的玩家的积分。
+      console-must-provide-target: 从控制台运行此命令时，必须提供目标玩家。
       credits: 您拥有 <credits> 点信誉分。
     usage: /<command> [玩家名]
   suggest:
-    description: 创建建议
+    description: 创建提议
     output:
-      too-short: 提供的建议太短，请使用更多词语来描述您的建议.
+      too-short: 提议过短，请使用更多词语来描述您的提议。
       success: 
         提议已成功创建。点击<yellow><click:open_url:"<url>">此处</click></yellow>在网页浏览器中打开。
     usage: /<command> \<提议标题>
 join-not-registered: 您在我们的网站上没有帐号。请使用 /<register_command> 来注册。
-website-announcement: '网站公告: <message>'
+website-announcement: '网站公告：<message>'
 user-sync-kick: 由于您的网站账户被封禁，您已被服务器一并封禁。
 error:
   website-username-not-exist: <red>没有使用此名称的网站用户。
-  website-connection: <red>试图连接到网站时发生了未知错误。
+  website-connection: <red>在试图连接此网站时发生了未知错误。
   username-not-online: <red>提供的玩家用户名无效或不在线。
-  discord-username-not-exist: <red>没有使用此Discord名称的网站用户。
-  minecraft-uuid-not-exist: <red>没有使用此Minecraft UUID的网站用户。
-  target-no-website-account: <red>提供的玩家未注册网站帐户。
+  discord-username-not-exist: <red>没有使用此 Discord 名称的网站用户。
+  minecraft-uuid-not-exist: <red>没有使用此 Minecraft UUID 的网站用户。
+  target-no-website-account: <red>提供的玩家尚未注册网站帐户。
 boolean:
   yes-positive: <green>是</green>
   yes-negative: <red>是</red>
