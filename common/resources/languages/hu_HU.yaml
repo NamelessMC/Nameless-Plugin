@@ -34,7 +34,7 @@ command:
         nyitott <sárga><jelentő_felhasználónév></sárga> számára.
     usage: '/{command} <név/uuid> <indok>'
   validate:
-    usage: '/{command} <kód>'
+    usage: '/{command} <kód> [játékosnév]'
     description: A megadott kód használatával érvényesíti a felhasználó 
       webhelyfiókját.
     output:
@@ -45,6 +45,8 @@ command:
         already-validated: <red>A Fiókod már hitelesítve lett.
         minecraft-account-linked: <red>Ez a Minecraft-fiók már össze van 
           kapcsolva a weboldal fiókjával.
+        others-only-from-console: <red>Ezt a parancsot csak a konzolról 
+          használhatod más játékosokon.
   not-a-player: <red>A parancs végrehajtásához játékosnak kell lenned.
   no-permission: <red>Nincs engedélye a parancs végrehajtására.
   notifications:
