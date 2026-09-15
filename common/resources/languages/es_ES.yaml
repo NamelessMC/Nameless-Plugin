@@ -63,6 +63,8 @@ command:
         already-validated: <red>Su cuenta ya está validada.
         minecraft-account-linked: <red>Esta cuenta de Minecraft ya esta 
           connectada a una cuenta de esta página web.
+        others-only-from-console: <red>Solo puedes usar este comando en otros 
+          jugadores desde la consola.
     usage: '/<command> \<código>'
     description: Valida la cuenta del sitio web del usuario usando el código 
       proporcionado.
